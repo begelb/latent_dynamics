@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 class LeslieModel:
-    def __init__(self, th1=19.6, th2=23.68, th3 = 23.68, lower_bounds=[0, 0, 0], upper_bounds=[320.056, 224.040, 224.040]):
+    def __init__(self, th1=19.6, th2=23.68, th3 = 23.68, lower_bounds=[0, 0, 0], upper_bounds=[90.0, 70.0, 70.0]):
         self.th1 = th1
         self.th2 = th2
         self.th3 = th3
@@ -18,7 +18,7 @@ def sample_random_pts(lower_bounds, upper_bounds, n):
     return np.random.uniform(np.asarray(lower_bounds), np.asarray(upper_bounds), (n, len(lower_bounds)))
 
 if __name__ == "__main__":
-    leslie_model = LeslieModel()
+    leslie_model = LeslieModel(th1=28.9, th2=29.8, th3=22.0)
     print("Leslie Model Parameters:")
     print(f"th1: {leslie_model.th1}, th2: {leslie_model.th2}, th3: {leslie_model.th3}")
     
