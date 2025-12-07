@@ -16,10 +16,10 @@
 # Load necessary modules
 # module purge
 # module load intel/19.0.3
-cd /home/bg545/rigorous_ml
+cd /home/bg545/latent_dynamics_PCA
 
 # Run python script with input data. The variable ${SLURM_ARRAY_TASK_ID}
 # is the array task id and varies from 0 to 99 in this example.
 
-srun python3 /home/bg545/rigorous_ml/train.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
-srun python3 /home/bg545/rigorous_ml/morse_graph.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
+srun python3 /home/bg545/latent_dynamics_PCA/train.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
+srun python3 /home/bg545/latent_dynamics_PCA/morse_graph.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
