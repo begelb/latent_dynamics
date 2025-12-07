@@ -69,10 +69,19 @@ def main():
 
     trainer = Training(config, train_loader, test_loader, args.verbose)
 
-    trainer.train(config.epochs, config.patience, weight=[10, 10, 1])
+    print('Number of epochs: ', config.epochs)
+    l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=[10, 10, 1])
     trainer.save_logs()
     trainer.reset_losses()
     trainer.save_models()
+
+    filename = os.path.join(config.output_dir, 'final_losses.txt')
+    with open(filename, "w") as f:
+        f.write("--- Final losses ---\n")
+        f.write(f"L1: {l1}\n")
+        f.write(f"L2: {l2}\n")
+        f.write(f"L3: {l3}\n")
+    
 
 if __name__ == "__main__":
     main()

@@ -3,13 +3,11 @@ import CMGDB
 from functools import partial
 import os
 from src.models import *
-import numpy
-import joblib  # Import joblib
-import matplotlib
-#matplotlib.use('Agg')
+import joblib
 import numpy as np
 from src.config import Config
 import argparse
+import time
 
 @torch.no_grad()
 def g_base(x, dynamics_model, device):
@@ -21,12 +19,20 @@ def g_base(x, dynamics_model, device):
 
 
 if __name__ == "__main__":
+    start_time = time.perf_counter()
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
     parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie.txt')
+    parser.add_argument('--init',help='Initial subdivisions',type=int,default=0)
+    parser.add_argument('--smin',help='Min subdivisions',type=int,default=10)
+    parser.add_argument('--smax',help='Min subdivisions',type=int,default=12)
 
     args = parser.parse_args()
+    subdiv_min = args.smin
+    subdiv_max = args.smax
+    subdiv_init = args.init
+
     config_fname = args.config_dir + args.config
 
     config = Config(config_fname)
@@ -121,3 +127,19 @@ if __name__ == "__main__":
     morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='png', view=False, cleanup=False)
 
     morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, xlim=[lower_bounds[0], upper_bounds[0]], ylim=[lower_bounds[1], upper_bounds[1]], fig_fname=os.path.join(MG_dir, 'morse_sets'))
+
+    end_time = time.perf_counter()
+    duration_mins = round((end_time - start_time)//60)
+
+    filename = os.path.join(config.output_dir, 'mg_params_log.txt')
+    with open(filename, "w") as f:
+        f.write("--- MG Computation Parameters ---\n")
+        f.write(f"Lower bounds: {lower_bounds}\n")
+        f.write(f"Upper bounds: {upper_bounds}\n")
+        f.write("------------------------------\n")
+        f.write(f"Subdivision init: {subdiv_init}\n")
+        f.write(f"Subdivision min: {subdiv_min}\n")
+        f.write(f"Subdivision max: {subdiv_max}\n")
+        f.write(f"Subdivision limit: {subdiv_limit}\n")
+        f.write("------------------------------\n")
+        f.write(f"Program duration: {duration_mins} minutes")

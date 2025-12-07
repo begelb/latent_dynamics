@@ -189,15 +189,15 @@ class Training:
                     if self.verbose:
                         print("Early stopping")
                     break
-            
+            l1 = (1/weight[0]) * (loss_ae1_train / num_batches) if weight[0] != 0 else 0
+            l2 = (1/weight[1]) * (loss_ae2_train / num_batches) if weight[1] != 0 else 0
+            l3 = (1/weight[2]) * (loss_dyn_train / num_batches) if weight[2] != 0 else 0
+                
             if self.verbose:
-
                 print('Epoch [{}/{}], Train Loss: {:.4f}, Test Loss: {:.4f}'.format(epoch + 1, epochs, epoch_train_loss, epoch_test_loss))
-                l1 = (1/weight[0]) * (loss_ae1_train / num_batches) if weight[0] != 0 else 0
-                l2 = (1/weight[1]) * (loss_ae2_train / num_batches) if weight[1] != 0 else 0
-                l3 = (1/weight[2]) * (loss_dyn_train / num_batches) if weight[2] != 0 else 0
                 print('    Train Losses - AE1: {:.4f}, AE2: {:.4f}, Dyn: {:.4f}'.format(l1, l2, l3))
-
+        return l1, l2, l3
+    
     def fine_tune(self, epochs=1000, patience=50, weight=[0,1,1,0,0]):
         self.load_models()
 

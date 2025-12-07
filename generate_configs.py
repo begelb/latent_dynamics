@@ -2,7 +2,7 @@ import os
 import ast
 import pprint
 
-EX = 1
+EX = 2
 
 base_config_path = f'config/Leslie.txt'
 

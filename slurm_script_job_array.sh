@@ -22,4 +22,4 @@ cd /home/bg545/latent_dynamics_PCA
 # is the array task id and varies from 0 to 99 in this example.
 
 srun python3 /home/bg545/latent_dynamics_PCA/train.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
-srun python3 /home/bg545/latent_dynamics_PCA/morse_graph.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt
+srun python3 /home/bg545/latent_dynamics_PCA/morse_graph.py --config_dir configs/prelim_1 --config config_${SLURM_ARRAY_TASK_ID}.txt --init 0 --smin 25 --smax 27
