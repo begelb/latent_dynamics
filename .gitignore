@@ -1,3 +1,7 @@
 venv/
 data/
 output/
+.DS_Store
+config/
+src/__pycache__/
+tmp.py
