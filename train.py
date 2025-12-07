@@ -28,10 +28,11 @@ def main():
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
-    base_output_dir = config.base_output_dir 
-    x_scaler_path = os.path.join(base_output_dir, 'scalers/x_scaler.gz')
-    y_scaler_path = os.path.join(base_output_dir, 'scalers/y_scaler.gz')
-    scaler_path = os.path.join(base_output_dir, 'scalers/scaler.gz')
+    # base_output_dir = config.base_output_dir 
+    # x_scaler_path = os.path.join(base_output_dir, 'scalers/x_scaler.gz')
+    # y_scaler_path = os.path.join(base_output_dir, 'scalers/y_scaler.gz')
+    scaler_dir = config.scaler_dir #os.path.join(base_output_dir, 'scalers/scaler.gz')
+    scaler_path = os.path.join(scaler_dir, 'scaler.gz')
 
  #   x_scaler = joblib.load(x_scaler_path)
   #  y_scaler = joblib.load(y_scaler_path)

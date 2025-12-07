@@ -8,7 +8,6 @@ import joblib  # Import joblib
 import matplotlib
 #matplotlib.use('Agg')
 import numpy as np
-import pickle
 from src.config import Config
 import argparse
 
@@ -34,7 +33,7 @@ if __name__ == "__main__":
     
     num_pts = config.num_pts
     ex_index = config.ex_index
-    base_output_dir = config.base_output_dir 
+   # base_output_dir = config.base_output_dir 
     output_dir = config.output_dir
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -60,10 +59,11 @@ if __name__ == "__main__":
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
-    base_output_dir = config.base_output_dir 
-    x_scaler_path = os.path.join(base_output_dir, 'scalers/x_scaler.gz')
-    y_scaler_path = os.path.join(base_output_dir, 'scalers/y_scaler.gz')
-    scaler_path = os.path.join(base_output_dir, 'scalers/scaler.gz')
+    # base_output_dir = config.base_output_dir 
+    # x_scaler_path = os.path.join(base_output_dir, 'scalers/x_scaler.gz')
+    # y_scaler_path = os.path.join(base_output_dir, 'scalers/y_scaler.gz')
+    scaler_dir = config.scaler_dir
+    scaler_path = os.path.join(scaler_dir, 'scaler.gz')
 
    # x_scaler = joblib.load(x_scaler_path)
    # y_scaler = joblib.load(y_scaler_path)
@@ -118,6 +118,6 @@ if __name__ == "__main__":
     MG_dir = os.path.join(output_dir, 'MG')
 
     morse_graph_plot = CMGDB.PlotMorseGraph(morse_graph)
-    morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='png', view=False, cleanup=True)
+    morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='png', view=False, cleanup=False)
 
     morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, xlim=[lower_bounds[0], upper_bounds[0]], ylim=[lower_bounds[1], upper_bounds[1]], fig_fname=os.path.join(MG_dir, 'morse_sets'))
