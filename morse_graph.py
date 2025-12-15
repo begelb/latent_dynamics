@@ -111,10 +111,7 @@ if __name__ == "__main__":
 
     lower_bounds = [lower_bounds_x, lower_bounds_y]
     upper_bounds = [upper_bounds_x, upper_bounds_y]
-    
-    subdiv_min = config.subdiv_min
-    subdiv_max = config.subdiv_max
-    subdiv_init = config.subdiv_init
+
     subdiv_limit = config.subdiv_limit
 
     model = CMGDB.Model(subdiv_min, subdiv_max, subdiv_init, subdiv_limit, lower_bounds, upper_bounds, G)
