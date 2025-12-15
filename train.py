@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_20timesteps.txt')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
     args = parser.parse_args()
