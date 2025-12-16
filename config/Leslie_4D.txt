@@ -1,0 +1,22 @@
+{
+    'num_pts': 100,
+    'ex_index': 0,
+    'data_dir': 'data/Leslie_4D/55_55_55_55',
+    'output_dir': 'output/Leslie_4D/',
+    'model_dir': 'output/Leslie_4D/models',
+    'log_dir': 'output/Leslie_4D/logs',
+    'scaler_dir': 'output/Leslie_4D/55_55_55_55/scalers/', 
+    'subdiv_min': 25,
+    'subdiv_max': 27,
+    'subdiv_init': 18,
+    'subdiv_limit': 10000,
+    'num_layers': 3,
+    'hidden_shape': 64,
+    'non_linearity': 'ReLU',
+    'batch_size': 1024,
+    'learning_rate': 0.001,
+    'epochs': 1000,
+    'high_dims': 4,
+    'low_dims': 2,
+    'patience': 100
+}
