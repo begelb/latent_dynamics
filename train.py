@@ -19,37 +19,23 @@ def main():
     config_fname = args.config_dir + args.config
 
     config = Config(config_fname)
-    # num_pts = config.num_pts
     # ex_index = config.ex_index
 
-    base_data_dir = config.data_dir #'data/arctan'#'data/Leslie/28.9_29.8_22.0'
+    base_data_dir = config.data_dir
     train_data_path = os.path.join(base_data_dir, '2train.csv')
     test_data_path = os.path.join(base_data_dir, '2test.csv')
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
-    # base_output_dir = config.base_output_dir 
-    # x_scaler_path = os.path.join(base_output_dir, 'scalers/x_scaler.gz')
-    # y_scaler_path = os.path.join(base_output_dir, 'scalers/y_scaler.gz')
-    scaler_dir = config.scaler_dir #os.path.join(base_output_dir, 'scalers/scaler.gz')
+    scaler_dir = config.scaler_dir
     scaler_path = os.path.join(scaler_dir, 'scaler.gz')
-
- #   x_scaler = joblib.load(x_scaler_path)
-  #  y_scaler = joblib.load(y_scaler_path)
-
     scaler = joblib.load(scaler_path)
 
     high_dims = config.high_dims
     x_train = train_data[:, :high_dims]
-    #print('x_train shape:', x_train.shape)
     y_train = train_data[:, high_dims:]
     x_test = test_data[:, :high_dims]
     y_test = test_data[:, high_dims:]
-
-    # x_train_scaled = x_scaler.transform(x_train)
-    # y_train_scaled = y_scaler.transform(y_train)
-    # x_test_scaled = x_scaler.transform(x_test)
-    # y_test_scaled = y_scaler.transform(y_test)
 
     x_train_scaled = scaler.transform(x_train)
     y_train_scaled = scaler.transform(y_train)
@@ -59,9 +45,6 @@ def main():
     train_dataset = TensorDataset(torch.tensor(x_train_scaled, dtype=torch.float32), torch.tensor(y_train_scaled, dtype=torch.float32))
     test_dataset = TensorDataset(torch.tensor(x_test_scaled, dtype=torch.float32), torch.tensor(y_test_scaled, dtype=torch.float32))
 
-    # train_dataset = TensorDataset(torch.tensor(x_train, dtype=torch.float32), torch.tensor(y_train, dtype=torch.float32))
-    # test_dataset = TensorDataset(torch.tensor(x_test, dtype=torch.float32), torch.tensor(y_test, dtype=torch.float32))
-
     batch_size = config.batch_size
 
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
@@ -70,6 +53,8 @@ def main():
     trainer = Training(config, train_loader, test_loader, args.verbose)
 
     print('Number of epochs: ', config.epochs)
+    
+    ''' TO DO: Log weights / add to config file'''
     l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=[10, 10, 1])
     trainer.save_logs()
     trainer.reset_losses()
