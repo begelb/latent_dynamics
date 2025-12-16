@@ -37,7 +37,7 @@ if __name__ == "__main__":
 
     config = Config(config_fname)
     
-    num_pts = config.num_pts
+    # num_pts = config.num_pts
     ex_index = config.ex_index
     output_dir = config.output_dir
 
