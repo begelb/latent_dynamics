@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='arctan.txt')
     parser.add_argument('--init',help='Initial subdivisions',type=int,default=0)
     parser.add_argument('--smin',help='Min subdivisions',type=int,default=10)
     parser.add_argument('--smax',help='Min subdivisions',type=int,default=12)
@@ -103,10 +103,13 @@ if __name__ == "__main__":
     MG_dir = os.path.join(output_dir, 'MG')
 
     morse_graph_plot = CMGDB.PlotMorseGraph(morse_graph)
-    morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='png', view=False, cleanup=False)
+    morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='pdf', view=False, cleanup=False)
+    morse_graph_plot.render(os.path.join(MG_dir, 'morse_graph'), format='png', view=False, cleanup=True)
 
-    morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, xlim=[lower_bounds[0], upper_bounds[0]], ylim=[lower_bounds[1], upper_bounds[1]], fig_fname=os.path.join(MG_dir, 'morse_sets'))
+    morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, xlim=[lower_bounds[0], upper_bounds[0]], ylim=[lower_bounds[1], upper_bounds[1]], xlabel='$x_1$', ylabel='$x_2$', fontsize=20, fig_fname=os.path.join(MG_dir, 'morse_sets.pdf'))
+    morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, xlim=[lower_bounds[0], upper_bounds[0]], ylim=[lower_bounds[1], upper_bounds[1]], xlabel='$x_1$', ylabel='$x_2$', fontsize=20, fig_fname=os.path.join(MG_dir, 'morse_sets.png'))
 
+    CMGDB.SaveMorseSets(morse_graph, os.path.join(MG_dir, 'morse_sets'))
     end_time = time.perf_counter()
     duration_mins = round((end_time - start_time)//60)
 
