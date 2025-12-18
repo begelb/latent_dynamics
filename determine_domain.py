@@ -2,8 +2,9 @@
 import numpy as np
 import math
 
+''' There is a bug in this script '''
 class LeslieModel4D:
-    def __init__(self, th1=55, th2=55, th3=55, th4=55, p1=0.8, p2=0.6, p3=0.1, lower_bounds=[0, 0, 0, 0], upper_bounds=[203, 162, 98, 10]):
+    def __init__(self, th1=80, th2=80, th3=80, th4=80, p1=0.5, p2=0.7, p3=0.7, lower_bounds=[0, 0, 0, 0], upper_bounds=[277, 139, 98, 69]):
         self.th1 = th1
         self.th2 = th2
         self.th3 = th3
@@ -16,17 +17,34 @@ class LeslieModel4D:
 
     def f(self, x):
         return [(self.th1 * x[0] + self.th2 * x[1] + self.th3 * x[2] + self.th4 * x[3]) * math.exp(-0.1 * (x[0] + x[1] + x[2] + x[3])), self.p1 * x[0], self.p2 * x[1], self.p3 * x[2]]
+
+class LeslieModel3D:
+    def __init__(self, th1=19.6, th2=23.68, th3=23.68, survival_p1=0.7, survival_p2=0.7, lower_bounds=[0, 0, 0], upper_bounds=[220, 154, 108]):
+        self.th1 = th1
+        self.th2 = th2
+        self.th3 = th3
+        self.lower_bounds = lower_bounds
+        self.upper_bounds = upper_bounds
+        self.survival_p1 = survival_p1 
+        self.survival_p2 = survival_p2 
+
+    def f(self, x):
+        return [(self.th1 * x[0] + self.th2 * x[1] + self.th3 * x[2]) * math.exp(-0.1 * (x[0] + x[1] + x[2])), self.survival_p1 * x[0], self.survival_p2 * x[1]]
     
 def sample_random_pts(lower_bounds, upper_bounds, n):
     return np.random.uniform(np.asarray(lower_bounds), np.asarray(upper_bounds), (n, len(lower_bounds)))
 
-dimension = 4
+dimension = 3
 n_iterations = 20
-leslie_model = LeslieModel4D()
+
+if dimension == 3:
+    leslie_model = LeslieModel3D()
+elif dimension == 4:
+    leslie_model = LeslieModel4D()
 
 
 lower = [0] * dimension
-init_upper = [1] * dimension
+init_upper = leslie_model.upper_bounds #[277, 139, 98, 69]#[1] * dimension
 found_max_counter = 0
 upper = init_upper
 
@@ -60,7 +78,7 @@ while found_max_counter < dimension or not checked_ceil:
 
     for dim in range(dimension):
         m_0 = max_per_column[dim]
-        m_1 = max_per_column[dim+4]
+        m_1 = max_per_column[dim+dimension]
         final_max = max(m_0, m_1)
         print('final max: ', f"{final_max:.4f}")
         if final_max > upper[dim]:
@@ -76,7 +94,7 @@ while found_max_counter < dimension or not checked_ceil:
     if took_ceiling:
         for dim in range(dimension):
             m_0 = max_per_column[dim]
-            m_1 = max_per_column[dim+4]
+            m_1 = max_per_column[dim+dimension]
             final_max = max(m_0, m_1)
             print('final max: ', f"{final_max:.4f}")
             if final_max > upper[dim]:
@@ -87,7 +105,7 @@ while found_max_counter < dimension or not checked_ceil:
                 checked_ceil_per_dim.append(True)
         checked_ceil = all(checked_ceil_per_dim)
     
-    if found_max_counter == 4:
+    if found_max_counter == dimension:
         print('taking ceiling')
         took_ceiling = True
         upper_int = [math.ceil(item) for item in upper]
