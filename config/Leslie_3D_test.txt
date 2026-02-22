@@ -1,0 +1,20 @@
+{
+    'system': 'leslie3d',
+    'high_dim': 3,
+    'ex_index': 0,
+    'data_dir': 'data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0',
+    'output_dir': 'output/Leslie_3D_larger_domain_tail_only/',
+    'model_dir': 'output/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/models',
+    'log_dir': 'output/Leslie_3D_larger_domain_tail_only/logs',
+    'scaler_dir': 'output/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/scalers/', 
+    'subdiv_limit': 10000,
+    'num_layers': 3,
+    'hidden_shape': 32,
+    'non_linearity': 'ReLU',
+    'batch_size': 1024,
+    'learning_rate': 0.001,
+    'epochs': 1,
+    'high_dims': 3,
+    'low_dims': 2,
+    'patience': 100
+}
