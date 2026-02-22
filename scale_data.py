@@ -18,7 +18,7 @@ def main():
 
     high_dim = config.high_dim
 
-    train_data = np.loadtxt(os.path.join(config.data_dir, 'train'), delimiter=',', skiprows=1)
+    train_data = np.loadtxt(os.path.join(config.data_dir, 'train.csv'), delimiter=',', skiprows=1)
 
     x_train = train_data[:, :high_dim]
     y_train = train_data[:, high_dim:]
