@@ -1,6 +1,5 @@
 {   
     'system': 'coral',
-    'high_dim': 13,
     'ex_index': 0,
     'data_dir': 'data/coral/data',
     'output_dir': 'output/coral/',

@@ -8,7 +8,7 @@ import argparse
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_3D_test.txt')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
     args = parser.parse_args()
@@ -16,7 +16,7 @@ def main():
 
     config = Config(config_fname)
 
-    high_dim = config.high_dim
+    high_dim = config.high_dims
 
     train_data = np.loadtxt(os.path.join(config.data_dir, 'train.csv'), delimiter=',', skiprows=1)
 

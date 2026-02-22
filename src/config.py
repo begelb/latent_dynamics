@@ -6,7 +6,6 @@ class Config:
         with open(config_fname) as f:
             config = ast.literal_eval(f.read())
         self.system = config['system']
-        self.high_dim = config['high_dim']
         self.ex_index = config['ex_index']
         self.num_layers = config['num_layers']
         self.scaler_dir = config['scaler_dir']
