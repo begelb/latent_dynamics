@@ -2,31 +2,26 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 import joblib
 import os
+from src.config import Config
+import argparse
 
-''' TO DO: Generalize to 4D --> updated file is on Amarel? '''
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.txt')
+    parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
-if __name__ == "__main__":
-    th1=29
-    th2=th1
-    th3=th1
-    print("Leslie Model Parameters:")
-    print(f"th1: {th1}, th2: {th2}, th3: {th3}")
-    
-    system = 'Leslie'
-    if system == 'Leslie':
-        train_data = np.loadtxt(f'data/Leslie/{th1}_{th2}_{th3}/2train.csv', delimiter=',', skiprows=1)
-        test_data = np.loadtxt(f'data/Leslie/{th1}_{th2}_{th3}/2test.csv', delimiter=',', skiprows=1)
-    elif system == 'arctan':
-        train_data = np.loadtxt(f'data/arctan/train.csv', delimiter=',', skiprows=1)
-        test_data = np.loadtxt(f'data/arctan/test.csv', delimiter=',', skiprows=1)
+    args = parser.parse_args()
+    config_fname = args.config_dir + args.config
 
-    high_dims = 3
-    x_train = train_data[:, :high_dims]
-    y_train = train_data[:, high_dims:]
-    x_test = test_data[:, :high_dims]
-    y_test = test_data[:, high_dims:]
+    config = Config(config_fname)
 
-    ''' TO DO: don't separate and then vstack again '''
+    high_dim = config.high_dim
+
+    train_data = np.loadtxt(os.path.join(config.data_dir, 'train'), delimiter=',', skiprows=1)
+
+    x_train = train_data[:, :high_dim]
+    y_train = train_data[:, high_dim:]
 
     all_training_data = np.vstack((x_train, y_train))
 
@@ -35,10 +30,10 @@ if __name__ == "__main__":
     scaler = MinMaxScaler(feature_range=(0, 1))
     scaler.fit(all_training_data)
 
-    if system == 'Leslie':
-        output_dir = f'output/Leslie/{th1}_{th2}_{th3}/scalers/'
-    elif system == 'arctan':
-        output_dir = f'output/arctan/scalers/'
+    scaler_dir = config.scaler_dir
 
-    os.makedirs(output_dir, exist_ok=True)
-    joblib.dump(scaler, os.path.join(output_dir, 'scaler.gz'))
+    os.makedirs(scaler_dir, exist_ok=True)
+    joblib.dump(scaler, os.path.join(scaler_dir, 'scaler.gz'))
+
+if __name__ == "__main__":
+    main()
