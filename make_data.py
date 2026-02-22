@@ -73,7 +73,7 @@ def main():
         if not os.path.exists(data_dir):
             os.makedirs(data_dir)
 
-        np.savetxt(os.path.join(data_dir, t_str), data, delimiter=",", header = header, comments="", fmt="%.8f")
+        np.savetxt(os.path.join(data_dir, t_str + '.csv'), data, delimiter=",", header = header, comments="", fmt="%.8f")
 
 if __name__ == "__main__":
     main()
