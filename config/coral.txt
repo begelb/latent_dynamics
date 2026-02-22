@@ -1,4 +1,5 @@
-{
+{   
+    'system': 'coral',
     'ex_index': 0,
     'data_dir': 'data/coral/data',
     'output_dir': 'output/coral/',
