@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import os
-from src.true_dynamics_models import LeslieModel3D, LeslieModel4D, RedCoralModel
+from src.true_dynamics_models import LeslieModel3D, LeslieModel4D, RedCoralModel, LeslieContraction
 from src.config import Config
 import argparse
 
@@ -17,7 +17,7 @@ def generate_header(n):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_contraction.txt')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
     args = parser.parse_args()
@@ -39,6 +39,12 @@ def main():
         n_samples_total = 4000#5000
         n_iterations = 30#40
         skip = 10
+
+    elif system == 'leslie_contraction':
+        model = LeslieContraction()
+        n_samples_total = 1000
+        n_iterations = 10
+        skip = 0
 
     dimension = len(model.lower_bounds)
 
