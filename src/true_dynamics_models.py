@@ -2,7 +2,7 @@ import math
 import numpy as np
 
 class LeslieContraction:
-    def __init__(self, th1=23.5, th2=23.5, survival_p1=0.7, lower_bounds=[0, 0, 0, 0, 0], upper_bounds=[90, 70, 100, 100, 100]):
+    def __init__(self, th1=23.5, th2=23.5, survival_p1=0.7, lower_bounds=[0, 0, 0, 0, 0, 0, 0, 0, 0, 0], upper_bounds=[90, 70, 100, 100, 100, 100, 100, 100, 100, 100]):
         self.th1 = th1
         self.th2 = th2
         self.survival_p1 = survival_p1

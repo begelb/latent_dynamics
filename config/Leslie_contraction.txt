@@ -13,7 +13,7 @@
     'batch_size': 1024,
     'learning_rate': 0.001,
     'epochs': 1000,
-    'high_dims': 5,
+    'high_dims': 10,
     'low_dims': 2,
     'patience': 100
 }
