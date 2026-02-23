@@ -1,5 +1,17 @@
 import math
+import numpy as np
 
+class LeslieContraction:
+    def __init__(self, th1=23.5, th2=23.5, survival_p1=0.7, lower_bounds=[0, 0, 0, 0, 0], upper_bounds=[90, 70, 100, 100, 100]):
+        self.th1 = th1
+        self.th2 = th2
+        self.survival_p1 = survival_p1
+        self.lower_bounds = lower_bounds
+        self.upper_bounds = upper_bounds
+
+    def f(self, x):
+        return  [(self.th1 * x[0] + self.th2 * x[1]) * np.exp(-0.1 * (x[0] + x[1])), self.survival_p1 * x[0]] + [0.25*x[i] for i in range(2, len(x))]
+    
 class LeslieModel3D:
     def __init__(self, th1=19.6, th2=23.68, th3=23.68, survival_p1=0.7, survival_p2=0.7, lower_bounds=[0, 0, 0], upper_bounds=[220, 154, 108]):
         self.th1 = th1
@@ -8,7 +20,7 @@ class LeslieModel3D:
         self.lower_bounds = lower_bounds
         self.upper_bounds = upper_bounds
         self.survival_p1 = survival_p1 
-        self.survival_p2 = survival_p2 
+        self.survival_p2 = survival_p2
 
     def f(self, x):
         return [(self.th1 * x[0] + self.th2 * x[1] + self.th3 * x[2]) * math.exp(-0.1 * (x[0] + x[1] + x[2])), self.survival_p1 * x[0], self.survival_p2 * x[1]]
