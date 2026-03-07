@@ -1,7 +1,7 @@
 import math
 import numpy as np
 import os
-from src.true_dynamics_models import LeslieModel3D, LeslieModel4D, RedCoralModel, LeslieContraction
+from src.true_dynamics_models import LeslieModel3D, RedCoralModel, LeslieContraction
 from src.config import Config
 import argparse
 import json
@@ -64,7 +64,7 @@ def save_metadata(t_str, model, n_samples, n_iterations, skip, config, sampling_
         "lower_bounds": list(model.lower_bounds),
         "upper_bounds": list(model.upper_bounds),
         "sampling_method": sampling_method,
-        "model_params": getattr(model, 'params', {}), # Captures th1, th2, etc. if available
+        "model_params": getattr(model, 'params', {}),
     }
 
     meta_path = os.path.join(config.data_dir, f"{t_str}_metadata.json")
@@ -72,9 +72,6 @@ def save_metadata(t_str, model, n_samples, n_iterations, skip, config, sampling_
         json.dump(metadata, f, indent=4)
     
     print(f"Metadata saved to {meta_path}")
-
-# Example usage inside your main() or sample_data():
-# save_metadata('train', model, n_samples_train, n_iterations, skip, config)
 
 def main():
     parser = argparse.ArgumentParser()
