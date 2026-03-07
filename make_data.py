@@ -21,7 +21,7 @@ def sample_data(t_str, model, n_samples, n_iterations, skip, config, sampling_me
         initial_conditions = sample_random_pts(model.lower_bounds, model.upper_bounds, n_samples)
 
     elif sampling_method == 'sobol':
-        if t_str == 'train':
+        if t_str.startswith('train'):
             sampler = qmc.Sobol(d=len(model.lower_bounds), scramble=True, seed=42)
         elif t_str == 'test':
             sampler = qmc.Sobol(d=len(model.lower_bounds), scramble=True, seed=9999)
@@ -91,11 +91,10 @@ def main():
 
     if system == 'coral':
         model = RedCoralModel()
-        n_samples_total = 1000
         n_iterations = 20
         skip = 0
-        n_samples_train = 100
-        n_samples_test = 100
+        n_samples_test = 10000
+        train_sizes = [100, 200, 500, 1000, 2000, 5000]
     
     elif system == 'leslie3d':
         model = LeslieModel3D(th1=28.9, th2=29.8, th3=22.0, survival_p1=0.7, survival_p2=0.7)
@@ -112,7 +111,9 @@ def main():
     print('Lower bounds: ', model.lower_bounds)
     print('Upper bounds: ', model.upper_bounds)
 
-    sample_data('train', model, n_samples_train, n_iterations, skip, config, 'sobol')
+    for N in train_sizes:
+        file_label = f'train_{N}'
+        sample_data(file_label, model, N, n_iterations, skip, config, 'sobol')
     sample_data('test', model, n_samples_test, n_iterations, skip, config, 'sobol')
 
 if __name__ == "__main__":
