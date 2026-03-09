@@ -23,22 +23,30 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_contraction.txt')
-    parser.add_argument('--init',help='Initial subdivisions',type=int,default=16)
-    parser.add_argument('--smin',help='Min subdivisions',type=int,default=23)
-    parser.add_argument('--smax',help='Max subdivisions',type=int,default=24)
-    parser.add_argument('--lower_dim',help='Dimension of latent space',type=int,default=2)
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid3.txt')
+    parser.add_argument('--init',help='Initial subdivisions',type=int,default=6)
+    parser.add_argument('--smin',help='Min subdivisions',type=int,default=8)
+    parser.add_argument('--smax',help='Max subdivisions',type=int,default=10)
+    parser.add_argument('--output_subdir',help='Subdirectory under output/model dirs (e.g. seed_42)',type=str,default=None)
+   # parser.add_argument('--lower_dim',help='Dimension of latent space',type=int,default=1)
 
     args = parser.parse_args()
     subdiv_min = args.smin
     subdiv_max = args.smax
     subdiv_init = args.init
-    lower_dim = args.lower_dim
 
     config_fname = args.config_dir + args.config
 
     config = Config(config_fname)
-    
+
+    if args.output_subdir is not None:
+        subdir_root       = os.path.join(config.output_dir, args.output_subdir)
+        config.output_dir = subdir_root
+        config.model_dir  = os.path.join(subdir_root, 'models')
+        os.makedirs(config.output_dir, exist_ok=True)
+        os.makedirs(config.model_dir,  exist_ok=True)
+
+    lower_dim = config.low_dims
     ex_index = config.ex_index
     output_dir = config.output_dir
 
@@ -83,10 +91,19 @@ if __name__ == "__main__":
         all_data_latent = encoder(all_data_tensor).cpu().numpy()
     lower_bounds_x = np.min(all_data_latent[:,0])
     upper_bounds_x = np.max(all_data_latent[:,0])
+    w = upper_bounds_x - lower_bounds_x
+    epsilon = 0.01 * w
+    print('Expanding first dimension bounds by ', epsilon)
+    lower_bounds_x += -epsilon
+    upper_bounds_x += epsilon
 
     if lower_dim == 2:
         lower_bounds_y = np.min(all_data_latent[:,1])
         upper_bounds_y = np.max(all_data_latent[:,1])
+
+    print('lower_bounds: ', lower_bounds_x)
+    print('upper bounds: ', upper_bounds_x)
+
     
     g = partial(g_base, dynamics_model=dynamics_model, device=device)
 
@@ -104,7 +121,7 @@ if __name__ == "__main__":
 
     model = CMGDB.Model(subdiv_min, subdiv_max, subdiv_init, subdiv_limit, lower_bounds, upper_bounds, G)
 
-    morse_graph, map_graph = CMGDB.ComputeMorseGraph(model)
+    morse_graph, map_graph = CMGDB.ComputeConleyMorseGraph(model)
     
     MG_dir = os.path.join(output_dir, 'MG')
 
@@ -123,7 +140,7 @@ if __name__ == "__main__":
 
     ''' TO DO: make Morse set plot only render once'''
     if lower_dim == 1:
-        morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, clist=color_list, fontsize=20, fig_fname=os.path.join(MG_dir, 'morse_sets2.pdf'))
+        # morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, morse_nodes = [1], clist=color_list, fontsize=20, fig_fname=os.path.join(MG_dir, 'morse_sets2.pdf'))
         morse_sets_plot = CMGDB.PlotMorseSets(morse_graph, clist=color_list, fontsize=20, fig_fname=os.path.join(MG_dir, 'morse_sets2.png'))
 
     elif lower_dim == 2:
