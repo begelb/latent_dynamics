@@ -1,9 +1,11 @@
 """
-Plots the fraction of seeds passing the unique Morse set membership metric
-as a function of dataset size (number of initial conditions).
+Plots the fraction of seeds passing the unique Morse set membership metric.
 
-One line per fixed point (a0, a1, r). X-axis is the integer size extracted
-from the dataset directory name (e.g. train_100 -> 100).
+Two modes:
+  size     (default): x-axis = dataset size, log scale
+                      matches dirs like train_100, train_500, ...
+  adaptive:           x-axis = number of adaptive samples, linear scale
+                      matches dirs like train_500_100_adaptive, ...
 """
 
 import os
@@ -13,24 +15,32 @@ from src.config import Config
 from compute_morse_metric import check_unique_membership, find_seed_subdirs
 
 
-def find_dataset_subdirs(output_dir):
+def find_dataset_subdirs(output_dir, mode):
     """
-    Return sorted (n_samples, subdir_name) pairs for subdirs of output_dir
-    that contain seed results and have an integer size in their name.
+    Return sorted (x_value, subdir_name) pairs for subdirs of output_dir
+    that contain seed results.
+
+    mode='size':     extracts integer from last token, e.g. train_100 -> 100
+    mode='adaptive': extracts integer from second-to-last token,
+                     e.g. train_500_100_adaptive -> 100
     """
     datasets = []
     for entry in os.scandir(output_dir):
         if not entry.is_dir():
             continue
-        # Extract integer from name, e.g. train_100 -> 100
         parts = entry.name.split('_')
         try:
-            n_samples = int(parts[-1])
+            if mode == 'adaptive':
+                # name pattern: train_<base>_<n>_adaptive
+                if parts[-1] != 'adaptive':
+                    continue
+                x_val = int(parts[-2])
+            else:
+                x_val = int(parts[-1])
         except ValueError:
             continue
-        # Only include if it contains seed subdirs
         if find_seed_subdirs(entry.path):
-            datasets.append((n_samples, entry.name))
+            datasets.append((x_val, entry.name))
     return sorted(datasets)
 
 
@@ -68,14 +78,17 @@ def compute_pass_fractions(output_dir, scaler_dir, dataset_subdirs):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Plot Morse metric pass fractions vs dataset size.')
+    parser = argparse.ArgumentParser(description='Plot Morse metric pass fractions.')
     parser.add_argument('--config_dir', type=str, default='config/')
     parser.add_argument('--config',     type=str, default='coral.yaml')
+    parser.add_argument('--mode', type=str, default='size', choices=['size', 'adaptive'],
+                        help='size: dataset size experiment (log x-axis); '
+                             'adaptive: adaptive sampling experiment (linear x-axis)')
     args = parser.parse_args()
 
     config = Config(args.config_dir + args.config)
 
-    dataset_subdirs = find_dataset_subdirs(config.output_dir)
+    dataset_subdirs = find_dataset_subdirs(config.output_dir, args.mode)
     if not dataset_subdirs:
         print(f'No dataset subdirectories with results found in {config.output_dir}.')
         return
@@ -98,17 +111,22 @@ def main():
         ax.plot(x, fracs[name], label=labels[name], color=colors[name],
                 marker=markers[name], linewidth=2, markersize=7)
 
-    ax.set_xlabel('Number of initial conditions for training', fontsize=14)
+    if args.mode == 'adaptive':
+        ax.set_xlabel('Number of adaptive samples', fontsize=14)
+    else:
+        ax.set_xlabel('Number of initial conditions for training', fontsize=14)
+        ax.set_xscale('log')
+        ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
+
     ax.set_ylabel('Success rate', fontsize=14)
-    ax.set_xscale('log')
     ax.set_ylim(-0.05, 1.05)
     ax.set_xticks(x)
-    ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
     ax.tick_params(axis='both', labelsize=12)
     ax.legend(fontsize=13)
     ax.grid(axis='y', linestyle='--', alpha=0.4)
 
-    save_path = os.path.join(config.output_dir, 'morse_metric_plot.pdf')
+    save_name = 'morse_metric_plot_adaptive.pdf' if args.mode == 'adaptive' else 'morse_metric_plot.pdf'
+    save_path = os.path.join(config.output_dir, save_name)
     plt.tight_layout()
     plt.savefig(save_path, dpi=300)
     print(f'Plot saved to {save_path}')
