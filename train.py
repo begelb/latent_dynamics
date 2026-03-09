@@ -17,6 +17,7 @@ def main():
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
     parser.add_argument('--seed',help='Random seed for reproducibility',type=int,default=None)
     parser.add_argument('--output_subdir',help='Subdirectory under output/model/log dirs (e.g. seed_42)',type=str,default=None)
+    parser.add_argument('--train_file',help='Training CSV base name (without .csv)',type=str,default='train')
 
     args = parser.parse_args()
 
@@ -40,12 +41,12 @@ def main():
     # ex_index = config.ex_index
 
     base_data_dir = config.data_dir
-    train_data_path = os.path.join(base_data_dir, 'train.csv')
+    train_data_path = os.path.join(base_data_dir, args.train_file + '.csv')
     test_data_path = os.path.join(base_data_dir, 'test.csv')
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
-    scaler_dir = config.scaler_dir
+    scaler_dir = os.path.join(config.scaler_dir, args.train_file)
     scaler_path = os.path.join(scaler_dir, 'scaler.gz')
     scaler = joblib.load(scaler_path)
 
