@@ -28,6 +28,7 @@ if __name__ == "__main__":
     parser.add_argument('--smin',help='Min subdivisions',type=int,default=8)
     parser.add_argument('--smax',help='Max subdivisions',type=int,default=10)
     parser.add_argument('--output_subdir',help='Subdirectory under output/model dirs (e.g. seed_42)',type=str,default=None)
+    parser.add_argument('--train_file',help='Training CSV base name (without .csv)',type=str,default='train')
    # parser.add_argument('--lower_dim',help='Dimension of latent space',type=int,default=1)
 
     args = parser.parse_args()
@@ -63,12 +64,12 @@ if __name__ == "__main__":
     encoder.eval()
 
     base_data_dir = config.data_dir
-    train_data_path = os.path.join(base_data_dir, 'train.csv')
+    train_data_path = os.path.join(base_data_dir, args.train_file + '.csv')
     test_data_path = os.path.join(base_data_dir, 'test.csv')
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
-    scaler_dir = config.scaler_dir
+    scaler_dir = os.path.join(config.scaler_dir, args.train_file)
     scaler_path = os.path.join(scaler_dir, 'scaler.gz')
 
     scaler = joblib.load(scaler_path)
