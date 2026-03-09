@@ -98,8 +98,8 @@ def main():
         ax.plot(x, fracs[name], label=labels[name], color=colors[name],
                 marker=markers[name], linewidth=2, markersize=7)
 
-    ax.set_xlabel('Number of initial conditions', fontsize=14)
-    ax.set_ylabel('Fraction of seeds passing', fontsize=14)
+    ax.set_xlabel('Number of initial conditions for training', fontsize=14)
+    ax.set_ylabel('Success rate', fontsize=14)
     ax.set_ylim(-0.05, 1.05)
     ax.set_xticks(x)
     ax.tick_params(axis='both', labelsize=12)
