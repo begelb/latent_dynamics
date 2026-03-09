@@ -84,17 +84,17 @@ if __name__ == '__main__':
                         help='Training CSV base name (without .csv)')
     parser.add_argument('--output_dir', type=str, default='.',
                         help='Directory to save the histogram PDF')
-    parser.add_argument('--steps_per_trajectory', type=int, default=20)
     args = parser.parse_args()
 
     csv_path      = os.path.join(args.data_dir, args.train_file + '.csv')
     metadata_path = os.path.join(args.data_dir, args.train_file + '_metadata.json')
     save_path     = os.path.join(args.output_dir, f'histogram_{args.train_file}.pdf')
 
-    steps = args.steps_per_trajectory
     if os.path.exists(metadata_path):
         with open(metadata_path) as f:
             steps = json.load(f)['n_iterations']
         print(f"Using n_iterations={steps} from {metadata_path}")
+    else:
+        print("Number of steps not found!")
 
     plot_final_population_histograms(csv_path, save_path, steps)

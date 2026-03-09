@@ -37,7 +37,6 @@ def main():
         config.log_dir    = os.path.join(subdir_root, 'logs')
         os.makedirs(config.model_dir, exist_ok=True)
         os.makedirs(config.log_dir,   exist_ok=True)
-    # ex_index = config.ex_index
 
     base_data_dir = config.data_dir
     train_data_path = os.path.join(base_data_dir, args.train_file + '.csv')
@@ -71,10 +70,6 @@ def main():
 
     trainer = Training(config, train_loader, test_loader, args.verbose)
 
-    print('Number of epochs: ', config.epochs)
-    
-    ''' TO DO: Log weights / add to config file'''
-    # for coral and Leslie3D, used weight=[10, 10, 1]
     l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=config.weight)
     trainer.save_logs()
     trainer.save_models()
