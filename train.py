@@ -4,6 +4,7 @@ from torch.utils.data import DataLoader, TensorDataset
 import numpy as np
 import argparse
 import torch
+import random
 from src.config import Config
 import os
 import joblib
@@ -12,18 +13,26 @@ from torch.utils.data import DataLoader
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_20timesteps.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid4.txt')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
+    parser.add_argument('--seed',help='Random seed for reproducibility',type=int,default=None)
 
     args = parser.parse_args()
+
+    if args.seed is not None:
+        random.seed(args.seed)
+        np.random.seed(args.seed)
+        torch.manual_seed(args.seed)
+        torch.cuda.manual_seed_all(args.seed)
+
     config_fname = args.config_dir + args.config
 
     config = Config(config_fname)
     # ex_index = config.ex_index
 
     base_data_dir = config.data_dir
-    train_data_path = os.path.join(base_data_dir, '2train.csv')
-    test_data_path = os.path.join(base_data_dir, '2test.csv')
+    train_data_path = os.path.join(base_data_dir, 'train.csv')
+    test_data_path = os.path.join(base_data_dir, 'test.csv')
     train_data = np.loadtxt(train_data_path, delimiter=',', skiprows=1)
     test_data = np.loadtxt(test_data_path, delimiter=',', skiprows=1)
 
@@ -47,7 +56,8 @@ def main():
 
     batch_size = config.batch_size
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    generator = torch.Generator().manual_seed(args.seed) if args.seed is not None else None
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, generator=generator)
     test_loader = DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
     trainer = Training(config, train_loader, test_loader, args.verbose)
@@ -55,6 +65,7 @@ def main():
     print('Number of epochs: ', config.epochs)
     
     ''' TO DO: Log weights / add to config file'''
+    # for coral and Leslie3D, used weight=[10, 10, 1]
     l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=[10, 10, 1])
     trainer.save_logs()
     trainer.reset_losses()
