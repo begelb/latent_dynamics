@@ -105,6 +105,8 @@ class Training:
         list_parameters += (weight_bool[1] or weight_bool[2]) * list(self.dynamics.parameters())
         optimizer = torch.optim.Adam(list_parameters, lr=self.lr)
         scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, threshold=0.001, patience=patience)
+        best_train_loss = float('inf')
+        no_improve_count = 0
         for epoch in tqdm(range(epochs)):
             loss_ae1_train = 0
             loss_ae2_train = 0
@@ -179,9 +181,13 @@ class Training:
                 self.test_losses['loss_total'].append(epoch_test_loss)
 
             scheduler.step(epoch_test_loss)
-            
-            if epoch >= patience:
-                if np.mean(self.test_losses['loss_total'][-patience:]) > np.mean(self.test_losses['loss_total'][-patience-1:-1]):
+
+            if epoch_train_loss < best_train_loss:
+                best_train_loss = epoch_train_loss
+                no_improve_count = 0
+            else:
+                no_improve_count += 1
+                if no_improve_count >= patience:
                     if self.verbose:
                         print("Early stopping")
                     break
