@@ -8,7 +8,6 @@ import random
 from src.config import Config
 import os
 import joblib
-from torch.utils.data import DataLoader
 
 def main():
     parser = argparse.ArgumentParser()
@@ -76,9 +75,8 @@ def main():
     
     ''' TO DO: Log weights / add to config file'''
     # for coral and Leslie3D, used weight=[10, 10, 1]
-    l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=[10, 10, 1])
+    l1, l2, l3 = trainer.train(config.epochs, config.patience, weight=config.weight)
     trainer.save_logs()
-    trainer.reset_losses()
     trainer.save_models()
 
     filename = os.path.join(config.output_dir, 'final_losses.txt')

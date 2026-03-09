@@ -29,7 +29,6 @@ if __name__ == "__main__":
     parser.add_argument('--smax',help='Max subdivisions',type=int,default=10)
     parser.add_argument('--output_subdir',help='Subdirectory under output/model dirs (e.g. seed_42)',type=str,default=None)
     parser.add_argument('--train_file',help='Training CSV base name (without .csv)',type=str,default='train')
-   # parser.add_argument('--lower_dim',help='Dimension of latent space',type=int,default=1)
 
     args = parser.parse_args()
     subdiv_min = args.smin
@@ -48,7 +47,6 @@ if __name__ == "__main__":
         os.makedirs(config.model_dir,  exist_ok=True)
 
     lower_dim = config.low_dims
-    ex_index = config.ex_index
     output_dir = config.output_dir
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

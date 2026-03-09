@@ -6,14 +6,12 @@ class Config:
         with open(config_fname) as f:
             config = ast.literal_eval(f.read())
         self.system = config['system']
-        self.ex_index = config['ex_index']
         self.num_layers = config['num_layers']
         self.scaler_dir = config['scaler_dir']
         self.model_dir = config['model_dir']
         self.log_dir = config['log_dir']
         self.output_dir = config['output_dir']
         self.subdiv_limit = config['subdiv_limit']
-        self.num_layers = config['num_layers']
         self.hidden_shape = config['hidden_shape']
         self.non_linearity = config['non_linearity']
         self.high_dims = config['high_dims']
@@ -23,4 +21,5 @@ class Config:
         self.epochs = config['epochs']
         self.patience = config['patience']
         self.data_dir = config['data_dir']
+        self.weight = config['weight']
 

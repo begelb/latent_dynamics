@@ -70,10 +70,6 @@ class Training:
         # z_tau = E(x_tau)
         z_tau = self.encoder(x_tau)
 
-        # x_tau_pred = D(E(x_tau))
-        # this variable does not get passed forward?
-        x_tau_pred = self.decoder(z_tau)
-
         # z_tau_pred = latent_dynamics(E(x_t))
         z_tau_pred = self.dynamics(z_t)
 
@@ -198,17 +194,5 @@ class Training:
                 print('    Train Losses - AE1: {:.4f}, AE2: {:.4f}, Dyn: {:.4f}'.format(l1, l2, l3))
         return l1, l2, l3
     
-    def fine_tune(self, epochs=1000, patience=50, weight=[0,1,1,0,0]):
-        self.load_models()
-
-        for param in self.encoder.parameters():
-            param.requires_grad = False
-        
-        for param in self.decoder.parameters():
-            param.requires_grad = False
-
-        self.train(epochs, patience, weight)
-        
-
 
 
