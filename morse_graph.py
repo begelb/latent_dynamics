@@ -23,7 +23,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid3.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.yaml')
     parser.add_argument('--init',help='Initial subdivisions',type=int,default=6)
     parser.add_argument('--smin',help='Min subdivisions',type=int,default=8)
     parser.add_argument('--smax',help='Max subdivisions',type=int,default=10)

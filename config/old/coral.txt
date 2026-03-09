@@ -11,7 +11,7 @@
     'non_linearity': 'ReLU',
     'batch_size': 1024,
     'learning_rate': 0.001,
-    'epochs': 1000,
+    'epochs': 20,
     'high_dims': 13,
     'low_dims': 1,
     'patience': 100,

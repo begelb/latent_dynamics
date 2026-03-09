@@ -81,6 +81,7 @@ class RedCoralModel:
         """
         # Calculate adult population density (excluding the first class of recruits)
         # rho = (Total Population - Recruits) / Surface Area
+
         pop_density = (sum(x) - x[0]) / self.surface_area
         
         # Density-dependent larval survival function L(rho)

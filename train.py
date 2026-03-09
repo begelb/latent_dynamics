@@ -12,7 +12,7 @@ import joblib
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid4.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.yaml')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
     parser.add_argument('--seed',help='Random seed for reproducibility',type=int,default=None)
     parser.add_argument('--output_subdir',help='Subdirectory under output/model/log dirs (e.g. seed_42)',type=str,default=None)
