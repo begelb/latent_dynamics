@@ -67,7 +67,7 @@ color_list = [
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 scaler = joblib.load(scaler_path)
-encoder = torch.load(encoder_path, map_location=device)
+encoder = torch.load(encoder_path, map_location=device, weights_only=False)
 encoder.eval()
 
 def get_encoded_fixed_pts(fixed_pts, scaler, encoder):

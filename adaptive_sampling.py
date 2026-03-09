@@ -17,7 +17,7 @@ new_dataset_path = 'data/coral_adaptive_third_iter/train.csv'
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 scaler = joblib.load(scaler_path)
-decoder = torch.load(decoder_path, map_location=device)
+decoder = torch.load(decoder_path, map_location=device, weights_only=False)
 decoder.eval()
 
 # --- 2. Define Complement of Morse Set 0 ---

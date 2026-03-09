@@ -23,7 +23,7 @@ def run_adaptive_sampling():
     
     # Load necessary assets
     scaler = joblib.load(scaler_path)
-    decoder = torch.load(decoder_path, map_location=device)
+    decoder = torch.load(decoder_path, map_location=device, weights_only=False)
     decoder.eval()
 
     # --- 2. Define Sampling Interval [min(MS2), max(MS1)] ---

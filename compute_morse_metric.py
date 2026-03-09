@@ -54,7 +54,7 @@ def check_unique_membership(encoder_path, scaler_path, morse_sets_path):
     metrics : dict  {point_name: bool}
     """
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    encoder = torch.load(encoder_path, map_location=device)
+    encoder = torch.load(encoder_path, map_location=device, weights_only=False)
     encoder.eval()
     scaler = joblib.load(scaler_path)
 
