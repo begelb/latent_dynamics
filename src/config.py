@@ -1,10 +1,10 @@
-import ast
+import yaml
 
 class Config:
 
     def __init__(self, config_fname):
         with open(config_fname) as f:
-            config = ast.literal_eval(f.read())
+            config = yaml.safe_load(f)
         self.system = config['system']
         self.num_layers = config['num_layers']
         self.scaler_dir = config['scaler_dir']

@@ -8,7 +8,7 @@ import argparse
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid4.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.yaml')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
     parser.add_argument('--train_file', help='Training CSV base name (without .csv)', type=str, default='train')
