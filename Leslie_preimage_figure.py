@@ -313,7 +313,7 @@ def encode_centroids(centroid_array, encoder_path):
 
     centroid_tensor = torch.from_numpy(scaled_centroids).float()
 
-    encoder = torch.load(encoder_path)
+    encoder = torch.load(encoder_path, weights_only=False)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     encoder.to(device)
     encoder.eval()
@@ -419,7 +419,7 @@ def encode_grid(lower_bounds, upper_bounds, res, encoder_path):
     # We need to send the 'image_points' through the neural network
     image_tensor = torch.from_numpy(scaled_image).float()
 
-    encoder = torch.load(encoder_path)
+    encoder = torch.load(encoder_path, weights_only=False)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     encoder.to(device)
     encoder.eval()
@@ -775,7 +775,7 @@ def find_and_save_preimage_samples(target_k, num_samples=100, iterations=21, bat
     # 1. Setup components from global script variables
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     scaler = joblib.load(scaler_path)
-    encoder = torch.load(encoder_path, map_location=device)
+    encoder = torch.load(encoder_path, map_location=device, weights_only=False)
     encoder.eval()
     model = LeslieModel3D_Vectorized()
     
@@ -873,9 +873,9 @@ def get_max_dynamics_loss(target_color, x_list, y_list, z_list, pt_colors):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     
     # Ensure models are in eval mode
-    encoder = torch.load(encoder_path, map_location=device)
+    encoder = torch.load(encoder_path, map_location=device, weights_only=False)
     encoder.eval()
-    dynamics = torch.load(dynamics_path, map_location=device)
+    dynamics = torch.load(dynamics_path, map_location=device, weights_only=False)
     dynamics.eval()
     
     # 6. Compute Latent Representations
@@ -1146,7 +1146,7 @@ M = MorseSet(mfile_path, m_label)
 boundary = M.get_morse_set_boundary()
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-dynamics_model = torch.load(dynamics_path, map_location=device)
+dynamics_model = torch.load(dynamics_path, map_location=device, weights_only=False)
 
 tau = compute_min_boundary_separation(M, dynamics_model, device)
 print('tau: ', tau)
@@ -1206,8 +1206,8 @@ def plot_latent_trajectory_small_pts(morse_set_data, barycenters, encoder_path, 
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     scaler = joblib.load(scaler_path)
-    encoder = torch.load(encoder_path, map_location=device)
-    dynamics = torch.load(dynamics_path, map_location=device)
+    encoder = torch.load(encoder_path, map_location=device, weights_only=False)
+    dynamics = torch.load(dynamics_path, map_location=device, weights_only=False)
     encoder.eval(); dynamics.eval()
 
     # 1. Background: Morse Sets

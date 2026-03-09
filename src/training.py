@@ -39,9 +39,9 @@ class Training:
         torch.save(self.decoder, os.path.join(save_path, 'decoder' + suffix + '.pt'))
     
     def load_models(self):
-        self.encoder = torch.load(os.path.join(self.model_dir, 'encoder.pt'))
-        self.dynamics = torch.load(os.path.join(self.model_dir, 'dynamics.pt'))
-        self.decoder = torch.load(os.path.join(self.model_dir, 'decoder.pt'))
+        self.encoder = torch.load(os.path.join(self.model_dir, 'encoder.pt'), weights_only=False)
+        self.dynamics = torch.load(os.path.join(self.model_dir, 'dynamics.pt'), weights_only=False)
+        self.decoder = torch.load(os.path.join(self.model_dir, 'decoder.pt'), weights_only=False)
     
     def save_logs(self):
         if not os.path.exists(self.log_dir):

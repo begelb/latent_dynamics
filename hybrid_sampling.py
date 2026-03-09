@@ -24,7 +24,7 @@ def run_hybrid_adaptive_sampling():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     scaler = joblib.load(scaler_path)
-    decoder = torch.load(decoder_path, map_location=device)
+    decoder = torch.load(decoder_path, map_location=device, weights_only=False)
     decoder.eval()
 
     model = RedCoralModel()

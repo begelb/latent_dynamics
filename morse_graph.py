@@ -53,9 +53,9 @@ if __name__ == "__main__":
 
     model_dir = config.model_dir
     model_path = os.path.join(model_dir, 'dynamics.pt')
-    dynamics_model = torch.load(model_path)
+    dynamics_model = torch.load(model_path, weights_only=False)
     encoder_path = os.path.join(model_dir, 'encoder.pt')
-    encoder = torch.load(encoder_path)
+    encoder = torch.load(encoder_path, weights_only=False)
     dynamics_model.to(device)
     dynamics_model.eval()
     encoder.to(device)
