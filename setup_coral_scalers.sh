@@ -8,7 +8,7 @@ DATASETS=("train_100" "train_200" "train_500" "train_1000" "train_2000" "train_5
 
 for DATASET in "${DATASETS[@]}"; do
     echo "Fitting scaler for ${DATASET}..."
-    python3 scale_data.py --config coral.txt --train_file ${DATASET}
+    python3 scale_data.py --config coral.yaml --train_file ${DATASET}
 done
 
 echo "All scalers saved."
