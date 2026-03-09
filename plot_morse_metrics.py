@@ -90,7 +90,7 @@ def main():
 
     fig, ax = plt.subplots(figsize=(8, 5))
 
-    labels = {'a0': r'$E(a_0)$', 'a1': r'$E(a_1)$', 'r': r'$E(r)$'}
+    labels = {'a0': r'$a_0$', 'a1': r'$a_1$', 'r': r'$r$'}
     colors = {'a0': '#648FFF', 'a1': '#DC267F', 'r': '#FFB000'}
     markers = {'a0': 'o', 'a1': 's', 'r': '^'}
 
