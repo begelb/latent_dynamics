@@ -16,6 +16,7 @@ def main():
     parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral_hybrid4.txt')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
     parser.add_argument('--seed',help='Random seed for reproducibility',type=int,default=None)
+    parser.add_argument('--output_subdir',help='Subdirectory under output/model/log dirs (e.g. seed_42)',type=str,default=None)
 
     args = parser.parse_args()
 
@@ -28,6 +29,14 @@ def main():
     config_fname = args.config_dir + args.config
 
     config = Config(config_fname)
+
+    if args.output_subdir is not None:
+        subdir_root       = os.path.join(config.output_dir, args.output_subdir)
+        config.output_dir = subdir_root
+        config.model_dir  = os.path.join(subdir_root, 'models')
+        config.log_dir    = os.path.join(subdir_root, 'logs')
+        os.makedirs(config.model_dir, exist_ok=True)
+        os.makedirs(config.log_dir,   exist_ok=True)
     # ex_index = config.ex_index
 
     base_data_dir = config.data_dir
