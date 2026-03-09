@@ -100,8 +100,10 @@ def main():
 
     ax.set_xlabel('Number of initial conditions for training', fontsize=14)
     ax.set_ylabel('Success rate', fontsize=14)
+    ax.set_xscale('log')
     ax.set_ylim(-0.05, 1.05)
     ax.set_xticks(x)
+    ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
     ax.tick_params(axis='both', labelsize=12)
     ax.legend(fontsize=13)
     ax.grid(axis='y', linestyle='--', alpha=0.4)
