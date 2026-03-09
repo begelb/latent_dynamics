@@ -1,0 +1,19 @@
+{   
+    'system': 'coral_adaptive_roa',
+    'data_dir': 'data/coral_adaptive_roa/',
+    'output_dir': 'output/coral_adaptive_roa/',
+    'model_dir': 'output/coral_adaptive_roa/models',
+    'log_dir': 'output/coral_adaptive_roa/logs',
+    'scaler_dir': 'output/coral_adaptive_roa/data/scalers/', 
+    'subdiv_limit': 10000,
+    'num_layers': 3,
+    'hidden_shape': 64,
+    'non_linearity': 'ReLU',
+    'batch_size': 1024,
+    'learning_rate': 0.001,
+    'epochs': 1000,
+    'high_dims': 13,
+    'low_dims': 1,
+    'patience': 100,
+    'weight': [10, 10, 1]
+}
