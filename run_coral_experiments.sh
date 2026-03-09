@@ -26,12 +26,12 @@ OUTPUT_SUBDIR="${DATASET}/seed_${SEED}"
 echo "Dataset: ${DATASET}, Seed: ${SEED}, Output subdir: ${OUTPUT_SUBDIR}"
 
 srun python3 train.py \
-    --config coral.txt \
+    --config coral.yaml \
     --train_file ${DATASET} \
     --seed ${SEED} \
     --output_subdir ${OUTPUT_SUBDIR}
 
 srun python3 morse_graph.py \
-    --config coral.txt \
+    --config coral.yaml \
     --train_file ${DATASET} \
     --output_subdir ${OUTPUT_SUBDIR}
