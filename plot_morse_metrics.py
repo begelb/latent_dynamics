@@ -112,17 +112,17 @@ def main():
                 marker=markers[name], linewidth=2, markersize=7)
 
     if args.mode == 'adaptive':
-        ax.set_xlabel('Number of adaptive samples', fontsize=14)
+        ax.set_xlabel('Number of adaptive samples', fontsize=28)
     else:
-        ax.set_xlabel('Number of initial conditions for training', fontsize=14)
+        ax.set_xlabel('Number of initial conditions for training', fontsize=28)
         ax.set_xscale('log')
         ax.get_xaxis().set_major_formatter(plt.ScalarFormatter())
 
-    ax.set_ylabel('Success rate', fontsize=14)
+    ax.set_ylabel('Success rate', fontsize=28)
     ax.set_ylim(-0.05, 1.05)
     ax.set_xticks(x)
-    ax.tick_params(axis='both', labelsize=12)
-    ax.legend(fontsize=13)
+    ax.tick_params(axis='both', labelsize=24)
+    ax.legend(fontsize=26)
     ax.grid(axis='y', linestyle='--', alpha=0.4)
 
     save_name = 'morse_metric_plot_adaptive.pdf' if args.mode == 'adaptive' else 'morse_metric_plot.pdf'
