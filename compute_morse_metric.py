@@ -20,8 +20,7 @@ import torch
 import joblib
 import pandas as pd
 import argparse
-import networkx as nx
-from networkx.drawing.nx_pydot import read_dot
+import pydot
 
 
 a0 = [0] * 13
@@ -39,8 +38,10 @@ FIXED_PTS = {'a0': a0, 'a1': a1, 'r': r}
 
 def get_minimal_labels(morse_graph_path):
     """Return set of Morse set labels that are sinks (no outgoing edges) in the Morse graph."""
-    G = read_dot(morse_graph_path)
-    return {int(n) for n in G.nodes if G.out_degree(n) == 0}
+    G = pydot.graph_from_dot_file(morse_graph_path)[0]
+    node_names = {n.get_name() for n in G.get_nodes() if n.get_name().lstrip('-').isdigit()}
+    sources = {e.get_source() for e in G.get_edges()}
+    return {int(n) for n in node_names - sources}
 
 
 def find_morse_label(z, morse_df):
