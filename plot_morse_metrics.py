@@ -63,9 +63,10 @@ def compute_pass_fractions(output_dir, scaler_dir, dataset_subdirs):
 
         counts = {'a0': 0, 'a1': 0, 'r': 0}
         for seed_subdir in seed_subdirs:
-            encoder_path    = os.path.join(dataset_path, seed_subdir, 'models', 'encoder.pt')
-            morse_sets_path = os.path.join(dataset_path, seed_subdir, 'MG', 'morse_sets')
-            _, metrics = check_unique_membership(encoder_path, scaler_path, morse_sets_path)
+            encoder_path     = os.path.join(dataset_path, seed_subdir, 'models', 'encoder.pt')
+            morse_sets_path  = os.path.join(dataset_path, seed_subdir, 'MG', 'morse_sets')
+            morse_graph_path = os.path.join(dataset_path, seed_subdir, 'MG', 'morse_graph')
+            _, metrics = check_unique_membership(encoder_path, scaler_path, morse_sets_path, morse_graph_path)
             for name in counts:
                 counts[name] += int(metrics[name])
 
@@ -108,6 +109,7 @@ def main():
     markers = {'a0': 'o', 'a1': 's', 'r': '^'}
 
     for name in ('a0', 'a1', 'r'):
+   # for name in ('a0', 'a1'):
         ax.plot(x, fracs[name], label=labels[name], color=colors[name],
                 marker=markers[name], linewidth=2, markersize=7)
 
