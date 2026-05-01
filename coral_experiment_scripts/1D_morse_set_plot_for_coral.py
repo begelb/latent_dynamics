@@ -5,13 +5,13 @@ import joblib
 import os
 import numpy as np
 
-system = 'coral_hybrid3'
+system = 'coral'
 
-mfile_path = f'output/coral_hybrid3/MG/morse_sets'
-model_dir = f'output/coral_hybrid3/models'
-save_path = f'output/coral_hybrid3/MG/'
-morse_sets = 'output/coral_hybrid3/MG/morse_sets'
-scaler_dir = 'output/coral_hybrid3/data/scalers'
+mfile_path = f'output/coral/seed_16/MG/morse_sets'
+model_dir = f'output/coral/seed_16/models'
+save_path = f'output/coral/seed_16/MG/'
+morse_sets = 'output/coral/seed_16/MG/morse_sets'
+scaler_dir = 'output/coral/data/scalers/train_500/'
 scaler_path = os.path.join(scaler_dir, 'scaler.gz')
 encoder_path = os.path.join(model_dir, 'encoder.pt')
 
@@ -53,8 +53,8 @@ overharvested_2 = [822, 731, 80] + [0] * 10
 overharvested_1 = [822, 731, 300] + [0] * 10
 overharvested_2 = [822, 731, 30] + [0] * 10
 
-# fixed_pts = {0: a0, 1: a1, 2: r}
-fixed_pts = {0: a0, 1: a1, 2: r, 3: observed_state, 4: new_pop_1, 5: new_pop_2}
+fixed_pts = {0: a0, 1: a1, 2: r}
+#fixed_pts = {0: a0, 1: a1, 2: r, 3: observed_state, 4: new_pop_1, 5: new_pop_2}
 #fixed_pts = {0: a0, 1: a1, 2: r, 3: observed_state, 4: overharvested_1, 5: overharvested_2}
 
 color_list = [ 
@@ -152,8 +152,14 @@ def plot_single_line_segments(file_path, color_list, encoded_pts, markers=['*', 
         # Calculate the midpoint of the entire Morse set span
         midpoint = (group_min + group_max) / 2
         
+        if label == 0:
+            offset = 0
+        elif label == 2:
+            offset = -0.04
+        elif label == 1:
+            offset = 0.04
         # Place the LaTeX label above the midpoint
-        plt.text(midpoint, 0.27, f"$|\pi^{{-1}}({int(label)})|$", 
+        plt.text(midpoint+offset, 0.27, f"$|\pi^{{-1}}({int(label)})|$", 
                  ha='center', va='bottom', 
                  fontsize=26, color='black')
         

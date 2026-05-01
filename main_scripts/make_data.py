@@ -76,7 +76,7 @@ def save_metadata(t_str, model, n_samples, n_iterations, skip, config, sampling_
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--config_dir',help='Directory of config files',type=str,default='config/')
-    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='coral.txt')
+    parser.add_argument('--config',help='Config file inside config_dir',type=str,default='Leslie_3D_larger_domain2.yaml')
     parser.add_argument('--verbose',help='Print training output',action='store_true',default=True)
 
     args = parser.parse_args()
@@ -100,7 +100,9 @@ def main():
         model = LeslieModel3D(th1=28.9, th2=29.8, th3=22.0, survival_p1=0.7, survival_p2=0.7)
         n_samples_total = 4000#5000
         n_iterations = 30#40
-        skip = 10
+        skip = 0
+        train_sizes = [2000]
+        n_samples_test = 5000
 
     elif system == 'leslie_contraction':
         model = LeslieContraction()
@@ -113,8 +115,8 @@ def main():
 
     for N in train_sizes:
         file_label = f'train_{N}'
-        sample_data(file_label, model, N, n_iterations, skip, config, 'sobol')
-    sample_data('test', model, n_samples_test, n_iterations, skip, config, 'sobol')
+        sample_data(file_label, model, N, n_iterations, skip, config, 'uniform')
+    sample_data('test', model, n_samples_test, n_iterations, skip, config, 'uniform')
 
 if __name__ == "__main__":
     main()

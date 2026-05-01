@@ -1,0 +1,40 @@
+{
+    "dataset_name": "train",
+    "system": "coral",
+    "dimension": 13,
+    "n_samples": 100,
+    "n_iterations": 20,
+    "skip_initial_steps": 0,
+    "lower_bounds": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    ],
+    "upper_bounds": [
+        1300,
+        1150,
+        750,
+        520,
+        270,
+        120,
+        35,
+        20,
+        7,
+        5,
+        5,
+        2,
+        2
+    ],
+    "sampling_method": "sobol",
+    "model_params": {}
+}

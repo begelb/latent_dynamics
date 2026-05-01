@@ -5,7 +5,7 @@ import os
 import json
 import argparse
 
-def plot_final_population_histograms(csv_path, save_path, steps_per_trajectory=20):
+def plot_final_population_histograms(csv_path, save_path, steps_per_trajectory=20, ymax=None):
     """
     Plots histograms of the total population sum at the final step 
     of each trajectory in the dataset.
@@ -45,32 +45,29 @@ def plot_final_population_histograms(csv_path, save_path, steps_per_trajectory=2
     # Color palette
     color_linear = '#648FFF' # Blue
     color_log = '#DC267F'    # Magenta
+    ax1.set_yscale('log')
 
-    # --- Plot 1: Linear Scale ---
+    # --- Plot ---
     ax1.hist(final_populations, bins=10, color=color_linear, edgecolor='black', alpha=0.8)
-  #  ax1.set_title("Final Population Distribution: Augumented Dataset", fontsize=22)
-    ax1.set_xlabel("Total Final Population", fontsize=18)
-    ax1.set_ylabel("Number of Trajectories", fontsize=18)
-    ax1.tick_params(axis='both', labelsize=14)
+    ax1.set_xlabel("Total Final Population", fontsize=28)
+    ax1.set_ylabel("Number of Trajectories", fontsize=28)
+    ax1.tick_params(axis='both', labelsize=24)
     ax1.grid(axis='y', linestyle='--', alpha=0.4)
 
-    # # --- Plot 2: Logarithmic Scale ---
-    # # We define log-spaced bins to ensure the bars look even on a log axis
-    # # Handle the case where population might be 0 for the log scale
-    # min_val = max(1e-6, final_populations.min())
-    # max_val = final_populations.max()
-    # log_bins = np.logspace(np.log10(min_val), np.log10(max_val), 10)
+    # Y-axis: more tick marks and labels
+    ax1.yaxis.set_major_locator(plt.LogLocator(base=10, numticks=10))
+    ax1.yaxis.set_minor_locator(plt.LogLocator(base=10, subs=[2, 3, 4, 5, 6, 7, 8, 9], numticks=50))
+    ax1.yaxis.set_minor_formatter(plt.LogFormatter(base=10, labelOnlyBase=False))
+    ax1.tick_params(axis='y', which='minor', labelsize=10)
 
-    # ax2.hist(final_populations, bins=log_bins, color=color_log, edgecolor='black', alpha=0.8)
-    # ax2.set_xscale('log')
-    # ax2.set_title("Final Population Sum (Log Scale)", fontsize=22)
-    # ax2.set_xlabel("Total Population (Log)", fontsize=18)
-    # ax2.set_ylabel("Number of Trajectories", fontsize=18)
-    # ax2.tick_params(axis='both', labelsize=14)
-    # ax2.grid(axis='y', linestyle='--', alpha=0.4)
+    # Record or apply ymax
+    current_ymax = ax1.get_ylim()[1]
+    if ymax is not None:
+        ax1.set_ylim(top=ymax)
+    else:
+        print(f"y-axis max: {current_ymax:.4g}")
 
-    # plt.tight_layout()
-    
+    plt.tight_layout()
     plt.savefig(save_path, dpi=300)
     print(f"Histogram saved as: {save_path}")
     plt.show()
@@ -80,10 +77,12 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--data_dir', type=str, default='data/coral',
                         help='Directory containing the training CSV files')
-    parser.add_argument('--train_file', type=str, default='train',
+    parser.add_argument('--train_file', type=str, default='train_500',
                         help='Training CSV base name (without .csv)')
-    parser.add_argument('--output_dir', type=str, default='.',
+    parser.add_argument('--output_dir', type=str, default='output/histogram',
                         help='Directory to save the histogram PDF')
+    parser.add_argument('--ymax', type=float, default=1000,
+                        help='Fix the y-axis maximum (use value printed on first run)')
     args = parser.parse_args()
 
     csv_path      = os.path.join(args.data_dir, args.train_file + '.csv')
@@ -97,4 +96,4 @@ if __name__ == '__main__':
     else:
         print("Number of steps not found!")
 
-    plot_final_population_histograms(csv_path, save_path, steps)
+    plot_final_population_histograms(csv_path, save_path, steps, ymax=args.ymax)

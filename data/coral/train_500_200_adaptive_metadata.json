@@ -1,0 +1,47 @@
+{
+    "dataset_name": "train_500_200_adaptive",
+    "system": "coral",
+    "dimension": 13,
+    "n_samples": 700,
+    "n_iterations": 20,
+    "sampling_method": "adaptive_latent",
+    "source_dataset": "train_500",
+    "n_adaptive_samples": 200,
+    "source_model_subdir": "train_500/seed_16",
+    "morse_label_low": 0,
+    "morse_label_high": 2,
+    "latent_interval": [
+        -1.0082351048942657,
+        -0.0236793763935566
+    ],
+    "lower_bounds": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    ],
+    "upper_bounds": [
+        1300,
+        1150,
+        750,
+        520,
+        270,
+        120,
+        35,
+        20,
+        7,
+        5,
+        5,
+        2,
+        2
+    ]
+}

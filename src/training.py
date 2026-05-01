@@ -92,7 +92,7 @@ class Training:
         loss_total = loss_ae1 * weight[0] + loss_ae2 * weight[1] + loss_dyn * weight[2]
         return loss_ae1, loss_ae2, loss_dyn, loss_total
 
-    def train(self, epochs=1000, patience=50, weight=[1,1,1]):
+    def train(self, epochs=1000, patience=50, weight=[1,1,1], trial=None):
         '''
         Function that trains all the models with all the losses and weight.
         It will stop if the test loss does not improve for "patience" epochs.

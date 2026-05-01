@@ -12,7 +12,7 @@ import os
 import argparse
 import matplotlib.pyplot as plt
 from src.config import Config
-from compute_morse_metric import check_unique_membership, find_seed_subdirs
+from coral_experiment_scripts.compute_morse_metric import check_unique_membership, find_seed_subdirs
 
 
 def find_dataset_subdirs(output_dir, mode):
