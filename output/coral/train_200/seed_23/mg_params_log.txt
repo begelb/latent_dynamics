@@ -1,0 +1,10 @@
+--- MG Computation Parameters ---
+Lower bounds: [-0.5086226272583008]
+Upper bounds: [0.9958484280109405]
+------------------------------
+Subdivision init: 8
+Subdivision min: 8
+Subdivision max: 12
+Subdivision limit: 10000
+------------------------------
+Program duration: 0 minutes

@@ -1,0 +1,8 @@
+digraph {
+0 [label="0", shape=ellipse, style=filled, fillcolor="#1f77b4ff", margin="0.11, 0.055"];
+1 [label="1", shape=ellipse, style=filled, fillcolor="#8c564bff", margin="0.11, 0.055"];
+2 [label="2", shape=ellipse, style=filled, fillcolor="#9edae5ff", margin="0.11, 0.055"];
+{rank=same; 0 }; 
+1 -> 0;
+2 -> 1;
+}
