@@ -40,15 +40,19 @@ python reproduce_paper.py --only fig_coral_data_scaling --max-seeds 3
 For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 `slurm/pipeline_array.sbatch`; see `docs/AMAREL.md`.
 
-| Paper reference   | Experiment id                  | Config                              | Notes                                        |
-| ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | 2D Leslie + contracting tail; CMGDB smin=28, smax=29 |
-| Fig. 1.214        | `fig_leslie3d_spurious`        | `configs/leslie3d_spurious.yaml`    | legacy checkpoint; tau-bar < max semiconjugacy |
-| Sec. 1.211 success | `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | 3 hidden layers; tau-bar > max semiconjugacy |
-| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | additive loss, ODE time-tau map              |
-| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | 1D Morse graph, 13D coral; bistable          |
-| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | 6 sizes x 30 seeds; sobol sampling           |
-| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | augmented dataset; M = 100,200,300,400,500   |
+| Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
+| ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
+| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | 2D Leslie + 8D contracting tail; source script missing |
+| Fig. 1.214        | `fig_leslie3d_spurious`        | `configs/leslie3d_spurious.yaml`    | [contract](figure_contracts/leslie3d_spurious.md)        | replay-ready (legacy 3-file checkpoint); read_only |
+| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | scratch-only; current retrain has near-identity latent_map |
+| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | training is OK; CMGDB rerun needed for parity |
+| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | 1D Morse, 13D coral; replay blocked by 0-byte checkpoints |
+| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | 180-cell sweep; replay blocked, scratch path ready |
+| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial replay (M = 100, 200, 300); 400, 500 blocked |
+
+For per-figure expected outputs, hyperparameter audits with archive
+line citations, status, and verification recipes, see the contracts
+linked above.
 
 ## Expected outputs
 
