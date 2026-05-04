@@ -1,0 +1,99 @@
+[
+  {
+    "train_file": "train_500_100_adaptive",
+    "seed": 0,
+    "output_dir": "output/coral/train_500_100_adaptive/seed_0",
+    "render": {
+      "figures": [
+        "output/coral/train_500_100_adaptive/seed_0/MG/morse_graph.pdf",
+        "output/coral/train_500_100_adaptive/seed_0/MG/morse_graph.png",
+        "output/coral/train_500_100_adaptive/seed_0/MG/morse_sets.pdf",
+        "output/coral/train_500_100_adaptive/seed_0/MG/morse_sets.png"
+      ]
+    },
+    "metrics": {
+      "labels": {
+        "a0": 1,
+        "a1": 0,
+        "r": 2
+      },
+      "metrics": {
+        "a0": true,
+        "a1": true,
+        "r": true
+      }
+    }
+  },
+  {
+    "train_file": "train_500_200_adaptive",
+    "seed": 0,
+    "output_dir": "output/coral/train_500_200_adaptive/seed_0",
+    "render": {
+      "figures": [
+        "output/coral/train_500_200_adaptive/seed_0/MG/morse_graph.pdf",
+        "output/coral/train_500_200_adaptive/seed_0/MG/morse_graph.png",
+        "output/coral/train_500_200_adaptive/seed_0/MG/morse_sets.pdf",
+        "output/coral/train_500_200_adaptive/seed_0/MG/morse_sets.png"
+      ]
+    },
+    "metrics": {
+      "labels": {
+        "a0": 1,
+        "a1": 0,
+        "r": 2
+      },
+      "metrics": {
+        "a0": true,
+        "a1": true,
+        "r": true
+      }
+    }
+  },
+  {
+    "train_file": "train_500_300_adaptive",
+    "seed": 0,
+    "output_dir": "output/coral/train_500_300_adaptive/seed_0",
+    "render": {
+      "figures": [
+        "output/coral/train_500_300_adaptive/seed_0/MG/morse_graph.pdf",
+        "output/coral/train_500_300_adaptive/seed_0/MG/morse_graph.png",
+        "output/coral/train_500_300_adaptive/seed_0/MG/morse_sets.pdf",
+        "output/coral/train_500_300_adaptive/seed_0/MG/morse_sets.png"
+      ]
+    },
+    "metrics": {
+      "labels": {
+        "a0": 1,
+        "a1": 0,
+        "r": 2
+      },
+      "metrics": {
+        "a0": true,
+        "a1": true,
+        "r": true
+      }
+    }
+  },
+  {
+    "train_file": "train_500_400_adaptive",
+    "seed": 0,
+    "output_dir": "output/coral/train_500_400_adaptive/seed_0",
+    "render": {
+      "skipped": "empty morse_graph or morse_sets in output/coral/train_500_400_adaptive/seed_0/MG"
+    },
+    "metrics": {
+      "error": "empty morse_sets or morse_graph file"
+    }
+  },
+  {
+    "train_file": "train_500_500_adaptive",
+    "seed": 0,
+    "output_dir": "output/coral/train_500_500_adaptive/seed_0",
+    "render": {
+      "skipped": "empty morse_graph or morse_sets in output/coral/train_500_500_adaptive/seed_0/MG"
+    },
+    "metrics": {
+      "error": "empty morse_sets or morse_graph file"
+    }
+  }
+]

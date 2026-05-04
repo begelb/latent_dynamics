@@ -1,0 +1,17 @@
+[
+  {
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/leslie3d_success/seed_0",
+    "render": {
+      "figures": [
+        "output/leslie3d_success/seed_0/MG/morse_graph.pdf",
+        "output/leslie3d_success/seed_0/MG/morse_graph.png",
+        "output/leslie3d_success/seed_0/MG/morse_sets.pdf",
+        "output/leslie3d_success/seed_0/MG/morse_sets.png",
+        "output/leslie3d_success/seed_0/figures/latent_trajectory.png"
+      ]
+    }
+  }
+]

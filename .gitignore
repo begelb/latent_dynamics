@@ -7,9 +7,6 @@ __pycache__/
 build/
 dist/
 
-data/
-output/
-
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/

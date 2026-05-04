@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "arch": {
+    "num_layers": 3,
+    "hidden_shape": 64,
+    "high_dims": 64,
+    "low_dims": 2,
+    "activation": "tanh",
+    "encoder_out_activation": "none",
+    "decoder_out_activation": "none"
+  }
+}

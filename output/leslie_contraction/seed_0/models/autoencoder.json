@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "arch": {
+    "num_layers": 4,
+    "hidden_shape": 64,
+    "high_dims": 10,
+    "low_dims": 2,
+    "activation": "relu",
+    "encoder_out_activation": "tanh",
+    "decoder_out_activation": "sigmoid"
+  }
+}

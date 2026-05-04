@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-05-04T14:40:22.972579+00:00",
+  "train_file": "train",
+  "train_csv": "data/chafee_infante/train.csv",
+  "train_csv_sha256": "55722ac9d41baf5fdc6858fd5186a01cc7ac62cd9261f8babb4518ae27916891",
+  "scaling": "none",
+  "high_dims": 64
+}
