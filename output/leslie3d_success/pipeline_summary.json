@@ -1,17 +1,37 @@
 [
   {
+    "cell_index": 0,
     "train_file": "train",
     "seed": 0,
     "device": "mps",
     "output_dir": "output/leslie3d_success/seed_0",
-    "render": {
-      "figures": [
-        "output/leslie3d_success/seed_0/MG/morse_graph.pdf",
-        "output/leslie3d_success/seed_0/MG/morse_graph.png",
-        "output/leslie3d_success/seed_0/MG/morse_sets.pdf",
-        "output/leslie3d_success/seed_0/MG/morse_sets.png",
-        "output/leslie3d_success/seed_0/figures/latent_trajectory.png"
-      ]
-    }
+    "diagnose": {
+      "n_distinct_limit_points": -1,
+      "diagnostic": "iteration_did_not_converge",
+      "n_terminal_clusters_all": 9,
+      "n_terminal_clusters_converged": 0,
+      "encoded_extent": [
+        1.3246278762817383,
+        1.0273172855377197
+      ],
+      "encoded_image_diameter": 1.676311371967409,
+      "bounds_lower": [
+        -0.4121801555156708,
+        -0.5802760124206543
+      ],
+      "bounds_upper": [
+        0.9389402866363525,
+        0.4675876498222351
+      ],
+      "bounds_source": "encoded_data",
+      "n_iter": 200,
+      "n_grid_points": 2500,
+      "convergence_eps": 0.00017098376750946046,
+      "cluster_eps": 0.017098376750946047,
+      "mean_iter_to_convergence": 200.0,
+      "max_iter_to_convergence": 200,
+      "frac_unconverged": 1.0
+    },
+    "manifest": "output/leslie3d_success/seed_0/run_manifest.json"
   }
 ]

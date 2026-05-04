@@ -1,1 +1,7 @@
-{}
+{
+  "diagnose_morse_cross_check": {
+    "n_diagnose_limit_points": 19,
+    "n_morse_sets": 1,
+    "agreement": "morse_underresolves"
+  }
+}

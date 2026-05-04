@@ -28,11 +28,14 @@ import torch
 from ..config import ExperimentConfig
 from ..training import has_legacy_checkpoint, has_new_checkpoint
 
-ALL_STAGES: tuple[str, ...] = ("data", "scale", "train", "morse", "render", "metrics")
+ALL_STAGES: tuple[str, ...] = (
+    "data", "scale", "train", "diagnose", "morse", "render", "metrics",
+)
 
 # Stages that produce or could overwrite the irreplaceable paper artefacts
-# (datasets, scalers, trained checkpoints, CMGDB DOT/CSV). ``render`` and
-# ``metrics`` are derived from these and may run on read-only configs.
+# (datasets, scalers, trained checkpoints, CMGDB DOT/CSV). ``render``,
+# ``metrics``, and ``diagnose`` are derived from these and may run on
+# read-only configs (diagnose only writes figures/ and diagnose.json).
 WRITE_STAGES: frozenset[str] = frozenset({"data", "scale", "train", "morse"})
 
 
@@ -206,6 +209,8 @@ def _stage_complete(
         return scaler_is_current(cfg, train_file)
     if stage == "train":
         return has_new_checkpoint(seed_cfg.paths.model_dir) or has_legacy_checkpoint(seed_cfg.paths.model_dir)
+    if stage == "diagnose":
+        return _nonempty_file(seed_cfg.paths.output_dir / "diagnose.json")
     if stage == "morse":
         return (
             _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph")
@@ -294,6 +299,16 @@ def run_one(
         )
     elif "train" in plan:
         skipped.append("train")
+    if "diagnose" in plan and not _skip_completed(
+        "diagnose", cfg, seed_cfg, train_file=train_file, enabled=skip_completed, verbose=verbose
+    ):
+        from . import diagnose as diagnose_stage
+
+        summary["diagnose"] = diagnose_stage.run(
+            seed_cfg, train_file=train_file, device=dev, verbose=verbose,
+        )
+    elif "diagnose" in plan:
+        skipped.append("diagnose")
     if "morse" in plan and not _skip_completed(
         "morse", cfg, seed_cfg, train_file=train_file, enabled=skip_completed, verbose=verbose
     ):
@@ -409,6 +424,17 @@ def run(
             )
         elif "train" in plan:
             skipped.append("train")
+        if "diagnose" in plan and not _skip_completed(
+            "diagnose", cfg, seed_cfg, train_file=train_file,
+            enabled=skip_completed, verbose=verbose
+        ):
+            from . import diagnose as diagnose_stage
+
+            cell_summary["diagnose"] = diagnose_stage.run(
+                seed_cfg, train_file=train_file, device=dev, verbose=verbose,
+            )
+        elif "diagnose" in plan:
+            skipped.append("diagnose")
         if "morse" in plan and not _skip_completed(
             "morse", cfg, seed_cfg, train_file=train_file,
             enabled=skip_completed, verbose=verbose

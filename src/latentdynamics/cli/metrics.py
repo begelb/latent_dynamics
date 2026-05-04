@@ -49,12 +49,86 @@ def metrics_stage(
     else:
         result = {}
 
+    cross_check = _diagnose_morse_cross_check(seed_cfg)
+    if cross_check is not None:
+        result["diagnose_morse_cross_check"] = cross_check
+
     out_path = seed_cfg.paths.output_dir / "metrics.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, default=str))
     if verbose:
         print(f"metrics -> {out_path}: {result}")
     return result
+
+
+def _diagnose_morse_cross_check(seed_cfg: ExperimentConfig) -> dict | None:
+    """Compare diagnose.json's n_distinct_limit_points to the saved Morse Hasse.
+
+    Returns a dict describing agreement / disagreement, or None when either
+    artefact is missing. Disagreement flags two regimes:
+
+    - ``morse_underresolves``: dynamics has multiple limit points (>1) but
+      CMGDB returned exactly one Morse set. Suggests a collapsed-latent
+      false-positive in CMGDB OR mis-tuned subdivisions.
+    - ``morse_overresolves``: dynamics converges to a single limit point but
+      CMGDB returned >1 Morse sets. Suggests CMGDB-bound or subdiv settings
+      are too coarse to merge them, or the dynamics have non-fixed-point
+      recurrent sets that diagnose's terminal-point count cannot detect.
+    """
+    diagnose_path = seed_cfg.paths.output_dir / "diagnose.json"
+    morse_graph_path = seed_cfg.paths.morse_dir / "morse_graph"
+    if not diagnose_path.is_file() or not morse_graph_path.is_file():
+        return None
+    if morse_graph_path.stat().st_size == 0:
+        return None
+    try:
+        diag = json.loads(diagnose_path.read_text())
+    except json.JSONDecodeError:
+        return None
+    n_diag = int(diag.get("n_distinct_limit_points", -1))
+
+    n_morse = _count_morse_nodes(morse_graph_path)
+    if n_morse < 0:
+        return None
+
+    if n_diag < 0:
+        return {
+            "n_morse_sets": n_morse,
+            "agreement": "diagnose_inconclusive",
+            "diagnose_diagnostic": diag.get("diagnostic", "unknown"),
+        }
+    if n_diag == n_morse:
+        agreement = "agree"
+    elif n_morse == 1 and n_diag > 1:
+        agreement = "morse_underresolves"
+    elif n_diag == 1 and n_morse > 1:
+        agreement = "morse_overresolves"
+    else:
+        agreement = "disagree"
+    return {
+        "n_diagnose_limit_points": n_diag,
+        "n_morse_sets": n_morse,
+        "agreement": agreement,
+    }
+
+
+def _count_morse_nodes(dot_path: Path) -> int:
+    """Count Morse-graph node lines in a DOT file. Returns -1 on parse failure."""
+    try:
+        text = dot_path.read_text()
+    except OSError:
+        return -1
+    n = 0
+    for raw in text.splitlines():
+        line = raw.strip()
+        # Match lines like ``0 [label="0", ...];`` and ignore subgraph headers
+        # / edges (``A -> B``) / brace lines.
+        if "->" in line or line.startswith(("digraph", "{", "}", "rank=")):
+            continue
+        head = line.split(" ", 1)[0]
+        if head.isdigit():
+            n += 1
+    return n
 
 
 def _model_dir(seed_cfg: ExperimentConfig) -> Path:

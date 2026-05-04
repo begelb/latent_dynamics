@@ -3,7 +3,15 @@
     "cell_index": 0,
     "train_file": "train",
     "seed": 0,
-    "device": "cpu",
-    "output_dir": "output/chafee_infante/seed_0"
+    "device": "mps",
+    "output_dir": "output/chafee_infante/seed_0",
+    "metrics": {
+      "diagnose_morse_cross_check": {
+        "n_diagnose_limit_points": 19,
+        "n_morse_sets": 1,
+        "agreement": "morse_underresolves"
+      }
+    },
+    "manifest": "output/chafee_infante/seed_0/run_manifest.json"
   }
 ]
