@@ -1,0 +1,286 @@
+"""Typed configuration schema for paper experiments (pydantic v2)."""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Any, Literal
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+
+Activation = Literal["relu", "tanh", "gelu"]
+TerminalActivation = Literal["tanh", "sigmoid", "none"]
+SystemName = Literal[
+    "leslie_contraction",
+    "leslie3d",
+    "leslie4d",
+    "coral",
+    "chafee_infante",
+]
+SamplingMethod = Literal["uniform", "sobol", "adaptive"]
+ScalingMethod = Literal["minmax", "none"]
+LossMode = Literal["weighted", "additive"]
+
+
+class SystemConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: SystemName
+    params: dict[str, Any] = Field(default_factory=dict)
+
+
+@dataclass(frozen=True)
+class ResolvedComponentConfig:
+    """Concrete MLP settings for one network component."""
+
+    hidden_shapes: tuple[int, ...]
+    activation: Activation
+    out_activation: TerminalActivation
+
+    @property
+    def num_layers(self) -> int:
+        return len(self.hidden_shapes)
+
+
+class ComponentArchConfig(BaseModel):
+    """Optional per-component architecture override.
+
+    ``hidden_shapes`` is the most explicit form and supports asymmetric MLPs
+    such as ``[64, 32]``. ``num_layers`` + ``hidden_shape`` remains available
+    for repeated-width MLPs.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    num_layers: int | None = Field(default=None, ge=1)
+    hidden_shape: int | None = Field(default=None, ge=1)
+    hidden_shapes: list[int] | None = Field(default=None, min_length=1)
+    activation: Activation | None = None
+    out_activation: TerminalActivation | None = None
+
+    @field_validator("activation", mode="before")
+    @classmethod
+    def _lowercase_activation(cls, v: Any) -> Any:
+        return v.lower() if isinstance(v, str) else v
+
+    @field_validator("out_activation", mode="before")
+    @classmethod
+    def _lowercase_terminal(cls, v: Any) -> Any:
+        return v.lower() if isinstance(v, str) else v
+
+    @field_validator("hidden_shapes")
+    @classmethod
+    def _positive_hidden_shapes(cls, v: list[int] | None) -> list[int] | None:
+        if v is not None and any(width < 1 for width in v):
+            raise ValueError("hidden_shapes entries must be positive")
+        return v
+
+    @model_validator(mode="after")
+    def _consistent_layer_count(self) -> ComponentArchConfig:
+        if self.hidden_shapes is not None and self.num_layers is not None:
+            if len(self.hidden_shapes) != self.num_layers:
+                raise ValueError("num_layers must match len(hidden_shapes)")
+        return self
+
+
+class ArchConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    num_layers: int = Field(ge=1)
+    hidden_shape: int = Field(ge=1)
+    hidden_shapes: list[int] | None = Field(default=None, min_length=1)
+    high_dims: int = Field(ge=1)
+    low_dims: int = Field(ge=1)
+    activation: Activation = "relu"
+    encoder_out_activation: TerminalActivation = "tanh"
+    latent_out_activation: TerminalActivation = "tanh"
+    decoder_out_activation: TerminalActivation = "sigmoid"
+    encoder: ComponentArchConfig = Field(default_factory=ComponentArchConfig)
+    latent_map: ComponentArchConfig = Field(default_factory=ComponentArchConfig)
+    decoder: ComponentArchConfig = Field(default_factory=ComponentArchConfig)
+
+    @field_validator("activation", mode="before")
+    @classmethod
+    def _lowercase_activation(cls, v: Any) -> Any:
+        return v.lower() if isinstance(v, str) else v
+
+    @field_validator(
+        "encoder_out_activation",
+        "latent_out_activation",
+        "decoder_out_activation",
+        mode="before",
+    )
+    @classmethod
+    def _lowercase_terminal(cls, v: Any) -> Any:
+        return v.lower() if isinstance(v, str) else v
+
+    @field_validator("hidden_shapes")
+    @classmethod
+    def _positive_hidden_shapes(cls, v: list[int] | None) -> list[int] | None:
+        if v is not None and any(width < 1 for width in v):
+            raise ValueError("hidden_shapes entries must be positive")
+        return v
+
+    @model_validator(mode="after")
+    def _consistent_shared_layer_count(self) -> ArchConfig:
+        if self.hidden_shapes is not None and len(self.hidden_shapes) != self.num_layers:
+            raise ValueError("num_layers must match len(hidden_shapes)")
+        return self
+
+    def component(self, name: Literal["encoder", "latent_map", "decoder"]) -> ResolvedComponentConfig:
+        """Resolve shared defaults plus per-component overrides."""
+        override = getattr(self, name)
+        if override.hidden_shapes is not None:
+            hidden_shapes = tuple(int(width) for width in override.hidden_shapes)
+        else:
+            num_layers = int(override.num_layers or self.num_layers)
+            hidden_shape = int(override.hidden_shape or self.hidden_shape)
+            if self.hidden_shapes is not None and override.num_layers is None and override.hidden_shape is None:
+                hidden_shapes = tuple(int(width) for width in self.hidden_shapes)
+            else:
+                hidden_shapes = tuple(hidden_shape for _ in range(num_layers))
+
+        default_out = {
+            "encoder": self.encoder_out_activation,
+            "latent_map": self.latent_out_activation,
+            "decoder": self.decoder_out_activation,
+        }[name]
+        return ResolvedComponentConfig(
+            hidden_shapes=hidden_shapes,
+            activation=override.activation or self.activation,
+            out_activation=override.out_activation or default_out,
+        )
+
+
+class TrainingConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    learning_rate: float = Field(gt=0)
+    batch_size: int = Field(ge=1)
+    epochs: int = Field(ge=1)
+    patience: int = Field(ge=1)
+    loss_weights: list[float] = Field(default_factory=lambda: [1.0, 1.0, 1.0])
+    loss_mode: LossMode = "weighted"
+    gradient_clip_norm: float | None = 1.0
+    scheduler_factor: float = Field(default=0.1, gt=0.0, lt=1.0)
+    scheduler_threshold: float = Field(default=1e-3, ge=0.0)
+    scheduler_min_lr: float = Field(default=0.0, ge=0.0)
+
+    @field_validator("loss_weights")
+    @classmethod
+    def _three_weights(cls, v: list[float]) -> list[float]:
+        if len(v) != 3:
+            raise ValueError("loss_weights must have length 3 (recon, dyn, semiconjugacy)")
+        return v
+
+    @field_validator("gradient_clip_norm")
+    @classmethod
+    def _positive_clip_norm(cls, v: float | None) -> float | None:
+        if v is not None and v <= 0:
+            raise ValueError("gradient_clip_norm must be positive or null")
+        return v
+
+
+class DataConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    sampling_method: SamplingMethod
+    scaling: ScalingMethod = "minmax"
+    n_samples_train: int | list[int]
+    n_samples_test: int = Field(ge=1)
+    n_iterations: int = Field(ge=1)
+    skip: int = Field(ge=0, default=0)
+    sobol_train_seed: int = 42
+    sobol_test_seed: int = 9999
+    # When set, takes precedence over auto-derivation from ``n_samples_train``.
+    # Required for non-numeric labels such as adaptive sweeps where the train
+    # file basenames are e.g. ``train_500_300_adaptive``.
+    train_files: list[str] | None = None
+
+
+class CMGDBConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    subdiv_init: int = Field(ge=1, default=6)
+    subdiv_min: int = Field(ge=1, default=8)
+    subdiv_max: int = Field(ge=1, default=10)
+    subdiv_limit: int = Field(ge=1, default=10000)
+    bounds_epsilon_frac: float = Field(ge=0.0, default=0.01)
+    lower_bounds: list[float] | None = None
+    upper_bounds: list[float] | None = None
+    padding: bool = True
+
+    @model_validator(mode="after")
+    def _ordered_subdivs(self) -> CMGDBConfig:
+        if not (self.subdiv_init <= self.subdiv_min <= self.subdiv_max):
+            raise ValueError("require subdiv_init <= subdiv_min <= subdiv_max")
+        if (self.lower_bounds is None) != (self.upper_bounds is None):
+            raise ValueError("lower_bounds and upper_bounds must be set together")
+        if self.lower_bounds is not None and self.upper_bounds is not None:
+            if len(self.lower_bounds) != len(self.upper_bounds):
+                raise ValueError("lower_bounds and upper_bounds must have the same length")
+            if any(lo >= hi for lo, hi in zip(self.lower_bounds, self.upper_bounds, strict=True)):
+                raise ValueError("each lower bound must be strictly less than its upper bound")
+        return self
+
+
+class PathsConfig(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    data_dir: Path
+    output_dir: Path
+    scaler_dir_override: Path | None = None
+    flat_scaler: bool = False
+
+    @property
+    def model_dir(self) -> Path:
+        return self.output_dir / "models"
+
+    @property
+    def log_dir(self) -> Path:
+        return self.output_dir / "logs"
+
+    @property
+    def scaler_dir(self) -> Path:
+        return self.scaler_dir_override if self.scaler_dir_override is not None else self.output_dir / "scalers"
+
+    @property
+    def figures_dir(self) -> Path:
+        return self.output_dir / "figures"
+
+    @property
+    def morse_dir(self) -> Path:
+        return self.output_dir / "MG"
+
+    def scaler_path(self, train_file: str) -> Path:
+        """Resolve the scaler file location for ``train_file``.
+
+        Standard layout: ``<scaler_dir>/<train_file>/scaler.gz``.
+        Legacy flat layout (single shared scaler): ``<scaler_dir>/scaler.gz``,
+        triggered by ``flat_scaler: true`` in the config.
+        """
+        if self.flat_scaler:
+            return self.scaler_dir / "scaler.gz"
+        return self.scaler_dir / train_file / "scaler.gz"
+
+
+class ExperimentConfig(BaseModel):
+    """Top-level configuration for one paper experiment (one figure)."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    system: SystemConfig
+    arch: ArchConfig
+    training: TrainingConfig
+    data: DataConfig
+    cmgdb: CMGDBConfig = Field(default_factory=CMGDBConfig)
+    paths: PathsConfig
+    seeds: list[int] = Field(default_factory=lambda: [0])
+
+    @model_validator(mode="after")
+    def _arch_dims_match_system(self) -> ExperimentConfig:
+        if self.arch.high_dims < self.arch.low_dims:
+            raise ValueError("arch.high_dims must be >= arch.low_dims")
+        if self.cmgdb.lower_bounds is not None and len(self.cmgdb.lower_bounds) != self.arch.low_dims:
+            raise ValueError("cmgdb fixed bounds must match arch.low_dims")
+        return self
