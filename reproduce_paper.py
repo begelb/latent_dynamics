@@ -52,7 +52,15 @@ def _summarise_results(results: list[dict]) -> str:
     return ", ".join(parts)
 
 
-def _run_one(name: str, config_name: str, *, stages: list[str], max_seeds: int | None, verbose: bool) -> str:
+def _run_one(
+    name: str,
+    config_name: str,
+    *,
+    stages: list[str],
+    max_seeds: int | None,
+    verbose: bool,
+    force_overwrite: bool = False,
+) -> str:
     cfg_path = CONFIGS_DIR / config_name
     if not cfg_path.exists():
         return f"missing config: {cfg_path}"
@@ -64,7 +72,13 @@ def _run_one(name: str, config_name: str, *, stages: list[str], max_seeds: int |
             f"rerun with --stages all to retrain"
         )
 
-    results = pipeline.run(cfg, stages=stages, max_seeds=max_seeds, verbose=verbose)
+    results = pipeline.run(
+        cfg,
+        stages=stages,
+        max_seeds=max_seeds,
+        verbose=verbose,
+        force_overwrite=force_overwrite,
+    )
     return _summarise_results(results)
 
 
@@ -78,6 +92,11 @@ def main(argv: list[str] | None = None) -> int:
         help="comma-separated stages or 'all' (default: render,metrics)",
     )
     parser.add_argument("--max-seeds", type=int, default=None, help="Cap the seeds per sweep")
+    parser.add_argument(
+        "--force-overwrite",
+        action="store_true",
+        help="bypass paths.read_only and legacy-checkpoint guards",
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
@@ -91,7 +110,12 @@ def main(argv: list[str] | None = None) -> int:
         t0 = time.perf_counter()
         try:
             status = _run_one(
-                name, EXPERIMENTS[name], stages=stages, max_seeds=args.max_seeds, verbose=not args.quiet
+                name,
+                EXPERIMENTS[name],
+                stages=stages,
+                max_seeds=args.max_seeds,
+                verbose=not args.quiet,
+                force_overwrite=args.force_overwrite,
             )
         except Exception as exc:
             print(f"[FAIL] {name}: {exc}")

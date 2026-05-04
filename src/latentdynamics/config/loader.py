@@ -35,18 +35,38 @@ def _load_yaml(path: Path) -> dict[str, Any]:
     return data
 
 
+def _find_defaults(start: Path) -> Path | None:
+    """Walk up from ``start`` looking for ``_shared/defaults.yaml``.
+
+    Returns the first match, or None. The walk is bounded by the filesystem
+    root, so deeply nested configs (e.g. ``configs/scratch/X.yaml``) still
+    inherit ``configs/_shared/defaults.yaml``.
+    """
+    current = start.resolve()
+    while True:
+        candidate = current / "_shared" / DEFAULTS_BASENAME
+        if candidate.exists():
+            return candidate
+        parent = current.parent
+        if parent == current:
+            return None
+        current = parent
+
+
 def load_config(path: str | Path, *, apply_defaults: bool = True) -> ExperimentConfig:
     """Load and validate an experiment config.
 
-    Looks for ``_shared/defaults.yaml`` in the parent directory of ``path``
-    and deep-merges it under the file's own keys.
+    Looks for ``_shared/defaults.yaml`` in any ancestor directory of ``path``
+    and deep-merges it under the file's own keys, so config files nested in
+    subdirectories (e.g. ``configs/scratch/<expt>.yaml``) still inherit the
+    shared defaults.
     """
     cfg_path = Path(path)
     raw = _load_yaml(cfg_path)
 
     if apply_defaults:
-        defaults_path = cfg_path.parent / "_shared" / DEFAULTS_BASENAME
-        if defaults_path.exists():
+        defaults_path = _find_defaults(cfg_path.parent)
+        if defaults_path is not None:
             raw = _deep_merge(_load_yaml(defaults_path), raw)
 
     return ExperimentConfig.model_validate(raw)

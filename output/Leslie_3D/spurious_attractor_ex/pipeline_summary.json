@@ -1,7 +1,9 @@
 [
   {
+    "cell_index": 0,
     "train_file": "train",
     "seed": null,
+    "device": "mps",
     "output_dir": "output/Leslie_3D/spurious_attractor_ex",
     "render": {
       "figures": [
@@ -17,6 +19,7 @@
       "tau_bar": 5.960464477539063e-08,
       "max_semiconjugacy_error": 0.0004470703424885869,
       "is_spurious_attractor": true
-    }
+    },
+    "manifest": "output/Leslie_3D/spurious_attractor_ex/run_manifest.json"
   }
 ]

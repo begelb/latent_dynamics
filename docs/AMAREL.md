@@ -43,17 +43,25 @@ cd code
 ../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --stages data,scale --skip-completed
 ```
 
-Then launch one cell per array task:
+Then launch one cell per array task. **Important**: do not put comma-laden
+values like `STAGES=train,morse` inside `--export` — slurm parses commas in
+`--export` as separators, so `STAGES=train,morse` becomes `STAGES=train`
+plus a stray `morse` variable, and the `morse` stage is silently dropped.
+Export env vars first, then list them by name:
 
 ```bash
-sbatch --array=0-179 --export=ALL,CONFIG=configs/coral_data_scaling.yaml,STAGES=train,morse,EXPECTED_CELLS=180 slurm/pipeline_array.sbatch
+CONFIG=configs/coral_data_scaling.yaml STAGES=train,morse EXPECTED_CELLS=180 \
+  sbatch --array=0-179 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
+  slurm/pipeline_array.sbatch
 ```
 
 For a one-seed retrain:
 
 ```bash
 ../.venv/bin/python pipeline.py --config configs/chafee_infante.yaml --stages data,scale --max-seeds 1 --skip-completed
-sbatch --array=0-0 --export=ALL,CONFIG=configs/chafee_infante.yaml,STAGES=train,morse,MAX_SEEDS=1,EXPECTED_CELLS=1 slurm/pipeline_array.sbatch
+CONFIG=configs/chafee_infante.yaml STAGES=train,morse MAX_SEEDS=1 EXPECTED_CELLS=1 \
+  sbatch --array=0-0 --export=ALL,CONFIG,STAGES,MAX_SEEDS,EXPECTED_CELLS \
+  slurm/pipeline_array.sbatch
 ```
 
 The template always passes `--skip-completed`, so rerunning the same array

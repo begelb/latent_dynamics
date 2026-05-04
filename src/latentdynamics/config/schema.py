@@ -231,6 +231,7 @@ class PathsConfig(BaseModel):
     output_dir: Path
     scaler_dir_override: Path | None = None
     flat_scaler: bool = False
+    read_only: bool = False
 
     @property
     def model_dir(self) -> Path:

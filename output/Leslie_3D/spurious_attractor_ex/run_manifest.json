@@ -1,0 +1,122 @@
+{
+  "created_at_utc": "2026-05-04T17:01:00.252417+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "torch": {
+    "version": "2.11.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "requested_stages": [
+    "render",
+    "metrics"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": null,
+    "output_dir": "output/Leslie_3D/spurious_attractor_ex",
+    "device": "mps",
+    "skipped_stages": []
+  },
+  "config_hash": "c7d3dd09d5776601957c64e8a7ea5bb5fa33d00716b81b7d9708a00db25dbc18",
+  "config": {
+    "system": {
+      "name": "leslie3d",
+      "params": {
+        "th1": 28.9,
+        "th2": 29.8,
+        "th3": 22.0,
+        "survival_p1": 0.7,
+        "survival_p2": 0.7
+      }
+    },
+    "arch": {
+      "num_layers": 3,
+      "hidden_shape": 32,
+      "hidden_shapes": null,
+      "high_dims": 3,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "activation": null,
+        "out_activation": null
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "activation": null,
+        "out_activation": null
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "activation": null,
+        "out_activation": null
+      }
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "batch_size": 1024,
+      "epochs": 1000,
+      "patience": 100,
+      "loss_weights": [
+        10.0,
+        10.0,
+        1.0
+      ],
+      "loss_mode": "weighted",
+      "gradient_clip_norm": 1.0,
+      "scheduler_factor": 0.1,
+      "scheduler_threshold": 0.001,
+      "scheduler_min_lr": 0.0
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "minmax",
+      "n_samples_train": 4000,
+      "n_samples_test": 5000,
+      "n_iterations": 30,
+      "skip": 0,
+      "sobol_train_seed": 42,
+      "sobol_test_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 23,
+      "subdiv_min": 23,
+      "subdiv_max": 27,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.01,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": true
+    },
+    "paths": {
+      "data_dir": "data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0",
+      "output_dir": "output/Leslie_3D/spurious_attractor_ex",
+      "scaler_dir_override": "output/Leslie_3D/28.9_29.8_22.0/scalers",
+      "flat_scaler": true,
+      "read_only": true
+    },
+    "seeds": []
+  },
+  "artefacts": {
+    "train_csv": "data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/train.csv",
+    "train_csv_sha256": null,
+    "scaler": "output/Leslie_3D/28.9_29.8_22.0/scalers/scaler.gz",
+    "scaler_sha256": "1d86986b1622f6e57527b852cae5769c412450b7570b82e138e5afbae082d02d",
+    "model_dir": "output/Leslie_3D/spurious_attractor_ex/models",
+    "morse_dir": "output/Leslie_3D/spurious_attractor_ex/MG",
+    "metrics": "output/Leslie_3D/spurious_attractor_ex/metrics.json"
+  }
+}

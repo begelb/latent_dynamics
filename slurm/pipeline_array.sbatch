@@ -6,8 +6,16 @@
 #   ../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --dry-run
 #   sbatch --array=0-179 slurm/pipeline_array.sbatch
 #
-# Override at submission time, for example:
-#   sbatch --array=0-0 --export=ALL,CONFIG=configs/chafee_infante.yaml,STAGES=train,morse slurm/pipeline_array.sbatch
+# Override at submission time. IMPORTANT: comma-separated values like
+# STAGES=train,morse must NOT live inside --export, because slurm parses
+# commas in --export as separators (so STAGES=train,morse becomes
+# STAGES=train plus a stray empty `morse` variable, silently dropping the
+# morse stage). Export the env vars first, then list them by name in
+# --export:
+#
+#   CONFIG=configs/chafee_infante.yaml STAGES=train,morse EXPECTED_CELLS=1 \
+#     sbatch --array=0-0 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
+#     slurm/pipeline_array.sbatch
 
 #SBATCH --job-name=ldyn
 #SBATCH --output=slurm/logs/%x_%A_%a.out

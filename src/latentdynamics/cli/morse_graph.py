@@ -37,6 +37,17 @@ def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
     return np.vstack(pieces)
 
 
+def _morse_artefacts_present(morse_dir) -> bool:
+    """Return True if a non-empty Morse DOT or CSV already lives in ``morse_dir``."""
+    dot = morse_dir / "morse_graph"
+    csv = morse_dir / "morse_sets"
+    if dot.is_file() and dot.stat().st_size > 0:
+        return True
+    if csv.is_file() and csv.stat().st_size > 0:
+        return True
+    return False
+
+
 def run(
     cfg: ExperimentConfig,
     *,
@@ -44,11 +55,21 @@ def run(
     output_subdir: str | None = None,
     device: torch.device | str | None = None,
     verbose: bool = True,
+    force_overwrite: bool = False,
 ) -> None:
     """Run the full Morse-graph pipeline for one trained model."""
     output_root = cfg.paths.output_dir
     if output_subdir is not None:
         output_root = output_root / output_subdir
+
+    morse_dir = output_root / "MG"
+    if _morse_artefacts_present(morse_dir) and not force_overwrite:
+        raise RuntimeError(
+            f"prior Morse artefacts present at {morse_dir} "
+            f"(morse_graph DOT or morse_sets CSV is non-empty). Refusing to "
+            f"overwrite a potentially expensive CMGDB run. "
+            f"Pass --force-overwrite to proceed."
+        )
 
     model, _arch = load_checkpoint(output_root / "models")
     if device is None:
@@ -94,7 +115,6 @@ def run(
     morse_graph, _map_graph = compute_morse_graph(model, bounds, cfg.cmgdb, device=device)
     duration_s = time.perf_counter() - t0
 
-    morse_dir = output_root / "MG"
     dot_path, csv_path = save_morse_graph_artefacts(morse_graph, morse_dir)
 
     if verbose:

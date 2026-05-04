@@ -30,6 +30,26 @@ from ..training import has_legacy_checkpoint, has_new_checkpoint
 
 ALL_STAGES: tuple[str, ...] = ("data", "scale", "train", "morse", "render", "metrics")
 
+# Stages that produce or could overwrite the irreplaceable paper artefacts
+# (datasets, scalers, trained checkpoints, CMGDB DOT/CSV). ``render`` and
+# ``metrics`` are derived from these and may run on read-only configs.
+WRITE_STAGES: frozenset[str] = frozenset({"data", "scale", "train", "morse"})
+
+
+def _check_read_only(
+    cfg: ExperimentConfig, plan: list[str], *, force_overwrite: bool
+) -> None:
+    if not cfg.paths.read_only or force_overwrite:
+        return
+    blocked = [s for s in plan if s in WRITE_STAGES]
+    if blocked:
+        raise RuntimeError(
+            f"config sets paths.read_only=true; refusing to run write-stages "
+            f"{blocked} on {cfg.paths.output_dir}. "
+            f"Pass --force-overwrite to override (and consider whether you "
+            f"really want to clobber preserved paper artefacts)."
+        )
+
 
 @dataclass(frozen=True)
 class PipelineCell:
@@ -230,6 +250,7 @@ def run_one(
     device: str | torch.device | None = None,
     verbose: bool = True,
     skip_completed: bool = False,
+    force_overwrite: bool = False,
 ) -> dict:
     """Run requested stages for one (config, train_file, seed) cell.
 
@@ -237,6 +258,7 @@ def run_one(
     are global). All other stages route to the seed-specific output subdir.
     """
     plan = _normalise_stages(stages)
+    _check_read_only(cfg, plan, force_overwrite=force_overwrite)
     seed_cfg = _config_for_seed(cfg, train_file=train_file, seed=seed)
     dev = _resolve_device(device)
 
@@ -266,7 +288,10 @@ def run_one(
     ):
         from . import train as train_stage
 
-        train_stage.run(seed_cfg, train_file=train_file, seed=seed, device=dev, verbose=verbose)
+        train_stage.run(
+            seed_cfg, train_file=train_file, seed=seed, device=dev,
+            verbose=verbose, force_overwrite=force_overwrite,
+        )
     elif "train" in plan:
         skipped.append("train")
     if "morse" in plan and not _skip_completed(
@@ -274,7 +299,10 @@ def run_one(
     ):
         from . import morse_graph as morse_stage
 
-        morse_stage.run(seed_cfg, train_file=train_file, device=dev, verbose=verbose)
+        morse_stage.run(
+            seed_cfg, train_file=train_file, device=dev,
+            verbose=verbose, force_overwrite=force_overwrite,
+        )
     elif "morse" in plan:
         skipped.append("morse")
     if "render" in plan and not _skip_completed(
@@ -321,9 +349,11 @@ def run(
     cell_index: int | None = None,
     expected_cells: int | None = None,
     skip_completed: bool = False,
+    force_overwrite: bool = False,
 ) -> list[dict]:
     """Run requested stages for every (train_file, seed) implied by ``cfg``."""
     plan = _normalise_stages(stages)
+    _check_read_only(cfg, plan, force_overwrite=force_overwrite)
     cells = _select_cells(
         cfg,
         max_seeds=max_seeds,
@@ -373,7 +403,10 @@ def run(
         ):
             from . import train as train_stage
 
-            train_stage.run(seed_cfg, train_file=train_file, seed=seed, device=dev, verbose=verbose)
+            train_stage.run(
+                seed_cfg, train_file=train_file, seed=seed, device=dev,
+                verbose=verbose, force_overwrite=force_overwrite,
+            )
         elif "train" in plan:
             skipped.append("train")
         if "morse" in plan and not _skip_completed(
@@ -382,7 +415,10 @@ def run(
         ):
             from . import morse_graph as morse_stage
 
-            morse_stage.run(seed_cfg, train_file=train_file, device=dev, verbose=verbose)
+            morse_stage.run(
+                seed_cfg, train_file=train_file, device=dev,
+                verbose=verbose, force_overwrite=force_overwrite,
+            )
         elif "morse" in plan:
             skipped.append("morse")
         if "render" in plan and not _skip_completed(

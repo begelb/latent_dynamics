@@ -57,6 +57,12 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="print the train-file/seed cell plan and exit without running stages",
     )
+    parser.add_argument(
+        "--force-overwrite",
+        action="store_true",
+        help="bypass paths.read_only and legacy-checkpoint guards; only use to "
+             "intentionally clobber preserved paper artefacts",
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
@@ -79,6 +85,7 @@ def main(argv: list[str] | None = None) -> int:
         cell_index=cell_index,
         expected_cells=args.expected_cells,
         skip_completed=args.skip_completed,
+        force_overwrite=args.force_overwrite,
         verbose=not args.quiet,
     )
 

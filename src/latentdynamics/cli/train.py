@@ -12,7 +12,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from ..config import ExperimentConfig
 from ..models import build_autoencoder
 from ..sampling import load_scaler
-from ..training import Trainer
+from ..training import Trainer, has_legacy_checkpoint
 
 
 def _seed_everything(seed: int) -> torch.Generator:
@@ -68,8 +68,22 @@ def run(
     output_subdir: str | None = None,
     device: torch.device | None = None,
     verbose: bool = True,
+    force_overwrite: bool = False,
 ) -> None:
     """Train the autoencoder for one (config, seed) combination."""
+    output_root = cfg.paths.output_dir
+    if output_subdir is not None:
+        output_root = output_root / output_subdir
+
+    model_dir = output_root / "models"
+    if has_legacy_checkpoint(model_dir) and not force_overwrite:
+        raise RuntimeError(
+            f"legacy 3-file checkpoint detected at {model_dir} "
+            f"(encoder.pt + dynamics.pt + decoder.pt). Refusing to write a "
+            f"new-format checkpoint next to it (would orphan the legacy run). "
+            f"Pass --force-overwrite to proceed."
+        )
+
     if seed is not None:
         _seed_everything(seed)
 
@@ -85,10 +99,6 @@ def run(
         verbose=verbose,
     )
     history = trainer.fit()
-
-    output_root = cfg.paths.output_dir
-    if output_subdir is not None:
-        output_root = output_root / output_subdir
 
     trainer.save(output_root)
 
