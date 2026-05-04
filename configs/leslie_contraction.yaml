@@ -1,0 +1,34 @@
+# Leslie 2D contraction case (paper). NOTE: no on-disk artefacts; running this
+# config requires full retraining via ``--stages all``.
+system:
+  name: leslie_contraction
+  params:
+    th1: 23.5
+    th2: 23.5
+    survival_p1: 0.7
+    contraction: 0.25
+
+arch:
+  num_layers: 4
+  hidden_shape: 64
+  high_dims: 10
+  low_dims: 2
+
+training:
+  loss_weights: [10, 10, 1]
+
+data:
+  sampling_method: uniform
+  n_samples_train: 10000
+  n_samples_test: 5000
+  n_iterations: 20
+
+cmgdb:
+  # Paper Sec. 1.83 reports smin=28, smax=29.
+  subdiv_init: 6
+  subdiv_min: 28
+  subdiv_max: 29
+
+paths:
+  data_dir: data/leslie_contraction
+  output_dir: output/leslie_contraction

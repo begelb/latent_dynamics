@@ -1,0 +1,38 @@
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  num_layers: 3
+  hidden_shape: 32
+  high_dims: 3
+  low_dims: 2
+
+training:
+  loss_weights: [10, 10, 1]
+
+data:
+  sampling_method: uniform
+  n_samples_train: 4000
+  n_samples_test: 5000
+  n_iterations: 30
+
+cmgdb:
+  # Matches the saved legacy paper run in output/Leslie_3D/spurious_attractor_ex.
+  subdiv_init: 23
+  subdiv_min: 23
+  subdiv_max: 27
+
+paths:
+  data_dir: data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0
+  output_dir: output/Leslie_3D/spurious_attractor_ex
+  scaler_dir_override: output/Leslie_3D/28.9_29.8_22.0/scalers
+  flat_scaler: true
+
+# Single-checkpoint legacy layout (no seed_<k> subdir).
+seeds: []

@@ -1,0 +1,30 @@
+# Coral basic experiment (paper, single train size = 500).
+# Outputs live under output/coral/train_500/seed_<k>/.
+# Re-render figures + recompute metrics from saved artefacts:
+#   python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
+# Full re-train (slow):
+#   python pipeline.py --config configs/coral_basic.yaml --stages all
+system:
+  name: coral
+
+arch:
+  num_layers: 3
+  hidden_shape: 64
+  high_dims: 13
+  low_dims: 1
+
+training:
+  loss_weights: [10, 10, 1]
+
+data:
+  sampling_method: uniform
+  n_samples_train: [500]
+  n_samples_test: 10000
+  n_iterations: 20
+
+paths:
+  data_dir: data/coral
+  output_dir: output/coral
+  scaler_dir_override: output/coral/data/scalers
+
+seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]

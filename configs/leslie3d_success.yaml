@@ -1,0 +1,29 @@
+# Leslie 3D success case (paper). NOTE: no on-disk artefacts; running this
+# config requires full retraining via ``--stages all``.
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  num_layers: 3
+  hidden_shape: 32
+  high_dims: 3
+  low_dims: 2
+
+training:
+  loss_weights: [10, 10, 1]
+
+data:
+  sampling_method: uniform
+  n_samples_train: 10000
+  n_samples_test: 5000
+  n_iterations: 20
+
+paths:
+  data_dir: data/leslie3d_success
+  output_dir: output/leslie3d_success

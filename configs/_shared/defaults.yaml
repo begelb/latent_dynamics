@@ -1,0 +1,31 @@
+arch:
+  activation: relu
+  encoder_out_activation: tanh
+  decoder_out_activation: sigmoid
+
+training:
+  batch_size: 1024
+  learning_rate: 0.001
+  epochs: 1000
+  patience: 100
+  loss_mode: weighted
+  gradient_clip_norm: 1.0
+  scheduler_factor: 0.1
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.0
+
+data:
+  scaling: minmax
+  skip: 0
+  sobol_train_seed: 42
+  sobol_test_seed: 9999
+
+cmgdb:
+  subdiv_init: 6
+  subdiv_min: 8
+  subdiv_max: 10
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  padding: true
+
+seeds: [0]

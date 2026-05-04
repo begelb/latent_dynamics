@@ -1,0 +1,60 @@
+# Chafee-Infante PDE (paper). NOTE: no on-disk artefacts; running this config
+# requires full retraining via ``--stages all``. Uses additive loss mode (the
+# semiconjugacy term is disabled for the PDE pipeline).
+system:
+  name: chafee_infante
+  params:
+    N: 64
+    alpha: 28.0
+    tau: 0.1
+    amplitude: 2.0
+    decay: 0.5
+
+arch:
+  # Mirrors archive/marcio/scripts/autoencoder_model.py:
+  # encoder 64->64->32->2, latent map 2->32->32->2, decoder 2->32->64->64.
+  num_layers: 2
+  hidden_shape: 64
+  high_dims: 64
+  low_dims: 2
+  activation: tanh
+  encoder_out_activation: none
+  latent_out_activation: none
+  decoder_out_activation: none
+  encoder:
+    hidden_shapes: [64, 32]
+  latent_map:
+    hidden_shapes: [32, 32]
+  decoder:
+    hidden_shapes: [32, 64]
+
+training:
+  learning_rate: 0.003
+  epochs: 4000
+  patience: 100
+  batch_size: 30000
+  loss_weights: [1.0, 1.0, 0.0]
+  loss_mode: additive
+  gradient_clip_norm: null
+  scheduler_factor: 0.5
+  scheduler_min_lr: 0.000001
+
+data:
+  sampling_method: uniform
+  scaling: none
+  n_samples_train: 1000
+  n_samples_test: 200
+  n_iterations: 30
+  sobol_train_seed: 7206
+
+cmgdb:
+  subdiv_init: 10
+  subdiv_min: 14
+  subdiv_max: 28
+  lower_bounds: [-3.0, -2.0]
+  upper_bounds: [3.0, 2.0]
+  padding: false
+
+paths:
+  data_dir: data/chafee_infante
+  output_dir: output/chafee_infante
