@@ -1,134 +1,201 @@
 # LatentDynamics
 
-Topological validation (Conley-Morse graphs) of autoencoder-learned latent
-dynamics for high-dimensional discrete maps and PDEs. Companion code for the
-manuscript *Rigorously Characterizing High-dimensional Dynamics by
-Combinatorial-Topological Methods on a Latent Space*.
+Companion code for *Rigorously Characterizing High-dimensional Dynamics by
+Combinatorial-Topological Methods on a Latent Space* (`paper/main.tex`).
+
+For each high-dimensional discrete map `f : X -> X`, the package trains an
+autoencoder `(E, D)` and a latent dynamics `G : Z -> Z`, then computes a Morse
+graph for `G` with [CMGDB](https://github.com/marciogameiro/CMGDB) and runs the
+paper's tolerance / success-metric checks against the result. The seven
+applications in Section 5 of the paper are encoded as YAML configs and a single
+`reproduce_paper.py` entry point.
+
+## What the paper asks of the code
+
+For data points `(x_t, x_{t+1})` with `x_{t+1} = f(x_t)`, the trainer minimizes
+
+```
+L1(x_t, x_{t+1}) = || D(E(x_t))     - x_t   ||^2     # reconstruction
+L2(x_t, x_{t+1}) = || D(G(E(x_t)))  - x_{t+1} ||^2   # prediction
+L3(x_t, x_{t+1}) = || G(E(x_t))     - E(x_{t+1}) ||^2 # semiconjugacy error
+```
+
+with weights `(w1, w2, w3)`. After training, CMGDB returns a Morse graph
+`MG(G)` over the latent box; for each minimal node `q` the package can:
+
+- compute the **tolerance** `tau(N_q, G)` of the corresponding attracting block
+  `N_q = |pi^{-1}(q)|` (Theorem 4.4 / Theorem `thm:main_alt`); the run passes the
+  hypothesis check when
+  `sup_{x in E^{-1}(N_q)} || G(E(x)) - E(f(x)) || <= tau(N_q, G)`;
+- compute the **success metric** `1_{x*}` (Section 5.5.1) for known reference
+  points `S = {a_0, a_1, r}`, requiring that an attractor's encoded image lie in
+  a unique minimal `|pi^{-1}(q)|` while the unstable point lies in a non-minimal
+  one.
+
+The conclusion `Inv(E^{-1}(N), f) != \emptyset` (Corollary `cor`) is what gets
+certified for `f` once the tolerance hypothesis verifies for `G`.
+
+## Paper-experiment map
+
+Every figure in `paper/main.tex` Section 5 has one YAML and one figure
+contract. Detailed hyperparameter audits, archive line citations, and per-figure
+verification recipes live in `docs/figure_contracts/`.
+
+| Paper       | Section / Fig.            | Experiment id              | Config                              | Reproducibility status |
+| ----------- | ------------------------- | -------------------------- | ----------------------------------- | --- |
+| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_contraction`   | `configs/leslie_contraction.yaml`   | scratch path; archive checkpoint at `archive/patrick/Leslie10D/`, raw CSVs/script missing |
+| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_spurious`    | `configs/leslie3d_spurious.yaml`    | replay-ready (legacy 3-file checkpoint, `read_only`) |
+| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_success` | `configs/leslie3d_success.yaml` | scratch path; archive checkpoint at `archive/patrick/Leslie3D/` |
+| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | training reproduces; CMGDB rerun needed for parity |
+| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | replay blocked by 0-byte checkpoints; scratch path ready |
+| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | 180-cell sweep, replay blocked, scratch path ready |
+| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | partial replay (M = 100, 200, 300); 400, 500 blocked |
+
+Hyperparameters in the configs are a superset of paper Tables 3, 4, 5
+(architecture, training, data), recovered either from the archived run logs or
+from `paper/main.tex` itself when the archives don't pin them. See the per-figure
+contracts for line-by-line provenance.
+
+### Key parameter values from the paper
+
+The configs encode these directly; this table is for reference.
+
+| Experiment        | Ambient `n` | Latent | Hidden L / W | `(w_1, w_2, w_3)` | Sampling | `(N_train, N_test, T)`         | CMGDB `(init/min/max)` |
+| ----------------- | ----------: | -----: | ------------ | ----------------- | -------- | ------------------------------ | ---------------------- |
+| 10D Leslie        | 10          | 2      | 4 / 64       | `(100, 10, 20)`   | uniform  | `(8000, 2000, 20)`             | `25 / 27 / 28`         |
+| 3D Leslie spurious| 3           | 2      | 3 / 32       | `(10, 10, 1)`     | uniform  | `(4000, 5000, 30)`             | `23 / 23 / 27`         |
+| 3D Leslie success | 3           | 2      | 2 / 64       | `(100, 10, 20)`   | uniform  | `(8000, 2000, 20)`             | `25 / 28 / 29`         |
+| Chafee-Infante    | 64          | 2      | 2 / 64*      | `(1, 1, 0)` add.  | uniform  | `(1000, 200, 30)` (no scaling) | `10 / 14 / 28`         |
+| Coral basic       | 13          | 1      | 3 / 64       | `(10, 10, 1)`     | uniform  | `([500], 10000, 20)`           | shared default         |
+| Coral data-scaling| 13          | 1      | 3 / 64       | `(10, 10, 1)`     | Sobol    | `({100..5000}, 10000, 20)` × 30 seeds | shared default |
+| Coral adaptive    | 13          | 1      | 3 / 64       | `(10, 10, 1)`     | adaptive | `(500 + M, 10000, 20)`, M ∈ {100..500} × 30 seeds | shared default |
+
+`*` Chafee-Infante uses asymmetric per-component widths
+(`encoder 64->64->32->2, latent 2->32->32->2, decoder 2->32->64->64`).
+Defaults shared by every config (Adam, `lr = 1e-3`, `batch = 1024`, 1000 epochs,
+`patience = 100`, ReduceLROnPlateau, MinMax scaling) are in
+`configs/_shared/defaults.yaml`.
 
 ## Layout
 
 ```
 code/
-├── pyproject.toml                 # pip install -e .
-├── reproduce_paper.py             # one entry point per paper figure
-├── README.md
-├── docs/PAPER_REPRODUCTION.md     # figure -> command map
-├── docs/AMAREL.md                 # cluster/array workflow
-├── src/latentdynamics/            # the importable package
-│   ├── systems/                   # ground-truth dynamics
-│   ├── sampling/                  # initial-condition + trajectory generation
-│   ├── config/                    # pydantic v2 schema + YAML loader
-│   ├── models/                    # encoder / latent map / decoder
-│   ├── training/                  # trainer, losses, safe state_dict checkpoints
-│   ├── analysis/                  # CMGDB wrapper + tau-bar tolerance + metrics
-│   ├── viz/                       # one source for palette and plots
-│   └── cli/                       # entry-points used by /scripts
-├── configs/                       # one YAML per experiment + _shared/defaults
-├── scripts/                       # thin CLI wrappers
-└── tests/                         # 140+ pytest cases
+├── README.md                         # this file
+├── pyproject.toml                    # pip install -e .  (CMGDB==1.3.2 pinned)
+├── reproduce_paper.py                # one entry point per paper figure
+├── pipeline.py                       # single-config staged runner
+├── docs/
+│   ├── PAPER_REPRODUCTION.md         # figure -> command map, in detail
+│   ├── FIGURE_PARITY.md              # what does/doesn't currently match the paper
+│   ├── AMAREL.md                     # cluster + Slurm array workflow
+│   └── figure_contracts/             # one .md per paper figure, line-cited
+├── configs/                          # one YAML per experiment + _shared/defaults
+│   └── scratch/                      # writable siblings for `--stages all`
+├── src/latentdynamics/
+│   ├── systems/      # ground-truth f: LeslieContraction, LeslieModel3D, RedCoralModel, ChafeeInfante
+│   ├── sampling/     # uniform / Sobol / adaptive trajectory generation, scaling
+│   ├── models/       # Encoder + LatentMap + Decoder (per-component MLP widths)
+│   ├── training/     # trainer, L1+L2+L3 losses, checkpoints (state_dict + arch sidecar)
+│   ├── analysis/     # CMGDB wrapper, tau-bar tolerance, coral unique-membership metric
+│   ├── viz/          # palette, Morse graph/set rendering, plot_morse_sets_from_csv
+│   ├── config/       # pydantic v2 schema + YAML loader
+│   └── cli/          # entry-points consumed by reproduce_paper.py / pipeline.py
+├── scripts/
+│   ├── import_legacy_data.py         # vacuum Brittany/Marcio data into code/data
+│   └── migrate_legacy_checkpoints.py # convert 3-file pickled modules -> state_dict + sidecar
+├── slurm/pipeline_array.sbatch       # AMAREL array template
+└── tests/                            # 140+ pytest cases
 ```
 
-The archived single-script sources are preserved under `code/legacy/` and
-`../archive/`. Do not delete or rewrite saved `data/` or `output/` artifacts
-while validating figure parity; the new pipeline can render and compute
-metrics from them directly.
+The pre-restructure single-script versions are preserved under `code/legacy/`
+and `../archive/`; do not delete or rewrite saved `data/` or `output/` artifacts
+while validating figure parity.
 
-## Reproduction stance
+## Pipeline (per experiment)
 
-The package sits one abstraction level above the archived scripts. Each YAML
-config should be able to describe one historical paper run as precisely as the
-archive allows, while still using shared stages for data generation, scaling,
-training, CMGDB, rendering, and metrics. Code identifiers may keep legacy names
-such as `leslie_contraction`, but paper-facing docs should describe that
-example as the 10D Embedded Leslie map: a 2D Leslie/Ricker map embedded in
-10D with eight contracting tail coordinates.
+`pipeline.run` chains the same seven stages for every config; individual stages
+are exposed as CLI entry points under `latentdynamics.cli.*`.
 
-The expensive structures are source artifacts: raw data, scalers, trained
-checkpoints, CMGDB DOT/CSV outputs, Morse-set CSVs, and `mg_params_log.txt`.
-Preserved paper configs should set `paths.read_only: true`; derived renders,
-metrics, diagnostics, and manifests are written to `output/replay/...`.
-Retraining or recomputing CMGDB is an explicit operation for filling gaps or
-testing robustness, not the default way to inspect a paper figure.
+1. `make_data` — build `D(T, N) = {(f^{k-1}(x_i), f^k(x_i))}` from
+   `system.name` + `system.params`. Existing CSV+metadata pairs are **never**
+   overwritten; adaptive coral datasets are validated as precomputed inputs.
+2. `scale_data` — fit `MinMaxScaler(0, 1)` on `vstack(x_train, y_train)` and
+   joblib it; or `data.scaling: none` for raw-coordinate runs (Chafee-Infante).
+3. `train` — train the unified `LatentDynamicsAutoencoder` (encoder + latent
+   map + decoder) under `loss_total = w1 * L1 + w2 * L2 + w3 * L3`, Adam +
+   `ReduceLROnPlateau`, optional `gradient_clip_norm`. Saves a single
+   `models/autoencoder.pt` (`state_dict`, `weights_only=True` safe) and a
+   companion `models/autoencoder.json` architecture sidecar.
+4. `diagnose` — iterate `G` on a latent grid and write `diagnose.json` plus
+   point-cloud / orbit plots before paying the CMGDB cost.
+5. `morse_graph` — derive the latent box (encode train+test, expand the first
+   dim by `bounds_epsilon_frac`) or take fixed `cmgdb.lower_bounds` /
+   `upper_bounds`, build the box map (`padding` configurable), call
+   `CMGDB.ComputeConleyMorseGraph`. Writes `MG/morse_graph[.pdf,.png]`,
+   `MG/morse_sets[.pdf,.png]`, `MG/morse_sets` (CSV), `mg_params_log.txt`.
+6. `render_stage` — re-renders Morse-graph / Morse-set plots from the saved
+   DOT/CSV/checkpoint only. Does not invoke CMGDB.
+7. `metrics` — per-experiment paper metric. For coral: the
+   `unique_membership` metric `1_{x*}` from §5.5.1. For 3D Leslie: the tau-bar
+   tolerance check from §5.3.
 
-Fresh training runs are not guaranteed to recover the same Morse graph on every
-seed or machine. A new run becomes scientifically usable only after its
-diagnostics, CMGDB output, and paper-specific bounds/tolerance checks pass. In
-the language of the manuscript, the theory gives a conditional guarantee: when
-the learned latent dynamics and verified bounds satisfy the hypotheses, the
-reported combinatorial structure is guaranteed for the original dynamics.
+Configs marked `paths.read_only: true` block `data, scale, train, morse` unless
+`--force-overwrite` is passed. Derived stages (`diagnose, render, metrics, run_manifest.json`)
+read the source artifacts but write to `output/replay/<experiment_name>/...` by
+default. This makes replay deterministic without dirtying the preserved trees.
 
 ## Quick start
 
-The Python virtualenv lives at the workspace root (`../.venv`). Activate or
-invoke directly:
-
 ```bash
-# From the repo root (this directory):
+# Use the pre-built venv at the repo root.
 ../.venv/bin/pip install -e ".[dev]"
-../.venv/bin/pytest -m "not slow"   # ~2 s
-../.venv/bin/pytest                  # full suite
+../.venv/bin/pytest -m "not slow"            # ~2 s
+../.venv/bin/pytest                           # full suite
 
-# Re-render one paper figure from saved Morse/checkpoint artifacts:
-../.venv/bin/python reproduce_paper.py --only fig_coral_basic --max-seeds 1
+# Render every paper figure from saved artifacts (no CMGDB, no training):
+../.venv/bin/python reproduce_paper.py
 
-# For configs marked paths.read_only=true, derived outputs go to output/replay/<config-stem>/.
+# One paper figure:
+../.venv/bin/python reproduce_paper.py --only fig_leslie3d_spurious
+
+# Read-only configs route derived outputs to output/replay/<name>/.
 ../.venv/bin/python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
 
-# Opt into a retrain/recompute. The data stage preserves existing CSVs.
+# Opt into a retrain/recompute (use scratch sibling for coral so the preserved
+# artifact tree stays intact):
 ../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
+../.venv/bin/python pipeline.py --config configs/scratch/coral_data_scaling.yaml --max-seeds 3
 ```
 
-Detailed figure -> command mapping is in `docs/PAPER_REPRODUCTION.md`.
-Cluster execution notes and the Slurm array template are in `docs/AMAREL.md`
-and `slurm/pipeline_array.sbatch`.
-Archived Brittany/Marcio data can be audited or restored with
-`scripts/import_legacy_data.py`.
+Sweep configs decompose into `(train_file, seed)` cells, one per Slurm array
+task; `pipeline.py --dry-run` reports the cell count, and
+`slurm/pipeline_array.sbatch` is the template.
 
-## Pipeline
+## Reproduction stance (what "reproducing the paper" means)
 
-Each paper experiment is a config-driven sequence:
+There are two distinct modes:
 
-1. `make_data.run(cfg)` — generate missing train/test trajectory CSVs and
-   metadata from the chosen system. Existing CSV+metadata pairs are treated as
-   source artifacts and are not overwritten. Adaptive coral datasets are
-   validated as precomputed inputs.
-2. `scale_data.run(cfg, train_file)` — fit either a MinMax scaler or an
-   identity scaler (`data.scaling: none`) and persist it as joblib.
-3. `train.run(cfg, train_file, seed)` — train the unified
-   `LatentDynamicsAutoencoder` (encoder + latent map + decoder). The `arch`
-   schema supports shared defaults plus per-component hidden-width lists,
-   activations, and terminal activations; `training` controls optimizer,
-   scheduler, clipping, loss mode, and loss weights. Training emits a single
-   state_dict and an architecture sidecar.
-4. `diagnose.run(cfg)` — iterate the learned latent map on a grid and write a
-   cheap diagnostic (`diagnose.json` plus point-cloud/orbit plots) before
-   spending time on CMGDB.
-5. `morse_graph.run(cfg)` — infer latent bounds, build the CMGDB box map,
-   or use fixed `cmgdb.lower_bounds` / `cmgdb.upper_bounds`, then compute the
-   Conley-Morse graph.
-6. `render_stage(cfg)` — re-render Morse graph/set plots and experiment extras
-   from saved DOT/CSV/checkpoint artifacts only; it does not invoke CMGDB.
-7. Per-experiment metric (`unique_membership` for coral, tau-bar tolerance
-   for the Leslie failure case, etc.).
+1. **Replay** (default) reads preserved data, scalers, checkpoints, and CMGDB
+   DOT/CSV files and rebuilds figures + metrics. This is the primary mode of
+   inspection.
+2. **Fresh reproduction** regenerates artifacts via the data, training, and
+   CMGDB stages. Useful for filling archive gaps and robustness checks; not
+   guaranteed to land on the same Morse graph for every seed/hardware.
 
-Preserved paper configs set `paths.read_only: true`. In that mode `data`,
-`scale`, `train`, and `morse` are blocked unless `--force-overwrite` is passed.
-Derived stages (`diagnose`, `render`, `metrics`, and `run_manifest.json`) read
-the source artifacts but write to `output/replay/<experiment_name>/...` by
-default, or to a custom `--replay-root`. This makes replay deterministic
-without dirtying tracked `data/` or `output/` artifacts.
+The paper's guarantee is conditional: once a run has the required learned map,
+CMGDB structure, and verified tolerance / semiconjugacy bounds, the
+corresponding combinatorial structure is certified for `f`. The pipeline
+therefore treats `diagnose`, CMGDB outputs, and paper-specific metrics as
+validation gates, not decorative outputs.
 
-Long runs can be split into independent cells:
+`tests/test_reproducibility.py` checks that the same `--seed` yields
+bitwise-identical state dicts on the same machine; cross-machine determinism is
+not guaranteed (BLAS / cuDNN / MPS heuristics).
 
-```bash
-../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --dry-run
-../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --cell-index 0 --skip-completed
-```
+## Postprocessing overlays
 
-Each cell is one `(train_file, seed)` pair, which maps directly to a Slurm
-array task on AMAREL.
-
-Saved Morse-set CSVs can be reopened as overlay-ready matplotlib figures:
+CMGDB writes `MG/morse_sets` via `CMGDB.SaveMorseSets`. Figure-specific
+postprocessing should consume that CSV instead of recomputing CMGDB:
 
 ```python
 from latentdynamics.viz import plot_morse_sets_from_csv
@@ -138,26 +205,45 @@ plot.ax.scatter([0.0], [plot.label_to_y[0]], color="black", zorder=10)
 plot.fig.savefig("output/coral/seed_0/MG/morse_sets_overlay.png")
 ```
 
-This keeps CMGDB computation, saved artifacts, and figure postprocessing as
-separate steps.
-
-Figure-specific postprocessing belongs after `render`, using saved artifacts
-only. Default renderers should produce plain Morse graphs and Morse-set plots;
-paper or slide figures can then add overlays, crops, axis limits, trajectories,
-labels, or annotations through explicit render hooks or small notebooks without
-touching checkpoints or rerunning CMGDB.
+The default plotter only draws Morse sets / Morse graphs. Trajectory overlays,
+crops, axis limits, and label placement (e.g. the `latent_trajectory.png`
+figure of §5.3.1) belong in render hooks or small notebooks that read saved
+artifacts; do not bake them into training or CMGDB.
 
 ## Adding a new experiment
 
-1. Drop a YAML in `configs/<name>.yaml` (deep-merged with
-   `configs/_shared/defaults.yaml`).
+1. Drop a YAML in `configs/<name>.yaml`. It is deep-merged with
+   `configs/_shared/defaults.yaml`.
 2. Register it in `reproduce_paper.py::EXPERIMENTS`.
-3. Add or update a figure contract under `docs/figure_contracts/` that records
-   the archive source, known gaps, expected Morse graph, and validation checks.
-4. Cover the routing/config behavior in `tests/test_experiments.py` and add
+3. Add a `docs/figure_contracts/<name>.md` recording archive source, known
+   gaps, expected Morse graph (number of nodes / minimal nodes / Conley
+   indices), and the verification recipe.
+4. Cover the routing/config behaviour in `tests/test_experiments.py` and add
    focused tests for any new system, metric, or renderer.
 
-## CMGDB pin
+## Legacy data import
 
-`pyproject.toml` pins `CMGDB==1.3.2`; newer versions may break the `BoxMap` /
-`ComputeConleyMorseGraph` contract.
+```bash
+python scripts/import_legacy_data.py --dry-run
+python scripts/import_legacy_data.py
+```
+
+Checks Brittany's coral / Leslie data against `code/data`, converts Marcio's
+headerless `archive/marcio/scripts/train_data.csv` to the active
+Chafee-Infante CSV format, backs up replaced files under
+`data/_pre_import_backup/<timestamp>/`, and writes
+`data/legacy_import_manifest.json`. Marcio kept no separate test split, so the
+imported `test.csv` mirrors the training pairs and is flagged as
+`test_mirror_of_train` in metadata.
+
+## Pins and caveats
+
+- `pyproject.toml` pins `CMGDB==1.3.2`; newer releases may break the
+  `BoxMap` / `ComputeConleyMorseGraph` contract.
+- Brittany's three-file pickled `nn.Module` checkpoints can be loaded with
+  `latentdynamics.training.load_legacy_checkpoint` without rewriting them;
+  `scripts/migrate_legacy_checkpoints.py` produces a `state_dict` + sidecar
+  copy when needed.
+- Code identifiers may keep legacy names (`leslie_contraction`); paper-facing
+  docs describe that example as the **10D Embedded Leslie** map (a 2D
+  Leslie/Ricker map embedded in 10D with eight contracting tail coordinates).
