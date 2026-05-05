@@ -87,15 +87,17 @@ def _legacy_module_to_state_dict(
     """Translate ``encoder.linear_i.{w,b}`` keys to ``encoder.net.{2*i}.{w,b}``."""
     src = legacy_module.state_dict()
     out: dict[str, torch.Tensor] = {}
-    inner_key = legacy_root  # inside the legacy nn.Module, the Sequential lives at attr ``legacy_root``
+    inner_key = (
+        legacy_root  # inside the legacy nn.Module, the Sequential lives at attr ``legacy_root``
+    )
     prefix = f"{inner_key}."
     for key, tensor in src.items():
         if not key.startswith(prefix):
             continue
-        suffix = key[len(prefix):]
+        suffix = key[len(prefix) :]
         if not suffix.startswith("linear_"):
             continue
-        idx_str, _, param_name = suffix[len("linear_"):].partition(".")
+        idx_str, _, param_name = suffix[len("linear_") :].partition(".")
         out[f"{new_root}.net.{2 * int(idx_str)}.{param_name}"] = tensor
     return out
 
@@ -117,9 +119,7 @@ def load_legacy_checkpoint(
     """
     in_path = Path(in_dir)
     if not has_legacy_checkpoint(in_path):
-        raise FileNotFoundError(
-            f"missing one or more legacy files {LEGACY_FILES} in {in_path}"
-        )
+        raise FileNotFoundError(f"missing one or more legacy files {LEGACY_FILES} in {in_path}")
 
     default_root = Path(__file__).resolve().parents[3] / "legacy"
     candidate = Path(legacy_root) if legacy_root is not None else default_root

@@ -1,28 +1,39 @@
-# Leslie 3D success case (paper). NOTE: no on-disk artefacts; running this
-# config requires full retraining via ``--stages all``.
+# Patrick's non-spurious Leslie 3D paper case. The archived paper artifacts live
+# under archive/patrick/Leslie3D; the original training script/raw CSVs are not
+# archived, so this config is still the fresh-run reproduction path.
 system:
   name: leslie3d
   params:
-    th1: 28.9
-    th2: 29.8
-    th3: 22.0
+    th1: 19.6
+    th2: 23.68
+    th3: 23.68
     survival_p1: 0.7
     survival_p2: 0.7
 
 arch:
-  num_layers: 3
-  hidden_shape: 32
+  # From archive/patrick/Leslie3D/models/*.pt.
+  num_layers: 2
+  hidden_shape: 64
   high_dims: 3
   low_dims: 2
 
 training:
-  loss_weights: [10, 10, 1]
+  # Recovered from archived train/test loss logs:
+  # total = 100*reconstruction + 10*prediction + 20*semiconjugacy.
+  loss_weights: [100, 10, 20]
 
 data:
   sampling_method: uniform
-  n_samples_train: 10000
-  n_samples_test: 5000
+  # Paper run used D(20, 10000); archived scaler size implies an 80/20 split.
+  n_samples_train: 8000
+  n_samples_test: 2000
   n_iterations: 20
+
+cmgdb:
+  # From archive/patrick/Leslie3D/mg_params_log.txt.
+  subdiv_init: 25
+  subdiv_min: 28
+  subdiv_max: 29
 
 paths:
   data_dir: data/leslie3d_success

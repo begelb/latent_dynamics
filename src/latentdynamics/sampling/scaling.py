@@ -19,9 +19,7 @@ class IdentityScaler:
     def transform(self, x: NDArray[np.float64]) -> NDArray[np.float64]:
         arr = np.asarray(x, dtype=np.float64)
         if arr.shape[-1] != self.n_features_in_:
-            raise ValueError(
-                f"expected {self.n_features_in_} features, got {arr.shape[-1]}"
-            )
+            raise ValueError(f"expected {self.n_features_in_} features, got {arr.shape[-1]}")
         return arr.copy()
 
     def inverse_transform(self, x: NDArray[np.float64]) -> NDArray[np.float64]:

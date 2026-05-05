@@ -30,7 +30,7 @@ Replay the working sizes:
 
 ```bash
 python pipeline.py --config configs/coral_adaptive.yaml --stages render,metrics
-# Will fail on the 400 and 500 sizes (empty artefacts) but succeed on 100, 200, 300.
+# Will fail on the 400 and 500 sizes (empty artifacts) but succeed on 100, 200, 300.
 ```
 
 Full fresh sweep on AMAREL (5 sizes × 30 seeds = 150 cells):
@@ -58,7 +58,7 @@ Identical to `coral_basic.md`, plus:
 | data.n_samples_train        | 500 (base)              | 500                                              |
 | data.train_files            | 5 explicit files        | `train_500_{100,200,300,400,500}_adaptive`       |
 
-The training, CMGDB, and per-fixed-point membership behaviour all derive from `coral_basic.md`.
+The training, CMGDB, and per-fixed-point membership behavior all derive from `coral_basic.md`.
 
 ## Verification
 

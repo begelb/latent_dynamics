@@ -105,13 +105,13 @@ def plot_latent_trajectory(
                     "",
                     xy=(traj[i + 1, 0], traj[i + 1, 1]),
                     xytext=(traj[i, 0], traj[i, 1]),
-                    arrowprops=dict(
-                        arrowstyle="-|>",
-                        color="black",
-                        lw=0.8,
-                        alpha=arrow_alpha,
-                        mutation_scale=10,
-                    ),
+                    arrowprops={
+                        "arrowstyle": "-|>",
+                        "color": "black",
+                        "lw": 0.8,
+                        "alpha": arrow_alpha,
+                        "mutation_scale": 10,
+                    },
                     zorder=100,
                 )
 

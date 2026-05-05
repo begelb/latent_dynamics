@@ -1,5 +1,6 @@
-# Leslie 2D contraction case (paper). NOTE: no on-disk artefacts; running this
-# config requires full retraining via ``--stages all``.
+# Patrick's 10D Embedded Leslie paper case. The archived paper artifacts live
+# under archive/patrick/Leslie10D; the original training script/raw CSVs are not
+# archived, so this config is still the fresh-run reproduction path.
 system:
   name: leslie_contraction
   params:
@@ -15,19 +16,22 @@ arch:
   low_dims: 2
 
 training:
-  loss_weights: [10, 10, 1]
+  # Recovered from archived train/test loss logs:
+  # total = 100*reconstruction + 10*prediction + 20*semiconjugacy.
+  loss_weights: [100, 10, 20]
 
 data:
   sampling_method: uniform
-  n_samples_train: 10000
-  n_samples_test: 5000
+  # Paper run used D(20, 10000); archived scaler size implies an 80/20 split.
+  n_samples_train: 8000
+  n_samples_test: 2000
   n_iterations: 20
 
 cmgdb:
-  # Paper Sec. 1.83 reports smin=28, smax=29.
-  subdiv_init: 6
-  subdiv_min: 28
-  subdiv_max: 29
+  # From archive/patrick/Leslie10D/mg_params_log.txt.
+  subdiv_init: 25
+  subdiv_min: 27
+  subdiv_max: 28
 
 paths:
   data_dir: data/leslie_contraction

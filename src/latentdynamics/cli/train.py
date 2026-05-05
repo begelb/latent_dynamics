@@ -104,8 +104,6 @@ def run(
 
     final = {k: history.train[k][-1] if history.train[k] else float("nan") for k in history.train}
     losses_path = output_root / "final_losses.txt"
-    losses_path.write_text(
-        "\n".join(f"{k}: {v:.6e}" for k, v in final.items()) + "\n"
-    )
+    losses_path.write_text("\n".join(f"{k}: {v:.6e}" for k, v in final.items()) + "\n")
     if verbose:
         print(f"checkpoint and logs written to {output_root}")

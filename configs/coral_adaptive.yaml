@@ -1,7 +1,7 @@
 # Coral adaptive-sampling sweep (paper). 30 seeds x M in {100, 200, 300, 400, 500}
 # adaptive samples on top of a 500-point base.
 #
-# Replay-only config; preserved Brittany artefacts under
+# Replay-only config; preserved Brittany artifacts under
 # output/coral/train_500_<M>_adaptive/seed_<k>/. Sizes 400 and 500 are
 # only partially populated. For fresh runs use
 # configs/scratch/coral_adaptive.yaml.

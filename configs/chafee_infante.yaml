@@ -1,5 +1,6 @@
-# Chafee-Infante PDE (paper). NOTE: no on-disk artefacts; running this config
-# requires full retraining via ``--stages all``. Uses additive loss mode (the
+# Marcio's Chafee-Infante PDE paper case. The archived source implementation,
+# train data, weights, and paper Morse PDFs live under archive/marcio/scripts/.
+# This config is the fresh-run reproduction path. Uses additive loss mode (the
 # semiconjugacy term is disabled for the PDE pipeline).
 system:
   name: chafee_infante

@@ -1,9 +1,9 @@
 """Reproduce all paper figures end-to-end via the unified config pipeline.
 
 Each entry in :data:`EXPERIMENTS` maps a paper-figure label to the YAML config
-that drives :func:`latentdynamics.cli.pipeline.run`. Default behaviour is to
+that drives :func:`latentdynamics.cli.pipeline.run`. Default behavior is to
 re-render figures and recompute paper metrics from the **saved** Morse and
-checkpoint artefacts on disk - no CMGDB or training is invoked. To retrain,
+checkpoint artifacts on disk - no CMGDB or training is invoked. To retrain,
 pass ``--stages all``.
 
 Usage:
@@ -26,19 +26,23 @@ from latentdynamics.config import load_config
 CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
 
 EXPERIMENTS: dict[str, str] = {
-    "fig_leslie_contraction":   "leslie_contraction.yaml",
-    "fig_leslie3d_spurious":    "leslie3d_spurious.yaml",
-    "fig_leslie3d_success":     "leslie3d_success.yaml",
-    "fig_chafee_infante":       "chafee_infante.yaml",
-    "fig_coral_basic":          "coral_basic.yaml",
-    "fig_coral_data_scaling":   "coral_data_scaling.yaml",
-    "fig_coral_adaptive":       "coral_adaptive.yaml",
+    "fig_leslie_contraction": "leslie_contraction.yaml",
+    "fig_leslie3d_spurious": "leslie3d_spurious.yaml",
+    "fig_leslie3d_success": "leslie3d_success.yaml",
+    "fig_chafee_infante": "chafee_infante.yaml",
+    "fig_coral_basic": "coral_basic.yaml",
+    "fig_coral_data_scaling": "coral_data_scaling.yaml",
+    "fig_coral_adaptive": "coral_adaptive.yaml",
 }
 
 
 def _summarise_results(results: list[dict]) -> str:
-    rendered = sum(1 for r in results if isinstance(r.get("render"), dict) and "skipped" not in r["render"])
-    skipped = sum(1 for r in results if isinstance(r.get("render"), dict) and "skipped" in r["render"])
+    rendered = sum(
+        1 for r in results if isinstance(r.get("render"), dict) and "skipped" not in r["render"]
+    )
+    skipped = sum(
+        1 for r in results if isinstance(r.get("render"), dict) and "skipped" in r["render"]
+    )
     metric_errors = sum(
         1 for r in results if isinstance(r.get("metrics"), dict) and "error" in r["metrics"]
     )
@@ -46,7 +50,7 @@ def _summarise_results(results: list[dict]) -> str:
     if rendered:
         parts.append(f"{rendered} rendered")
     if skipped:
-        parts.append(f"{skipped} skipped (no artefacts)")
+        parts.append(f"{skipped} skipped (no artifacts)")
     if metric_errors:
         parts.append(f"{metric_errors} metric error(s)")
     return ", ".join(parts)
@@ -68,10 +72,7 @@ def _run_one(
 
     cfg = load_config(cfg_path)
     if not cfg.paths.output_dir.exists() and "data" not in stages:
-        return (
-            f"no on-disk artefacts at {cfg.paths.output_dir}; "
-            f"rerun with --stages all to retrain"
-        )
+        return f"no on-disk artifacts at {cfg.paths.output_dir}; rerun with --stages all to retrain"
 
     results = pipeline.run(
         cfg,
@@ -85,7 +86,9 @@ def _run_one(
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument("--only", choices=list(EXPERIMENTS), help="Run a single experiment by name")
     parser.add_argument(
         "--stages",
@@ -112,7 +115,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
-    stages = list(pipeline.ALL_STAGES) if args.stages == "all" else [s for s in args.stages.split(",") if s]
+    stages = (
+        list(pipeline.ALL_STAGES)
+        if args.stages == "all"
+        else [s for s in args.stages.split(",") if s]
+    )
     targets = [args.only] if args.only else list(EXPERIMENTS)
 
     failures: list[str] = []
@@ -136,7 +143,7 @@ def main(argv: list[str] | None = None) -> int:
             failures.append(name)
             continue
         elapsed = time.perf_counter() - t0
-        if status.startswith("no on-disk artefacts") or status.startswith("missing config"):
+        if status.startswith("no on-disk artifacts") or status.startswith("missing config"):
             print(f"[SKIP] {name}: {status}")
             skipped.append((name, status))
         else:

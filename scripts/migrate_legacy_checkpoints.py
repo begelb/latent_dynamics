@@ -34,17 +34,19 @@ def _enable_legacy_imports() -> None:
         sys.path.insert(0, str(LEGACY_SRC))
 
 
-def _translate_keys(legacy_state: dict[str, torch.Tensor], legacy_root: str, new_root: str) -> dict[str, torch.Tensor]:
+def _translate_keys(
+    legacy_state: dict[str, torch.Tensor], legacy_root: str, new_root: str
+) -> dict[str, torch.Tensor]:
     """Convert ``encoder.linear_i.{weight,bias}`` to ``encoder.net.{2*i}.{weight,bias}``."""
     out: dict[str, torch.Tensor] = {}
     prefix = f"{legacy_root}."
     for key, tensor in legacy_state.items():
         if not key.startswith(prefix):
             continue
-        suffix = key[len(prefix):]
+        suffix = key[len(prefix) :]
         if not suffix.startswith("linear_"):
             continue
-        idx_str, _, param_name = suffix[len("linear_"):].partition(".")
+        idx_str, _, param_name = suffix[len("linear_") :].partition(".")
         idx = int(idx_str)
         out[f"{new_root}.net.{2 * idx}.{param_name}"] = tensor
     return out

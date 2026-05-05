@@ -1,13 +1,13 @@
 """Render Morse graphs and Morse sets, either from a CMGDB object or from saved files.
 
-The pipeline writes every Morse computation to two persistent artefacts:
+The pipeline writes every Morse computation to two persistent artifacts:
 
 - ``morse_graph``   : graphviz DOT file describing the Hasse diagram
 - ``morse_sets``    : CSV file of boxes ``(lx, ly, ux, uy, label)`` for 2-D
                       latents, or intervals ``(a, b, label)`` for 1-D
 
 The :func:`render_*_from_dot` and :func:`render_*_from_csv` helpers reload
-those artefacts and re-emit PDF/PNG plots without invoking CMGDB.
+those artifacts and re-emit PDF/PNG plots without invoking CMGDB.
 """
 
 from __future__ import annotations
@@ -113,7 +113,7 @@ def render_morse_sets(
     return rendered
 
 
-def save_morse_graph_artefacts(
+def save_morse_graph_artifacts(
     morse_graph,
     out_dir: str | Path,
     *,
@@ -149,7 +149,7 @@ def render_morse_outputs(
     """Render Hasse diagram + Morse-set plot in PDF and PNG, plus the CSV.
 
     Kept for callers that want one-shot compute+render. The pipeline's morse
-    stage now uses :func:`save_morse_graph_artefacts` to keep computation and
+    stage now uses :func:`save_morse_graph_artifacts` to keep computation and
     rendering decoupled.
     """
     out = Path(out_dir)
@@ -188,7 +188,7 @@ def render_morse_graph_from_dot(
     """Read a ``morse_graph`` DOT file and emit it as PDF/PNG via graphviz.
 
     If ``palette`` is given, the node ``fillcolor`` attributes are overridden
-    by ``palette[label % len(palette)]``; otherwise the file's own colours
+    by ``palette[label % len(palette)]``; otherwise the file's own colors
     are preserved.
     """
     dot_path = Path(dot_path)

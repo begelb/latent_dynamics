@@ -90,7 +90,7 @@ class TestRedCoral:
         ls = 2.94 / (adult + 520.0 * math.exp(-0.14 * adult))
         recruits = ls * float(np.dot(x, m.b))
         survivors = (x[:-1] * m.survival_rates).tolist()
-        expected = np.array([recruits] + survivors)
+        expected = np.array([recruits, *survivors])
 
         np.testing.assert_allclose(m.step(x), expected, rtol=1e-12)
 

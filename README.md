@@ -25,13 +25,37 @@ code/
 │   └── cli/                       # entry-points used by /scripts
 ├── configs/                       # one YAML per experiment + _shared/defaults
 ├── scripts/                       # thin CLI wrappers
-└── tests/                         # 120+ pytest cases
+└── tests/                         # 140+ pytest cases
 ```
 
 The archived single-script sources are preserved under `code/legacy/` and
-`../archive/`. Do not delete or rewrite saved `data/` or `output/` artefacts
+`../archive/`. Do not delete or rewrite saved `data/` or `output/` artifacts
 while validating figure parity; the new pipeline can render and compute
 metrics from them directly.
+
+## Reproduction stance
+
+The package sits one abstraction level above the archived scripts. Each YAML
+config should be able to describe one historical paper run as precisely as the
+archive allows, while still using shared stages for data generation, scaling,
+training, CMGDB, rendering, and metrics. Code identifiers may keep legacy names
+such as `leslie_contraction`, but paper-facing docs should describe that
+example as the 10D Embedded Leslie map: a 2D Leslie/Ricker map embedded in
+10D with eight contracting tail coordinates.
+
+The expensive structures are source artifacts: raw data, scalers, trained
+checkpoints, CMGDB DOT/CSV outputs, Morse-set CSVs, and `mg_params_log.txt`.
+Preserved paper configs should set `paths.read_only: true`; derived renders,
+metrics, diagnostics, and manifests are written to `output/replay/...`.
+Retraining or recomputing CMGDB is an explicit operation for filling gaps or
+testing robustness, not the default way to inspect a paper figure.
+
+Fresh training runs are not guaranteed to recover the same Morse graph on every
+seed or machine. A new run becomes scientifically usable only after its
+diagnostics, CMGDB output, and paper-specific bounds/tolerance checks pass. In
+the language of the manuscript, the theory gives a conditional guarantee: when
+the learned latent dynamics and verified bounds satisfy the hypotheses, the
+reported combinatorial structure is guaranteed for the original dynamics.
 
 ## Quick start
 
@@ -44,7 +68,7 @@ invoke directly:
 ../.venv/bin/pytest -m "not slow"   # ~2 s
 ../.venv/bin/pytest                  # full suite
 
-# Re-render one paper figure from saved Morse/checkpoint artefacts:
+# Re-render one paper figure from saved Morse/checkpoint artifacts:
 ../.venv/bin/python reproduce_paper.py --only fig_coral_basic --max-seeds 1
 
 # For configs marked paths.read_only=true, derived outputs go to output/replay/<config-stem>/.
@@ -66,7 +90,7 @@ Each paper experiment is a config-driven sequence:
 
 1. `make_data.run(cfg)` — generate missing train/test trajectory CSVs and
    metadata from the chosen system. Existing CSV+metadata pairs are treated as
-   source artefacts and are not overwritten. Adaptive coral datasets are
+   source artifacts and are not overwritten. Adaptive coral datasets are
    validated as precomputed inputs.
 2. `scale_data.run(cfg, train_file)` — fit either a MinMax scaler or an
    identity scaler (`data.scaling: none`) and persist it as joblib.
@@ -83,16 +107,16 @@ Each paper experiment is a config-driven sequence:
    or use fixed `cmgdb.lower_bounds` / `cmgdb.upper_bounds`, then compute the
    Conley-Morse graph.
 6. `render_stage(cfg)` — re-render Morse graph/set plots and experiment extras
-   from saved DOT/CSV/checkpoint artefacts only; it does not invoke CMGDB.
+   from saved DOT/CSV/checkpoint artifacts only; it does not invoke CMGDB.
 7. Per-experiment metric (`unique_membership` for coral, tau-bar tolerance
    for the Leslie failure case, etc.).
 
 Preserved paper configs set `paths.read_only: true`. In that mode `data`,
 `scale`, `train`, and `morse` are blocked unless `--force-overwrite` is passed.
 Derived stages (`diagnose`, `render`, `metrics`, and `run_manifest.json`) read
-the source artefacts but write to `output/replay/<experiment_name>/...` by
+the source artifacts but write to `output/replay/<experiment_name>/...` by
 default, or to a custom `--replay-root`. This makes replay deterministic
-without dirtying tracked `data/` or `output/` artefacts.
+without dirtying tracked `data/` or `output/` artifacts.
 
 Long runs can be split into independent cells:
 
@@ -114,15 +138,23 @@ plot.ax.scatter([0.0], [plot.label_to_y[0]], color="black", zorder=10)
 plot.fig.savefig("output/coral/seed_0/MG/morse_sets_overlay.png")
 ```
 
-This keeps CMGDB computation, saved artefacts, and figure postprocessing as
+This keeps CMGDB computation, saved artifacts, and figure postprocessing as
 separate steps.
+
+Figure-specific postprocessing belongs after `render`, using saved artifacts
+only. Default renderers should produce plain Morse graphs and Morse-set plots;
+paper or slide figures can then add overlays, crops, axis limits, trajectories,
+labels, or annotations through explicit render hooks or small notebooks without
+touching checkpoints or rerunning CMGDB.
 
 ## Adding a new experiment
 
 1. Drop a YAML in `configs/<name>.yaml` (deep-merged with
    `configs/_shared/defaults.yaml`).
 2. Register it in `reproduce_paper.py::EXPERIMENTS`.
-3. Cover the routing/config behavior in `tests/test_experiments.py` and add
+3. Add or update a figure contract under `docs/figure_contracts/` that records
+   the archive source, known gaps, expected Morse graph, and validation checks.
+4. Cover the routing/config behavior in `tests/test_experiments.py` and add
    focused tests for any new system, metric, or renderer.
 
 ## CMGDB pin

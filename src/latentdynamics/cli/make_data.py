@@ -53,8 +53,7 @@ def _validate_precomputed(labels: list[str], data_dir: Path, *, verbose: bool) -
             missing.append(f"{csv_path} + {meta_path}")
     if missing:
         raise FileNotFoundError(
-            "adaptive sampling is precomputed; missing saved dataset(s): "
-            + "; ".join(missing)
+            "adaptive sampling is precomputed; missing saved dataset(s): " + "; ".join(missing)
         )
     if verbose:
         print(f"using {len(labels)} precomputed dataset(s) under {data_dir}")

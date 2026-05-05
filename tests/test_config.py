@@ -91,7 +91,9 @@ class TestSchema:
 
     def test_extra_fields_forbidden(self):
         with pytest.raises(ValidationError):
-            ArchConfig.model_validate({"num_layers": 2, "hidden_shape": 16, "high_dims": 3, "low_dims": 1, "extra": True})
+            ArchConfig.model_validate(
+                {"num_layers": 2, "hidden_shape": 16, "high_dims": 3, "low_dims": 1, "extra": True}
+            )
 
     def test_component_arch_resolves_hidden_shapes(self):
         cfg = ArchConfig(
@@ -159,10 +161,7 @@ class TestLoader:
         shared = tmp_path / "_shared"
         shared.mkdir()
         (shared / "defaults.yaml").write_text(
-            "training:\n"
-            "  epochs: 5000\n"
-            "  patience: 200\n"
-            "  loss_mode: weighted\n"
+            "training:\n  epochs: 5000\n  patience: 200\n  loss_mode: weighted\n"
         )
         cfg_path = tmp_path / "x.yaml"
         cfg_path.write_text(

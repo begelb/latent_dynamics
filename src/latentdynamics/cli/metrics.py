@@ -1,4 +1,4 @@
-"""Compute paper-specific metrics from saved artefacts.
+"""Compute paper-specific metrics from saved artifacts.
 
 Per-system dispatch on ``cfg.system.name``:
 
@@ -43,7 +43,7 @@ def metrics_stage(
 ) -> dict:
     """Dispatch to a system-specific metric; persist the result.
 
-    Reads model checkpoint, scaler, and Morse artefacts from the source paths
+    Reads model checkpoint, scaler, and Morse artifacts from the source paths
     in ``seed_cfg``/``cfg``. ``metrics.json`` is written to ``out_dir`` when
     provided (replay-routing) or to ``seed_cfg.paths.output_dir`` otherwise.
     The diagnose/Morse cross-check reads ``diagnose.json`` from ``out_dir``
@@ -73,12 +73,14 @@ def metrics_stage(
 
 
 def _diagnose_morse_cross_check(
-    seed_cfg: ExperimentConfig, *, diagnose_dir: Path | None = None,
+    seed_cfg: ExperimentConfig,
+    *,
+    diagnose_dir: Path | None = None,
 ) -> dict | None:
     """Compare diagnose.json's n_distinct_limit_points to the saved Morse Hasse.
 
     Returns a dict describing agreement / disagreement, or None when either
-    artefact is missing. Disagreement flags two regimes:
+    artifact is missing. Disagreement flags two regimes:
 
     - ``morse_underresolves``: dynamics has multiple limit points (>1) but
       CMGDB returned exactly one Morse set. Suggests a collapsed-latent
@@ -175,7 +177,9 @@ def _coral_metrics(seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_f
     return {"labels": labels, "metrics": metrics}
 
 
-def _leslie3d_metrics(seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_file: str) -> dict:
+def _leslie3d_metrics(
+    seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_file: str
+) -> dict:
     morse_sets_path = seed_cfg.paths.morse_dir / "morse_sets"
     if not morse_sets_path.exists():
         return {"error": "missing morse_sets file"}
@@ -203,7 +207,10 @@ def _leslie3d_metrics(seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, trai
 
     system = build_system(cfg.system.name, cfg.system.params)
     if not isinstance(system, DiscreteMap):
-        return {"tau_bar": float(tau_bar), "warning": "system is not a DiscreteMap; skipped semiconjugacy error"}
+        return {
+            "tau_bar": float(tau_bar),
+            "warning": "system is not a DiscreteMap; skipped semiconjugacy error",
+        }
 
     rng = np.random.default_rng(0)
     pts = rng.uniform(system.lower_bounds, system.upper_bounds, size=(256, system.dim))

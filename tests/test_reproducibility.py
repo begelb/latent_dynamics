@@ -80,7 +80,9 @@ class TestReproducibility:
 
         m_a, _ = load_checkpoint(cfg_a.paths.output_dir / "models")
         m_b, _ = load_checkpoint(cfg_b.paths.output_dir / "models")
-        for (k1, v1), (k2, v2) in zip(m_a.state_dict().items(), m_b.state_dict().items(), strict=True):
+        for (k1, v1), (k2, v2) in zip(
+            m_a.state_dict().items(), m_b.state_dict().items(), strict=True
+        ):
             assert k1 == k2
             torch.testing.assert_close(v1, v2)
 
@@ -97,6 +99,8 @@ class TestReproducibility:
         m_b, _ = load_checkpoint(cfg_b.paths.output_dir / "models")
         any_diff = any(
             not torch.allclose(va, vb)
-            for (_, va), (_, vb) in zip(m_a.state_dict().items(), m_b.state_dict().items(), strict=True)
+            for (_, va), (_, vb) in zip(
+                m_a.state_dict().items(), m_b.state_dict().items(), strict=True
+            )
         )
         assert any_diff, "different seeds produced identical state_dicts"

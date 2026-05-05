@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
+from collections.abc import Sequence
 from dataclasses import dataclass
-from typing import Sequence
 
 import torch
 from torch import Tensor, nn
@@ -59,11 +59,7 @@ class WeightedReconstructionLoss(_ReconstructionLossBase):
 
     def forward(self, fp: ForwardPass) -> LossBreakdown:
         loss_ae1, loss_ae2, loss_dyn = self._components(fp)
-        total = (
-            self.weights[0] * loss_ae1
-            + self.weights[1] * loss_ae2
-            + self.weights[2] * loss_dyn
-        )
+        total = self.weights[0] * loss_ae1 + self.weights[1] * loss_ae2 + self.weights[2] * loss_dyn
         return LossBreakdown(loss_ae1=loss_ae1, loss_ae2=loss_ae2, loss_dyn=loss_dyn, total=total)
 
 

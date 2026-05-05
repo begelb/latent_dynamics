@@ -138,9 +138,7 @@ def orthogonal_distance(point: tuple[float, float], edge: Edge) -> float:
     return float("inf")
 
 
-def distance_point_to_boundary(
-    point: tuple[float, float], boundary_edges: set[Edge]
-) -> float:
+def distance_point_to_boundary(point: tuple[float, float], boundary_edges: set[Edge]) -> float:
     """Min orthogonal distance from ``point`` to any boundary edge that brackets it."""
     best = float("inf")
     for edge in boundary_edges:

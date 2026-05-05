@@ -7,7 +7,6 @@ import math
 import numpy as np
 
 from latentdynamics.analysis import (
-    Box,
     Edge,
     MorseSet,
     compute_min_boundary_separation,
@@ -108,8 +107,10 @@ class TestTauBar:
         path = tmp_path / "morse_sets"
         _write_morse_sets_csv(path, [[0, 0, 1, 1, 0]])
         m = MorseSet(path, label=0)
+
         # Pull every corner toward the center (0.5, 0.5) by a quarter.
         def inward(verts):
             return 0.75 * verts + 0.25 * np.array([0.5, 0.5])
+
         sep = compute_min_boundary_separation(m, inward)
         assert sep > 0.0

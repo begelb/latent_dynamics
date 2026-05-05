@@ -1,5 +1,5 @@
 # Coral data-scaling sweep (paper). 30 seeds x {100, 200, 500, 1000, 2000, 5000}.
-# Replay-only config; preserved Brittany artefacts under
+# Replay-only config; preserved Brittany artifacts under
 # output/coral/train_<N>/seed_<k>/. For fresh runs use
 # configs/scratch/coral_data_scaling.yaml (writes to output/scratch/coral_data_scaling/).
 system:

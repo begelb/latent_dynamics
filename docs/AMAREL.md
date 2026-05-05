@@ -26,8 +26,8 @@ Stages are intentionally explicit:
 - `train`: writes checkpoint, architecture sidecar, history, and final losses.
 - `morse`: runs CMGDB and writes only `MG/morse_graph`, `MG/morse_sets`, and
   `mg_params_log.txt`.
-- `render`: reads saved Morse artefacts and writes PDF/PNG figures.
-- `metrics`: reads saved checkpoints/Morse artefacts and writes `metrics.json`.
+- `render`: reads saved Morse artifacts and writes PDF/PNG figures.
+- `metrics`: reads saved checkpoints/Morse artifacts and writes `metrics.json`.
 
 Do not use full CMGDB as a smoke test. Lightweight checks should run config
 loading, cell planning, data/scale on tiny temporary data, and short training
@@ -65,7 +65,7 @@ CONFIG=configs/chafee_infante.yaml STAGES=train,morse MAX_SEEDS=1 EXPECTED_CELLS
 ```
 
 The template always passes `--skip-completed`, so rerunning the same array
-resumes from saved artefacts instead of repeating completed stages. Increase
+resumes from saved artifacts instead of repeating completed stages. Increase
 `--time`, `--mem`, or add AMAREL-specific partition/GPU directives in
 `slurm/pipeline_array.sbatch` as needed.
 
@@ -80,5 +80,5 @@ cd code
 ```
 
 These commands do not run CMGDB. Use `--stages render,metrics` to test saved
-artefact readers, and use `--stages all` only when retraining/recomputing is
+artifact readers, and use `--stages all` only when retraining/recomputing is
 intentional.

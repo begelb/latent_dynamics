@@ -5,7 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 import numpy as np
-from numpy.typing import ArrayLike, NDArray
+from numpy.typing import NDArray
 
 from .base import ContinuousFlow
 
@@ -28,7 +28,7 @@ class ChafeeInfante(ContinuousFlow):
         self.tau = float(tau)
         self.amplitude = float(amplitude)
         self.decay = float(decay)
-        self._L_eig = -np.arange(1, self.N + 1, dtype=np.float64) ** 2
+        self._L_eig = -(np.arange(1, self.N + 1, dtype=np.float64) ** 2)
         self._set_bounds(
             lower=-self.amplitude * np.exp(-self.decay * np.arange(self.N)),
             upper=self.amplitude * np.exp(-self.decay * np.arange(self.N)),

@@ -51,7 +51,7 @@ def _json_default(obj: Any) -> Any:
         return obj.item()
     if isinstance(obj, Path):
         return str(obj)
-    raise TypeError(f"object of type {type(obj).__name__} is not JSON serialisable")
+    raise TypeError(f"object of type {type(obj).__name__} is not JSON serializable")
 
 
 def sample_trajectories(

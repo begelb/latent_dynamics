@@ -1,7 +1,7 @@
 """Compute the Conley-Morse graph of a trained latent dynamics map and persist it.
 
-Only computation + serialisation lives here; rendering is the ``render`` stage.
-The two artefacts produced are:
+Only computation + serialization lives here; rendering is the ``render`` stage.
+The two artifacts produced are:
 
 - ``MG/morse_graph`` : graphviz DOT (via ``CMGDB.PlotMorseGraph(...).save``)
 - ``MG/morse_sets``  : box CSV (via ``CMGDB.SaveMorseSets``)
@@ -20,7 +20,7 @@ from ..analysis.morse import LatentBounds, compute_morse_graph, infer_latent_bou
 from ..config import ExperimentConfig
 from ..sampling import load_scaler
 from ..training import load_checkpoint
-from ..viz import save_morse_graph_artefacts
+from ..viz import save_morse_graph_artifacts
 
 
 def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
@@ -37,7 +37,7 @@ def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
     return np.vstack(pieces)
 
 
-def _morse_artefacts_present(morse_dir) -> bool:
+def _morse_artifacts_present(morse_dir) -> bool:
     """Return True if a non-empty Morse DOT or CSV already lives in ``morse_dir``."""
     dot = morse_dir / "morse_graph"
     csv = morse_dir / "morse_sets"
@@ -63,9 +63,9 @@ def run(
         output_root = output_root / output_subdir
 
     morse_dir = output_root / "MG"
-    if _morse_artefacts_present(morse_dir) and not force_overwrite:
+    if _morse_artifacts_present(morse_dir) and not force_overwrite:
         raise RuntimeError(
-            f"prior Morse artefacts present at {morse_dir} "
+            f"prior Morse artifacts present at {morse_dir} "
             f"(morse_graph DOT or morse_sets CSV is non-empty). Refusing to "
             f"overwrite a potentially expensive CMGDB run. "
             f"Pass --force-overwrite to proceed."
@@ -74,8 +74,10 @@ def run(
     model, _arch = load_checkpoint(output_root / "models")
     if device is None:
         device = (
-            torch.device("mps") if torch.backends.mps.is_available()
-            else torch.device("cuda") if torch.cuda.is_available()
+            torch.device("mps")
+            if torch.backends.mps.is_available()
+            else torch.device("cuda")
+            if torch.cuda.is_available()
             else torch.device("cpu")
         )
     elif not isinstance(device, torch.device):
@@ -115,7 +117,7 @@ def run(
     morse_graph, _map_graph = compute_morse_graph(model, bounds, cfg.cmgdb, device=device)
     duration_s = time.perf_counter() - t0
 
-    dot_path, csv_path = save_morse_graph_artefacts(morse_graph, morse_dir)
+    dot_path, csv_path = save_morse_graph_artifacts(morse_graph, morse_dir)
 
     if verbose:
         print(f"morse graph DOT  -> {dot_path}")

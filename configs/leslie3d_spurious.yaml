@@ -33,7 +33,7 @@ paths:
   output_dir: output/Leslie_3D/spurious_attractor_ex
   scaler_dir_override: output/Leslie_3D/28.9_29.8_22.0/scalers
   flat_scaler: true
-  # Preserved paper artefacts; legacy 3-file checkpoint + 94-min CMGDB run.
+  # Preserved paper artifacts; legacy 3-file checkpoint + 94-min CMGDB run.
   # Use --stages render,metrics to replay; --force-overwrite to retrain.
   read_only: true
 

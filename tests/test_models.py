@@ -73,8 +73,10 @@ class TestActivationHonoured:
     def test_relu_present_when_relu_selected(self):
         m = build_autoencoder(_arch(activation="relu"))
         assert any(isinstance(layer, nn.ReLU) for layer in m.encoder.net)
-        assert not any(isinstance(layer, nn.Tanh) and idx < len(m.encoder.net) - 1
-                       for idx, layer in enumerate(m.encoder.net))
+        assert not any(
+            isinstance(layer, nn.Tanh) and idx < len(m.encoder.net) - 1
+            for idx, layer in enumerate(m.encoder.net)
+        )
 
     def test_tanh_present_when_tanh_selected(self):
         m = build_autoencoder(_arch(activation="tanh"))
@@ -82,7 +84,8 @@ class TestActivationHonoured:
         assert not any(isinstance(layer, nn.ReLU) for layer in m.encoder.net)
         # At least one Tanh hidden layer.
         hidden_tanhs = [
-            layer for idx, layer in enumerate(m.encoder.net)
+            layer
+            for idx, layer in enumerate(m.encoder.net)
             if isinstance(layer, nn.Tanh) and idx < len(m.encoder.net) - 1
         ]
         assert len(hidden_tanhs) >= 1

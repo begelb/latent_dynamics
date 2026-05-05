@@ -54,9 +54,7 @@ class TestPopulationHistogram:
                 rows.append([traj, step, traj + step, 2 * (traj + step)])
         header = "x0,x1,y0,y1"
         csv_path = tmp_path / "synthetic.csv"
-        csv_path.write_text(
-            header + "\n" + "\n".join(",".join(map(str, row)) for row in rows)
-        )
+        csv_path.write_text(header + "\n" + "\n".join(",".join(map(str, row)) for row in rows))
         out_path = tmp_path / "hist.pdf"
         result = plot_final_population_histogram(
             csv_path,

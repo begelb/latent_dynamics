@@ -78,9 +78,7 @@ class LeslieModel3D(DiscreteMap):
         s = x_arr[..., 0] + x_arr[..., 1] + x_arr[..., 2]
         decay = np.exp(-0.1 * s)
         head = (
-            self.th1 * x_arr[..., 0]
-            + self.th2 * x_arr[..., 1]
-            + self.th3 * x_arr[..., 2]
+            self.th1 * x_arr[..., 0] + self.th2 * x_arr[..., 1] + self.th3 * x_arr[..., 2]
         ) * decay
         c1 = self.survival_p1 * x_arr[..., 0]
         c2 = self.survival_p2 * x_arr[..., 1]

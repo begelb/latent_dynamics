@@ -1,4 +1,4 @@
-"""Render figures from on-disk artefacts; never invokes CMGDB.
+"""Render figures from on-disk artifacts; never invokes CMGDB.
 
 The new pipeline writes ``MG/morse_graph`` (graphviz DOT) and ``MG/morse_sets``
 (box CSV) during the ``morse`` stage. The render stage reads those files and
@@ -53,14 +53,14 @@ def render_stage(
 ) -> dict[str, list[str]]:
     """Re-render Morse plots from saved DOT/CSV plus any system-specific figures.
 
-    Reads source artefacts from ``cfg.paths.morse_dir`` and
+    Reads source artifacts from ``cfg.paths.morse_dir`` and
     ``cfg.paths.output_dir``. When ``out_dir`` is provided, all rendered
     figures (Morse PDFs/PNGs and system-specific extras) are written under
     ``out_dir`` (``out_dir/MG/...`` and ``out_dir/figures/...``); when it is
     ``None``, output defaults to ``cfg.paths.output_dir``, matching the
-    pre-replay-routing behaviour.
+    pre-replay-routing behavior.
 
-    Returns ``{"skipped": <reason>}`` when the saved Morse artefacts are missing
+    Returns ``{"skipped": <reason>}`` when the saved Morse artifacts are missing
     or empty (e.g. partial uploads), so a multi-seed sweep can keep going.
     """
     morse_dir = _morse_dir_for(cfg)
@@ -84,7 +84,11 @@ def render_stage(
         bounds_upper=bounds_upper,
         out_dir=write_root / "MG",
     )
-    rendered = [str(figures.morse_graph_pdf), str(figures.morse_graph_png), *map(str, figures.morse_sets_paths)]
+    rendered = [
+        str(figures.morse_graph_pdf),
+        str(figures.morse_graph_png),
+        *map(str, figures.morse_sets_paths),
+    ]
 
     extras = render_extras(cfg, train_file=train_file, verbose=verbose, out_dir=write_root)
     rendered.extend(extras)
@@ -105,7 +109,10 @@ def render_extras(
     name = cfg.system.name
     if name == "leslie3d":
         return _render_leslie3d_extras(
-            cfg, train_file=train_file, verbose=verbose, out_dir=out_dir,
+            cfg,
+            train_file=train_file,
+            verbose=verbose,
+            out_dir=out_dir,
         )
     return []
 
@@ -132,6 +139,7 @@ def _make_encode_callable(encoder: torch.nn.Module, scaler, device: torch.device
         scaled = scaler.transform(points)
         x = torch.as_tensor(scaled, dtype=torch.float32, device=device)
         return encoder(x).cpu().numpy()
+
     return _encode
 
 
@@ -140,6 +148,7 @@ def _make_advance_callable(latent_map: torch.nn.Module, device: torch.device):
     def _advance(z: np.ndarray) -> np.ndarray:
         x = torch.as_tensor(z, dtype=torch.float32, device=device)
         return latent_map(x).cpu().numpy()
+
     return _advance
 
 
@@ -150,7 +159,7 @@ def _render_leslie3d_extras(
     verbose: bool,
     out_dir: Path | None = None,
 ) -> list[str]:
-    """Render the latent-trajectory overlay (paper Fig. 1.214) from saved artefacts."""
+    """Render the latent-trajectory overlay (paper Fig. 1.214) from saved artifacts."""
     from ..viz import plot_latent_trajectory
 
     morse_dir = _morse_dir_for(cfg)

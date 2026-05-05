@@ -1,6 +1,9 @@
 # fig_leslie_contraction
 
-Paper Fig. 1.83: 2D Leslie map padded with eight contracting tail dimensions, demonstrating that the encoder discovers the 2D essential dynamics from a 10D phase space.
+Paper Fig. 1.83: the 10D Embedded Leslie example. The first two coordinates
+follow the 2D Leslie/Ricker map, and the remaining eight coordinates contract
+by 0.25, so the relevant invariant dynamics live on the embedded coordinate
+plane.
 
 ## Paper figures
 
@@ -10,16 +13,25 @@ Paper Fig. 1.83: 2D Leslie map padded with eight contracting tail dimensions, de
 
 ## Source of paper run
 
-Patrick, using Brittany's training infrastructure. **The training script and trained checkpoint are NOT present in any archived tree** (searched `archive/brittany`, `archive/marcio`, `archive/old_code`, `archive/old_paper`). The configuration is reconstructed from the paper text and from the `LeslieContraction` class in `latentdynamics.systems.leslie`.
+Patrick. The saved paper run is now archived under `archive/patrick/Leslie10D/`.
+The trained checkpoint and CMGDB artifacts are present; the original training
+script and raw train/test CSVs are still not archived.
 
 - training script:    MISSING (originated with Patrick)
-- CMGDB script:       MISSING; subdiv values `28/29` are quoted from the paper Sec. 1.83
+- checkpoint:         `archive/patrick/Leslie10D/models/{encoder,dynamics,decoder}.pt`
+- CMGDB artifacts:    `archive/patrick/Leslie10D/MG/{morse_graph,morse_sets}`
+- CMGDB params:       `archive/patrick/Leslie10D/mg_params_log.txt`
+- losses:             `archive/patrick/Leslie10D/final_losses.txt`
 - legacy config:      none
 - system definition:  `code/src/latentdynamics/systems/leslie.py:13-53` (`LeslieContraction` class)
 
 ## Status
 
-**scratch-only, with hyperparameter gaps to fill**. Current YAML treats this as a 2D Leslie + 8-coordinate contracting tail (high_dims=10), which matches the paper's description; the exact training-time hyperparameters (epochs, patience, learning rate, batch size) are inherited from `_shared/defaults.yaml` rather than from a recovered Patrick config. Resolution of the source gap is deferred (user will provide Patrick's config later).
+**archived paper artifacts located; training script/raw CSVs still missing**.
+The paper figure content should be sourced from `archive/patrick/Leslie10D/`.
+The YAML now records the recovered architecture, loss weights, dataset split,
+and CMGDB settings, but a fresh retrain is still not the original Patrick run
+until it passes the expected Morse-graph and tolerance checks.
 
 Diagnose on the current retrain: encoded extent `[1.08, 1.32]` (healthy), `latent_map` iteration does not converge after 200 steps. Same near-identity-latent regime as `leslie3d_success`.
 
@@ -29,7 +41,8 @@ Diagnose on the current retrain: encoded extent `[1.08, 1.32]` (healthy), `laten
 python pipeline.py --config configs/leslie_contraction.yaml --stages diagnose --max-seeds 1
 ```
 
-After Patrick's hyperparameters are filled in, retrain on AMAREL:
+Fresh retrain on AMAREL, after any remaining Patrick hyperparameters are filled
+in:
 
 ```bash
 sbatch --array=0-0 --export=ALL,CONFIG=configs/leslie_contraction.yaml,STAGES=train,diagnose,morse,EXPECTED_CELLS=1 \
@@ -44,22 +57,24 @@ Paper figure shows four Morse sets in a chain `3 -> {2, 1, 0}` with Conley indic
 
 | param                       | archive value | YAML value              | source line                                | notes |
 |-----------------------------|---------------|-------------------------|--------------------------------------------|-------|
-| system.params.th1           | MISSING       | 23.5                    | configs/leslie_contraction.yaml:5          | reconstructed from paper Sec. 1.83 |
-| system.params.th2           | MISSING       | 23.5                    |                                            | "  |
-| system.params.survival_p1   | MISSING       | 0.7                     |                                            | "  |
-| system.params.contraction   | MISSING       | 0.25                    |                                            | "  |
-| arch.num_layers             | MISSING       | 4                       | configs/leslie_contraction.yaml:11         | inferred; revisit when Patrick config is recovered |
-| arch.hidden_shape           | MISSING       | 64                      |                                            | inferred |
+| system.params.th1           | 23.5         | 23.5                    | archive/patrick/README.md                  | default `LeslieContraction` |
+| system.params.th2           | 23.5         | 23.5                    | archive/patrick/README.md                  | default `LeslieContraction` |
+| system.params.survival_p1   | 0.7          | 0.7                     | archive/patrick/README.md                  | default `LeslieContraction` |
+| system.params.contraction   | 0.25         | 0.25                    | archive/patrick/README.md                  | tail contraction |
+| arch.num_layers             | 4             | 4                       | archive/patrick/Leslie10D/models/*.pt      | checkpoint has `linear_0` through `linear_4` |
+| arch.hidden_shape           | 64            | 64                      | archive/patrick/Leslie10D/models/*.pt      | tensor shapes imply width 64 |
 | arch.high_dims              | 10            | 10                      |                                            | ✓     |
 | arch.low_dims               | 2             | 2                       |                                            | ✓     |
-| arch.encoder_out_activation | likely tanh   | tanh (default)          |                                            | inherited from defaults |
-| training.loss_weights       | unknown       | [10, 10, 1]             | configs/leslie_contraction.yaml:17         | inherited from sibling Leslie configs |
-| data.n_samples_train        | unknown       | 10000                   | configs/leslie_contraction.yaml:23         | inferred from "10kData" in paper figure name |
-| data.n_iterations           | unknown       | 20                      |                                            | inherited |
-| cmgdb.subdiv_min            | 28            | 28                      | configs/leslie_contraction.yaml:30         | from paper Sec. 1.83 ("smin=28, smax=29") |
-| cmgdb.subdiv_max            | 29            | 29                      |                                            | "  |
-
-Open question: with `low_dims=2` and `subdiv_max=29`, the cubical complex has up to `2^58` boxes, which is computationally infeasible at face value. The paper's `subdiv_min=28, subdiv_max=29` likely refers to a different convention; clarify with Patrick.
+| arch.encoder_out_activation | tanh          | tanh (default)          | archive/patrick/Leslie10D/models/encoder.pt | checkpoint contains final `Tanh` |
+| arch.latent_out_activation  | tanh          | tanh (default)          | archive/patrick/Leslie10D/models/dynamics.pt | checkpoint contains final `Tanh` |
+| arch.decoder_out_activation | sigmoid       | sigmoid (default)       | archive/patrick/Leslie10D/models/decoder.pt | checkpoint contains final `Sigmoid` |
+| training.loss_weights       | [100, 10, 20] | [100, 10, 20]          | archived train/test loss logs              | recovered from total-loss linear relation |
+| data.n_samples_train        | 8000          | 8000                   | scaler size + paper `D(20,10000)`          | 80/20 split reconstructed; raw CSV not archived |
+| data.n_samples_test         | 2000          | 2000                   | scaler size + paper `D(20,10000)`          | raw CSV not archived |
+| data.n_iterations           | 20            | 20                     | paper `D(20,10000)`                        | raw CSV not archived |
+| cmgdb.subdiv_init           | 25            | 25                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
+| cmgdb.subdiv_min            | 27            | 27                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
+| cmgdb.subdiv_max            | 28            | 28                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
 
 ## Verification
 

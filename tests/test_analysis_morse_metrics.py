@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import numpy as np
-import pytest
 import torch
 from sklearn.preprocessing import MinMaxScaler
 
@@ -63,8 +62,8 @@ class TestCheckUniqueMembership:
 
         fixed = {
             "a0": np.array([-1.0]),  # scaled -> 0.0  -> label 0 (sink)
-            "a1": np.array([1.0]),   # scaled -> 1.0  -> label 1 (sink)
-            "r": np.array([0.0]),    # scaled -> 0.5  -> label 2 (non-sink)
+            "a1": np.array([1.0]),  # scaled -> 1.0  -> label 1 (sink)
+            "r": np.array([0.0]),  # scaled -> 0.5  -> label 2 (non-sink)
         }
         labels, metrics = check_unique_membership(
             encoder=encoder,
@@ -93,8 +92,8 @@ class TestCheckUniqueMembership:
         scaler = MinMaxScaler().fit(np.array([[-1.0], [1.0]]))
         fixed = {
             "a0": np.array([-1.0]),  # scaled 0.0 -> not in any interval
-            "a1": np.array([1.0]),   # scaled 1.0 -> label 1
-            "r": np.array([0.0]),    # scaled 0.5 -> not in any interval
+            "a1": np.array([1.0]),  # scaled 1.0 -> label 1
+            "r": np.array([0.0]),  # scaled 0.5 -> not in any interval
         }
         labels, metrics = check_unique_membership(
             encoder=encoder,

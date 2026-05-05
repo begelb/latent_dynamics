@@ -3,7 +3,7 @@
 Goal: detect a collapsed-latent regime in seconds, before paying for a 30+ min
 CMGDB run on a model that has only one global attractor in the latent.
 
-Three artefacts written under the run's write-root (``cfg.paths.output_dir``
+Three artifacts written under the run's write-root (``cfg.paths.output_dir``
 by default, or the replay tree when invoked with ``out_dir=...``):
 
 - ``figures/latent_pointcloud.png`` : encoded train+test data scattered in the
@@ -141,15 +141,15 @@ def _save_orbits_plot(
     out_path.parent.mkdir(parents=True, exist_ok=True)
     if grid.shape[1] == 1:
         fig, ax = plt.subplots(figsize=(8, 2.5))
-        ax.scatter(terminal[:, 0], np.zeros(terminal.shape[0]),
-                   c=labels, cmap="tab10", s=10, alpha=0.6)
+        ax.scatter(
+            terminal[:, 0], np.zeros(terminal.shape[0]), c=labels, cmap="tab10", s=10, alpha=0.6
+        )
         ax.set_xlim(bounds.lower[0], bounds.upper[0])
         ax.set_yticks([])
         ax.set_xlabel("$z_1$")
     else:
         fig, ax = plt.subplots(figsize=(6, 6))
-        ax.scatter(terminal[:, 0], terminal[:, 1],
-                   c=labels, cmap="tab10", s=10, alpha=0.6)
+        ax.scatter(terminal[:, 0], terminal[:, 1], c=labels, cmap="tab10", s=10, alpha=0.6)
         ax.set_xlim(bounds.lower[0], bounds.upper[0])
         ax.set_ylim(bounds.lower[1], bounds.upper[1])
         ax.set_xlabel("$z_1$")
@@ -161,9 +161,7 @@ def _save_orbits_plot(
     plt.close(fig)
 
 
-def _load_train_data_scaled(
-    cfg: ExperimentConfig, train_file: str
-) -> NDArray[np.float64]:
+def _load_train_data_scaled(cfg: ExperimentConfig, train_file: str) -> NDArray[np.float64]:
     high = cfg.arch.high_dims
     train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
     test = np.loadtxt(cfg.paths.data_dir / "test.csv", delimiter=",", skiprows=1)
@@ -192,7 +190,7 @@ def run(
 ) -> dict:
     """Diagnose the trained latent map without invoking CMGDB.
 
-    Reads source artefacts from ``cfg.paths``: the checkpoint at
+    Reads source artifacts from ``cfg.paths``: the checkpoint at
     ``cfg.paths.output_dir/models/``, the scaler at
     ``cfg.paths.scaler_path(train_file)``, and the train/test CSVs at
     ``cfg.paths.data_dir``. Writes to ``out_dir`` when provided
@@ -210,8 +208,10 @@ def run(
 
     if device is None:
         device = (
-            torch.device("mps") if torch.backends.mps.is_available()
-            else torch.device("cuda") if torch.cuda.is_available()
+            torch.device("mps")
+            if torch.backends.mps.is_available()
+            else torch.device("cuda")
+            if torch.cuda.is_available()
             else torch.device("cpu")
         )
     elif not isinstance(device, torch.device):
@@ -221,9 +221,11 @@ def run(
     # 1. Encoded data scatter.
     high_data_scaled = _load_train_data_scaled(cfg, train_file)
     with torch.no_grad():
-        encoded = model.encoder(
-            torch.as_tensor(high_data_scaled, dtype=torch.float32, device=device)
-        ).cpu().numpy()
+        encoded = (
+            model.encoder(torch.as_tensor(high_data_scaled, dtype=torch.float32, device=device))
+            .cpu()
+            .numpy()
+        )
 
     bounds, bounds_source = _resolve_bounds(cfg, model.encoder, encoded)
 
@@ -248,7 +250,9 @@ def run(
     # limit points, the all-points cluster count overcounts trajectories.
     converged_mask = iter_counts < n_iter
     if converged_mask.any():
-        n_converged_clusters, _ = _cluster_terminal_points(terminal[converged_mask], eps=cluster_eps)
+        n_converged_clusters, _ = _cluster_terminal_points(
+            terminal[converged_mask], eps=cluster_eps
+        )
     else:
         n_converged_clusters = 0
 
@@ -298,16 +302,20 @@ def run(
 
     if verbose:
         if diagnostic == "converged":
-            print(f"diagnose: {trusted_n_limit_points} distinct limit point(s), "
-                  f"encoded extent {[round(x, 3) for x in encoded_extent]}, "
-                  f"{int(frac_unconverged * 100)}% unconverged after {n_iter} iters")
+            print(
+                f"diagnose: {trusted_n_limit_points} distinct limit point(s), "
+                f"encoded extent {[round(x, 3) for x in encoded_extent]}, "
+                f"{int(frac_unconverged * 100)}% unconverged after {n_iter} iters"
+            )
         else:
-            print(f"diagnose: latent_map iteration did not converge "
-                  f"({int(frac_unconverged * 100)}% of {grid.shape[0]} grid points "
-                  f"still moving > {convergence_eps:.2e} after {n_iter} iters); "
-                  f"latent_map is likely near-identity or has slow/non-fixed dynamics. "
-                  f"all-terminal clusters={n_clusters}; encoded extent "
-                  f"{[round(x, 3) for x in encoded_extent]}.")
+            print(
+                f"diagnose: latent_map iteration did not converge "
+                f"({int(frac_unconverged * 100)}% of {grid.shape[0]} grid points "
+                f"still moving > {convergence_eps:.2e} after {n_iter} iters); "
+                f"latent_map is likely near-identity or has slow/non-fixed dynamics. "
+                f"all-terminal clusters={n_clusters}; encoded extent "
+                f"{[round(x, 3) for x in encoded_extent]}."
+            )
         print(f"  -> {json_path}")
         print(f"  -> {fig_dir / 'latent_pointcloud.png'}")
         print(f"  -> {fig_dir / 'latent_orbits.png'}")

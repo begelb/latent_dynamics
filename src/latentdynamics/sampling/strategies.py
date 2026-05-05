@@ -18,8 +18,7 @@ class SamplingStrategy(ABC):
         lower_bounds: NDArray[np.float64],
         upper_bounds: NDArray[np.float64],
         n: int,
-    ) -> NDArray[np.float64]:
-        ...
+    ) -> NDArray[np.float64]: ...
 
 
 class UniformStrategy(SamplingStrategy):
@@ -59,7 +58,9 @@ class SobolStrategy(SamplingStrategy):
         return qmc.scale(unit, lower_bounds, upper_bounds)
 
 
-def build_strategy(method: str, *, role: str = "train", config: object | None = None) -> SamplingStrategy:
+def build_strategy(
+    method: str, *, role: str = "train", config: object | None = None
+) -> SamplingStrategy:
     """Build a strategy from a sampling method name and an experiment config.
 
     For both ``uniform`` and ``sobol`` the seed is taken from

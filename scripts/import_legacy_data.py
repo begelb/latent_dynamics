@@ -111,7 +111,9 @@ def _copy_file(source: Path, target: Path, backup_root: Path, *, dry_run: bool) 
     )
 
 
-def _copy_tree(source_dir: Path, target_dir: Path, backup_root: Path, *, dry_run: bool) -> list[ImportEntry]:
+def _copy_tree(
+    source_dir: Path, target_dir: Path, backup_root: Path, *, dry_run: bool
+) -> list[ImportEntry]:
     entries: list[ImportEntry] = []
     for source in sorted(source_dir.rglob("*")):
         if not source.is_file():
@@ -157,7 +159,9 @@ def _marcio_converted_digest(source: Path) -> tuple[str, int, int]:
     return sink.hash.hexdigest(), sink.nbytes, row_count
 
 
-def _convert_marcio_csv(source: Path, target: Path, backup_root: Path, *, dry_run: bool) -> ImportEntry:
+def _convert_marcio_csv(
+    source: Path, target: Path, backup_root: Path, *, dry_run: bool
+) -> ImportEntry:
     if not source.exists():
         raise FileNotFoundError(source)
 
@@ -295,7 +299,9 @@ def import_legacy_data(*, dry_run: bool = False) -> dict:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--dry-run", action="store_true", help="report actions without copying files")
+    parser.add_argument(
+        "--dry-run", action="store_true", help="report actions without copying files"
+    )
     args = parser.parse_args(argv)
 
     manifest = import_legacy_data(dry_run=args.dry_run)

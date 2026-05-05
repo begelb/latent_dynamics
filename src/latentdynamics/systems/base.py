@@ -34,7 +34,7 @@ class DynamicalSystem(ABC):
 
     @property
     def params(self) -> dict[str, Any]:
-        """Return system parameters as a JSON-serialisable dict (for metadata)."""
+        """Return system parameters as a JSON-serializable dict (for metadata)."""
         return {}
 
 

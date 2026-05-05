@@ -1,9 +1,9 @@
 # Coral basic experiment (paper, single train size = 500).
-# Replay-only config: points at preserved Brittany artefact tree under
+# Replay-only config: points at preserved Brittany artifact tree under
 # output/coral/train_500/seed_<k>/. For fresh re-runs, use
 # configs/scratch/coral_basic.yaml (writes to output/scratch/coral_basic/).
 #
-# Re-render figures + recompute metrics from saved artefacts:
+# Re-render figures + recompute metrics from saved artifacts:
 #   python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
 system:
   name: coral

@@ -1,7 +1,10 @@
 # Reproducing the paper figures
 
-Every computational figure in `paper/main.tex` is driven by one YAML config
-under `configs/` and the staged pipeline in `src/latentdynamics/cli/`.
+Every computational figure in `paper/main.tex` is represented by one YAML
+config under `configs/` and the staged pipeline in `src/latentdynamics/cli/`.
+The configs are meant to encode the archived historical runs as far as the
+saved files allow, while sharing one higher-level workflow across Leslie,
+Chafee-Infante, and Coral examples.
 
 ## Setup
 
@@ -17,14 +20,14 @@ python3.13 -m venv .venv
 ## Single command per figure
 
 The `reproduce_paper.py` script at the repository root defaults to
-`render,metrics`, so it reads saved DOT/CSV/checkpoint artefacts and does not
+`render,metrics`, so it reads saved DOT/CSV/checkpoint artifacts and does not
 invoke training or CMGDB. Use `--stages all` only when you intend to retrain
 and recompute. The `data` stage is non-destructive: existing CSV+metadata
-pairs are kept as source artefacts, and adaptive coral datasets are validated
+pairs are kept as source artifacts, and adaptive coral datasets are validated
 as precomputed inputs.
 
 ```bash
-# Render/metrics for all configured figures from saved artefacts:
+# Render/metrics for all configured figures from saved artifacts:
 python reproduce_paper.py
 
 # One figure:
@@ -42,9 +45,9 @@ For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 
 | Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
 | ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | 2D Leslie + 8D contracting tail; source script missing |
+| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | 10D Embedded Leslie; Patrick `Leslie10D` archive located; source script/raw CSVs missing |
 | Fig. 1.214        | `fig_leslie3d_spurious`        | `configs/leslie3d_spurious.yaml`    | [contract](figure_contracts/leslie3d_spurious.md)        | replay-ready (legacy 3-file checkpoint); read_only |
-| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | scratch-only; current retrain has near-identity latent_map |
+| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | Patrick non-spurious `Leslie3D` archive located; source script/raw CSVs missing |
 | Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | training is OK; CMGDB rerun needed for parity |
 | Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | 1D Morse, 13D coral; replay blocked by 0-byte checkpoints |
 | Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | 180-cell sweep; replay blocked, scratch path ready |
@@ -53,6 +56,23 @@ For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 For per-figure expected outputs, hyperparameter audits with archive
 line citations, status, and verification recipes, see the contracts
 linked above.
+
+## Interpretation of reproduction
+
+There are two distinct modes:
+
+1. **Replay** reads preserved data, scalers, checkpoints, CMGDB DOT/CSV files,
+   and logs. It is the default mode for inspecting paper figures and metrics.
+2. **Fresh reproduction** regenerates missing artifacts by rerunning data,
+   training, and CMGDB stages. It is useful for filling archive gaps and for
+   robustness checks, but it is not guaranteed to land on the same Morse graph
+   for every seed, hardware backend, or optimizer trajectory.
+
+The paper's theoretical guarantee is conditional. Once a run has the required
+learned map, CMGDB structure, and verified error/tolerance bounds, the
+corresponding structure is certified for the original dynamics. The pipeline
+therefore treats diagnostics, CMGDB outputs, and paper-specific metrics as
+validation gates rather than decorative outputs.
 
 ## Expected outputs
 
@@ -108,6 +128,9 @@ plot.fig.savefig("output/coral/seed_0/MG/morse_sets_overlay.png")
 
 The base plotter only draws Morse sets. Figure-specific code can then add
 points, lines, shaded regions, arrows, or annotations on the returned axis.
+Use this layer for paper or slide polish: crops, axis limits, trajectory
+overlays, highlighted Morse sets, and label placement should be explicit
+render/postprocessing steps, not manual edits to preserved CMGDB artifacts.
 
 ## Modular hyperparameters
 
@@ -138,6 +161,15 @@ hyperparameters live in `training` (`learning_rate`, `batch_size`, `epochs`,
 `gradient_clip_norm`). Raw-coordinate experiments can set `data.scaling: none`.
 CMGDB bounds can be inferred from encoded data or fixed with
 `cmgdb.lower_bounds` and `cmgdb.upper_bounds`.
+
+The current schema is intentionally broad enough for the archived examples:
+per-component MLP widths and activations cover Marcio's asymmetric
+Chafee-Infante networks; `data.scaling: none` covers raw-coordinate runs;
+`cmgdb.padding` and fixed bounds cover non-default CMGDB calls; `train_files`
+and multi-seed lists cover Coral sweeps. If a future figure needs a visual
+choice that is not a scientific parameter, prefer adding an explicit render
+option or figure-specific render hook rather than baking the choice into
+training or CMGDB.
 
 ## Legacy data import
 
@@ -170,7 +202,7 @@ The Morse-graph computation depends on `CMGDB==1.3.2`. Newer versions may
 change the `BoxMap` or `ComputeConleyMorseGraph` signatures. The pin is in
 `pyproject.toml`.
 
-## Legacy artefacts in `code/`
+## Legacy artifacts in `code/`
 
 The pre-restructure code lives under `code/legacy/` and `../archive/`.
 Brittany's three-file pickled `nn.Module` checkpoints are loadable without

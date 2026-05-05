@@ -83,7 +83,7 @@ def write_run_manifest(
         "cell": cell_block,
         "config_hash": config_hash(root_cfg),
         "config": _canonical_config(root_cfg),
-        "artefacts": {
+        "artifacts": {
             "train_csv": str(train_csv),
             "train_csv_sha256": _file_sha256(train_csv),
             "scaler": str(scaler_path),

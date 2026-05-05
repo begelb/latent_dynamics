@@ -5,7 +5,7 @@ Usage::
     # Full re-run (all stages, all seeds in cfg.seeds):
     python pipeline.py --config configs/coral_basic.yaml
 
-    # Re-render figures + recompute metrics from saved artefacts (no CMGDB):
+    # Re-render figures + recompute metrics from saved artifacts (no CMGDB):
     python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
 
     # Cap the seed sweep for laptop smoke checks:
@@ -25,8 +25,12 @@ from latentdynamics.config import load_config
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--config", required=True, type=Path, help="path to a YAML experiment config")
+    parser = argparse.ArgumentParser(
+        description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    parser.add_argument(
+        "--config", required=True, type=Path, help="path to a YAML experiment config"
+    )
     parser.add_argument(
         "--stages",
         type=str,
@@ -34,7 +38,9 @@ def main(argv: list[str] | None = None) -> int:
         help=f"comma-separated subset of {list(pipeline.ALL_STAGES)} or 'all' (default: all)",
     )
     parser.add_argument("--max-seeds", type=int, default=None, help="cap the number of seeds")
-    parser.add_argument("--device", type=str, default=None, help="torch device override (cpu, cuda, mps)")
+    parser.add_argument(
+        "--device", type=str, default=None, help="torch device override (cpu, cuda, mps)"
+    )
     parser.add_argument(
         "--cell-index",
         type=int,
@@ -50,7 +56,7 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument(
         "--skip-completed",
         action="store_true",
-        help="resume safely by skipping stages whose expected artefacts already exist",
+        help="resume safely by skipping stages whose expected artifacts already exist",
     )
     parser.add_argument(
         "--dry-run",
@@ -61,7 +67,7 @@ def main(argv: list[str] | None = None) -> int:
         "--force-overwrite",
         action="store_true",
         help="bypass paths.read_only and legacy-checkpoint guards; only use to "
-             "intentionally clobber preserved paper artefacts",
+        "intentionally clobber preserved paper artifacts",
     )
     parser.add_argument(
         "--replay-root",
@@ -77,7 +83,11 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     cfg = load_config(args.config)
-    stages = list(pipeline.ALL_STAGES) if args.stages == "all" else [s for s in args.stages.split(",") if s]
+    stages = (
+        list(pipeline.ALL_STAGES)
+        if args.stages == "all"
+        else [s for s in args.stages.split(",") if s]
+    )
     cell_index = args.cell_index
     if cell_index is None and os.environ.get("SLURM_ARRAY_TASK_ID"):
         cell_index = int(os.environ["SLURM_ARRAY_TASK_ID"])
@@ -106,7 +116,9 @@ def main(argv: list[str] | None = None) -> int:
         else "pipeline_summary.json"
     )
     resolved_replay_root = pipeline._resolve_replay_root(
-        cfg, args.replay_root, force_overwrite=args.force_overwrite,
+        cfg,
+        args.replay_root,
+        force_overwrite=args.force_overwrite,
     )
     summary_root = (
         cfg.paths.output_dir

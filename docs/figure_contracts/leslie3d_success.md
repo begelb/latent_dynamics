@@ -4,21 +4,32 @@ Paper §1.211: the success case of the 3D Leslie experiment, where the learned l
 
 ## Paper figures
 
-- `paper/figures/Leslie_3D_10KData_Mgraph.png`
-- `paper/figures/Leslie_3D_10kData_Msets.png`
-- `paper/figures/3D_success_tolerance.png`
+- `paper/figures/Leslie3D_correctParam_graph.png`
+- `paper/figures/Leslie3D_trajs.png`
 
 ## Source of paper run
 
-Brittany. **No saved CMGDB artefacts in archive** — `archive/brittany/output/Leslie_3D/28.9_29.8_22.0/` contains only `scalers/`. The original run was either lost or was performed without committing `MG/`/`models/` to git.
+Patrick. The saved non-spurious Leslie 3D paper run is archived under
+`archive/patrick/Leslie3D/`. This is distinct from Brittany's spurious Leslie
+3D run, which is documented in `leslie3d_spurious.md`.
 
-- training script:    `archive/brittany/main_scripts/train.py`
-- CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
-- legacy config:      `archive/brittany/config/Leslie_3D_larger_domain_tail_only.yaml`
+- training script:    MISSING (originated with Patrick)
+- checkpoint:         `archive/patrick/Leslie3D/models/{encoder,dynamics,decoder}.pt`
+- CMGDB artifacts:    `archive/patrick/Leslie3D/MG/{morse_graph,morse_sets}`
+- trajectory render:  `archive/patrick/Leslie3D/MG/morse_sets_trajectories.png`
+- CMGDB params:       `archive/patrick/Leslie3D/mg_params_log.txt`
+- losses:             `archive/patrick/Leslie3D/{final_losses.txt,logs/*.pkl}`
+- scaler:             `archive/patrick/Leslie3D/data/scalers/scaler`
+- tolerance log:      `archive/patrick/Leslie3D/tolerance_results.txt`
 
 ## Status
 
-**scratch-only** until the source paper run is recovered. The current `output/leslie3d_success/seed_0/` is a retrain produced by an earlier session.
+**archived paper artifacts located; training script/raw CSVs still missing**.
+The paper figure content should be sourced from `archive/patrick/Leslie3D/`.
+The YAML now records Patrick's non-spurious Leslie parameters, recovered loss
+weights, reconstructed dataset split, and CMGDB settings. The current
+`output/leslie3d_success/seed_0/` is a retrain produced by an earlier session
+and should not be used as the original paper source.
 
 Diagnose on the current retrain reports: encoded extent `[1.32, 1.03]` (healthy spread), `latent_map` iteration does NOT converge after 200 steps (latent_map is too close to identity). The saved `MG/morse_graph` shows 1 Morse set with index `(x-1, 0, 0)`. Conclusion: training converged the encoder but not the latent_map; the prediction/semiconjugacy term needs more weight or longer training.
 
@@ -39,34 +50,35 @@ sbatch --array=0-0 --export=ALL,CONFIG=configs/leslie3d_success.yaml,STAGES=trai
 
 ## Expected scientific output
 
-Paper figure shows six Morse sets in a chain `5 -> 4 -> 3 -> 2 -> {0,1}` with attractors at the leaves. Conley indices reported in the paper text indicate attracting fixed points and a non-trivial saddle structure. Exact replication requires recovering Brittany's checkpoint.
+Paper figure shows the non-spurious/bistable Leslie 3D result from Patrick's
+checkpoint, with the Hasse diagram and trajectory panel preserved in
+`archive/patrick/Leslie3D/MG/`.
 
 Verification target after retrain: `metrics.json` reports `tau_bar > max_semiconjugacy_error` (i.e., the learned latent dynamics is a faithful semiconjugacy at the data level).
 
 ## Hyperparameter audit
 
-Drift identified between the legacy YAML and the current config:
-
 | param                       | archive value           | YAML value             | severity | notes |
 |-----------------------------|-------------------------|------------------------|----------|-------|
-| arch.num_layers             | 3                       | 3                      | ✓        |       |
-| arch.hidden_shape           | 32                      | 32                     | ✓        |       |
+| system.params.th1           | 19.6                    | 19.6                   | ✓        | Patrick non-spurious/default Leslie 3D |
+| system.params.th2           | 23.68                   | 23.68                  | ✓        | distinct from Brittany's spurious run |
+| system.params.th3           | 23.68                   | 23.68                  | ✓        | distinct from Brittany's spurious run |
+| system.params.survival_p1   | 0.7                     | 0.7                    | ✓        |       |
+| system.params.survival_p2   | 0.7                     | 0.7                    | ✓        |       |
+| arch.num_layers             | 2                       | 2                      | ✓        | checkpoint has `linear_0` through `linear_2` |
+| arch.hidden_shape           | 64                      | 64                     | ✓        | checkpoint tensor shapes imply width 64 |
+| arch.high_dims              | 3                       | 3                      | ✓        |       |
+| arch.low_dims               | 2                       | 2                      | ✓        |       |
 | arch.encoder_out_activation | tanh                    | tanh (default)         | ✓        |       |
-| arch.latent_out_activation  | tanh                    | tanh (default)         | ✓        | suspected near-identity collapse for 2D Leslie targets in this regime |
-| training.loss_weights       | [10, 10, 1]             | [10, 10, 1]            | ✓        |       |
-| data.n_samples_train        | 4000                    | 10000                  | HIGH     | drift introduced when reverse-engineering YAML |
-| data.n_iterations           | 30                      | 20                     | HIGH     | drift; archive trains over longer trajectories |
-| data.sampling_method        | uniform                 | uniform                | ✓        |       |
-
-Recommended pre-retrain edits to `configs/leslie3d_success.yaml`:
-
-```yaml
-data:
-  n_samples_train: 4000
-  n_iterations: 30
-```
-
-If retraining still produces a near-identity latent map, raise the prediction-loss weight (currently `loss_weights[1] = 10`) or increase `loss_weights[2]` (the latent-semiconjugacy term, currently `1`).
+| arch.latent_out_activation  | tanh                    | tanh (default)         | ✓        |       |
+| arch.decoder_out_activation | sigmoid                 | sigmoid (default)      | ✓        |       |
+| training.loss_weights       | [100, 10, 20]           | [100, 10, 20]          | ✓        | recovered from total-loss linear relation |
+| data.n_samples_train        | 8000                    | 8000                   | ✓        | scaler size + paper `D(20,10000)`; raw CSV not archived |
+| data.n_samples_test         | 2000                    | 2000                   | ✓        | reconstructed 80/20 split |
+| data.n_iterations           | 20                      | 20                     | ✓        | paper `D(20,10000)` |
+| cmgdb.subdiv_init           | 25                      | 25                     | ✓        | from `mg_params_log.txt` |
+| cmgdb.subdiv_min            | 28                      | 28                     | ✓        | from `mg_params_log.txt` |
+| cmgdb.subdiv_max            | 29                      | 29                     | ✓        | from `mg_params_log.txt` |
 
 ## Verification
 

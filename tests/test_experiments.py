@@ -14,7 +14,7 @@ from latentdynamics.cli.pipeline import (
     ALL_STAGES,
     _config_for_seed,
     _derived_output_dir,
-    _normalise_stages,
+    _normalize_stages,
     _resolve_replay_root,
     _select_cells,
     _stage_complete,
@@ -77,15 +77,15 @@ class TestPipelineHelpers:
         cfg = _make_minimal_cfg(n_samples_train=[100, 500], output_dir=tmp_path)
         assert _train_files_for(cfg) == ["train_100", "train_500"]
 
-    def test_normalise_stages_canonical_order(self):
-        assert _normalise_stages(["metrics", "data"]) == ["data", "metrics"]
+    def test_normalize_stages_canonical_order(self):
+        assert _normalize_stages(["metrics", "data"]) == ["data", "metrics"]
 
-    def test_normalise_stages_unknown_rejected(self):
+    def test_normalize_stages_unknown_rejected(self):
         with pytest.raises(ValueError):
-            _normalise_stages(["bogus"])
+            _normalize_stages(["bogus"])
 
-    def test_normalise_stages_none_returns_all(self):
-        assert _normalise_stages(None) == list(ALL_STAGES)
+    def test_normalize_stages_none_returns_all(self):
+        assert _normalize_stages(None) == list(ALL_STAGES)
 
     def test_iter_cells_enumerates_train_file_seed_grid(self, tmp_path):
         cfg = _make_minimal_cfg(n_samples_train=[100, 500], output_dir=tmp_path)
@@ -99,7 +99,7 @@ class TestPipelineHelpers:
         ]
         assert cells[2].output_dir.endswith("out/train_500/seed_0")
 
-    def test_plan_cells_is_json_serialisable(self, tmp_path):
+    def test_plan_cells_is_json_serializable(self, tmp_path):
         cfg = _make_minimal_cfg(n_samples_train=500, output_dir=tmp_path)
         plan = plan_cells(cfg)
         assert plan == [
@@ -124,7 +124,7 @@ class TestPipelineHelpers:
         with pytest.raises(ValueError):
             _select_cells(cfg, max_seeds=None, cell_index=0, expected_cells=99)
 
-    def test_stage_complete_checks_expected_artefacts(self, tmp_path):
+    def test_stage_complete_checks_expected_artifacts(self, tmp_path):
         cfg = _make_minimal_cfg(n_samples_train=500, output_dir=tmp_path)
         seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
         assert not _stage_complete("scale", cfg, seed_cfg, train_file="train")
@@ -179,7 +179,7 @@ _MINIMAL_DOT = (
 )
 
 
-def _seed_morse_artefacts(morse_dir: Path) -> None:
+def _seed_morse_artifacts(morse_dir: Path) -> None:
     """Write minimal but valid ``morse_graph`` (DOT) + ``morse_sets`` (CSV).
 
     The CSV is in the 1-D box format ``(lower, upper, label)`` consumed by
@@ -202,7 +202,10 @@ def _read_only_cfg(*, tmp_path: Path) -> ExperimentConfig:
             learning_rate=1e-3, batch_size=8, epochs=1, patience=1, loss_weights=[1, 1, 1]
         ),
         data=DataConfig(
-            sampling_method="uniform", n_samples_train=4, n_samples_test=4, n_iterations=2,
+            sampling_method="uniform",
+            n_samples_train=4,
+            n_samples_test=4,
+            n_iterations=2,
         ),
         cmgdb=CMGDBConfig(),
         paths=PathsConfig(
@@ -223,7 +226,9 @@ class TestReplayRouting:
         # Non-read-only configs ignore replay_root entirely.
         replay_root = _resolve_replay_root(cfg, tmp_path / "replay")
         assert replay_root is None
-        assert _derived_output_dir(cfg, seed_cfg, replay_root=replay_root) == seed_cfg.paths.output_dir
+        assert (
+            _derived_output_dir(cfg, seed_cfg, replay_root=replay_root) == seed_cfg.paths.output_dir
+        )
 
     def test_derived_output_dir_redirects_under_read_only(self, tmp_path):
         cfg = _read_only_cfg(tmp_path=tmp_path)
@@ -238,7 +243,9 @@ class TestReplayRouting:
     def test_force_overwrite_disables_replay_redirect(self, tmp_path):
         cfg = _read_only_cfg(tmp_path=tmp_path)
         replay_root = _resolve_replay_root(
-            cfg, tmp_path / "replay", force_overwrite=True,
+            cfg,
+            tmp_path / "replay",
+            force_overwrite=True,
         )
         assert replay_root is None
 
@@ -246,7 +253,7 @@ class TestReplayRouting:
         cfg = _read_only_cfg(tmp_path=tmp_path)
         seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
         morse_dir = seed_cfg.paths.morse_dir
-        _seed_morse_artefacts(morse_dir)
+        _seed_morse_artifacts(morse_dir)
 
         # Simulate tracked, preserved source PDFs (the file content the
         # safety patch must not touch).
@@ -273,14 +280,16 @@ class TestReplayRouting:
         for path, want in source_hashes.items():
             assert path.exists()
             got = hashlib.sha256(path.read_bytes()).hexdigest()
-            assert got == want, f"source artefact mutated: {path}"
+            assert got == want, f"source artifact mutated: {path}"
 
         # Replay tree mirrors the seed substructure and is populated.
         replay_seed_dir = replay_root / "replay_smoke" / "seed_0"
         replay_morse = replay_seed_dir / "MG"
         for name in ("morse_graph.pdf", "morse_graph.png", "morse_sets.pdf", "morse_sets.png"):
             target = replay_morse / name
-            assert target.exists() and target.stat().st_size > 0, f"missing replay artefact: {target}"
+            assert target.exists() and target.stat().st_size > 0, (
+                f"missing replay artifact: {target}"
+            )
 
         # Manifest also lives in the replay tree, not the source tree.
         manifest_path = Path(results[0]["manifest"])
@@ -293,7 +302,7 @@ class TestReplayRouting:
     def test_skip_completed_under_replay_checks_replay_not_source(self, tmp_path):
         cfg = _read_only_cfg(tmp_path=tmp_path)
         seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
-        _seed_morse_artefacts(seed_cfg.paths.morse_dir)
+        _seed_morse_artifacts(seed_cfg.paths.morse_dir)
         replay_root = tmp_path / "replay"
         replay_seed_dir = replay_root / "replay_smoke" / "seed_0"
         replay_morse = replay_seed_dir / "MG"
@@ -322,7 +331,9 @@ class TestReplayRouting:
         )
 
         for p in replay_pdfs:
-            assert p.read_bytes() == sentinel, f"render did not honour skip_completed under replay: {p}"
+            assert p.read_bytes() == sentinel, (
+                f"render did not honour skip_completed under replay: {p}"
+            )
 
     def test_read_only_blocks_train_stage_even_with_replay_root(self, tmp_path):
         cfg = _read_only_cfg(tmp_path=tmp_path)
@@ -340,7 +351,7 @@ class TestTopLevelPipelineScript:
     def test_cli_routes_summary_to_replay_for_read_only_config(self, tmp_path):
         cfg = _read_only_cfg(tmp_path=tmp_path)
         seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
-        _seed_morse_artefacts(seed_cfg.paths.morse_dir)
+        _seed_morse_artifacts(seed_cfg.paths.morse_dir)
 
         cfg_path = tmp_path / "read_only_config.json"
         cfg_path.write_text(json.dumps(cfg.model_dump(mode="json")))
@@ -352,12 +363,17 @@ class TestTopLevelPipelineScript:
 
             mod = importlib.import_module("pipeline")
             replay_root = tmp_path / "replay"
-            rc = mod.main([
-                "--config", str(cfg_path),
-                "--stages", "render",
-                "--replay-root", str(replay_root),
-                "--quiet",
-            ])
+            rc = mod.main(
+                [
+                    "--config",
+                    str(cfg_path),
+                    "--stages",
+                    "render",
+                    "--replay-root",
+                    str(replay_root),
+                    "--quiet",
+                ]
+            )
         finally:
             sys.modules.pop("pipeline", None)
             if previous is not None:

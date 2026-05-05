@@ -2,8 +2,15 @@
 
 Side-by-side comparison of `paper/figures/` and the rendered Morse graphs in
 `code/output/<experiment>/seed_0/MG/`. Conducted after the modular-pipeline
-refactor and the first end-to-end retrain of the three experiments that had
-no on-disk artefacts.
+refactor and before Patrick's `Leslie10D` and non-spurious `Leslie3D` paper
+artifacts were restored under `archive/patrick/`.
+
+This is a historical diagnostic snapshot, not the current source-of-truth for
+paper provenance. Use `docs/PAPER_REPRODUCTION.md` and the files under
+`docs/figure_contracts/` for the archive-backed contracts. The mismatch rows
+below are still useful as warnings: fresh retraining can converge in loss while
+missing the paper Morse graph, so paper claims must be checked through saved
+artifacts, CMGDB output, and validation metrics.
 
 ## Comparison
 
@@ -11,19 +18,24 @@ no on-disk artefacts.
 |----------------------|-----------------------------------------------------|------------------|--------------------------------------------------------------------|-------|
 | leslie3d_spurious    | `morse_graph_new_colors.pdf` + `latent_trajectory.png` | 6 (chain `5→3→1`, `5→4`, `2→{0,1}`, `3→1`)                                 | 6, identical Hasse edges                                            | exact |
 | leslie3d_success     | `Leslie_3D_10KData_Mgraph.png`                      | 6 (chain `5→4→3→2→{0,1}`, indices `(0,0,0), (0,x+1,0), (0,x²+1,0), (0,x⁴-1,0), (x⁴-1,0,0)×2`) | 1 trivial sink `(x-1,0,0)`                                          | far off |
-| leslie_contraction   | `LeslieContraction_10D_10kData_Mgraph.png`          | 4 (`3→{2,1,0}`, indices `(0,x³-1,0), (0,0,x-1), (x-1,x-1,0), (x³-1,0,0)`) | 1 trivial sink `(0,0,0)`                                            | far off |
+| 10D Embedded Leslie (`leslie_contraction`) | `LeslieContraction_10D_10kData_Mgraph.png` | 4 (`3→{2,1,0}`, indices `(0,x³-1,0), (0,0,x-1), (x-1,x-1,0), (x³-1,0,0)`) | 1 trivial sink `(0,0,0)`                                            | far off |
 | chafee_infante       | `ci_morse_graph.pdf`                                | 7 (rich Hasse: 2 attractors `(x-1,0,0)`, 3 saddles `(0,x-1,0)`, 2 sources `(0,0,x-1)`) | 1 trivial sink `(x-1,0,0)`                                          | far off |
-| coral_basic          | `coral_morse_graph.pdf`                             | 3 (`2→{0,1}`, indices `(0,x-1), (x-1,0), (x-1,0)`) | not directly comparable - all `output/coral/train_500/seed_*/MG/morse_graph` files are 0 bytes (incomplete uploads); the only non-empty coral artefacts live under `train_500_300_adaptive` and show 4 Morse sets including a spurious `(0,0)` node | gap |
+| coral_basic          | `coral_morse_graph.pdf`                             | 3 (`2→{0,1}`, indices `(0,x-1), (x-1,0), (x-1,0)`) | not directly comparable - all `output/coral/train_500/seed_*/MG/morse_graph` files are 0 bytes (incomplete uploads); the only non-empty coral artifacts live under `train_500_300_adaptive` and show 4 Morse sets including a spurious `(0,0)` node | gap |
 
-The mismatch correlates exactly with **whether we retrained or reused
-Brittany's pre-restructure checkpoint**:
+This snapshot compares the package retrains, not the later-restored Patrick
+archives. The source map now distinguishes Brittany's spurious Leslie 3D run
+from Patrick's non-spurious Leslie 3D run:
 
 - `leslie3d_spurious` reuses the legacy 3-file checkpoint at
   `output/Leslie_3D/spurious_attractor_ex/models/{encoder,dynamics,decoder}.pt`
   via `latentdynamics.training.load_legacy_checkpoint`. It reproduces the
   paper figure exactly.
+- `leslie_contraction` and `leslie3d_success` have preserved Patrick paper
+  artifacts under `archive/patrick/Leslie10D/` and
+  `archive/patrick/Leslie3D/`; the `code/output/` rows below are fresh retrains,
+  not the original paper sources.
 - The three "far off" entries were retrained from scratch in the previous
-  session with the current package's defaults
+  session with the then-current package defaults
   (`configs/_shared/defaults.yaml`: `lr=0.001, batch_size=1024, epochs=1000,
   patience=100, loss_mode=weighted`) plus per-experiment `loss_weights`.
   Training converges to very low loss (`leslie_contraction: 3.13e-2`,
@@ -72,18 +84,18 @@ Ranked by how likely each is to actually fix the regression:
    `legacy/main_scripts/train.py` and `legacy/Leslie_analysis_scripts/` for
    the exact hyperparams used in the paper runs. The new YAMLs were
    reverse-engineered, not copied.
-5. **Re-upload coral_basic and coral_data_scaling artefacts.** Most coral
+5. **Re-upload coral_basic and coral_data_scaling artifacts.** Most coral
    `seed_*/MG/morse_graph` files in `output/coral/` are 0 bytes (599 of 993
    `.pt` files are partial uploads). Either re-sync from the cluster that
    originally produced them or retrain.
-6. **Render `coral_basic` once it has artefacts** and compare to
+6. **Render `coral_basic` once it has artifacts** and compare to
    `coral_morse_graph.pdf`. Most likely matches once the data is there since
    coral was Brittany's main tuned config.
 
 ## What is working
 
 - Modular pipeline: `data → scale → train → morse → render → metrics`,
-  every stage loadable from disk via the on-disk artefacts of any prior
+  every stage loadable from disk via the on-disk artifacts of any prior
   stage. Verified with `--stages morse` and `--stages render` standalone.
 - `morse` stage saves only the DOT (`MG/morse_graph`) and CSV
   (`MG/morse_sets`); the figure renders are deferred to the `render`
@@ -116,7 +128,7 @@ Ranked by how likely each is to actually fix the regression:
 Implemented before another long retrain:
 
 - `make_data` is now non-destructive. Existing `*.csv` +
-  `*_metadata.json` pairs are treated as source artefacts and are not
+  `*_metadata.json` pairs are treated as source artifacts and are not
   overwritten; partial pairs raise instead of silently regenerating.
 - Adaptive coral data is represented as precomputed input. The `data` stage
   validates the saved adaptive train files and `test.csv` rather than calling
@@ -134,4 +146,4 @@ Implemented before another long retrain:
 
 The parity status of the already saved retrained outputs above is unchanged
 until those experiments are rerun from the updated configs. No saved data or
-output artefacts were deleted or edited by these structural changes.
+output artifacts were deleted or edited by these structural changes.

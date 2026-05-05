@@ -56,7 +56,14 @@ markers = [
 line-length = 100
 target-version = "py313"
 src = ["src", "tests", "scripts"]
+exclude = ["legacy"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "UP", "B", "C4", "RUF"]
-ignore = ["E501"]
+ignore = [
+    "E501",
+    # Scientific code naturally uses names such as X, Y, N, and G for
+    # coordinate arrays, dimensions, and graph maps.
+    "N803",
+    "N806",
+]

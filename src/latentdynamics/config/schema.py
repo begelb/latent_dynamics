@@ -127,7 +127,9 @@ class ArchConfig(BaseModel):
             raise ValueError("num_layers must match len(hidden_shapes)")
         return self
 
-    def component(self, name: Literal["encoder", "latent_map", "decoder"]) -> ResolvedComponentConfig:
+    def component(
+        self, name: Literal["encoder", "latent_map", "decoder"]
+    ) -> ResolvedComponentConfig:
         """Resolve shared defaults plus per-component overrides."""
         override = getattr(self, name)
         if override.hidden_shapes is not None:
@@ -135,7 +137,11 @@ class ArchConfig(BaseModel):
         else:
             num_layers = int(override.num_layers or self.num_layers)
             hidden_shape = int(override.hidden_shape or self.hidden_shape)
-            if self.hidden_shapes is not None and override.num_layers is None and override.hidden_shape is None:
+            if (
+                self.hidden_shapes is not None
+                and override.num_layers is None
+                and override.hidden_shape is None
+            ):
                 hidden_shapes = tuple(int(width) for width in self.hidden_shapes)
             else:
                 hidden_shapes = tuple(hidden_shape for _ in range(num_layers))
@@ -243,7 +249,11 @@ class PathsConfig(BaseModel):
 
     @property
     def scaler_dir(self) -> Path:
-        return self.scaler_dir_override if self.scaler_dir_override is not None else self.output_dir / "scalers"
+        return (
+            self.scaler_dir_override
+            if self.scaler_dir_override is not None
+            else self.output_dir / "scalers"
+        )
 
     @property
     def figures_dir(self) -> Path:
@@ -287,6 +297,9 @@ class ExperimentConfig(BaseModel):
     def _arch_dims_match_system(self) -> ExperimentConfig:
         if self.arch.high_dims < self.arch.low_dims:
             raise ValueError("arch.high_dims must be >= arch.low_dims")
-        if self.cmgdb.lower_bounds is not None and len(self.cmgdb.lower_bounds) != self.arch.low_dims:
+        if (
+            self.cmgdb.lower_bounds is not None
+            and len(self.cmgdb.lower_bounds) != self.arch.low_dims
+        ):
             raise ValueError("cmgdb fixed bounds must match arch.low_dims")
         return self

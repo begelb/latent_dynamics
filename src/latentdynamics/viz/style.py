@@ -1,4 +1,4 @@
-"""Single source of truth for paper colours and matplotlib rcParams."""
+"""Single source of truth for paper colors and matplotlib rcParams."""
 
 from __future__ import annotations
 
@@ -13,7 +13,7 @@ PALETTE: list[str] = [
     "#008080",
     "#FCC2E8",
 ]
-"""Colour-blind-safe seven-step palette used throughout the paper figures."""
+"""Color-blind-safe seven-step palette used throughout the paper figures."""
 
 
 PAPER_RCPARAMS: dict[str, object] = {
@@ -37,5 +37,5 @@ def apply_paper_style() -> None:
 
 
 def color_for(label: int) -> str:
-    """Return the palette colour assigned to a Morse-set label."""
+    """Return the palette color assigned to a Morse-set label."""
     return PALETTE[int(label) % len(PALETTE)]

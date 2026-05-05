@@ -16,11 +16,7 @@ DEFAULTS_BASENAME = "defaults.yaml"
 def _deep_merge(base: dict[str, Any], override: dict[str, Any]) -> dict[str, Any]:
     out = deepcopy(base)
     for key, value in override.items():
-        if (
-            key in out
-            and isinstance(out[key], dict)
-            and isinstance(value, dict)
-        ):
+        if key in out and isinstance(out[key], dict) and isinstance(value, dict):
             out[key] = _deep_merge(out[key], value)
         else:
             out[key] = deepcopy(value)

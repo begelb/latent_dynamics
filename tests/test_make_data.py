@@ -23,7 +23,9 @@ from latentdynamics.sampling import load_scaler
 def _tiny_cfg(system_name: str, tmp_path, **overrides) -> ExperimentConfig:
     base = {
         "system": SystemConfig(name=system_name),
-        "arch": ArchConfig(num_layers=1, hidden_shape=4, high_dims=overrides.pop("high_dims", 13), low_dims=1),
+        "arch": ArchConfig(
+            num_layers=1, hidden_shape=4, high_dims=overrides.pop("high_dims", 13), low_dims=1
+        ),
         "training": TrainingConfig(
             learning_rate=1e-3, batch_size=8, epochs=2, patience=1, loss_weights=[1, 1, 1]
         ),
