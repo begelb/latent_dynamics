@@ -39,8 +39,17 @@ def metrics_stage(
     *,
     train_file: str = "train",
     verbose: bool = True,
+    out_dir: Path | None = None,
 ) -> dict:
-    """Dispatch to a system-specific metric; persist the result."""
+    """Dispatch to a system-specific metric; persist the result.
+
+    Reads model checkpoint, scaler, and Morse artefacts from the source paths
+    in ``seed_cfg``/``cfg``. ``metrics.json`` is written to ``out_dir`` when
+    provided (replay-routing) or to ``seed_cfg.paths.output_dir`` otherwise.
+    The diagnose/Morse cross-check reads ``diagnose.json`` from ``out_dir``
+    when running under replay-routing - that is where the diagnose stage
+    just wrote it - and falls back to the source path when not.
+    """
     name = seed_cfg.system.name
     if name == "coral":
         result = _coral_metrics(seed_cfg, cfg, train_file=train_file)
@@ -49,11 +58,13 @@ def metrics_stage(
     else:
         result = {}
 
-    cross_check = _diagnose_morse_cross_check(seed_cfg)
+    diagnose_dir = Path(out_dir) if out_dir is not None else seed_cfg.paths.output_dir
+    cross_check = _diagnose_morse_cross_check(seed_cfg, diagnose_dir=diagnose_dir)
     if cross_check is not None:
         result["diagnose_morse_cross_check"] = cross_check
 
-    out_path = seed_cfg.paths.output_dir / "metrics.json"
+    write_root = Path(out_dir) if out_dir is not None else seed_cfg.paths.output_dir
+    out_path = write_root / "metrics.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(result, indent=2, default=str))
     if verbose:
@@ -61,7 +72,9 @@ def metrics_stage(
     return result
 
 
-def _diagnose_morse_cross_check(seed_cfg: ExperimentConfig) -> dict | None:
+def _diagnose_morse_cross_check(
+    seed_cfg: ExperimentConfig, *, diagnose_dir: Path | None = None,
+) -> dict | None:
     """Compare diagnose.json's n_distinct_limit_points to the saved Morse Hasse.
 
     Returns a dict describing agreement / disagreement, or None when either
@@ -75,7 +88,8 @@ def _diagnose_morse_cross_check(seed_cfg: ExperimentConfig) -> dict | None:
       are too coarse to merge them, or the dynamics have non-fixed-point
       recurrent sets that diagnose's terminal-point count cannot detect.
     """
-    diagnose_path = seed_cfg.paths.output_dir / "diagnose.json"
+    diag_root = Path(diagnose_dir) if diagnose_dir is not None else seed_cfg.paths.output_dir
+    diagnose_path = diag_root / "diagnose.json"
     morse_graph_path = seed_cfg.paths.morse_dir / "morse_graph"
     if not diagnose_path.is_file() or not morse_graph_path.is_file():
         return None

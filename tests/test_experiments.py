@@ -2,16 +2,20 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 from pathlib import Path
 
+import numpy as np
 import pytest
 
 from latentdynamics.cli.pipeline import (
     ALL_STAGES,
     _config_for_seed,
+    _derived_output_dir,
     _normalise_stages,
+    _resolve_replay_root,
     _select_cells,
     _stage_complete,
     _train_files_for,
@@ -164,6 +168,211 @@ class TestConfigsLoadable:
             "coral",
             "chafee_infante",
         }
+
+
+_MINIMAL_DOT = (
+    "digraph {\n"
+    '  0 [label="0", style=filled, fillcolor="#ff7f00"];\n'
+    '  1 [label="1", style=filled, fillcolor="#1f77b4"];\n'
+    "  0 -> 1;\n"
+    "}\n"
+)
+
+
+def _seed_morse_artefacts(morse_dir: Path) -> None:
+    """Write minimal but valid ``morse_graph`` (DOT) + ``morse_sets`` (CSV).
+
+    The CSV is in the 1-D box format ``(lower, upper, label)`` consumed by
+    :func:`render_morse_sets_from_csv`.
+    """
+    morse_dir.mkdir(parents=True, exist_ok=True)
+    (morse_dir / "morse_graph").write_text(_MINIMAL_DOT)
+    np.savetxt(
+        morse_dir / "morse_sets",
+        np.array([[0.0, 1.0, 0], [1.0, 2.0, 1]], dtype=np.float64),
+        delimiter=",",
+    )
+
+
+def _read_only_cfg(*, tmp_path: Path) -> ExperimentConfig:
+    cfg = ExperimentConfig(
+        system=SystemConfig(name="coral"),
+        arch=ArchConfig(num_layers=1, hidden_shape=4, high_dims=13, low_dims=1),
+        training=TrainingConfig(
+            learning_rate=1e-3, batch_size=8, epochs=1, patience=1, loss_weights=[1, 1, 1]
+        ),
+        data=DataConfig(
+            sampling_method="uniform", n_samples_train=4, n_samples_test=4, n_iterations=2,
+        ),
+        cmgdb=CMGDBConfig(),
+        paths=PathsConfig(
+            data_dir=tmp_path / "data",
+            output_dir=tmp_path / "source" / "expt",
+            read_only=True,
+        ),
+        seeds=[0],
+        experiment_name="replay_smoke",
+    )
+    return cfg
+
+
+class TestReplayRouting:
+    def test_derived_output_dir_passthrough_when_not_read_only(self, tmp_path):
+        cfg = _make_minimal_cfg(n_samples_train=500, output_dir=tmp_path)
+        seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+        # Non-read-only configs ignore replay_root entirely.
+        replay_root = _resolve_replay_root(cfg, tmp_path / "replay")
+        assert replay_root is None
+        assert _derived_output_dir(cfg, seed_cfg, replay_root=replay_root) == seed_cfg.paths.output_dir
+
+    def test_derived_output_dir_redirects_under_read_only(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        cfg.seeds = [0, 1]
+        seed_cfg = _config_for_seed(cfg, train_file="train", seed=1)
+        replay_root = _resolve_replay_root(cfg, tmp_path / "replay")
+        assert replay_root == tmp_path / "replay"
+        derived = _derived_output_dir(cfg, seed_cfg, replay_root=replay_root)
+        # Must mirror seed substructure under <replay_root>/<experiment_name>/.
+        assert derived == tmp_path / "replay" / "replay_smoke" / "seed_1"
+
+    def test_force_overwrite_disables_replay_redirect(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        replay_root = _resolve_replay_root(
+            cfg, tmp_path / "replay", force_overwrite=True,
+        )
+        assert replay_root is None
+
+    def test_render_replay_does_not_dirty_source_pdfs(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+        morse_dir = seed_cfg.paths.morse_dir
+        _seed_morse_artefacts(morse_dir)
+
+        # Simulate tracked, preserved source PDFs (the file content the
+        # safety patch must not touch).
+        source_pdfs = {
+            morse_dir / "morse_graph.pdf": b"PRESERVED-GRAPH-PDF",
+            morse_dir / "morse_graph.png": b"PRESERVED-GRAPH-PNG",
+            morse_dir / "morse_sets.pdf": b"PRESERVED-SETS-PDF",
+            morse_dir / "morse_sets.png": b"PRESERVED-SETS-PNG",
+        }
+        for path, blob in source_pdfs.items():
+            path.write_bytes(blob)
+        source_hashes = {p: hashlib.sha256(b).hexdigest() for p, b in source_pdfs.items()}
+
+        replay_root = tmp_path / "replay"
+        results = run(
+            cfg,
+            stages=["render"],
+            device="cpu",
+            verbose=False,
+            replay_root=replay_root,
+        )
+
+        # Source PDFs are byte-identical to what we wrote.
+        for path, want in source_hashes.items():
+            assert path.exists()
+            got = hashlib.sha256(path.read_bytes()).hexdigest()
+            assert got == want, f"source artefact mutated: {path}"
+
+        # Replay tree mirrors the seed substructure and is populated.
+        replay_seed_dir = replay_root / "replay_smoke" / "seed_0"
+        replay_morse = replay_seed_dir / "MG"
+        for name in ("morse_graph.pdf", "morse_graph.png", "morse_sets.pdf", "morse_sets.png"):
+            target = replay_morse / name
+            assert target.exists() and target.stat().st_size > 0, f"missing replay artefact: {target}"
+
+        # Manifest also lives in the replay tree, not the source tree.
+        manifest_path = Path(results[0]["manifest"])
+        assert manifest_path == replay_seed_dir / "run_manifest.json"
+        assert not (seed_cfg.paths.output_dir / "run_manifest.json").exists()
+        manifest = json.loads(manifest_path.read_text())
+        assert manifest["cell"]["output_dir"] == str(seed_cfg.paths.output_dir)
+        assert manifest["cell"]["replay_dir"] == str(replay_seed_dir)
+
+    def test_skip_completed_under_replay_checks_replay_not_source(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+        _seed_morse_artefacts(seed_cfg.paths.morse_dir)
+        replay_root = tmp_path / "replay"
+        replay_seed_dir = replay_root / "replay_smoke" / "seed_0"
+        replay_morse = replay_seed_dir / "MG"
+        replay_morse.mkdir(parents=True)
+
+        # Pre-populate the replay tree with sentinel content. If
+        # skip_completed correctly checks the replay tree, render should
+        # short-circuit and leave the sentinels in place.
+        sentinel = b"REPLAY-ALREADY-DONE"
+        replay_pdfs = [
+            replay_morse / "morse_graph.pdf",
+            replay_morse / "morse_graph.png",
+            replay_morse / "morse_sets.pdf",
+            replay_morse / "morse_sets.png",
+        ]
+        for p in replay_pdfs:
+            p.write_bytes(sentinel)
+
+        run(
+            cfg,
+            stages=["render"],
+            device="cpu",
+            verbose=False,
+            skip_completed=True,
+            replay_root=replay_root,
+        )
+
+        for p in replay_pdfs:
+            assert p.read_bytes() == sentinel, f"render did not honour skip_completed under replay: {p}"
+
+    def test_read_only_blocks_train_stage_even_with_replay_root(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        with pytest.raises(RuntimeError, match="read_only"):
+            run(
+                cfg,
+                stages=["train"],
+                device="cpu",
+                verbose=False,
+                replay_root=tmp_path / "replay",
+            )
+
+
+class TestTopLevelPipelineScript:
+    def test_cli_routes_summary_to_replay_for_read_only_config(self, tmp_path):
+        cfg = _read_only_cfg(tmp_path=tmp_path)
+        seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+        _seed_morse_artefacts(seed_cfg.paths.morse_dir)
+
+        cfg_path = tmp_path / "read_only_config.json"
+        cfg_path.write_text(json.dumps(cfg.model_dump(mode="json")))
+
+        sys.path.insert(0, str(REPO_ROOT))
+        previous = sys.modules.pop("pipeline", None)
+        try:
+            import importlib
+
+            mod = importlib.import_module("pipeline")
+            replay_root = tmp_path / "replay"
+            rc = mod.main([
+                "--config", str(cfg_path),
+                "--stages", "render",
+                "--replay-root", str(replay_root),
+                "--quiet",
+            ])
+        finally:
+            sys.modules.pop("pipeline", None)
+            if previous is not None:
+                sys.modules["pipeline"] = previous
+            sys.path.pop(0)
+
+        assert rc == 0
+        replay_expt = replay_root / "replay_smoke"
+        summary_path = replay_expt / "pipeline_summary.json"
+        assert summary_path.exists()
+        assert not (cfg.paths.output_dir / "pipeline_summary.json").exists()
+
+        summary = json.loads(summary_path.read_text())
+        assert summary[0]["replay_dir"] == str(replay_expt / "seed_0")
+        assert (replay_expt / "seed_0" / "MG" / "morse_sets.pdf").exists()
 
 
 class TestReproducePaperScript:

@@ -47,6 +47,9 @@ invoke directly:
 # Re-render one paper figure from saved Morse/checkpoint artefacts:
 ../.venv/bin/python reproduce_paper.py --only fig_coral_basic --max-seeds 1
 
+# For configs marked paths.read_only=true, derived outputs go to output/replay/<config-stem>/.
+../.venv/bin/python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
+
 # Opt into a retrain/recompute. The data stage preserves existing CSVs.
 ../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
 ```
@@ -73,11 +76,23 @@ Each paper experiment is a config-driven sequence:
    activations, and terminal activations; `training` controls optimizer,
    scheduler, clipping, loss mode, and loss weights. Training emits a single
    state_dict and an architecture sidecar.
-4. `morse_graph.run(cfg)` — infer latent bounds, build the CMGDB box map,
+4. `diagnose.run(cfg)` — iterate the learned latent map on a grid and write a
+   cheap diagnostic (`diagnose.json` plus point-cloud/orbit plots) before
+   spending time on CMGDB.
+5. `morse_graph.run(cfg)` — infer latent bounds, build the CMGDB box map,
    or use fixed `cmgdb.lower_bounds` / `cmgdb.upper_bounds`, then compute the
    Conley-Morse graph.
-5. Per-experiment metric (`unique_membership` for coral, tau-bar tolerance
+6. `render_stage(cfg)` — re-render Morse graph/set plots and experiment extras
+   from saved DOT/CSV/checkpoint artefacts only; it does not invoke CMGDB.
+7. Per-experiment metric (`unique_membership` for coral, tau-bar tolerance
    for the Leslie failure case, etc.).
+
+Preserved paper configs set `paths.read_only: true`. In that mode `data`,
+`scale`, `train`, and `morse` are blocked unless `--force-overwrite` is passed.
+Derived stages (`diagnose`, `render`, `metrics`, and `run_manifest.json`) read
+the source artefacts but write to `output/replay/<experiment_name>/...` by
+default, or to a custom `--replay-root`. This makes replay deterministic
+without dirtying tracked `data/` or `output/` artefacts.
 
 Long runs can be split into independent cells:
 

@@ -277,6 +277,11 @@ class ExperimentConfig(BaseModel):
     cmgdb: CMGDBConfig = Field(default_factory=CMGDBConfig)
     paths: PathsConfig
     seeds: list[int] = Field(default_factory=lambda: [0])
+    # Stable, human-readable id for this experiment. The loader populates this
+    # with the YAML file's ``Path.stem`` when it is not explicitly set in YAML;
+    # downstream code uses it to compute replay output roots
+    # (``output/replay/<experiment_name>/...``) and to label run manifests.
+    experiment_name: str | None = None
 
     @model_validator(mode="after")
     def _arch_dims_match_system(self) -> ExperimentConfig:

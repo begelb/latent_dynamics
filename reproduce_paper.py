@@ -60,6 +60,7 @@ def _run_one(
     max_seeds: int | None,
     verbose: bool,
     force_overwrite: bool = False,
+    replay_root: Path | None = None,
 ) -> str:
     cfg_path = CONFIGS_DIR / config_name
     if not cfg_path.exists():
@@ -78,6 +79,7 @@ def _run_one(
         max_seeds=max_seeds,
         verbose=verbose,
         force_overwrite=force_overwrite,
+        replay_root=replay_root,
     )
     return _summarise_results(results)
 
@@ -96,6 +98,16 @@ def main(argv: list[str] | None = None) -> int:
         "--force-overwrite",
         action="store_true",
         help="bypass paths.read_only and legacy-checkpoint guards",
+    )
+    parser.add_argument(
+        "--replay-root",
+        type=Path,
+        default=None,
+        help=(
+            "destination for derived render/metrics/diagnose/manifest writes "
+            "when running against a paths.read_only=true config. "
+            f"Defaults to {pipeline.DEFAULT_REPLAY_ROOT} when omitted."
+        ),
     )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
@@ -116,6 +128,7 @@ def main(argv: list[str] | None = None) -> int:
                 max_seeds=args.max_seeds,
                 verbose=not args.quiet,
                 force_overwrite=args.force_overwrite,
+                replay_root=args.replay_root,
             )
         except Exception as exc:
             print(f"[FAIL] {name}: {exc}")

@@ -69,4 +69,7 @@ def load_config(path: str | Path, *, apply_defaults: bool = True) -> ExperimentC
         if defaults_path is not None:
             raw = _deep_merge(_load_yaml(defaults_path), raw)
 
+    if not raw.get("experiment_name"):
+        raw["experiment_name"] = cfg_path.stem
+
     return ExperimentConfig.model_validate(raw)

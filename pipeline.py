@@ -63,6 +63,16 @@ def main(argv: list[str] | None = None) -> int:
         help="bypass paths.read_only and legacy-checkpoint guards; only use to "
              "intentionally clobber preserved paper artefacts",
     )
+    parser.add_argument(
+        "--replay-root",
+        type=Path,
+        default=None,
+        help=(
+            "destination for derived render/metrics/diagnose/manifest writes "
+            "when running against a paths.read_only=true config. "
+            f"Defaults to {pipeline.DEFAULT_REPLAY_ROOT} when omitted."
+        ),
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
@@ -86,6 +96,7 @@ def main(argv: list[str] | None = None) -> int:
         expected_cells=args.expected_cells,
         skip_completed=args.skip_completed,
         force_overwrite=args.force_overwrite,
+        replay_root=args.replay_root,
         verbose=not args.quiet,
     )
 
@@ -94,7 +105,15 @@ def main(argv: list[str] | None = None) -> int:
         if cell_index is not None
         else "pipeline_summary.json"
     )
-    summary_path = cfg.paths.output_dir / summary_name
+    resolved_replay_root = pipeline._resolve_replay_root(
+        cfg, args.replay_root, force_overwrite=args.force_overwrite,
+    )
+    summary_root = (
+        cfg.paths.output_dir
+        if resolved_replay_root is None
+        else Path(resolved_replay_root) / (cfg.experiment_name or "unnamed")
+    )
+    summary_path = summary_root / summary_name
     summary_path.parent.mkdir(parents=True, exist_ok=True)
     summary_path.write_text(json.dumps(results, indent=2, default=str))
     if not args.quiet:

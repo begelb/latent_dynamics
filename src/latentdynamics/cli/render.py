@@ -49,8 +49,16 @@ def render_stage(
     *,
     train_file: str = "train",
     verbose: bool = True,
+    out_dir: Path | None = None,
 ) -> dict[str, list[str]]:
     """Re-render Morse plots from saved DOT/CSV plus any system-specific figures.
+
+    Reads source artefacts from ``cfg.paths.morse_dir`` and
+    ``cfg.paths.output_dir``. When ``out_dir`` is provided, all rendered
+    figures (Morse PDFs/PNGs and system-specific extras) are written under
+    ``out_dir`` (``out_dir/MG/...`` and ``out_dir/figures/...``); when it is
+    ``None``, output defaults to ``cfg.paths.output_dir``, matching the
+    pre-replay-routing behaviour.
 
     Returns ``{"skipped": <reason>}`` when the saved Morse artefacts are missing
     or empty (e.g. partial uploads), so a multi-seed sweep can keep going.
@@ -69,18 +77,20 @@ def render_stage(
 
     bounds_lower, bounds_upper = _bounds_from_log(cfg.paths.output_dir / "mg_params_log.txt")
 
+    write_root = Path(out_dir) if out_dir is not None else cfg.paths.output_dir
     figures = render_morse_from_files(
         morse_dir,
         bounds_lower=bounds_lower,
         bounds_upper=bounds_upper,
+        out_dir=write_root / "MG",
     )
     rendered = [str(figures.morse_graph_pdf), str(figures.morse_graph_png), *map(str, figures.morse_sets_paths)]
 
-    extras = render_extras(cfg, train_file=train_file, verbose=verbose)
+    extras = render_extras(cfg, train_file=train_file, verbose=verbose, out_dir=write_root)
     rendered.extend(extras)
 
     if verbose:
-        print(f"render: {len(rendered)} file(s) under {cfg.paths.output_dir}")
+        print(f"render: {len(rendered)} file(s) under {write_root}")
     return {"figures": rendered}
 
 
@@ -89,11 +99,14 @@ def render_extras(
     *,
     train_file: str = "train",
     verbose: bool = True,
+    out_dir: Path | None = None,
 ) -> list[str]:
     """System-specific render hooks; safe no-op for systems without extras."""
     name = cfg.system.name
     if name == "leslie3d":
-        return _render_leslie3d_extras(cfg, train_file=train_file, verbose=verbose)
+        return _render_leslie3d_extras(
+            cfg, train_file=train_file, verbose=verbose, out_dir=out_dir,
+        )
     return []
 
 
@@ -135,6 +148,7 @@ def _render_leslie3d_extras(
     *,
     train_file: str,
     verbose: bool,
+    out_dir: Path | None = None,
 ) -> list[str]:
     """Render the latent-trajectory overlay (paper Fig. 1.214) from saved artefacts."""
     from ..viz import plot_latent_trajectory
@@ -165,7 +179,8 @@ def _render_leslie3d_extras(
     encode = _make_encode_callable(model.encoder, scaler, device)
     advance = _make_advance_callable(model.latent_map, device)
 
-    save_path = cfg.paths.figures_dir / "latent_trajectory.png"
+    figures_root = Path(out_dir) / "figures" if out_dir is not None else cfg.paths.figures_dir
+    save_path = figures_root / "latent_trajectory.png"
     plot_latent_trajectory(
         morse_set_data=morse_set_data,
         periodic_pts=LESLIE3D_PERIODIC_PTS,

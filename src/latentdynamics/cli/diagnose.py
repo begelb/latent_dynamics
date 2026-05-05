@@ -3,7 +3,8 @@
 Goal: detect a collapsed-latent regime in seconds, before paying for a 30+ min
 CMGDB run on a model that has only one global attractor in the latent.
 
-Three artefacts written to ``cfg.paths.output_dir``:
+Three artefacts written under the run's write-root (``cfg.paths.output_dir``
+by default, or the replay tree when invoked with ``out_dir=...``):
 
 - ``figures/latent_pointcloud.png`` : encoded train+test data scattered in the
   latent box. A healthy run shows visible structure spanning the box; a
@@ -27,7 +28,7 @@ import numpy as np
 import torch
 from numpy.typing import NDArray
 
-from ..analysis.morse import LatentBounds, infer_latent_bounds
+from ..analysis.morse import LatentBounds
 from ..config import ExperimentConfig
 from ..training import load_any_checkpoint
 
@@ -187,19 +188,25 @@ def run(
     cluster_eps_frac: float = 0.01,
     convergence_eps_frac: float = 1e-4,
     verbose: bool = True,
+    out_dir: Path | None = None,
 ) -> dict:
     """Diagnose the trained latent map without invoking CMGDB.
 
-    Reads ``cfg.paths.output_dir/models/`` for the checkpoint and writes:
+    Reads source artefacts from ``cfg.paths``: the checkpoint at
+    ``cfg.paths.output_dir/models/``, the scaler at
+    ``cfg.paths.scaler_path(train_file)``, and the train/test CSVs at
+    ``cfg.paths.data_dir``. Writes to ``out_dir`` when provided
+    (replay-routing) or to ``cfg.paths.output_dir`` otherwise:
 
-    - ``cfg.paths.figures_dir/latent_pointcloud.png``
-    - ``cfg.paths.figures_dir/latent_orbits.png``
-    - ``cfg.paths.output_dir/diagnose.json``
+    - ``<write_root>/figures/latent_pointcloud.png``
+    - ``<write_root>/figures/latent_orbits.png``
+    - ``<write_root>/diagnose.json``
 
     Returns the JSON payload as a dict.
     """
-    output_root = cfg.paths.output_dir
-    model, _arch = load_any_checkpoint(output_root / "models", arch=cfg.arch)
+    source_root = cfg.paths.output_dir
+    write_root = Path(out_dir) if out_dir is not None else source_root
+    model, _arch = load_any_checkpoint(source_root / "models", arch=cfg.arch)
 
     if device is None:
         device = (
@@ -246,7 +253,7 @@ def run(
         n_converged_clusters = 0
 
     # 3. Plots.
-    fig_dir = cfg.paths.figures_dir
+    fig_dir = write_root / "figures"
     _save_pointcloud_plot(encoded, bounds, fig_dir / "latent_pointcloud.png")
     _save_orbits_plot(grid, terminal, labels, bounds, fig_dir / "latent_orbits.png")
 
@@ -285,7 +292,8 @@ def run(
         "frac_unconverged": frac_unconverged,
     }
 
-    json_path = output_root / "diagnose.json"
+    write_root.mkdir(parents=True, exist_ok=True)
+    json_path = write_root / "diagnose.json"
     json_path.write_text(json.dumps(payload, indent=2))
 
     if verbose:

@@ -35,8 +35,13 @@ ALL_STAGES: tuple[str, ...] = (
 # Stages that produce or could overwrite the irreplaceable paper artefacts
 # (datasets, scalers, trained checkpoints, CMGDB DOT/CSV). ``render``,
 # ``metrics``, and ``diagnose`` are derived from these and may run on
-# read-only configs (diagnose only writes figures/ and diagnose.json).
+# read-only configs - their writes get redirected to the replay tree by
+# ``_derived_output_dir`` rather than blocked.
 WRITE_STAGES: frozenset[str] = frozenset({"data", "scale", "train", "morse"})
+
+# Default replay root (relative to cwd). Used when ``cfg.paths.read_only`` is
+# true and the caller did not supply ``replay_root``.
+DEFAULT_REPLAY_ROOT: Path = Path("output/replay")
 
 
 def _check_read_only(
@@ -52,6 +57,54 @@ def _check_read_only(
             f"Pass --force-overwrite to override (and consider whether you "
             f"really want to clobber preserved paper artefacts)."
         )
+
+
+def _resolve_replay_root(
+    cfg: ExperimentConfig,
+    replay_root: Path | str | None,
+    *,
+    force_overwrite: bool = False,
+) -> Path | None:
+    """Return the replay root to use, or None if redirection is disabled.
+
+    Redirection is active only when ``cfg.paths.read_only`` is true. If the
+    caller supplied ``replay_root`` (either programmatically or via CLI), use
+    it. Otherwise fall back to :data:`DEFAULT_REPLAY_ROOT`. Passing
+    ``force_overwrite`` disables redirection so all stages write to the source
+    tree intentionally.
+    """
+    if force_overwrite:
+        return None
+    if not cfg.paths.read_only:
+        return None
+    if replay_root is None:
+        return DEFAULT_REPLAY_ROOT
+    return Path(replay_root)
+
+
+def _derived_output_dir(
+    cfg: ExperimentConfig,
+    seed_cfg: ExperimentConfig,
+    *,
+    replay_root: Path | None,
+) -> Path:
+    """Where derived stages (render/metrics/diagnose/manifest) write.
+
+    For non-read-only configs, or when ``replay_root`` is None, this returns
+    ``seed_cfg.paths.output_dir`` - the source location, matching the
+    pre-replay-routing behaviour.
+
+    For read-only configs with a replay root, this returns
+    ``replay_root / cfg.experiment_name / <rel>`` where ``<rel>`` is the
+    relative path from ``cfg.paths.output_dir`` to ``seed_cfg.paths.output_dir``
+    so multi-cell substructure (``train_file/seed_K``) is mirrored under the
+    replay tree without touching source artefacts.
+    """
+    if replay_root is None:
+        return seed_cfg.paths.output_dir
+    rel = seed_cfg.paths.output_dir.relative_to(cfg.paths.output_dir)
+    name = cfg.experiment_name or "unnamed"
+    return Path(replay_root) / name / rel
 
 
 @dataclass(frozen=True)
@@ -199,8 +252,17 @@ def _stage_complete(
     seed_cfg: ExperimentConfig,
     *,
     train_file: str,
+    derived_dir: Path | None = None,
 ) -> bool:
-    """Best-effort artefact completeness check for resumable runs."""
+    """Best-effort artefact completeness check for resumable runs.
+
+    For derived stages (``diagnose``/``render``/``metrics``), completeness
+    is checked against ``derived_dir`` when supplied; this matters under
+    replay-routing, where source artefacts are tracked-and-stale yet the
+    replay tree may be empty. Falls back to ``seed_cfg.paths.output_dir``
+    for source-routed runs.
+    """
+    derived = derived_dir if derived_dir is not None else seed_cfg.paths.output_dir
     if stage == "data":
         return _data_complete(cfg)
     if stage == "scale":
@@ -210,21 +272,22 @@ def _stage_complete(
     if stage == "train":
         return has_new_checkpoint(seed_cfg.paths.model_dir) or has_legacy_checkpoint(seed_cfg.paths.model_dir)
     if stage == "diagnose":
-        return _nonempty_file(seed_cfg.paths.output_dir / "diagnose.json")
+        return _nonempty_file(derived / "diagnose.json")
     if stage == "morse":
         return (
             _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph")
             and _nonempty_file(seed_cfg.paths.morse_dir / "morse_sets")
         )
     if stage == "render":
+        morse_render_dir = derived / "MG"
         return (
-            _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph.pdf")
-            and _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph.png")
-            and _nonempty_file(seed_cfg.paths.morse_dir / "morse_sets.pdf")
-            and _nonempty_file(seed_cfg.paths.morse_dir / "morse_sets.png")
+            _nonempty_file(morse_render_dir / "morse_graph.pdf")
+            and _nonempty_file(morse_render_dir / "morse_graph.png")
+            and _nonempty_file(morse_render_dir / "morse_sets.pdf")
+            and _nonempty_file(morse_render_dir / "morse_sets.png")
         )
     if stage == "metrics":
-        return _nonempty_file(seed_cfg.paths.output_dir / "metrics.json")
+        return _nonempty_file(derived / "metrics.json")
     raise ValueError(f"unknown stage {stage!r}")
 
 
@@ -236,13 +299,17 @@ def _skip_completed(
     train_file: str,
     enabled: bool,
     verbose: bool,
+    derived_dir: Path | None = None,
 ) -> bool:
     if not enabled:
         return False
-    if not _stage_complete(stage, cfg, seed_cfg, train_file=train_file):
+    if not _stage_complete(
+        stage, cfg, seed_cfg, train_file=train_file, derived_dir=derived_dir,
+    ):
         return False
     if verbose:
-        print(f"{stage}: skipped existing artefacts for {seed_cfg.paths.output_dir}")
+        target = derived_dir if derived_dir is not None else seed_cfg.paths.output_dir
+        print(f"{stage}: skipped existing artefacts for {target}")
     return True
 
 
@@ -256,19 +323,32 @@ def run_one(
     verbose: bool = True,
     skip_completed: bool = False,
     force_overwrite: bool = False,
+    replay_root: Path | str | None = None,
 ) -> dict:
     """Run requested stages for one (config, train_file, seed) cell.
 
     The ``data`` stage always operates on the top-level ``cfg`` (data files
     are global). All other stages route to the seed-specific output subdir.
+
+    Under read-only configs, derived stages (``render``/``metrics``/``diagnose``
+    and ``run_manifest``) read from the source ``seed_cfg.paths`` tree but
+    write under ``replay_root / cfg.experiment_name / <rel>``; see
+    :func:`_derived_output_dir`. Source-write stages remain blocked unless
+    ``force_overwrite`` is passed.
     """
     plan = _normalise_stages(stages)
     _check_read_only(cfg, plan, force_overwrite=force_overwrite)
     seed_cfg = _config_for_seed(cfg, train_file=train_file, seed=seed)
+    resolved_replay_root = _resolve_replay_root(
+        cfg, replay_root, force_overwrite=force_overwrite,
+    )
+    derived_dir = _derived_output_dir(cfg, seed_cfg, replay_root=resolved_replay_root)
     dev = _resolve_device(device)
 
     summary: dict = {"stages": plan, "train_file": train_file, "seed": seed,
                      "output_dir": str(seed_cfg.paths.output_dir), "device": str(dev)}
+    if derived_dir != seed_cfg.paths.output_dir:
+        summary["replay_dir"] = str(derived_dir)
 
     skipped: list[str] = []
 
@@ -300,12 +380,14 @@ def run_one(
     elif "train" in plan:
         skipped.append("train")
     if "diagnose" in plan and not _skip_completed(
-        "diagnose", cfg, seed_cfg, train_file=train_file, enabled=skip_completed, verbose=verbose
+        "diagnose", cfg, seed_cfg, train_file=train_file,
+        enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
     ):
         from . import diagnose as diagnose_stage
 
         summary["diagnose"] = diagnose_stage.run(
             seed_cfg, train_file=train_file, device=dev, verbose=verbose,
+            out_dir=derived_dir,
         )
     elif "diagnose" in plan:
         skipped.append("diagnose")
@@ -321,19 +403,26 @@ def run_one(
     elif "morse" in plan:
         skipped.append("morse")
     if "render" in plan and not _skip_completed(
-        "render", cfg, seed_cfg, train_file=train_file, enabled=skip_completed, verbose=verbose
+        "render", cfg, seed_cfg, train_file=train_file,
+        enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
     ):
         from .render import render_stage
 
-        summary["render"] = render_stage(seed_cfg, train_file=train_file, verbose=verbose)
+        summary["render"] = render_stage(
+            seed_cfg, train_file=train_file, verbose=verbose, out_dir=derived_dir,
+        )
     elif "render" in plan:
         skipped.append("render")
     if "metrics" in plan and not _skip_completed(
-        "metrics", cfg, seed_cfg, train_file=train_file, enabled=skip_completed, verbose=verbose
+        "metrics", cfg, seed_cfg, train_file=train_file,
+        enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
     ):
         from .metrics import metrics_stage
 
-        summary["metrics"] = metrics_stage(seed_cfg, cfg, train_file=train_file, verbose=verbose)
+        summary["metrics"] = metrics_stage(
+            seed_cfg, cfg, train_file=train_file, verbose=verbose,
+            out_dir=derived_dir,
+        )
     elif "metrics" in plan:
         skipped.append("metrics")
 
@@ -348,6 +437,7 @@ def run_one(
             cell_summary=summary,
             stages=plan,
             train_file=train_file,
+            out_dir=derived_dir,
         )
     )
 
@@ -365,8 +455,12 @@ def run(
     expected_cells: int | None = None,
     skip_completed: bool = False,
     force_overwrite: bool = False,
+    replay_root: Path | str | None = None,
 ) -> list[dict]:
-    """Run requested stages for every (train_file, seed) implied by ``cfg``."""
+    """Run requested stages for every (train_file, seed) implied by ``cfg``.
+
+    See :func:`run_one` for replay-routing semantics under read-only configs.
+    """
     plan = _normalise_stages(stages)
     _check_read_only(cfg, plan, force_overwrite=force_overwrite)
     cells = _select_cells(
@@ -374,6 +468,9 @@ def run(
         max_seeds=max_seeds,
         cell_index=cell_index,
         expected_cells=expected_cells,
+    )
+    resolved_replay_root = _resolve_replay_root(
+        cfg, replay_root, force_overwrite=force_overwrite,
     )
     dev = _resolve_device(device)
     results: list[dict] = []
@@ -391,6 +488,7 @@ def run(
         train_file = cell.train_file
         seed = cell.seed
         seed_cfg = _config_for_seed(cfg, train_file=train_file, seed=seed)
+        derived_dir = _derived_output_dir(cfg, seed_cfg, replay_root=resolved_replay_root)
 
         if "scale" in plan and train_file not in scaled_train_files:
             if _skip_completed(
@@ -411,6 +509,8 @@ def run(
             "device": str(dev),
             "output_dir": str(seed_cfg.paths.output_dir),
         }
+        if derived_dir != seed_cfg.paths.output_dir:
+            cell_summary["replay_dir"] = str(derived_dir)
         skipped: list[str] = []
         if "train" in plan and not _skip_completed(
             "train", cfg, seed_cfg, train_file=train_file,
@@ -426,12 +526,13 @@ def run(
             skipped.append("train")
         if "diagnose" in plan and not _skip_completed(
             "diagnose", cfg, seed_cfg, train_file=train_file,
-            enabled=skip_completed, verbose=verbose
+            enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
         ):
             from . import diagnose as diagnose_stage
 
             cell_summary["diagnose"] = diagnose_stage.run(
                 seed_cfg, train_file=train_file, device=dev, verbose=verbose,
+                out_dir=derived_dir,
             )
         elif "diagnose" in plan:
             skipped.append("diagnose")
@@ -449,20 +550,25 @@ def run(
             skipped.append("morse")
         if "render" in plan and not _skip_completed(
             "render", cfg, seed_cfg, train_file=train_file,
-            enabled=skip_completed, verbose=verbose
+            enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
         ):
             from .render import render_stage
 
-            cell_summary["render"] = render_stage(seed_cfg, train_file=train_file, verbose=verbose)
+            cell_summary["render"] = render_stage(
+                seed_cfg, train_file=train_file, verbose=verbose, out_dir=derived_dir,
+            )
         elif "render" in plan:
             skipped.append("render")
         if "metrics" in plan and not _skip_completed(
             "metrics", cfg, seed_cfg, train_file=train_file,
-            enabled=skip_completed, verbose=verbose
+            enabled=skip_completed, verbose=verbose, derived_dir=derived_dir,
         ):
             from .metrics import metrics_stage
 
-            cell_summary["metrics"] = metrics_stage(seed_cfg, cfg, train_file=train_file, verbose=verbose)
+            cell_summary["metrics"] = metrics_stage(
+                seed_cfg, cfg, train_file=train_file, verbose=verbose,
+                out_dir=derived_dir,
+            )
         elif "metrics" in plan:
             skipped.append("metrics")
         if skipped:
@@ -476,6 +582,7 @@ def run(
                 cell_summary=cell_summary,
                 stages=plan,
                 train_file=train_file,
+                out_dir=derived_dir,
             )
         )
         results.append(cell_summary)
