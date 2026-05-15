@@ -1,7 +1,11 @@
 arch:
   activation: relu
-  encoder_out_activation: tanh
-  decoder_out_activation: sigmoid
+  encoder:
+    out_activation: tanh
+  latent_map:
+    out_activation: tanh
+  decoder:
+    out_activation: sigmoid
 
 training:
   batch_size: 1024
