@@ -1,0 +1,41 @@
+# Asymmetric architecture example. Mirrors the leslie3d setup but with:
+#   - wider encoder than decoder (16,16 vs 8,8)
+#   - shallower latent map (1 hidden layer)
+#   - encoder uses tanh activation, latent map relu, decoder gelu
+#   - decoder out_activation overridden to tanh
+# This file is documentation-by-example. The resolved networks must train.
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 2
+  encoder:
+    hidden_shapes: [16, 16]
+    activation: tanh
+  latent_map:
+    hidden_shapes: [32]
+    activation: relu
+  decoder:
+    hidden_shapes: [8, 8]
+    activation: gelu
+    out_activation: tanh
+
+training:
+  loss_weights: [10, 10, 1]
+
+data:
+  sampling_method: uniform
+  n_samples_train: 2000
+  n_samples_test: 5000
+  n_iterations: 30
+
+paths:
+  data_dir: data/leslie3d
+  output_dir: output/scratch/asymmetric_example
