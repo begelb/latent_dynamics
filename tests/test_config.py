@@ -125,6 +125,36 @@ class TestSchema:
                 encoder={"num_layers": 3, "hidden_shapes": [8, 8]},
             )
 
+    def test_arch_accepts_per_component_only(self):
+        """If every component supplies hidden_shapes, shared num_layers/hidden_shape
+        must not be required."""
+        arch = ArchConfig.model_validate(
+            {
+                "high_dims": 4,
+                "low_dims": 2,
+                "encoder": {"hidden_shapes": [16, 8]},
+                "latent_map": {"hidden_shapes": [8, 8]},
+                "decoder": {"hidden_shapes": [8, 16]},
+            }
+        )
+        assert arch.component("encoder").hidden_shapes == (16, 8)
+        assert arch.component("latent_map").hidden_shapes == (8, 8)
+        assert arch.component("decoder").hidden_shapes == (8, 16)
+
+    def test_arch_rejects_unresolvable_component(self):
+        """If a component is missing hidden_shapes and there is no shared
+        num_layers/hidden_shape, validation must fail with a clear message
+        naming the unresolvable component."""
+        with pytest.raises(ValueError, match=r"encoder.*unresolvable"):
+            ArchConfig.model_validate(
+                {
+                    "high_dims": 4,
+                    "low_dims": 2,
+                    "latent_map": {"hidden_shapes": [8, 8]},
+                    "decoder": {"hidden_shapes": [8, 16]},
+                }
+            )
+
 
 class TestLoader:
     def test_coral_basic_yaml_loads(self):

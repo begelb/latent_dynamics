@@ -87,8 +87,8 @@ class ComponentArchConfig(BaseModel):
 class ArchConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
-    num_layers: int = Field(ge=1)
-    hidden_shape: int = Field(ge=1)
+    num_layers: int | None = Field(default=None, ge=1)
+    hidden_shape: int | None = Field(default=None, ge=1)
     hidden_shapes: list[int] | None = Field(default=None, min_length=1)
     high_dims: int = Field(ge=1)
     low_dims: int = Field(ge=1)
@@ -124,28 +124,65 @@ class ArchConfig(BaseModel):
 
     @model_validator(mode="after")
     def _consistent_shared_layer_count(self) -> ArchConfig:
-        if self.hidden_shapes is not None and len(self.hidden_shapes) != self.num_layers:
+        if (
+            self.hidden_shapes is not None
+            and self.num_layers is not None
+            and len(self.hidden_shapes) != self.num_layers
+        ):
             raise ValueError("num_layers must match len(hidden_shapes)")
+        return self
+
+    @model_validator(mode="after")
+    def _every_component_resolvable(self) -> ArchConfig:
+        """Each of encoder/latent_map/decoder must resolve to a concrete
+        hidden_shapes tuple via either (a) its own hidden_shapes, (b) its
+        own num_layers + hidden_shape, or (c) shared num_layers + hidden_shape
+        (or shared hidden_shapes inherited when the component declares
+        neither num_layers nor hidden_shape)."""
+        for name in ("encoder", "latent_map", "decoder"):
+            override: ComponentArchConfig = getattr(self, name)
+            if override.hidden_shapes is not None:
+                continue
+            if (
+                self.hidden_shapes is not None
+                and override.num_layers is None
+                and override.hidden_shape is None
+            ):
+                continue
+            effective_layers = (
+                override.num_layers if override.num_layers is not None else self.num_layers
+            )
+            effective_width = (
+                override.hidden_shape if override.hidden_shape is not None else self.hidden_shape
+            )
+            if effective_layers is None or effective_width is None:
+                raise ValueError(
+                    f"{name} is unresolvable: supply arch.{name}.hidden_shapes, "
+                    f"arch.{name}.num_layers + arch.{name}.hidden_shape, or shared "
+                    f"arch.num_layers + arch.hidden_shape"
+                )
         return self
 
     def component(
         self, name: Literal["encoder", "latent_map", "decoder"]
     ) -> ResolvedComponentConfig:
         """Resolve shared defaults plus per-component overrides."""
-        override = getattr(self, name)
+        override: ComponentArchConfig = getattr(self, name)
         if override.hidden_shapes is not None:
             hidden_shapes = tuple(int(width) for width in override.hidden_shapes)
+        elif (
+            self.hidden_shapes is not None
+            and override.num_layers is None
+            and override.hidden_shape is None
+        ):
+            hidden_shapes = tuple(int(width) for width in self.hidden_shapes)
         else:
-            num_layers = int(override.num_layers or self.num_layers)
-            hidden_shape = int(override.hidden_shape or self.hidden_shape)
-            if (
-                self.hidden_shapes is not None
-                and override.num_layers is None
-                and override.hidden_shape is None
-            ):
-                hidden_shapes = tuple(int(width) for width in self.hidden_shapes)
-            else:
-                hidden_shapes = tuple(hidden_shape for _ in range(num_layers))
+            num_layers = override.num_layers if override.num_layers is not None else self.num_layers
+            hidden_shape = (
+                override.hidden_shape if override.hidden_shape is not None else self.hidden_shape
+            )
+            assert num_layers is not None and hidden_shape is not None
+            hidden_shapes = tuple(int(hidden_shape) for _ in range(int(num_layers)))
 
         default_out = {
             "encoder": self.encoder_out_activation,
