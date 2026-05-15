@@ -155,6 +155,23 @@ class TestSchema:
                 }
             )
 
+    def test_nested_out_activation_overrides_top_level(self):
+        """When both top-level encoder_out_activation and per-component
+        out_activation are set, the nested value must win. Decoder which
+        sets neither must fall back to the class-level default ("sigmoid")."""
+        arch = ArchConfig.model_validate(
+            {
+                "num_layers": 2,
+                "hidden_shape": 8,
+                "high_dims": 4,
+                "low_dims": 2,
+                "encoder_out_activation": "tanh",
+                "encoder": {"out_activation": "none"},
+            }
+        )
+        assert arch.component("encoder").out_activation == "none"
+        assert arch.component("decoder").out_activation == "sigmoid"
+
 
 class TestLoader:
     def test_coral_basic_yaml_loads(self):
