@@ -134,42 +134,42 @@ render/postprocessing steps, not manual edits to preserved CMGDB artifacts.
 
 ## Modular hyperparameters
 
-The `arch` block has shared defaults plus per-component overrides:
+The `arch` block specifies hyperparameters per network (`encoder`, `latent_map`, `decoder`). Shared values at the top level act as defaults that any component may override.
+
+Most paper configs are symmetric — all three networks share width, depth, and activation — and use the terse shortcut form:
 
 ```yaml
 arch:
-  num_layers: 2
+  num_layers: 3
   hidden_shape: 64
-  high_dims: 64
-  low_dims: 2
-  activation: tanh
-  encoder_out_activation: none
-  latent_out_activation: none
-  decoder_out_activation: none
-  encoder:
-    hidden_shapes: [64, 32]
-  latent_map:
-    hidden_shapes: [32, 32]
-  decoder:
-    hidden_shapes: [32, 64]
+  high_dims: 13
+  low_dims: 1
 ```
 
-Use `hidden_shapes` for asymmetric networks. Use the flat
-`num_layers`/`hidden_shape` fields for repeated-width networks. Training
-hyperparameters live in `training` (`learning_rate`, `batch_size`, `epochs`,
-`patience`, `loss_weights`, `loss_mode`, scheduler settings, and optional
-`gradient_clip_norm`). Raw-coordinate experiments can set `data.scaling: none`.
-CMGDB bounds can be inferred from encoded data or fixed with
-`cmgdb.lower_bounds` and `cmgdb.upper_bounds`.
+Asymmetric architectures, or per-network activation choices, use the per-component form. Each component block accepts `hidden_shapes`, `num_layers` + `hidden_shape`, `activation`, and `out_activation`:
 
-The current schema is intentionally broad enough for the archived examples:
-per-component MLP widths and activations cover Marcio's asymmetric
-Chafee-Infante networks; `data.scaling: none` covers raw-coordinate runs;
-`cmgdb.padding` and fixed bounds cover non-default CMGDB calls; `train_files`
-and multi-seed lists cover Coral sweeps. If a future figure needs a visual
-choice that is not a scientific parameter, prefer adding an explicit render
-option or figure-specific render hook rather than baking the choice into
-training or CMGDB.
+```yaml
+arch:
+  high_dims: 64
+  low_dims: 2
+  activation: tanh                  # shared default
+  encoder:
+    hidden_shapes: [64, 32]         # asymmetric widths
+    out_activation: none
+  latent_map:
+    hidden_shapes: [32, 32]
+    activation: relu                # override shared default
+    out_activation: none
+  decoder:
+    hidden_shapes: [32, 64]
+    out_activation: none
+```
+
+Shared `arch.num_layers` / `arch.hidden_shape` are optional. If every component supplies its own `hidden_shapes`, the shared fields may be omitted entirely (see `configs/chafee_infante.yaml`). If any component lacks an explicit width specification, either provide it per-component or fall back to the shared fields.
+
+A worked example exercising asymmetric widths, per-network activations, and an `out_activation` override lives at `configs/scratch/asymmetric_example.yaml`.
+
+Training hyperparameters live under `training`. Data and CMGDB settings are unchanged by this refactor.
 
 ## Legacy data import
 
