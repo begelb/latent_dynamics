@@ -135,10 +135,12 @@ class ArchConfig(BaseModel):
     @model_validator(mode="after")
     def _every_component_resolvable(self) -> ArchConfig:
         """Each of encoder/latent_map/decoder must resolve to a concrete
-        hidden_shapes tuple via either (a) its own hidden_shapes, (b) its
-        own num_layers + hidden_shape, or (c) shared num_layers + hidden_shape
-        (or shared hidden_shapes inherited when the component declares
-        neither num_layers nor hidden_shape)."""
+        hidden_shapes tuple via one of four paths:
+          (a) component's own hidden_shapes,
+          (b) component's own num_layers + hidden_shape,
+          (c) shared arch.hidden_shapes (only when component sets neither
+              num_layers nor hidden_shape),
+          (d) shared arch.num_layers + arch.hidden_shape."""
         for name in ("encoder", "latent_map", "decoder"):
             override: ComponentArchConfig = getattr(self, name)
             if override.hidden_shapes is not None:
