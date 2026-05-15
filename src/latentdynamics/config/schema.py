@@ -158,8 +158,8 @@ class ArchConfig(BaseModel):
             if effective_layers is None or effective_width is None:
                 raise ValueError(
                     f"{name} is unresolvable: supply arch.{name}.hidden_shapes, "
-                    f"arch.{name}.num_layers + arch.{name}.hidden_shape, or shared "
-                    f"arch.num_layers + arch.hidden_shape"
+                    f"arch.{name}.num_layers + arch.{name}.hidden_shape, shared "
+                    f"arch.hidden_shapes, or shared arch.num_layers + arch.hidden_shape"
                 )
         return self
 
@@ -181,7 +181,7 @@ class ArchConfig(BaseModel):
             hidden_shape = (
                 override.hidden_shape if override.hidden_shape is not None else self.hidden_shape
             )
-            assert num_layers is not None and hidden_shape is not None
+            assert num_layers is not None and hidden_shape is not None  # validator guarantees this
             hidden_shapes = tuple(int(hidden_shape) for _ in range(int(num_layers)))
 
         default_out = {
