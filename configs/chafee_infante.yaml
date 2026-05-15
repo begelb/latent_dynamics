@@ -14,8 +14,6 @@ system:
 arch:
   # Mirrors archive/marcio/scripts/autoencoder_model.py:
   # encoder 64->64->32->2, latent map 2->32->32->2, decoder 2->32->64->64.
-  num_layers: 2
-  hidden_shape: 64
   high_dims: 64
   low_dims: 2
   activation: tanh
