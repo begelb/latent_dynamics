@@ -20,6 +20,7 @@ SystemName = Literal[
 SamplingMethod = Literal["uniform", "sobol", "adaptive"]
 ScalingMethod = Literal["minmax", "none"]
 LossMode = Literal["weighted", "additive"]
+BoxMapBackend = Literal["pytorch", "numpy", "uniform_precomputed"]
 
 
 class SystemConfig(BaseModel):
@@ -215,6 +216,7 @@ class CMGDBConfig(BaseModel):
     lower_bounds: list[float] | None = None
     upper_bounds: list[float] | None = None
     padding: bool = True
+    box_map_backend: BoxMapBackend = "pytorch"
 
     @model_validator(mode="after")
     def _ordered_subdivs(self) -> CMGDBConfig:
@@ -227,6 +229,12 @@ class CMGDBConfig(BaseModel):
                 raise ValueError("lower_bounds and upper_bounds must have the same length")
             if any(lo >= hi for lo, hi in zip(self.lower_bounds, self.upper_bounds, strict=True)):
                 raise ValueError("each lower bound must be strictly less than its upper bound")
+        if self.box_map_backend == "uniform_precomputed":
+            if not (self.subdiv_init == self.subdiv_min == self.subdiv_max):
+                raise ValueError(
+                    "box_map_backend='uniform_precomputed' requires uniform mode "
+                    "(subdiv_init == subdiv_min == subdiv_max)"
+                )
         return self
 
 

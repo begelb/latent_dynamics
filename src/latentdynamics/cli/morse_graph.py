@@ -110,7 +110,7 @@ def run(
         print(
             f"CMGDB: subdiv_init={cfg.cmgdb.subdiv_init} "
             f"min={cfg.cmgdb.subdiv_min} max={cfg.cmgdb.subdiv_max} "
-            f"padding={cfg.cmgdb.padding}"
+            f"padding={cfg.cmgdb.padding} backend={cfg.cmgdb.box_map_backend}"
         )
 
     t0 = time.perf_counter()
@@ -135,6 +135,7 @@ def run(
                 f"subdiv_max: {cfg.cmgdb.subdiv_max}",
                 f"subdiv_limit: {cfg.cmgdb.subdiv_limit}",
                 f"padding: {cfg.cmgdb.padding}",
+                f"box_map_backend: {cfg.cmgdb.box_map_backend}",
                 f"bounds_source: {bounds_source}",
                 f"duration_minutes: {duration_s / 60.0:.4f}",
             ]

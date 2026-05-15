@@ -1,6 +1,13 @@
 """Combinatorial-topological analysis on top of CMGDB."""
 
-from .morse import LatentBounds, compute_morse_graph, infer_latent_bounds, make_box_map
+from .morse import (
+    LatentBounds,
+    compute_morse_graph,
+    infer_latent_bounds,
+    make_box_map,
+    make_box_map_numpy,
+    make_box_map_uniform_precomputed,
+)
 from .morse_metrics import (
     check_unique_membership,
     find_morse_label_1d,
@@ -34,5 +41,7 @@ __all__ = [
     "infer_latent_bounds",
     "is_in_range",
     "make_box_map",
+    "make_box_map_numpy",
+    "make_box_map_uniform_precomputed",
     "orthogonal_distance",
 ]
