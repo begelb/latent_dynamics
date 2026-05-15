@@ -6,14 +6,17 @@ of every YAML under configs/ to ensure subsequent refactor tasks preserve the
 structure without silent changes to architecture specifications.
 """
 
-import pytest
-from pathlib import Path
-from latentdynamics.config.loader import load_config
+from __future__ import annotations
 
+from pathlib import Path
+
+import pytest
+
+from latentdynamics.config import load_config
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
 
-EXPECTED = {
+EXPECTED: dict[str, dict[str, dict[str, object]]] = {
     "chafee_infante.yaml": {
         "encoder": {
             "hidden_shapes": (64, 32),
@@ -217,14 +220,14 @@ def test_resolved_arch_matches_snapshot(rel_path: str) -> None:
         component = cfg.arch.component(component_name)
         component_expected = expected[component_name]
 
-        assert (
-            component.hidden_shapes == component_expected["hidden_shapes"]
-        ), f"{rel_path} {component_name}: hidden_shapes mismatch: got {component.hidden_shapes}, expected {component_expected['hidden_shapes']}"
+        assert component.hidden_shapes == component_expected["hidden_shapes"], (
+            f"{rel_path} {component_name}: hidden_shapes mismatch: got {component.hidden_shapes}, expected {component_expected['hidden_shapes']}"
+        )
 
-        assert (
-            component.activation == component_expected["activation"]
-        ), f"{rel_path} {component_name}: activation mismatch: got {component.activation!r}, expected {component_expected['activation']!r}"
+        assert component.activation == component_expected["activation"], (
+            f"{rel_path} {component_name}: activation mismatch: got {component.activation!r}, expected {component_expected['activation']!r}"
+        )
 
-        assert (
-            component.out_activation == component_expected["out_activation"]
-        ), f"{rel_path} {component_name}: out_activation mismatch: got {component.out_activation!r}, expected {component_expected['out_activation']!r}"
+        assert component.out_activation == component_expected["out_activation"], (
+            f"{rel_path} {component_name}: out_activation mismatch: got {component.out_activation!r}, expected {component_expected['out_activation']!r}"
+        )
