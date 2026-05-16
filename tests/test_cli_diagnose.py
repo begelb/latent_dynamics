@@ -189,9 +189,12 @@ def test_matched_dim_identity_report_not_applicable_tanh_out():
         near_identity_thresh=0.01,
     )
     assert block["matched_dims"] is True  # dims match...
-    # ... but bounded encoder activation disqualifies the soft note.
+    # ... but bounded encoder activation disqualifies that side only.
     assert block["encoder_near_identity"] is None
     assert block["mean_step_E_relative"] is None
+    # Decoder side still has linear out, so it IS computed.
+    assert block["decoder_near_identity"] is not None
+    assert block["mean_step_D_relative"] is not None
 
 
 def test_matched_dim_identity_report_identity_modules():

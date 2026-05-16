@@ -161,8 +161,9 @@ def _matched_dim_identity_report(
 ) -> dict:
     """Soft note: are E and D close to the identity?
 
-    Only computed when high_dims == low_dims AND both encoder and decoder
-    output activations are 'none'. Otherwise all numeric fields are null.
+    Each side is gated independently: when high_dims == low_dims, a side is
+    computed iff its own output activation is 'none'. When dims don't match,
+    all four optional fields are null regardless of activations.
     """
     matched_dims = arch.high_dims == arch.low_dims
     base = {
