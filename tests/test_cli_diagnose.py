@@ -53,3 +53,26 @@ def test_encoder_extent_report_sigmoid_collapsed():
     )
     assert collapsed is True
     assert block["reference_span"] == 1.0
+
+
+def test_encoder_extent_report_linear_healthy():
+    # Linear out: reference_span is null, flag uses absolute max_extent.
+    # max_extent = 0.5 here, well above 0.02.
+    encoded = np.array([[-0.25, -0.25], [0.25, 0.25]])
+    block, collapsed = diagnose._encoder_extent_report(
+        encoded, out_activation="none", collapse_thresh=0.02
+    )
+    assert collapsed is False
+    assert block["reference_span"] is None
+    assert block["max_extent_relative"] is None
+    assert block["max_extent"] == pytest.approx(0.5)
+
+
+def test_encoder_extent_report_linear_collapsed():
+    # max_extent = 0.01 absolute, below the 0.02 threshold.
+    encoded = np.array([[0.0, 0.0], [0.01, 0.005]])
+    block, collapsed = diagnose._encoder_extent_report(
+        encoded, out_activation="none", collapse_thresh=0.02
+    )
+    assert collapsed is True
+    assert block["reference_span"] is None
