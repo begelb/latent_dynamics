@@ -33,6 +33,43 @@ from ..config import ExperimentConfig
 from ..training import load_any_checkpoint
 
 
+_BOUNDED_ACTIVATION_SPANS: dict[str, float] = {
+    "tanh": 2.0,
+    "sigmoid": 1.0,
+}
+
+
+def _encoder_extent_report(
+    encoded: NDArray[np.float64],
+    *,
+    out_activation: str,
+    collapse_thresh: float,
+) -> tuple[dict, bool]:
+    """Encoder block of diagnose.json plus the encoder_collapsed flag.
+
+    For tanh/sigmoid out the flag fires when ``max_extent / reference_span <
+    collapse_thresh``. The linear-out case is handled separately (Task 3).
+    """
+    extent_per_axis = (encoded.max(axis=0) - encoded.min(axis=0)).astype(float)
+    max_extent = float(extent_per_axis.max())
+    reference_span = _BOUNDED_ACTIVATION_SPANS.get(out_activation)
+    if reference_span is None:
+        # Linear out: caller (Task 3) handles the absolute fallback.
+        max_extent_relative = None
+        collapsed = max_extent < collapse_thresh
+    else:
+        max_extent_relative = max_extent / reference_span
+        collapsed = max_extent_relative < collapse_thresh
+    block = {
+        "extent_per_axis": extent_per_axis.tolist(),
+        "max_extent": max_extent,
+        "out_activation": out_activation,
+        "reference_span": reference_span,
+        "max_extent_relative": max_extent_relative,
+    }
+    return block, collapsed
+
+
 def _resolve_bounds(
     cfg: ExperimentConfig,
     encoder: torch.nn.Module,
@@ -164,13 +201,13 @@ def _save_orbits_plot(
 def _load_train_data_scaled(cfg: ExperimentConfig, train_file: str) -> NDArray[np.float64]:
     high = cfg.arch.high_dims
     train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
-    test = np.loadtxt(cfg.paths.data_dir / "test.csv", delimiter=",", skiprows=1)
+    val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
     scaler = joblib.load(cfg.paths.scaler_path(train_file))
     pieces = [
         scaler.transform(train[:, :high]),
-        scaler.transform(test[:, :high]),
+        scaler.transform(val[:, :high]),
         scaler.transform(train[:, high:]),
-        scaler.transform(test[:, high:]),
+        scaler.transform(val[:, high:]),
     ]
     return np.vstack(pieces).astype(np.float64)
 
