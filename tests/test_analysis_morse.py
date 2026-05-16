@@ -247,3 +247,41 @@ class TestBoxMapAdaptivePrecomputed:
                 out_uni = np.array(G_uni(rect))
                 out_adp = np.array(G_adp(rect))
                 np.testing.assert_array_equal(out_adp, out_uni)
+
+    def test_agrees_with_numpy_backend_at_multiple_depths(self):
+        """For sample rects at depths in [subdiv_init, subdiv_max], the adaptive
+        precompute backend must agree with the numpy backend up to float32 cast.
+
+        Rect construction follows CMGDB's bisection-cycle convention:
+        at depth k, axis j has been bisected n_j(k) = (k + d - 1 - j) // d
+        times, so cells are aligned to the lattice (2^n_j(k) + 1) along axis j.
+        """
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        subdiv_max = 14
+        d = bounds.dim
+
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        G_adp = make_box_map_adaptive_precomputed(
+            m.latent_map, bounds, subdiv_max=subdiv_max, padding=False
+        )
+        G_np = make_box_map_numpy(m.latent_map, padding=False)
+
+        rng = np.random.default_rng(0)
+        L, U = bounds.lower, bounds.upper
+        for depth in (8, 10, 12, 14):
+            n_per_axis = np.array(
+                [2 ** ((depth + d - 1 - j) // d) for j in range(d)], dtype=np.int64
+            )
+            side = (U - L) / n_per_axis
+            for _ in range(50):
+                i = np.array([rng.integers(0, n_per_axis[j]) for j in range(d)])
+                rect = list(L + i * side) + list(L + (i + 1) * side)
+                out_adp = np.array(G_adp(rect))
+                out_np = np.array(G_np(rect))
+                np.testing.assert_allclose(
+                    out_adp, out_np, atol=1e-5, rtol=1e-5,
+                    err_msg=f"depth={depth}, i={i.tolist()}",
+                )
