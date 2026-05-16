@@ -347,3 +347,23 @@ class TestBoxMapAdaptivePrecomputed:
         assert "1089" in msg
         assert "500" in msg
         assert "max_table_points" in msg
+
+    def test_dispatched_through_compute_morse_graph_config(self):
+        """End-to-end: a CMGDBConfig with backend='adaptive_precomputed' must
+        be accepted by _build_box_map and produce a working callable."""
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        cfg = CMGDBConfig(
+            subdiv_init=4,
+            subdiv_min=6,
+            subdiv_max=8,
+            box_map_backend="adaptive_precomputed",
+            padding=False,
+        )
+        from latentdynamics.analysis.morse import _build_box_map
+
+        box_map = _build_box_map(m.latent_map, bounds, cfg, device=torch.device("cpu"))
+        out = box_map([-1.0, -1.0, -0.5, -0.5])
+        assert len(out) == 4
+        assert out[0] <= out[2] and out[1] <= out[3]

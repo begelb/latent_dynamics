@@ -328,6 +328,16 @@ def _build_box_map(
             cmgdb_cfg.subdiv_max,
             padding=cmgdb_cfg.padding,
             device=device,
+            max_table_points=cmgdb_cfg.max_table_points,
+        )
+    if backend == "adaptive_precomputed":
+        return make_box_map_adaptive_precomputed(
+            latent_map,
+            bounds,
+            cmgdb_cfg.subdiv_max,
+            padding=cmgdb_cfg.padding,
+            device=device,
+            max_table_points=cmgdb_cfg.max_table_points,
         )
     raise ValueError(f"unknown box_map_backend: {backend!r}")
 
