@@ -20,7 +20,7 @@ SystemName = Literal[
 SamplingMethod = Literal["uniform", "sobol", "adaptive"]
 ScalingMethod = Literal["minmax", "none"]
 LossMode = Literal["weighted", "additive"]
-BoxMapBackend = Literal["pytorch", "numpy", "uniform_precomputed"]
+BoxMapBackend = Literal["pytorch", "numpy", "uniform_precomputed", "adaptive_precomputed"]
 
 
 class SystemConfig(BaseModel):
@@ -256,6 +256,16 @@ class CMGDBConfig(BaseModel):
     upper_bounds: list[float] | None = None
     padding: bool = True
     box_map_backend: BoxMapBackend = "pytorch"
+    max_table_points: int = Field(
+        ge=1,
+        default=10_000_000,
+        description=(
+            "Hard cap on the number of corner points in precomputed-backend "
+            "lattices. Applied to both 'uniform_precomputed' and "
+            "'adaptive_precomputed'. Raise if you hit the cap; reduce if you "
+            "want to bound memory."
+        ),
+    )
 
     @model_validator(mode="after")
     def _ordered_subdivs(self) -> CMGDBConfig:

@@ -177,3 +177,27 @@ class TestCMGDBConfigBackendValidation:
             subdiv_init=4, subdiv_min=6, subdiv_max=8, box_map_backend="numpy"
         )
         assert cfg.box_map_backend == "numpy"
+
+    def test_adaptive_precomputed_accepts_adaptive_subdivs(self):
+        cfg = CMGDBConfig(
+            subdiv_init=4,
+            subdiv_min=6,
+            subdiv_max=8,
+            box_map_backend="adaptive_precomputed",
+        )
+        assert cfg.box_map_backend == "adaptive_precomputed"
+
+    def test_adaptive_precomputed_accepts_uniform_subdivs(self):
+        cfg = CMGDBConfig(
+            subdiv_init=8,
+            subdiv_min=8,
+            subdiv_max=8,
+            box_map_backend="adaptive_precomputed",
+        )
+        assert cfg.box_map_backend == "adaptive_precomputed"
+
+    def test_max_table_points_default_and_override(self):
+        cfg = CMGDBConfig()
+        assert cfg.max_table_points == 10_000_000
+        cfg2 = CMGDBConfig(max_table_points=1_000)
+        assert cfg2.max_table_points == 1_000
