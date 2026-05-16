@@ -152,7 +152,10 @@ def _latent_map_one_step_report(
 def _matched_dim_identity_report(
     model: object,
     *,
-    arch: object,
+    high_dims: int,
+    low_dims: int,
+    encoder_out_activation: str,
+    decoder_out_activation: str,
     data_sample_scaled: NDArray[np.float64],
     grid: NDArray[np.float64],
     bounds: LatentBounds,
@@ -162,10 +165,14 @@ def _matched_dim_identity_report(
     """Soft note: are E and D close to the identity?
 
     Each side is gated independently: when high_dims == low_dims, a side is
-    computed iff its own output activation is 'none'. When dims don't match,
-    all four optional fields are null regardless of activations.
+    computed iff its own (resolved) output activation is 'none'. When dims
+    don't match, all four optional fields are null regardless of activations.
+
+    Pass the *resolved* per-component out_activation values (i.e.
+    ``cfg.arch.component('encoder').out_activation``), not the top-level
+    ``arch.encoder_out_activation`` default.
     """
-    matched_dims = arch.high_dims == arch.low_dims
+    matched_dims = high_dims == low_dims
     base = {
         "matched_dims": bool(matched_dims),
         "encoder_near_identity": None,
@@ -180,8 +187,8 @@ def _matched_dim_identity_report(
     if box_diameter == 0:
         return base
 
-    enc_eligible = getattr(arch, "encoder_out_activation", None) == "none"
-    dec_eligible = getattr(arch, "decoder_out_activation", None) == "none"
+    enc_eligible = encoder_out_activation == "none"
+    dec_eligible = decoder_out_activation == "none"
 
     if enc_eligible:
         x = torch.as_tensor(data_sample_scaled, dtype=torch.float32, device=device)
@@ -323,9 +330,14 @@ def run(
             .numpy()
             .astype(np.float64)
         )
+    # Resolved per-component out_activations (per-component override takes
+    # precedence over arch-level default; see ArchConfig.component()).
+    encoder_out_activation = cfg.arch.component("encoder").out_activation
+    decoder_out_activation = cfg.arch.component("decoder").out_activation
+
     encoder_block, encoder_collapsed = _encoder_extent_report(
         encoded,
-        out_activation=cfg.arch.encoder_out_activation,
+        out_activation=encoder_out_activation,
         collapse_thresh=encoder_collapse_thresh,
     )
 
@@ -346,7 +358,10 @@ def run(
     # 3. Matched-dim E/D identity soft notes.
     identity_block = _matched_dim_identity_report(
         model,
-        arch=cfg.arch,
+        high_dims=cfg.arch.high_dims,
+        low_dims=cfg.arch.low_dims,
+        encoder_out_activation=encoder_out_activation,
+        decoder_out_activation=decoder_out_activation,
         data_sample_scaled=high_data_scaled,
         grid=grid,
         bounds=bounds,

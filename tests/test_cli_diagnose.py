@@ -151,23 +151,15 @@ class _MockModel:
         self.decoder = decoder
 
 
-class _ArchStub:
-    def __init__(self, high_dims: int, low_dims: int,
-                 enc_out: str, dec_out: str) -> None:
-        self.high_dims = high_dims
-        self.low_dims = low_dims
-        self.encoder_out_activation = enc_out
-        self.decoder_out_activation = dec_out
-
-
 def test_matched_dim_identity_report_not_applicable_unmatched_dims():
     model = _MockModel(nn.Identity(), nn.Identity())
-    arch = _ArchStub(high_dims=3, low_dims=2, enc_out="none", dec_out="none")
     bounds = diagnose.LatentBounds(
         lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
     )
     block = diagnose._matched_dim_identity_report(
-        model, arch=arch, data_sample_scaled=np.zeros((4, 3)),
+        model, high_dims=3, low_dims=2,
+        encoder_out_activation="none", decoder_out_activation="none",
+        data_sample_scaled=np.zeros((4, 3)),
         grid=_make_grid_2d(), bounds=bounds, device=torch.device("cpu"),
         near_identity_thresh=0.01,
     )
@@ -182,12 +174,13 @@ def test_matched_dim_identity_report_not_applicable_unmatched_dims():
 
 def test_matched_dim_identity_report_not_applicable_tanh_out():
     model = _MockModel(nn.Identity(), nn.Identity())
-    arch = _ArchStub(high_dims=2, low_dims=2, enc_out="tanh", dec_out="none")
     bounds = diagnose.LatentBounds(
         lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
     )
     block = diagnose._matched_dim_identity_report(
-        model, arch=arch, data_sample_scaled=np.zeros((4, 2)),
+        model, high_dims=2, low_dims=2,
+        encoder_out_activation="tanh", decoder_out_activation="none",
+        data_sample_scaled=np.zeros((4, 2)),
         grid=_make_grid_2d(), bounds=bounds, device=torch.device("cpu"),
         near_identity_thresh=0.01,
     )
@@ -203,13 +196,14 @@ def test_matched_dim_identity_report_not_applicable_tanh_out():
 def test_matched_dim_identity_report_identity_modules():
     # E=id, D=id, matched dims, linear out: both soft notes fire True.
     model = _MockModel(nn.Identity(), nn.Identity())
-    arch = _ArchStub(high_dims=2, low_dims=2, enc_out="none", dec_out="none")
     bounds = diagnose.LatentBounds(
         lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
     )
     data = np.array([[0.1, 0.2], [0.3, 0.4]])
     block = diagnose._matched_dim_identity_report(
-        model, arch=arch, data_sample_scaled=data,
+        model, high_dims=2, low_dims=2,
+        encoder_out_activation="none", decoder_out_activation="none",
+        data_sample_scaled=data,
         grid=_make_grid_2d(), bounds=bounds, device=torch.device("cpu"),
         near_identity_thresh=0.01,
     )
