@@ -100,6 +100,55 @@ def _grid_in_bounds(bounds: LatentBounds, *, points_per_axis: int) -> NDArray[np
 
 
 @torch.no_grad()
+def _latent_map_one_step_report(
+    latent_map: torch.nn.Module,
+    grid: NDArray[np.float64],
+    *,
+    device: torch.device,
+    bounds: LatentBounds,
+    contraction_thresh: float,
+    near_identity_thresh: float,
+) -> tuple[dict, NDArray[np.float64], bool]:
+    """One forward pass of G on the grid. Returns (block, image, overcontracted).
+
+    The block dict contains:
+    - n_grid_points: number of grid points
+    - grid_diameter: Euclidean diameter of the grid (max-min distance)
+    - image_diameter: Euclidean diameter of the image
+    - contraction_ratio: image_diameter / grid_diameter
+    - mean_step_relative: mean ||G(z) - z|| / box_diameter
+    - near_identity: bool, True when mean_step_relative < near_identity_thresh
+
+    The overcontracted flag is True when contraction_ratio < contraction_thresh.
+    """
+    z = torch.as_tensor(grid, dtype=torch.float32, device=device)
+    image_t = latent_map(z)
+    image = image_t.cpu().numpy()
+
+    def _diam(points: NDArray[np.float64]) -> float:
+        return float(np.linalg.norm(points.max(axis=0) - points.min(axis=0)))
+
+    grid_diameter = _diam(grid)
+    image_diameter = _diam(image)
+    contraction_ratio = image_diameter / grid_diameter if grid_diameter > 0 else 0.0
+
+    box_diameter = float(np.linalg.norm(bounds.upper - bounds.lower))
+    step_norms = np.linalg.norm(image - grid, axis=-1)
+    mean_step_relative = float(step_norms.mean() / box_diameter) if box_diameter > 0 else 0.0
+
+    block = {
+        "n_grid_points": int(grid.shape[0]),
+        "grid_diameter": grid_diameter,
+        "image_diameter": image_diameter,
+        "contraction_ratio": contraction_ratio,
+        "mean_step_relative": mean_step_relative,
+        "near_identity": mean_step_relative < near_identity_thresh,
+    }
+    overcontracted = contraction_ratio < contraction_thresh
+    return block, image, overcontracted
+
+
+@torch.no_grad()
 def _iterate_latent(
     latent_map: torch.nn.Module,
     grid: NDArray[np.float64],

@@ -76,3 +76,65 @@ def test_encoder_extent_report_linear_collapsed():
     )
     assert collapsed is True
     assert block["reference_span"] is None
+
+
+def _make_grid_2d(low=-1.0, high=1.0, n=10) -> np.ndarray:
+    axis = np.linspace(low, high, n)
+    g1, g2 = np.meshgrid(axis, axis, indexing="ij")
+    return np.stack([g1.ravel(), g2.ravel()], axis=-1)
+
+
+def test_latent_map_one_step_identity():
+    # G = identity: contraction_ratio ~ 1.0, mean_step ~ 0.
+    grid = _make_grid_2d()
+    G = nn.Identity()
+    bounds = diagnose.LatentBounds(
+        lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
+    )
+    block, image, overcontracted = diagnose._latent_map_one_step_report(
+        G, grid, device=torch.device("cpu"), bounds=bounds,
+        contraction_thresh=0.05, near_identity_thresh=0.01,
+    )
+    assert overcontracted is False
+    assert block["contraction_ratio"] == pytest.approx(1.0, abs=1e-6)
+    assert block["mean_step_relative"] == pytest.approx(0.0, abs=1e-6)
+    assert block["near_identity"] is True
+    assert image.shape == grid.shape
+
+
+def test_latent_map_one_step_overcontracted():
+    # G maps everything to 0: image diameter is 0, ratio 0, far below 0.05.
+    grid = _make_grid_2d()
+    G = nn.Linear(2, 2, bias=True)
+    with torch.no_grad():
+        G.weight.zero_()
+        G.bias.zero_()
+    bounds = diagnose.LatentBounds(
+        lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
+    )
+    block, _, overcontracted = diagnose._latent_map_one_step_report(
+        G, grid, device=torch.device("cpu"), bounds=bounds,
+        contraction_thresh=0.05, near_identity_thresh=0.01,
+    )
+    assert overcontracted is True
+    assert block["contraction_ratio"] == pytest.approx(0.0, abs=1e-6)
+    assert block["near_identity"] is False
+
+
+def test_latent_map_one_step_non_identity_non_collapsed():
+    # G = 0.5 * id: contraction_ratio ~ 0.5, near_identity False, not flagged.
+    grid = _make_grid_2d()
+    G = nn.Linear(2, 2, bias=True)
+    with torch.no_grad():
+        G.weight.copy_(torch.eye(2) * 0.5)
+        G.bias.zero_()
+    bounds = diagnose.LatentBounds(
+        lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
+    )
+    block, _, overcontracted = diagnose._latent_map_one_step_report(
+        G, grid, device=torch.device("cpu"), bounds=bounds,
+        contraction_thresh=0.05, near_identity_thresh=0.01,
+    )
+    assert overcontracted is False
+    assert block["contraction_ratio"] == pytest.approx(0.5, abs=1e-6)
+    assert block["near_identity"] is False
