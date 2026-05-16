@@ -149,6 +149,58 @@ def _latent_map_one_step_report(
 
 
 @torch.no_grad()
+def _matched_dim_identity_report(
+    model: object,
+    *,
+    arch: object,
+    data_sample_scaled: NDArray[np.float64],
+    grid: NDArray[np.float64],
+    bounds: LatentBounds,
+    device: torch.device,
+    near_identity_thresh: float,
+) -> dict:
+    """Soft note: are E and D close to the identity?
+
+    Only computed when high_dims == low_dims AND both encoder and decoder
+    output activations are 'none'. Otherwise all numeric fields are null.
+    """
+    matched_dims = arch.high_dims == arch.low_dims
+    base = {
+        "matched_dims": bool(matched_dims),
+        "encoder_near_identity": None,
+        "decoder_near_identity": None,
+        "mean_step_E_relative": None,
+        "mean_step_D_relative": None,
+    }
+    if not matched_dims:
+        return base
+
+    box_diameter = float(np.linalg.norm(bounds.upper - bounds.lower))
+    if box_diameter == 0:
+        return base
+
+    enc_eligible = getattr(arch, "encoder_out_activation", None) == "none"
+    dec_eligible = getattr(arch, "decoder_out_activation", None) == "none"
+
+    if enc_eligible:
+        x = torch.as_tensor(data_sample_scaled, dtype=torch.float32, device=device)
+        e_x = model.encoder(x).cpu().numpy().astype(np.float64)
+        mean_step_e = float(np.linalg.norm(e_x - data_sample_scaled, axis=-1).mean()
+                            / box_diameter)
+        base["mean_step_E_relative"] = mean_step_e
+        base["encoder_near_identity"] = mean_step_e < near_identity_thresh
+
+    if dec_eligible:
+        z = torch.as_tensor(grid, dtype=torch.float32, device=device)
+        d_z = model.decoder(z).cpu().numpy().astype(np.float64)
+        mean_step_d = float(np.linalg.norm(d_z - grid, axis=-1).mean() / box_diameter)
+        base["mean_step_D_relative"] = mean_step_d
+        base["decoder_near_identity"] = mean_step_d < near_identity_thresh
+
+    return base
+
+
+@torch.no_grad()
 def _iterate_latent(
     latent_map: torch.nn.Module,
     grid: NDArray[np.float64],
