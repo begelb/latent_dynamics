@@ -123,7 +123,7 @@ def _latent_map_one_step_report(
     """
     z = torch.as_tensor(grid, dtype=torch.float32, device=device)
     image_t = latent_map(z)
-    image = image_t.cpu().numpy()
+    image = image_t.cpu().numpy().astype(np.float64)
 
     def _diam(points: NDArray[np.float64]) -> float:
         return float(np.linalg.norm(points.max(axis=0) - points.min(axis=0)))
