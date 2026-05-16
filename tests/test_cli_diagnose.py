@@ -236,3 +236,93 @@ def test_save_one_step_plot_1d(tmp_path):
     out_path = tmp_path / "figures" / "latent_map_one_step.png"
     diagnose._save_one_step_plot(grid, image, bounds, out_path)
     assert out_path.is_file()
+
+
+import json
+from pathlib import Path
+
+
+def test_run_produces_new_schema(tmp_path):
+    """Integration test against the existing leslie2d_to_2d_test_110 checkpoint.
+
+    Skips if the checkpoint isn't on disk (CI environments without it).
+    """
+    repo_root = Path(__file__).resolve().parents[1]
+    config_path = repo_root / "configs" / "leslie2d_to_2d_test_110.yaml"
+    checkpoint_dir = repo_root / "output" / "leslie2d_to_2d_test_110" / "seed_0"
+    if not (checkpoint_dir / "models").is_dir():
+        pytest.skip("test_110 checkpoint not present")
+
+    from latentdynamics.config import load_config
+    import copy
+    cfg = load_config(config_path)
+    # Make paths absolute so they work regardless of pytest's cwd
+    cfg.paths.data_dir = (repo_root / cfg.paths.data_dir).resolve()
+    cfg.paths.output_dir = (repo_root / cfg.paths.output_dir).resolve()
+    # The models live in seed_0, scalers live in parent. Deep copy and
+    # patch output_dir to seed_0 for the diagnose run (models are there),
+    # but scaler_path will still use the parent dir via the original cfg.
+    cfg_seed0 = copy.deepcopy(cfg)
+    cfg_seed0.paths.output_dir = cfg.paths.output_dir / "seed_0"
+    write_root = tmp_path / "diag_out"
+    write_root.mkdir()
+    # Use the original cfg for scaler paths but seed0 cfg for models
+    # Actually, we need to call the function with the seed0 config and fix scaler loading
+    # Monkey-patch _load_train_data_scaled to use the correct scaler path
+    from latentdynamics.cli import diagnose as diag_module
+    original_load = diag_module._load_train_data_scaled
+
+    def patched_load(cfg_arg, train_file):
+        # Use the original cfg's paths for scaler, but the data from cfg_seed0
+        high = cfg_arg.arch.high_dims
+        import numpy as np
+        import joblib
+        train = np.loadtxt(cfg_arg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
+        val = np.loadtxt(cfg_arg.paths.val_csv(), delimiter=",", skiprows=1)
+        # Use parent output dir's scaler
+        scaler_path = cfg.paths.output_dir / "scalers" / train_file / "scaler.gz"
+        scaler = joblib.load(scaler_path)
+        pieces = [
+            scaler.transform(train[:, :high]),
+            scaler.transform(val[:, :high]),
+            scaler.transform(train[:, high:]),
+            scaler.transform(val[:, high:]),
+        ]
+        return np.vstack(pieces).astype(np.float64)
+
+    diag_module._load_train_data_scaled = patched_load
+    try:
+        payload = diagnose.run(cfg_seed0, train_file="train", out_dir=write_root, verbose=False)
+    finally:
+        diag_module._load_train_data_scaled = original_load
+
+    diag_path = write_root / "diagnose.json"
+    assert diag_path.is_file()
+    saved = json.loads(diag_path.read_text())
+    # New fields present
+    assert "diagnostic" in saved
+    assert saved["diagnostic"] in {
+        "ok", "encoder_collapsed", "latent_map_overcontracted",
+        "encoder_collapsed_and_latent_overcontracted",
+    }
+    assert "hard_flags" in saved
+    assert set(saved["hard_flags"].keys()) == {
+        "encoder_collapsed", "latent_map_overcontracted"
+    }
+    assert "encoder" in saved
+    assert "latent_map" in saved
+    assert {"max_extent_relative", "max_extent", "extent_per_axis",
+            "out_activation", "reference_span"} <= saved["encoder"].keys()
+    assert {"contraction_ratio", "mean_step_relative", "near_identity",
+            "n_grid_points", "grid_diameter", "image_diameter"} <= saved["latent_map"].keys()
+    # Old fields gone
+    for legacy in ("n_distinct_limit_points", "n_terminal_clusters_all",
+                   "n_terminal_clusters_converged", "frac_unconverged",
+                   "mean_iter_to_convergence", "max_iter_to_convergence",
+                   "convergence_eps", "cluster_eps", "n_iter"):
+        assert legacy not in saved, f"legacy field {legacy} still present"
+    # Figures
+    assert (write_root / "figures" / "latent_pointcloud.png").is_file()
+    assert (write_root / "figures" / "latent_map_one_step.png").is_file()
+    # Old figure gone
+    assert not (write_root / "figures" / "latent_orbits.png").is_file()
