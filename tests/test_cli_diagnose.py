@@ -6,6 +6,9 @@ do not need a config or trained checkpoint on disk.
 
 from __future__ import annotations
 
+import json
+from pathlib import Path
+
 import numpy as np
 import pytest
 import torch
@@ -238,10 +241,6 @@ def test_save_one_step_plot_1d(tmp_path):
     assert out_path.is_file()
 
 
-import json
-from pathlib import Path
-
-
 def test_run_produces_new_schema(tmp_path):
     """Integration test against the existing leslie2d_to_2d_test_110 checkpoint.
 
@@ -315,6 +314,10 @@ def test_run_produces_new_schema(tmp_path):
             "out_activation", "reference_span"} <= saved["encoder"].keys()
     assert {"contraction_ratio", "mean_step_relative", "near_identity",
             "n_grid_points", "grid_diameter", "image_diameter"} <= saved["latent_map"].keys()
+    # Identity-block fields spread at top level (not under a sub-key)
+    for field in ("matched_dims", "encoder_near_identity", "decoder_near_identity",
+                  "mean_step_E_relative", "mean_step_D_relative"):
+        assert field in saved, f"identity field {field} missing from top level"
     # Old fields gone
     for legacy in ("n_distinct_limit_points", "n_terminal_clusters_all",
                    "n_terminal_clusters_converged", "frac_unconverged",

@@ -223,7 +223,7 @@ def _save_pointcloud_plot(
         ax.set_xlabel("$z_1$")
         ax.set_ylabel("$z_2$")
         ax.set_aspect("equal", adjustable="box")
-    ax.set_title("encoded train+test data")
+    ax.set_title("encoded train+val data")
     fig.tight_layout()
     fig.savefig(out_path, dpi=150)
     plt.close(fig)
