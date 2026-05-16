@@ -215,3 +215,24 @@ def test_matched_dim_identity_report_identity_modules():
     assert block["decoder_near_identity"] is True
     assert block["mean_step_E_relative"] == pytest.approx(0.0, abs=1e-6)
     assert block["mean_step_D_relative"] == pytest.approx(0.0, abs=1e-6)
+
+
+def test_save_one_step_plot_2d(tmp_path):
+    grid = _make_grid_2d()
+    image = grid * 0.5
+    bounds = diagnose.LatentBounds(
+        lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0])
+    )
+    out_path = tmp_path / "figures" / "latent_map_one_step.png"
+    diagnose._save_one_step_plot(grid, image, bounds, out_path)
+    assert out_path.is_file()
+    assert out_path.stat().st_size > 0
+
+
+def test_save_one_step_plot_1d(tmp_path):
+    grid = np.linspace(-1.0, 1.0, 50).reshape(-1, 1)
+    image = grid * 0.7
+    bounds = diagnose.LatentBounds(lower=np.array([-1.0]), upper=np.array([1.0]))
+    out_path = tmp_path / "figures" / "latent_map_one_step.png"
+    diagnose._save_one_step_plot(grid, image, bounds, out_path)
+    assert out_path.is_file()

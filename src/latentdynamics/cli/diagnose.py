@@ -270,6 +270,43 @@ def _save_pointcloud_plot(
     plt.close(fig)
 
 
+def _save_one_step_plot(
+    grid: NDArray[np.float64],
+    image: NDArray[np.float64],
+    bounds: LatentBounds,
+    out_path: Path,
+) -> None:
+    """Show a single application of G overlaid on the grid in latent space."""
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    if grid.shape[1] == 1:
+        fig, ax = plt.subplots(figsize=(6, 6))
+        order = np.argsort(grid[:, 0])
+        z = grid[order, 0]
+        gz = image[order, 0]
+        ax.plot(z, gz, label="$G(z)$", linewidth=2)
+        ax.plot(z, z, "--", color="grey", label="$z$ (identity)")
+        ax.set_xlim(bounds.lower[0], bounds.upper[0])
+        ax.set_xlabel("$z$")
+        ax.set_ylabel("$G(z)$")
+        ax.legend()
+    else:
+        fig, ax = plt.subplots(figsize=(6, 6))
+        ax.scatter(grid[:, 0], grid[:, 1], s=6, alpha=0.4, label="grid $S$",
+                   color="tab:blue")
+        ax.scatter(image[:, 0], image[:, 1], s=6, alpha=0.6, label="$G(S)$",
+                   color="tab:red")
+        ax.set_xlim(bounds.lower[0], bounds.upper[0])
+        ax.set_ylim(bounds.lower[1], bounds.upper[1])
+        ax.set_xlabel("$z_1$")
+        ax.set_ylabel("$z_2$")
+        ax.set_aspect("equal", adjustable="box")
+        ax.legend(loc="upper right", framealpha=0.8)
+    ax.set_title("latent_map: one-step image of grid")
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=150)
+    plt.close(fig)
+
+
 def _save_orbits_plot(
     grid: NDArray[np.float64],
     terminal: NDArray[np.float64],
