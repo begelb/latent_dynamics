@@ -285,3 +285,33 @@ class TestBoxMapAdaptivePrecomputed:
                     out_adp, out_np, atol=1e-5, rtol=1e-5,
                     err_msg=f"depth={depth}, i={i.tolist()}",
                 )
+
+    def test_handles_non_divisible_subdiv_max(self):
+        """subdiv_max=5 with d=2 -> M = ceil(5/2) = 3, n_per_axis = 8.
+
+        A cell at depth 5 has axis-0 bisected 3 times and axis-1 bisected 2
+        times (per CMGDB's split cycle). Both align to the M=3 lattice; the
+        backend should construct and answer without error.
+        """
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        G = make_box_map_adaptive_precomputed(
+            m.latent_map, bounds, subdiv_max=5, padding=False
+        )
+        # Cell at depth 5, axis-0 index 3 of 8, axis-1 index 1 of 4.
+        side = np.array([0.25, 0.5])
+        L = bounds.lower
+        i0, i1 = 3, 1
+        rect = [
+            L[0] + i0 * side[0],
+            L[1] + i1 * side[1],
+            L[0] + (i0 + 1) * side[0],
+            L[1] + (i1 + 1) * side[1],
+        ]
+        out = np.array(G(rect))
+        assert out.shape == (4,)
+        assert out[0] <= out[2] and out[1] <= out[3]
