@@ -158,6 +158,7 @@ def make_box_map_uniform_precomputed(
     *,
     padding: bool = True,
     device: torch.device | None = None,
+    max_table_points: int = 10_000_000,
 ) -> Callable[[Any], Any]:
     """Whole-grid pre-evaluation for uniform CMGDB grids.
 
@@ -180,11 +181,20 @@ def make_box_map_uniform_precomputed(
             f"by latent dim ({d}); got remainder {subdiv_k % d}"
         )
 
+    n_per_axis = 2 ** (subdiv_k // d)
+    corners_per_axis = n_per_axis + 1
+    table_points = corners_per_axis**d
+    if table_points > max_table_points:
+        raise ValueError(
+            f"uniform_precomputed table size ({table_points} corners) exceeds "
+            f"max_table_points ({max_table_points}). For d={d}, subdiv_k="
+            f"{subdiv_k} -> (2^{subdiv_k // d}+1)^{d} corners. "
+            f"Lower subdiv_k or raise max_table_points."
+        )
+
     device = device or next(latent_map.parameters()).device
     latent_map.eval()
 
-    n_per_axis = 2 ** (subdiv_k // d)
-    corners_per_axis = n_per_axis + 1
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
     box_side = (U - L) / n_per_axis

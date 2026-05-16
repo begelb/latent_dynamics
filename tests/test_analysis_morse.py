@@ -149,6 +149,20 @@ class TestBoxMapUniformPrecomputed:
         np.testing.assert_allclose(out_pad[:2], out_nopad[:2] - box_size, atol=1e-10)
         np.testing.assert_allclose(out_pad[2:], out_nopad[2:] + box_size, atol=1e-10)
 
+    def test_memory_cap_raises(self):
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        # subdiv_k=10, d=2 -> n_per_axis=32, corners=33^2=1089.
+        with pytest.raises(ValueError) as excinfo:
+            make_box_map_uniform_precomputed(
+                m.latent_map, bounds, subdiv_k=10, max_table_points=500
+            )
+        msg = str(excinfo.value)
+        assert "1089" in msg
+        assert "500" in msg
+        assert "max_table_points" in msg
+
 
 class TestCMGDBConfigBackendValidation:
     def test_uniform_precomputed_requires_uniform_mode(self):
