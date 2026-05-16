@@ -221,6 +221,84 @@ def make_box_map_uniform_precomputed(
     return box_map
 
 
+def make_box_map_adaptive_precomputed(
+    latent_map: torch.nn.Module,
+    bounds: LatentBounds,
+    subdiv_max: int,
+    *,
+    padding: bool = True,
+    device: torch.device | None = None,
+    max_table_points: int = 10_000_000,
+) -> Callable[[Any], Any]:
+    """Whole-grid pre-evaluation for adaptive CMGDB grids.
+
+    Generalises ``make_box_map_uniform_precomputed`` to the adaptive ladder
+    ``subdiv_init <= subdiv_min <= subdiv_max``. At any depth ``k`` reached by
+    CMGDB's binary subdivision tree, every cell corner sits on the
+    ``(2^M + 1)^d`` lattice with ``M = ceil(subdiv_max / d)``. We evaluate the
+    latent map on that entire lattice once, then answer ``box_map(rect)`` by
+    snapping the rect's lower and upper bounds to integer indices and
+    gathering the ``2^d`` corners they span.
+    """
+    d = bounds.dim
+    M = (subdiv_max + d - 1) // d  # ceil(subdiv_max / d)
+    n_per_axis = 2**M
+    corners_per_axis = n_per_axis + 1
+
+    table_points = corners_per_axis**d
+    if table_points > max_table_points:
+        raise ValueError(
+            f"adaptive_precomputed table size ({table_points} corners) exceeds "
+            f"max_table_points ({max_table_points}). For d={d}, subdiv_max="
+            f"{subdiv_max}, M=ceil(subdiv_max/d)={M} -> (2^{M}+1)^{d} corners. "
+            f"Lower subdiv_max or raise max_table_points."
+        )
+
+    device = device or next(latent_map.parameters()).device
+    latent_map.eval()
+
+    L = np.asarray(bounds.lower, dtype=np.float64)
+    U = np.asarray(bounds.upper, dtype=np.float64)
+    finest_box_side = (U - L) / n_per_axis
+
+    axes = [np.linspace(L[i], U[i], corners_per_axis, dtype=np.float64) for i in range(d)]
+    mesh = np.meshgrid(*axes, indexing="ij")
+    points = np.stack([m.ravel() for m in mesh], axis=-1)  # (N, d)
+
+    with torch.no_grad():
+        x_t = torch.as_tensor(points, dtype=torch.float32, device=device)
+        y_t = latent_map(x_t)
+        ys = y_t.cpu().numpy().astype(np.float64)
+
+    out_dim = ys.shape[-1]
+    ys_grid = ys.reshape((corners_per_axis,) * d + (out_dim,))
+
+    # Precompute the 2^d corner-combination matrix once.
+    combos = np.array(
+        list(itertools.product(*([range(2)] * d))), dtype=np.int64
+    )  # (2^d, d), entries in {0, 1}
+    axis_idx = np.arange(d, dtype=np.int64)
+
+    def box_map(rect):
+        rect_arr = np.asarray(rect, dtype=np.float64)
+        i_lo = np.round((rect_arr[:d] - L) / finest_box_side).astype(np.int64)
+        i_hi = np.round((rect_arr[d:] - L) / finest_box_side).astype(np.int64)
+        np.clip(i_lo, 0, n_per_axis, out=i_lo)
+        np.clip(i_hi, 0, n_per_axis, out=i_hi)
+        idx_per_axis = np.stack([i_lo, i_hi], axis=0)        # (2, d)
+        corner_indices = idx_per_axis[combos, axis_idx]      # (2^d, d)
+        corners = ys_grid[tuple(corner_indices.T)]           # (2^d, out_dim)
+        Y_l = corners.min(axis=0)
+        Y_u = corners.max(axis=0)
+        if padding:
+            box_size = rect_arr[d:] - rect_arr[:d]
+            Y_l = Y_l - box_size
+            Y_u = Y_u + box_size
+        return Y_l.tolist() + Y_u.tolist()
+
+    return box_map
+
+
 def _build_box_map(
     latent_map: torch.nn.Module,
     bounds: LatentBounds,

@@ -201,3 +201,49 @@ class TestCMGDBConfigBackendValidation:
         assert cfg.max_table_points == 10_000_000
         cfg2 = CMGDBConfig(max_table_points=1_000)
         assert cfg2.max_table_points == 1_000
+
+
+class TestBoxMapAdaptivePrecomputed:
+    def test_returns_callable(self):
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        G = make_box_map_adaptive_precomputed(m.latent_map, bounds, subdiv_max=4)
+        assert callable(G)
+
+    def test_bit_equivalent_to_uniform_precomputed(self):
+        """In the uniform case (k % d == 0), adaptive and uniform precompute
+        must agree exactly on every cell of the level-k partition.
+
+        Same lattice, same forward pass, same gather -- the only difference is
+        the lookup formula, which collapses to the same 2^d corners.
+        """
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        k = 4  # 4 boxes per axis in d=2, 16 cells total
+        n_per_axis = 2 ** (k // 2)
+        L, U = bounds.lower, bounds.upper
+        side = (U - L) / n_per_axis
+
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        G_uni = make_box_map_uniform_precomputed(
+            m.latent_map, bounds, subdiv_k=k, padding=False
+        )
+        G_adp = make_box_map_adaptive_precomputed(
+            m.latent_map, bounds, subdiv_max=k, padding=False
+        )
+        for i in range(n_per_axis):
+            for j in range(n_per_axis):
+                rect = [
+                    L[0] + i * side[0],
+                    L[1] + j * side[1],
+                    L[0] + (i + 1) * side[0],
+                    L[1] + (j + 1) * side[1],
+                ]
+                out_uni = np.array(G_uni(rect))
+                out_adp = np.array(G_adp(rect))
+                np.testing.assert_array_equal(out_adp, out_uni)
