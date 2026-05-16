@@ -315,3 +315,21 @@ class TestBoxMapAdaptivePrecomputed:
         out = np.array(G(rect))
         assert out.shape == (4,)
         assert out[0] <= out[2] and out[1] <= out[3]
+
+    def test_memory_cap_raises_with_budget_and_actual(self):
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        # subdiv_max=10, d=2 -> M=5, n_per_axis=32, corners=33^2=1089.
+        # Cap below 1089 must raise; message must include both numbers.
+        with pytest.raises(ValueError) as excinfo:
+            make_box_map_adaptive_precomputed(
+                m.latent_map, bounds, subdiv_max=10, max_table_points=500
+            )
+        msg = str(excinfo.value)
+        assert "1089" in msg
+        assert "500" in msg
+        assert "max_table_points" in msg
