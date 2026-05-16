@@ -367,3 +367,33 @@ class TestBoxMapAdaptivePrecomputed:
         out = box_map([-1.0, -1.0, -0.5, -0.5])
         assert len(out) == 4
         assert out[0] <= out[2] and out[1] <= out[3]
+
+    def test_morse_graph_matches_numpy_backend(self):
+        """End-to-end equivalence: same model + bounds + subdivs, two backends,
+        same Morse graph (num_vertices, edges, Conley index strings)."""
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+
+        from latentdynamics.analysis.morse import compute_morse_graph
+
+        cfg_adp = CMGDBConfig(
+            subdiv_init=4,
+            subdiv_min=6,
+            subdiv_max=8,
+            box_map_backend="adaptive_precomputed",
+        )
+        cfg_np = CMGDBConfig(
+            subdiv_init=4,
+            subdiv_min=6,
+            subdiv_max=8,
+            box_map_backend="numpy",
+        )
+        mg_adp, _ = compute_morse_graph(m, bounds, cfg_adp, device=torch.device("cpu"))
+        mg_np, _ = compute_morse_graph(m, bounds, cfg_np, device=torch.device("cpu"))
+
+        assert mg_adp.num_vertices() == mg_np.num_vertices()
+        ann_adp = sorted(mg_adp.annotations(v) for v in range(mg_adp.num_vertices()))
+        ann_np = sorted(mg_np.annotations(v) for v in range(mg_np.num_vertices()))
+        assert ann_adp == ann_np
+        assert set(mg_adp.edges()) == set(mg_np.edges())
