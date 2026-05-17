@@ -252,8 +252,8 @@ class DataConfig(BaseModel):
     n_samples_val: int = Field(ge=1)
     n_iterations: int = Field(ge=1)
     skip: int = Field(ge=0, default=0)
-    sobol_train_seed: int = 42
-    sobol_val_seed: int = 9999
+    train_seed: int = 42
+    val_seed: int = 9999
     # When set, takes precedence over auto-derivation from ``n_samples_train``.
     # Required for non-numeric labels such as adaptive sweeps where the train
     # file basenames are e.g. ``train_500_300_adaptive``.
@@ -374,27 +374,12 @@ class PathsConfig(BaseModel):
         return self.scaler_dir / train_file / "scaler.gz"
 
     def val_csv(self) -> Path:
-        """Validation set CSV path. Prefers ``val.csv`` (current name); falls
-        back to legacy ``test.csv`` if only the old name is on disk
-        (preserved paper artifacts). Returns the canonical ``val.csv`` target
-        when neither file exists yet, so writers always emit the new name."""
-        val_path = self.data_dir / "val.csv"
-        if val_path.exists():
-            return val_path
-        legacy = self.data_dir / "test.csv"
-        if legacy.exists():
-            return legacy
-        return val_path
+        """Validation set CSV path."""
+        return self.data_dir / "val.csv"
 
     def val_metadata(self) -> Path:
-        """Validation set metadata JSON; same legacy fallback as ``val_csv``."""
-        val_path = self.data_dir / "val_metadata.json"
-        if val_path.exists():
-            return val_path
-        legacy = self.data_dir / "test_metadata.json"
-        if legacy.exists():
-            return legacy
-        return val_path
+        """Validation set metadata JSON path."""
+        return self.data_dir / "val_metadata.json"
 
 
 class ExperimentConfig(BaseModel):
@@ -412,7 +397,7 @@ class ExperimentConfig(BaseModel):
     # Stable, human-readable id for this experiment. The loader populates this
     # with the YAML file's ``Path.stem`` when it is not explicitly set in YAML;
     # downstream code uses it to compute replay output roots
-    # (``output/replay/<experiment_name>/...``) and to label run manifests.
+    # (``replay/<experiment_name>/...``) and to label run manifests.
     experiment_name: str | None = None
 
     @model_validator(mode="after")

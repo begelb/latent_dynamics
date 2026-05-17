@@ -170,57 +170,6 @@ EXPECTED: dict[str, dict[str, dict[str, object]]] = {
             "out_activation": "none",
         },
     },
-    "scratch/coral_adaptive.yaml": {
-        "encoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "latent_map": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "decoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "sigmoid",
-        },
-    },
-    "scratch/coral_basic.yaml": {
-        "encoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "latent_map": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "decoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "sigmoid",
-        },
-    },
-    "scratch/coral_data_scaling.yaml": {
-        "encoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "latent_map": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "tanh",
-        },
-        "decoder": {
-            "hidden_shapes": (64, 64, 64),
-            "activation": "relu",
-            "out_activation": "sigmoid",
-        },
-    },
 }
 
 

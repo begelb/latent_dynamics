@@ -12,7 +12,7 @@ Paper Fig. 1.376: 13D coral population system, 1D latent, bistable extinction-vs
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/output/coral/train_500/seed_*/`. **Note:** in the current on-disk tree the per-seed `models/*.pt` files and `MG/morse_graph` files are 0 bytes (incomplete uploads); only `seed_0/MG/morse_sets` etc. are non-empty for some seeds.
+Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/`. **Note:** in the current on-disk tree the per-seed `models/*.pt` files and `MG/morse_graph` files are 0 bytes (incomplete uploads); only `seed_0/MG/morse_sets` etc. are non-empty for some seeds.
 
 - training script:        `archive/brittany/main_scripts/train.py`
 - CMGDB script:           `archive/brittany/main_scripts/morse_graph.py`

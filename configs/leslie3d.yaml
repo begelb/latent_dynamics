@@ -42,8 +42,8 @@ data:
   n_samples_val: 5000
   n_iterations: 30
   skip: 0
-  sobol_train_seed: 42
-  sobol_val_seed: 9999
+  train_seed: 42
+  val_seed: 9999
   train_files: null
 
 cmgdb:

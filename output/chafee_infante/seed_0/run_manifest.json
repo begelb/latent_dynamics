@@ -1,15 +1,15 @@
 {
-  "created_at_utc": "2026-05-04T17:09:05.470450+00:00",
+  "created_at_utc": "2026-05-17T15:22:35.936421+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
-  "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
   "torch": {
     "version": "2.11.0",
     "cuda_available": false,
     "mps_available": true
   },
   "requested_stages": [
-    "metrics"
+    "data"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +19,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "a21eac26d0de79d154acbb105505edf2be4d9ab6ab42a56232f5bf02f3324578",
+  "config_hash": "142e8b4c23bc152e380cf12d29a8f88f334e90b7f44bb265d4f2eb43bd1c82a2",
   "config": {
     "system": {
       "name": "chafee_infante",
@@ -32,15 +32,15 @@
       }
     },
     "arch": {
-      "num_layers": 2,
-      "hidden_shape": 64,
+      "num_layers": null,
+      "hidden_shape": null,
       "hidden_shapes": null,
       "high_dims": 64,
       "low_dims": 2,
-      "activation": "tanh",
-      "encoder_out_activation": "none",
-      "latent_out_activation": "none",
-      "decoder_out_activation": "none",
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
       "encoder": {
         "num_layers": null,
         "hidden_shape": null,
@@ -48,8 +48,8 @@
           64,
           32
         ],
-        "activation": null,
-        "out_activation": null
+        "activation": "tanh",
+        "out_activation": "none"
       },
       "latent_map": {
         "num_layers": null,
@@ -58,8 +58,8 @@
           32,
           32
         ],
-        "activation": null,
-        "out_activation": null
+        "activation": "tanh",
+        "out_activation": "none"
       },
       "decoder": {
         "num_layers": null,
@@ -68,8 +68,8 @@
           32,
           64
         ],
-        "activation": null,
-        "out_activation": null
+        "activation": "tanh",
+        "out_activation": "none"
       }
     },
     "training": {
@@ -77,12 +77,12 @@
       "batch_size": 30000,
       "epochs": 4000,
       "patience": 100,
+      "lr_patience": 10,
       "loss_weights": [
         1.0,
         1.0,
         0.0
       ],
-      "loss_mode": "additive",
       "gradient_clip_norm": null,
       "scheduler_factor": 0.5,
       "scheduler_threshold": 0.001,
@@ -92,11 +92,11 @@
       "sampling_method": "uniform",
       "scaling": "none",
       "n_samples_train": 1000,
-      "n_samples_test": 200,
+      "n_samples_val": 200,
       "n_iterations": 30,
       "skip": 0,
       "sobol_train_seed": 7206,
-      "sobol_test_seed": 9999,
+      "sobol_val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -113,7 +113,10 @@
         3.0,
         2.0
       ],
-      "padding": false
+      "padding": false,
+      "box_map_backend": "auto",
+      "max_table_points": 300000000,
+      "precompute_batch_points": "auto"
     },
     "paths": {
       "data_dir": "data/chafee_infante",
@@ -124,11 +127,12 @@
     },
     "seeds": [
       0
-    ]
+    ],
+    "experiment_name": "chafee_infante"
   },
-  "artefacts": {
+  "artifacts": {
     "train_csv": "data/chafee_infante/train.csv",
-    "train_csv_sha256": "55722ac9d41baf5fdc6858fd5186a01cc7ac62cd9261f8babb4518ae27916891",
+    "train_csv_sha256": "033cc6753e23b5c2175570a4ee05c360e00b84797ed27caf9b3400d2eba5f778",
     "scaler": "output/chafee_infante/scalers/train/scaler.gz",
     "scaler_sha256": "7ca7c22bbe06d7e9c653ab24604544d8147b0c03852bcf88121e0e5d3a66c82e",
     "model_dir": "output/chafee_infante/seed_0/models",

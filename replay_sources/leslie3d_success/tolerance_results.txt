@@ -1,0 +1,10 @@
+Tolerance Analysis Results (Theorem 3.2)
+======================================================================
+Model dir: finals_results/Leslie3D/models
+High dims: 3, Low dims: 2
+Minimal nodes (attractors): [0, 1]
+
+  Node       Tolerance       Max Error      Ratio     Status
+------------------------------------------------------------
+     0    7.628916e-05    2.937395e-01  3850.3444       FAIL
+     1    1.261359e-04    1.954082e-01  1549.1877       FAIL

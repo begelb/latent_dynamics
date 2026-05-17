@@ -91,7 +91,7 @@ class TestMakeDataRun:
         cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
         make_data.run(cfg, verbose=False)
         stale_cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
-        stale_cfg.data.sobol_train_seed = cfg.data.sobol_train_seed + 1
+        stale_cfg.data.train_seed = cfg.data.train_seed + 1
 
         with pytest.raises(ValueError, match=r"stale existing dataset.*sampling_seed"):
             make_data.run(stale_cfg, verbose=False)
@@ -136,7 +136,7 @@ class TestMakeDataRun:
             "sampling_method": "adaptive",
         }
         val_meta = {
-            "dataset_name": "test",
+            "dataset_name": "val",
             "role": "val",
             "system": "RedCoralModel",
             "dimension": coral.dim,
@@ -146,12 +146,12 @@ class TestMakeDataRun:
             "skip_initial_steps": 0,
             "sampling_method": "adaptive",
         }
-        for label in ("train_500_100_adaptive", "test"):
+        for label in ("train_500_100_adaptive", "val"):
             (cfg.paths.data_dir / f"{label}.csv").write_text("sentinel\n")
         (cfg.paths.data_dir / "train_500_100_adaptive_metadata.json").write_text(
             json.dumps(train_meta)
         )
-        (cfg.paths.data_dir / "test_metadata.json").write_text(json.dumps(val_meta))
+        (cfg.paths.data_dir / "val_metadata.json").write_text(json.dumps(val_meta))
 
         make_data.run(cfg, verbose=False)
 

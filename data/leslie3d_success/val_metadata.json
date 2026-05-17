@@ -1,0 +1,28 @@
+{
+    "system": "LeslieModel3D",
+    "dimension": 3,
+    "n_samples": 2000,
+    "n_iterations": 20,
+    "skip_initial_steps": 0,
+    "lower_bounds": [
+        0.0,
+        0.0,
+        0.0
+    ],
+    "upper_bounds": [
+        220.0,
+        154.0,
+        108.0
+    ],
+    "model_params": {
+        "th1": 19.6,
+        "th2": 23.68,
+        "th3": 23.68,
+        "survival_p1": 0.7,
+        "survival_p2": 0.7
+    },
+    "dataset_name": "val",
+    "sampling_method": "uniform",
+    "sampling_seed": 9999,
+    "role": "val"
+}

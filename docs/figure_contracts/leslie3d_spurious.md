@@ -10,14 +10,14 @@ Paper Fig. 1.214 (chapter 1.2.10): the spurious-attractor case.
 
 ## Source of paper run
 
-Brittany. Preserved verbatim under `code/output/Leslie_3D/spurious_attractor_ex/`.
+Brittany. Preserved verbatim under `code/replay_sources/leslie3d_spurious/spurious_attractor_ex/`.
 
 - training script:    `archive/brittany/main_scripts/train.py`
 - CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
 - mg_params_log:      `archive/brittany/output/Leslie_3D/spurious_attractor_ex/mg_params_log.txt` (94 minutes; subdiv 23/23/27)
 - legacy checkpoint:  `archive/brittany/output/Leslie_3D/spurious_attractor_ex/models/{encoder,dynamics,decoder}.pt`
 
-The on-disk copy under `code/output/` was carried over to the new package; loaded through `latentdynamics.training.load_legacy_checkpoint`.
+The on-disk copy under `code/replay_sources/` was carried over to the new package; loaded through `latentdynamics.training.load_legacy_checkpoint`.
 
 ## Status
 
@@ -47,7 +47,7 @@ python pipeline.py --config configs/leslie3d_spurious.yaml --stages all --force-
 
 ## Expected scientific output
 
-`output/Leslie_3D/spurious_attractor_ex/MG/morse_graph` (DOT) has six Morse sets with Hasse:
+`replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_graph` (DOT) has six Morse sets with Hasse:
 
 ```
 {rank=same; 0 1 4};
@@ -89,7 +89,7 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 
 ```bash
 python pipeline.py --config configs/leslie3d_spurious.yaml --stages render,metrics
-diff <(grep -E '^[0-9] |->' output/Leslie_3D/spurious_attractor_ex/MG/morse_graph) \
+diff <(grep -E '^[0-9] |->' replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_graph) \
      <(grep -E '^[0-9] |->' archive/brittany/output/Leslie_3D/spurious_attractor_ex/MG/morse_graph)
 ```
 

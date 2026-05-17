@@ -10,13 +10,13 @@ Paper Fig. 1.528: how adaptive sampling on top of a 500-point base improves Mors
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/output/coral/train_500_<M>_adaptive/seed_*/`. Sizes `M ∈ {100, 200, 300}` have non-empty `MG/morse_sets` CSVs across most seeds; sizes `400, 500` are essentially empty.
+Brittany. Preserved partially under `code/replay_sources/coral/train_500_<M>_adaptive/seed_*/`. Sizes `M ∈ {100, 200, 300}` have non-empty `MG/morse_sets` CSVs across most seeds; sizes `400, 500` are essentially empty.
 
 - training script:    `archive/brittany/main_scripts/train.py`
 - adaptive sampler:   present in `archive/brittany/main_scripts/make_data.py` and the experiment shell scripts
 - CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
 - experiment driver:  `archive/brittany/coral_experiment_scripts/run_adaptive_experiments.sh`
-- adaptive datasets:  `code/data/coral/train_500_<M>_adaptive.csv` (precomputed; the `data` stage does not re-derive these)
+- adaptive datasets:  `code/replay_sources/coral/data/train_500_<M>_adaptive.csv` (precomputed; the `data` stage does not re-derive these)
 
 ## Status
 
@@ -42,7 +42,7 @@ CONFIG=configs/scratch/coral_adaptive.yaml STAGES=train,diagnose,morse EXPECTED_
   slurm/pipeline_array.sbatch
 ```
 
-Note: adaptive sampling assumes `data/coral/train_500_<M>_adaptive.csv` already exists. The `data` stage does **not** regenerate adaptive datasets (would require running the legacy adaptive workflow). If those CSVs are missing, regenerate with `archive/brittany/coral_experiment_scripts/run_adaptive_experiments.sh` or use only the M values whose CSV is on disk.
+Note: adaptive sampling assumes `replay_sources/coral/data/train_500_<M>_adaptive.csv` already exists. The `data` stage does **not** regenerate adaptive datasets (would require running the legacy adaptive workflow). If those CSVs are missing, regenerate with `archive/brittany/coral_experiment_scripts/run_adaptive_experiments.sh` or use only the M values whose CSV is on disk.
 
 ## Expected scientific output
 

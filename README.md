@@ -101,7 +101,6 @@ code/
 │   ├── config/       # pydantic v2 schema + YAML loader
 │   └── cli/          # entry-points consumed by reproduce_paper.py / pipeline.py
 ├── scripts/
-│   ├── import_legacy_data.py         # vacuum Brittany/Marcio data into code/data
 │   └── migrate_legacy_checkpoints.py # convert 3-file pickled modules -> state_dict + sidecar
 ├── slurm/pipeline_array.sbatch       # AMAREL array template
 └── tests/                            # 140+ pytest cases
@@ -141,7 +140,7 @@ are exposed as CLI entry points under `latentdynamics.cli.*`.
 
 Configs marked `paths.read_only: true` block `data, scale, train, morse` unless
 `--force-overwrite` is passed. Derived stages (`diagnose, render, metrics, run_manifest.json`)
-read the source artifacts but write to `output/replay/<experiment_name>/...` by
+read the source artifacts but write to `replay/<experiment_name>/...` by
 default. This makes replay deterministic without dirtying the preserved trees.
 
 ## Quick start
@@ -158,7 +157,7 @@ default. This makes replay deterministic without dirtying the preserved trees.
 # One paper figure:
 ../.venv/bin/python reproduce_paper.py --only fig_leslie3d_spurious
 
-# Read-only configs route derived outputs to output/replay/<name>/.
+# Read-only configs route derived outputs to replay/<name>/.
 ../.venv/bin/python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
 
 # Opt into a retrain/recompute (use scratch sibling for coral so the preserved
@@ -200,9 +199,9 @@ postprocessing should consume that CSV instead of recomputing CMGDB:
 ```python
 from latentdynamics.viz import plot_morse_sets_from_csv
 
-plot = plot_morse_sets_from_csv("output/coral/seed_0/MG/morse_sets")
+plot = plot_morse_sets_from_csv("replay_sources/coral/seed_0/MG/morse_sets")
 plot.ax.scatter([0.0], [plot.label_to_y[0]], color="black", zorder=10)
-plot.fig.savefig("output/coral/seed_0/MG/morse_sets_overlay.png")
+plot.fig.savefig("replay/coral_basic/seed_0/MG/morse_sets_overlay.png")
 ```
 
 The default plotter only draws Morse sets / Morse graphs. Trajectory overlays,
@@ -221,21 +220,6 @@ artifacts; do not bake them into training or CMGDB.
    indices), and the verification recipe.
 4. Cover the routing/config behaviour in `tests/test_experiments.py` and add
    focused tests for any new system, metric, or renderer.
-
-## Legacy data import
-
-```bash
-python scripts/import_legacy_data.py --dry-run
-python scripts/import_legacy_data.py
-```
-
-Checks Brittany's coral / Leslie data against `code/data`, converts Marcio's
-headerless `archive/marcio/scripts/train_data.csv` to the active
-Chafee-Infante CSV format, backs up replaced files under
-`data/_pre_import_backup/<timestamp>/`, and writes
-`data/legacy_import_manifest.json`. Marcio kept no separate test split, so the
-imported `test.csv` mirrors the training pairs and is flagged as
-`test_mirror_of_train` in metadata.
 
 ## Pins and caveats
 

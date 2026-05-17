@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-14T20:44:18.165521+00:00",
+  "created_at_utc": "2026-05-17T15:23:20.806096+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,18 +9,17 @@
     "mps_available": true
   },
   "requested_stages": [
-    "morse",
-    "render"
+    "data"
   ],
   "cell": {
     "cell_index": 0,
     "train_file": "train",
     "seed": 0,
     "output_dir": "output/leslie2d_to_2d/seed_0",
-    "device": "cpu",
+    "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "808efff67b2582938a0d41047ddad493f57d091969af6d8704930d452877b614",
+  "config_hash": "829f08ba618e99944bc623001f9eaca73017f06dd5cbf373ea6710361ce14cdd",
   "config": {
     "system": {
       "name": "leslie_contraction",
@@ -40,8 +39,8 @@
       }
     },
     "arch": {
-      "num_layers": 2,
-      "hidden_shape": 64,
+      "num_layers": null,
+      "hidden_shape": null,
       "hidden_shapes": null,
       "high_dims": 2,
       "low_dims": 2,
@@ -52,23 +51,32 @@
       "encoder": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
       },
       "latent_map": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
       },
       "decoder": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "sigmoid"
       }
     },
     "training": {
@@ -76,12 +84,12 @@
       "batch_size": 1024,
       "epochs": 1000,
       "patience": 100,
+      "lr_patience": 10,
       "loss_weights": [
         100.0,
         10.0,
         20.0
       ],
-      "loss_mode": "weighted",
       "gradient_clip_norm": 1.0,
       "scheduler_factor": 0.1,
       "scheduler_threshold": 0.001,
@@ -91,11 +99,11 @@
       "sampling_method": "uniform",
       "scaling": "minmax",
       "n_samples_train": 8000,
-      "n_samples_test": 2000,
+      "n_samples_val": 2000,
       "n_iterations": 20,
       "skip": 0,
       "sobol_train_seed": 42,
-      "sobol_test_seed": 9999,
+      "sobol_val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -106,7 +114,10 @@
       "bounds_epsilon_frac": 0.01,
       "lower_bounds": null,
       "upper_bounds": null,
-      "padding": true
+      "padding": true,
+      "box_map_backend": "auto",
+      "max_table_points": 20000000,
+      "precompute_batch_points": "auto"
     },
     "paths": {
       "data_dir": "data/leslie2d_to_2d",

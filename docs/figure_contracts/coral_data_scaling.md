@@ -9,7 +9,7 @@ Paper Fig. 1.469: how the framework's quality scales with training-set size on t
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/output/coral/train_<N>/seed_*/`. Same incomplete-upload state as `coral_basic`: per-seed checkpoints and `MG/morse_graph` files are 0 bytes. Some `MG/morse_sets` CSV files are non-empty.
+Brittany. Preserved partially under `code/replay_sources/coral/train_<N>/seed_*/`. Same incomplete-upload state as `coral_basic`: per-seed checkpoints and `MG/morse_graph` files are 0 bytes. Some `MG/morse_sets` CSV files are non-empty.
 
 - training script:    `archive/brittany/main_scripts/train.py`
 - CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`

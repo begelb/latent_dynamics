@@ -42,12 +42,14 @@ data:
   n_samples_val: 5000
   n_iterations: 30
   skip: 0
-  sobol_train_seed: 42
-  sobol_val_seed: 9999
+  train_seed: 42
+  val_seed: 9999
   train_files: null
 
 cmgdb:
-  # Matches the saved legacy paper run in output/Leslie_3D/spurious_attractor_ex.
+  # Subdiv schedule matches the saved legacy paper run preserved at
+  # replay_sources/leslie3d_spurious/spurious_attractor_ex/ (kept as read-only
+  # reference; fresh runs write to output/leslie3d_spurious/).
   subdiv_init: 23
   subdiv_min: 23
   subdiv_max: 27
@@ -61,13 +63,10 @@ cmgdb:
   max_table_points: 300000000
 
 paths:
-  data_dir: data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0
-  output_dir: output/Leslie_3D/spurious_attractor_ex
-  scaler_dir_override: output/Leslie_3D/28.9_29.8_22.0/scalers
-  flat_scaler: true
-  # Preserved paper artifacts; legacy 3-file checkpoint + 94-min CMGDB run.
-  # Use --stages render,metrics to replay; --force-overwrite to retrain.
-  read_only: true
+  data_dir: data/leslie3d_spurious
+  output_dir: output/leslie3d_spurious
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
 
-# Single-checkpoint legacy layout (no seed_<k> subdir).
-seeds: []
+seeds: [0]

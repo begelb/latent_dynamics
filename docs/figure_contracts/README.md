@@ -68,7 +68,7 @@ graph.
   stage shows rich latent dynamics, but its Morse graph still needs CMGDB rerun
   with the right bounds.
 - `coral_basic`, `coral_data_scaling`, `coral_adaptive` cannot be
-  replayed because the per-seed checkpoints in the `code/output/coral/`
+  replayed because the per-seed checkpoints in the `code/replay_sources/coral/`
   tree are 0-byte placeholders; fresh runs go via the
   `configs/scratch/coral_*.yaml` siblings to keep the original tree
   intact.

@@ -29,7 +29,7 @@ def _load_metadata(path: Path) -> dict[str, Any]:
 
 def _sampling_seed(cfg: ExperimentConfig, role: str) -> int:
     default_seed = 42 if role == "train" else 9999
-    return int(getattr(cfg.data, f"sobol_{role}_seed", default_seed))
+    return int(getattr(cfg.data, f"{role}_seed", default_seed))
 
 
 def _expected_metadata(
@@ -130,27 +130,14 @@ def _existing_val_dataset(
     cfg: ExperimentConfig | None = None,
     system: DynamicalSystem | None = None,
 ) -> bool:
-    """True if either the canonical ``val.csv`` pair or the legacy ``test.csv``
-    pair already exists on disk. Preserved paper artifacts predate the
-    test->val rename and stay readable under the old name."""
-    if _existing_dataset(
+    """True if the ``val.csv`` pair already exists on disk."""
+    return _existing_dataset(
         "val",
         data_dir,
         cfg=cfg,
         system=system,
         role="val" if cfg is not None else None,
         n_samples=cfg.data.n_samples_val if cfg is not None else None,
-    ):
-        return True
-    return _existing_dataset(
-        "test",
-        data_dir,
-        cfg=cfg,
-        system=system,
-        role="val" if cfg is not None else None,
-        n_samples=cfg.data.n_samples_val if cfg is not None else None,
-        dataset_names=("test",),
-        roles=("val", "test", "test_mirror_of_train"),
     )
 
 
@@ -218,8 +205,7 @@ def _validate_precomputed_val(
     system: DynamicalSystem,
     verbose: bool,
 ) -> None:
-    """Validate that a precomputed val dataset exists under either the new
-    ``val.csv`` name or the legacy ``test.csv`` name."""
+    """Validate that a precomputed ``val.csv`` dataset exists."""
     val_csv, val_meta = _dataset_paths("val", data_dir)
     if val_csv.exists() and val_meta.exists():
         _existing_dataset(
@@ -235,26 +221,9 @@ def _validate_precomputed_val(
         return
     if val_csv.exists() or val_meta.exists():
         _existing_dataset("val", data_dir)
-    test_csv, test_meta = _dataset_paths("test", data_dir)
-    if test_csv.exists() and test_meta.exists():
-        _existing_dataset(
-            "test",
-            data_dir,
-            cfg=cfg,
-            system=system,
-            role="val",
-            n_samples=cfg.data.n_samples_val,
-            dataset_names=("test",),
-            roles=("val", "test", "test_mirror_of_train"),
-        )
-        if verbose:
-            print(f"using legacy precomputed test dataset under {data_dir}")
-        return
-    if test_csv.exists() or test_meta.exists():
-        _existing_dataset("test", data_dir)
     raise FileNotFoundError(
         f"adaptive sampling is precomputed; missing validation dataset under {data_dir} "
-        f"(expected val.csv + val_metadata.json, or legacy test.csv + test_metadata.json)"
+        f"(expected val.csv + val_metadata.json)"
     )
 
 

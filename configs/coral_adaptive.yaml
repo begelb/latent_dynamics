@@ -1,10 +1,8 @@
 # Coral adaptive-sampling sweep (paper). 30 seeds x M in {100, 200, 300, 400, 500}
-# adaptive samples on top of a 500-point base.
-#
-# Replay-only config; preserved Brittany artifacts under
-# output/coral/train_500_<M>_adaptive/seed_<k>/. Sizes 400 and 500 are
-# only partially populated. For fresh runs use
-# configs/scratch/coral_adaptive.yaml.
+# adaptive samples on top of a 500-point base. Writes to output/coral_adaptive/.
+# The preserved Brittany artifact tree at
+# replay_sources/coral/train_500_<M>_adaptive/seed_<k>/ is kept separately as a
+# read-only reference for figure replay.
 #
 # Adaptive sampling requires a trained base model, so the ``data`` stage cannot
 # regenerate train_500_<M>_adaptive.csv automatically.
@@ -47,8 +45,8 @@ data:
   n_samples_val: 10000
   n_iterations: 20
   skip: 0
-  sobol_train_seed: 42
-  sobol_val_seed: 9999
+  train_seed: 42
+  val_seed: 9999
   train_files:
     - train_500_100_adaptive
     - train_500_200_adaptive
@@ -68,10 +66,10 @@ cmgdb:
   box_map_backend: auto
 
 paths:
-  data_dir: data/coral
-  output_dir: output/coral
-  scaler_dir_override: output/coral/data/scalers
+  data_dir: replay_sources/coral/data
+  output_dir: output/coral_adaptive
+  scaler_dir_override: null
   flat_scaler: false
-  read_only: true
+  read_only: false
 
-seeds: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
+seeds: [0]

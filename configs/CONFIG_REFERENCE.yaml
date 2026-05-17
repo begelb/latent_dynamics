@@ -122,8 +122,8 @@ data:
   # Number of initial trajectory iterates to skip before recording samples.
   skip: 0
 
-  sobol_train_seed: 7206
-  sobol_val_seed: 9999
+  train_seed: 7206
+  val_seed: 9999
 
   # Optional explicit training file basenames. When null, filenames are derived
   # from n_samples_train and sampling_method.

@@ -20,5 +20,6 @@
     },
     "dataset_name": "train",
     "sampling_method": "uniform",
+    "sampling_seed": 42,
     "role": "train"
 }

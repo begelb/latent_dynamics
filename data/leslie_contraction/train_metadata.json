@@ -1,7 +1,7 @@
 {
     "system": "LeslieContraction",
     "dimension": 10,
-    "n_samples": 10000,
+    "n_samples": 8000,
     "n_iterations": 20,
     "skip_initial_steps": 0,
     "lower_bounds": [
@@ -36,5 +36,6 @@
     },
     "dataset_name": "train",
     "sampling_method": "uniform",
+    "sampling_seed": 42,
     "role": "train"
 }

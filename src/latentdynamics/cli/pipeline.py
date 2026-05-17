@@ -49,7 +49,7 @@ WRITE_STAGES: frozenset[str] = frozenset({"data", "scale", "train", "morse"})
 
 # Default replay root (relative to cwd). Used when ``cfg.paths.read_only`` is
 # true and the caller did not supply ``replay_root``.
-DEFAULT_REPLAY_ROOT: Path = Path("output/replay")
+DEFAULT_REPLAY_ROOT: Path = Path("replay")
 
 
 def _check_read_only(cfg: ExperimentConfig, plan: list[str], *, force_overwrite: bool) -> None:
@@ -359,14 +359,9 @@ def _data_complete(cfg: ExperimentConfig) -> bool:
             return False
         if not _nonempty_file(cfg.paths.data_dir / f"{label}_metadata.json"):
             return False
-    # Validation set: accept either the canonical val.csv or legacy test.csv
-    # (preserved paper artifacts predate the test->val rename).
-    for label in ("val", "test"):
-        if _nonempty_file(cfg.paths.data_dir / f"{label}.csv") and _nonempty_file(
-            cfg.paths.data_dir / f"{label}_metadata.json"
-        ):
-            return True
-    return False
+    return _nonempty_file(cfg.paths.data_dir / "val.csv") and _nonempty_file(
+        cfg.paths.data_dir / "val_metadata.json"
+    )
 
 
 def _stage_complete(

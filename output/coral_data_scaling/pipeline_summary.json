@@ -1,0 +1,1442 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train_100",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_0",
+    "manifest": "output/coral_data_scaling/train_100/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 1,
+    "train_file": "train_100",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_1",
+    "manifest": "output/coral_data_scaling/train_100/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 2,
+    "train_file": "train_100",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_2",
+    "manifest": "output/coral_data_scaling/train_100/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 3,
+    "train_file": "train_100",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_3",
+    "manifest": "output/coral_data_scaling/train_100/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 4,
+    "train_file": "train_100",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_4",
+    "manifest": "output/coral_data_scaling/train_100/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 5,
+    "train_file": "train_100",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_5",
+    "manifest": "output/coral_data_scaling/train_100/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 6,
+    "train_file": "train_100",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_6",
+    "manifest": "output/coral_data_scaling/train_100/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 7,
+    "train_file": "train_100",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_7",
+    "manifest": "output/coral_data_scaling/train_100/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 8,
+    "train_file": "train_100",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_8",
+    "manifest": "output/coral_data_scaling/train_100/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 9,
+    "train_file": "train_100",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_9",
+    "manifest": "output/coral_data_scaling/train_100/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 10,
+    "train_file": "train_100",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_10",
+    "manifest": "output/coral_data_scaling/train_100/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 11,
+    "train_file": "train_100",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_11",
+    "manifest": "output/coral_data_scaling/train_100/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 12,
+    "train_file": "train_100",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_12",
+    "manifest": "output/coral_data_scaling/train_100/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 13,
+    "train_file": "train_100",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_13",
+    "manifest": "output/coral_data_scaling/train_100/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 14,
+    "train_file": "train_100",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_14",
+    "manifest": "output/coral_data_scaling/train_100/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 15,
+    "train_file": "train_100",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_15",
+    "manifest": "output/coral_data_scaling/train_100/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 16,
+    "train_file": "train_100",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_16",
+    "manifest": "output/coral_data_scaling/train_100/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 17,
+    "train_file": "train_100",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_17",
+    "manifest": "output/coral_data_scaling/train_100/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 18,
+    "train_file": "train_100",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_18",
+    "manifest": "output/coral_data_scaling/train_100/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 19,
+    "train_file": "train_100",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_19",
+    "manifest": "output/coral_data_scaling/train_100/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 20,
+    "train_file": "train_100",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_20",
+    "manifest": "output/coral_data_scaling/train_100/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 21,
+    "train_file": "train_100",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_21",
+    "manifest": "output/coral_data_scaling/train_100/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 22,
+    "train_file": "train_100",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_22",
+    "manifest": "output/coral_data_scaling/train_100/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 23,
+    "train_file": "train_100",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_23",
+    "manifest": "output/coral_data_scaling/train_100/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 24,
+    "train_file": "train_100",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_24",
+    "manifest": "output/coral_data_scaling/train_100/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 25,
+    "train_file": "train_100",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_25",
+    "manifest": "output/coral_data_scaling/train_100/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 26,
+    "train_file": "train_100",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_26",
+    "manifest": "output/coral_data_scaling/train_100/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 27,
+    "train_file": "train_100",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_27",
+    "manifest": "output/coral_data_scaling/train_100/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 28,
+    "train_file": "train_100",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_28",
+    "manifest": "output/coral_data_scaling/train_100/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 29,
+    "train_file": "train_100",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_100/seed_29",
+    "manifest": "output/coral_data_scaling/train_100/seed_29/run_manifest.json"
+  },
+  {
+    "cell_index": 30,
+    "train_file": "train_200",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_0",
+    "manifest": "output/coral_data_scaling/train_200/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 31,
+    "train_file": "train_200",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_1",
+    "manifest": "output/coral_data_scaling/train_200/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 32,
+    "train_file": "train_200",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_2",
+    "manifest": "output/coral_data_scaling/train_200/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 33,
+    "train_file": "train_200",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_3",
+    "manifest": "output/coral_data_scaling/train_200/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 34,
+    "train_file": "train_200",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_4",
+    "manifest": "output/coral_data_scaling/train_200/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 35,
+    "train_file": "train_200",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_5",
+    "manifest": "output/coral_data_scaling/train_200/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 36,
+    "train_file": "train_200",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_6",
+    "manifest": "output/coral_data_scaling/train_200/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 37,
+    "train_file": "train_200",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_7",
+    "manifest": "output/coral_data_scaling/train_200/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 38,
+    "train_file": "train_200",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_8",
+    "manifest": "output/coral_data_scaling/train_200/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 39,
+    "train_file": "train_200",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_9",
+    "manifest": "output/coral_data_scaling/train_200/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 40,
+    "train_file": "train_200",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_10",
+    "manifest": "output/coral_data_scaling/train_200/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 41,
+    "train_file": "train_200",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_11",
+    "manifest": "output/coral_data_scaling/train_200/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 42,
+    "train_file": "train_200",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_12",
+    "manifest": "output/coral_data_scaling/train_200/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 43,
+    "train_file": "train_200",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_13",
+    "manifest": "output/coral_data_scaling/train_200/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 44,
+    "train_file": "train_200",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_14",
+    "manifest": "output/coral_data_scaling/train_200/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 45,
+    "train_file": "train_200",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_15",
+    "manifest": "output/coral_data_scaling/train_200/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 46,
+    "train_file": "train_200",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_16",
+    "manifest": "output/coral_data_scaling/train_200/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 47,
+    "train_file": "train_200",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_17",
+    "manifest": "output/coral_data_scaling/train_200/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 48,
+    "train_file": "train_200",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_18",
+    "manifest": "output/coral_data_scaling/train_200/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 49,
+    "train_file": "train_200",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_19",
+    "manifest": "output/coral_data_scaling/train_200/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 50,
+    "train_file": "train_200",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_20",
+    "manifest": "output/coral_data_scaling/train_200/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 51,
+    "train_file": "train_200",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_21",
+    "manifest": "output/coral_data_scaling/train_200/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 52,
+    "train_file": "train_200",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_22",
+    "manifest": "output/coral_data_scaling/train_200/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 53,
+    "train_file": "train_200",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_23",
+    "manifest": "output/coral_data_scaling/train_200/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 54,
+    "train_file": "train_200",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_24",
+    "manifest": "output/coral_data_scaling/train_200/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 55,
+    "train_file": "train_200",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_25",
+    "manifest": "output/coral_data_scaling/train_200/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 56,
+    "train_file": "train_200",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_26",
+    "manifest": "output/coral_data_scaling/train_200/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 57,
+    "train_file": "train_200",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_27",
+    "manifest": "output/coral_data_scaling/train_200/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 58,
+    "train_file": "train_200",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_28",
+    "manifest": "output/coral_data_scaling/train_200/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 59,
+    "train_file": "train_200",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_200/seed_29",
+    "manifest": "output/coral_data_scaling/train_200/seed_29/run_manifest.json"
+  },
+  {
+    "cell_index": 60,
+    "train_file": "train_500",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_0",
+    "manifest": "output/coral_data_scaling/train_500/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 61,
+    "train_file": "train_500",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_1",
+    "manifest": "output/coral_data_scaling/train_500/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 62,
+    "train_file": "train_500",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_2",
+    "manifest": "output/coral_data_scaling/train_500/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 63,
+    "train_file": "train_500",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_3",
+    "manifest": "output/coral_data_scaling/train_500/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 64,
+    "train_file": "train_500",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_4",
+    "manifest": "output/coral_data_scaling/train_500/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 65,
+    "train_file": "train_500",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_5",
+    "manifest": "output/coral_data_scaling/train_500/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 66,
+    "train_file": "train_500",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_6",
+    "manifest": "output/coral_data_scaling/train_500/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 67,
+    "train_file": "train_500",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_7",
+    "manifest": "output/coral_data_scaling/train_500/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 68,
+    "train_file": "train_500",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_8",
+    "manifest": "output/coral_data_scaling/train_500/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 69,
+    "train_file": "train_500",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_9",
+    "manifest": "output/coral_data_scaling/train_500/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 70,
+    "train_file": "train_500",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_10",
+    "manifest": "output/coral_data_scaling/train_500/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 71,
+    "train_file": "train_500",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_11",
+    "manifest": "output/coral_data_scaling/train_500/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 72,
+    "train_file": "train_500",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_12",
+    "manifest": "output/coral_data_scaling/train_500/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 73,
+    "train_file": "train_500",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_13",
+    "manifest": "output/coral_data_scaling/train_500/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 74,
+    "train_file": "train_500",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_14",
+    "manifest": "output/coral_data_scaling/train_500/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 75,
+    "train_file": "train_500",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_15",
+    "manifest": "output/coral_data_scaling/train_500/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 76,
+    "train_file": "train_500",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_16",
+    "manifest": "output/coral_data_scaling/train_500/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 77,
+    "train_file": "train_500",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_17",
+    "manifest": "output/coral_data_scaling/train_500/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 78,
+    "train_file": "train_500",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_18",
+    "manifest": "output/coral_data_scaling/train_500/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 79,
+    "train_file": "train_500",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_19",
+    "manifest": "output/coral_data_scaling/train_500/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 80,
+    "train_file": "train_500",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_20",
+    "manifest": "output/coral_data_scaling/train_500/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 81,
+    "train_file": "train_500",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_21",
+    "manifest": "output/coral_data_scaling/train_500/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 82,
+    "train_file": "train_500",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_22",
+    "manifest": "output/coral_data_scaling/train_500/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 83,
+    "train_file": "train_500",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_23",
+    "manifest": "output/coral_data_scaling/train_500/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 84,
+    "train_file": "train_500",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_24",
+    "manifest": "output/coral_data_scaling/train_500/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 85,
+    "train_file": "train_500",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_25",
+    "manifest": "output/coral_data_scaling/train_500/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 86,
+    "train_file": "train_500",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_26",
+    "manifest": "output/coral_data_scaling/train_500/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 87,
+    "train_file": "train_500",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_27",
+    "manifest": "output/coral_data_scaling/train_500/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 88,
+    "train_file": "train_500",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_28",
+    "manifest": "output/coral_data_scaling/train_500/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 89,
+    "train_file": "train_500",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_500/seed_29",
+    "manifest": "output/coral_data_scaling/train_500/seed_29/run_manifest.json"
+  },
+  {
+    "cell_index": 90,
+    "train_file": "train_1000",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_0",
+    "manifest": "output/coral_data_scaling/train_1000/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 91,
+    "train_file": "train_1000",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_1",
+    "manifest": "output/coral_data_scaling/train_1000/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 92,
+    "train_file": "train_1000",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_2",
+    "manifest": "output/coral_data_scaling/train_1000/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 93,
+    "train_file": "train_1000",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_3",
+    "manifest": "output/coral_data_scaling/train_1000/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 94,
+    "train_file": "train_1000",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_4",
+    "manifest": "output/coral_data_scaling/train_1000/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 95,
+    "train_file": "train_1000",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_5",
+    "manifest": "output/coral_data_scaling/train_1000/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 96,
+    "train_file": "train_1000",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_6",
+    "manifest": "output/coral_data_scaling/train_1000/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 97,
+    "train_file": "train_1000",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_7",
+    "manifest": "output/coral_data_scaling/train_1000/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 98,
+    "train_file": "train_1000",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_8",
+    "manifest": "output/coral_data_scaling/train_1000/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 99,
+    "train_file": "train_1000",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_9",
+    "manifest": "output/coral_data_scaling/train_1000/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 100,
+    "train_file": "train_1000",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_10",
+    "manifest": "output/coral_data_scaling/train_1000/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 101,
+    "train_file": "train_1000",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_11",
+    "manifest": "output/coral_data_scaling/train_1000/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 102,
+    "train_file": "train_1000",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_12",
+    "manifest": "output/coral_data_scaling/train_1000/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 103,
+    "train_file": "train_1000",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_13",
+    "manifest": "output/coral_data_scaling/train_1000/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 104,
+    "train_file": "train_1000",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_14",
+    "manifest": "output/coral_data_scaling/train_1000/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 105,
+    "train_file": "train_1000",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_15",
+    "manifest": "output/coral_data_scaling/train_1000/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 106,
+    "train_file": "train_1000",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_16",
+    "manifest": "output/coral_data_scaling/train_1000/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 107,
+    "train_file": "train_1000",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_17",
+    "manifest": "output/coral_data_scaling/train_1000/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 108,
+    "train_file": "train_1000",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_18",
+    "manifest": "output/coral_data_scaling/train_1000/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 109,
+    "train_file": "train_1000",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_19",
+    "manifest": "output/coral_data_scaling/train_1000/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 110,
+    "train_file": "train_1000",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_20",
+    "manifest": "output/coral_data_scaling/train_1000/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 111,
+    "train_file": "train_1000",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_21",
+    "manifest": "output/coral_data_scaling/train_1000/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 112,
+    "train_file": "train_1000",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_22",
+    "manifest": "output/coral_data_scaling/train_1000/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 113,
+    "train_file": "train_1000",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_23",
+    "manifest": "output/coral_data_scaling/train_1000/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 114,
+    "train_file": "train_1000",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_24",
+    "manifest": "output/coral_data_scaling/train_1000/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 115,
+    "train_file": "train_1000",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_25",
+    "manifest": "output/coral_data_scaling/train_1000/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 116,
+    "train_file": "train_1000",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_26",
+    "manifest": "output/coral_data_scaling/train_1000/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 117,
+    "train_file": "train_1000",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_27",
+    "manifest": "output/coral_data_scaling/train_1000/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 118,
+    "train_file": "train_1000",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_28",
+    "manifest": "output/coral_data_scaling/train_1000/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 119,
+    "train_file": "train_1000",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_1000/seed_29",
+    "manifest": "output/coral_data_scaling/train_1000/seed_29/run_manifest.json"
+  },
+  {
+    "cell_index": 120,
+    "train_file": "train_2000",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_0",
+    "manifest": "output/coral_data_scaling/train_2000/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 121,
+    "train_file": "train_2000",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_1",
+    "manifest": "output/coral_data_scaling/train_2000/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 122,
+    "train_file": "train_2000",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_2",
+    "manifest": "output/coral_data_scaling/train_2000/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 123,
+    "train_file": "train_2000",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_3",
+    "manifest": "output/coral_data_scaling/train_2000/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 124,
+    "train_file": "train_2000",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_4",
+    "manifest": "output/coral_data_scaling/train_2000/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 125,
+    "train_file": "train_2000",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_5",
+    "manifest": "output/coral_data_scaling/train_2000/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 126,
+    "train_file": "train_2000",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_6",
+    "manifest": "output/coral_data_scaling/train_2000/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 127,
+    "train_file": "train_2000",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_7",
+    "manifest": "output/coral_data_scaling/train_2000/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 128,
+    "train_file": "train_2000",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_8",
+    "manifest": "output/coral_data_scaling/train_2000/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 129,
+    "train_file": "train_2000",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_9",
+    "manifest": "output/coral_data_scaling/train_2000/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 130,
+    "train_file": "train_2000",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_10",
+    "manifest": "output/coral_data_scaling/train_2000/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 131,
+    "train_file": "train_2000",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_11",
+    "manifest": "output/coral_data_scaling/train_2000/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 132,
+    "train_file": "train_2000",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_12",
+    "manifest": "output/coral_data_scaling/train_2000/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 133,
+    "train_file": "train_2000",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_13",
+    "manifest": "output/coral_data_scaling/train_2000/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 134,
+    "train_file": "train_2000",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_14",
+    "manifest": "output/coral_data_scaling/train_2000/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 135,
+    "train_file": "train_2000",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_15",
+    "manifest": "output/coral_data_scaling/train_2000/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 136,
+    "train_file": "train_2000",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_16",
+    "manifest": "output/coral_data_scaling/train_2000/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 137,
+    "train_file": "train_2000",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_17",
+    "manifest": "output/coral_data_scaling/train_2000/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 138,
+    "train_file": "train_2000",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_18",
+    "manifest": "output/coral_data_scaling/train_2000/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 139,
+    "train_file": "train_2000",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_19",
+    "manifest": "output/coral_data_scaling/train_2000/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 140,
+    "train_file": "train_2000",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_20",
+    "manifest": "output/coral_data_scaling/train_2000/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 141,
+    "train_file": "train_2000",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_21",
+    "manifest": "output/coral_data_scaling/train_2000/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 142,
+    "train_file": "train_2000",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_22",
+    "manifest": "output/coral_data_scaling/train_2000/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 143,
+    "train_file": "train_2000",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_23",
+    "manifest": "output/coral_data_scaling/train_2000/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 144,
+    "train_file": "train_2000",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_24",
+    "manifest": "output/coral_data_scaling/train_2000/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 145,
+    "train_file": "train_2000",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_25",
+    "manifest": "output/coral_data_scaling/train_2000/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 146,
+    "train_file": "train_2000",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_26",
+    "manifest": "output/coral_data_scaling/train_2000/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 147,
+    "train_file": "train_2000",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_27",
+    "manifest": "output/coral_data_scaling/train_2000/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 148,
+    "train_file": "train_2000",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_28",
+    "manifest": "output/coral_data_scaling/train_2000/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 149,
+    "train_file": "train_2000",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_2000/seed_29",
+    "manifest": "output/coral_data_scaling/train_2000/seed_29/run_manifest.json"
+  },
+  {
+    "cell_index": 150,
+    "train_file": "train_5000",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_0",
+    "manifest": "output/coral_data_scaling/train_5000/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 151,
+    "train_file": "train_5000",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_1",
+    "manifest": "output/coral_data_scaling/train_5000/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 152,
+    "train_file": "train_5000",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_2",
+    "manifest": "output/coral_data_scaling/train_5000/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 153,
+    "train_file": "train_5000",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_3",
+    "manifest": "output/coral_data_scaling/train_5000/seed_3/run_manifest.json"
+  },
+  {
+    "cell_index": 154,
+    "train_file": "train_5000",
+    "seed": 4,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_4",
+    "manifest": "output/coral_data_scaling/train_5000/seed_4/run_manifest.json"
+  },
+  {
+    "cell_index": 155,
+    "train_file": "train_5000",
+    "seed": 5,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_5",
+    "manifest": "output/coral_data_scaling/train_5000/seed_5/run_manifest.json"
+  },
+  {
+    "cell_index": 156,
+    "train_file": "train_5000",
+    "seed": 6,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_6",
+    "manifest": "output/coral_data_scaling/train_5000/seed_6/run_manifest.json"
+  },
+  {
+    "cell_index": 157,
+    "train_file": "train_5000",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_7",
+    "manifest": "output/coral_data_scaling/train_5000/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 158,
+    "train_file": "train_5000",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_8",
+    "manifest": "output/coral_data_scaling/train_5000/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 159,
+    "train_file": "train_5000",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_9",
+    "manifest": "output/coral_data_scaling/train_5000/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 160,
+    "train_file": "train_5000",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_10",
+    "manifest": "output/coral_data_scaling/train_5000/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 161,
+    "train_file": "train_5000",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_11",
+    "manifest": "output/coral_data_scaling/train_5000/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 162,
+    "train_file": "train_5000",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_12",
+    "manifest": "output/coral_data_scaling/train_5000/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 163,
+    "train_file": "train_5000",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_13",
+    "manifest": "output/coral_data_scaling/train_5000/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 164,
+    "train_file": "train_5000",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_14",
+    "manifest": "output/coral_data_scaling/train_5000/seed_14/run_manifest.json"
+  },
+  {
+    "cell_index": 165,
+    "train_file": "train_5000",
+    "seed": 15,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_15",
+    "manifest": "output/coral_data_scaling/train_5000/seed_15/run_manifest.json"
+  },
+  {
+    "cell_index": 166,
+    "train_file": "train_5000",
+    "seed": 16,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_16",
+    "manifest": "output/coral_data_scaling/train_5000/seed_16/run_manifest.json"
+  },
+  {
+    "cell_index": 167,
+    "train_file": "train_5000",
+    "seed": 17,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_17",
+    "manifest": "output/coral_data_scaling/train_5000/seed_17/run_manifest.json"
+  },
+  {
+    "cell_index": 168,
+    "train_file": "train_5000",
+    "seed": 18,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_18",
+    "manifest": "output/coral_data_scaling/train_5000/seed_18/run_manifest.json"
+  },
+  {
+    "cell_index": 169,
+    "train_file": "train_5000",
+    "seed": 19,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_19",
+    "manifest": "output/coral_data_scaling/train_5000/seed_19/run_manifest.json"
+  },
+  {
+    "cell_index": 170,
+    "train_file": "train_5000",
+    "seed": 20,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_20",
+    "manifest": "output/coral_data_scaling/train_5000/seed_20/run_manifest.json"
+  },
+  {
+    "cell_index": 171,
+    "train_file": "train_5000",
+    "seed": 21,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_21",
+    "manifest": "output/coral_data_scaling/train_5000/seed_21/run_manifest.json"
+  },
+  {
+    "cell_index": 172,
+    "train_file": "train_5000",
+    "seed": 22,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_22",
+    "manifest": "output/coral_data_scaling/train_5000/seed_22/run_manifest.json"
+  },
+  {
+    "cell_index": 173,
+    "train_file": "train_5000",
+    "seed": 23,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_23",
+    "manifest": "output/coral_data_scaling/train_5000/seed_23/run_manifest.json"
+  },
+  {
+    "cell_index": 174,
+    "train_file": "train_5000",
+    "seed": 24,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_24",
+    "manifest": "output/coral_data_scaling/train_5000/seed_24/run_manifest.json"
+  },
+  {
+    "cell_index": 175,
+    "train_file": "train_5000",
+    "seed": 25,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_25",
+    "manifest": "output/coral_data_scaling/train_5000/seed_25/run_manifest.json"
+  },
+  {
+    "cell_index": 176,
+    "train_file": "train_5000",
+    "seed": 26,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_26",
+    "manifest": "output/coral_data_scaling/train_5000/seed_26/run_manifest.json"
+  },
+  {
+    "cell_index": 177,
+    "train_file": "train_5000",
+    "seed": 27,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_27",
+    "manifest": "output/coral_data_scaling/train_5000/seed_27/run_manifest.json"
+  },
+  {
+    "cell_index": 178,
+    "train_file": "train_5000",
+    "seed": 28,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_28",
+    "manifest": "output/coral_data_scaling/train_5000/seed_28/run_manifest.json"
+  },
+  {
+    "cell_index": 179,
+    "train_file": "train_5000",
+    "seed": 29,
+    "device": "mps",
+    "output_dir": "output/coral_data_scaling/train_5000/seed_29",
+    "manifest": "output/coral_data_scaling/train_5000/seed_29/run_manifest.json"
+  }
+]

@@ -98,7 +98,7 @@ output/chafee_infante/
 For sweep experiments (`fig_coral_data_scaling`):
 
 ```
-output/coral/
+replay_sources/coral/
   train_<N>/
     seed_<k>/
       ... (as above, per seed)
@@ -107,7 +107,7 @@ output/coral/
 Adaptive coral uses the same layout with `train_500_<M>_adaptive/`:
 
 ```
-output/coral/
+replay_sources/coral/
   train_500_<M>_adaptive/
     seed_<k>/
     ... (as above, per seed)
@@ -121,9 +121,9 @@ Postprocessing should read that saved CSV instead of recomputing CMGDB:
 ```python
 from latentdynamics.viz import plot_morse_sets_from_csv
 
-plot = plot_morse_sets_from_csv("output/coral/seed_0/MG/morse_sets")
+plot = plot_morse_sets_from_csv("replay_sources/coral/seed_0/MG/morse_sets")
 plot.ax.scatter([0.0], [plot.label_to_y[0]], color="black", zorder=10)
-plot.fig.savefig("output/coral/seed_0/MG/morse_sets_overlay.png")
+plot.fig.savefig("replay/coral_basic/seed_0/MG/morse_sets_overlay.png")
 ```
 
 The base plotter only draws Morse sets. Figure-specific code can then add
@@ -170,23 +170,6 @@ Shared `arch.num_layers` / `arch.hidden_shape` are optional. If every component 
 A worked example exercising asymmetric widths, per-network activations, and an `out_activation` override lives at `configs/scratch/asymmetric_example.yaml`.
 
 Training hyperparameters live under `training`. Data and CMGDB settings are unchanged by this refactor.
-
-## Legacy data import
-
-Archived source data can be re-imported without blind overwrites:
-
-```bash
-python scripts/import_legacy_data.py --dry-run
-python scripts/import_legacy_data.py
-```
-
-The importer checks Brittany's coral/Leslie data against `code/data`, converts
-Marcio's headerless `archive/marcio/scripts/train_data.csv` into the active
-Chafee-Infante CSV format, backs up replaced files under
-`data/_pre_import_backup/<timestamp>/`, and writes
-`data/legacy_import_manifest.json`. Marcio did not save a separate test split,
-so the imported `test.csv` mirrors the archived training pairs and is marked
-as `test_mirror_of_train` in metadata.
 
 ## Determinism caveats
 

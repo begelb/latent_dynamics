@@ -64,14 +64,14 @@ def build_strategy(
     """Build a strategy from a sampling method name and an experiment config.
 
     For both ``uniform`` and ``sobol`` the seed is taken from
-    ``config.sobol_<role>_seed`` (default 42 for ``train``, 9999 for ``test``)
+    ``config.<role>_seed`` (default 42 for ``train``, 9999 for ``val``)
     so data generation is reproducible without relying on global RNG state.
     """
     method = method.lower()
     default_seed = 42 if role == "train" else 9999
     seed = default_seed
     if config is not None:
-        seed = getattr(config, f"sobol_{role}_seed", default_seed)
+        seed = getattr(config, f"{role}_seed", default_seed)
 
     if method == "uniform":
         return UniformStrategy(rng=int(seed))

@@ -74,7 +74,6 @@ resumes from saved artifacts instead of repeating completed stages. Increase
 ```bash
 cd code
 ../.venv/bin/python -m pytest -m "not slow"
-../.venv/bin/python scripts/import_legacy_data.py --dry-run
 ../.venv/bin/python pipeline.py --config configs/chafee_infante.yaml --dry-run
 ../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --dry-run --max-seeds 2
 ```

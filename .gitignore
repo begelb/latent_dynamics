@@ -23,4 +23,4 @@ tmp.py
 # Replay outputs from rerunning render/metrics/diagnose against a
 # read_only config. These are derived, machine-specific, and meant to be
 # regenerated on demand - do not track them.
-output/replay/
+replay/

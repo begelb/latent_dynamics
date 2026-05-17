@@ -1,7 +1,7 @@
 {
     "system": "LeslieModel3D",
     "dimension": 3,
-    "n_samples": 10000,
+    "n_samples": 8000,
     "n_iterations": 20,
     "skip_initial_steps": 0,
     "lower_bounds": [
@@ -15,13 +15,14 @@
         108.0
     ],
     "model_params": {
-        "th1": 28.9,
-        "th2": 29.8,
-        "th3": 22.0,
+        "th1": 19.6,
+        "th2": 23.68,
+        "th3": 23.68,
         "survival_p1": 0.7,
         "survival_p2": 0.7
     },
     "dataset_name": "train",
     "sampling_method": "uniform",
+    "sampling_seed": 42,
     "role": "train"
 }
