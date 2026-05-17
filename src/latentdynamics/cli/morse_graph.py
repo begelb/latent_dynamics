@@ -25,14 +25,14 @@ from ..viz import save_morse_graph_artifacts
 
 def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
     train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
-    test = np.loadtxt(cfg.paths.data_dir / "test.csv", delimiter=",", skiprows=1)
+    val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
     scaler = load_scaler(cfg.paths.scaler_path(train_file))
     high = cfg.arch.high_dims
     pieces = [
         scaler.transform(train[:, :high]),
-        scaler.transform(test[:, :high]),
+        scaler.transform(val[:, :high]),
         scaler.transform(train[:, high:]),
-        scaler.transform(test[:, high:]),
+        scaler.transform(val[:, high:]),
     ]
     return np.vstack(pieces)
 

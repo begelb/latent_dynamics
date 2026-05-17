@@ -12,29 +12,67 @@ system:
 
 arch:
   # From archive/patrick/Leslie3D/models/*.pt.
-  num_layers: 2
-  hidden_shape: 64
   high_dims: 3
   low_dims: 2
+  encoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  latent_map:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  decoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: sigmoid
 
 training:
+  learning_rate: 0.001
+  batch_size: 1024
+  epochs: 1000
+  patience: 100
+  lr_patience: 10
   # Recovered from archived train/test loss logs:
   # total = 100*reconstruction + 10*prediction + 20*semiconjugacy.
   loss_weights: [100, 10, 20]
+  gradient_clip_norm: 1.0
+  scheduler_factor: 0.1
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.0
 
 data:
   sampling_method: uniform
+  scaling: minmax
   # Paper run used D(20, 10000); archived scaler size implies an 80/20 split.
   n_samples_train: 8000
-  n_samples_test: 2000
+  n_samples_val: 2000
   n_iterations: 20
+  skip: 0
+  sobol_train_seed: 42
+  sobol_val_seed: 9999
+  train_files: null
 
 cmgdb:
   # From archive/patrick/Leslie3D/mg_params_log.txt.
   subdiv_init: 25
   subdiv_min: 28
   subdiv_max: 29
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  lower_bounds: null
+  upper_bounds: null
+  padding: true
+  box_map_backend: auto
+  # adaptive_precomputed table at d=2, subdiv_max=29 -> (2^15+1)^2 ~= 1.07e9 corners
+  # (~17 GB float64 with out_dim=2); requires sufficient host RAM.
+  max_table_points: 1200000000
 
 paths:
   data_dir: data/leslie3d_success
   output_dir: output/leslie3d_success
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
+
+seeds: [0]

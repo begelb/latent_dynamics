@@ -1,27 +1,41 @@
 {
-  "n_distinct_limit_points": -1,
-  "diagnostic": "iteration_did_not_converge",
-  "n_terminal_clusters_all": 9,
-  "n_terminal_clusters_converged": 0,
-  "encoded_extent": [
-    1.3246278762817383,
-    1.0273172855377197
-  ],
-  "encoded_image_diameter": 1.676311371967409,
-  "bounds_lower": [
-    -0.4121801555156708,
-    -0.5802760124206543
-  ],
-  "bounds_upper": [
-    0.9389402866363525,
-    0.4675876498222351
-  ],
-  "bounds_source": "encoded_data",
-  "n_iter": 200,
-  "n_grid_points": 2500,
-  "convergence_eps": 0.00017098376750946046,
-  "cluster_eps": 0.017098376750946047,
-  "mean_iter_to_convergence": 200.0,
-  "max_iter_to_convergence": 200,
-  "frac_unconverged": 1.0
+  "diagnostic": "ok",
+  "hard_flags": {
+    "encoder_collapsed": false,
+    "latent_map_overcontracted": false
+  },
+  "encoder": {
+    "extent_per_axis": [
+      1.177220806479454,
+      1.6402608752250671
+    ],
+    "max_extent": 1.6402608752250671,
+    "out_activation": "tanh",
+    "reference_span": 2.0,
+    "max_extent_relative": 0.8201304376125336
+  },
+  "latent_map": {
+    "n_grid_points": 2500,
+    "grid_diameter": 2.059365744706056,
+    "image_diameter": 1.5584717330320725,
+    "contraction_ratio": 0.756772679665273,
+    "mean_step_relative": 0.4137208958816834,
+    "near_identity": false
+  },
+  "matched_dims": false,
+  "encoder_near_identity": null,
+  "decoder_near_identity": null,
+  "mean_step_E_relative": null,
+  "mean_step_D_relative": null,
+  "bounds": {
+    "lower": [
+      -0.9843713568150997,
+      -0.9929546779394149
+    ],
+    "upper": [
+      0.2163938657939434,
+      0.6801114147901535
+    ],
+    "source": "encoded_data"
+  }
 }

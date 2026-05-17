@@ -70,7 +70,7 @@ Paper figure shows four Morse sets in a chain `3 -> {2, 1, 0}` with Conley indic
 | arch.decoder_out_activation | sigmoid       | sigmoid (default)       | archive/patrick/Leslie10D/models/decoder.pt | checkpoint contains final `Sigmoid` |
 | training.loss_weights       | [100, 10, 20] | [100, 10, 20]          | archived train/test loss logs              | recovered from total-loss linear relation |
 | data.n_samples_train        | 8000          | 8000                   | scaler size + paper `D(20,10000)`          | 80/20 split reconstructed; raw CSV not archived |
-| data.n_samples_test         | 2000          | 2000                   | scaler size + paper `D(20,10000)`          | raw CSV not archived |
+| data.n_samples_val         | 2000          | 2000                   | scaler size + paper `D(20,10000)`          | raw CSV not archived |
 | data.n_iterations           | 20            | 20                     | paper `D(20,10000)`                        | raw CSV not archived |
 | cmgdb.subdiv_init           | 25            | 25                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
 | cmgdb.subdiv_min            | 27            | 27                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |

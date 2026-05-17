@@ -1,0 +1,74 @@
+# Loss-weight test 110 on coral_basic. dim X > dim Z (13 -> 1) -- the largest
+# codimension gap among the test_110 ablations, and the regime in which the
+# .tex counterexample most directly applies. Architecture and training scope
+# match configs/chafee_infante.yaml; data generation matches what the existing
+# coral CSVs provide (n_iterations=20, sampling=sobol, low_dims=1), so
+# n_iterations and the train-size list use coral's defaults rather than
+# chafee's. CMGDB subdiv stays at the coral baseline 6/8/10.
+# Compare against configs/coral_basic.yaml ([10,10,1] weights).
+system:
+  name: coral
+  params: {}
+
+arch:
+  high_dims: 13
+  low_dims: 1
+  encoder:
+    hidden_shapes: [64, 32]
+    activation: tanh
+    out_activation: none
+  latent_map:
+    hidden_shapes: [32, 32]
+    activation: tanh
+    out_activation: none
+  decoder:
+    hidden_shapes: [32, 64]
+    activation: tanh
+    out_activation: none
+
+training:
+  learning_rate: 0.003
+  batch_size: 30000
+  epochs: 4000
+  patience: 100
+  lr_patience: 10
+  loss_weights: [1.0, 1.0, 0.0]
+  gradient_clip_norm: null
+  scheduler_factor: 0.5
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.000001
+
+data:
+  # Pre-built coral CSVs use sampling=sobol and n_iterations=20; we point at
+  # train_1000.csv to roughly match chafee's 1000-orbit scale.
+  sampling_method: sobol
+  scaling: minmax
+  n_samples_train: [5000]
+  n_samples_val: 10000
+  n_iterations: 20
+  skip: 0
+  sobol_train_seed: 7206
+  sobol_val_seed: 9999
+  train_files: null
+
+cmgdb:
+  subdiv_init: 6
+  subdiv_min: 8
+  subdiv_max: 10
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  lower_bounds: null
+  upper_bounds: null
+  padding: false
+  box_map_backend: auto
+  max_table_points: 300000000
+  precompute_batch_points: auto
+
+paths:
+  data_dir: data/coral
+  output_dir: output/coral_basic_test_110
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
+
+seeds: [0]

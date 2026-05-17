@@ -1,0 +1,138 @@
+{
+  "created_at_utc": "2026-05-16T19:56:32.931567+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "torch": {
+    "version": "2.11.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "requested_stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train_1000",
+    "seed": 0,
+    "output_dir": "output/coral_basic_test_110/train_1000/seed_0",
+    "device": "mps",
+    "skipped_stages": []
+  },
+  "config_hash": "82a49434a48387e8d4181f1a2cc86d58d2e10ba0bb4d15d75272dbeb863139b8",
+  "config": {
+    "system": {
+      "name": "coral",
+      "params": {}
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 13,
+      "low_dims": 1,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          32
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          32
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          64
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      }
+    },
+    "training": {
+      "learning_rate": 0.003,
+      "batch_size": 30000,
+      "epochs": 4000,
+      "patience": 100,
+      "lr_patience": 10,
+      "loss_weights": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "gradient_clip_norm": null,
+      "scheduler_factor": 0.5,
+      "scheduler_threshold": 0.001,
+      "scheduler_min_lr": 1e-06
+    },
+    "data": {
+      "sampling_method": "sobol",
+      "scaling": "minmax",
+      "n_samples_train": [
+        1000
+      ],
+      "n_samples_val": 10000,
+      "n_iterations": 20,
+      "skip": 0,
+      "sobol_train_seed": 7206,
+      "sobol_val_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 6,
+      "subdiv_min": 8,
+      "subdiv_max": 10,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.01,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": false,
+      "box_map_backend": "auto",
+      "max_table_points": 300000000,
+      "precompute_batch_points": "auto"
+    },
+    "paths": {
+      "data_dir": "data/coral",
+      "output_dir": "output/coral_basic_test_110",
+      "scaler_dir_override": null,
+      "flat_scaler": false,
+      "read_only": false
+    },
+    "seeds": [
+      0
+    ],
+    "experiment_name": "coral_basic_test_110"
+  },
+  "artifacts": {
+    "train_csv": "data/coral/train_1000.csv",
+    "train_csv_sha256": "c1b9afac7eaffba8b43cfc0c5da4beb8eadb923938b28945e8048bb2ec54f8e2",
+    "scaler": "output/coral_basic_test_110/scalers/train_1000/scaler.gz",
+    "scaler_sha256": "8c9290bb8b447d7e0de57adc8dbd283ac248eab1f365da13f4deeb74dc690985",
+    "model_dir": "output/coral_basic_test_110/train_1000/seed_0/models",
+    "morse_dir": "output/coral_basic_test_110/train_1000/seed_0/MG",
+    "metrics": "output/coral_basic_test_110/train_1000/seed_0/metrics.json"
+  }
+}

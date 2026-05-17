@@ -1,0 +1,17 @@
+{
+  "labels": {
+    "a0": null,
+    "a1": null,
+    "r": null
+  },
+  "metrics": {
+    "a0": false,
+    "a1": false,
+    "r": false
+  },
+  "diagnose_morse_cross_check": {
+    "n_diagnose_limit_points": 2,
+    "n_morse_sets": 19,
+    "agreement": "disagree"
+  }
+}

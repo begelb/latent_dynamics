@@ -43,12 +43,12 @@ def _make_minimal_cfg(*, n_samples_train, output_dir: Path) -> ExperimentConfig:
         system=SystemConfig(name="coral"),
         arch=ArchConfig(num_layers=1, hidden_shape=4, high_dims=13, low_dims=1),
         training=TrainingConfig(
-            learning_rate=1e-3, batch_size=8, epochs=1, patience=1, loss_weights=[1, 1, 1]
+            learning_rate=1e-3, batch_size=8, epochs=1, patience=2, lr_patience=1, loss_weights=[1, 1, 1]
         ),
         data=DataConfig(
             sampling_method="uniform",
             n_samples_train=n_samples_train,
-            n_samples_test=4,
+            n_samples_val=4,
             n_iterations=2,
         ),
         cmgdb=CMGDBConfig(),
@@ -153,6 +153,9 @@ class TestConfigsLoadable:
             "coral_data_scaling.yaml",
             "coral_adaptive.yaml",
             "leslie_contraction.yaml",
+            "leslie2d_to_2d_test_011.yaml",
+            "leslie2d_to_2d_test_101.yaml",
+            "leslie2d_to_2d_test_110.yaml",
             "leslie3d_spurious.yaml",
             "leslie3d_success.yaml",
             "chafee_infante.yaml",
@@ -199,12 +202,12 @@ def _read_only_cfg(*, tmp_path: Path) -> ExperimentConfig:
         system=SystemConfig(name="coral"),
         arch=ArchConfig(num_layers=1, hidden_shape=4, high_dims=13, low_dims=1),
         training=TrainingConfig(
-            learning_rate=1e-3, batch_size=8, epochs=1, patience=1, loss_weights=[1, 1, 1]
+            learning_rate=1e-3, batch_size=8, epochs=1, patience=2, lr_patience=1, loss_weights=[1, 1, 1]
         ),
         data=DataConfig(
             sampling_method="uniform",
             n_samples_train=4,
-            n_samples_test=4,
+            n_samples_val=4,
             n_iterations=2,
         ),
         cmgdb=CMGDBConfig(),

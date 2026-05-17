@@ -72,9 +72,9 @@ The configs encode these directly; this table is for reference.
 
 `*` Chafee-Infante uses asymmetric per-component widths
 (`encoder 64->64->32->2, latent 2->32->32->2, decoder 2->32->64->64`).
-Defaults shared by every config (Adam, `lr = 1e-3`, `batch = 1024`, 1000 epochs,
-`patience = 100`, ReduceLROnPlateau, MinMax scaling) are in
-`configs/_shared/defaults.yaml`.
+Every config is fully self-contained: each YAML spells out every tunable
+hyperparameter (Adam settings, ReduceLROnPlateau parameters, scaling, CMGDB
+subdivisions, paths, seeds) so every knob is visible at a glance.
 
 ## Layout
 
@@ -89,7 +89,7 @@ code/
 │   ├── FIGURE_PARITY.md              # what does/doesn't currently match the paper
 │   ├── AMAREL.md                     # cluster + Slurm array workflow
 │   └── figure_contracts/             # one .md per paper figure, line-cited
-├── configs/                          # one YAML per experiment + _shared/defaults
+├── configs/                          # one fully-explicit YAML per experiment
 │   └── scratch/                      # writable siblings for `--stages all`
 ├── src/latentdynamics/
 │   ├── systems/      # ground-truth f: LeslieContraction, LeslieModel3D, RedCoralModel, ChafeeInfante
@@ -212,8 +212,9 @@ artifacts; do not bake them into training or CMGDB.
 
 ## Adding a new experiment
 
-1. Drop a YAML in `configs/<name>.yaml`. It is deep-merged with
-   `configs/_shared/defaults.yaml`.
+1. Drop a YAML in `configs/<name>.yaml`. Copy an existing config and edit
+   the values you need; every config spells out every field, so there is no
+   hidden inheritance.
 2. Register it in `reproduce_paper.py::EXPERIMENTS`.
 3. Add a `docs/figure_contracts/<name>.md` recording archive source, known
    gaps, expected Morse graph (number of nodes / minimal nodes / Conley

@@ -73,7 +73,7 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 | training.batch_size         | 1024                    | 1024 (default)         |                                            | ✓     |
 | training.patience           | 100                     | 100 (default)          |                                            | ✓     |
 | data.n_samples_train        | 500                     | [500]                  |                                            | ✓     |
-| data.n_samples_test         | 10000                   | 10000                  |                                            | ✓     |
+| data.n_samples_val         | 10000                   | 10000                  |                                            | ✓     |
 | data.n_iterations           | 20                      | 20                     |                                            | ✓     |
 | data.sampling_method        | uniform                 | uniform                |                                            | ✓     |
 | cmgdb.subdiv_init           | 8                       | 8 (default)            | mg_params_log.txt per seed                 | ✓     |

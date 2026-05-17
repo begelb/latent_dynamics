@@ -38,25 +38,25 @@ def _build_loaders(
 ) -> tuple[DataLoader, DataLoader]:
     high = cfg.arch.high_dims
     x_tr, y_tr = _load_pair(cfg.paths.data_dir / f"{train_file}.csv", high)
-    x_te, y_te = _load_pair(cfg.paths.data_dir / "test.csv", high)
+    x_va, y_va = _load_pair(cfg.paths.val_csv(), high)
 
     scaler = load_scaler(cfg.paths.scaler_path(train_file))
     x_tr, y_tr = scaler.transform(x_tr), scaler.transform(y_tr)
-    x_te, y_te = scaler.transform(x_te), scaler.transform(y_te)
+    x_va, y_va = scaler.transform(x_va), scaler.transform(y_va)
 
     train_ds = TensorDataset(
         torch.tensor(x_tr, dtype=torch.float32),
         torch.tensor(y_tr, dtype=torch.float32),
     )
-    test_ds = TensorDataset(
-        torch.tensor(x_te, dtype=torch.float32),
-        torch.tensor(y_te, dtype=torch.float32),
+    val_ds = TensorDataset(
+        torch.tensor(x_va, dtype=torch.float32),
+        torch.tensor(y_va, dtype=torch.float32),
     )
 
     generator = torch.Generator().manual_seed(seed) if seed is not None else None
     return (
         DataLoader(train_ds, batch_size=cfg.training.batch_size, shuffle=True, generator=generator),
-        DataLoader(test_ds, batch_size=cfg.training.batch_size, shuffle=False),
+        DataLoader(val_ds, batch_size=cfg.training.batch_size, shuffle=False),
     )
 
 
@@ -87,12 +87,12 @@ def run(
     if seed is not None:
         _seed_everything(seed)
 
-    train_loader, test_loader = _build_loaders(cfg, train_file, seed)
+    train_loader, val_loader = _build_loaders(cfg, train_file, seed)
     model = build_autoencoder(cfg.arch)
     trainer = Trainer(
         model=model,
         train_loader=train_loader,
-        test_loader=test_loader,
+        val_loader=val_loader,
         training_cfg=cfg.training,
         arch_cfg=cfg.arch,
         device=device,
@@ -102,8 +102,14 @@ def run(
 
     trainer.save(output_root)
 
-    final = {k: history.train[k][-1] if history.train[k] else float("nan") for k in history.train}
+    best_epoch = trainer.best_epoch
+    best_val = (
+        {k: history.val[k][best_epoch] for k in history.val}
+        if best_epoch >= 0 and history.val["loss_total"]
+        else {k: float("nan") for k in history.val}
+    )
     losses_path = output_root / "final_losses.txt"
-    losses_path.write_text("\n".join(f"{k}: {v:.6e}" for k, v in final.items()) + "\n")
+    lines = [f"best_epoch: {best_epoch}"] + [f"val_{k}: {v:.6e}" for k, v in best_val.items()]
+    losses_path.write_text("\n".join(lines) + "\n")
     if verbose:
         print(f"checkpoint and logs written to {output_root}")

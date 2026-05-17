@@ -326,26 +326,42 @@ def _plot_morse_sets_1d(
     unique = sorted(np.unique(lbls).tolist())
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(8, max(2.5, 0.6 * len(unique) + 1.5)))
+        fig, ax = plt.subplots(figsize=(10, 2.0))
     else:
         fig = ax.figure
-    label_to_y = {lbl: float(row) for row, lbl in enumerate(unique)}
-    for row, lbl in enumerate(unique):
+
+    for ai, bi, lbl in zip(a, b, lbls, strict=False):
+        ax.plot(
+            [ai, bi],
+            [0.0, 0.0],
+            color=palette[int(lbl) % len(palette)],
+            linewidth=12,
+            solid_capstyle="projecting",
+            zorder=0,
+        )
+
+    for lbl in unique:
         mask = lbls == lbl
-        for ai, bi in zip(a[mask], b[mask], strict=False):
-            ax.fill_betweenx(
-                [row - 0.4, row + 0.4],
-                ai,
-                bi,
-                color=palette[lbl % len(palette)],
-                edgecolor="none",
-            )
-    ax.set_yticks(range(len(unique)))
-    ax.set_yticklabels([f"M$_{{{lbl}}}$" for lbl in unique])
+        midpoint = 0.5 * (float(a[mask].min()) + float(b[mask].max()))
+        ax.text(
+            midpoint,
+            0.25,
+            f"M$_{{{lbl}}}$",
+            ha="center",
+            va="bottom",
+            color="black",
+        )
+
     ax.set_xlabel("$z_1$")
     ax.set_xlim(a.min(), b.max())
-    ax.invert_yaxis()
-    ax.grid(axis="x", linestyle="--", alpha=0.3)
+    ax.set_ylim(-0.5, 0.5)
+    ax.set_yticks([])
+    for spine in ("top", "left", "right"):
+        ax.spines[spine].set_visible(False)
+    ax.spines["bottom"].set_position("zero")
+    ax.xaxis.set_ticks_position("bottom")
+
+    label_to_y = {lbl: 0.0 for lbl in unique}
     fig.tight_layout()
     return fig, ax, label_to_y
 
@@ -379,18 +395,47 @@ def _plot_morse_sets_2d(
         ax.add_patch(rect)
         seen.add(lbl)
 
-    if bounds_lower is not None and bounds_upper is not None:
-        ax.set_xlim(bounds_lower[0], bounds_upper[0])
-        ax.set_ylim(bounds_lower[1], bounds_upper[1])
-    else:
-        ax.set_xlim(lx.min(), ux.max())
-        ax.set_ylim(ly.min(), uy.max())
+    xlim, ylim = _adaptive_2d_morse_set_limits(lx, ly, ux, uy, bounds_lower, bounds_upper)
+    ax.set_xlim(*xlim)
+    ax.set_ylim(*ylim)
 
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel(labels_2d[0])
     ax.set_ylabel(labels_2d[1])
     fig.tight_layout()
     return fig, ax
+
+
+def _adaptive_2d_morse_set_limits(
+    lx: NDArray[np.float64],
+    ly: NDArray[np.float64],
+    ux: NDArray[np.float64],
+    uy: NDArray[np.float64],
+    bounds_lower: Sequence[float] | None,
+    bounds_upper: Sequence[float] | None,
+) -> tuple[tuple[float, float], tuple[float, float]]:
+    occupied_lower = np.asarray([lx.min(), ly.min()], dtype=np.float64)
+    occupied_upper = np.asarray([ux.max(), uy.max()], dtype=np.float64)
+    occupied_span = occupied_upper - occupied_lower
+
+    widths = np.column_stack((ux - lx, uy - ly))
+    median_width = np.zeros(2, dtype=np.float64)
+    for axis in range(2):
+        positive = widths[:, axis][widths[:, axis] > 0.0]
+        if positive.size:
+            median_width[axis] = float(np.median(positive))
+
+    margin = np.maximum(2.0 * median_width, 0.03 * occupied_span)
+    lower = occupied_lower - margin
+    upper = occupied_upper + margin
+
+    if bounds_lower is not None and bounds_upper is not None:
+        cmgdb_lower = np.asarray(bounds_lower[:2], dtype=np.float64)
+        cmgdb_upper = np.asarray(bounds_upper[:2], dtype=np.float64)
+        lower = np.maximum(lower, cmgdb_lower)
+        upper = np.minimum(upper, cmgdb_upper)
+
+    return (float(lower[0]), float(upper[0])), (float(lower[1]), float(upper[1]))
 
 
 def render_morse_from_files(

@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-05-16T14:57:17.327657+00:00",
+  "train_file": "train",
+  "train_csv": "data/leslie2d_to_2d_chafee_like/train.csv",
+  "train_csv_sha256": "478b48d104ab520cdace6ada9b3b28ca5a45212f372152c992dddc07cd4fc62f",
+  "scaling": "minmax",
+  "high_dims": 2
+}

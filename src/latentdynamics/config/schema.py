@@ -19,8 +19,13 @@ SystemName = Literal[
 ]
 SamplingMethod = Literal["uniform", "sobol", "adaptive"]
 ScalingMethod = Literal["minmax", "none"]
-LossMode = Literal["weighted", "additive"]
-BoxMapBackend = Literal["pytorch", "numpy", "uniform_precomputed", "adaptive_precomputed"]
+BoxMapBackend = Literal[
+    "auto",
+    "pytorch",
+    "numpy",
+    "uniform_precomputed",
+    "adaptive_precomputed",
+]
 
 
 class SystemConfig(BaseModel):
@@ -205,8 +210,8 @@ class TrainingConfig(BaseModel):
     batch_size: int = Field(ge=1)
     epochs: int = Field(ge=1)
     patience: int = Field(ge=1)
+    lr_patience: int = Field(default=10, ge=1)
     loss_weights: list[float] = Field(default_factory=lambda: [1.0, 1.0, 1.0])
-    loss_mode: LossMode = "weighted"
     gradient_clip_norm: float | None = 1.0
     scheduler_factor: float = Field(default=0.1, gt=0.0, lt=1.0)
     scheduler_threshold: float = Field(default=1e-3, ge=0.0)
@@ -216,8 +221,21 @@ class TrainingConfig(BaseModel):
     @classmethod
     def _three_weights(cls, v: list[float]) -> list[float]:
         if len(v) != 3:
-            raise ValueError("loss_weights must have length 3 (recon, dyn, semiconjugacy)")
+            raise ValueError("loss_weights must have length 3 (recon_t, recon_tau, dyn)")
         return v
+
+    @model_validator(mode="after")
+    def _lr_patience_below_early_stop(self) -> TrainingConfig:
+        # ReduceLROnPlateau.patience and early-stop patience must differ;
+        # otherwise the LR drop and the early-stop break fire on the same
+        # epoch and the scheduler can never actually act.
+        if self.lr_patience >= self.patience:
+            raise ValueError(
+                f"lr_patience ({self.lr_patience}) must be strictly less than "
+                f"patience ({self.patience}); otherwise the scheduler never "
+                f"gets to lower the LR before early stopping ends training"
+            )
+        return self
 
     @field_validator("gradient_clip_norm")
     @classmethod
@@ -233,11 +251,11 @@ class DataConfig(BaseModel):
     sampling_method: SamplingMethod
     scaling: ScalingMethod = "minmax"
     n_samples_train: int | list[int]
-    n_samples_test: int = Field(ge=1)
+    n_samples_val: int = Field(ge=1)
     n_iterations: int = Field(ge=1)
     skip: int = Field(ge=0, default=0)
     sobol_train_seed: int = 42
-    sobol_test_seed: int = 9999
+    sobol_val_seed: int = 9999
     # When set, takes precedence over auto-derivation from ``n_samples_train``.
     # Required for non-numeric labels such as adaptive sweeps where the train
     # file basenames are e.g. ``train_500_300_adaptive``.
@@ -255,7 +273,7 @@ class CMGDBConfig(BaseModel):
     lower_bounds: list[float] | None = None
     upper_bounds: list[float] | None = None
     padding: bool = True
-    box_map_backend: BoxMapBackend = "pytorch"
+    box_map_backend: BoxMapBackend = "auto"
     max_table_points: int = Field(
         ge=1,
         default=10_000_000,
@@ -266,6 +284,32 @@ class CMGDBConfig(BaseModel):
             "want to bound memory."
         ),
     )
+    # Forward-pass chunk size for precomputed backends. ``max_table_points``
+    # bounds the persisted float64 table; this bounds the transient float32
+    # activation buffers when evaluating ``latent_map`` across the lattice.
+    # ``"auto"`` picks a device- and architecture-aware chunk; a positive int
+    # is honored as-is (clamped to the table size). Required for clusters /
+    # MPS where single-allocation buffer caps are smaller than total RAM.
+    precompute_batch_points: int | Literal["auto"] = "auto"
+
+    @field_validator("precompute_batch_points", mode="before")
+    @classmethod
+    def _validate_precompute_batch_points(cls, v: Any) -> Any:
+        if isinstance(v, str):
+            if v != "auto":
+                raise ValueError(
+                    f"precompute_batch_points must be a positive int or 'auto'; got {v!r}"
+                )
+            return v
+        if isinstance(v, bool) or not isinstance(v, int):
+            raise ValueError(
+                f"precompute_batch_points must be a positive int or 'auto'; got {v!r}"
+            )
+        if v <= 0:
+            raise ValueError(
+                f"precompute_batch_points must be positive when an int; got {v}"
+            )
+        return v
 
     @model_validator(mode="after")
     def _ordered_subdivs(self) -> CMGDBConfig:
@@ -330,6 +374,29 @@ class PathsConfig(BaseModel):
         if self.flat_scaler:
             return self.scaler_dir / "scaler.gz"
         return self.scaler_dir / train_file / "scaler.gz"
+
+    def val_csv(self) -> Path:
+        """Validation set CSV path. Prefers ``val.csv`` (current name); falls
+        back to legacy ``test.csv`` if only the old name is on disk
+        (preserved paper artifacts). Returns the canonical ``val.csv`` target
+        when neither file exists yet, so writers always emit the new name."""
+        val_path = self.data_dir / "val.csv"
+        if val_path.exists():
+            return val_path
+        legacy = self.data_dir / "test.csv"
+        if legacy.exists():
+            return legacy
+        return val_path
+
+    def val_metadata(self) -> Path:
+        """Validation set metadata JSON; same legacy fallback as ``val_csv``."""
+        val_path = self.data_dir / "val_metadata.json"
+        if val_path.exists():
+            return val_path
+        legacy = self.data_dir / "test_metadata.json"
+        if legacy.exists():
+            return legacy
+        return val_path
 
 
 class ExperimentConfig(BaseModel):

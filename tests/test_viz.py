@@ -90,7 +90,7 @@ class TestMorseSetPlotting:
 
         plot = plot_morse_sets_from_csv(csv_path, paper_style=False)
         assert plot.dim == 1
-        assert plot.label_to_y == {0: 0.0, 1: 1.0}
+        assert plot.label_to_y == {0: 0.0, 1: 0.0}
 
         plot.ax.scatter([0.0], [plot.label_to_y[0]], color="black", zorder=10)
         out_path = tmp_path / "overlay.png"
@@ -121,6 +121,31 @@ class TestMorseSetPlotting:
 
         assert out_path.exists()
         assert out_path.stat().st_size > 0
+
+    def test_2d_morse_set_plot_uses_adaptive_limits_clipped_to_cmgdb_bounds(self, tmp_path):
+        csv_path = tmp_path / "morse_sets"
+        np.savetxt(
+            csv_path,
+            np.array(
+                [
+                    [4.0, 5.0, 4.1, 5.1, 0],
+                    [6.0, 7.0, 6.1, 7.1, 1],
+                ],
+                dtype=np.float64,
+            ),
+            delimiter=",",
+        )
+
+        plot = plot_morse_sets_from_csv(
+            csv_path,
+            bounds_lower=[0.0, 0.0],
+            bounds_upper=[10.0, 20.0],
+            paper_style=False,
+        )
+
+        np.testing.assert_allclose(plot.ax.get_xlim(), (3.8, 6.3))
+        np.testing.assert_allclose(plot.ax.get_ylim(), (4.8, 7.3))
+        plt.close(plot.fig)
 
     def test_render_morse_sets_from_csv_keeps_file_output_wrapper(self, tmp_path):
         csv_path = tmp_path / "morse_sets"

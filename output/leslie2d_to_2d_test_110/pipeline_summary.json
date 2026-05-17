@@ -1,0 +1,10 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/leslie2d_to_2d_test_110/seed_0",
+    "manifest": "output/leslie2d_to_2d_test_110/seed_0/run_manifest.json"
+  }
+]

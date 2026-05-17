@@ -1,0 +1,27 @@
+{
+  "n_distinct_limit_points": -1,
+  "diagnostic": "iteration_did_not_converge",
+  "n_terminal_clusters_all": 16,
+  "n_terminal_clusters_converged": 0,
+  "encoded_extent": [
+    4.745275020599365,
+    2.888282299041748
+  ],
+  "encoded_image_diameter": 5.555160633148441,
+  "bounds_lower": [
+    -2.4365925788879395,
+    -1.3809727430343628
+  ],
+  "bounds_upper": [
+    2.403587818145752,
+    1.565075159072876
+  ],
+  "bounds_source": "encoded_data",
+  "n_iter": 200,
+  "n_grid_points": 2500,
+  "convergence_eps": 0.0005666263580322266,
+  "cluster_eps": 0.05666263580322266,
+  "mean_iter_to_convergence": 200.0,
+  "max_iter_to_convergence": 200,
+  "frac_unconverged": 1.0
+}

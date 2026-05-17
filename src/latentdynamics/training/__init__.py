@@ -8,21 +8,14 @@ from .checkpoints import (
     load_legacy_checkpoint,
     save_checkpoint,
 )
-from .losses import (
-    AdditiveReconstructionLoss,
-    LossBreakdown,
-    WeightedReconstructionLoss,
-    build_loss,
-)
+from .losses import LossBreakdown, ReconstructionLoss
 from .trainer import LossHistory, Trainer
 
 __all__ = [
-    "AdditiveReconstructionLoss",
     "LossBreakdown",
     "LossHistory",
+    "ReconstructionLoss",
     "Trainer",
-    "WeightedReconstructionLoss",
-    "build_loss",
     "has_legacy_checkpoint",
     "has_new_checkpoint",
     "load_any_checkpoint",

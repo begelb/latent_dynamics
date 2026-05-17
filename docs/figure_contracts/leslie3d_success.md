@@ -74,7 +74,7 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)      | ✓        |       |
 | training.loss_weights       | [100, 10, 20]           | [100, 10, 20]          | ✓        | recovered from total-loss linear relation |
 | data.n_samples_train        | 8000                    | 8000                   | ✓        | scaler size + paper `D(20,10000)`; raw CSV not archived |
-| data.n_samples_test         | 2000                    | 2000                   | ✓        | reconstructed 80/20 split |
+| data.n_samples_val         | 2000                    | 2000                   | ✓        | reconstructed 80/20 split |
 | data.n_iterations           | 20                      | 20                     | ✓        | paper `D(20,10000)` |
 | cmgdb.subdiv_init           | 25                      | 25                     | ✓        | from `mg_params_log.txt` |
 | cmgdb.subdiv_min            | 28                      | 28                     | ✓        | from `mg_params_log.txt` |

@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 import itertools
+import os
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, Literal, cast
 
 import CMGDB
 import numpy as np
@@ -15,7 +16,32 @@ from numpy.typing import NDArray
 from ..config.schema import CMGDBConfig
 from ..models.autoencoder import LatentDynamicsAutoencoder
 
+# Auto-mode chunk bounds. The lower bound keeps the inner loop from
+# being dominated by per-call PyTorch overhead on tiny chunks; the upper
+# bound caps single-buffer allocations on devices (notably MPS) where
+# very large tensors can fail even when nominal "available" memory is
+# larger.
+_AUTO_BATCH_MIN = 4096
+_AUTO_BATCH_MAX = 4 * 1024 * 1024
+# Fraction of detected free memory the auto heuristic is allowed to spend
+# on a single chunk's transient float32 activations. Conservative: leaves
+# headroom for the persisted float64 lookup table, the latent map's own
+# parameter buffers, and arbitrary other tensors live during precompute.
+_AUTO_BATCH_MEMORY_FRACTION = 0.25
+# Hard cap on the per-chunk allocation budget for MPS, because the MPS
+# allocator imposes a single-buffer size limit roughly governed by
+# `recommendedMaxWorkingSetSize` that is well below total unified RAM on
+# Apple Silicon. 2 GiB stays under all known caps without being so small
+# that the loop becomes overhead-bound on big lattices.
+_MPS_PER_CHUNK_BUDGET_BYTES = 2 * 1024 * 1024 * 1024
+
 NumpyMLP = list[tuple[NDArray[np.float64], NDArray[np.float64], str | None]]
+ResolvedBoxMapBackend = Literal[
+    "pytorch",
+    "numpy",
+    "uniform_precomputed",
+    "adaptive_precomputed",
+]
 
 
 @dataclass(frozen=True)
@@ -99,12 +125,12 @@ def make_box_map(
     device: torch.device | None = None,
     padding: bool = True,
 ) -> Callable[[Any], Any]:
-    """PyTorch scalar-call BoxMap (the default, conservative backend).
+    """PyTorch scalar-call BoxMap backend.
 
     Each box pays full PyTorch per-tensor overhead for every one of its ``2^d``
     corners, via CMGDB's ``mode='corners'`` list comprehension. For trained MLP
     latent maps in low dimension this overhead — not arithmetic — is the
-    dominant cost; prefer the ``numpy`` or ``uniform_precomputed`` backends.
+    dominant cost; prefer ``auto`` unless you need this backend for debugging.
     """
     device = device or next(latent_map.parameters()).device
     latent_map.eval()
@@ -151,6 +177,177 @@ def make_box_map_numpy(
     return box_map
 
 
+def _max_linear_width(latent_map: torch.nn.Module) -> int:
+    """Maximum ``out_features`` across the ``nn.Linear`` layers in
+    ``latent_map``. Drives the per-point memory estimate for auto-chunking."""
+    widths = [
+        int(layer.out_features)
+        for layer in latent_map.modules()
+        if isinstance(layer, torch.nn.Linear)
+    ]
+    if not widths:
+        return 1
+    return max(widths)
+
+
+def _parse_slurm_mem_bytes() -> int | None:
+    """Read SLURM_MEM_PER_NODE / SLURM_MEM_PER_CPU when running under SLURM
+    and convert to bytes. SLURM exposes these as integer megabytes per the
+    sbatch defaults; an optional trailing K/M/G/T unit is also accepted.
+    Returns ``None`` if no usable env var is set."""
+    raw = os.environ.get("SLURM_MEM_PER_NODE") or os.environ.get("SLURM_MEM_PER_CPU")
+    if not raw:
+        return None
+    raw = raw.strip()
+    unit_scale = {"K": 1024, "M": 1024**2, "G": 1024**3, "T": 1024**4}
+    if raw[-1:] in unit_scale:
+        try:
+            value = int(raw[:-1])
+        except ValueError:
+            return None
+        scale = unit_scale[raw[-1]]
+    else:
+        try:
+            value = int(raw)
+        except ValueError:
+            return None
+        scale = 1024**2  # SLURM default unit is MB
+    if value <= 0:
+        return None
+    if "SLURM_MEM_PER_CPU" in os.environ and "SLURM_MEM_PER_NODE" not in os.environ:
+        try:
+            cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", "1"))
+        except ValueError:
+            cpus = 1
+        value *= max(cpus, 1)
+    return value * scale
+
+
+def _available_memory_bytes(device: torch.device | None) -> int | None:
+    """Best-effort estimate of free memory the caller is allowed to spend on
+    a transient activation buffer on ``device``. Returns ``None`` when no
+    signal is available (caller falls back to a conservative constant)."""
+    if device is not None and device.type == "cuda":
+        try:
+            free, _total = torch.cuda.mem_get_info(device)
+            return int(free)
+        except Exception:
+            return None
+
+    slurm_bytes = _parse_slurm_mem_bytes()
+    if slurm_bytes is not None:
+        return slurm_bytes
+
+    try:
+        import psutil
+
+        return int(psutil.virtual_memory().available)
+    except Exception:
+        return None
+
+
+def _resolve_precompute_batch_points(
+    batch_points: int | Literal["auto"],
+    *,
+    latent_map: torch.nn.Module,
+    n_total: int,
+    device: torch.device | None,
+) -> int:
+    """Resolve ``CMGDBConfig.precompute_batch_points`` to a concrete chunk
+    size. Explicit ints are clamped to ``[1, n_total]``; ``"auto"`` picks a
+    device-aware budget using the latent map's max linear width."""
+    if isinstance(batch_points, int) and not isinstance(batch_points, bool):
+        if batch_points <= 0:
+            raise ValueError(
+                f"precompute_batch_points must be positive when an int; got {batch_points}"
+            )
+        return max(1, min(batch_points, n_total))
+    if batch_points != "auto":
+        raise ValueError(
+            f"precompute_batch_points must be a positive int or 'auto'; got {batch_points!r}"
+        )
+
+    max_width = _max_linear_width(latent_map)
+    # Per-point peak transient cost: input + max-width activation in float32
+    # (4 bytes), plus a 2x safety factor for ReLU/Tanh temporaries, copies
+    # to/from the device, and the float64 cpu->numpy buffer.
+    bytes_per_point = max(64, 8 * max_width)
+
+    available = _available_memory_bytes(device)
+    if available is None:
+        # Conservative fallback when memory cannot be detected: 1 GiB.
+        budget = 1024 * 1024 * 1024
+    else:
+        budget = int(available * _AUTO_BATCH_MEMORY_FRACTION)
+
+    if device is not None and device.type == "mps":
+        budget = min(budget, _MPS_PER_CHUNK_BUDGET_BYTES)
+
+    chunk = budget // bytes_per_point
+    chunk = max(_AUTO_BATCH_MIN, min(chunk, _AUTO_BATCH_MAX))
+    return int(min(chunk, n_total))
+
+
+def _precompute_corner_grid(
+    latent_map: torch.nn.Module,
+    L: NDArray[np.float64],
+    U: NDArray[np.float64],
+    corners_per_axis: int,
+    d: int,
+    *,
+    device: torch.device | None = None,
+    batch_points: int | Literal["auto"] = "auto",
+) -> tuple[NDArray[np.float64], int]:
+    """Evaluate ``latent_map`` on the ``corners_per_axis^d`` product lattice
+    over ``[L, U]`` in chunks and return ``(ys_grid, out_dim)`` with
+    ``ys_grid.shape == (corners_per_axis,) * d + (out_dim,)``.
+
+    The forward pass runs in float32 on ``device`` and the result is cast to
+    float64. Lattice coordinates are generated chunk-by-chunk from flat
+    indices via ``np.unravel_index``; the full coordinate array is never
+    materialised. ``batch_points`` controls the forward chunk size --
+    ``"auto"`` resolves via :func:`_resolve_precompute_batch_points`.
+    """
+    device = device or next(latent_map.parameters()).device
+    latent_map.eval()
+
+    n_total = int(corners_per_axis) ** int(d)
+    # Per-axis step: linspace endpoints L and U give corners_per_axis nodes,
+    # so the step between consecutive nodes is (U - L) / (corners_per_axis - 1).
+    # When corners_per_axis == 1 the whole lattice collapses to L; treat the
+    # step as zero in that edge case.
+    if corners_per_axis > 1:
+        step = (U - L) / float(corners_per_axis - 1)
+    else:
+        step = np.zeros_like(U - L)
+
+    chunk_size = _resolve_precompute_batch_points(
+        batch_points, latent_map=latent_map, n_total=n_total, device=device
+    )
+
+    shape = (corners_per_axis,) * d
+    ys_flat: NDArray[np.float64] | None = None
+    out_dim = -1
+
+    for start in range(0, n_total, chunk_size):
+        end = min(start + chunk_size, n_total)
+        flat_idx = np.arange(start, end, dtype=np.int64)
+        # multi_idx[:, j] = index of this point along axis j.
+        multi_idx = np.stack(np.unravel_index(flat_idx, shape), axis=-1).astype(np.float64)
+        points = L + multi_idx * step  # broadcasts; no full meshgrid alloc.
+        with torch.no_grad():
+            x_t = torch.as_tensor(points, dtype=torch.float32, device=device)
+            y_chunk = latent_map(x_t).cpu().numpy().astype(np.float64)
+        if ys_flat is None:
+            out_dim = int(y_chunk.shape[-1])
+            ys_flat = np.empty((n_total, out_dim), dtype=np.float64)
+        ys_flat[start:end] = y_chunk
+
+    assert ys_flat is not None, "n_total must be >= 1"
+    ys_grid = ys_flat.reshape(shape + (out_dim,))
+    return ys_grid, out_dim
+
+
 def make_box_map_uniform_precomputed(
     latent_map: torch.nn.Module,
     bounds: LatentBounds,
@@ -159,6 +356,7 @@ def make_box_map_uniform_precomputed(
     padding: bool = True,
     device: torch.device | None = None,
     max_table_points: int = 10_000_000,
+    precompute_batch_points: int | Literal["auto"] = "auto",
 ) -> Callable[[Any], Any]:
     """Whole-grid pre-evaluation for uniform CMGDB grids.
 
@@ -192,24 +390,13 @@ def make_box_map_uniform_precomputed(
             f"Lower subdiv_k or raise max_table_points."
         )
 
-    device = device or next(latent_map.parameters()).device
-    latent_map.eval()
-
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
     box_side = (U - L) / n_per_axis
-
-    axes = [np.linspace(L[i], U[i], corners_per_axis, dtype=np.float64) for i in range(d)]
-    mesh = np.meshgrid(*axes, indexing="ij")
-    points = np.stack([m.ravel() for m in mesh], axis=-1)  # (N, d)
-
-    with torch.no_grad():
-        x_t = torch.as_tensor(points, dtype=torch.float32, device=device)
-        y_t = latent_map(x_t)
-        ys = y_t.cpu().numpy().astype(np.float64)
-
-    out_dim = ys.shape[-1]
-    ys_grid = ys.reshape((corners_per_axis,) * d + (out_dim,))
+    ys_grid, out_dim = _precompute_corner_grid(
+        latent_map, L, U, corners_per_axis, d,
+        device=device, batch_points=precompute_batch_points,
+    )
 
     def box_map(rect):
         rect_arr = np.asarray(rect, dtype=np.float64)
@@ -239,6 +426,7 @@ def make_box_map_adaptive_precomputed(
     padding: bool = True,
     device: torch.device | None = None,
     max_table_points: int = 10_000_000,
+    precompute_batch_points: int | Literal["auto"] = "auto",
 ) -> Callable[[Any], Any]:
     """Whole-grid pre-evaluation for adaptive CMGDB grids.
 
@@ -264,28 +452,17 @@ def make_box_map_adaptive_precomputed(
             f"Lower subdiv_max or raise max_table_points."
         )
 
-    device = device or next(latent_map.parameters()).device
-    latent_map.eval()
-
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
     finest_box_side = (U - L) / n_per_axis
-
-    axes = [np.linspace(L[i], U[i], corners_per_axis, dtype=np.float64) for i in range(d)]
-    mesh = np.meshgrid(*axes, indexing="ij")
-    points = np.stack([m.ravel() for m in mesh], axis=-1)  # (N, d)
-
-    with torch.no_grad():
-        x_t = torch.as_tensor(points, dtype=torch.float32, device=device)
-        y_t = latent_map(x_t)
-        ys = y_t.cpu().numpy().astype(np.float64)
-
-    out_dim = ys.shape[-1]
-    ys_grid = ys.reshape((corners_per_axis,) * d + (out_dim,))
+    ys_grid, out_dim = _precompute_corner_grid(
+        latent_map, L, U, corners_per_axis, d,
+        device=device, batch_points=precompute_batch_points,
+    )
 
     # Precompute the 2^d corner-combination matrix once.
     combos = np.array(
-        list(itertools.product(*([range(2)] * d))), dtype=np.int64
+        list(itertools.product(range(2), repeat=d)), dtype=np.int64
     )  # (2^d, d), entries in {0, 1}
     axis_idx = np.arange(d, dtype=np.int64)
 
@@ -316,7 +493,7 @@ def _build_box_map(
     *,
     device: torch.device | None = None,
 ) -> Callable[[Any], Any]:
-    backend = cmgdb_cfg.box_map_backend
+    backend = _resolve_box_map_backend(cmgdb_cfg, bounds.dim)
     if backend == "pytorch":
         return make_box_map(latent_map, device=device, padding=cmgdb_cfg.padding)
     if backend == "numpy":
@@ -329,6 +506,7 @@ def _build_box_map(
             padding=cmgdb_cfg.padding,
             device=device,
             max_table_points=cmgdb_cfg.max_table_points,
+            precompute_batch_points=cmgdb_cfg.precompute_batch_points,
         )
     if backend == "adaptive_precomputed":
         return make_box_map_adaptive_precomputed(
@@ -338,8 +516,21 @@ def _build_box_map(
             padding=cmgdb_cfg.padding,
             device=device,
             max_table_points=cmgdb_cfg.max_table_points,
+            precompute_batch_points=cmgdb_cfg.precompute_batch_points,
         )
     raise ValueError(f"unknown box_map_backend: {backend!r}")
+
+
+def _resolve_box_map_backend(cmgdb_cfg: CMGDBConfig, dim: int) -> ResolvedBoxMapBackend:
+    backend = cmgdb_cfg.box_map_backend
+    if backend != "auto":
+        return cast(ResolvedBoxMapBackend, backend)
+    if (
+        cmgdb_cfg.subdiv_init == cmgdb_cfg.subdiv_min == cmgdb_cfg.subdiv_max
+        and cmgdb_cfg.subdiv_max % dim == 0
+    ):
+        return "uniform_precomputed"
+    return "adaptive_precomputed"
 
 
 def compute_morse_graph(

@@ -35,9 +35,9 @@ from Patrick's non-spurious Leslie 3D run:
   `archive/patrick/Leslie3D/`; the `code/output/` rows below are fresh retrains,
   not the original paper sources.
 - The three "far off" entries were retrained from scratch in the previous
-  session with the then-current package defaults
-  (`configs/_shared/defaults.yaml`: `lr=0.001, batch_size=1024, epochs=1000,
-  patience=100, loss_mode=weighted`) plus per-experiment `loss_weights`.
+  session with the then-shared default training settings (`lr=0.001,
+  batch_size=1024, epochs=1000, patience=100`) plus per-experiment
+  `loss_weights`.
   Training converges to very low loss (`leslie_contraction: 3.13e-2`,
   `leslie3d_success: 6.39e-3`, `chafee_infante: 3.39e-3`) but the latent map
   collapses to a single attracting fixed point.

@@ -78,7 +78,7 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)         |                                                            | ✓     |
 | training.loss_weights       | [10, 10, 1]             | [10, 10, 1]               | configs/leslie3d_spurious.yaml:17                          | ✓     |
 | data.n_samples_train        | 4000                    | 4000                      | configs/leslie3d_spurious.yaml:21                          | ✓     |
-| data.n_samples_test         | 5000                    | 5000                      |                                                            | ✓     |
+| data.n_samples_val         | 5000                    | 5000                      |                                                            | ✓     |
 | data.n_iterations           | 30                      | 30                        |                                                            | ✓     |
 | cmgdb.subdiv_init           | 23                      | 23                        | configs/leslie3d_spurious.yaml:27                          | ✓     |
 | cmgdb.subdiv_min            | 23                      | 23                        |                                                            | ✓     |

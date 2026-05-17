@@ -34,7 +34,7 @@ def _tiny_cfg(tmp_path) -> ExperimentConfig:
         data=DataConfig(
             sampling_method="uniform",
             n_samples_train=32,
-            n_samples_test=32,
+            n_samples_val=32,
             n_iterations=2,
         ),
         cmgdb=CMGDBConfig(),
@@ -45,9 +45,9 @@ def _tiny_cfg(tmp_path) -> ExperimentConfig:
 def _final_loss(cfg: ExperimentConfig) -> float:
     text = (cfg.paths.output_dir / "final_losses.txt").read_text()
     for line in text.strip().splitlines():
-        if line.startswith("loss_total:"):
+        if line.startswith("val_loss_total:"):
             return float(line.split(":", 1)[1].strip())
-    raise RuntimeError("loss_total not found in final_losses.txt")
+    raise RuntimeError("val_loss_total not found in final_losses.txt")
 
 
 @pytest.mark.slow

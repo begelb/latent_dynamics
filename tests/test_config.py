@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+import yaml
 from pydantic import ValidationError
 
 from latentdynamics.config import (
@@ -32,6 +33,7 @@ class TestSchema:
                 batch_size=32,
                 epochs=10,
                 patience=5,
+                lr_patience=2,
                 loss_weights=[1.0, 1.0],
             )
 
@@ -49,6 +51,7 @@ class TestSchema:
             batch_size=32,
             epochs=10,
             patience=5,
+            lr_patience=2,
             loss_weights=[1.0, 1.0, 0.0],
             gradient_clip_norm=None,
         )
@@ -76,13 +79,14 @@ class TestSchema:
                         "learning_rate": 1e-3,
                         "batch_size": 32,
                         "epochs": 1,
-                        "patience": 1,
+                        "patience": 2,
+                        "lr_patience": 1,
                         "loss_weights": [1, 1, 1],
                     },
                     "data": {
                         "sampling_method": "uniform",
                         "n_samples_train": 10,
-                        "n_samples_test": 10,
+                        "n_samples_val": 10,
                         "n_iterations": 5,
                     },
                     "paths": {"data_dir": "data", "output_dir": "out"},
@@ -174,6 +178,23 @@ class TestSchema:
 
 
 class TestLoader:
+    def test_config_reference_is_documentation_not_experiment(self):
+        ref_path = CONFIGS_DIR / "CONFIG_REFERENCE.yaml"
+        raw = yaml.safe_load(ref_path.read_text())
+
+        assert raw["__reference_only__"] is True
+        assert {
+            "system",
+            "arch",
+            "training",
+            "data",
+            "cmgdb",
+            "paths",
+            "seeds",
+        }.issubset(raw)
+        with pytest.raises(ValidationError, match="__reference_only__"):
+            load_config(ref_path)
+
     def test_coral_basic_yaml_loads(self):
         cfg = load_config(CONFIGS_DIR / "coral_basic.yaml")
         assert cfg.system.name == "coral"
@@ -195,6 +216,48 @@ class TestLoader:
         assert cfg.cmgdb.lower_bounds == [-3.0, -2.0]
         assert cfg.cmgdb.padding is False
 
+    @pytest.mark.parametrize(
+        ("config_name", "loss_weights"),
+        [
+            ("leslie2d_to_2d_test_011.yaml", [0.0, 1.0, 1.0]),
+            ("leslie2d_to_2d_test_101.yaml", [1.0, 0.0, 1.0]),
+            ("leslie2d_to_2d_test_110.yaml", [1.0, 1.0, 0.0]),
+        ],
+    )
+    def test_leslie2d_weight_test_yamls_preserve_leslie_system(
+        self, config_name: str, loss_weights: list[float]
+    ):
+        cfg = load_config(CONFIGS_DIR / config_name)
+        assert cfg.system.name == "leslie_contraction"
+        assert cfg.arch.high_dims == 2
+        assert cfg.arch.low_dims == 2
+        assert cfg.arch.component("encoder").hidden_shapes == (64, 32)
+        assert cfg.arch.component("latent_map").hidden_shapes == (32, 32)
+        assert cfg.arch.component("decoder").hidden_shapes == (32, 64)
+        assert cfg.arch.component("encoder").activation == "tanh"
+        assert cfg.arch.component("latent_map").out_activation == "none"
+        assert cfg.arch.component("decoder").out_activation == "none"
+        assert cfg.training.learning_rate == pytest.approx(0.003)
+        assert cfg.training.batch_size == 30000
+        assert cfg.training.loss_weights == loss_weights
+        assert cfg.training.gradient_clip_norm is None
+        assert cfg.data.scaling == "minmax"
+        assert cfg.data.n_samples_train == 1000
+        assert cfg.data.n_samples_val == 200
+        assert cfg.data.n_iterations == 30
+        assert cfg.cmgdb.subdiv_init == 22
+        assert cfg.cmgdb.subdiv_min == 24
+        assert cfg.cmgdb.subdiv_max == 28
+        assert cfg.cmgdb.box_map_backend == "auto"
+        assert cfg.cmgdb.max_table_points == 300_000_000
+        assert cfg.cmgdb.precompute_batch_points == "auto"
+        assert cfg.cmgdb.lower_bounds is None
+        assert cfg.cmgdb.upper_bounds is None
+        assert cfg.cmgdb.padding is False
+        expected_stem = config_name.removesuffix(".yaml")
+        assert cfg.paths.data_dir.as_posix() == "data/leslie2d_to_2d_chafee_like"
+        assert cfg.paths.output_dir.as_posix() == f"output/{expected_stem}"
+
     def test_leslie3d_yaml_loads(self):
         cfg = load_config(CONFIGS_DIR / "leslie3d.yaml")
         assert cfg.system.name == "leslie3d"
@@ -202,38 +265,4 @@ class TestLoader:
         assert cfg.arch.high_dims == 3
         assert cfg.arch.low_dims == 2
         assert cfg.data.n_samples_train == 2000
-        assert cfg.cmgdb.subdiv_max == 10  # from defaults
-
-    def test_defaults_are_overridable(self, tmp_path):
-        shared = tmp_path / "_shared"
-        shared.mkdir()
-        (shared / "defaults.yaml").write_text(
-            "training:\n  epochs: 5000\n  patience: 200\n  loss_mode: weighted\n"
-        )
-        cfg_path = tmp_path / "x.yaml"
-        cfg_path.write_text(
-            "system:\n"
-            "  name: coral\n"
-            "arch:\n"
-            "  num_layers: 1\n"
-            "  hidden_shape: 8\n"
-            "  high_dims: 13\n"
-            "  low_dims: 1\n"
-            "training:\n"
-            "  learning_rate: 1e-3\n"
-            "  batch_size: 32\n"
-            "  epochs: 10\n"
-            "  patience: 3\n"
-            "  loss_weights: [1, 1, 1]\n"
-            "data:\n"
-            "  sampling_method: uniform\n"
-            "  n_samples_train: 4\n"
-            "  n_samples_test: 4\n"
-            "  n_iterations: 2\n"
-            "paths:\n"
-            "  data_dir: data/x\n"
-            "  output_dir: out/x\n"
-        )
-        cfg = load_config(cfg_path)
-        assert cfg.training.epochs == 10  # override beats default
-        assert cfg.training.patience == 3
+        assert cfg.cmgdb.subdiv_max == 10

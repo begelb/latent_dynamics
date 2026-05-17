@@ -29,7 +29,7 @@ def test_pipeline_coral(tmp_path):
         data=DataConfig(
             sampling_method="uniform",
             n_samples_train=8,
-            n_samples_test=8,
+            n_samples_val=8,
             n_iterations=2,
         ),
         cmgdb=CMGDBConfig(),

@@ -27,12 +27,12 @@ def _tiny_cfg(system_name: str, tmp_path, **overrides) -> ExperimentConfig:
             num_layers=1, hidden_shape=4, high_dims=overrides.pop("high_dims", 13), low_dims=1
         ),
         "training": TrainingConfig(
-            learning_rate=1e-3, batch_size=8, epochs=2, patience=1, loss_weights=[1, 1, 1]
+            learning_rate=1e-3, batch_size=8, epochs=2, patience=2, lr_patience=1, loss_weights=[1, 1, 1]
         ),
         "data": DataConfig(
             sampling_method="uniform",
             n_samples_train=overrides.pop("n_samples_train", 4),
-            n_samples_test=4,
+            n_samples_val=4,
             n_iterations=2,
         ),
         "cmgdb": CMGDBConfig(),
@@ -47,10 +47,10 @@ class TestMakeDataRun:
         make_data.run(cfg, verbose=False)
 
         train_csv = tmp_path / "data" / "train.csv"
-        test_csv = tmp_path / "data" / "test.csv"
+        val_csv = tmp_path / "data" / "val.csv"
         train_meta = tmp_path / "data" / "train_metadata.json"
 
-        assert train_csv.exists() and test_csv.exists() and train_meta.exists()
+        assert train_csv.exists() and val_csv.exists() and train_meta.exists()
 
         data = np.loadtxt(train_csv, delimiter=",", skiprows=1)
         assert data.shape == (4 * 2, 26)
@@ -94,12 +94,12 @@ class TestMakeDataRun:
             system=SystemConfig(name="coral"),
             arch=ArchConfig(num_layers=1, hidden_shape=4, high_dims=13, low_dims=1),
             training=TrainingConfig(
-                learning_rate=1e-3, batch_size=8, epochs=2, patience=1, loss_weights=[1, 1, 1]
+                learning_rate=1e-3, batch_size=8, epochs=2, patience=2, lr_patience=1, loss_weights=[1, 1, 1]
             ),
             data=DataConfig(
                 sampling_method="adaptive",
                 n_samples_train=500,
-                n_samples_test=4,
+                n_samples_val=4,
                 n_iterations=2,
                 train_files=["train_500_100_adaptive"],
             ),
@@ -138,12 +138,12 @@ class TestMakeDataRun:
             system=SystemConfig(name="chafee_infante", params={"N": 8, "tau": 0.05}),
             arch=ArchConfig(num_layers=1, hidden_shape=4, high_dims=8, low_dims=2),
             training=TrainingConfig(
-                learning_rate=1e-3, batch_size=8, epochs=2, patience=1, loss_weights=[1, 1, 0]
+                learning_rate=1e-3, batch_size=8, epochs=2, patience=2, lr_patience=1, loss_weights=[1, 1, 0]
             ),
             data=DataConfig(
                 sampling_method="uniform",
                 n_samples_train=3,
-                n_samples_test=3,
+                n_samples_val=3,
                 n_iterations=2,
             ),
             cmgdb=CMGDBConfig(),

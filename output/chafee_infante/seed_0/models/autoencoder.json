@@ -1,12 +1,44 @@
 {
   "version": 1,
   "arch": {
-    "num_layers": 3,
-    "hidden_shape": 64,
+    "num_layers": null,
+    "hidden_shape": null,
+    "hidden_shapes": null,
     "high_dims": 64,
     "low_dims": 2,
-    "activation": "tanh",
-    "encoder_out_activation": "none",
-    "decoder_out_activation": "none"
+    "activation": "relu",
+    "encoder_out_activation": "tanh",
+    "latent_out_activation": "tanh",
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "latent_map": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "decoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    }
   }
 }

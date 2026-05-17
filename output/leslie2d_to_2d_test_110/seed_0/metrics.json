@@ -1,0 +1,7 @@
+{
+  "diagnose_morse_cross_check": {
+    "n_morse_sets": 5,
+    "agreement": "diagnose_inconclusive",
+    "diagnose_diagnostic": "iteration_did_not_converge"
+  }
+}

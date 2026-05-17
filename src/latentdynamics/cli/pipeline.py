@@ -240,13 +240,19 @@ def _nonempty_file(path: Path) -> bool:
 
 
 def _data_complete(cfg: ExperimentConfig) -> bool:
-    labels = [*_train_files_for(cfg), "test"]
-    for label in labels:
+    for label in _train_files_for(cfg):
         if not _nonempty_file(cfg.paths.data_dir / f"{label}.csv"):
             return False
         if not _nonempty_file(cfg.paths.data_dir / f"{label}_metadata.json"):
             return False
-    return True
+    # Validation set: accept either the canonical val.csv or legacy test.csv
+    # (preserved paper artifacts predate the test->val rename).
+    for label in ("val", "test"):
+        if _nonempty_file(cfg.paths.data_dir / f"{label}.csv") and _nonempty_file(
+            cfg.paths.data_dir / f"{label}_metadata.json"
+        ):
+            return True
+    return False
 
 
 def _stage_complete(

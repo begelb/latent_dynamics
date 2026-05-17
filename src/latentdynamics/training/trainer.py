@@ -15,26 +15,26 @@ from tqdm import tqdm
 from ..config.schema import ArchConfig, TrainingConfig
 from ..models.autoencoder import LatentDynamicsAutoencoder
 from .checkpoints import save_checkpoint
-from .losses import LossBreakdown, build_loss
+from .losses import LossBreakdown, ReconstructionLoss
 
 
 @dataclass
 class LossHistory:
-    """Per-epoch component-wise loss values for train and test splits."""
+    """Per-epoch component-wise loss values for train and val splits."""
 
     train: dict[str, list[float]] = field(default_factory=lambda: _empty_loss_dict())
-    test: dict[str, list[float]] = field(default_factory=lambda: _empty_loss_dict())
+    val: dict[str, list[float]] = field(default_factory=lambda: _empty_loss_dict())
 
     def append_train(self, breakdown: dict[str, float]) -> None:
         for k, v in breakdown.items():
             self.train[k].append(v)
 
-    def append_test(self, breakdown: dict[str, float]) -> None:
+    def append_val(self, breakdown: dict[str, float]) -> None:
         for k, v in breakdown.items():
-            self.test[k].append(v)
+            self.val[k].append(v)
 
     def to_json(self) -> str:
-        return json.dumps({"train": self.train, "test": self.test}, indent=2)
+        return json.dumps({"train": self.train, "val": self.val}, indent=2)
 
 
 def _empty_loss_dict() -> dict[str, list[float]]:
@@ -42,10 +42,10 @@ def _empty_loss_dict() -> dict[str, list[float]]:
 
 
 def _select_device() -> torch.device:
-    if torch.cuda.is_available():
-        return torch.device("cuda")
     if torch.backends.mps.is_available():
         return torch.device("mps")
+    if torch.cuda.is_available():
+        return torch.device("cuda")
     return torch.device("cpu")
 
 
@@ -56,7 +56,7 @@ class Trainer:
         self,
         model: LatentDynamicsAutoencoder,
         train_loader: DataLoader,
-        test_loader: DataLoader,
+        val_loader: DataLoader,
         training_cfg: TrainingConfig,
         arch_cfg: ArchConfig,
         *,
@@ -66,34 +66,43 @@ class Trainer:
         self.device = device or _select_device()
         self.model = model.to(self.device)
         self.train_loader = train_loader
-        self.test_loader = test_loader
+        self.val_loader = val_loader
         self.cfg = training_cfg
         self.arch = arch_cfg
         self.verbose = bool(verbose)
 
-        self.loss_fn = build_loss(training_cfg.loss_mode, training_cfg.loss_weights).to(self.device)
+        self.loss_fn = ReconstructionLoss(training_cfg.loss_weights).to(self.device)
         self.optimizer = Adam(self.model.parameters(), lr=training_cfg.learning_rate)
         self.scheduler = ReduceLROnPlateau(
             self.optimizer,
             mode="min",
             factor=training_cfg.scheduler_factor,
-            patience=training_cfg.patience,
+            patience=training_cfg.lr_patience,
             threshold=training_cfg.scheduler_threshold,
             min_lr=training_cfg.scheduler_min_lr,
         )
         self.history = LossHistory()
-        self._best_train_loss = float("inf")
+        self._best_val_loss = float("inf")
+        self._best_epoch = -1
+        self._best_state_dict: dict[str, torch.Tensor] | None = None
         self._no_improve = 0
+
+    @property
+    def best_epoch(self) -> int:
+        """0-indexed epoch at which the lowest val_loss_total was observed."""
+        return self._best_epoch
 
     def _run_epoch(self, loader: DataLoader, *, training: bool) -> dict[str, float]:
         self.model.train(training)
         accum = {"loss_ae1": 0.0, "loss_ae2": 0.0, "loss_dyn": 0.0, "loss_total": 0.0}
-        n_batches = max(1, len(loader))
+        total_samples = 0
         ctx = torch.enable_grad if training else torch.no_grad
         with ctx():
             for x_t, x_tau in loader:
                 x_t = x_t.to(self.device, non_blocking=False)
                 x_tau = x_tau.to(self.device, non_blocking=False)
+                batch_size = x_t.size(0)
+                total_samples += batch_size
                 if training:
                     self.optimizer.zero_grad(set_to_none=True)
                 fp = self.model(x_t, x_tau)
@@ -111,24 +120,33 @@ class Trainer:
                             max_norm=self.cfg.gradient_clip_norm,
                         )
                     self.optimizer.step()
+                # MSELoss(reduction="mean") returns the per-sample mean; weight
+                # by batch size so the epoch average is sample-weighted, not
+                # batch-count-weighted (which is biased when drop_last=False
+                # and the final batch is smaller than the rest).
                 for k, v in breakdown.detach_dict().items():
-                    accum[k] += v
-        return {k: v / n_batches for k, v in accum.items()}
+                    accum[k] += v * batch_size
+        denom = max(1, total_samples)
+        return {k: v / denom for k, v in accum.items()}
 
     def fit(self) -> LossHistory:
         if self.verbose:
             print(f"device: {self.device}")
-            print(f"loss_mode={self.cfg.loss_mode}, weights={self.cfg.loss_weights}")
+            print(f"loss_weights={self.cfg.loss_weights}")
         iterator = tqdm(range(self.cfg.epochs), disable=not self.verbose)
         for epoch in iterator:
             train_breakdown = self._run_epoch(self.train_loader, training=True)
-            test_breakdown = self._run_epoch(self.test_loader, training=False)
+            val_breakdown = self._run_epoch(self.val_loader, training=False)
             self.history.append_train(train_breakdown)
-            self.history.append_test(test_breakdown)
-            self.scheduler.step(test_breakdown["loss_total"])
+            self.history.append_val(val_breakdown)
+            self.scheduler.step(val_breakdown["loss_total"])
 
-            if train_breakdown["loss_total"] < self._best_train_loss:
-                self._best_train_loss = train_breakdown["loss_total"]
+            if val_breakdown["loss_total"] < self._best_val_loss:
+                self._best_val_loss = val_breakdown["loss_total"]
+                self._best_epoch = epoch
+                self._best_state_dict = {
+                    k: v.detach().clone() for k, v in self.model.state_dict().items()
+                }
                 self._no_improve = 0
             else:
                 self._no_improve += 1
@@ -140,8 +158,13 @@ class Trainer:
             if self.verbose:
                 iterator.set_postfix(
                     train=f"{train_breakdown['loss_total']:.4e}",
-                    test=f"{test_breakdown['loss_total']:.4e}",
+                    val=f"{val_breakdown['loss_total']:.4e}",
                 )
+
+        # Restore the best-val weights so save() and any in-memory use see
+        # the model selected on held-out loss, not the final-epoch state.
+        if self._best_state_dict is not None:
+            self.model.load_state_dict(self._best_state_dict)
         return self.history
 
     def save(self, output_dir: str | Path, *, basename: str = "autoencoder") -> Path:
