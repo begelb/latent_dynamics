@@ -138,14 +138,30 @@ def orthogonal_distance(point: tuple[float, float], edge: Edge) -> float:
     return float("inf")
 
 
+def _distance_point_to_segment(point: tuple[float, float], edge: Edge) -> float:
+    """Euclidean distance from ``point`` to the finite segment ``edge``."""
+    px, py = point
+    ux, uy = edge.u
+    vx, vy = edge.v
+    dx = vx - ux
+    dy = vy - uy
+    length_sq = dx * dx + dy * dy
+    if length_sq <= EPS:
+        return float(np.hypot(px - ux, py - uy))
+    t = ((px - ux) * dx + (py - uy) * dy) / length_sq
+    t = min(1.0, max(0.0, t))
+    closest_x = ux + t * dx
+    closest_y = uy + t * dy
+    return float(np.hypot(px - closest_x, py - closest_y))
+
+
 def distance_point_to_boundary(point: tuple[float, float], boundary_edges: set[Edge]) -> float:
-    """Min orthogonal distance from ``point`` to any boundary edge that brackets it."""
+    """Minimum Euclidean distance from ``point`` to the Morse-set boundary."""
     best = float("inf")
     for edge in boundary_edges:
-        if is_in_range(point, edge):
-            d = orthogonal_distance(point, edge)
-            if d < best:
-                best = d
+        d = _distance_point_to_segment(point, edge)
+        if d < best:
+            best = d
     return best
 
 
@@ -175,7 +191,7 @@ def compute_max_semiconjugacy_error(
     *,
     device: torch.device | None = None,
 ) -> float:
-    """Maximum squared error ``||E(f(x)) - G(E(x))||^2`` over a sample S.
+    """Maximum error norm ``||E(f(x)) - G(E(x))||`` over a sample S.
 
     ``points_in_block`` are scaled samples in the high-dim space; ``next_points_true``
     are their scaled images under the ground-truth dynamics.
@@ -188,7 +204,7 @@ def compute_max_semiconjugacy_error(
         z_true = encoder(torch.as_tensor(next_points_true, dtype=torch.float32, device=device))
         z_pred = latent_map(z_curr)
         diff = z_true - z_pred
-        sq = torch.sum(diff * diff, dim=1).cpu().numpy()
-    if sq.size == 0:
+        norms = torch.linalg.vector_norm(diff, dim=1).cpu().numpy()
+    if norms.size == 0:
         return 0.0
-    return float(sq.max())
+    return float(norms.max())

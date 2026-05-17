@@ -33,6 +33,41 @@ from ..systems.coral import RedCoralModel
 from ..training import has_legacy_checkpoint, has_new_checkpoint, load_any_checkpoint
 
 
+def _morse_set_contains(points: np.ndarray, morse_set: MorseSet) -> np.ndarray:
+    """Boolean mask for latent ``points`` lying in any box of ``morse_set``."""
+    mask = np.zeros(points.shape[0], dtype=bool)
+    for box in morse_set:
+        in_box = (
+            (box.lower_x <= points[:, 0])
+            & (points[:, 0] <= box.upper_x)
+            & (box.lower_y <= points[:, 1])
+            & (points[:, 1] <= box.upper_y)
+        )
+        mask |= in_box
+    return mask
+
+
+@torch.no_grad()
+def _filter_samples_in_target_morse_set(
+    *,
+    encoder: torch.nn.Module,
+    morse_set: MorseSet,
+    points_scaled: np.ndarray,
+    next_scaled: np.ndarray,
+    device: torch.device,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Keep high-dimensional samples whose encoded current point lies in ``morse_set``."""
+    encoder.eval()
+    z = encoder(torch.as_tensor(points_scaled, dtype=torch.float32, device=device))
+    encoded = z.cpu().numpy()
+    if encoded.shape[1] != 2:
+        raise ValueError(
+            f"Leslie tolerance metric expects a 2D latent space; got {encoded.shape[1]}D"
+        )
+    mask = _morse_set_contains(encoded, morse_set)
+    return points_scaled[mask], next_scaled[mask]
+
+
 def metrics_stage(
     seed_cfg: ExperimentConfig,
     cfg: ExperimentConfig,
@@ -114,6 +149,8 @@ def _leslie3d_metrics(
 
     target_label = 0  # paper Sec. 1.117 names the suspect Morse node 0
     morse_set = MorseSet(morse_sets_path, label=target_label)
+    if len(morse_set) == 0:
+        return {"error": f"target Morse label {target_label} not present in morse_sets"}
 
     @torch.no_grad()
     def _g(verts):
@@ -137,11 +174,25 @@ def _leslie3d_metrics(
 
     pts_scaled = scaler.transform(iterated)
     next_scaled = scaler.transform(system.step(iterated))
+    pts_in_block, next_in_block = _filter_samples_in_target_morse_set(
+        encoder=model.encoder,
+        morse_set=morse_set,
+        points_scaled=pts_scaled,
+        next_scaled=next_scaled,
+        device=device,
+    )
+    if pts_in_block.shape[0] == 0:
+        return {
+            "target_label": int(target_label),
+            "tau_bar": float(tau_bar),
+            "n_semiconjugacy_samples": 0,
+            "error": "no sampled points encoded into target Morse set",
+        }
     max_err = compute_max_semiconjugacy_error(
         encoder=model.encoder,
         latent_map=model.latent_map,
-        points_in_block=pts_scaled,
-        next_points_true=next_scaled,
+        points_in_block=pts_in_block,
+        next_points_true=next_in_block,
         device=device,
     )
 
@@ -149,5 +200,6 @@ def _leslie3d_metrics(
         "target_label": int(target_label),
         "tau_bar": float(tau_bar),
         "max_semiconjugacy_error": float(max_err),
+        "n_semiconjugacy_samples": int(pts_in_block.shape[0]),
         "is_spurious_attractor": bool(max_err > tau_bar),
     }

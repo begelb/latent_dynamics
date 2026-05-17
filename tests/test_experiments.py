@@ -153,8 +153,6 @@ class TestConfigsLoadable:
             "coral_data_scaling.yaml",
             "coral_adaptive.yaml",
             "leslie_contraction.yaml",
-            "leslie2d_to_2d_test_011.yaml",
-            "leslie2d_to_2d_test_101.yaml",
             "leslie2d_to_2d_test_110.yaml",
             "leslie3d_spurious.yaml",
             "leslie3d_success.yaml",

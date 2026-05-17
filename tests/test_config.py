@@ -219,8 +219,6 @@ class TestLoader:
     @pytest.mark.parametrize(
         ("config_name", "loss_weights"),
         [
-            ("leslie2d_to_2d_test_011.yaml", [0.0, 1.0, 1.0]),
-            ("leslie2d_to_2d_test_101.yaml", [1.0, 0.0, 1.0]),
             ("leslie2d_to_2d_test_110.yaml", [1.0, 1.0, 0.0]),
         ],
     )
@@ -242,12 +240,12 @@ class TestLoader:
         assert cfg.training.loss_weights == loss_weights
         assert cfg.training.gradient_clip_norm is None
         assert cfg.data.scaling == "minmax"
-        assert cfg.data.n_samples_train == 1000
-        assert cfg.data.n_samples_val == 200
+        assert cfg.data.n_samples_train == 5000
+        assert cfg.data.n_samples_val == 1000
         assert cfg.data.n_iterations == 30
         assert cfg.cmgdb.subdiv_init == 22
         assert cfg.cmgdb.subdiv_min == 24
-        assert cfg.cmgdb.subdiv_max == 28
+        assert cfg.cmgdb.subdiv_max == 26
         assert cfg.cmgdb.box_map_backend == "auto"
         assert cfg.cmgdb.max_table_points == 300_000_000
         assert cfg.cmgdb.precompute_batch_points == "auto"
@@ -255,7 +253,7 @@ class TestLoader:
         assert cfg.cmgdb.upper_bounds is None
         assert cfg.cmgdb.padding is False
         expected_stem = config_name.removesuffix(".yaml")
-        assert cfg.paths.data_dir.as_posix() == "data/leslie2d_to_2d_chafee_like"
+        assert cfg.paths.data_dir.as_posix() == "data/leslie2d_to_2d_test_110"
         assert cfg.paths.output_dir.as_posix() == f"output/{expected_stem}"
 
     def test_leslie3d_yaml_loads(self):

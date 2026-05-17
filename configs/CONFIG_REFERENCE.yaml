@@ -153,14 +153,13 @@ cmgdb:
   # - auto: choose the fastest precomputed backend from the subdivision
   #   schedule. Uniform divisible grids use uniform_precomputed; adaptive or
   #   non-divisible grids use adaptive_precomputed.
-  # - pytorch: generic neural box map callback; supports device selection but
-  #   can be slow when CMGDB makes many small model calls.
-  # - numpy: extracts the latent MLP weights and evaluates on CPU with NumPy.
   # - uniform_precomputed: precomputes a fixed uniform corner grid. Requires
   #   subdiv_init == subdiv_min == subdiv_max; subdiv_max must also be
   #   divisible by arch.low_dims.
   # - adaptive_precomputed: precomputes the maximal-resolution adaptive corner
   #   grid once and serves coarser cells from that table.
+  # The slower per-box PyTorch and NumPy reference callbacks are intentionally
+  # not user-facing config options for new CMGDB runs.
   box_map_backend: auto
 
   # Maximum number of corner points allowed for precomputed backend tables.

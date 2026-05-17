@@ -37,8 +37,6 @@ _MPS_PER_CHUNK_BUDGET_BYTES = 2 * 1024 * 1024 * 1024
 
 NumpyMLP = list[tuple[NDArray[np.float64], NDArray[np.float64], str | None]]
 ResolvedBoxMapBackend = Literal[
-    "pytorch",
-    "numpy",
     "uniform_precomputed",
     "adaptive_precomputed",
 ]
@@ -494,10 +492,6 @@ def _build_box_map(
     device: torch.device | None = None,
 ) -> Callable[[Any], Any]:
     backend = _resolve_box_map_backend(cmgdb_cfg, bounds.dim)
-    if backend == "pytorch":
-        return make_box_map(latent_map, device=device, padding=cmgdb_cfg.padding)
-    if backend == "numpy":
-        return make_box_map_numpy(latent_map, padding=cmgdb_cfg.padding)
     if backend == "uniform_precomputed":
         return make_box_map_uniform_precomputed(
             latent_map,

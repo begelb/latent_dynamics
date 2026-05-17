@@ -153,40 +153,6 @@ EXPECTED: dict[str, dict[str, dict[str, object]]] = {
             "out_activation": "sigmoid",
         },
     },
-    "leslie2d_to_2d_test_011.yaml": {
-        "encoder": {
-            "hidden_shapes": (64, 32),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-        "latent_map": {
-            "hidden_shapes": (32, 32),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-        "decoder": {
-            "hidden_shapes": (32, 64),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-    },
-    "leslie2d_to_2d_test_101.yaml": {
-        "encoder": {
-            "hidden_shapes": (64, 32),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-        "latent_map": {
-            "hidden_shapes": (32, 32),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-        "decoder": {
-            "hidden_shapes": (32, 64),
-            "activation": "tanh",
-            "out_activation": "none",
-        },
-    },
     "leslie2d_to_2d_test_110.yaml": {
         "encoder": {
             "hidden_shapes": (64, 32),

@@ -6,12 +6,14 @@ import numpy as np
 import torch
 from sklearn.preprocessing import MinMaxScaler
 
+from latentdynamics.analysis import MorseSet
 from latentdynamics.analysis.morse_metrics import (
     check_unique_membership,
     find_morse_label_1d,
     find_seed_subdirs,
     get_minimal_labels,
 )
+from latentdynamics.cli.metrics import _filter_samples_in_target_morse_set
 
 
 def _write_morse_sets(path, rows):
@@ -125,3 +127,37 @@ class TestFindSeedSubdirs:
 
         result = find_seed_subdirs(tmp_path)
         assert result == ["seed_0"]
+
+
+class TestLeslieMetricHelpers:
+    def test_filters_semiconjugacy_samples_by_encoded_current_morse_set(self, tmp_path):
+        morse_sets = tmp_path / "morse_sets"
+        np.savetxt(morse_sets, np.array([[0.0, 0.0, 1.0, 1.0, 0.0]]), delimiter=",")
+
+        class FirstTwoColumnsEncoder(torch.nn.Module):
+            dummy = torch.nn.Parameter(torch.zeros(1))
+
+            def forward(self, x):
+                return x[:, :2]
+
+        points = np.array(
+            [
+                [0.25, 0.25, 10.0],
+                [1.50, 0.25, 20.0],
+                [0.75, 0.75, 30.0],
+                [-0.25, 0.50, 40.0],
+            ],
+            dtype=np.float64,
+        )
+        next_points = points + 100.0
+
+        filtered_points, filtered_next = _filter_samples_in_target_morse_set(
+            encoder=FirstTwoColumnsEncoder(),
+            morse_set=MorseSet(morse_sets, label=0),
+            points_scaled=points,
+            next_scaled=next_points,
+            device=torch.device("cpu"),
+        )
+
+        np.testing.assert_allclose(filtered_points, points[[0, 2]])
+        np.testing.assert_allclose(filtered_next, next_points[[0, 2]])

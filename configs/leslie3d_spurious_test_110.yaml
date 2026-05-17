@@ -1,23 +1,18 @@
-# 2D ambient -> 2D latent Leslie test variant matched to the architecture,
-# training scale, data volume, and CMGDB settings used in the current
-# Chafee-Infante config for comparison.
-#
-# Loss-weight test 110: reconstruct x_t + reconstruct x_tau, no latent
-# dynamics term.
-# This variant reuses the original Chafee-like Leslie data; only training
-# losses and output artifacts differ across the 011/101/110 tests.
+# Loss-weight test 110 on the spurious-attractor Leslie 3D paper case.
+# dim X > dim Z (3 -> 2). Architecture, training, and data-generation scope
+# match configs/chafee_infante.yaml; only system, dims and CMGDB subdivision differ.
+# Compare against configs/leslie3d_spurious.yaml ([10,10,1] weights).
 system:
-  name: leslie_contraction
+  name: leslie3d
   params:
-    th1: 20.0
-    th2: 20.0
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
     survival_p1: 0.7
-    contraction: 0.25  # unused for 2D
-    lower_bounds: [0.0, 0.0]
-    upper_bounds: [90.0, 70.0]
+    survival_p2: 0.7
 
 arch:
-  high_dims: 2
+  high_dims: 3
   low_dims: 2
   encoder:
     hidden_shapes: [64, 32]
@@ -38,7 +33,7 @@ training:
   epochs: 4000
   patience: 100
   lr_patience: 10
-  loss_weights: [1.0, 1.0, 1.0]
+  loss_weights: [1.0, 1.0, 0.0]
   gradient_clip_norm: null
   scheduler_factor: 0.5
   scheduler_threshold: 0.001
@@ -47,8 +42,8 @@ training:
 data:
   sampling_method: uniform
   scaling: minmax
-  n_samples_train: 1000
-  n_samples_val: 200
+  n_samples_train: 5000
+  n_samples_val: 1000
   n_iterations: 30
   skip: 0
   sobol_train_seed: 7206
@@ -58,7 +53,7 @@ data:
 cmgdb:
   subdiv_init: 22
   subdiv_min: 24
-  subdiv_max: 28
+  subdiv_max: 26
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
   lower_bounds: null
@@ -69,10 +64,10 @@ cmgdb:
   precompute_batch_points: auto
 
 paths:
-  data_dir: data/leslie2d_to_2d_chafee_like
-  output_dir: output/leslie2d_to_2d_test_111
+  data_dir: data/leslie3d_spurious_test_110
+  output_dir: output/leslie3d_spurious_test_110
   scaler_dir_override: null
   flat_scaler: false
   read_only: false
 
-seeds: [0, 1]
+seeds: [0]

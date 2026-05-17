@@ -9,8 +9,8 @@ import torch
 from latentdynamics.analysis.morse import (
     LatentBounds,
     _extract_numpy_mlp,
-    _resolve_box_map_backend,
     _numpy_mlp_forward,
+    _resolve_box_map_backend,
     infer_latent_bounds,
     make_box_map,
     make_box_map_numpy,
@@ -214,11 +214,21 @@ class TestCMGDBConfigBackendValidation:
         )
         assert _resolve_box_map_backend(cfg, dim=2) == "adaptive_precomputed"
 
-    def test_numpy_backend_accepts_adaptive(self):
-        cfg = CMGDBConfig(
-            subdiv_init=4, subdiv_min=6, subdiv_max=8, box_map_backend="numpy"
-        )
-        assert cfg.box_map_backend == "numpy"
+    @pytest.mark.parametrize("backend", ["pytorch", "numpy"])
+    def test_reference_backends_are_not_public_config_options(self, backend):
+        """New CMGDB runs must go through precomputed backends.
+
+        The direct Python/NumPy helpers remain available inside tests as
+        reference implementations, but user-facing configs should not be able
+        to select the slow per-box PyTorch path or the approximate NumPy path.
+        """
+        with pytest.raises(ValueError):
+            CMGDBConfig(
+                subdiv_init=4,
+                subdiv_min=6,
+                subdiv_max=8,
+                box_map_backend=backend,
+            )
 
     def test_adaptive_precomputed_accepts_adaptive_subdivs(self):
         cfg = CMGDBConfig(
@@ -369,6 +379,50 @@ class TestBoxMapAdaptivePrecomputed:
         assert out.shape == (4,)
         assert out[0] <= out[2] and out[1] <= out[3]
 
+    @pytest.mark.parametrize("subdiv_max", [5, 7, 9, 11, 13])
+    def test_agrees_with_numpy_backend_at_odd_subdiv_max(self, subdiv_max):
+        """Adaptive precompute must match numpy backend at every depth in
+        [2, subdiv_max] for odd subdiv_max, where CMGDB's bisection cycle
+        produces rectangular cells (axis-0 bisected one more time than
+        axis-1 at odd depths).
+
+        Paper schedules (leslie3d_spurious: max=27, leslie_contraction:
+        max=28 with subdiv_init=25, leslie3d_success: max=29) all hit odd
+        depths in their (init, min, max) ladder. The existing
+        ``test_agrees_with_numpy_backend_at_multiple_depths`` only exercises
+        subdiv_max=14 at even depths {8, 10, 12, 14}, so all tested cells
+        are square. This test fills the rectangular-cell gap up to a
+        memory-friendly subdiv_max.
+        """
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        d = bounds.dim
+
+        from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
+
+        G_adp = make_box_map_adaptive_precomputed(
+            m.latent_map, bounds, subdiv_max=subdiv_max, padding=False
+        )
+        G_np = make_box_map_numpy(m.latent_map, padding=False)
+
+        rng = np.random.default_rng(subdiv_max)
+        L, U = bounds.lower, bounds.upper
+        for depth in range(2, subdiv_max + 1):
+            n_per_axis = np.array(
+                [2 ** ((depth + d - 1 - j) // d) for j in range(d)], dtype=np.int64
+            )
+            side = (U - L) / n_per_axis
+            for _ in range(20):
+                i = np.array([rng.integers(0, n_per_axis[j]) for j in range(d)])
+                rect = list(L + i * side) + list(L + (i + 1) * side)
+                out_adp = np.array(G_adp(rect))
+                out_np = np.array(G_np(rect))
+                np.testing.assert_allclose(
+                    out_adp, out_np, atol=1e-5, rtol=1e-5,
+                    err_msg=f"subdiv_max={subdiv_max}, depth={depth}, i={i.tolist()}",
+                )
+
     def test_memory_cap_raises_with_budget_and_actual(self):
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
@@ -414,6 +468,8 @@ class TestBoxMapAdaptivePrecomputed:
         m = build_autoencoder(_arch())
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
 
+        import CMGDB
+
         from latentdynamics.analysis.morse import compute_morse_graph
 
         cfg_adp = CMGDBConfig(
@@ -422,14 +478,17 @@ class TestBoxMapAdaptivePrecomputed:
             subdiv_max=8,
             box_map_backend="adaptive_precomputed",
         )
-        cfg_np = CMGDBConfig(
-            subdiv_init=4,
-            subdiv_min=6,
-            subdiv_max=8,
-            box_map_backend="numpy",
-        )
         mg_adp, _ = compute_morse_graph(m, bounds, cfg_adp, device=torch.device("cpu"))
-        mg_np, _ = compute_morse_graph(m, bounds, cfg_np, device=torch.device("cpu"))
+        model_np = CMGDB.Model(
+            cfg_adp.subdiv_min,
+            cfg_adp.subdiv_max,
+            cfg_adp.subdiv_init,
+            cfg_adp.subdiv_limit,
+            bounds.lower.tolist(),
+            bounds.upper.tolist(),
+            make_box_map_numpy(m.latent_map, padding=cfg_adp.padding),
+        )
+        mg_np, _ = CMGDB.ComputeConleyMorseGraph(model_np)
 
         assert mg_adp.num_vertices() == mg_np.num_vertices()
         ann_adp = sorted(mg_adp.annotations(v) for v in range(mg_adp.num_vertices()))
@@ -455,6 +514,34 @@ class TestBoxMapAdaptivePrecomputed:
         box_size = np.array([0.5, 0.5])
         np.testing.assert_allclose(out_pad[:2], out_nopad[:2] - box_size, atol=1e-10)
         np.testing.assert_allclose(out_pad[2:], out_nopad[2:] + box_size, atol=1e-10)
+
+    def test_gelu_precomputed_matches_direct_pytorch_boxmap(self):
+        """Precomputed backends should use the actual Torch network output.
+
+        GELU is important here because the old NumPy helper uses the tanh
+        approximation, while ``torch.nn.GELU()`` defaults to the exact form.
+        """
+        torch.manual_seed(0)
+        arch = ArchConfig(
+            num_layers=1,
+            hidden_shape=4,
+            high_dims=4,
+            low_dims=2,
+            activation="gelu",
+        )
+        m = build_autoencoder(arch)
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        G_pre = make_box_map_uniform_precomputed(
+            m.latent_map,
+            bounds,
+            subdiv_k=4,
+            padding=False,
+            device=torch.device("cpu"),
+        )
+        G_torch = make_box_map(m.latent_map, device=torch.device("cpu"), padding=False)
+
+        rect = [-0.5, 0.0, 0.0, 0.5]
+        np.testing.assert_allclose(G_pre(rect), G_torch(rect), atol=1e-7, rtol=1e-7)
 
 
 class TestPrecomputeForwardChunking:
@@ -593,6 +680,8 @@ class TestPrecomputeForwardChunking:
         m = build_autoencoder(_arch())
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
 
+        import CMGDB
+
         from latentdynamics.analysis.morse import compute_morse_graph
 
         cfg_adp = CMGDBConfig(
@@ -602,14 +691,17 @@ class TestPrecomputeForwardChunking:
             box_map_backend="adaptive_precomputed",
             precompute_batch_points=32,
         )
-        cfg_np = CMGDBConfig(
-            subdiv_init=4,
-            subdiv_min=6,
-            subdiv_max=8,
-            box_map_backend="numpy",
-        )
         mg_adp, _ = compute_morse_graph(m, bounds, cfg_adp, device=torch.device("cpu"))
-        mg_np, _ = compute_morse_graph(m, bounds, cfg_np, device=torch.device("cpu"))
+        model_np = CMGDB.Model(
+            cfg_adp.subdiv_min,
+            cfg_adp.subdiv_max,
+            cfg_adp.subdiv_init,
+            cfg_adp.subdiv_limit,
+            bounds.lower.tolist(),
+            bounds.upper.tolist(),
+            make_box_map_numpy(m.latent_map, padding=cfg_adp.padding),
+        )
+        mg_np, _ = CMGDB.ComputeConleyMorseGraph(model_np)
 
         assert mg_adp.num_vertices() == mg_np.num_vertices()
         ann_adp = sorted(mg_adp.annotations(v) for v in range(mg_adp.num_vertices()))

@@ -2,23 +2,119 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
+from typing import Any
 
 from ..config import ExperimentConfig
 from ..sampling import build_strategy, sample_trajectories
 from ..sampling.trajectories import TrajectoryDataset
 from ..systems import build_system
+from ..systems.base import DynamicalSystem
 
 
 def _dataset_paths(label: str, data_dir: Path) -> tuple[Path, Path]:
     return data_dir / f"{label}.csv", data_dir / f"{label}_metadata.json"
 
 
-def _existing_dataset(label: str, data_dir: Path) -> bool:
+def _load_metadata(path: Path) -> dict[str, Any]:
+    try:
+        metadata = json.loads(path.read_text())
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"stale existing dataset metadata at {path}: invalid JSON") from exc
+    if not isinstance(metadata, dict):
+        raise ValueError(f"stale existing dataset metadata at {path}: expected JSON object")
+    return metadata
+
+
+def _sampling_seed(cfg: ExperimentConfig, role: str) -> int:
+    default_seed = 42 if role == "train" else 9999
+    return int(getattr(cfg.data, f"sobol_{role}_seed", default_seed))
+
+
+def _expected_metadata(
+    cfg: ExperimentConfig,
+    *,
+    system: DynamicalSystem,
+    n_samples: int | None,
+    sampling_seed: int | None,
+) -> dict[str, Any]:
+    expected: dict[str, Any] = {
+        "system": type(system).__name__,
+        "dimension": int(system.dim),
+        "n_iterations": int(cfg.data.n_iterations),
+        "skip_initial_steps": int(cfg.data.skip),
+        "model_params": system.params,
+        "sampling_method": cfg.data.sampling_method,
+    }
+    if n_samples is not None:
+        expected["n_samples"] = int(n_samples)
+    if sampling_seed is not None:
+        expected["sampling_seed"] = int(sampling_seed)
+    return expected
+
+
+def _validate_metadata(
+    *,
+    label: str,
+    metadata: dict[str, Any],
+    expected: dict[str, Any],
+    dataset_names: tuple[str, ...],
+    roles: tuple[str, ...],
+) -> None:
+    mismatches: list[str] = []
+
+    actual_name = metadata.get("dataset_name")
+    if actual_name not in dataset_names:
+        mismatches.append(f"dataset_name expected one of {dataset_names}, got {actual_name!r}")
+
+    actual_role = metadata.get("role")
+    if actual_role not in roles:
+        mismatches.append(f"role expected one of {roles}, got {actual_role!r}")
+
+    for key, value in expected.items():
+        if key not in metadata:
+            mismatches.append(f"{key} missing")
+        elif metadata[key] != value:
+            mismatches.append(f"{key} expected {value!r}, got {metadata[key]!r}")
+
+    if mismatches:
+        raise ValueError(f"stale existing dataset {label!r}: " + "; ".join(mismatches))
+
+
+def _existing_dataset(
+    label: str,
+    data_dir: Path,
+    *,
+    cfg: ExperimentConfig | None = None,
+    system: DynamicalSystem | None = None,
+    role: str | None = None,
+    n_samples: int | None = None,
+    dataset_names: tuple[str, ...] | None = None,
+    roles: tuple[str, ...] | None = None,
+) -> bool:
     csv_path, meta_path = _dataset_paths(label, data_dir)
     csv_exists = csv_path.exists()
     meta_exists = meta_path.exists()
     if csv_exists and meta_exists:
+        if cfg is not None and system is not None and role is not None:
+            sampling_seed = (
+                _sampling_seed(cfg, role)
+                if cfg.data.sampling_method in {"uniform", "sobol"}
+                else None
+            )
+            _validate_metadata(
+                label=label,
+                metadata=_load_metadata(meta_path),
+                expected=_expected_metadata(
+                    cfg,
+                    system=system,
+                    n_samples=n_samples,
+                    sampling_seed=sampling_seed,
+                ),
+                dataset_names=dataset_names or (label,),
+                roles=roles or (role,),
+            )
         return True
     if csv_exists or meta_exists:
         raise FileExistsError(
@@ -28,13 +124,34 @@ def _existing_dataset(label: str, data_dir: Path) -> bool:
     return False
 
 
-def _existing_val_dataset(data_dir: Path) -> bool:
+def _existing_val_dataset(
+    data_dir: Path,
+    *,
+    cfg: ExperimentConfig | None = None,
+    system: DynamicalSystem | None = None,
+) -> bool:
     """True if either the canonical ``val.csv`` pair or the legacy ``test.csv``
     pair already exists on disk. Preserved paper artifacts predate the
     test->val rename and stay readable under the old name."""
-    if _existing_dataset("val", data_dir):
+    if _existing_dataset(
+        "val",
+        data_dir,
+        cfg=cfg,
+        system=system,
+        role="val" if cfg is not None else None,
+        n_samples=cfg.data.n_samples_val if cfg is not None else None,
+    ):
         return True
-    return _existing_dataset("test", data_dir)
+    return _existing_dataset(
+        "test",
+        data_dir,
+        cfg=cfg,
+        system=system,
+        role="val" if cfg is not None else None,
+        n_samples=cfg.data.n_samples_val if cfg is not None else None,
+        dataset_names=("test",),
+        roles=("val", "test", "test_mirror_of_train"),
+    )
 
 
 def _emit(label: str, ds: TrajectoryDataset, data_dir: Path, *, verbose: bool) -> None:
@@ -48,39 +165,93 @@ def _emit(label: str, ds: TrajectoryDataset, data_dir: Path, *, verbose: bool) -
 
 def _train_labels(cfg: ExperimentConfig) -> list[tuple[int | None, str]]:
     if cfg.data.train_files is not None:
-        return [(None, label) for label in cfg.data.train_files]
+        labels = list(cfg.data.train_files)
+        if isinstance(cfg.data.n_samples_train, list) and len(cfg.data.n_samples_train) == len(
+            labels
+        ):
+            return [
+                (int(n_samples), label)
+                for n_samples, label in zip(cfg.data.n_samples_train, labels, strict=True)
+            ]
+        if isinstance(cfg.data.n_samples_train, int) and len(labels) == 1:
+            return [(int(cfg.data.n_samples_train), labels[0])]
+        return [(None, label) for label in labels]
     if isinstance(cfg.data.n_samples_train, list):
         return [(int(N), f"train_{N}") for N in cfg.data.n_samples_train]
     return [(int(cfg.data.n_samples_train), "train")]
 
 
-def _validate_precomputed(labels: list[str], data_dir: Path, *, verbose: bool) -> None:
+def _validate_precomputed(
+    train_labels: list[tuple[int | None, str]],
+    data_dir: Path,
+    *,
+    cfg: ExperimentConfig,
+    system: DynamicalSystem,
+    verbose: bool,
+) -> None:
     missing: list[str] = []
-    for label in labels:
+    for n_samples, label in train_labels:
         csv_path, meta_path = _dataset_paths(label, data_dir)
         if not csv_path.exists() or not meta_path.exists():
             missing.append(f"{csv_path} + {meta_path}")
+            continue
+        _existing_dataset(
+            label,
+            data_dir,
+            cfg=cfg,
+            system=system,
+            role="train",
+            n_samples=n_samples,
+        )
     if missing:
         raise FileNotFoundError(
             "adaptive sampling is precomputed; missing saved dataset(s): " + "; ".join(missing)
         )
     if verbose:
-        print(f"using {len(labels)} precomputed dataset(s) under {data_dir}")
+        print(f"using {len(train_labels)} precomputed dataset(s) under {data_dir}")
 
 
-def _validate_precomputed_val(data_dir: Path, *, verbose: bool) -> None:
+def _validate_precomputed_val(
+    data_dir: Path,
+    *,
+    cfg: ExperimentConfig,
+    system: DynamicalSystem,
+    verbose: bool,
+) -> None:
     """Validate that a precomputed val dataset exists under either the new
     ``val.csv`` name or the legacy ``test.csv`` name."""
     val_csv, val_meta = _dataset_paths("val", data_dir)
     if val_csv.exists() and val_meta.exists():
+        _existing_dataset(
+            "val",
+            data_dir,
+            cfg=cfg,
+            system=system,
+            role="val",
+            n_samples=cfg.data.n_samples_val,
+        )
         if verbose:
             print(f"using precomputed val dataset under {data_dir}")
         return
+    if val_csv.exists() or val_meta.exists():
+        _existing_dataset("val", data_dir)
     test_csv, test_meta = _dataset_paths("test", data_dir)
     if test_csv.exists() and test_meta.exists():
+        _existing_dataset(
+            "test",
+            data_dir,
+            cfg=cfg,
+            system=system,
+            role="val",
+            n_samples=cfg.data.n_samples_val,
+            dataset_names=("test",),
+            roles=("val", "test", "test_mirror_of_train"),
+        )
         if verbose:
             print(f"using legacy precomputed test dataset under {data_dir}")
         return
+    if test_csv.exists() or test_meta.exists():
+        _existing_dataset("test", data_dir)
     raise FileNotFoundError(
         f"adaptive sampling is precomputed; missing validation dataset under {data_dir} "
         f"(expected val.csv + val_metadata.json, or legacy test.csv + test_metadata.json)"
@@ -92,16 +263,23 @@ def run(cfg: ExperimentConfig, *, verbose: bool = True) -> None:
     cfg.paths.data_dir.mkdir(parents=True, exist_ok=True)
 
     train_labels = _train_labels(cfg)
+    system = build_system(cfg.system.name, cfg.system.params)
     if cfg.data.sampling_method == "adaptive":
         _validate_precomputed(
-            [label for _, label in train_labels],
+            train_labels,
             cfg.paths.data_dir,
+            cfg=cfg,
+            system=system,
             verbose=verbose,
         )
-        _validate_precomputed_val(cfg.paths.data_dir, verbose=verbose)
+        _validate_precomputed_val(
+            cfg.paths.data_dir,
+            cfg=cfg,
+            system=system,
+            verbose=verbose,
+        )
         return
 
-    system = build_system(cfg.system.name, cfg.system.params)
     if verbose:
         print(f"system: {cfg.system.name} (dim={system.dim})")
         print(f"  lower_bounds: {system.lower_bounds.tolist()}")
@@ -111,7 +289,14 @@ def run(cfg: ExperimentConfig, *, verbose: bool = True) -> None:
     val_strategy = build_strategy(cfg.data.sampling_method, role="val", config=cfg.data)
 
     for n_samples, label in train_labels:
-        if _existing_dataset(label, cfg.paths.data_dir):
+        if _existing_dataset(
+            label,
+            cfg.paths.data_dir,
+            cfg=cfg,
+            system=system,
+            role="train",
+            n_samples=n_samples,
+        ):
             if verbose:
                 print(f"kept existing {cfg.paths.data_dir / f'{label}.csv'}")
             continue
@@ -126,12 +311,13 @@ def run(cfg: ExperimentConfig, *, verbose: bool = True) -> None:
             metadata_extra={
                 "dataset_name": label,
                 "sampling_method": cfg.data.sampling_method,
+                "sampling_seed": _sampling_seed(cfg, "train"),
                 "role": "train",
             },
         )
         _emit(label, ds, cfg.paths.data_dir, verbose=verbose)
 
-    if _existing_val_dataset(cfg.paths.data_dir):
+    if _existing_val_dataset(cfg.paths.data_dir, cfg=cfg, system=system):
         if verbose:
             kept = cfg.paths.val_csv()
             print(f"kept existing {kept}")
@@ -145,6 +331,7 @@ def run(cfg: ExperimentConfig, *, verbose: bool = True) -> None:
         metadata_extra={
             "dataset_name": "val",
             "sampling_method": cfg.data.sampling_method,
+            "sampling_seed": _sampling_seed(cfg, "val"),
             "role": "val",
         },
     )

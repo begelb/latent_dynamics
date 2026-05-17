@@ -19,7 +19,7 @@ import torch
 from ..analysis.morse import LatentBounds, compute_morse_graph, infer_latent_bounds
 from ..config import ExperimentConfig
 from ..sampling import load_scaler
-from ..training import load_checkpoint
+from ..training import load_any_checkpoint
 from ..viz import save_morse_graph_artifacts
 
 
@@ -71,7 +71,7 @@ def run(
             f"Pass --force-overwrite to proceed."
         )
 
-    model, _arch = load_checkpoint(output_root / "models")
+    model, _arch = load_any_checkpoint(output_root / "models", arch=cfg.arch)
     if device is None:
         device = (
             torch.device("mps")
@@ -134,6 +134,7 @@ def run(
                 f"subdiv_min: {cfg.cmgdb.subdiv_min}",
                 f"subdiv_max: {cfg.cmgdb.subdiv_max}",
                 f"subdiv_limit: {cfg.cmgdb.subdiv_limit}",
+                f"bounds_epsilon_frac: {cfg.cmgdb.bounds_epsilon_frac}",
                 f"padding: {cfg.cmgdb.padding}",
                 f"box_map_backend: {cfg.cmgdb.box_map_backend}",
                 f"bounds_source: {bounds_source}",

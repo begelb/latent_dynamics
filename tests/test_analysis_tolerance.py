@@ -9,6 +9,7 @@ import numpy as np
 from latentdynamics.analysis import (
     Edge,
     MorseSet,
+    compute_max_semiconjugacy_error,
     compute_min_boundary_separation,
     distance_point_to_boundary,
     is_in_range,
@@ -62,6 +63,20 @@ class TestBoxAndDistance:
         # closest to top edge (distance 0.1)
         assert math.isclose(distance_point_to_boundary((0.5, 0.9), edges), 0.1, abs_tol=1e-9)
 
+    def test_distance_to_boundary_is_finite_outside_all_edge_projection_ranges(self):
+        edges = {
+            Edge.make((0.0, 0.0), (1.0, 0.0)),
+            Edge.make((0.0, 1.0), (1.0, 1.0)),
+            Edge.make((0.0, 0.0), (0.0, 1.0)),
+            Edge.make((1.0, 0.0), (1.0, 1.0)),
+        }
+
+        assert math.isclose(
+            distance_point_to_boundary((2.0, 2.0), edges),
+            math.sqrt(2.0),
+            abs_tol=1e-9,
+        )
+
 
 class TestMorseSet:
     def test_loads_only_target_label(self, tmp_path):
@@ -114,3 +129,30 @@ class TestTauBar:
 
         sep = compute_min_boundary_separation(m, inward)
         assert sep > 0.0
+
+
+class TestSemiconjugacyError:
+    def test_compute_max_semiconjugacy_error_returns_norm_not_squared_norm(self):
+        import torch
+
+        class IdentityEncoder(torch.nn.Module):
+            dummy = torch.nn.Parameter(torch.zeros(1))
+
+            def forward(self, x):
+                return x
+
+        class ZeroLatentMap(torch.nn.Module):
+            dummy = torch.nn.Parameter(torch.zeros(1))
+
+            def forward(self, x):
+                return torch.zeros_like(x)
+
+        max_err = compute_max_semiconjugacy_error(
+            encoder=IdentityEncoder(),
+            latent_map=ZeroLatentMap(),
+            points_in_block=np.array([[0.0, 0.0]], dtype=np.float64),
+            next_points_true=np.array([[3.0, 4.0]], dtype=np.float64),
+            device=torch.device("cpu"),
+        )
+
+        assert max_err == 5.0

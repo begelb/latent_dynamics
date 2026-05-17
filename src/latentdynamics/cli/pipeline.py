@@ -19,6 +19,8 @@ it reads the saved DOT / CSV / state_dict files only.
 
 from __future__ import annotations
 
+import ast
+import math
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -239,6 +241,118 @@ def _nonempty_file(path: Path) -> bool:
     return path.is_file() and path.stat().st_size > 0
 
 
+def _parse_mg_params_log(path: Path) -> dict[str, str] | None:
+    if not _nonempty_file(path):
+        return None
+    params: dict[str, str] = {}
+    for line in path.read_text().splitlines():
+        if ":" not in line:
+            continue
+        key, value = line.split(":", 1)
+        normalized_key = key.strip().lower().replace(" ", "_")
+        params[normalized_key] = value.strip()
+    return params
+
+
+def _log_int(params: dict[str, str], key: str) -> int | None:
+    try:
+        return int(params[key])
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _log_float(params: dict[str, str], key: str) -> float | None:
+    try:
+        return float(params[key])
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def _log_bool(params: dict[str, str], key: str) -> bool | None:
+    raw = params.get(key)
+    if raw is None:
+        return None
+    if raw.lower() == "true":
+        return True
+    if raw.lower() == "false":
+        return False
+    return None
+
+
+def _log_float_list(params: dict[str, str], key: str) -> list[float] | None:
+    raw = params.get(key)
+    if raw is None:
+        return None
+    try:
+        parsed = ast.literal_eval(raw)
+    except (SyntaxError, ValueError):
+        return None
+    if not isinstance(parsed, list):
+        return None
+    try:
+        values = [float(value) for value in parsed]
+    except (TypeError, ValueError):
+        return None
+    if not all(math.isfinite(value) for value in values):
+        return None
+    return values
+
+
+def _float_lists_close(left: list[float], right: list[float]) -> bool:
+    if len(left) != len(right):
+        return False
+    return all(
+        math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-12)
+        for a, b in zip(left, right, strict=True)
+    )
+
+
+def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) -> bool:
+    params = _parse_mg_params_log(output_dir / "mg_params_log.txt")
+    if params is None:
+        return False
+
+    expected_ints = {
+        "subdiv_init": cfg.cmgdb.subdiv_init,
+        "subdiv_min": cfg.cmgdb.subdiv_min,
+        "subdiv_max": cfg.cmgdb.subdiv_max,
+        "subdiv_limit": cfg.cmgdb.subdiv_limit,
+    }
+    for key, expected in expected_ints.items():
+        if _log_int(params, key) != int(expected):
+            return False
+
+    if _log_bool(params, "padding") != bool(cfg.cmgdb.padding):
+        return False
+    if params.get("box_map_backend") != cfg.cmgdb.box_map_backend:
+        return False
+
+    lower = _log_float_list(params, "lower_bounds")
+    upper = _log_float_list(params, "upper_bounds")
+    if lower is None or upper is None:
+        return False
+    if len(lower) != cfg.arch.low_dims or len(upper) != cfg.arch.low_dims:
+        return False
+
+    bounds_source = params.get("bounds_source")
+    if cfg.cmgdb.lower_bounds is not None and cfg.cmgdb.upper_bounds is not None:
+        return (
+            bounds_source == "config"
+            and _float_lists_close(lower, [float(v) for v in cfg.cmgdb.lower_bounds])
+            and _float_lists_close(upper, [float(v) for v in cfg.cmgdb.upper_bounds])
+        )
+
+    if bounds_source != "encoded_data":
+        return False
+    logged_epsilon = _log_float(params, "bounds_epsilon_frac")
+    return logged_epsilon is not None and math.isclose(
+        logged_epsilon,
+        float(cfg.cmgdb.bounds_epsilon_frac),
+        rel_tol=1e-12,
+        abs_tol=0.0,
+    )
+
+
 def _data_complete(cfg: ExperimentConfig) -> bool:
     for label in _train_files_for(cfg):
         if not _nonempty_file(cfg.paths.data_dir / f"{label}.csv"):
@@ -285,8 +399,10 @@ def _stage_complete(
     if stage == "diagnose":
         return _nonempty_file(derived / "diagnose.json")
     if stage == "morse":
-        return _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph") and _nonempty_file(
-            seed_cfg.paths.morse_dir / "morse_sets"
+        return (
+            _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph")
+            and _nonempty_file(seed_cfg.paths.morse_dir / "morse_sets")
+            and _morse_params_log_matches_config(cfg, seed_cfg.paths.output_dir)
         )
     if stage == "render":
         morse_render_dir = derived / "MG"

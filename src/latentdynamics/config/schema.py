@@ -21,8 +21,6 @@ SamplingMethod = Literal["uniform", "sobol", "adaptive"]
 ScalingMethod = Literal["minmax", "none"]
 BoxMapBackend = Literal[
     "auto",
-    "pytorch",
-    "numpy",
     "uniform_precomputed",
     "adaptive_precomputed",
 ]

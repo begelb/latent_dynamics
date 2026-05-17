@@ -18,6 +18,7 @@ from latentdynamics.config import (
     TrainingConfig,
 )
 from latentdynamics.sampling import load_scaler
+from latentdynamics.systems import build_system
 
 
 def _tiny_cfg(system_name: str, tmp_path, **overrides) -> ExperimentConfig:
@@ -67,18 +68,33 @@ class TestMakeDataRun:
             assert (tmp_path / "data" / f"train_{n}.csv").exists()
             assert (tmp_path / "data" / f"train_{n}_metadata.json").exists()
 
-    def test_existing_data_is_preserved(self, tmp_path):
+    def test_matching_existing_data_is_preserved(self, tmp_path):
         cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
-        data_dir = tmp_path / "data"
-        data_dir.mkdir()
-        for label in ("train", "test"):
-            (data_dir / f"{label}.csv").write_text("sentinel\n")
-            (data_dir / f"{label}_metadata.json").write_text("{}")
+        make_data.run(cfg, verbose=False)
+        data_dir = cfg.paths.data_dir
+        train_csv = data_dir / "train.csv"
+        train_csv.write_text("sentinel\n")
 
         make_data.run(cfg, verbose=False)
 
-        assert (data_dir / "train.csv").read_text() == "sentinel\n"
-        assert (data_dir / "test.csv").read_text() == "sentinel\n"
+        assert train_csv.read_text() == "sentinel\n"
+
+    def test_existing_train_data_with_wrong_n_samples_raises(self, tmp_path):
+        cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
+        make_data.run(cfg, verbose=False)
+        stale_cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=5)
+
+        with pytest.raises(ValueError, match=r"stale existing dataset.*n_samples"):
+            make_data.run(stale_cfg, verbose=False)
+
+    def test_existing_train_data_with_wrong_seed_raises(self, tmp_path):
+        cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
+        make_data.run(cfg, verbose=False)
+        stale_cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
+        stale_cfg.data.sobol_train_seed = cfg.data.sobol_train_seed + 1
+
+        with pytest.raises(ValueError, match=r"stale existing dataset.*sampling_seed"):
+            make_data.run(stale_cfg, verbose=False)
 
     def test_partial_existing_data_refuses_overwrite(self, tmp_path):
         cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
@@ -107,9 +123,35 @@ class TestMakeDataRun:
             paths=PathsConfig(data_dir=tmp_path / "data", output_dir=tmp_path / "out"),
         )
         cfg.paths.data_dir.mkdir()
+        coral = build_system("coral", {})
+        train_meta = {
+            "dataset_name": "train_500_100_adaptive",
+            "role": "train",
+            "system": "RedCoralModel",
+            "dimension": coral.dim,
+            "model_params": coral.params,
+            "n_samples": 500,
+            "n_iterations": 2,
+            "skip_initial_steps": 0,
+            "sampling_method": "adaptive",
+        }
+        val_meta = {
+            "dataset_name": "test",
+            "role": "val",
+            "system": "RedCoralModel",
+            "dimension": coral.dim,
+            "model_params": coral.params,
+            "n_samples": 4,
+            "n_iterations": 2,
+            "skip_initial_steps": 0,
+            "sampling_method": "adaptive",
+        }
         for label in ("train_500_100_adaptive", "test"):
             (cfg.paths.data_dir / f"{label}.csv").write_text("sentinel\n")
-            (cfg.paths.data_dir / f"{label}_metadata.json").write_text("{}")
+        (cfg.paths.data_dir / "train_500_100_adaptive_metadata.json").write_text(
+            json.dumps(train_meta)
+        )
+        (cfg.paths.data_dir / "test_metadata.json").write_text(json.dumps(val_meta))
 
         make_data.run(cfg, verbose=False)
 
