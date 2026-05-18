@@ -1,40 +1,54 @@
 [
   {
     "cell_index": 0,
-    "train_file": "train_1000",
+    "train_file": "train_5000",
     "seed": 0,
     "device": "mps",
-    "output_dir": "output/coral_basic_test_110/train_1000/seed_0",
+    "output_dir": "output/coral_basic_test_110/train_5000/seed_0",
     "diagnose": {
-      "n_distinct_limit_points": 2,
-      "diagnostic": "converged",
-      "n_terminal_clusters_all": 2,
-      "n_terminal_clusters_converged": 2,
-      "encoded_extent": [
-        2.7774248123168945
-      ],
-      "encoded_image_diameter": 2.7774248123168945,
-      "bounds_lower": [
-        -2.3465535640716553
-      ],
-      "bounds_upper": [
-        0.4864197075366974
-      ],
-      "bounds_source": "encoded_data",
-      "n_iter": 200,
-      "n_grid_points": 200,
-      "convergence_eps": 0.00028329732418060305,
-      "cluster_eps": 0.028329732418060305,
-      "mean_iter_to_convergence": 46.965,
-      "max_iter_to_convergence": 126,
-      "frac_unconverged": 0.0
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          4.159945368766785
+        ],
+        "max_extent": 4.159945368766785,
+        "out_activation": "none",
+        "reference_span": null,
+        "max_extent_relative": null
+      },
+      "latent_map": {
+        "n_grid_points": 200,
+        "grid_diameter": 4.243144276142121,
+        "image_diameter": 4.009268522262573,
+        "contraction_ratio": 0.9448814985635633,
+        "mean_step_relative": 0.007069137124634359,
+        "near_identity": true
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -2.5748016250133516
+        ],
+        "upper": [
+          1.668342651128769
+        ],
+        "source": "encoded_data"
+      }
     },
     "render": {
       "figures": [
-        "output/coral_basic_test_110/train_1000/seed_0/MG/morse_graph.pdf",
-        "output/coral_basic_test_110/train_1000/seed_0/MG/morse_graph.png",
-        "output/coral_basic_test_110/train_1000/seed_0/MG/morse_sets.pdf",
-        "output/coral_basic_test_110/train_1000/seed_0/MG/morse_sets.png"
+        "output/coral_basic_test_110/train_5000/seed_0/MG/morse_graph.pdf",
+        "output/coral_basic_test_110/train_5000/seed_0/MG/morse_graph.png",
+        "output/coral_basic_test_110/train_5000/seed_0/MG/morse_sets.pdf",
+        "output/coral_basic_test_110/train_5000/seed_0/MG/morse_sets.png"
       ]
     },
     "metrics": {
@@ -47,13 +61,8 @@
         "a0": false,
         "a1": false,
         "r": false
-      },
-      "diagnose_morse_cross_check": {
-        "n_diagnose_limit_points": 2,
-        "n_morse_sets": 19,
-        "agreement": "disagree"
       }
     },
-    "manifest": "output/coral_basic_test_110/train_1000/seed_0/run_manifest.json"
+    "manifest": "output/coral_basic_test_110/train_5000/seed_0/run_manifest.json"
   }
 ]

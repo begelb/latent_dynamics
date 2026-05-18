@@ -1,0 +1,5 @@
+best_epoch: 487
+val_loss_ae1: 4.696426e-04
+val_loss_ae2: 1.687642e-04
+val_loss_dyn: 1.277141e-04
+val_loss_total: 6.511782e-03

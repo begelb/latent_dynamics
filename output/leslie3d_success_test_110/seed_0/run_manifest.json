@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-16T19:31:45.280659+00:00",
+  "created_at_utc": "2026-05-17T20:25:49.034441+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -25,7 +25,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "7996f29a4ca7c74918f76c558b2f60a98641aab935ddffc259c28f5db91a4a16",
+  "config_hash": "780b14aeb9aa61d60baf1812e2ec8bf231e14bd55d7b3b21d6d5ac41222a03b7",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -97,12 +97,12 @@
     "data": {
       "sampling_method": "uniform",
       "scaling": "minmax",
-      "n_samples_train": 1000,
-      "n_samples_val": 200,
+      "n_samples_train": 5000,
+      "n_samples_val": 1000,
       "n_iterations": 30,
       "skip": 0,
-      "sobol_train_seed": 7206,
-      "sobol_val_seed": 9999,
+      "train_seed": 7206,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -132,9 +132,9 @@
   },
   "artifacts": {
     "train_csv": "data/leslie3d_success_test_110/train.csv",
-    "train_csv_sha256": "4e5ea9a6decd327a289835673624f292d4dcbac89fcec0d906578d057e6c13b7",
+    "train_csv_sha256": "074a74a78ab73a09e41be88f1332d91807da5320143bc73a92a6b183bf957c49",
     "scaler": "output/leslie3d_success_test_110/scalers/train/scaler.gz",
-    "scaler_sha256": "646f46f0aeb4aafd020d741ff44a8f34924988f04dfc78af83d8d63e253281e4",
+    "scaler_sha256": "ab6b31982f26429ce8f52856dd2d754916f2c8ae3fb3a9cd349eb3863268a13b",
     "model_dir": "output/leslie3d_success_test_110/seed_0/models",
     "morse_dir": "output/leslie3d_success_test_110/seed_0/MG",
     "metrics": "output/leslie3d_success_test_110/seed_0/metrics.json"

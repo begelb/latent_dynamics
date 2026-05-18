@@ -2,56 +2,65 @@
   {
     "cell_index": 0,
     "train_file": "train",
-    "seed": 0,
+    "seed": 3,
     "device": "mps",
-    "output_dir": "output/leslie3d_success_test_110/seed_0",
+    "output_dir": "output/leslie3d_success_test_110/seed_3",
     "diagnose": {
-      "n_distinct_limit_points": -1,
-      "diagnostic": "iteration_did_not_converge",
-      "n_terminal_clusters_all": 16,
-      "n_terminal_clusters_converged": 0,
-      "encoded_extent": [
-        4.745275020599365,
-        2.888282299041748
-      ],
-      "encoded_image_diameter": 5.555160633148441,
-      "bounds_lower": [
-        -2.4365925788879395,
-        -1.3809727430343628
-      ],
-      "bounds_upper": [
-        2.403587818145752,
-        1.565075159072876
-      ],
-      "bounds_source": "encoded_data",
-      "n_iter": 200,
-      "n_grid_points": 2500,
-      "convergence_eps": 0.0005666263580322266,
-      "cluster_eps": 0.05666263580322266,
-      "mean_iter_to_convergence": 200.0,
-      "max_iter_to_convergence": 200,
-      "frac_unconverged": 1.0
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          7.233254432678223,
+          4.876399993896484
+        ],
+        "max_extent": 7.233254432678223,
+        "out_activation": "none",
+        "reference_span": null,
+        "max_extent_relative": null
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 8.897957976440518,
+        "image_diameter": 5.314241016677039,
+        "contraction_ratio": 0.597242764097984,
+        "mean_step_relative": 0.3090665123673478,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -3.2776467037200927,
+          -2.893116006851196
+        ],
+        "upper": [
+          4.100272817611694,
+          2.0808119869232176
+        ],
+        "source": "encoded_data"
+      }
     },
     "render": {
       "figures": [
-        "output/leslie3d_success_test_110/seed_0/MG/morse_graph.pdf",
-        "output/leslie3d_success_test_110/seed_0/MG/morse_graph.png",
-        "output/leslie3d_success_test_110/seed_0/MG/morse_sets.pdf",
-        "output/leslie3d_success_test_110/seed_0/MG/morse_sets.png",
-        "output/leslie3d_success_test_110/seed_0/figures/latent_trajectory.png"
+        "output/leslie3d_success_test_110/seed_3/MG/morse_graph.pdf",
+        "output/leslie3d_success_test_110/seed_3/MG/morse_graph.png",
+        "output/leslie3d_success_test_110/seed_3/MG/morse_sets.pdf",
+        "output/leslie3d_success_test_110/seed_3/MG/morse_sets.png",
+        "output/leslie3d_success_test_110/seed_3/figures/latent_trajectory.png"
       ]
     },
     "metrics": {
       "target_label": 0,
-      "tau_bar": 3.337860107421875e-06,
-      "max_semiconjugacy_error": 0.10261531174182892,
-      "is_spurious_attractor": true,
-      "diagnose_morse_cross_check": {
-        "n_morse_sets": 2,
-        "agreement": "diagnose_inconclusive",
-        "diagnose_diagnostic": "iteration_did_not_converge"
-      }
+      "tau_bar": 4.2125582695007324e-05,
+      "n_semiconjugacy_samples": 0,
+      "error": "no sampled points encoded into target Morse set"
     },
-    "manifest": "output/leslie3d_success_test_110/seed_0/run_manifest.json"
+    "manifest": "output/leslie3d_success_test_110/seed_3/run_manifest.json"
   }
 ]

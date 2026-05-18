@@ -1,0 +1,7 @@
+{
+  "target_label": 0,
+  "tau_bar": 0.0002652853727340698,
+  "max_semiconjugacy_error": 0.009517243131995201,
+  "n_semiconjugacy_samples": 121,
+  "is_spurious_attractor": true
+}

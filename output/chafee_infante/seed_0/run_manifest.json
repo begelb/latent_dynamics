@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T15:22:35.936421+00:00",
+  "created_at_utc": "2026-05-18T00:15:52.418129+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,7 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data"
+    "render"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +19,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "142e8b4c23bc152e380cf12d29a8f88f334e90b7f44bb265d4f2eb43bd1c82a2",
+  "config_hash": "389a0cc65c2dbdb14420cf63262793726fe9dc7eb177b7a16fe63c36fdfcf2a3",
   "config": {
     "system": {
       "name": "chafee_infante",
@@ -95,27 +95,21 @@
       "n_samples_val": 200,
       "n_iterations": 30,
       "skip": 0,
-      "sobol_train_seed": 7206,
-      "sobol_val_seed": 9999,
+      "train_seed": 7206,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
-      "subdiv_init": 10,
-      "subdiv_min": 14,
-      "subdiv_max": 28,
+      "subdiv_init": 12,
+      "subdiv_min": 16,
+      "subdiv_max": 30,
       "subdiv_limit": 10000,
       "bounds_epsilon_frac": 0.01,
-      "lower_bounds": [
-        -3.0,
-        -2.0
-      ],
-      "upper_bounds": [
-        3.0,
-        2.0
-      ],
+      "lower_bounds": null,
+      "upper_bounds": null,
       "padding": false,
       "box_map_backend": "auto",
-      "max_table_points": 300000000,
+      "max_table_points": 1200000000,
       "precompute_batch_points": "auto"
     },
     "paths": {

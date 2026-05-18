@@ -1,0 +1,11 @@
+Lower bounds: [-3.0, -2.0]
+Upper bounds: [3.0, 2.0]
+subdiv_init: 10
+subdiv_min: 14
+subdiv_max: 28
+subdiv_limit: 10000
+bounds_epsilon_frac: 0.01
+padding: False
+box_map_backend: auto
+bounds_source: config
+duration_minutes: 0.1113

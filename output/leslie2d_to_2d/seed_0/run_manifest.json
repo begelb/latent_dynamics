@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T15:23:20.806096+00:00",
+  "created_at_utc": "2026-05-17T17:22:04.686383+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,13 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data"
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +25,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "829f08ba618e99944bc623001f9eaca73017f06dd5cbf373ea6710361ce14cdd",
+  "config_hash": "b072b63eeb23840f18d62046997192400e8ec2559cef5b1dc3262f20d3e2a92d",
   "config": {
     "system": {
       "name": "leslie_contraction",
@@ -102,8 +108,8 @@
       "n_samples_val": 2000,
       "n_iterations": 20,
       "skip": 0,
-      "sobol_train_seed": 42,
-      "sobol_val_seed": 9999,
+      "train_seed": 42,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {

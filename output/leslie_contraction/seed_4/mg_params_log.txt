@@ -1,0 +1,11 @@
+Lower bounds: [-0.9451465010643005, -0.966853678226471]
+Upper bounds: [0.711715579032898, 0.16570615768432617]
+subdiv_init: 25
+subdiv_min: 27
+subdiv_max: 28
+subdiv_limit: 10000
+bounds_epsilon_frac: 0.01
+padding: True
+box_map_backend: auto
+bounds_source: encoded_data
+duration_minutes: 17.4088

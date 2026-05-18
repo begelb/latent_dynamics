@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T15:22:33.114798+00:00",
+  "created_at_utc": "2026-05-17T16:50:03.927039+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,13 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data"
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +25,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "8f137374d2d48053112412ffb07d8ff0b5cc3c44ddfb3540db82881ea6214474",
+  "config_hash": "9af0f5ec51921980a7981277633a7e41a95095dbdcdbdc098e72e36f024d8ad8",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -98,8 +104,8 @@
       "n_samples_val": 5000,
       "n_iterations": 30,
       "skip": 0,
-      "sobol_train_seed": 42,
-      "sobol_val_seed": 9999,
+      "train_seed": 42,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -131,7 +137,7 @@
     "train_csv": "data/leslie3d_spurious/train.csv",
     "train_csv_sha256": "a31520e7ea95505660c549e75c0ad573e549bd475c1b88d9090df2e0b90dcfb9",
     "scaler": "output/leslie3d_spurious/scalers/train/scaler.gz",
-    "scaler_sha256": null,
+    "scaler_sha256": "f02ba59a29661b48e5bab3036a337bd40bd767546565a0522070f74aa6da0fe8",
     "model_dir": "output/leslie3d_spurious/seed_0/models",
     "morse_dir": "output/leslie3d_spurious/seed_0/MG",
     "metrics": "output/leslie3d_spurious/seed_0/metrics.json"

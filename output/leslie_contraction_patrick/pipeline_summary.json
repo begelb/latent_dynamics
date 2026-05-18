@@ -1,0 +1,19 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/leslie_contraction_patrick/seed_0",
+    "render": {
+      "figures": [
+        "output/leslie_contraction_patrick/seed_0/MG/morse_graph.pdf",
+        "output/leslie_contraction_patrick/seed_0/MG/morse_graph.png",
+        "output/leslie_contraction_patrick/seed_0/MG/morse_sets.pdf",
+        "output/leslie_contraction_patrick/seed_0/MG/morse_sets.png"
+      ]
+    },
+    "metrics": {},
+    "manifest": "output/leslie_contraction_patrick/seed_0/run_manifest.json"
+  }
+]

@@ -1,11 +1,6 @@
 {
   "target_label": 0,
-  "tau_bar": 3.337860107421875e-06,
-  "max_semiconjugacy_error": 0.10261531174182892,
-  "is_spurious_attractor": true,
-  "diagnose_morse_cross_check": {
-    "n_morse_sets": 2,
-    "agreement": "diagnose_inconclusive",
-    "diagnose_diagnostic": "iteration_did_not_converge"
-  }
+  "tau_bar": 2.0682811737060547e-05,
+  "n_semiconjugacy_samples": 0,
+  "error": "no sampled points encoded into target Morse set"
 }

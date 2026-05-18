@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T15:22:47.717479+00:00",
+  "created_at_utc": "2026-05-17T19:09:31.094797+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,17 +9,22 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data"
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
   ],
   "cell": {
-    "cell_index": 63,
+    "cell_index": 2,
     "train_file": "train_500",
     "seed": 3,
     "output_dir": "output/coral_data_scaling/train_500/seed_3",
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "f715f231deeb7b0d952cbe039c22463ab326211aa9a838d385adc2bc566dae22",
+  "config_hash": "59cb71b765d5c2bf2d70404906be115d7e7751068f9a882821c902d016ce5805",
   "config": {
     "system": {
       "name": "coral",
@@ -99,8 +104,8 @@
       "n_samples_val": 10000,
       "n_iterations": 20,
       "skip": 0,
-      "sobol_train_seed": 42,
-      "sobol_val_seed": 9999,
+      "train_seed": 42,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -124,36 +129,7 @@
       "read_only": false
     },
     "seeds": [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      26,
-      27,
-      28,
-      29
+      3
     ],
     "experiment_name": "coral_data_scaling"
   },
@@ -161,7 +137,7 @@
     "train_csv": "data/coral/train_500.csv",
     "train_csv_sha256": "5daae8b66fb98e09dbbd87448e470f3f3bb913f078fc4fcb7b511f271031111c",
     "scaler": "output/coral_data_scaling/scalers/train_500/scaler.gz",
-    "scaler_sha256": null,
+    "scaler_sha256": "773066052d035bffbd63aa21a2f9a486d601f1cb37232f0f5708bc39f376886c",
     "model_dir": "output/coral_data_scaling/train_500/seed_3/models",
     "morse_dir": "output/coral_data_scaling/train_500/seed_3/MG",
     "metrics": "output/coral_data_scaling/train_500/seed_3/metrics.json"

@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-05-17T16:18:50.226515+00:00",
+  "train_file": "train",
+  "train_csv": "data/leslie3d_spurious_test_110/train.csv",
+  "train_csv_sha256": "24748c6a6b120ff1afdaaadf1f6bdd94282257c1f186ab50641d957c135fe5da",
+  "scaling": "minmax",
+  "high_dims": 3
+}

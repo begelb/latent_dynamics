@@ -6,10 +6,10 @@
   },
   "encoder": {
     "extent_per_axis": [
-      7.190396070480347,
-      7.485549449920654
+      6.845578908920288,
+      7.425645589828491
     ],
-    "max_extent": 7.485549449920654,
+    "max_extent": 7.425645589828491,
     "out_activation": "none",
     "reference_span": null,
     "max_extent_relative": null
@@ -17,9 +17,9 @@
   "latent_map": {
     "n_grid_points": 2500,
     "grid_diameter": 7.211102550927978,
-    "image_diameter": 6.875035540356161,
-    "contraction_ratio": 0.9533958908227467,
-    "mean_step_relative": 0.06090422783726261,
+    "image_diameter": 6.416973260765678,
+    "contraction_ratio": 0.8898740817296925,
+    "mean_step_relative": 0.06433126545608762,
     "near_identity": false
   },
   "matched_dims": false,

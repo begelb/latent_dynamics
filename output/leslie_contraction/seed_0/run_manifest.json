@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T15:22:29.310533+00:00",
+  "created_at_utc": "2026-05-17T21:47:45.165539+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,13 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data"
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +25,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "a20aaa25f5e2fc1fb9d132bc42d72a52534aa8b57252000d221b7a28e594be48",
+  "config_hash": "8951f32fdea0ece82033f4a490b50f428645013750c098ed6b1bae4c40b5c872",
   "config": {
     "system": {
       "name": "leslie_contraction",
@@ -100,8 +106,8 @@
       "n_samples_val": 2000,
       "n_iterations": 20,
       "skip": 0,
-      "sobol_train_seed": 42,
-      "sobol_val_seed": 9999,
+      "train_seed": 42,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -133,7 +139,7 @@
     "train_csv": "data/leslie_contraction/train.csv",
     "train_csv_sha256": "367eab0de3060ea50a6f43c7d97c2938c778df29b927c84a68fe19ae6e20954f",
     "scaler": "output/leslie_contraction/scalers/train/scaler.gz",
-    "scaler_sha256": "275416132cacf2f96dbbe667adcb6fc27ee6cc6401048ccc768b34f5e23e5206",
+    "scaler_sha256": "337bdacf5bb44fcf596edaa466a703731d77aa22676a7dda1be3e439dc1ad881",
     "model_dir": "output/leslie_contraction/seed_0/models",
     "morse_dir": "output/leslie_contraction/seed_0/MG",
     "metrics": "output/leslie_contraction/seed_0/metrics.json"

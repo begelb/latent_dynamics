@@ -5,6 +5,15 @@
     "seed": 0,
     "device": "mps",
     "output_dir": "output/chafee_infante/seed_0",
+    "render": {
+      "figures": [
+        "output/chafee_infante/seed_0/MG/morse_graph.pdf",
+        "output/chafee_infante/seed_0/MG/morse_graph.png",
+        "output/chafee_infante/seed_0/MG/morse_sets.pdf",
+        "output/chafee_infante/seed_0/MG/morse_sets.png",
+        "output/chafee_infante/seed_0/MG/regions_of_attraction.png"
+      ]
+    },
     "manifest": "output/chafee_infante/seed_0/run_manifest.json"
   }
 ]

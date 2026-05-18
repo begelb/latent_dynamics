@@ -1,0 +1,12 @@
+{
+  "labels": {
+    "a0": null,
+    "a1": 0,
+    "r": null
+  },
+  "metrics": {
+    "a0": false,
+    "a1": true,
+    "r": false
+  }
+}
