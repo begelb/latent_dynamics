@@ -12,6 +12,7 @@ import matplotlib as _mpl
 if "MPLBACKEND" not in _os.environ:
     _mpl.use("Agg", force=True)
 
+from .data_trajectories import plot_data_trajectories, save_default_trajectory_plot
 from .histograms import emit_population_histogram, plot_final_population_histogram
 from .morse_plots import (
     MorseSetsPlot,
@@ -36,6 +37,7 @@ __all__ = [
     "apply_paper_style",
     "color_for",
     "emit_population_histogram",
+    "plot_data_trajectories",
     "plot_final_population_histogram",
     "plot_latent_trajectory",
     "plot_morse_sets_from_csv",
@@ -45,5 +47,6 @@ __all__ = [
     "render_morse_outputs",
     "render_morse_sets",
     "render_morse_sets_from_csv",
+    "save_default_trajectory_plot",
     "save_morse_graph_artifacts",
 ]
