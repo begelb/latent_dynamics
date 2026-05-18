@@ -16,9 +16,11 @@ import joblib
 import numpy as np
 import torch
 
+from ..analysis.regions_of_attraction import MorseGraph
 from ..config import ExperimentConfig
 from ..training import has_legacy_checkpoint, has_new_checkpoint, load_any_checkpoint
 from ..viz import render_morse_from_files
+from ..viz.regions_of_attraction import render_cell_graph_roa
 
 
 def _morse_dir_for(cfg: ExperimentConfig) -> Path:
@@ -90,12 +92,53 @@ def render_stage(
         *map(str, figures.morse_sets_paths),
     ]
 
+    roa = _render_roa_overlay(cfg, dot_path, csv_path, out_dir=write_root, verbose=verbose)
+    if roa is not None:
+        rendered.append(str(roa))
+
     extras = render_extras(cfg, train_file=train_file, verbose=verbose, out_dir=write_root)
     rendered.extend(extras)
 
     if verbose:
         print(f"render: {len(rendered)} file(s) under {write_root}")
     return {"figures": rendered}
+
+
+def _render_roa_overlay(
+    cfg: ExperimentConfig,
+    dot_path: Path,
+    csv_path: Path,
+    *,
+    out_dir: Path,
+    verbose: bool,
+) -> Path | None:
+    """Cell-graph regions-of-attraction overlay, written to ``out_dir/MG/``.
+
+    Currently 2D-only (the cell-graph backend raises for d!=2); silently skips
+    if the latent map is higher-dimensional or the checkpoint is missing.
+    """
+    if cfg.arch.low_dims != 2:
+        if verbose:
+            print(f"render: skipping RoA overlay (latent dim {cfg.arch.low_dims} != 2)")
+        return None
+    model_dir = cfg.paths.output_dir / "models"
+    if not (has_legacy_checkpoint(model_dir) or has_new_checkpoint(model_dir)):
+        if verbose:
+            print(f"render: skipping RoA overlay (no checkpoint at {model_dir})")
+        return None
+    model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
+    device = torch.device("cpu")
+    model.to(device).eval()
+
+    n_min = len(MorseGraph.from_dot(dot_path).minimal)
+    title = (
+        f"{cfg.system.name} — regions of attraction "
+        f"({n_min} minimal Morse set{'s' if n_min != 1 else ''})"
+    )
+    out_path = Path(out_dir) / "MG" / "regions_of_attraction.png"
+    return render_cell_graph_roa(
+        dot_path, csv_path, model.latent_map, out_path, device=str(device), title=title
+    )
 
 
 def render_extras(
