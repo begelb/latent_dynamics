@@ -1,7 +1,4 @@
-# Marcio's Chafee-Infante PDE paper case. The archived source implementation,
-# train data, weights, and paper Morse PDFs live under archive/marcio/scripts/.
-# This config is the fresh-run reproduction path. The semiconjugacy term is
-# disabled (`loss_weights[2] = 0`) for the PDE pipeline.
+# Marcios original CMGDB params, including his hardcoded bounds [-3,3]x[-2,2].
 system:
   name: chafee_infante
   params:
@@ -10,37 +7,41 @@ system:
     tau: 0.1
     amplitude: 2.0
     decay: 0.5
-
 arch:
-  # Mirrors archive/marcio/scripts/autoencoder_model.py:
-  # encoder 64->64->32->2, latent map 2->32->32->2, decoder 2->32->64->64.
   high_dims: 64
   low_dims: 2
   encoder:
-    hidden_shapes: [64, 32]
+    hidden_shapes:
+    - 64
+    - 32
     activation: tanh
     out_activation: none
   latent_map:
-    hidden_shapes: [32, 32]
+    hidden_shapes:
+    - 32
+    - 32
     activation: tanh
     out_activation: none
   decoder:
-    hidden_shapes: [32, 64]
+    hidden_shapes:
+    - 32
+    - 64
     activation: tanh
     out_activation: none
-
 training:
   learning_rate: 0.003
   batch_size: 30000
   epochs: 4000
   patience: 100
   lr_patience: 10
-  loss_weights: [1.0, 1.0, 0.0]
+  loss_weights:
+  - 1.0
+  - 1.0
+  - 0.0
   gradient_clip_norm: null
   scheduler_factor: 0.5
   scheduler_threshold: 0.001
-  scheduler_min_lr: 0.000001
-
+  scheduler_min_lr: 1.0e-06
 data:
   sampling_method: uniform
   scaling: none
@@ -51,25 +52,26 @@ data:
   train_seed: 7206
   val_seed: 9999
   train_files: null
-
 cmgdb:
-  subdiv_init: 12
-  subdiv_min: 16
-  subdiv_max: 30
+  subdiv_init: 10
+  subdiv_min: 14
+  subdiv_max: 28
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
-  lower_bounds: null
-  upper_bounds: null
+  lower_bounds:
+  - -3.0
+  - -2.0
+  upper_bounds:
+  - 3.0
+  - 2.0
   padding: false
   box_map_backend: auto
-  # adaptive_precomputed table at d=2, subdiv_max=30 -> (2^15+1)^2 ~= 1.07e9 corners.
-  max_table_points: 1200000000
-
+  max_table_points: 300000000
 paths:
   data_dir: data/chafee_infante
-  output_dir: output/chafee_infante
+  output_dir: output/chafee_infante_marcio
   scaler_dir_override: null
   flat_scaler: false
   read_only: false
-
-seeds: [0]
+seeds:
+- 0

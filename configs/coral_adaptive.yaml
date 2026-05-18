@@ -66,7 +66,7 @@ cmgdb:
   box_map_backend: auto
 
 paths:
-  data_dir: replay_sources/coral/data
+  data_dir: replay_sources/coral/data/coral
   output_dir: output/coral_adaptive
   scaler_dir_override: null
   flat_scaler: false

@@ -6,35 +6,44 @@ system:
     th3: 22.0
     survival_p1: 0.7
     survival_p2: 0.7
-
 arch:
   high_dims: 3
   low_dims: 2
   encoder:
-    hidden_shapes: [32, 32, 32]
+    hidden_shapes:
+    - 32
+    - 32
+    - 32
     activation: relu
     out_activation: tanh
   latent_map:
-    hidden_shapes: [32, 32, 32]
+    hidden_shapes:
+    - 32
+    - 32
+    - 32
     activation: relu
     out_activation: tanh
   decoder:
-    hidden_shapes: [32, 32, 32]
+    hidden_shapes:
+    - 32
+    - 32
+    - 32
     activation: relu
     out_activation: sigmoid
-
 training:
   learning_rate: 0.001
   batch_size: 1024
   epochs: 1000
   patience: 100
   lr_patience: 10
-  loss_weights: [10, 10, 1]
+  loss_weights:
+  - 10
+  - 10
+  - 1
   gradient_clip_norm: 1.0
   scheduler_factor: 0.1
   scheduler_threshold: 0.001
   scheduler_min_lr: 0.0
-
 data:
   sampling_method: uniform
   scaling: minmax
@@ -45,7 +54,6 @@ data:
   train_seed: 42
   val_seed: 9999
   train_files: null
-
 cmgdb:
   subdiv_init: 6
   subdiv_min: 8
@@ -56,12 +64,11 @@ cmgdb:
   upper_bounds: null
   padding: true
   box_map_backend: auto
-
 paths:
   data_dir: data/leslie3d
   output_dir: output/leslie3d
   scaler_dir_override: null
   flat_scaler: false
   read_only: false
-
-seeds: [0]
+seeds:
+- 11
