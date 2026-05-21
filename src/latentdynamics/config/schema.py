@@ -217,9 +217,12 @@ class TrainingConfig(BaseModel):
 
     @field_validator("loss_weights")
     @classmethod
-    def _three_weights(cls, v: list[float]) -> list[float]:
-        if len(v) != 3:
-            raise ValueError("loss_weights must have length 3 (recon_t, recon_tau, dyn)")
+    def _three_or_four_weights(cls, v: list[float]) -> list[float]:
+        if len(v) not in (3, 4):
+            raise ValueError(
+                "loss_weights must have length 3 or 4 "
+                "(recon_t, recon_tau, dyn, optional cycle_pred)"
+            )
         return v
 
     @model_validator(mode="after")
@@ -289,6 +292,19 @@ class CMGDBConfig(BaseModel):
     # is honored as-is (clamped to the table size). Required for clusters /
     # MPS where single-allocation buffer caps are smaller than total RAM.
     precompute_batch_points: int | Literal["auto"] = "auto"
+    # When enabled, the morse stage computes an exact regions-of-attraction
+    # artifact on CMGDB's returned MapGraph. This can be expensive for high
+    # subdivision levels, so it is opt-in per experiment.
+    compute_roa: bool = False
+    roa_max_vertices: int = Field(
+        ge=1,
+        default=50_000_000,
+        description=(
+            "Safety cap for exact CMGDB-level RoA. The morse stage refuses to "
+            "build the reverse graph when map_graph.num_vertices() exceeds "
+            "this value."
+        ),
+    )
 
     @field_validator("precompute_batch_points", mode="before")
     @classmethod

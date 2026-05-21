@@ -26,16 +26,28 @@ class TestSchema:
         cfg = ArchConfig(num_layers=2, hidden_shape=32, high_dims=3, low_dims=2, activation="ReLU")  # type: ignore[arg-type]
         assert cfg.activation == "relu"
 
-    def test_loss_weights_must_be_three(self):
-        with pytest.raises(ValueError):
-            TrainingConfig(
-                learning_rate=1e-3,
-                batch_size=32,
-                epochs=10,
-                patience=5,
-                lr_patience=2,
-                loss_weights=[1.0, 1.0],
-            )
+    def test_loss_weights_must_be_three_or_four(self):
+        for weights in ([1.0, 1.0], [1.0, 1.0, 0.0, 1.0, 2.0]):
+            with pytest.raises(ValueError):
+                TrainingConfig(
+                    learning_rate=1e-3,
+                    batch_size=32,
+                    epochs=10,
+                    patience=5,
+                    lr_patience=2,
+                    loss_weights=weights,
+                )
+
+    def test_loss_weights_accept_ed_cycle_weight(self):
+        cfg = TrainingConfig(
+            learning_rate=1e-3,
+            batch_size=32,
+            epochs=10,
+            patience=5,
+            lr_patience=2,
+            loss_weights=[1.0, 1.0, 0.0, 1.0],
+        )
+        assert cfg.loss_weights == [1.0, 1.0, 0.0, 1.0]
 
     def test_cmgdb_subdivision_ordering(self):
         with pytest.raises(ValueError):
@@ -254,6 +266,77 @@ class TestLoader:
         assert cfg.cmgdb.padding is False
         expected_stem = config_name.removesuffix(".yaml")
         assert cfg.paths.data_dir.as_posix() == "data/leslie2d_to_2d_test_110"
+        assert cfg.paths.output_dir.as_posix() == f"output/{expected_stem}"
+
+    @pytest.mark.parametrize(
+        ("config_name", "system_name", "high_dims", "low_dims", "data_scaling", "param_key", "param_value"),
+        [
+            (
+                "leslie2d_to_2d_test_1101.yaml",
+                "leslie_contraction",
+                2,
+                2,
+                "minmax",
+                "th1",
+                20.0,
+            ),
+            (
+                "leslie_contraction_test_1101.yaml",
+                "leslie_contraction",
+                10,
+                2,
+                "minmax",
+                "contraction",
+                0.25,
+            ),
+            (
+                "leslie3d_spurious_test_1101.yaml",
+                "leslie3d",
+                3,
+                2,
+                "minmax",
+                "th1",
+                28.9,
+            ),
+            (
+                "leslie3d_success_test_1101.yaml",
+                "leslie3d",
+                3,
+                2,
+                "minmax",
+                "th1",
+                19.6,
+            ),
+            (
+                "chafee_infante_test_1101.yaml",
+                "chafee_infante",
+                64,
+                2,
+                "none",
+                "alpha",
+                28.0,
+            ),
+        ],
+    )
+    def test_test_1101_yamls_enable_ed_cycle_loss(
+        self,
+        config_name: str,
+        system_name: str,
+        high_dims: int,
+        low_dims: int,
+        data_scaling: str,
+        param_key: str,
+        param_value: float,
+    ):
+        cfg = load_config(CONFIGS_DIR / config_name)
+        expected_stem = config_name.removesuffix(".yaml")
+        assert cfg.system.name == system_name
+        assert cfg.arch.high_dims == high_dims
+        assert cfg.arch.low_dims == low_dims
+        assert cfg.data.scaling == data_scaling
+        assert cfg.system.params[param_key] == pytest.approx(param_value)
+        assert cfg.training.loss_weights == [1.0, 1.0, 0.0, 1.0]
+        assert cfg.paths.data_dir.as_posix() == f"data/{expected_stem}"
         assert cfg.paths.output_dir.as_posix() == f"output/{expected_stem}"
 
     def test_leslie3d_yaml_loads(self):

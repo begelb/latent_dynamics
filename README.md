@@ -18,9 +18,13 @@ For data points `(x_t, x_{t+1})` with `x_{t+1} = f(x_t)`, the trainer minimizes
 L1(x_t, x_{t+1}) = || D(E(x_t))     - x_t   ||^2     # reconstruction
 L2(x_t, x_{t+1}) = || D(G(E(x_t)))  - x_{t+1} ||^2   # prediction
 L3(x_t, x_{t+1}) = || G(E(x_t))     - E(x_{t+1}) ||^2 # semiconjugacy error
+L4(x_t, x_{t+1}) = || E(D(G(E(x_t)))) - G(E(x_t)) ||^2 # ED cycle on predicted latent states
 ```
 
-with weights `(w1, w2, w3)`. After training, CMGDB returns a Morse graph
+with weights `(w1, w2, w3)` or `(w1, w2, w3, w4)`. Existing three-weight
+configs set `w4 = 0`; `*_test_1101.yaml` configs use `[1, 1, 0, 1]` to test
+whether `DE ~= I_X`, `f ~= DGE`, and `ED ~= I_Z` on `GE(x)` recover
+`Ef ~= GE` without directly weighting `L3`. After training, CMGDB returns a Morse graph
 `MG(G)` over the latent box; for each minimal node `q` the package can:
 
 - compute the **tolerance** `tau(N_q, G)` of the corresponding attracting block
@@ -121,7 +125,8 @@ are exposed as CLI entry points under `latentdynamics.cli.*`.
 2. `scale_data` — fit `MinMaxScaler(0, 1)` on `vstack(x_train, y_train)` and
    joblib it; or `data.scaling: none` for raw-coordinate runs (Chafee-Infante).
 3. `train` — train the unified `LatentDynamicsAutoencoder` (encoder + latent
-   map + decoder) under `loss_total = w1 * L1 + w2 * L2 + w3 * L3`, Adam +
+   map + decoder) under
+   `loss_total = w1 * L1 + w2 * L2 + w3 * L3 + w4 * L4`, Adam +
    `ReduceLROnPlateau`, optional `gradient_clip_norm`. Saves a single
    `models/autoencoder.pt` (`state_dict`, `weights_only=True` safe) and a
    companion `models/autoencoder.json` architecture sidecar.

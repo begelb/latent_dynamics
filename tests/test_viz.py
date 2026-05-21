@@ -8,7 +8,11 @@ matplotlib.use("Agg")
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+from matplotlib.colors import to_rgba
 
+from latentdynamics.analysis.cell_graph import CellGraphROA, UniformGrid
+from latentdynamics.analysis.regions_of_attraction import BoxROATable, MorseGraph
 from latentdynamics.viz import (
     PALETTE,
     PAPER_RCPARAMS,
@@ -18,6 +22,7 @@ from latentdynamics.viz import (
     plot_morse_sets_from_csv,
     render_morse_sets_from_csv,
 )
+from latentdynamics.viz.regions_of_attraction import plot_roa_overlay_cell_graph
 
 
 class TestPalette:
@@ -162,6 +167,48 @@ class TestMorseSetPlotting:
         assert rendered == [tmp_path / "base.png"]
         assert rendered[0].exists()
         assert rendered[0].stat().st_size > 0
+
+    def test_roa_overlay_colors_recurrent_morse_sets_by_morse_node_not_lower_basin(self):
+        mg = MorseGraph(
+            nodes=[0, 1],
+            edges={1: [0]},
+            colors={0: "#111111", 1: "#eeeeee"},
+            labels={0: "0", 1: "1"},
+        )
+        grid = UniformGrid(
+            bounds_lo=np.array([0.0, 0.0]),
+            bounds_hi=np.array([1.0, 1.0]),
+            resolution=1,
+        )
+        cg = CellGraphROA(
+            grid=grid,
+            morse_graph=mg,
+            box_roa=np.array([0], dtype=np.int32),
+            minimal_grid_boxes={0: np.array([0], dtype=np.int64)},
+        )
+        table = BoxROATable(
+            boxes=pd.DataFrame(
+                [
+                    {
+                        "lower_0": 0.8,
+                        "lower_1": 0.8,
+                        "upper_0": 0.9,
+                        "upper_1": 0.9,
+                        "morse_node": 1,
+                        "roa_label": 1,
+                    }
+                ]
+            ),
+            morse_graph=mg,
+            dim=2,
+        )
+
+        fig = plot_roa_overlay_cell_graph(cg, table)
+        fig.canvas.draw()
+        overlay = fig.axes[0].collections[-1]
+
+        np.testing.assert_allclose(overlay.get_facecolors()[0], to_rgba("#eeeeee", 0.95))
+        plt.close(fig)
 
 
 # silence unused-import lint

@@ -38,7 +38,13 @@ class LossHistory:
 
 
 def _empty_loss_dict() -> dict[str, list[float]]:
-    return {"loss_ae1": [], "loss_ae2": [], "loss_dyn": [], "loss_total": []}
+    return {
+        "loss_ae1": [],
+        "loss_ae2": [],
+        "loss_dyn": [],
+        "loss_cycle_pred": [],
+        "loss_total": [],
+    }
 
 
 def _select_device() -> torch.device:
@@ -94,7 +100,7 @@ class Trainer:
 
     def _run_epoch(self, loader: DataLoader, *, training: bool) -> dict[str, float]:
         self.model.train(training)
-        accum = {"loss_ae1": 0.0, "loss_ae2": 0.0, "loss_dyn": 0.0, "loss_total": 0.0}
+        accum = {k: 0.0 for k in _empty_loss_dict()}
         total_samples = 0
         ctx = torch.enable_grad if training else torch.no_grad
         with ctx():

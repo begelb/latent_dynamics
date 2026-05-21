@@ -326,6 +326,11 @@ def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) ->
         return False
     if params.get("box_map_backend") != cfg.cmgdb.box_map_backend:
         return False
+    logged_compute_roa = _log_bool(params, "compute_roa")
+    if cfg.cmgdb.compute_roa and logged_compute_roa is not True:
+        return False
+    if logged_compute_roa is not None and logged_compute_roa != bool(cfg.cmgdb.compute_roa):
+        return False
 
     lower = _log_float_list(params, "lower_bounds")
     upper = _log_float_list(params, "upper_bounds")
@@ -394,6 +399,10 @@ def _stage_complete(
     if stage == "diagnose":
         return _nonempty_file(derived / "diagnose.json")
     if stage == "morse":
+        if cfg.cmgdb.compute_roa and not _nonempty_file(
+            seed_cfg.paths.morse_dir / "regions_of_attraction_exact.npz"
+        ):
+            return False
         return (
             _nonempty_file(seed_cfg.paths.morse_dir / "morse_graph")
             and _nonempty_file(seed_cfg.paths.morse_dir / "morse_sets")
@@ -563,6 +572,7 @@ def run_one(
         summary["render"] = render_stage(
             seed_cfg,
             train_file=train_file,
+            device=dev,
             verbose=verbose,
             out_dir=derived_dir,
         )
@@ -748,6 +758,7 @@ def run(
             cell_summary["render"] = render_stage(
                 seed_cfg,
                 train_file=train_file,
+                device=dev,
                 verbose=verbose,
                 out_dir=derived_dir,
             )

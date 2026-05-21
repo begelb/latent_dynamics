@@ -1,0 +1,165 @@
+{
+  "config": "/Users/bdoprad/Work/Projects/latent-dynamics/code/configs/chafee_infante_test_1101_seed1.yaml",
+  "seed": 1,
+  "train_file": "train",
+  "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+  "stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "stage_timings_seconds": {
+    "data": 357.00527787499595,
+    "scale": 0.1603082910005469,
+    "train": 394.3141461250052,
+    "diagnose": 0.6775587500014808,
+    "morse": 35.07488320799894,
+    "render": 4.557270584002254,
+    "metrics": 0.02171929200994782
+  },
+  "total_seconds": 791.8112668749964,
+  "stage_summaries": {
+    "data": {
+      "stages": [
+        "data"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "scale": {
+      "stages": [
+        "scale"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "train": {
+      "stages": [
+        "train"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "diagnose": {
+      "stages": [
+        "diagnose"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "diagnose": {
+        "diagnostic": "ok",
+        "hard_flags": {
+          "encoder_collapsed": false,
+          "latent_map_overcontracted": false
+        },
+        "encoder": {
+          "extent_per_axis": [
+            1.748848795890808,
+            1.3614939451217651
+          ],
+          "max_extent": 1.748848795890808,
+          "out_activation": "none",
+          "reference_span": null,
+          "max_extent_relative": null
+        },
+        "latent_map": {
+          "n_grid_points": 2500,
+          "grid_diameter": 7.211102550927978,
+          "image_diameter": 4.132431198143726,
+          "contraction_ratio": 0.5730650991243958,
+          "mean_step_relative": 0.10116401277895455,
+          "near_identity": false
+        },
+        "matched_dims": false,
+        "encoder_near_identity": null,
+        "decoder_near_identity": null,
+        "mean_step_E_relative": null,
+        "mean_step_D_relative": null,
+        "bounds": {
+          "lower": [
+            -3.0,
+            -2.0
+          ],
+          "upper": [
+            3.0,
+            2.0
+          ],
+          "source": "config"
+        }
+      },
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "morse": {
+      "stages": [
+        "morse"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "render": {
+      "stages": [
+        "render"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "render": {
+        "figures": [
+          "output/chafee_infante_test_1101_seed1_rerun/seed_1/MG/morse_graph.pdf",
+          "output/chafee_infante_test_1101_seed1_rerun/seed_1/MG/morse_graph.png",
+          "output/chafee_infante_test_1101_seed1_rerun/seed_1/MG/morse_sets.pdf",
+          "output/chafee_infante_test_1101_seed1_rerun/seed_1/MG/morse_sets.png",
+          "output/chafee_infante_test_1101_seed1_rerun/seed_1/MG/regions_of_attraction_exact.png"
+        ]
+      },
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    },
+    "metrics": {
+      "stages": [
+        "metrics"
+      ],
+      "train_file": "train",
+      "seed": 1,
+      "output_dir": "output/chafee_infante_test_1101_seed1_rerun/seed_1",
+      "device": "mps",
+      "metrics": {
+        "minimal_morse_labels": [
+          0,
+          1
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "n_boxes": 4,
+            "tau_bar": 7.152557373046875e-05,
+            "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+          },
+          "1": {
+            "n_boxes": 2,
+            "tau_bar": 7.730722427368164e-05,
+            "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+          }
+        }
+      },
+      "manifest": "output/chafee_infante_test_1101_seed1_rerun/seed_1/run_manifest.json"
+    }
+  }
+}

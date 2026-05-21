@@ -15,8 +15,10 @@ The pipeline:
    its image bbox overlaps. Boxes whose image escapes the grid have empty
    adjacency lists.
 5. ``compute_box_roa`` — for each minimal Morse node, reverse-BFS in the
-   adjacency graph from the grid boxes overlapping that Morse set. A box is
-   in RoA(M) iff it can reach exactly one minimal Morse set's boxes.
+   adjacency graph from the grid boxes overlapping that Morse set. A transient
+   box is in RoA(M) iff it can reach exactly one minimal Morse set's boxes.
+   Grid boxes overlapping recurrent Morse sets keep their own Morse-node label;
+   they are not assigned to the ROA of lower Morse sets.
 
 Currently 2D-only. Higher-dim generalizes mechanically but is left for later.
 """
@@ -168,6 +170,8 @@ def reverse_reachable(
     rev_neighbors: np.ndarray,
     targets: np.ndarray,
     n_boxes: int,
+    *,
+    blocked: np.ndarray | None = None,
 ) -> np.ndarray:
     """Boolean ``(n_boxes,)`` mask: True iff box can reach any of ``targets``."""
     visited = np.zeros(n_boxes, dtype=bool)
@@ -179,6 +183,8 @@ def reverse_reachable(
         start, end = rev_ptr[cur], rev_ptr[cur + 1]
         for k in range(start, end):
             pred = int(rev_neighbors[k])
+            if blocked is not None and blocked[pred]:
+                continue
             if not visited[pred]:
                 visited[pred] = True
                 stack.append(pred)
@@ -209,14 +215,45 @@ def grid_boxes_overlapping_morse_set(
     return np.unique(np.asarray(out, dtype=np.int64)) if out else np.empty(0, dtype=np.int64)
 
 
+def recurrent_grid_owners(
+    grid: UniformGrid,
+    morse_boxes,
+    morse_nodes,
+    nodes: list[int],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Return per-grid-box recurrent owner and overlap-conflict mask.
+
+    ``owner[i]`` is the Morse-node id whose saved recurrent boxes overlap grid
+    box ``i``, or ``-1`` when no recurrent Morse set overlaps it. When multiple
+    recurrent Morse sets overlap the same grid box, ``conflict[i]`` is true and
+    the box is treated as a boundary for RoA traversal/plotting.
+    """
+    owner = np.full(grid.n_boxes, -1, dtype=np.int32)
+    conflict = np.zeros(grid.n_boxes, dtype=bool)
+    for node in sorted(nodes):
+        rows = morse_boxes[morse_nodes == node]
+        if rows.size == 0:
+            continue
+        node_lo = rows[:, :2]
+        node_hi = rows[:, 2:4]
+        node_idx = grid_boxes_overlapping_morse_set(grid, node_lo, node_hi)
+        if node_idx.size == 0:
+            continue
+        already_owned = owner[node_idx] != -1
+        conflict[node_idx[already_owned]] = True
+        owner[node_idx[~already_owned]] = int(node)
+    return owner, conflict
+
+
 @dataclass
 class CellGraphROA:
     grid: UniformGrid
     morse_graph: MorseGraph
     box_roa: np.ndarray
-    """``(n_boxes,)`` int: ROA label per grid box.
-    Values are Morse-node ids, or ``-1`` for boundary (reaches multiple
-    minimal Morse sets), or ``-2`` for escape (no minimal Morse set reached)."""
+    """``(n_boxes,)`` int: ROA/recurrent label per grid box.
+    Values are Morse-node ids for transient basin labels and recurrent boxes,
+    or ``-1`` for boundary (reaches multiple minimal Morse sets), or ``-2`` for
+    escape (no minimal Morse set reached)."""
     minimal_grid_boxes: dict[int, np.ndarray]
     """Per minimal Morse node, grid box indices overlapping its Morse set."""
 
@@ -261,6 +298,15 @@ def compute_cell_graph_roa(
     rev_ptr, rev_neighbors = build_reverse_csr(adjacency, grid.n_boxes)
 
     mg = table.morse_graph
+    morse_boxes = table.boxes[["lower_0", "lower_1", "upper_0", "upper_1"]].to_numpy()
+    morse_nodes = table.boxes["morse_node"].to_numpy()
+    recurrent_owner, recurrent_conflict = recurrent_grid_owners(
+        grid,
+        morse_boxes,
+        morse_nodes,
+        mg.nodes,
+    )
+
     minimal_boxes: dict[int, np.ndarray] = {}
     reachable_masks: dict[int, np.ndarray] = {}
     for m in sorted(mg.minimal):
@@ -269,7 +315,16 @@ def compute_cell_graph_roa(
         m_hi = rows[["upper_0", "upper_1"]].to_numpy()
         m_idx = grid_boxes_overlapping_morse_set(grid, m_lo, m_hi)
         minimal_boxes[m] = m_idx
-        reachable_masks[m] = reverse_reachable(rev_ptr, rev_neighbors, m_idx, grid.n_boxes)
+        blocked = (recurrent_owner != -1) & (recurrent_owner != m)
+        blocked[recurrent_conflict] = True
+        blocked[m_idx] = False
+        reachable_masks[m] = reverse_reachable(
+            rev_ptr,
+            rev_neighbors,
+            m_idx,
+            grid.n_boxes,
+            blocked=blocked,
+        )
 
     # Pack the per-minimal-set masks into a bitmask per box so each box gets a
     # frozenset key cheaply.
@@ -295,6 +350,13 @@ def compute_cell_graph_roa(
             box_roa[bitmask == key] = CellGraphROA.BOUNDARY
             continue
         box_roa[bitmask == key] = int(lca)
+
+    # Recurrent Morse-set boxes are not transient RoA. Preserve their own
+    # Morse-node label after the basin computation, including non-minimal
+    # recurrent sets that can reach a lower attractor in the Morse graph.
+    owned = recurrent_owner != -1
+    box_roa[owned] = recurrent_owner[owned]
+    box_roa[recurrent_conflict] = CellGraphROA.BOUNDARY
 
     return CellGraphROA(
         grid=grid,

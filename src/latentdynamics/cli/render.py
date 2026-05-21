@@ -20,7 +20,8 @@ from ..analysis.regions_of_attraction import MorseGraph
 from ..config import ExperimentConfig
 from ..training import has_legacy_checkpoint, has_new_checkpoint, load_any_checkpoint
 from ..viz import render_morse_from_files
-from ..viz.regions_of_attraction import render_cell_graph_roa
+from ..analysis.cmgdb_roa import EXACT_ROA_FILENAME
+from ..viz.regions_of_attraction import render_cell_graph_roa, render_exact_roa_artifact
 
 
 def _morse_dir_for(cfg: ExperimentConfig) -> Path:
@@ -50,6 +51,7 @@ def render_stage(
     cfg: ExperimentConfig,
     *,
     train_file: str = "train",
+    device: torch.device | str | None = None,
     verbose: bool = True,
     out_dir: Path | None = None,
 ) -> dict[str, list[str]]:
@@ -92,16 +94,42 @@ def render_stage(
         *map(str, figures.morse_sets_paths),
     ]
 
-    roa = _render_roa_overlay(cfg, dot_path, csv_path, out_dir=write_root, verbose=verbose)
+    render_device = _resolve_render_device(device)
+    roa = _render_roa_overlay(
+        cfg,
+        dot_path,
+        csv_path,
+        out_dir=write_root,
+        device=render_device,
+        verbose=verbose,
+    )
     if roa is not None:
         rendered.append(str(roa))
 
-    extras = render_extras(cfg, train_file=train_file, verbose=verbose, out_dir=write_root)
+    extras = render_extras(
+        cfg,
+        train_file=train_file,
+        device=render_device,
+        verbose=verbose,
+        out_dir=write_root,
+    )
     rendered.extend(extras)
 
     if verbose:
         print(f"render: {len(rendered)} file(s) under {write_root}")
     return {"figures": rendered}
+
+
+def _resolve_render_device(device: torch.device | str | None) -> torch.device:
+    if isinstance(device, torch.device):
+        return device
+    if device is not None:
+        return torch.device(device)
+    if torch.backends.mps.is_available():
+        return torch.device("mps")
+    if torch.cuda.is_available():
+        return torch.device("cuda")
+    return torch.device("cpu")
 
 
 def _render_roa_overlay(
@@ -110,6 +138,7 @@ def _render_roa_overlay(
     csv_path: Path,
     *,
     out_dir: Path,
+    device: torch.device,
     verbose: bool,
 ) -> Path | None:
     """Cell-graph regions-of-attraction overlay, written to ``out_dir/MG/``.
@@ -121,23 +150,40 @@ def _render_roa_overlay(
         if verbose:
             print(f"render: skipping RoA overlay (latent dim {cfg.arch.low_dims} != 2)")
         return None
+    exact_artifact = dot_path.with_name(EXACT_ROA_FILENAME)
+    if exact_artifact.exists():
+        n_min = len(MorseGraph.from_dot(dot_path).minimal)
+        title = (
+            f"{cfg.system.name} — exact regions of attraction "
+            f"({n_min} minimal Morse set{'s' if n_min != 1 else ''})"
+        )
+        out_path = Path(out_dir) / "MG" / "regions_of_attraction_exact.png"
+        return render_exact_roa_artifact(exact_artifact, dot_path, out_path, title=title)
+
     model_dir = cfg.paths.output_dir / "models"
     if not (has_legacy_checkpoint(model_dir) or has_new_checkpoint(model_dir)):
         if verbose:
             print(f"render: skipping RoA overlay (no checkpoint at {model_dir})")
         return None
     model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
-    device = torch.device("cpu")
     model.to(device).eval()
 
     n_min = len(MorseGraph.from_dot(dot_path).minimal)
+    resolution = 128
     title = (
-        f"{cfg.system.name} — regions of attraction "
-        f"({n_min} minimal Morse set{'s' if n_min != 1 else ''})"
+        f"{cfg.system.name} — diagnostic regions of attraction "
+        f"({n_min} minimal Morse set{'s' if n_min != 1 else ''}, "
+        f"{resolution}×{resolution} grid)"
     )
     out_path = Path(out_dir) / "MG" / "regions_of_attraction.png"
     return render_cell_graph_roa(
-        dot_path, csv_path, model.latent_map, out_path, device=str(device), title=title
+        dot_path,
+        csv_path,
+        model.latent_map,
+        out_path,
+        resolution=resolution,
+        device=str(device),
+        title=title,
     )
 
 
@@ -145,15 +191,18 @@ def render_extras(
     cfg: ExperimentConfig,
     *,
     train_file: str = "train",
+    device: torch.device | str | None = None,
     verbose: bool = True,
     out_dir: Path | None = None,
 ) -> list[str]:
     """System-specific render hooks; safe no-op for systems without extras."""
+    render_device = _resolve_render_device(device)
     name = cfg.system.name
     if name == "leslie3d":
         return _render_leslie3d_extras(
             cfg,
             train_file=train_file,
+            device=render_device,
             verbose=verbose,
             out_dir=out_dir,
         )
@@ -199,6 +248,7 @@ def _render_leslie3d_extras(
     cfg: ExperimentConfig,
     *,
     train_file: str,
+    device: torch.device,
     verbose: bool,
     out_dir: Path | None = None,
 ) -> list[str]:
@@ -217,7 +267,6 @@ def _render_leslie3d_extras(
         return []
 
     model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
-    device = torch.device("cpu")
     model.to(device)
 
     scaler_path = cfg.paths.scaler_path(train_file)

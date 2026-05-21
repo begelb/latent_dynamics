@@ -31,7 +31,8 @@ dependencies = [
     "joblib>=1.5",
     "pydot>=4.0",
     "pydantic>=2.9",
-    "CMGDB==1.3.2",
+    # Bernardo fork; package version 1.3.3.
+    "CMGDB @ git+https://github.com/bernardorivas/CMGDB.git@562a5a59d4d11c4361dd7756a17c9d4d03285506",
 ]
 
 [project.optional-dependencies]

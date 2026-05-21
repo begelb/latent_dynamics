@@ -19,6 +19,7 @@ from matplotlib.colors import to_rgba
 from matplotlib.figure import Figure
 from matplotlib.patches import Patch, Rectangle
 
+from ..analysis.cmgdb_roa import BOUNDARY, ESCAPE, CellROA, load_exact_roa
 from ..analysis.cell_graph import CellGraphROA, compute_cell_graph_roa
 from ..analysis.regions_of_attraction import BoxROATable, load_box_roa
 
@@ -72,16 +73,17 @@ def plot_roa_overlay_cell_graph(
         aspect="equal",
     )
 
-    # Overlay Morse sets at full alpha, colored by the LCA label of the
-    # underlying box so the overlay hue matches the basin underneath.
+    # Overlay recurrent Morse sets at full alpha, colored by their own Morse
+    # node. Non-minimal recurrent sets are not part of a lower set's transient
+    # RoA even when the Morse graph has a path to that lower set.
     patches = []
     facecolors = []
     for _, row in morse_table.boxes.iterrows():
         lo_x, lo_y = row["lower_0"], row["lower_1"]
         hi_x, hi_y = row["upper_0"], row["upper_1"]
         patches.append(Rectangle((lo_x, lo_y), hi_x - lo_x, hi_y - lo_y))
-        lca = mg.roa_label.get(int(row["morse_node"]), int(row["morse_node"]))
-        facecolors.append(mg.colors.get(lca, "#888888"))
+        morse_node = int(row["morse_node"])
+        facecolors.append(mg.colors.get(morse_node, "#888888"))
     pc = PatchCollection(patches, match_original=False)
     pc.set_facecolor(facecolors)
     pc.set_edgecolor("none")
@@ -143,6 +145,126 @@ def render_cell_graph_roa(
     )
     table = load_box_roa(morse_graph_dot, morse_sets_csv)
     fig = plot_roa_overlay_cell_graph(cg, table, title=title)
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    fig.savefig(out_path, dpi=140, bbox_inches="tight")
+    plt.close(fig)
+    return out_path
+
+
+def plot_exact_roa(
+    roa: CellROA,
+    morse_table: BoxROATable,
+    *,
+    roa_alpha: float = 0.55,
+    title: str | None = None,
+) -> Figure:
+    """Render exact CMGDB-cell RoA labels from a saved artifact."""
+    mg = morse_table.morse_graph
+    labels = np.asarray(roa.box_roa, dtype=np.int32)
+    fig, ax = plt.subplots(figsize=(7.5, 6.5))
+
+    if roa.grid_shape is not None and len(roa.grid_shape) == 2:
+        shape = tuple(int(v) for v in roa.grid_shape.tolist())
+        if int(np.prod(shape)) != labels.size:
+            raise ValueError(
+                f"exact RoA grid_shape {shape} does not match {labels.size} labels"
+            )
+        img = np.zeros(shape + (4,), dtype=np.float64)
+        label_grid = labels.reshape(shape)
+        for label in np.unique(label_grid):
+            mask = label_grid == label
+            if label == ESCAPE:
+                color = _rgba(_ESCAPE_COLOR, 0.0)
+            elif label == BOUNDARY:
+                color = _rgba(_BOUNDARY_COLOR, roa_alpha)
+            else:
+                color = _rgba(mg.colors.get(int(label), "#888888"), roa_alpha)
+            img[mask] = color
+        display = np.transpose(img, (1, 0, 2))
+        if roa.bounds_lower is None or roa.bounds_upper is None:
+            extent = (0.0, float(shape[0]), 0.0, float(shape[1]))
+        else:
+            extent = (
+                float(roa.bounds_lower[0]),
+                float(roa.bounds_upper[0]),
+                float(roa.bounds_lower[1]),
+                float(roa.bounds_upper[1]),
+            )
+        ax.imshow(
+            display,
+            origin="lower",
+            extent=extent,
+            interpolation="nearest",
+            aspect="equal",
+        )
+        ax.set_xlim(extent[0], extent[1])
+        ax.set_ylim(extent[2], extent[3])
+    elif roa.boxes is not None:
+        patches = []
+        facecolors = []
+        for box, label in zip(roa.boxes, labels, strict=True):
+            lo_x, lo_y, hi_x, hi_y = box[:4]
+            patches.append(Rectangle((lo_x, lo_y), hi_x - lo_x, hi_y - lo_y))
+            if label == ESCAPE:
+                facecolors.append(_rgba(_ESCAPE_COLOR, 0.0))
+            elif label == BOUNDARY:
+                facecolors.append(_rgba(_BOUNDARY_COLOR, roa_alpha))
+            else:
+                facecolors.append(_rgba(mg.colors.get(int(label), "#888888"), roa_alpha))
+        pc = PatchCollection(patches, match_original=False)
+        pc.set_facecolor(facecolors)
+        pc.set_edgecolor("none")
+        ax.add_collection(pc)
+        if roa.bounds_lower is not None and roa.bounds_upper is not None:
+            ax.set_xlim(roa.bounds_lower[0], roa.bounds_upper[0])
+            ax.set_ylim(roa.bounds_lower[1], roa.bounds_upper[1])
+        else:
+            ax.autoscale()
+    else:
+        raise ValueError("exact RoA artifact has neither grid_shape nor box geometry")
+
+    ax.set_xlabel("z[0]")
+    ax.set_ylabel("z[1]")
+    if title is None:
+        title = f"Exact regions of attraction ({labels.size} CMGDB cells)"
+    ax.set_title(title)
+
+    used_labels = sorted(
+        int(v) for v in np.unique(labels)
+        if v not in (ESCAPE, BOUNDARY)
+    )
+    handles = [
+        Patch(facecolor=mg.colors.get(n, "#888888"), edgecolor="black", label=f"Morse set {n}")
+        for n in used_labels
+    ]
+    if (labels == BOUNDARY).any():
+        handles.append(Patch(facecolor=_BOUNDARY_COLOR, edgecolor="black", label="multi-basin"))
+    if (labels == ESCAPE).any():
+        handles.append(Patch(facecolor="white", edgecolor="black", label="escape"))
+    ax.legend(
+        handles=handles,
+        loc="center left",
+        bbox_to_anchor=(1.02, 0.5),
+        fontsize=8,
+        framealpha=0.85,
+        title="Legend",
+    )
+    fig.tight_layout()
+    return fig
+
+
+def render_exact_roa_artifact(
+    artifact_path: str | Path,
+    morse_graph_dot: str | Path,
+    out_path: str | Path,
+    *,
+    title: str | None = None,
+) -> Path:
+    roa = load_exact_roa(artifact_path)
+    morse_sets_csv = Path(morse_graph_dot).with_name("morse_sets")
+    table = load_box_roa(morse_graph_dot, morse_sets_csv)
+    fig = plot_exact_roa(roa, table, title=title)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(out_path, dpi=140, bbox_inches="tight")

@@ -58,6 +58,8 @@ def _write_mg_log(path: Path, cfg: ExperimentConfig) -> None:
                 f"bounds_epsilon_frac: {cfg.cmgdb.bounds_epsilon_frac}",
                 f"padding: {cfg.cmgdb.padding}",
                 f"box_map_backend: {cfg.cmgdb.box_map_backend}",
+                f"compute_roa: {cfg.cmgdb.compute_roa}",
+                f"roa_max_vertices: {cfg.cmgdb.roa_max_vertices}",
                 "bounds_source: encoded_data",
             ]
         )
@@ -89,6 +91,25 @@ def test_morse_stage_complete_when_log_matches_config(tmp_path):
     seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
     _seed_morse_artifacts(seed_cfg.paths.morse_dir)
     _write_mg_log(seed_cfg.paths.output_dir / "mg_params_log.txt", cfg)
+
+    assert _stage_complete("morse", cfg, seed_cfg, train_file="train")
+
+
+def test_morse_stage_incomplete_when_exact_roa_enabled_but_artifact_missing(tmp_path):
+    cfg = _tiny_cfg(tmp_path, cmgdb=CMGDBConfig(compute_roa=True))
+    seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+    _seed_morse_artifacts(seed_cfg.paths.morse_dir)
+    _write_mg_log(seed_cfg.paths.output_dir / "mg_params_log.txt", cfg)
+
+    assert not _stage_complete("morse", cfg, seed_cfg, train_file="train")
+
+
+def test_morse_stage_complete_when_exact_roa_enabled_and_artifact_present(tmp_path):
+    cfg = _tiny_cfg(tmp_path, cmgdb=CMGDBConfig(compute_roa=True))
+    seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+    _seed_morse_artifacts(seed_cfg.paths.morse_dir)
+    _write_mg_log(seed_cfg.paths.output_dir / "mg_params_log.txt", cfg)
+    (seed_cfg.paths.morse_dir / "regions_of_attraction_exact.npz").write_bytes(b"npz")
 
     assert _stage_complete("morse", cfg, seed_cfg, train_file="train")
 

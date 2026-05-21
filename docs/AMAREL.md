@@ -24,9 +24,12 @@ Stages are intentionally explicit:
 - `data`: creates missing CSV/metadata pairs only; existing pairs are kept.
 - `scale`: writes `scaler.gz` for one train file.
 - `train`: writes checkpoint, architecture sidecar, history, and final losses.
-- `morse`: runs CMGDB and writes only `MG/morse_graph`, `MG/morse_sets`, and
-  `mg_params_log.txt`.
-- `render`: reads saved Morse artifacts and writes PDF/PNG figures.
+- `morse`: runs CMGDB and writes `MG/morse_graph`, `MG/morse_sets`, and
+  `mg_params_log.txt`. If `cmgdb.compute_roa: true`, it also builds
+  `MG/regions_of_attraction_exact.npz` on CMGDB's returned `MapGraph`.
+- `render`: reads saved Morse artifacts and writes PDF/PNG figures. When an
+  exact RoA artifact is present, render writes `MG/regions_of_attraction_exact.png`;
+  otherwise 2-D runs fall back to the diagnostic 128x128 RoA overlay.
 - `metrics`: reads saved checkpoints/Morse artifacts and writes `metrics.json`.
 
 Do not use full CMGDB as a smoke test. Lightweight checks should run config
@@ -68,6 +71,78 @@ The template always passes `--skip-completed`, so rerunning the same array
 resumes from saved artifacts instead of repeating completed stages. Increase
 `--time`, `--mem`, or add AMAREL-specific partition/GPU directives in
 `slurm/pipeline_array.sbatch` as needed.
+
+## Test 1101 ED-Cycle Sweep
+
+The `test_1101` configs use loss weights `[1, 1, 0, 1]`, i.e. reconstruction,
+input-space prediction, no direct semiconjugacy loss, and the predicted-latent
+cycle loss `||E(D(G(E(x)))) - G(E(x))||^2`. This is the experiment family for
+testing whether `DE ~= I_X`, `f ~= DGE`, and `ED ~= I_Z` on `GE(x)` recover
+`Ef ~= GE`.
+
+These configs also set `cmgdb.compute_roa: true`, so the `morse` stage computes
+the same-cell RoA artifact before `render` makes the RoA figure. Existing
+Morse outputs created before this flag was added need a fresh `morse` run
+(`--force-overwrite` if the old `MG/morse_graph` and `MG/morse_sets` are still
+present).
+
+Configs:
+
+```bash
+configs/leslie2d_to_2d_test_1101.yaml
+configs/leslie_contraction_test_1101.yaml
+configs/leslie3d_spurious_test_1101.yaml
+configs/leslie3d_success_test_1101.yaml
+configs/chafee_infante_test_1101.yaml
+```
+
+Dry-run every config before submitting:
+
+```bash
+cd code
+for CONFIG in \
+  configs/leslie2d_to_2d_test_1101.yaml \
+  configs/leslie_contraction_test_1101.yaml \
+  configs/leslie3d_spurious_test_1101.yaml \
+  configs/leslie3d_success_test_1101.yaml \
+  configs/chafee_infante_test_1101.yaml
+do
+  ../.venv/bin/python pipeline.py --config "$CONFIG" --dry-run
+done
+```
+
+Prepare shared data/scalers for each config:
+
+```bash
+cd code
+for CONFIG in \
+  configs/leslie2d_to_2d_test_1101.yaml \
+  configs/leslie_contraction_test_1101.yaml \
+  configs/leslie3d_spurious_test_1101.yaml \
+  configs/leslie3d_success_test_1101.yaml \
+  configs/chafee_infante_test_1101.yaml
+do
+  ../.venv/bin/python pipeline.py --config "$CONFIG" --stages data,scale --skip-completed
+done
+```
+
+Submit one Slurm array per config. Keep `STAGES` in the shell environment
+rather than writing `STAGES=train,morse` directly inside `--export`.
+
+```bash
+cd code
+for CONFIG in \
+  configs/leslie2d_to_2d_test_1101.yaml \
+  configs/leslie_contraction_test_1101.yaml \
+  configs/leslie3d_spurious_test_1101.yaml \
+  configs/leslie3d_success_test_1101.yaml \
+  configs/chafee_infante_test_1101.yaml
+do
+  STAGES=train,diagnose,morse,render,metrics EXPECTED_CELLS=1 \
+    sbatch --array=0-0 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
+    slurm/pipeline_array.sbatch
+done
+```
 
 ## Local Smoke Commands
 

@@ -1,0 +1,74 @@
+# Loss-weight test 1101 on the spurious-attractor Leslie 3D paper case.
+# dim X > dim Z (3 -> 2). Uses the spurious parameter set
+# th=(28.9, 29.8, 22.0).
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 2
+  encoder:
+    hidden_shapes: [64, 32]
+    activation: tanh
+    out_activation: none
+  latent_map:
+    hidden_shapes: [32, 32]
+    activation: tanh
+    out_activation: none
+  decoder:
+    hidden_shapes: [32, 64]
+    activation: tanh
+    out_activation: none
+
+training:
+  learning_rate: 0.003
+  batch_size: 30000
+  epochs: 4000
+  patience: 100
+  lr_patience: 10
+  loss_weights: [1.0, 1.0, 0.0, 1.0]
+  gradient_clip_norm: null
+  scheduler_factor: 0.5
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.000001
+
+data:
+  sampling_method: uniform
+  scaling: minmax
+  n_samples_train: 5000
+  n_samples_val: 1000
+  n_iterations: 30
+  skip: 0
+  train_seed: 7206
+  val_seed: 9999
+  train_files: null
+
+cmgdb:
+  subdiv_init: 22
+  subdiv_min: 24
+  subdiv_max: 26
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  lower_bounds: null
+  upper_bounds: null
+  padding: false
+  box_map_backend: auto
+  max_table_points: 300000000
+  precompute_batch_points: auto
+  compute_roa: true
+  roa_max_vertices: 50000000
+
+paths:
+  data_dir: data/leslie3d_spurious_test_1101
+  output_dir: output/leslie3d_spurious_test_1101
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
+
+seeds: [0]

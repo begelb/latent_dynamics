@@ -10,10 +10,10 @@
         "output/chafee_infante_marcio/seed_0/MG/morse_graph.pdf",
         "output/chafee_infante_marcio/seed_0/MG/morse_graph.png",
         "output/chafee_infante_marcio/seed_0/MG/morse_sets.pdf",
-        "output/chafee_infante_marcio/seed_0/MG/morse_sets.png"
+        "output/chafee_infante_marcio/seed_0/MG/morse_sets.png",
+        "output/chafee_infante_marcio/seed_0/MG/regions_of_attraction.png"
       ]
     },
-    "metrics": {},
     "manifest": "output/chafee_infante_marcio/seed_0/run_manifest.json"
   }
 ]

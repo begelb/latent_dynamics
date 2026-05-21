@@ -1,0 +1,276 @@
+"""Exact regions of attraction on CMGDB's returned cell graph.
+
+This module works on the ``MapGraph`` returned by CMGDB during the ``morse``
+stage. Unlike the render-time diagnostic cell graph, these labels live on the
+same CMGDB cell ids used by ``morse_graph.morse_set(node)``.
+"""
+
+from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+
+import numpy as np
+
+from .morse import LatentBounds
+from .regions_of_attraction import MorseGraph
+
+
+EXACT_ROA_FILENAME = "regions_of_attraction_exact.npz"
+BOUNDARY = -1
+ESCAPE = -2
+
+
+@dataclass(frozen=True)
+class CellROA:
+    """Per-CMGDB-cell RoA labels plus enough geometry metadata to render them."""
+
+    box_roa: np.ndarray
+    bounds_lower: np.ndarray | None = None
+    bounds_upper: np.ndarray | None = None
+    grid_shape: np.ndarray | None = None
+    boxes: np.ndarray | None = None
+
+
+def _morse_cell_sets(cmgdb_morse_graph, morse_dag: MorseGraph) -> dict[int, np.ndarray]:
+    out: dict[int, np.ndarray] = {}
+    for node in morse_dag.nodes:
+        cells = np.asarray(list(cmgdb_morse_graph.morse_set(node)), dtype=np.int64)
+        out[int(node)] = np.unique(cells)
+    return out
+
+
+def _recurrent_owners(
+    n_vertices: int,
+    morse_cells: dict[int, np.ndarray],
+) -> tuple[np.ndarray, np.ndarray]:
+    owner = np.full(n_vertices, ESCAPE, dtype=np.int32)
+    conflict = np.zeros(n_vertices, dtype=bool)
+    for node in sorted(morse_cells):
+        cells = morse_cells[node]
+        if cells.size == 0:
+            continue
+        already_owned = owner[cells] != ESCAPE
+        conflict[cells[already_owned]] = True
+        owner[cells[~already_owned]] = int(node)
+    return owner, conflict
+
+
+def _build_reverse_csr(map_graph, n_vertices: int) -> tuple[np.ndarray, np.ndarray]:
+    """Build reverse adjacency arrays for ``map_graph``.
+
+    CMGDB's Python binding exposes outgoing adjacency only. Two passes avoid
+    storing a Python list of arrays for every cell, which is too expensive at
+    the Leslie 2-D subdivision levels.
+    """
+    counts = np.zeros(n_vertices + 1, dtype=np.int64)
+    for src in range(n_vertices):
+        for dst in map_graph.adjacencies(src):
+            d = int(dst)
+            if 0 <= d < n_vertices:
+                counts[d + 1] += 1
+    ptr = np.cumsum(counts)
+    neighbors = np.empty(int(ptr[-1]), dtype=np.int64)
+    fill = ptr[:-1].copy()
+    for src in range(n_vertices):
+        for dst in map_graph.adjacencies(src):
+            d = int(dst)
+            if 0 <= d < n_vertices:
+                neighbors[fill[d]] = src
+                fill[d] += 1
+    return ptr, neighbors
+
+
+def _reverse_reachable(
+    rev_ptr: np.ndarray,
+    rev_neighbors: np.ndarray,
+    targets: np.ndarray,
+    n_vertices: int,
+    *,
+    blocked: np.ndarray,
+) -> np.ndarray:
+    visited = np.zeros(n_vertices, dtype=bool)
+    stack = [int(t) for t in targets.tolist() if 0 <= int(t) < n_vertices]
+    for t in stack:
+        visited[t] = True
+    while stack:
+        cur = stack.pop()
+        start, end = int(rev_ptr[cur]), int(rev_ptr[cur + 1])
+        for k in range(start, end):
+            pred = int(rev_neighbors[k])
+            if blocked[pred] or visited[pred]:
+                continue
+            visited[pred] = True
+            stack.append(pred)
+    return visited
+
+
+def _infer_uniform_grid_shape(n_vertices: int, dim: int) -> np.ndarray | None:
+    if dim <= 0:
+        return None
+    if dim == 1:
+        return np.asarray([n_vertices], dtype=np.int64)
+    per_axis = round(n_vertices ** (1.0 / dim))
+    if per_axis > 0 and per_axis**dim == n_vertices:
+        return np.full(dim, per_axis, dtype=np.int64)
+    return None
+
+
+def _collect_boxes(cmgdb_morse_graph, n_vertices: int, *, max_vertices: int) -> np.ndarray | None:
+    if n_vertices > max_vertices:
+        return None
+    rows = [cmgdb_morse_graph.phase_space_box(i) for i in range(n_vertices)]
+    return np.asarray(rows, dtype=np.float64)
+
+
+def compute_exact_roa(
+    map_graph,
+    cmgdb_morse_graph,
+    morse_dag: MorseGraph,
+    *,
+    bounds: LatentBounds | None = None,
+    max_box_geometry_vertices: int = 2_000_000,
+) -> CellROA:
+    """Compute exact cell labels on CMGDB's ``MapGraph``.
+
+    Other recurrent Morse sets are blockers for each minimal target, so a
+    spurious multivalued edge leaving a recurrent set does not pull that set,
+    or its upstream transient structure, into a lower attractor's RoA.
+    """
+    n_vertices = int(map_graph.num_vertices())
+    morse_cells = _morse_cell_sets(cmgdb_morse_graph, morse_dag)
+    recurrent_owner, recurrent_conflict = _recurrent_owners(n_vertices, morse_cells)
+    rev_ptr, rev_neighbors = _build_reverse_csr(map_graph, n_vertices)
+
+    # One bit per minimal Morse set: the bitmask records the full set of
+    # minima that can reverse-reach each cell. With this we can resolve
+    # "multi-basin" cells via the Morse-poset LCA instead of dropping them
+    # to a generic BOUNDARY label.
+    minimal_sorted = sorted(int(n) for n in morse_dag.minimal)
+    if len(minimal_sorted) > 64:
+        raise ValueError(
+            f"compute_exact_roa: {len(minimal_sorted)} minimal Morse nodes "
+            f"exceeds the 64-bit reach-mask width"
+        )
+    bit_of = {m: np.uint64(1) << i for i, m in enumerate(minimal_sorted)}
+    reach_mask = np.zeros(n_vertices, dtype=np.uint64)
+    for minimal in minimal_sorted:
+        targets = morse_cells.get(minimal, np.empty(0, dtype=np.int64))
+        if targets.size == 0:
+            continue
+        blocked = (recurrent_owner != ESCAPE) & (recurrent_owner != minimal)
+        blocked[recurrent_conflict] = True
+        blocked[targets] = False
+        reachable = _reverse_reachable(
+            rev_ptr,
+            rev_neighbors,
+            targets,
+            n_vertices,
+            blocked=blocked,
+        )
+        reach_mask[reachable] |= bit_of[minimal]
+
+    box_roa = np.full(n_vertices, ESCAPE, dtype=np.int32)
+    # Single-basin cells: assign that minimum directly.
+    for minimal in minimal_sorted:
+        single = reach_mask == bit_of[minimal]
+        box_roa[single] = minimal
+    # Multi-basin cells: replace with the Morse-poset LCA of their reachable
+    # minimal set when the DAG admits one; otherwise fall back to BOUNDARY.
+    multi_mask_values = np.unique(reach_mask[~np.isin(reach_mask, list(bit_of.values()) + [np.uint64(0)])])
+    for mv in multi_mask_values:
+        reached: list[int] = [m for m in minimal_sorted if int(mv) & int(bit_of[m])]
+        lca = morse_dag.lca_of_minimals(frozenset(reached))
+        cells = reach_mask == mv
+        box_roa[cells] = int(lca) if lca is not None else BOUNDARY
+
+    owned = recurrent_owner != ESCAPE
+    box_roa[owned] = recurrent_owner[owned]
+    box_roa[recurrent_conflict] = BOUNDARY
+
+    dim = int(bounds.dim) if bounds is not None else None
+    grid_shape = _infer_uniform_grid_shape(n_vertices, dim) if dim is not None else None
+    boxes = None
+    if grid_shape is None:
+        boxes = _collect_boxes(
+            cmgdb_morse_graph,
+            n_vertices,
+            max_vertices=max_box_geometry_vertices,
+        )
+
+    return CellROA(
+        box_roa=box_roa,
+        bounds_lower=None if bounds is None else np.asarray(bounds.lower, dtype=np.float64),
+        bounds_upper=None if bounds is None else np.asarray(bounds.upper, dtype=np.float64),
+        grid_shape=grid_shape,
+        boxes=boxes,
+    )
+
+
+def save_exact_roa(roa: CellROA, out_dir: str | Path) -> Path:
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    path = out_dir / EXACT_ROA_FILENAME
+    payload: dict[str, np.ndarray] = {
+        "box_roa": np.asarray(roa.box_roa, dtype=np.int32),
+        "bounds_lower": (
+            np.asarray([], dtype=np.float64)
+            if roa.bounds_lower is None
+            else np.asarray(roa.bounds_lower, dtype=np.float64)
+        ),
+        "bounds_upper": (
+            np.asarray([], dtype=np.float64)
+            if roa.bounds_upper is None
+            else np.asarray(roa.bounds_upper, dtype=np.float64)
+        ),
+        "grid_shape": (
+            np.asarray([], dtype=np.int64)
+            if roa.grid_shape is None
+            else np.asarray(roa.grid_shape, dtype=np.int64)
+        ),
+    }
+    if roa.boxes is not None:
+        payload["boxes"] = np.asarray(roa.boxes, dtype=np.float64)
+    np.savez_compressed(path, **payload)
+    return path
+
+
+def load_exact_roa(path: str | Path) -> CellROA:
+    with np.load(Path(path)) as data:
+        bounds_lower = data["bounds_lower"]
+        bounds_upper = data["bounds_upper"]
+        grid_shape = data["grid_shape"]
+        boxes = data["boxes"] if "boxes" in data.files else None
+        return CellROA(
+            box_roa=np.asarray(data["box_roa"], dtype=np.int32),
+            bounds_lower=None if bounds_lower.size == 0 else np.asarray(bounds_lower, dtype=np.float64),
+            bounds_upper=None if bounds_upper.size == 0 else np.asarray(bounds_upper, dtype=np.float64),
+            grid_shape=None if grid_shape.size == 0 else np.asarray(grid_shape, dtype=np.int64),
+            boxes=None if boxes is None else np.asarray(boxes, dtype=np.float64),
+        )
+
+
+def compute_and_save_exact_roa(
+    *,
+    map_graph,
+    cmgdb_morse_graph,
+    morse_graph_dot: str | Path,
+    out_dir: str | Path,
+    bounds: LatentBounds,
+    max_vertices: int,
+) -> Path:
+    n_vertices = int(map_graph.num_vertices())
+    if n_vertices > max_vertices:
+        raise ValueError(
+            f"exact RoA map graph has {n_vertices} vertices, exceeding "
+            f"cmgdb.roa_max_vertices={max_vertices}"
+        )
+    morse_dag = MorseGraph.from_dot(morse_graph_dot)
+    roa = compute_exact_roa(
+        map_graph,
+        cmgdb_morse_graph,
+        morse_dag,
+        bounds=bounds,
+        max_box_geometry_vertices=max_vertices,
+    )
+    return save_exact_roa(roa, out_dir)

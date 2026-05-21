@@ -58,8 +58,8 @@ cmgdb:
   subdiv_max: 30
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
-  lower_bounds: null
-  upper_bounds: null
+  lower_bounds: [-3.0, -2.0]
+  upper_bounds: [3.0, 2.0]
   padding: false
   box_map_backend: auto
   # adaptive_precomputed table at d=2, subdiv_max=30 -> (2^15+1)^2 ~= 1.07e9 corners.

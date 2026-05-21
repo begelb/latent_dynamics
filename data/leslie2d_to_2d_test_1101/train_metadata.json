@@ -1,0 +1,25 @@
+{
+    "system": "LeslieContraction",
+    "dimension": 2,
+    "n_samples": 5000,
+    "n_iterations": 30,
+    "skip_initial_steps": 0,
+    "lower_bounds": [
+        0.0,
+        0.0
+    ],
+    "upper_bounds": [
+        90.0,
+        70.0
+    ],
+    "model_params": {
+        "th1": 20.0,
+        "th2": 20.0,
+        "survival_p1": 0.7,
+        "contraction": 0.25
+    },
+    "dataset_name": "train",
+    "sampling_method": "uniform",
+    "sampling_seed": 7206,
+    "role": "train"
+}

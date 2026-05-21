@@ -111,5 +111,31 @@ def run(
     losses_path = output_root / "final_losses.txt"
     lines = [f"best_epoch: {best_epoch}"] + [f"val_{k}: {v:.6e}" for k, v in best_val.items()]
     losses_path.write_text("\n".join(lines) + "\n")
+
+    import json as _json
+
+    summary: dict[str, object] = {
+        "best_epoch": int(best_epoch),
+        "loss_weights": list(cfg.training.loss_weights),
+        "n_epochs_run": len(history.train["loss_total"]),
+    }
+    for split_name, hist in (("train", history.train), ("val", history.val)):
+        per_loss: dict[str, dict[str, float]] = {}
+        for key, series in hist.items():
+            if not series:
+                continue
+            arr = [float(x) for x in series]
+            per_loss[key] = {
+                "mean": sum(arr) / len(arr),
+                "min": min(arr),
+                "max": max(arr),
+                "final": arr[-1],
+                "best_epoch_value": (
+                    float(series[best_epoch]) if 0 <= best_epoch < len(series) else float("nan")
+                ),
+            }
+        summary[split_name] = per_loss
+    (output_root / "training_summary.json").write_text(_json.dumps(summary, indent=2))
+
     if verbose:
         print(f"checkpoint and logs written to {output_root}")

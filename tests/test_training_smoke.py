@@ -117,5 +117,11 @@ class TestTrainingSmoke:
         trainer.save(tmp_path)
         h = json.loads((tmp_path / "logs" / "history.json").read_text())
         assert set(h.keys()) == {"train", "val"}
-        assert set(h["train"].keys()) == {"loss_ae1", "loss_ae2", "loss_dyn", "loss_total"}
+        assert set(h["train"].keys()) == {
+            "loss_ae1",
+            "loss_ae2",
+            "loss_dyn",
+            "loss_cycle_pred",
+            "loss_total",
+        }
         assert len(h["train"]["loss_total"]) == 2

@@ -59,8 +59,12 @@ cmgdb:
   subdiv_max: 30
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
-  lower_bounds: null
-  upper_bounds: null
+  lower_bounds:
+  - -3.0
+  - -2.0
+  upper_bounds:
+  - 3.0
+  - 2.0
   padding: false
   box_map_backend: auto
   max_table_points: 1200000000

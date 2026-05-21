@@ -85,10 +85,13 @@ def metrics_stage(
     name = seed_cfg.system.name
     if name == "coral":
         result = _coral_metrics(seed_cfg, cfg, train_file=train_file)
-    elif name == "leslie3d":
-        result = _leslie3d_metrics(seed_cfg, cfg, train_file=train_file)
     else:
-        result = {}
+        # Generic 2D-latent path: tau_bar + max-semiconjugacy-error per minimal
+        # Morse set. Subsumes the old hardcoded leslie3d target_label=0 logic.
+        if seed_cfg.arch.low_dims == 2:
+            result = _per_minimal_tolerance_metrics(seed_cfg, cfg, train_file=train_file)
+        else:
+            result = {}
 
     write_root = Path(out_dir) if out_dir is not None else seed_cfg.paths.output_dir
     out_path = write_root / "metrics.json"
@@ -129,14 +132,39 @@ def _coral_metrics(seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_f
     return {"labels": labels, "metrics": metrics}
 
 
-def _leslie3d_metrics(
-    seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_file: str
+def _minimal_morse_labels(morse_graph_dot: Path) -> list[int]:
+    """Parse a CMGDB DOT file and return Morse-graph nodes with no outgoing edges."""
+    import re
+
+    text = morse_graph_dot.read_text()
+    node_ids = {int(m.group(1)) for m in re.finditer(r"^(\d+)\s+\[label", text, re.M)}
+    edge_pairs = re.findall(r"^(\d+)\s*->\s*(\d+);", text, re.M)
+    has_out = {int(s) for s, _ in edge_pairs}
+    return sorted(n for n in node_ids if n not in has_out)
+
+
+def _per_minimal_tolerance_metrics(
+    seed_cfg: ExperimentConfig,
+    cfg: ExperimentConfig,
+    *,
+    train_file: str,
 ) -> dict:
+    """Compute tau_bar and max-semiconjugacy-error for every minimal Morse set.
+
+    Writes one entry per minimal Morse node, keyed by its node id. Both
+    quantities are bounds/estimates: ``tau_bar`` is the minimum distance from
+    G(corner) to the Morse-set boundary, taken over the box corner vertices,
+    and ``max_semiconjugacy_error`` is the sup over sampled high-dim points
+    that encode into the block of ``||E(f(x)) - G(E(x))||``.
+    """
     morse_sets_path = seed_cfg.paths.morse_dir / "morse_sets"
+    morse_graph_path = seed_cfg.paths.morse_dir / "morse_graph"
     if not morse_sets_path.exists():
         return {"error": "missing morse_sets file"}
     if morse_sets_path.stat().st_size == 0:
         return {"error": "empty morse_sets file"}
+    if not morse_graph_path.exists() or morse_graph_path.stat().st_size == 0:
+        return {"error": "missing or empty morse_graph file"}
 
     model_dir = _model_dir(seed_cfg)
     if not (has_legacy_checkpoint(model_dir) or has_new_checkpoint(model_dir)):
@@ -147,59 +175,68 @@ def _leslie3d_metrics(
     model.to(device)
     scaler = joblib.load(cfg.paths.scaler_path(train_file))
 
-    target_label = 0  # paper Sec. 1.117 names the suspect Morse node 0
-    morse_set = MorseSet(morse_sets_path, label=target_label)
-    if len(morse_set) == 0:
-        return {"error": f"target Morse label {target_label} not present in morse_sets"}
-
     @torch.no_grad()
     def _g(verts):
         x = torch.as_tensor(verts, dtype=torch.float32, device=device)
         return model.latent_map(x).cpu().numpy()
 
-    tau_bar = compute_min_boundary_separation(morse_set, _g)
+    minimal_labels = _minimal_morse_labels(morse_graph_path)
 
+    # One pass of high-dim samples shared across minimal Morse sets.
     system = build_system(cfg.system.name, cfg.system.params)
-    if not isinstance(system, DiscreteMap):
-        return {
-            "tau_bar": float(tau_bar),
-            "warning": "system is not a DiscreteMap; skipped semiconjugacy error",
-        }
+    pts_scaled = next_scaled = None
+    semiconj_supported = isinstance(system, DiscreteMap)
+    if semiconj_supported:
+        rng = np.random.default_rng(0)
+        # 4096 samples is enough to populate small Morse sets without ballooning runtime.
+        pts = rng.uniform(system.lower_bounds, system.upper_bounds, size=(4096, system.dim))
+        iterated = pts.copy()
+        for _ in range(min(cfg.data.n_iterations, 20)):
+            iterated = system.step(iterated)
+        pts_scaled = scaler.transform(iterated)
+        next_scaled = scaler.transform(system.step(iterated))
 
-    rng = np.random.default_rng(0)
-    pts = rng.uniform(system.lower_bounds, system.upper_bounds, size=(256, system.dim))
-    iterated = pts.copy()
-    for _ in range(min(cfg.data.n_iterations, 20)):
-        iterated = system.step(iterated)
-
-    pts_scaled = scaler.transform(iterated)
-    next_scaled = scaler.transform(system.step(iterated))
-    pts_in_block, next_in_block = _filter_samples_in_target_morse_set(
-        encoder=model.encoder,
-        morse_set=morse_set,
-        points_scaled=pts_scaled,
-        next_scaled=next_scaled,
-        device=device,
-    )
-    if pts_in_block.shape[0] == 0:
-        return {
-            "target_label": int(target_label),
-            "tau_bar": float(tau_bar),
-            "n_semiconjugacy_samples": 0,
-            "error": "no sampled points encoded into target Morse set",
-        }
-    max_err = compute_max_semiconjugacy_error(
-        encoder=model.encoder,
-        latent_map=model.latent_map,
-        points_in_block=pts_in_block,
-        next_points_true=next_in_block,
-        device=device,
-    )
+    per_minimal: dict[str, dict] = {}
+    for lbl in minimal_labels:
+        ms = MorseSet(morse_sets_path, label=lbl)
+        entry: dict[str, object] = {"n_boxes": len(ms)}
+        if len(ms) == 0:
+            entry["error"] = "label not present in morse_sets"
+            per_minimal[str(lbl)] = entry
+            continue
+        tau_bar = float(compute_min_boundary_separation(ms, _g))
+        entry["tau_bar"] = tau_bar
+        if not semiconj_supported:
+            entry["warning"] = "system is not a DiscreteMap; skipped semiconjugacy error"
+            per_minimal[str(lbl)] = entry
+            continue
+        pts_in_block, next_in_block = _filter_samples_in_target_morse_set(
+            encoder=model.encoder,
+            morse_set=ms,
+            points_scaled=pts_scaled,
+            next_scaled=next_scaled,
+            device=device,
+        )
+        entry["n_semiconjugacy_samples"] = int(pts_in_block.shape[0])
+        if pts_in_block.shape[0] == 0:
+            entry["max_semiconjugacy_error"] = None
+            entry["is_spurious_attractor"] = None
+            per_minimal[str(lbl)] = entry
+            continue
+        max_err = float(
+            compute_max_semiconjugacy_error(
+                encoder=model.encoder,
+                latent_map=model.latent_map,
+                points_in_block=pts_in_block,
+                next_points_true=next_in_block,
+                device=device,
+            )
+        )
+        entry["max_semiconjugacy_error"] = max_err
+        entry["is_spurious_attractor"] = bool(max_err > tau_bar)
+        per_minimal[str(lbl)] = entry
 
     return {
-        "target_label": int(target_label),
-        "tau_bar": float(tau_bar),
-        "max_semiconjugacy_error": float(max_err),
-        "n_semiconjugacy_samples": int(pts_in_block.shape[0]),
-        "is_spurious_attractor": bool(max_err > tau_bar),
+        "minimal_morse_labels": minimal_labels,
+        "minimal_morse_sets": per_minimal,
     }

@@ -92,6 +92,7 @@ class ForwardPass:
     z_t: Tensor
     z_tau: Tensor
     z_tau_pred: Tensor
+    z_tau_pred_cycle: Tensor
     x_t_hat: Tensor
     x_tau_hat: Tensor
 
@@ -111,12 +112,14 @@ class LatentDynamicsAutoencoder(nn.Module):
         z_tau = self.encoder(x_tau)
         z_tau_pred = self.latent_map(z_t)
         x_tau_hat = self.decoder(z_tau_pred)
+        z_tau_pred_cycle = self.encoder(x_tau_hat)
         return ForwardPass(
             x_t=x_t,
             x_tau=x_tau,
             z_t=z_t,
             z_tau=z_tau,
             z_tau_pred=z_tau_pred,
+            z_tau_pred_cycle=z_tau_pred_cycle,
             x_t_hat=x_t_hat,
             x_tau_hat=x_tau_hat,
         )

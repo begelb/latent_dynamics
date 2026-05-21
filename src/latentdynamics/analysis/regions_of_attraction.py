@@ -11,9 +11,9 @@ per node:
   itself is always such an ancestor, so the LCA defaults to ``N`` for
   unambiguous-but-non-minimal boundary nodes (saddles, sources).
 
-Per-box ROA labels follow from each box's Morse-node membership recorded in
-the CMGDB ``morse_sets`` CSV (columns ``xmin, ymin, ..., xmax, ymax, node_id``
-for any dim).
+Per-box labels in the CMGDB ``morse_sets`` CSV remain the recurrent Morse-node
+ids. Transient regions of attraction are computed separately from the cell
+graph; a recurrent Morse set is not assigned to the ROA of a lower Morse set.
 
 This module operates purely on the saved CMGDB outputs, so it is O(M) for
 ``M`` nodes (typically <100) plus O(B) for ``B`` recorded boxes — fast enough
@@ -204,7 +204,9 @@ class BoxROATable:
 
     boxes: pd.DataFrame
     """Columns: ``lower_<i>``, ``upper_<i>`` for ``i`` in ``[0, dim)``,
-    plus ``morse_node`` and ``roa_label``. One row per box."""
+    plus ``morse_node`` and ``roa_label``. One row per recurrent Morse-set box.
+    For these recurrent boxes, ``roa_label`` preserves ``morse_node`` rather than
+    assigning the box to a lower reachable Morse set."""
 
     morse_graph: MorseGraph
     dim: int
@@ -257,5 +259,5 @@ def load_box_roa(
     cols.append("morse_node")
     raw.columns = cols
     raw["morse_node"] = raw["morse_node"].astype(int)
-    raw["roa_label"] = raw["morse_node"].map(mg.roa_label).astype(int)
+    raw["roa_label"] = raw["morse_node"]
     return BoxROATable(boxes=raw, morse_graph=mg, dim=dim)

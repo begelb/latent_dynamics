@@ -95,6 +95,8 @@ training:
   lr_patience: 10
 
   # [reconstruct x_t, reconstruct x_tau, latent dynamics]
+  # Optionally add a fourth ED-cycle weight:
+  # [reconstruct x_t, reconstruct x_tau, latent dynamics, ED(GE)-GE]
   loss_weights: [1.0, 1.0, 0.0]
 
   # Positive float to enable clipping; null disables clipping.
@@ -181,6 +183,13 @@ cmgdb:
   #   size). Use to override the auto heuristic on clusters or for
   #   reproducibility.
   precompute_batch_points: auto
+
+  # Compute exact regions of attraction on CMGDB's returned MapGraph during
+  # the morse stage. This gives same-cell labels for 2-D RoA figures, unlike
+  # the render-time diagnostic 128x128 grid. It is opt-in because building the
+  # reverse graph can require substantial memory at high subdivision levels.
+  compute_roa: false
+  roa_max_vertices: 50000000
 
 paths:
   data_dir: data/example_experiment

@@ -16,6 +16,7 @@ import time
 import numpy as np
 import torch
 
+from ..analysis.cmgdb_roa import compute_and_save_exact_roa
 from ..analysis.morse import LatentBounds, compute_morse_graph, infer_latent_bounds
 from ..config import ExperimentConfig
 from ..sampling import load_scaler
@@ -114,14 +115,30 @@ def run(
         )
 
     t0 = time.perf_counter()
-    morse_graph, _map_graph = compute_morse_graph(model, bounds, cfg.cmgdb, device=device)
+    morse_graph, map_graph = compute_morse_graph(model, bounds, cfg.cmgdb, device=device)
     duration_s = time.perf_counter() - t0
 
     dot_path, csv_path = save_morse_graph_artifacts(morse_graph, morse_dir)
+    exact_roa_path = None
+    if cfg.cmgdb.compute_roa:
+        if cfg.arch.low_dims != 2:
+            if verbose:
+                print(f"exact RoA: skipped (latent dim {cfg.arch.low_dims} != 2)")
+        else:
+            exact_roa_path = compute_and_save_exact_roa(
+                map_graph=map_graph,
+                cmgdb_morse_graph=morse_graph,
+                morse_graph_dot=dot_path,
+                out_dir=morse_dir,
+                bounds=bounds,
+                max_vertices=cfg.cmgdb.roa_max_vertices,
+            )
 
     if verbose:
         print(f"morse graph DOT  -> {dot_path}")
         print(f"morse sets CSV   -> {csv_path}")
+        if exact_roa_path is not None:
+            print(f"exact RoA        -> {exact_roa_path}")
         print(f"computation took {duration_s / 60.0:.2f} min")
 
     log_path = output_root / "mg_params_log.txt"
@@ -137,6 +154,8 @@ def run(
                 f"bounds_epsilon_frac: {cfg.cmgdb.bounds_epsilon_frac}",
                 f"padding: {cfg.cmgdb.padding}",
                 f"box_map_backend: {cfg.cmgdb.box_map_backend}",
+                f"compute_roa: {cfg.cmgdb.compute_roa}",
+                f"roa_max_vertices: {cfg.cmgdb.roa_max_vertices}",
                 f"bounds_source: {bounds_source}",
                 f"duration_minutes: {duration_s / 60.0:.4f}",
             ]

@@ -168,19 +168,44 @@ def distance_point_to_boundary(point: tuple[float, float], boundary_edges: set[E
 def compute_min_boundary_separation(
     morse_set: MorseSet,
     apply_dynamics: Callable[[NDArray[np.float64]], NDArray[np.float64]],
+    *,
+    chunk_size: int = 4000,
 ) -> float:
-    """Tau-bar bound: min distance from G(v) to the Morse-set boundary, over corners v."""
+    """Tau-bar bound: min distance from G(v) to the Morse-set boundary, over corners v.
+
+    Axis-aligned boundary segments are clipped pointwise in NumPy, so the cost
+    is :math:`O(VE)` floating-point ops but vectorized; chunking over ``V`` keeps
+    the working set bounded.
+    """
     edges = morse_set.boundary_edges()
     vertices = morse_set.vertices()
-    if vertices.size == 0:
+    if vertices.size == 0 or len(edges) == 0:
         return 0.0
     mapped = apply_dynamics(vertices)
+
+    edge_count = len(edges)
+    xmin = np.empty(edge_count)
+    xmax = np.empty(edge_count)
+    ymin = np.empty(edge_count)
+    ymax = np.empty(edge_count)
+    for i, e in enumerate(edges):
+        ux, uy = e.u
+        vx, vy = e.v
+        xmin[i], xmax[i] = (ux, vx) if ux < vx else (vx, ux)
+        ymin[i], ymax[i] = (uy, vy) if uy < vy else (vy, uy)
+
+    px = np.asarray(mapped[:, 0], dtype=np.float64)
+    py = np.asarray(mapped[:, 1], dtype=np.float64)
     best = float("inf")
-    for v in mapped:
-        d = distance_point_to_boundary(tuple(v), edges)
-        if d < best:
-            best = d
-    return float(best)
+    for i in range(0, px.shape[0], chunk_size):
+        pxc = px[i : i + chunk_size, None]
+        pyc = py[i : i + chunk_size, None]
+        cx = np.clip(pxc, xmin[None, :], xmax[None, :])
+        cy = np.clip(pyc, ymin[None, :], ymax[None, :])
+        d = np.hypot(pxc - cx, pyc - cy).min(axis=1)
+        if d.size:
+            best = min(best, float(d.min()))
+    return best
 
 
 def compute_max_semiconjugacy_error(
