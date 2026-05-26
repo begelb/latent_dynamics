@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-17T21:47:45.165539+00:00",
+  "created_at_utc": "2026-05-21T11:07:50.484644+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,13 +9,7 @@
     "mps_available": true
   },
   "requested_stages": [
-    "data",
-    "scale",
-    "train",
-    "diagnose",
-    "morse",
-    "render",
-    "metrics"
+    "render"
   ],
   "cell": {
     "cell_index": 0,
@@ -25,7 +19,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "8951f32fdea0ece82033f4a490b50f428645013750c098ed6b1bae4c40b5c872",
+  "config_hash": "4af5d598966df52a2619bae14205deb2b8134b2cddf0eb2182fe965c652cb22f",
   "config": {
     "system": {
       "name": "leslie_contraction",
@@ -121,7 +115,9 @@
       "padding": true,
       "box_map_backend": "auto",
       "max_table_points": 300000000,
-      "precompute_batch_points": "auto"
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000
     },
     "paths": {
       "data_dir": "data/leslie_contraction",

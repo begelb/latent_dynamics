@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 
+from pathlib import Path
+
 import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 
 PALETTE: list[str] = [
     "#FFB000",
@@ -39,3 +42,28 @@ def apply_paper_style() -> None:
 def color_for(label: int) -> str:
     """Return the palette color assigned to a Morse-set label."""
     return PALETTE[int(label) % len(PALETTE)]
+
+
+def save_figure(
+    fig: Figure,
+    path: str | Path,
+    *,
+    formats: tuple[str, ...] = ("pdf", "png"),
+    close: bool = False,
+    **savefig_kwargs: object,
+) -> list[Path]:
+    """Save ``fig`` once per format, reusing ``path``'s stem.
+
+    Paper figures are vector-first: a ``.pdf`` is always written alongside the
+    raster ``.png``. ``path`` may carry any suffix (or none); the stem is reused
+    for each format. Returns the written paths in ``formats`` order.
+    """
+    path = Path(path)
+    written: list[Path] = []
+    for fmt in formats:
+        out_path = path.with_suffix(f".{fmt}")
+        fig.savefig(out_path, **savefig_kwargs)
+        written.append(out_path)
+    if close:
+        plt.close(fig)
+    return written

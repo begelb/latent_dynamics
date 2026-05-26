@@ -13,6 +13,7 @@ from pathlib import Path
 import pytest
 
 from latentdynamics.config import load_config
+from latentdynamics.training import has_legacy_checkpoint, has_new_checkpoint
 
 CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
 
@@ -197,3 +198,14 @@ def test_resolved_arch_matches_snapshot(rel_path: str) -> None:
         assert component.out_activation == component_expected["out_activation"], (
             f"{rel_path} {component_name}: out_activation mismatch: got {component.out_activation!r}, expected {component_expected['out_activation']!r}"
         )
+
+
+def test_checkpoint_presence_requires_nonempty_files(tmp_path: Path) -> None:
+    """Zero-byte upload placeholders must not count as loadable checkpoints."""
+    model_dir = tmp_path / "models"
+    model_dir.mkdir()
+    for name in ("encoder.pt", "dynamics.pt", "decoder.pt", "autoencoder.pt", "autoencoder.json"):
+        (model_dir / name).write_bytes(b"")
+
+    assert not has_legacy_checkpoint(model_dir)
+    assert not has_new_checkpoint(model_dir)

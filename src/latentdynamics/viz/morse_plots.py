@@ -81,7 +81,7 @@ def render_morse_sets(
     formats: Sequence[str] = ("pdf", "png"),
     fontsize: int = 20,
     palette: Sequence[str] = PALETTE,
-    labels: tuple[str, str] = ("$x_1$", "$x_2$"),
+    labels: tuple[str, str] = ("$z_1$", "$z_2$"),
 ) -> list[Path]:
     """Render the Morse sets to one file per format using CMGDB's plotter."""
     out = Path(out_dir)
@@ -382,7 +382,6 @@ def _plot_morse_sets_2d(
         fig, ax = plt.subplots(figsize=(8, 7))
     else:
         fig = ax.figure
-    seen: set[int] = set()
     for box_lx, box_ly, box_ux, box_uy, lbl in zip(lx, ly, ux, uy, lbls, strict=False):
         rect = mpatches.Rectangle(
             (box_lx, box_ly),
@@ -390,10 +389,8 @@ def _plot_morse_sets_2d(
             box_uy - box_ly,
             facecolor=palette[lbl % len(palette)],
             edgecolor="none",
-            label=f"Morse set {lbl}" if lbl not in seen else None,
         )
         ax.add_patch(rect)
-        seen.add(lbl)
 
     xlim, ylim = _adaptive_2d_morse_set_limits(lx, ly, ux, uy, bounds_lower, bounds_upper)
     ax.set_xlim(*xlim)

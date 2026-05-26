@@ -36,8 +36,9 @@ Each contract has the following fixed sections:
    - `scratch-only` (no preserved paper run; needs `--stages all`);
    - `blocked-by-empty-checkpoints`;
    - `blocked-no-source` (training script not in any archive).
-4. **Reproduction commands** — both the read-only replay command and the
-   AMAREL `--stages all` command.
+4. **Reproduction commands** — the read-only replay command plus any validated
+   fresh-run or AMAREL command. If fresh reproduction needs a writable copy,
+   say that explicitly.
 5. **Expected scientific output** — number of Morse sets, Hasse edges,
    Conley indices, and the metrics.json fields that should be present.
 6. **Hyperparameter audit** — table of `archive value` vs `YAML value`
@@ -54,23 +55,23 @@ graph.
 
 ## Decisions captured by the contracts
 
-- `leslie3d_spurious` is the only paper figure that the new package
-  reproduces exactly today (legacy 3-file checkpoint; CMGDB DOT/CSV
-  identical to brittany's archive).
+- `leslie3d_spurious` reproduces exactly today (legacy 3-file checkpoint;
+  CMGDB DOT/CSV identical to brittany's archive).
 - `leslie_contraction` is the legacy config id for the 10D Embedded Leslie
   example: a 2D Leslie/Ricker map embedded in 10D with eight contracting tail
   coordinates. It and `leslie3d_success` now point to Patrick's archived paper
   artifacts under `archive/patrick/Leslie10D/` and
-  `archive/patrick/Leslie3D/`. Their current configs remain fresh-run
-  reproduction paths because Patrick's original training scripts/raw CSVs are
-  not archived.
-- `chafee_infante` has a retrained seed_0 in `code/output/`; the diagnose
-  stage shows rich latent dynamics, but its Morse graph still needs CMGDB rerun
-  with the right bounds.
-- `coral_basic`, `coral_data_scaling`, `coral_adaptive` cannot be
-  replayed because the per-seed checkpoints in the `code/replay_sources/coral/`
-  tree are 0-byte placeholders; fresh runs go via the
-  `configs/scratch/coral_*.yaml` siblings to keep the original tree
-  intact.
+  `archive/patrick/Leslie3D/`. Their current configs are read-only replay
+  paths; Patrick's original training scripts/raw CSVs are still not archived,
+  so fresh exact reproduction remains incomplete.
+- `chafee_infante` has Marcio's data converted into the unified CSV layout and
+  now uses Marcio's CMGDB parameters. Exact replay is still blocked because the
+  archived state_dict needs conversion into the current checkpoint structure
+  and the raw CMGDB DOT/CSV artifacts are not archived.
+- `coral_basic`, `coral_data_scaling`, `coral_adaptive` are read-only replay
+  configs over Brittany's preserved tree. Replay is partial: `train_500` is
+  blocked by zero-byte checkpoints, `train_100` has selected usable seeds,
+  `train_2000` has all seeds, adaptive M = 100/200/300 has all seeds, and the
+  remaining coral cells are blocked by zero-byte checkpoint/MG artifacts.
 - Patrick's `Leslie10D` and `Leslie3D` checkpoints/CMGDB artifacts are
   archived, but the original training scripts/raw CSVs are still missing.

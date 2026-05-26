@@ -132,6 +132,7 @@ def run(
                 out_dir=morse_dir,
                 bounds=bounds,
                 max_vertices=cfg.cmgdb.roa_max_vertices,
+                collapse_to_lca=cfg.cmgdb.collapse_roa_to_lca,
             )
 
     if verbose:
@@ -156,6 +157,7 @@ def run(
                 f"box_map_backend: {cfg.cmgdb.box_map_backend}",
                 f"compute_roa: {cfg.cmgdb.compute_roa}",
                 f"roa_max_vertices: {cfg.cmgdb.roa_max_vertices}",
+                f"collapse_roa_to_lca: {cfg.cmgdb.collapse_roa_to_lca}",
                 f"bounds_source: {bounds_source}",
                 f"duration_minutes: {duration_s / 60.0:.4f}",
             ]

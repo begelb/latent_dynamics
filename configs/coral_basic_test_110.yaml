@@ -1,11 +1,3 @@
-# Loss-weight test 110 on coral_basic. dim X > dim Z (13 -> 1) -- the largest
-# codimension gap among the test_110 ablations, and the regime in which the
-# .tex counterexample most directly applies. Architecture and training scope
-# match configs/chafee_infante.yaml; data generation matches what the existing
-# coral CSVs provide (n_iterations=20, sampling=sobol, low_dims=1), so
-# n_iterations and the train-size list use coral's defaults rather than
-# chafee's. CMGDB subdiv stays at the coral baseline 6/8/10.
-# Compare against configs/coral_basic.yaml ([10,10,1] weights).
 system:
   name: coral
   params: {}
@@ -39,8 +31,6 @@ training:
   scheduler_min_lr: 0.000001
 
 data:
-  # Pre-built coral CSVs use sampling=sobol and n_iterations=20; we point at
-  # train_1000.csv to roughly match chafee's 1000-orbit scale.
   sampling_method: sobol
   scaling: minmax
   n_samples_train: [5000]

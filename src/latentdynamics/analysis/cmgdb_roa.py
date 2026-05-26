@@ -19,17 +19,30 @@ from .regions_of_attraction import MorseGraph
 EXACT_ROA_FILENAME = "regions_of_attraction_exact.npz"
 BOUNDARY = -1
 ESCAPE = -2
+# Sentinel for a cell that reverse-reaches more than one minimal Morse set
+# when the LCA collapse is disabled. The full set lives in ``reach_mask``.
+MULTI = -3
 
 
 @dataclass(frozen=True)
 class CellROA:
-    """Per-CMGDB-cell RoA labels plus enough geometry metadata to render them."""
+    """Per-CMGDB-cell RoA labels plus enough geometry metadata to render them.
+
+    ``reach_mask`` and ``minimal_order`` expose the full reachable-minimal set
+    per cell: bit ``i`` of ``reach_mask[c]`` is set iff minimal Morse node
+    ``minimal_order[i]`` reverse-reaches cell ``c``. They are populated by
+    :func:`compute_exact_roa` regardless of whether the LCA collapse ran, so a
+    caller can recover the set or re-collapse later via
+    :func:`collapse_roa_to_lca`.
+    """
 
     box_roa: np.ndarray
     bounds_lower: np.ndarray | None = None
     bounds_upper: np.ndarray | None = None
     grid_shape: np.ndarray | None = None
     boxes: np.ndarray | None = None
+    reach_mask: np.ndarray | None = None
+    minimal_order: np.ndarray | None = None
 
 
 def _morse_cell_sets(cmgdb_morse_graph, morse_dag: MorseGraph) -> dict[int, np.ndarray]:
@@ -123,6 +136,30 @@ def _collect_boxes(cmgdb_morse_graph, n_vertices: int, *, max_vertices: int) -> 
     return np.asarray(rows, dtype=np.float64)
 
 
+def _collapse_multi(
+    box_roa: np.ndarray,
+    reach_mask: np.ndarray,
+    minimal_order,
+    morse_dag: MorseGraph,
+) -> np.ndarray:
+    """Replace :data:`MULTI` cells in ``box_roa`` (in place) with the Morse-poset
+    LCA of their reachable-minimal set, falling back to :data:`BOUNDARY` when the
+    DAG admits no LCA. Bit ``i`` of ``reach_mask`` corresponds to
+    ``minimal_order[i]``. Cells that are not :data:`MULTI` are left untouched.
+    """
+    multi_cells = np.flatnonzero(box_roa == MULTI)
+    if multi_cells.size == 0:
+        return box_roa
+    order = [int(m) for m in minimal_order]
+    masks = reach_mask[multi_cells]
+    for mv in np.unique(masks):
+        reached = [m for i, m in enumerate(order) if int(mv) & (1 << i)]
+        lca = morse_dag.lca_of_minimals(frozenset(reached))
+        cells = multi_cells[masks == mv]
+        box_roa[cells] = int(lca) if lca is not None else BOUNDARY
+    return box_roa
+
+
 def compute_exact_roa(
     map_graph,
     cmgdb_morse_graph,
@@ -130,12 +167,20 @@ def compute_exact_roa(
     *,
     bounds: LatentBounds | None = None,
     max_box_geometry_vertices: int = 2_000_000,
+    collapse_to_lca: bool = True,
 ) -> CellROA:
     """Compute exact cell labels on CMGDB's ``MapGraph``.
 
     Other recurrent Morse sets are blockers for each minimal target, so a
     spurious multivalued edge leaving a recurrent set does not pull that set,
     or its upstream transient structure, into a lower attractor's RoA.
+
+    When ``collapse_to_lca`` is true (default), a cell that reverse-reaches
+    several minima is labelled with the Morse-poset LCA of that set (the
+    saddle/source governing the basin boundary). When false, such cells are
+    left as :data:`MULTI`; the full reachable-minimal set is always available
+    in the returned ``reach_mask``/``minimal_order`` and can be collapsed later
+    via :func:`collapse_roa_to_lca`.
     """
     n_vertices = int(map_graph.num_vertices())
     morse_cells = _morse_cell_sets(cmgdb_morse_graph, morse_dag)
@@ -175,18 +220,19 @@ def compute_exact_roa(
     for minimal in minimal_sorted:
         single = reach_mask == bit_of[minimal]
         box_roa[single] = minimal
-    # Multi-basin cells: replace with the Morse-poset LCA of their reachable
-    # minimal set when the DAG admits one; otherwise fall back to BOUNDARY.
+    # Multi-basin cells: mark them MULTI; the full reachable-minimal set stays
+    # in ``reach_mask``. The optional LCA collapse below (or a later
+    # collapse_roa_to_lca call) turns MULTI into a single label.
     multi_mask_values = np.unique(reach_mask[~np.isin(reach_mask, list(bit_of.values()) + [np.uint64(0)])])
-    for mv in multi_mask_values:
-        reached: list[int] = [m for m in minimal_sorted if int(mv) & int(bit_of[m])]
-        lca = morse_dag.lca_of_minimals(frozenset(reached))
-        cells = reach_mask == mv
-        box_roa[cells] = int(lca) if lca is not None else BOUNDARY
+    if multi_mask_values.size:
+        box_roa[np.isin(reach_mask, multi_mask_values)] = MULTI
 
     owned = recurrent_owner != ESCAPE
     box_roa[owned] = recurrent_owner[owned]
     box_roa[recurrent_conflict] = BOUNDARY
+
+    if collapse_to_lca:
+        _collapse_multi(box_roa, reach_mask, minimal_sorted, morse_dag)
 
     dim = int(bounds.dim) if bounds is not None else None
     grid_shape = _infer_uniform_grid_shape(n_vertices, dim) if dim is not None else None
@@ -204,7 +250,26 @@ def compute_exact_roa(
         bounds_upper=None if bounds is None else np.asarray(bounds.upper, dtype=np.float64),
         grid_shape=grid_shape,
         boxes=boxes,
+        reach_mask=reach_mask,
+        minimal_order=np.asarray(minimal_sorted, dtype=np.int32),
     )
+
+
+def collapse_roa_to_lca(roa: CellROA, morse_dag: MorseGraph) -> np.ndarray:
+    """Collapse :data:`MULTI` cells to the Morse-poset LCA of their minimal set.
+
+    This is the optional post-processing that turns an uncollapsed
+    :class:`CellROA` (``collapse_to_lca=False``) into the single-label array
+    that :func:`compute_exact_roa` produces by default. Cells that are not
+    :data:`MULTI` are returned unchanged.
+    """
+    if roa.reach_mask is None or roa.minimal_order is None:
+        raise ValueError(
+            "collapse_roa_to_lca requires reach_mask and minimal_order; "
+            "recompute with compute_exact_roa to populate them"
+        )
+    out = np.array(roa.box_roa, dtype=np.int32, copy=True)
+    return _collapse_multi(out, roa.reach_mask, roa.minimal_order, morse_dag)
 
 
 def save_exact_roa(roa: CellROA, out_dir: str | Path) -> Path:
@@ -231,6 +296,10 @@ def save_exact_roa(roa: CellROA, out_dir: str | Path) -> Path:
     }
     if roa.boxes is not None:
         payload["boxes"] = np.asarray(roa.boxes, dtype=np.float64)
+    if roa.reach_mask is not None:
+        payload["reach_mask"] = np.asarray(roa.reach_mask, dtype=np.uint64)
+    if roa.minimal_order is not None:
+        payload["minimal_order"] = np.asarray(roa.minimal_order, dtype=np.int32)
     np.savez_compressed(path, **payload)
     return path
 
@@ -241,12 +310,16 @@ def load_exact_roa(path: str | Path) -> CellROA:
         bounds_upper = data["bounds_upper"]
         grid_shape = data["grid_shape"]
         boxes = data["boxes"] if "boxes" in data.files else None
+        reach_mask = data["reach_mask"] if "reach_mask" in data.files else None
+        minimal_order = data["minimal_order"] if "minimal_order" in data.files else None
         return CellROA(
             box_roa=np.asarray(data["box_roa"], dtype=np.int32),
             bounds_lower=None if bounds_lower.size == 0 else np.asarray(bounds_lower, dtype=np.float64),
             bounds_upper=None if bounds_upper.size == 0 else np.asarray(bounds_upper, dtype=np.float64),
             grid_shape=None if grid_shape.size == 0 else np.asarray(grid_shape, dtype=np.int64),
             boxes=None if boxes is None else np.asarray(boxes, dtype=np.float64),
+            reach_mask=None if reach_mask is None else np.asarray(reach_mask, dtype=np.uint64),
+            minimal_order=None if minimal_order is None else np.asarray(minimal_order, dtype=np.int32),
         )
 
 
@@ -258,6 +331,7 @@ def compute_and_save_exact_roa(
     out_dir: str | Path,
     bounds: LatentBounds,
     max_vertices: int,
+    collapse_to_lca: bool = True,
 ) -> Path:
     n_vertices = int(map_graph.num_vertices())
     if n_vertices > max_vertices:
@@ -272,5 +346,6 @@ def compute_and_save_exact_roa(
         morse_dag,
         bounds=bounds,
         max_box_geometry_vertices=max_vertices,
+        collapse_to_lca=collapse_to_lca,
     )
     return save_exact_roa(roa, out_dir)

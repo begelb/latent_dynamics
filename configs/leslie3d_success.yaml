@@ -1,6 +1,3 @@
-# Patrick's non-spurious Leslie 3D paper case. The archived paper artifacts live
-# under archive/patrick/Leslie3D; the original training script/raw CSVs are not
-# archived, so this config is still the fresh-run reproduction path.
 system:
   name: leslie3d
   params:
@@ -11,7 +8,6 @@ system:
     survival_p2: 0.7
 
 arch:
-  # From archive/patrick/Leslie3D/models/*.pt.
   high_dims: 3
   low_dims: 2
   encoder:
@@ -33,8 +29,6 @@ training:
   epochs: 1000
   patience: 100
   lr_patience: 10
-  # Recovered from archived train/test loss logs:
-  # total = 100*reconstruction + 10*prediction + 20*semiconjugacy.
   loss_weights: [100, 10, 20]
   gradient_clip_norm: 1.0
   scheduler_factor: 0.1
@@ -44,7 +38,6 @@ training:
 data:
   sampling_method: uniform
   scaling: minmax
-  # Paper run used D(20, 10000); archived scaler size implies an 80/20 split.
   n_samples_train: 8000
   n_samples_val: 2000
   n_iterations: 20
@@ -54,7 +47,6 @@ data:
   train_files: null
 
 cmgdb:
-  # From archive/patrick/Leslie3D/mg_params_log.txt.
   subdiv_init: 25
   subdiv_min: 28
   subdiv_max: 29
@@ -64,15 +56,13 @@ cmgdb:
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  # adaptive_precomputed table at d=2, subdiv_max=29 -> (2^15+1)^2 ~= 1.07e9 corners
-  # (~17 GB float64 with out_dim=2); requires sufficient host RAM.
   max_table_points: 1200000000
 
 paths:
   data_dir: data/leslie3d_success
-  output_dir: output/leslie3d_success
-  scaler_dir_override: null
-  flat_scaler: false
-  read_only: false
+  output_dir: replay_sources/leslie3d_success
+  scaler_dir_override: replay_sources/leslie3d_success/data/scalers
+  flat_scaler: true
+  read_only: true
 
-seeds: [0]
+seeds: []

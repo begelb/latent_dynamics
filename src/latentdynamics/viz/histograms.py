@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
-from .style import PALETTE, apply_paper_style
+from .style import PALETTE, apply_paper_style, save_figure
 
 
 def plot_final_population_histogram(
@@ -53,8 +53,7 @@ def plot_final_population_histogram(
         ax.set_ylim(top=ymax)
 
     fig.tight_layout()
-    fig.savefig(save_path)
-    plt.close(fig)
+    save_figure(fig, save_path, close=True)
     return save_path
 
 

@@ -1,6 +1,3 @@
-# Loss-weight test 1101 on Marcio's Chafee-Infante PDE paper case.
-# This keeps the Chafee architecture and fixed latent CMGDB bounds but adds
-# the ED(GE)-GE cycle consistency term while leaving direct L3 disabled.
 system:
   name: chafee_infante
   params:

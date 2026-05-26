@@ -21,17 +21,19 @@ python3.13 -m venv .venv
 
 The `reproduce_paper.py` script at the repository root defaults to
 `render,metrics`, so it reads saved DOT/CSV/checkpoint artifacts and does not
-invoke training or CMGDB. Use `--stages all` only when you intend to retrain
-and recompute. The `data` stage is non-destructive: existing CSV+metadata
-pairs are kept as source artifacts, and adaptive coral datasets are validated
-as precomputed inputs.
+invoke training or CMGDB. Some paper figures are still partial because their
+archives lack non-empty checkpoints or raw CMGDB DOT/CSV files; the contracts
+below state which commands are expected to work today. Use `--stages all` only
+when you intend to retrain and recompute. The `data` stage is non-destructive:
+existing CSV+metadata pairs are kept as source artifacts, and adaptive coral
+datasets are validated as precomputed inputs.
 
 ```bash
-# Render/metrics for all configured figures from saved artifacts:
-python reproduce_paper.py
+# Render/metrics for one replay-ready figure:
+python reproduce_paper.py --only fig_leslie3d_spurious
 
-# One figure:
-python reproduce_paper.py --only fig_coral_basic
+# One known-good coral sweep cell:
+python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 
 # Full retrain/recompute for one seed:
 python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
@@ -45,13 +47,13 @@ For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 
 | Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
 | ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | 10D Embedded Leslie; Patrick `Leslie10D` archive located; source script/raw CSVs missing |
+| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | read-only replay from Patrick `Leslie10D`; source script/raw CSVs missing |
 | Fig. 1.214        | `fig_leslie3d_spurious`        | `configs/leslie3d_spurious.yaml`    | [contract](figure_contracts/leslie3d_spurious.md)        | replay-ready (legacy 3-file checkpoint); read_only |
-| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | Patrick non-spurious `Leslie3D` archive located; source script/raw CSVs missing |
-| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | training is OK; CMGDB rerun needed for parity |
-| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | 1D Morse, 13D coral; replay blocked by 0-byte checkpoints |
-| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | 180-cell sweep; replay blocked, scratch path ready |
-| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial replay (M = 100, 200, 300); 400, 500 blocked |
+| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | read-only replay from Patrick `Leslie3D`; source script/raw CSVs missing |
+| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
+| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
+| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only Brittany replay: selected `train_100`, complete `train_2000` |
+| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial read-only Brittany replay: M = 100, 200, 300; 400, 500 blocked |
 
 For per-figure expected outputs, hyperparameter audits with archive
 line citations, status, and verification recipes, see the contracts
@@ -188,7 +190,7 @@ change the `BoxMap` or `ComputeConleyMorseGraph` signatures. The pin is in
 ## Legacy artifacts in `code/`
 
 The pre-restructure code lives under `code/legacy/` and `../archive/`.
-Brittany's three-file pickled `nn.Module` checkpoints are loadable without
+Archived three-file pickled `nn.Module` checkpoints are loadable without
 rewriting them through `latentdynamics.training.load_legacy_checkpoint`.
 `scripts/migrate_legacy_checkpoints.py` remains available if you want a new
 state_dict + sidecar copy for separate analysis.
@@ -196,11 +198,11 @@ state_dict + sidecar copy for separate analysis.
 ## Map of figures to specific commands
 
 ```bash
-# Basic sanity on a laptop (~20 minutes per experiment without sweeps):
-python reproduce_paper.py --only fig_coral_basic --max-seeds 1
-python reproduce_paper.py --only fig_chafee_infante --max-seeds 1
+# Basic replay sanity on a laptop:
+python reproduce_paper.py --only fig_leslie3d_spurious
+python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 
-# Cluster-scale full reproduction:
-sbatch slurm/coral_data_scaling.sbatch    # not yet present; M6+
-python reproduce_paper.py                  # everything sequentially
+# Cluster-scale jobs use the generic array template after checking the cell count:
+python pipeline.py --config configs/coral_data_scaling.yaml --dry-run
+# Then submit slurm/pipeline_array.sbatch with the reported EXPECTED_CELLS.
 ```

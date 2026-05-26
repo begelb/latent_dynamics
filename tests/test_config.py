@@ -76,6 +76,19 @@ class TestSchema:
         assert p.figures_dir == tmp_path / "out" / "figures"
         assert p.morse_dir == tmp_path / "out" / "MG"
 
+    def test_flat_scaler_path_accepts_legacy_uncompressed_name(self, tmp_path):
+        scaler_dir = tmp_path / "legacy_scaler"
+        scaler_dir.mkdir()
+        (scaler_dir / "scaler").write_bytes(b"legacy")
+        p = PathsConfig(
+            data_dir=tmp_path / "data",
+            output_dir=tmp_path / "out",
+            scaler_dir_override=scaler_dir,
+            flat_scaler=True,
+        )
+
+        assert p.scaler_path("train") == scaler_dir / "scaler"
+
     def test_high_dims_must_exceed_low_dims(self):
         with pytest.raises(ValueError):
             ExperimentConfig.model_validate(

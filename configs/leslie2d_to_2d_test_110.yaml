@@ -1,18 +1,10 @@
-# 2D ambient -> 2D latent Leslie test variant matched to the architecture,
-# training scale, data volume, and CMGDB settings used in the current
-# Chafee-Infante config for comparison.
-#
-# Loss-weight test 110: reconstruct x_t + reconstruct x_tau, no latent
-# dynamics term.
-# This variant reuses the original Chafee-like Leslie data; only training
-# losses and output artifacts differ across the 011/101/110 tests.
 system:
   name: leslie_contraction
   params:
     th1: 20.0
     th2: 20.0
     survival_p1: 0.7
-    contraction: 0.25  # unused for 2D
+    contraction: 0.25
     lower_bounds: [0.0, 0.0]
     upper_bounds: [90.0, 70.0]
 

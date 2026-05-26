@@ -9,7 +9,7 @@ Paper Fig. 1.469: how the framework's quality scales with training-set size on t
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/replay_sources/coral/train_<N>/seed_*/`. Same incomplete-upload state as `coral_basic`: per-seed checkpoints and `MG/morse_graph` files are 0 bytes. Some `MG/morse_sets` CSV files are non-empty.
+Brittany. Preserved partially under `code/replay_sources/coral/train_<N>/seed_*/`. The active replay mirror has a usable subset: `train_100` seeds `0, 1, 10, 11, 12, 13, 15, 17, 18, 19` and all `train_2000` seeds. The `train_200`, `train_500`, `train_1000`, and `train_5000` cells currently have zero-byte checkpoints and/or Morse graph artifacts.
 
 - training script:    `archive/brittany/main_scripts/train.py`
 - CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
@@ -19,27 +19,20 @@ Brittany. Preserved partially under `code/replay_sources/coral/train_<N>/seed_*/
 
 ## Status
 
-**blocked-by-empty-checkpoints** for replay; **scratch-only** for fresh runs.
+**partial read-only replay**. `configs/coral_data_scaling.yaml` points at Brittany's preserved tree and should not be used for full recomputation. The current mirror can replay the usable `train_100` subset and all `train_2000` seeds; the other sizes require source-artifact recovery or a deliberate fresh recompute in a writable copy.
 
 ## Reproduction commands
 
-180-cell sweep on AMAREL (6 sizes × 30 seeds):
+Replay one known-good cell (`train_2000`, seed 0):
 
 ```bash
-python pipeline.py --config configs/scratch/coral_data_scaling.yaml --stages data,scale --skip-completed
-CONFIG=configs/scratch/coral_data_scaling.yaml STAGES=train,diagnose,morse EXPECTED_CELLS=180 \
-  sbatch --array=0-179 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
-  slurm/pipeline_array.sbatch
-
-# After the array completes:
-python pipeline.py --config configs/scratch/coral_data_scaling.yaml --stages render,metrics --skip-completed
+python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 ```
 
-Local one-cell smoke check (no full sweep):
-
-```bash
-python pipeline.py --config configs/scratch/coral_data_scaling.yaml --stages all --cell-index 0 --expected-cells 180
-```
+Replay all currently usable cells by selecting only the non-empty source
+artifact cells. A full unfiltered run will fail when it reaches zero-byte
+artifact cells. Fresh recomputation requires a writable YAML copy with
+`paths.output_dir` outside `replay_sources/` and `paths.read_only: false`.
 
 ## Expected scientific output
 
@@ -49,19 +42,19 @@ Aggregate: a `data_scaling_success_rates.json` summarising per-N and per-fixed-p
 
 ## Hyperparameter audit
 
-Identical to `coral_basic.md` except `data.n_samples_train: [100, 200, 500, 1000, 2000, 5000]` and `data.sampling_method: sobol`.
-
-Drift: same as `coral_basic` — `cmgdb.subdiv_max` defaults to 10 in our YAML vs 12 in the archive `mg_params_log.txt` files.
+Identical to `coral_basic.md` except `data.n_samples_train: [100, 200, 500, 1000, 2000, 5000]` and `data.sampling_method: sobol`. The CMGDB settings now match Brittany's archived values: `subdiv_init=8`, `subdiv_min=8`, `subdiv_max=12`.
 
 ## Verification
 
-After full sweep:
+After replaying a usable cell:
 
 ```bash
-python pipeline.py --config configs/scratch/coral_data_scaling.yaml --stages metrics
+python pipeline.py --config configs/coral_data_scaling.yaml --stages metrics --cell-index 120 --expected-cells 180
 # Aggregate metrics.json (one per cell) should let us reproduce the
 # paper's success-rate curve: per-N count of seeds whose three encoded
 # fixed points (a0, a1, r) fall in three distinct Morse sets.
 ```
 
-If the success rate at the smaller `N` values disagrees with the paper, investigate the diagnose-stage outputs first (`frac_unconverged`) before re-tuning training; the paper's success rates implicitly include training failures, not just CMGDB-config drift.
+The complete success-rate curve remains incomplete until the zero-byte
+`train_200`, `train_500`, `train_1000`, and `train_5000` source artifacts are
+recovered or recomputed.

@@ -1,6 +1,3 @@
-# Loss-weight test 1101 on Patrick's non-spurious Leslie 3D paper case.
-# dim X > dim Z (3 -> 2). Uses the success parameter set
-# th=(19.6, 23.68, 23.68).
 system:
   name: leslie3d
   params:
@@ -61,8 +58,6 @@ cmgdb:
   box_map_backend: auto
   max_table_points: 300000000
   precompute_batch_points: auto
-  compute_roa: true
-  roa_max_vertices: 50000000
 
 paths:
   data_dir: data/leslie3d_success_test_1101

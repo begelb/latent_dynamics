@@ -1,10 +1,3 @@
-# Loss-weight test 110 on Patrick's full 10D Embedded Leslie paper case.
-# dim X > dim Z (10 -> 2) with a transverse contraction (lambda=0.25) -- this
-# is the setting closest in spirit to the .tex counterexample (Section 3,
-# Example 1'), so it is the cleanest stress test of whether L1+L2 alone can
-# carry the model. Architecture, training, and data-generation scope match
-# configs/chafee_infante.yaml; only system, dims and CMGDB subdivision differ.
-# Compare against configs/leslie_contraction.yaml ([100,10,20] weights).
 system:
   name: leslie_contraction
   params:

@@ -16,7 +16,6 @@ import joblib
 import numpy as np
 import torch
 
-from ..analysis.regions_of_attraction import MorseGraph
 from ..config import ExperimentConfig
 from ..training import has_legacy_checkpoint, has_new_checkpoint, load_any_checkpoint
 from ..viz import render_morse_from_files
@@ -152,13 +151,8 @@ def _render_roa_overlay(
         return None
     exact_artifact = dot_path.with_name(EXACT_ROA_FILENAME)
     if exact_artifact.exists():
-        n_min = len(MorseGraph.from_dot(dot_path).minimal)
-        title = (
-            f"{cfg.system.name} — exact regions of attraction "
-            f"({n_min} minimal Morse set{'s' if n_min != 1 else ''})"
-        )
         out_path = Path(out_dir) / "MG" / "regions_of_attraction_exact.png"
-        return render_exact_roa_artifact(exact_artifact, dot_path, out_path, title=title)
+        return render_exact_roa_artifact(exact_artifact, dot_path, out_path)
 
     model_dir = cfg.paths.output_dir / "models"
     if not (has_legacy_checkpoint(model_dir) or has_new_checkpoint(model_dir)):
@@ -168,22 +162,14 @@ def _render_roa_overlay(
     model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
     model.to(device).eval()
 
-    n_min = len(MorseGraph.from_dot(dot_path).minimal)
-    resolution = 128
-    title = (
-        f"{cfg.system.name} — diagnostic regions of attraction "
-        f"({n_min} minimal Morse set{'s' if n_min != 1 else ''}, "
-        f"{resolution}×{resolution} grid)"
-    )
     out_path = Path(out_dir) / "MG" / "regions_of_attraction.png"
     return render_cell_graph_roa(
         dot_path,
         csv_path,
         model.latent_map,
         out_path,
-        resolution=resolution,
+        resolution=128,
         device=str(device),
-        title=title,
     )
 
 

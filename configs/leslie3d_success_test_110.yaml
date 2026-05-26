@@ -1,7 +1,3 @@
-# Loss-weight test 110 on Patrick's non-spurious Leslie 3D paper case.
-# dim X > dim Z (3 -> 2). Architecture, training, and data-generation scope
-# match configs/chafee_infante.yaml; only system, dims and CMGDB subdivision differ.
-# Compare against configs/leslie3d_success.yaml ([100,10,20] weights).
 system:
   name: leslie3d
   params:

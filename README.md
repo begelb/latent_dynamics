@@ -47,13 +47,13 @@ verification recipes live in `docs/figure_contracts/`.
 
 | Paper       | Section / Fig.            | Experiment id              | Config                              | Reproducibility status |
 | ----------- | ------------------------- | -------------------------- | ----------------------------------- | --- |
-| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_contraction`   | `configs/leslie_contraction.yaml`   | scratch path; archive checkpoint at `archive/patrick/Leslie10D/`, raw CSVs/script missing |
+| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_contraction`   | `configs/leslie_contraction.yaml`   | read-only replay from Patrick `Leslie10D`; raw CSVs/script missing for fresh reproduction |
 | 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_spurious`    | `configs/leslie3d_spurious.yaml`    | replay-ready (legacy 3-file checkpoint, `read_only`) |
-| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_success` | `configs/leslie3d_success.yaml` | scratch path; archive checkpoint at `archive/patrick/Leslie3D/` |
-| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | training reproduces; CMGDB rerun needed for parity |
-| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | replay blocked by 0-byte checkpoints; scratch path ready |
-| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | 180-cell sweep, replay blocked, scratch path ready |
-| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | partial replay (M = 100, 200, 300); 400, 500 blocked |
+| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_success` | `configs/leslie3d_success.yaml` | read-only replay from Patrick `Leslie3D`; raw CSVs/script missing for fresh reproduction |
+| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
+| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
+| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | partial read-only Brittany replay: selected `train_100`, complete `train_2000`; other sizes blocked |
+| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | partial read-only Brittany replay: M = 100, 200, 300; 400, 500 blocked |
 
 Hyperparameters in the configs are a superset of paper Tables 3, 4, 5
 (architecture, training, data), recovered either from the archived run logs or
@@ -94,7 +94,7 @@ code/
 │   ├── AMAREL.md                     # cluster + Slurm array workflow
 │   └── figure_contracts/             # one .md per paper figure, line-cited
 ├── configs/                          # one fully-explicit YAML per experiment
-│   └── scratch/                      # writable siblings for `--stages all`
+│   └── scratch/                      # local examples or user-created writable copies
 ├── src/latentdynamics/
 │   ├── systems/      # ground-truth f: LeslieContraction, LeslieModel3D, RedCoralModel, ChafeeInfante
 │   ├── sampling/     # uniform / Sobol / adaptive trajectory generation, scaling
@@ -156,19 +156,17 @@ default. This makes replay deterministic without dirtying the preserved trees.
 ../.venv/bin/pytest -m "not slow"            # ~2 s
 ../.venv/bin/pytest                           # full suite
 
-# Render every paper figure from saved artifacts (no CMGDB, no training):
-../.venv/bin/python reproduce_paper.py
-
-# One paper figure:
+# Render one replay-ready paper figure from saved artifacts (no CMGDB, no training):
 ../.venv/bin/python reproduce_paper.py --only fig_leslie3d_spurious
 
-# Read-only configs route derived outputs to replay/<name>/.
-../.venv/bin/python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
+# Read-only configs route derived outputs to replay/<name>/; select usable
+# coral cells until the zero-byte source artifacts are re-synced.
+../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 
-# Opt into a retrain/recompute (use scratch sibling for coral so the preserved
-# artifact tree stays intact):
+# Opt into a retrain/recompute. Chafee can be rerun from the unified config;
+# coral full recomputation is intentionally out of the default paper replay
+# path because it is a large sweep and Brittany's preserved tree is read-only.
 ../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
-../.venv/bin/python pipeline.py --config configs/scratch/coral_data_scaling.yaml --max-seeds 3
 ```
 
 Sweep configs decompose into `(train_file, seed)` cells, one per Slurm array

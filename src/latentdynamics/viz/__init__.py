@@ -26,7 +26,7 @@ from .morse_plots import (
     render_morse_sets_from_csv,
     save_morse_graph_artifacts,
 )
-from .style import PALETTE, PAPER_RCPARAMS, apply_paper_style, color_for
+from .style import PALETTE, PAPER_RCPARAMS, apply_paper_style, color_for, save_figure
 from .trajectory_plots import plot_latent_trajectory
 
 __all__ = [
@@ -36,6 +36,7 @@ __all__ = [
     "RenderedMorseFigures",
     "apply_paper_style",
     "color_for",
+    "save_figure",
     "emit_population_histogram",
     "plot_data_trajectories",
     "plot_final_population_histogram",

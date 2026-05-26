@@ -28,6 +28,10 @@ DEFAULT_BASENAME = "autoencoder"
 LEGACY_FILES = ("encoder.pt", "dynamics.pt", "decoder.pt")
 
 
+def _nonempty_file(path: Path) -> bool:
+    return path.is_file() and path.stat().st_size > 0
+
+
 def save_checkpoint(
     model: LatentDynamicsAutoencoder,
     arch: ArchConfig,
@@ -73,12 +77,14 @@ def load_checkpoint(
 
 def has_legacy_checkpoint(in_dir: str | Path) -> bool:
     in_path = Path(in_dir)
-    return all((in_path / name).is_file() for name in LEGACY_FILES)
+    return all(_nonempty_file(in_path / name) for name in LEGACY_FILES)
 
 
 def has_new_checkpoint(in_dir: str | Path, *, basename: str = DEFAULT_BASENAME) -> bool:
     in_path = Path(in_dir)
-    return (in_path / f"{basename}.pt").is_file() and (in_path / f"{basename}.json").is_file()
+    return _nonempty_file(in_path / f"{basename}.pt") and _nonempty_file(
+        in_path / f"{basename}.json"
+    )
 
 
 def _legacy_module_to_state_dict(

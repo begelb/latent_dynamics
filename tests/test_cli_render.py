@@ -79,12 +79,9 @@ def test_render_stage_passes_requested_device_to_roa_overlay(tmp_path, monkeypat
 
     captured: dict[str, str] = {}
 
-    def fake_render_cell_graph_roa(
-        _dot, _csv, _latent_map, out_path, *, resolution, device, title
-    ):
+    def fake_render_cell_graph_roa(_dot, _csv, _latent_map, out_path, *, resolution, device):
         captured["device"] = device
         captured["resolution"] = resolution
-        captured["title"] = title
         path = Path(out_path)
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_bytes(b"png")
@@ -96,7 +93,6 @@ def test_render_stage_passes_requested_device_to_roa_overlay(tmp_path, monkeypat
 
     assert captured["device"] == "mps"
     assert captured["resolution"] == 128
-    assert "diagnostic regions of attraction" in captured["title"]
     assert str(cfg.paths.output_dir / "MG" / "regions_of_attraction.png") in result["figures"]
 
 
@@ -121,10 +117,9 @@ def test_render_stage_prefers_exact_roa_artifact(tmp_path, monkeypatch):
 
     called: dict[str, Path] = {}
 
-    def fake_render_exact_roa_artifact(_artifact, _dot, out_path, *, title):
+    def fake_render_exact_roa_artifact(_artifact, _dot, out_path):
         called["artifact"] = Path(_artifact)
         called["out_path"] = Path(out_path)
-        called["title"] = title
         Path(out_path).parent.mkdir(parents=True, exist_ok=True)
         Path(out_path).write_bytes(b"png")
         return Path(out_path)
@@ -139,5 +134,4 @@ def test_render_stage_prefers_exact_roa_artifact(tmp_path, monkeypatch):
 
     assert called["artifact"] == cfg.paths.morse_dir / "regions_of_attraction_exact.npz"
     assert called["out_path"] == cfg.paths.output_dir / "MG" / "regions_of_attraction_exact.png"
-    assert "exact regions of attraction" in called["title"]
     assert str(called["out_path"]) in result["figures"]

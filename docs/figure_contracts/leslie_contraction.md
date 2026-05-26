@@ -27,27 +27,26 @@ script and raw train/test CSVs are still not archived.
 
 ## Status
 
-**archived paper artifacts located; training script/raw CSVs still missing**.
-The paper figure content should be sourced from `archive/patrick/Leslie10D/`.
-The YAML now records the recovered architecture, loss weights, dataset split,
-and CMGDB settings, but a fresh retrain is still not the original Patrick run
-until it passes the expected Morse-graph and tolerance checks.
+**replay-ready for archived paper artifacts; fresh exact reproduction is still
+incomplete**. `configs/leslie_contraction.yaml` is read-only and points at the
+Patrick artifact mirror under `code/replay_sources/leslie_contraction/`.
+Patrick's original training script and raw train/test CSVs are still missing,
+so a fresh retrain is not the original Patrick run until it passes the expected
+Morse-graph and tolerance checks.
 
-Diagnose on the current retrain: encoded extent `[1.08, 1.32]` (healthy), `latent_map` iteration does not converge after 200 steps. Same near-identity-latent regime as `leslie3d_success`.
+Earlier package retrains in `code/output/leslie_contraction/` are diagnostic
+only; they should not be treated as the paper source.
 
 ## Reproduction commands
 
 ```bash
-python pipeline.py --config configs/leslie_contraction.yaml --stages diagnose --max-seeds 1
+python pipeline.py --config configs/leslie_contraction.yaml --stages render,metrics
 ```
 
-Fresh retrain on AMAREL, after any remaining Patrick hyperparameters are filled
-in:
-
-```bash
-sbatch --array=0-0 --export=ALL,CONFIG=configs/leslie_contraction.yaml,STAGES=train,diagnose,morse,EXPECTED_CELLS=1 \
-  slurm/pipeline_array.sbatch
-```
+Fresh retrain remains a separate recovery task because Patrick's source data
+and training script are missing. Use a writable local copy of the YAML with
+`paths.output_dir` outside `replay_sources/` and `paths.read_only: false`
+before running `data,scale,train,diagnose,morse`.
 
 ## Expected scientific output
 
@@ -78,9 +77,9 @@ Paper figure shows four Morse sets in a chain `3 -> {2, 1, 0}` with Conley indic
 
 ## Verification
 
-After retrain (and once the architecture is reconciled with Patrick's source):
+Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie_contraction.yaml --stages diagnose --max-seeds 1
-# Expect frac_unconverged < 0.5 and n_distinct_limit_points >= 2 (two attractors + a saddle).
+python pipeline.py --config configs/leslie_contraction.yaml --stages render,metrics
+# The rendered Morse graph should preserve the four-node Patrick Hasse diagram.
 ```

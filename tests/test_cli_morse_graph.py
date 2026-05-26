@@ -110,6 +110,7 @@ def test_run_writes_exact_roa_when_enabled(
                 lower_bounds=[-1.0, -1.0],
                 upper_bounds=[1.0, 1.0],
                 compute_roa=True,
+                collapse_roa_to_lca=False,
             ),
         }
     )
@@ -155,6 +156,7 @@ def test_run_writes_exact_roa_when_enabled(
         out_dir,
         bounds,
         max_vertices,
+        collapse_to_lca,
     ):
         calls.append(
             (
@@ -164,6 +166,7 @@ def test_run_writes_exact_roa_when_enabled(
                 Path(out_dir),
                 bounds,
                 max_vertices,
+                collapse_to_lca,
             )
         )
         out = Path(out_dir) / "regions_of_attraction_exact.npz"
@@ -180,3 +183,4 @@ def test_run_writes_exact_roa_when_enabled(
     assert calls[0][1] is morse
     assert calls[0][2] == cfg.paths.morse_dir / "morse_graph"
     assert calls[0][3] == cfg.paths.morse_dir
+    assert calls[0][6] is False

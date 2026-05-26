@@ -16,36 +16,40 @@ Marcio. Self-contained reference implementation in `archive/marcio/scripts/`.
 - training script:    `archive/marcio/scripts/train_model.py`
 - CMGDB script:       `archive/marcio/scripts/compute_dynamics.py:25-30` (subdiv 10/14/28; bounds `[-3, 3] × [-2, 2]`)
 - weights:            `archive/marcio/scripts/ci_model_weights.pth` (single state_dict)
+- data:               `archive/marcio/scripts/train_data.csv` converted to `code/data/chafee_infante/{train,val}.csv` for the current pipeline; an exact header-added archive mirror also exists under `code/replay_sources/chafee_infante/data/`
+- rendered figures:   `archive/marcio/scripts/ci_morse_graph.pdf`, `archive/marcio/scripts/ci_morse_sets.pdf`
 
 ## Status
 
-**partial: scratch retrain produced an encoder with rich dynamics but a Morse graph that under-resolves it**.
+**partial: Marcio data and config values are matched, but exact replay is still
+blocked**. The converted train/val CSVs are in the expected artifact
+structure, and `configs/chafee_infante.yaml` now uses Marcio's CMGDB settings:
+`subdiv_init=10`, `subdiv_min=14`, `subdiv_max=28`, explicit bounds
+`[-3, -2] -> [3, 2]`, and `padding: false`.
 
-Diagnose on the current `output/chafee_infante/seed_0/`:
+Two source gaps remain: `ci_model_weights.pth` uses Marcio's original
+state_dict key names and still needs conversion to the current
+`autoencoder.pt` + `autoencoder.json` checkpoint format; Marcio's archive has
+rendered PDFs but not raw CMGDB DOT/CSV files, so exact replay requires a CMGDB
+rerun or recovery of those raw artifacts.
 
-- encoded extent `[1.40, 2.03]` (healthy spread)
-- `n_distinct_limit_points = 19` (rich attractor structure)
-- `frac_unconverged = 0.00`
-- but the saved `MG/morse_graph` reports a single Morse set `(x-1, 0, 0)`
-
-Cross-check verdict from the earlier retrain: `morse_underresolves`. The
-training is OK; rerunning CMGDB should use Marcio's archive parameters:
-`subdiv_init=10`, `subdiv_min=14`, `subdiv_max=28`, and explicit bounds
-`[-3, 3] × [-2, 2]`.
+Earlier package retrains in `code/output/chafee_infante/` are diagnostic only
+and should not be treated as the paper source.
 
 ## Reproduction commands
 
-Diagnose (no CMGDB):
+Inspect the current converted-data config without recomputing CMGDB:
 
 ```bash
 python pipeline.py --config configs/chafee_infante.yaml --stages diagnose --max-seeds 1
 ```
 
-Re-run CMGDB only with Marcio's archived settings (replaces the existing
-1-Morse-set output; long):
+After converting Marcio's `ci_model_weights.pth` into the current checkpoint
+format, rerun CMGDB with Marcio's archived settings (long):
 
 ```bash
-sbatch --array=0-0 --export=ALL,CONFIG=configs/chafee_infante.yaml,STAGES=morse,EXPECTED_CELLS=1 \
+CONFIG=configs/chafee_infante.yaml STAGES=morse EXPECTED_CELLS=1 \
+  sbatch --array=0-0 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
   slurm/pipeline_array.sbatch
 ```
 
@@ -88,8 +92,9 @@ Paper figure shows seven Morse sets: two attractors `(x-1, 0, 0)`, three saddles
 | cmgdb.upper_bounds          | [3, 2]                  | [3, 2]                 | compute_dynamics.py:30                                     | ✓     |
 | cmgdb.padding               | false                   | false                  | compute_dynamics.py:24                                     | ✓     |
 
-The training-side and CMGDB-side config values now match Marcio's archived
-scripts.
+The data, training-side hyperparameters, and CMGDB-side config values now match
+Marcio's archived scripts. Checkpoint conversion and raw CMGDB artifact
+recovery remain open.
 
 ## Verification
 

@@ -17,11 +17,12 @@ import numpy as np
 from matplotlib.collections import PatchCollection
 from matplotlib.colors import to_rgba
 from matplotlib.figure import Figure
-from matplotlib.patches import Patch, Rectangle
+from matplotlib.patches import Rectangle
 
 from ..analysis.cmgdb_roa import BOUNDARY, ESCAPE, CellROA, load_exact_roa
 from ..analysis.cell_graph import CellGraphROA, compute_cell_graph_roa
 from ..analysis.regions_of_attraction import BoxROATable, load_box_roa
+from .style import save_figure
 
 
 _BOUNDARY_COLOR = "#bbbbbb"
@@ -39,7 +40,6 @@ def plot_roa_overlay_cell_graph(
     *,
     roa_alpha: float = 0.35,
     morse_alpha: float = 0.95,
-    title: str | None = None,
 ) -> Figure:
     """Render basin (cell-graph RoA, low alpha) + Morse sets (full alpha)."""
     grid = cg.grid
@@ -92,32 +92,8 @@ def plot_roa_overlay_cell_graph(
 
     ax.set_xlim(grid.bounds_lo[0], grid.bounds_hi[0])
     ax.set_ylim(grid.bounds_lo[1], grid.bounds_hi[1])
-    ax.set_xlabel("z[0]")
-    ax.set_ylabel("z[1]")
-    if title is None:
-        n_min = len(mg.minimal)
-        title = (
-            f"Regions of attraction  ({n_min} minimal Morse set"
-            f"{'s' if n_min != 1 else ''}, grid {r}×{r})"
-        )
-    ax.set_title(title)
-
-    used_labels = sorted(
-        int(v) for v in np.unique(roa)
-        if v not in (CellGraphROA.ESCAPE, CellGraphROA.BOUNDARY)
-    )
-    handles = [
-        Patch(facecolor=mg.colors.get(n, "#888888"), edgecolor="black", label=f"Morse set {n}")
-        for n in used_labels
-    ]
-    if (cg.box_roa == CellGraphROA.BOUNDARY).any():
-        handles.append(Patch(facecolor=_BOUNDARY_COLOR, edgecolor="black", label="multi-basin"))
-    if (cg.box_roa == CellGraphROA.ESCAPE).any():
-        handles.append(Patch(facecolor="white", edgecolor="black", label="escape"))
-    ax.legend(
-        handles=handles, loc="center left", bbox_to_anchor=(1.02, 0.5),
-        fontsize=8, framealpha=0.85, title="Legend",
-    )
+    ax.set_xlabel("$z_1$")
+    ax.set_ylabel("$z_2$")
 
     fig.tight_layout()
     return fig
@@ -132,7 +108,6 @@ def render_cell_graph_roa(
     resolution: int = 128,
     bounds_padding: float = 0.05,
     device: str = "cpu",
-    title: str | None = None,
 ) -> Path:
     """One-shot: compute cell-graph RoA and save the plot."""
     cg = compute_cell_graph_roa(
@@ -144,11 +119,10 @@ def render_cell_graph_roa(
         device=device,
     )
     table = load_box_roa(morse_graph_dot, morse_sets_csv)
-    fig = plot_roa_overlay_cell_graph(cg, table, title=title)
+    fig = plot_roa_overlay_cell_graph(cg, table)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_path, dpi=140, bbox_inches="tight")
-    plt.close(fig)
+    save_figure(fig, out_path, dpi=140, bbox_inches="tight", close=True)
     return out_path
 
 
@@ -157,7 +131,6 @@ def plot_exact_roa(
     morse_table: BoxROATable,
     *,
     roa_alpha: float = 0.55,
-    title: str | None = None,
 ) -> Figure:
     """Render exact CMGDB-cell RoA labels from a saved artifact."""
     mg = morse_table.morse_graph
@@ -224,32 +197,8 @@ def plot_exact_roa(
     else:
         raise ValueError("exact RoA artifact has neither grid_shape nor box geometry")
 
-    ax.set_xlabel("z[0]")
-    ax.set_ylabel("z[1]")
-    if title is None:
-        title = f"Exact regions of attraction ({labels.size} CMGDB cells)"
-    ax.set_title(title)
-
-    used_labels = sorted(
-        int(v) for v in np.unique(labels)
-        if v not in (ESCAPE, BOUNDARY)
-    )
-    handles = [
-        Patch(facecolor=mg.colors.get(n, "#888888"), edgecolor="black", label=f"Morse set {n}")
-        for n in used_labels
-    ]
-    if (labels == BOUNDARY).any():
-        handles.append(Patch(facecolor=_BOUNDARY_COLOR, edgecolor="black", label="multi-basin"))
-    if (labels == ESCAPE).any():
-        handles.append(Patch(facecolor="white", edgecolor="black", label="escape"))
-    ax.legend(
-        handles=handles,
-        loc="center left",
-        bbox_to_anchor=(1.02, 0.5),
-        fontsize=8,
-        framealpha=0.85,
-        title="Legend",
-    )
+    ax.set_xlabel("$z_1$")
+    ax.set_ylabel("$z_2$")
     fig.tight_layout()
     return fig
 
@@ -258,15 +207,12 @@ def render_exact_roa_artifact(
     artifact_path: str | Path,
     morse_graph_dot: str | Path,
     out_path: str | Path,
-    *,
-    title: str | None = None,
 ) -> Path:
     roa = load_exact_roa(artifact_path)
     morse_sets_csv = Path(morse_graph_dot).with_name("morse_sets")
     table = load_box_roa(morse_graph_dot, morse_sets_csv)
-    fig = plot_exact_roa(roa, table, title=title)
+    fig = plot_exact_roa(roa, table)
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    fig.savefig(out_path, dpi=140, bbox_inches="tight")
-    plt.close(fig)
+    save_figure(fig, out_path, dpi=140, bbox_inches="tight", close=True)
     return out_path

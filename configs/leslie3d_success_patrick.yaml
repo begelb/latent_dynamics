@@ -1,4 +1,3 @@
-# Pipeline shim: CMGDB on Patricks leslie3d_success legacy weights.
 system:
   name: leslie3d
   params:

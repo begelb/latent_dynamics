@@ -2,66 +2,19 @@
   {
     "cell_index": 0,
     "train_file": "train",
-    "seed": 6,
+    "seed": 2,
     "device": "mps",
-    "output_dir": "output/leslie3d_spurious/seed_6",
-    "diagnose": {
-      "diagnostic": "ok",
-      "hard_flags": {
-        "encoder_collapsed": false,
-        "latent_map_overcontracted": false
-      },
-      "encoder": {
-        "extent_per_axis": [
-          1.63184654712677,
-          1.0465170443058014
-        ],
-        "max_extent": 1.63184654712677,
-        "out_activation": "tanh",
-        "reference_span": 2.0,
-        "max_extent_relative": 0.815923273563385
-      },
-      "latent_map": {
-        "n_grid_points": 2500,
-        "grid_diameter": 1.9773591400953834,
-        "image_diameter": 1.564606930198111,
-        "contraction_ratio": 0.7912608784475226,
-        "mean_step_relative": 0.33805043869590967,
-        "near_identity": false
-      },
-      "matched_dims": false,
-      "encoder_near_identity": null,
-      "decoder_near_identity": null,
-      "mean_step_E_relative": null,
-      "mean_step_D_relative": null,
-      "bounds": {
-        "lower": [
-          -0.7022394788265228,
-          -0.25063836127519606
-        ],
-        "upper": [
-          0.9622439992427826,
-          0.8168090239167214
-        ],
-        "source": "encoded_data"
-      }
-    },
+    "output_dir": "output/leslie3d_spurious/seed_2",
     "render": {
       "figures": [
-        "output/leslie3d_spurious/seed_6/MG/morse_graph.pdf",
-        "output/leslie3d_spurious/seed_6/MG/morse_graph.png",
-        "output/leslie3d_spurious/seed_6/MG/morse_sets.pdf",
-        "output/leslie3d_spurious/seed_6/MG/morse_sets.png",
-        "output/leslie3d_spurious/seed_6/figures/latent_trajectory.png"
+        "output/leslie3d_spurious/seed_2/MG/morse_graph.pdf",
+        "output/leslie3d_spurious/seed_2/MG/morse_graph.png",
+        "output/leslie3d_spurious/seed_2/MG/morse_sets.pdf",
+        "output/leslie3d_spurious/seed_2/MG/morse_sets.png",
+        "output/leslie3d_spurious/seed_2/MG/regions_of_attraction.png",
+        "output/leslie3d_spurious/seed_2/figures/latent_trajectory.png"
       ]
     },
-    "metrics": {
-      "target_label": 0,
-      "tau_bar": 0.0004532039165496826,
-      "max_semiconjugacy_error": 0.017649730667471886,
-      "n_semiconjugacy_samples": 7,
-      "is_spurious_attractor": true
-    },
-    "manifest": "output/leslie3d_spurious/seed_6/run_manifest.json"
+    "manifest": "output/leslie3d_spurious/seed_2/run_manifest.json"
   }
 ]

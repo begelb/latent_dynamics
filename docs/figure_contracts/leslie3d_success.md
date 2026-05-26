@@ -24,29 +24,25 @@ Patrick. The saved non-spurious Leslie 3D paper run is archived under
 
 ## Status
 
-**archived paper artifacts located; training script/raw CSVs still missing**.
-The paper figure content should be sourced from `archive/patrick/Leslie3D/`.
-The YAML now records Patrick's non-spurious Leslie parameters, recovered loss
-weights, reconstructed dataset split, and CMGDB settings. The current
-`output/leslie3d_success/seed_0/` is a retrain produced by an earlier session
-and should not be used as the original paper source.
-
-Diagnose on the current retrain reports: encoded extent `[1.32, 1.03]` (healthy spread), `latent_map` iteration does NOT converge after 200 steps (latent_map is too close to identity). The saved `MG/morse_graph` shows 1 Morse set with index `(x-1, 0, 0)`. Conclusion: training converged the encoder but not the latent_map; the prediction/semiconjugacy term needs more weight or longer training.
+**replay-ready for archived paper artifacts; fresh exact reproduction is still
+incomplete**. `configs/leslie3d_success.yaml` is read-only and points at the
+Patrick artifact mirror under `code/replay_sources/leslie3d_success/`.
+Patrick's original training script and raw train/test CSVs are still missing.
+The current `output/leslie3d_success/seed_0/` is a retrain produced by an
+earlier session and should not be used as the original paper source.
 
 ## Reproduction commands
 
-Diagnose the existing retrain (no CMGDB):
+Replay Patrick's preserved paper artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_success.yaml --stages diagnose --max-seeds 1
+python pipeline.py --config configs/leslie3d_success.yaml --stages render,metrics
 ```
 
-Forced retrain on the AMAREL cluster after re-tuning:
-
-```bash
-sbatch --array=0-0 --export=ALL,CONFIG=configs/leslie3d_success.yaml,STAGES=train,diagnose,morse,EXPECTED_CELLS=1 \
-  slurm/pipeline_array.sbatch
-```
+Fresh retrain remains a separate recovery task because Patrick's source data
+and training script are missing. Use a writable local copy of the YAML with
+`paths.output_dir` outside `replay_sources/` and `paths.read_only: false`
+before running `data,scale,train,diagnose,morse`.
 
 ## Expected scientific output
 
@@ -82,11 +78,9 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 
 ## Verification
 
-After retraining:
+Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_success.yaml --stages diagnose --max-seeds 1
-# diagnose.json should report frac_unconverged < 0.5 and n_distinct_limit_points >= 3
-python pipeline.py --config configs/leslie3d_success.yaml --stages metrics --max-seeds 1
+python pipeline.py --config configs/leslie3d_success.yaml --stages render,metrics
 # metrics.json should report tau_bar > max_semiconjugacy_error
 ```

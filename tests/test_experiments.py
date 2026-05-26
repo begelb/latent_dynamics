@@ -170,6 +170,48 @@ class TestConfigsLoadable:
             "chafee_infante",
         }
 
+    @pytest.mark.parametrize(
+        ("config_name", "output_dir"),
+        [
+            ("leslie_contraction.yaml", "replay_sources/leslie_contraction"),
+            ("leslie3d_success.yaml", "replay_sources/leslie3d_success"),
+            (
+                "leslie3d_spurious.yaml",
+                "replay_sources/leslie3d_spurious/spurious_attractor_ex",
+            ),
+            ("coral_basic.yaml", "replay_sources/coral"),
+            ("coral_data_scaling.yaml", "replay_sources/coral"),
+            ("coral_adaptive.yaml", "replay_sources/coral"),
+        ],
+    )
+    def test_paper_replay_configs_are_read_only(self, config_name: str, output_dir: str):
+        cfg = load_config(CONFIGS_DIR / config_name)
+        assert cfg.paths.read_only
+        assert cfg.paths.output_dir == Path(output_dir)
+
+    def test_chafee_infante_uses_marcio_cmgdb_parameters(self):
+        cfg = load_config(CONFIGS_DIR / "chafee_infante.yaml")
+        assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
+            10,
+            14,
+            28,
+        )
+        assert cfg.cmgdb.lower_bounds == [-3.0, -2.0]
+        assert cfg.cmgdb.upper_bounds == [3.0, 2.0]
+        assert not cfg.cmgdb.padding
+
+    @pytest.mark.parametrize(
+        "config_name",
+        ["coral_basic.yaml", "coral_data_scaling.yaml", "coral_adaptive.yaml"],
+    )
+    def test_coral_configs_use_brittany_cmgdb_parameters(self, config_name: str):
+        cfg = load_config(CONFIGS_DIR / config_name)
+        assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
+            8,
+            8,
+            12,
+        )
+
 
 _MINIMAL_DOT = (
     "digraph {\n"

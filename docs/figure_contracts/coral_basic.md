@@ -12,7 +12,7 @@ Paper Fig. 1.376: 13D coral population system, 1D latent, bistable extinction-vs
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/`. **Note:** in the current on-disk tree the per-seed `models/*.pt` files and `MG/morse_graph` files are 0 bytes (incomplete uploads); only `seed_0/MG/morse_sets` etc. are non-empty for some seeds.
+Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/`. **Note:** in the current on-disk tree the `train_500` per-seed checkpoints and Morse graph files are 0 bytes (incomplete uploads), so this figure cannot be replayed until the source tree is re-synced.
 
 - training script:        `archive/brittany/main_scripts/train.py`
 - CMGDB script:           `archive/brittany/main_scripts/morse_graph.py`
@@ -23,32 +23,22 @@ Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/
 
 ## Status
 
-**blocked-by-empty-checkpoints** for replay; **scratch-only** for fresh runs.
-
-`configs/coral_basic.yaml` is `read_only: true` and points at the preserved Brittany tree. Until the cluster-side checkpoints are recovered, the only viable path is fresh retrain via `configs/scratch/coral_basic.yaml`, which writes to `output/scratch/coral_basic/`.
+**blocked-by-empty-checkpoints**. `configs/coral_basic.yaml` is
+`read_only: true` and points at Brittany's preserved tree. Full coral
+recomputation is intentionally outside the default paper replay path; use a
+writable local copy of the YAML if a fresh retrain is needed.
 
 ## Reproduction commands
 
-Replay (currently fails per-seed because checkpoints are empty; left in place so a future re-sync from the cluster lights it up):
+Replay (currently fails per-seed because `train_500` checkpoints are empty;
+left in place so a future re-sync from the cluster lights it up):
 
 ```bash
 python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
 ```
 
-Fresh single-seed retrain (~ a few minutes train, plus seconds CMGDB on 1D):
-
-```bash
-python pipeline.py --config configs/scratch/coral_basic.yaml --stages all --max-seeds 1
-```
-
-Fresh full sweep on AMAREL (30 seeds × 1 train_file = 30 cells):
-
-```bash
-python pipeline.py --config configs/scratch/coral_basic.yaml --stages data,scale --skip-completed
-CONFIG=configs/scratch/coral_basic.yaml STAGES=train,diagnose,morse EXPECTED_CELLS=30 \
-  sbatch --array=0-29 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
-  slurm/pipeline_array.sbatch
-```
+Fresh retrain requires copying the YAML to a writable output location and
+setting `paths.read_only: false`; do not write into `replay_sources/coral/`.
 
 ## Expected scientific output
 
@@ -76,21 +66,18 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 | data.n_samples_val         | 10000                   | 10000                  |                                            | ✓     |
 | data.n_iterations           | 20                      | 20                     |                                            | ✓     |
 | data.sampling_method        | uniform                 | uniform                |                                            | ✓     |
-| cmgdb.subdiv_init           | 8                       | 8 (default)            | mg_params_log.txt per seed                 | ✓     |
-| cmgdb.subdiv_min            | 8                       | 8 (default)            |                                            | ✓     |
-| cmgdb.subdiv_max            | 12                      | 10 (default)           | drift                                      | minor — CMGDB picks the actual depth via subdiv_limit; bump to 12 for parity |
+| cmgdb.subdiv_init           | 8                       | 8                      | mg_params_log.txt per seed                 | ✓     |
+| cmgdb.subdiv_min            | 8                       | 8                      |                                            | ✓     |
+| cmgdb.subdiv_max            | 12                      | 12                     |                                            | ✓     |
 | cmgdb.lower_bounds          | per-seed inferred       | inferred               | mg_params_log.txt                          | ✓     |
 | cmgdb.upper_bounds          | per-seed inferred       | inferred               |                                            | ✓     |
-
-Recommended: bump `cmgdb.subdiv_max: 12` in `configs/scratch/coral_basic.yaml` for byte-comparable output to Brittany's archive.
 
 ## Verification
 
 ```bash
-# Single-seed scratch run, then verify the 1D Morse set produces three intervals
-# bracketing E(a0), E(r), E(a1):
-python pipeline.py --config configs/scratch/coral_basic.yaml --stages all --max-seeds 1
-python pipeline.py --config configs/scratch/coral_basic.yaml --stages metrics --max-seeds 1
+# After re-syncing non-empty train_500 checkpoints, verify the 1D Morse set
+# produces three intervals bracketing E(a0), E(r), E(a1):
+python pipeline.py --config configs/coral_basic.yaml --stages render,metrics --max-seeds 1
 # metrics.json should contain
 #   labels.a0_(Extinction): label of the leftmost Morse set
 #   labels.r_(Repeller):    label of the middle Morse set

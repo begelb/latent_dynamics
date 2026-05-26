@@ -124,3 +124,14 @@ def test_morse_stage_validates_fixed_bounds_when_configured(tmp_path):
     _write_mg_log(seed_cfg.paths.output_dir / "mg_params_log.txt", cfg)
 
     assert not _stage_complete("morse", cfg, seed_cfg, train_file="train")
+
+
+def test_train_stage_incomplete_when_legacy_checkpoint_files_are_empty(tmp_path):
+    cfg = _tiny_cfg(tmp_path)
+    seed_cfg = _config_for_seed(cfg, train_file="train", seed=0)
+    model_dir = seed_cfg.paths.model_dir
+    model_dir.mkdir(parents=True)
+    for name in ("encoder.pt", "dynamics.pt", "decoder.pt"):
+        (model_dir / name).write_bytes(b"")
+
+    assert not _stage_complete("train", cfg, seed_cfg, train_file="train")

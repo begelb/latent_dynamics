@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-18T00:15:52.418129+00:00",
+  "created_at_utc": "2026-05-21T11:07:52.988267+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -19,7 +19,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "389a0cc65c2dbdb14420cf63262793726fe9dc7eb177b7a16fe63c36fdfcf2a3",
+  "config_hash": "6c6fc3241202276f64a3696e663895f86dc12e9630349b9fff04a2c98e2e4fad",
   "config": {
     "system": {
       "name": "chafee_infante",
@@ -105,12 +105,20 @@
       "subdiv_max": 30,
       "subdiv_limit": 10000,
       "bounds_epsilon_frac": 0.01,
-      "lower_bounds": null,
-      "upper_bounds": null,
+      "lower_bounds": [
+        -3.0,
+        -2.0
+      ],
+      "upper_bounds": [
+        3.0,
+        2.0
+      ],
       "padding": false,
       "box_map_backend": "auto",
       "max_table_points": 1200000000,
-      "precompute_batch_points": "auto"
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000
     },
     "paths": {
       "data_dir": "data/chafee_infante",

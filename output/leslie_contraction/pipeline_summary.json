@@ -2,59 +2,18 @@
   {
     "cell_index": 0,
     "train_file": "train",
-    "seed": 1,
+    "seed": 0,
     "device": "mps",
-    "output_dir": "output/leslie_contraction/seed_1",
-    "diagnose": {
-      "diagnostic": "ok",
-      "hard_flags": {
-        "encoder_collapsed": false,
-        "latent_map_overcontracted": false
-      },
-      "encoder": {
-        "extent_per_axis": [
-          0.8196804821491241,
-          0.44738297164440155
-        ],
-        "max_extent": 0.8196804821491241,
-        "out_activation": "tanh",
-        "reference_span": 2.0,
-        "max_extent_relative": 0.4098402410745621
-      },
-      "latent_map": {
-        "n_grid_points": 2500,
-        "grid_diameter": 0.9525006728739845,
-        "image_diameter": 0.4510178312015772,
-        "contraction_ratio": 0.473509199569087,
-        "mean_step_relative": 0.3006512964231479,
-        "near_identity": false
-      },
-      "matched_dims": false,
-      "encoder_near_identity": null,
-      "decoder_near_identity": null,
-      "mean_step_E_relative": null,
-      "mean_step_D_relative": null,
-      "bounds": {
-        "lower": [
-          -0.4688150325417519,
-          -0.26599576517939566
-        ],
-        "upper": [
-          0.3672590592503548,
-          0.19033486589789392
-        ],
-        "source": "encoded_data"
-      }
-    },
+    "output_dir": "output/leslie_contraction/seed_0",
     "render": {
       "figures": [
-        "output/leslie_contraction/seed_1/MG/morse_graph.pdf",
-        "output/leslie_contraction/seed_1/MG/morse_graph.png",
-        "output/leslie_contraction/seed_1/MG/morse_sets.pdf",
-        "output/leslie_contraction/seed_1/MG/morse_sets.png"
+        "output/leslie_contraction/seed_0/MG/morse_graph.pdf",
+        "output/leslie_contraction/seed_0/MG/morse_graph.png",
+        "output/leslie_contraction/seed_0/MG/morse_sets.pdf",
+        "output/leslie_contraction/seed_0/MG/morse_sets.png",
+        "output/leslie_contraction/seed_0/MG/regions_of_attraction.png"
       ]
     },
-    "metrics": {},
-    "manifest": "output/leslie_contraction/seed_1/run_manifest.json"
+    "manifest": "output/leslie_contraction/seed_0/run_manifest.json"
   }
 ]

@@ -1,4 +1,3 @@
-# Marcios original CMGDB params, including his hardcoded bounds [-3,3]x[-2,2].
 system:
   name: chafee_infante
   params:
@@ -32,15 +31,15 @@ training:
   learning_rate: 0.003
   batch_size: 30000
   epochs: 4000
-  patience: 100
-  lr_patience: 10
+  patience: 4000
+  lr_patience: 100
   loss_weights:
   - 1.0
   - 1.0
   - 0.0
   gradient_clip_norm: null
   scheduler_factor: 0.5
-  scheduler_threshold: 0.001
+  scheduler_threshold: 0.0001
   scheduler_min_lr: 1.0e-06
 data:
   sampling_method: uniform

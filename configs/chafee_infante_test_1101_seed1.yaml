@@ -1,7 +1,3 @@
-# Seed 1 variant of chafee_infante_test_1101 for the timed end-to-end rerun
-# against the Bernardo CMGDB fork. Identical to chafee_infante_test_1101.yaml
-# except for `seeds: [1]` and an output_dir suffix so any future seed_0
-# artifacts are not clobbered.
 system:
   name: chafee_infante
   params:

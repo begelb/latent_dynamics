@@ -1,9 +1,3 @@
-# Seed 0 variant of chafee_infante_test_1101 with finer CMGDB subdivision.
-# Same architecture / training / data as the base test_1101 config; only
-# `seeds`, `output_dir`, and the cmgdb.subdiv_* values change. The intent is
-# to refine the basin geometry and the recurrent Morse-set boxes so the
-# very-coarse seed_1 result (4 + 2 = 6 Morse-set boxes, near-vertical
-# separator) can be compared against a higher-resolution analysis.
 system:
   name: chafee_infante
   params:
@@ -53,10 +47,6 @@ data:
   train_files: null
 
 cmgdb:
-  # Default chafee_infante_test_1101 was init=12, min=16, max=30. Bumping
-  # init+min up two levels each: ~16x more cells in 2D, finer recurrent
-  # boxes and basin separator while keeping the same upper bound on the
-  # adaptive depth.
   subdiv_init: 16
   subdiv_min: 20
   subdiv_max: 30

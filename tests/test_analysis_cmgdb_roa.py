@@ -6,7 +6,9 @@ import numpy as np
 
 from latentdynamics.analysis.cmgdb_roa import (
     EXACT_ROA_FILENAME,
+    MULTI,
     CellROA,
+    collapse_roa_to_lca,
     compute_exact_roa,
     load_exact_roa,
     save_exact_roa,
@@ -76,3 +78,73 @@ def test_exact_roa_artifact_round_trips_uniform_shape(tmp_path: Path):
     np.testing.assert_allclose(loaded.bounds_lower, roa.bounds_lower)
     np.testing.assert_allclose(loaded.bounds_upper, roa.bounds_upper)
     np.testing.assert_array_equal(loaded.grid_shape, roa.grid_shape)
+
+
+def _two_basin_fixture():
+    """cell 2 flows to both minima (cell 0 and cell 1) without crossing a
+    recurrent set; node 2 is the saddle LCA of the two minima."""
+    map_graph = _MapGraph([[0], [1], [0, 1]])
+    cmgdb_morse = _MorseGraphCells({0: [0], 1: [1], 2: []})
+    morse_dag = MorseGraph(nodes=[0, 1, 2], edges={2: [0, 1]}, colors={}, labels={})
+    return map_graph, cmgdb_morse, morse_dag
+
+
+def test_exact_roa_uncollapsed_marks_multi_basin_cells():
+    map_graph, cmgdb_morse, morse_dag = _two_basin_fixture()
+
+    roa = compute_exact_roa(map_graph, cmgdb_morse, morse_dag, collapse_to_lca=False)
+
+    # The multi-basin cell stays MULTI instead of collapsing to the LCA node 2.
+    np.testing.assert_array_equal(roa.box_roa, np.array([0, 1, MULTI], dtype=np.int32))
+    # The full reachable-minimal set is exposed via the bitmask + ordering.
+    np.testing.assert_array_equal(roa.minimal_order, np.array([0, 1], dtype=np.int32))
+    np.testing.assert_array_equal(
+        roa.reach_mask, np.array([0b01, 0b10, 0b11], dtype=np.uint64)
+    )
+
+
+def test_collapse_roa_to_lca_matches_inline_collapse():
+    map_graph, cmgdb_morse, morse_dag = _two_basin_fixture()
+
+    collapsed = compute_exact_roa(map_graph, cmgdb_morse, morse_dag, collapse_to_lca=True)
+    uncollapsed = compute_exact_roa(
+        map_graph, cmgdb_morse, morse_dag, collapse_to_lca=False
+    )
+
+    relabeled = collapse_roa_to_lca(uncollapsed, morse_dag)
+
+    np.testing.assert_array_equal(collapsed.box_roa, np.array([0, 1, 2], dtype=np.int32))
+    np.testing.assert_array_equal(relabeled, collapsed.box_roa)
+    # The bitmask is retained even when collapse runs inline (default path).
+    assert collapsed.reach_mask is not None
+
+
+def test_exact_roa_default_collapses_to_lca():
+    map_graph, cmgdb_morse, morse_dag = _two_basin_fixture()
+
+    roa = compute_exact_roa(map_graph, cmgdb_morse, morse_dag)
+
+    np.testing.assert_array_equal(roa.box_roa, np.array([0, 1, 2], dtype=np.int32))
+
+
+def test_exact_roa_artifact_round_trips_reach_mask_and_minimal_order(tmp_path: Path):
+    roa = CellROA(
+        box_roa=np.array([0, 1, MULTI], dtype=np.int32),
+        reach_mask=np.array([1, 2, 3], dtype=np.uint64),
+        minimal_order=np.array([0, 1], dtype=np.int32),
+    )
+
+    loaded = load_exact_roa(save_exact_roa(roa, tmp_path))
+
+    np.testing.assert_array_equal(loaded.reach_mask, roa.reach_mask)
+    assert loaded.reach_mask.dtype == np.uint64
+    np.testing.assert_array_equal(loaded.minimal_order, roa.minimal_order)
+
+
+def test_exact_roa_artifact_without_reach_mask_loads_none(tmp_path: Path):
+    roa = CellROA(box_roa=np.array([0, 1], dtype=np.int32))
+
+    loaded = load_exact_roa(save_exact_roa(roa, tmp_path))
+
+    assert loaded.reach_mask is None
+    assert loaded.minimal_order is None

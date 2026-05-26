@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import NDArray
 
-from .style import PALETTE
+from .style import PALETTE, save_figure
 
 
 def _scatter_morse_sets(
@@ -37,7 +37,6 @@ def _scatter_morse_sets(
             s=12,
             alpha=1.0,
             edgecolors="none",
-            label=f"Morse set {lbl}",
             zorder=1,
         )
 
@@ -107,17 +106,21 @@ def plot_latent_trajectory(
                     xytext=(traj[i, 0], traj[i, 1]),
                     arrowprops={
                         "arrowstyle": "-|>",
-                        "color": "black",
+                        "color": "#6e6e6e",
                         "lw": 0.8,
                         "alpha": arrow_alpha,
-                        "mutation_scale": 10,
+                        "mutation_scale": 9,
+                        # Shrink both ends so arrows sit between, not over, the
+                        # Morse-set boxes they connect.
+                        "shrinkA": 7.0,
+                        "shrinkB": 7.0,
                     },
                     zorder=100,
                 )
 
-    ax.set_xlabel("$z_1$")
-    ax.set_ylabel("$z_2$")
+    ax.set_xlabel("$z_1$", fontsize=20)
+    ax.set_ylabel("$z_2$", fontsize=20)
+    ax.tick_params(labelsize=16)
     fig.tight_layout()
-    fig.savefig(save_path, dpi=300)
-    plt.close(fig)
+    save_figure(fig, save_path, dpi=300, close=True)
     return save_path

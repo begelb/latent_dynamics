@@ -305,6 +305,15 @@ class CMGDBConfig(BaseModel):
             "this value."
         ),
     )
+    collapse_roa_to_lca: bool = Field(
+        default=True,
+        description=(
+            "Collapse multi-basin cells in the exact RoA to the Morse-poset "
+            "LCA of their reachable minimal set. Disable to keep those cells "
+            "as the MULTI sentinel; the full reachable-minimal set (reach_mask "
+            "+ minimal_order) is saved either way."
+        ),
+    )
 
     @field_validator("precompute_batch_points", mode="before")
     @classmethod
@@ -383,10 +392,16 @@ class PathsConfig(BaseModel):
 
         Standard layout: ``<scaler_dir>/<train_file>/scaler.gz``.
         Legacy flat layout (single shared scaler): ``<scaler_dir>/scaler.gz``,
-        triggered by ``flat_scaler: true`` in the config.
+        triggered by ``flat_scaler: true`` in the config. Some archived runs
+        used an uncompressed ``scaler`` filename; prefer it only when the
+        modern ``scaler.gz`` file is absent.
         """
         if self.flat_scaler:
-            return self.scaler_dir / "scaler.gz"
+            modern = self.scaler_dir / "scaler.gz"
+            legacy = self.scaler_dir / "scaler"
+            if not modern.exists() and legacy.exists():
+                return legacy
+            return modern
         return self.scaler_dir / train_file / "scaler.gz"
 
     def val_csv(self) -> Path:

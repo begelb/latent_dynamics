@@ -67,9 +67,8 @@ cmgdb:
   max_table_points: 300000000
 paths:
   data_dir: data/leslie3d_spurious
-  output_dir: output/leslie3d_spurious
-  scaler_dir_override: null
-  flat_scaler: false
-  read_only: false
-seeds:
-- 2
+  output_dir: replay_sources/leslie3d_spurious/spurious_attractor_ex
+  scaler_dir_override: replay_sources/leslie3d_spurious/28.9_29.8_22.0/scalers
+  flat_scaler: true
+  read_only: true
+seeds: []

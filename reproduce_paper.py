@@ -1,14 +1,15 @@
-"""Reproduce all paper figures end-to-end via the unified config pipeline.
+"""Replay paper figures through the unified config pipeline.
 
 Each entry in :data:`EXPERIMENTS` maps a paper-figure label to the YAML config
 that drives :func:`latentdynamics.cli.pipeline.run`. Default behavior is to
 re-render figures and recompute paper metrics from the **saved** Morse and
-checkpoint artifacts on disk - no CMGDB or training is invoked. To retrain,
-pass ``--stages all``.
+checkpoint artifacts on disk - no CMGDB or training is invoked. Some archived
+figures remain partial because their source artifacts are missing or zero-byte.
+To retrain, pass ``--stages all``.
 
 Usage:
-    python reproduce_paper.py                              # render+metrics for every figure
-    python reproduce_paper.py --only fig_coral_basic       # one figure
+    python reproduce_paper.py --only fig_leslie3d_spurious # one replay-ready figure
+    python reproduce_paper.py --only fig_leslie_contraction
     python reproduce_paper.py --stages all --max-seeds 1   # full re-run, capped seeds
 """
 

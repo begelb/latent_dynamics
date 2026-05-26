@@ -1,0 +1,88 @@
+"""Tests for ``latentdynamics.replay`` (the notebook-facing figure replay API).
+
+Pure-logic tests run unconditionally. Tests that need on-disk paper artifacts
+skip gracefully when those artifacts are not present (e.g. a fresh checkout
+without the replay_sources/output trees), so the suite stays green on CI while
+still exercising the real replay path locally.
+"""
+
+from __future__ import annotations
+
+import numpy as np
+import pytest
+
+from latentdynamics import replay
+from latentdynamics.replay import (
+    ReplayExperiment,
+    available_experiments,
+    load_experiment,
+    repo_path,
+    resolve_config_path,
+)
+
+
+def test_available_experiments_lists_known_configs():
+    names = available_experiments()
+    for expected in ("leslie_contraction", "leslie3d_spurious", "coral_data_scaling"):
+        assert expected in names
+
+
+def test_resolve_config_path_by_name_and_missing():
+    path = resolve_config_path("leslie3d_spurious")
+    assert path.name == "leslie3d_spurious.yaml"
+    assert path.exists()
+    with pytest.raises(FileNotFoundError):
+        resolve_config_path("definitely_not_a_config_xyz")
+
+
+def test_repo_path_is_absolute_under_root():
+    path = repo_path("configs", "leslie3d_spurious.yaml")
+    assert path.is_absolute()
+    assert path == replay.REPO_ROOT / "configs" / "leslie3d_spurious.yaml"
+
+
+def test_blocked_cell_raises_filenotfound():
+    # coral_basic points at the 0-byte replay_sources/coral train_500 tree;
+    # loading it must fail clearly rather than returning a broken model.
+    with pytest.raises(FileNotFoundError):
+        load_experiment("coral_basic")
+
+
+def _load_or_skip(name: str, **kwargs) -> ReplayExperiment:
+    try:
+        return load_experiment(name, **kwargs)
+    except FileNotFoundError as exc:
+        pytest.skip(f"artifacts for {name} not present: {exc}")
+
+
+def test_load_replay_ready_leslie3d_spurious():
+    exp = _load_or_skip("leslie3d_spurious")
+    assert isinstance(exp, ReplayExperiment)
+    assert (exp.arch.high_dims, exp.arch.low_dims) == (3, 2)
+    assert exp.seed_dir.exists()
+    lower, upper = exp.morse_bounds()
+    assert lower is not None and upper is not None
+    assert len(lower) == 2 and len(upper) == 2
+
+
+def test_render_morse_produces_pngs(tmp_path):
+    # coral train_2000 is a tiny 1D Morse set, fast to render.
+    exp = _load_or_skip("coral_data_scaling", train_file="train_2000", seed=0)
+    figs = exp.render_morse(out_dir=tmp_path)
+    assert figs.morse_graph_png.exists()
+    assert any(p.suffix == ".png" and p.exists() for p in figs.morse_sets_paths)
+
+
+def test_encode_advance_shapes():
+    exp = _load_or_skip("coral_data_scaling", train_file="train_2000", seed=0)
+    x = np.zeros((5, exp.arch.high_dims), dtype=np.float64)
+    z = exp.encode(x)
+    assert z.shape == (5, exp.arch.low_dims)
+    assert exp.advance(z).shape == z.shape
+
+
+def test_diagnostics_has_core_keys():
+    exp = _load_or_skip("leslie3d_spurious")
+    diag = exp.diagnostics()
+    for key in ("experiment", "seed", "train_file", "dims", "seed_dir"):
+        assert key in diag

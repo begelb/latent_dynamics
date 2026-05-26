@@ -1,4 +1,3 @@
-# Pipeline shim: CMGDB on leslie_contraction_patrick legacy weights.
 system:
   name: leslie_contraction
   params:

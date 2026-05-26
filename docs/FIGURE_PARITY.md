@@ -1,5 +1,10 @@
 # Paper-vs-output figure parity (snapshot 2026-05-03)
 
+> **Superseded.** For current reproduction status see
+> [`REPRODUCTION_GAPS.md`](REPRODUCTION_GAPS.md). The "far off / 1 sink" rows
+> below predate the current artifacts (chafee_infante now yields a 9-node,
+> 4-attractor graph) and are stale.
+
 Side-by-side comparison of `paper/figures/` and the rendered Morse graphs in
 `code/output/<experiment>/seed_0/MG/`. Conducted after the modular-pipeline
 refactor and before Patrick's `Leslie10D` and non-spurious `Leslie3D` paper
@@ -20,7 +25,7 @@ artifacts, CMGDB output, and validation metrics.
 | leslie3d_success     | `Leslie_3D_10KData_Mgraph.png`                      | 6 (chain `5→4→3→2→{0,1}`, indices `(0,0,0), (0,x+1,0), (0,x²+1,0), (0,x⁴-1,0), (x⁴-1,0,0)×2`) | 1 trivial sink `(x-1,0,0)`                                          | far off |
 | 10D Embedded Leslie (`leslie_contraction`) | `LeslieContraction_10D_10kData_Mgraph.png` | 4 (`3→{2,1,0}`, indices `(0,x³-1,0), (0,0,x-1), (x-1,x-1,0), (x³-1,0,0)`) | 1 trivial sink `(0,0,0)`                                            | far off |
 | chafee_infante       | `ci_morse_graph.pdf`                                | 7 (rich Hasse: 2 attractors `(x-1,0,0)`, 3 saddles `(0,x-1,0)`, 2 sources `(0,0,x-1)`) | 1 trivial sink `(x-1,0,0)`                                          | far off |
-| coral_basic          | `coral_morse_graph.pdf`                             | 3 (`2→{0,1}`, indices `(0,x-1), (x-1,0), (x-1,0)`) | not directly comparable - all `replay_sources/coral/train_500/seed_*/MG/morse_graph` files are 0 bytes (incomplete uploads); the only non-empty coral artifacts live under `train_500_300_adaptive` and show 4 Morse sets including a spurious `(0,0)` node | gap |
+| coral_basic          | `coral_morse_graph.pdf`                             | 3 (`2→{0,1}`, indices `(0,x-1), (x-1,0), (x-1,0)`) | not directly comparable - `replay_sources/coral/train_500/seed_*` checkpoints and Morse graphs are 0 bytes (incomplete uploads). Other coral replay cells are partial: selected `train_100`, all `train_2000`, and adaptive M = 100/200/300. | gap |
 
 This snapshot compares the package retrains, not the later-restored Patrick
 archives. The source map now distinguishes Brittany's spurious Leslie 3D run
@@ -84,10 +89,10 @@ Ranked by how likely each is to actually fix the regression:
    `legacy/main_scripts/train.py` and `legacy/Leslie_analysis_scripts/` for
    the exact hyperparams used in the paper runs. The new YAMLs were
    reverse-engineered, not copied.
-5. **Re-upload coral_basic and coral_data_scaling artifacts.** Most coral
-   `seed_*/MG/morse_graph` files in `replay_sources/coral/` are 0 bytes (599 of 993
-   `.pt` files are partial uploads). Either re-sync from the cluster that
-   originally produced them or retrain.
+5. **Re-upload the missing coral artifacts.** `train_500`, `train_200`,
+   `train_1000`, `train_5000`, and adaptive M = 400/500 currently contain
+   zero-byte checkpoint/MG artifacts. Either re-sync from the cluster that
+   originally produced them or retrain in a writable copy.
 6. **Render `coral_basic` once it has artifacts** and compare to
    `coral_morse_graph.pdf`. Most likely matches once the data is there since
    coral was Brittany's main tuned config.
@@ -142,7 +147,8 @@ Implemented before another long retrain:
   identity scaler for archived workflows that did not MinMax-scale data.
 - CMGDB configs can fix latent bounds and choose `padding`; Chafee-Infante now
   records the archived `[-3, -2] x [3, 2]`, `padding=false`, and
-  `subdiv_init/min/max = 10/14/28` settings.
+  `subdiv_init/min/max = 10/14/28` settings. Coral replay configs record
+  Brittany's archived `subdiv_init/min/max = 8/8/12` settings.
 
 The parity status of the already saved retrained outputs above is unchanged
 until those experiments are rerun from the updated configs. No saved data or

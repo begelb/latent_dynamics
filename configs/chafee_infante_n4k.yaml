@@ -1,5 +1,3 @@
-# Variant of chafee_infante.yaml with 4x training samples (4000 vs 1000).
-# Generates its own data/ and writes to its own output/ to coexist with the base run.
 system:
   name: chafee_infante
   params:
