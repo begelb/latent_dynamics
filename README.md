@@ -47,9 +47,9 @@ verification recipes live in `docs/figure_contracts/`.
 
 | Paper       | Section / Fig.            | Experiment id              | Config                              | Reproducibility status |
 | ----------- | ------------------------- | -------------------------- | ----------------------------------- | --- |
-| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_contraction`   | `configs/leslie_contraction.yaml`   | read-only replay from Patrick `Leslie10D`; raw CSVs/script missing for fresh reproduction |
-| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_spurious`    | `configs/leslie3d_spurious.yaml`    | replay-ready (legacy 3-file checkpoint, `read_only`) |
-| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_success` | `configs/leslie3d_success.yaml` | read-only replay from Patrick `Leslie3D`; raw CSVs/script missing for fresh reproduction |
+| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_2gen_contraction`   | `configs/leslie_2gen_contraction.yaml`   | read-only replay from Patrick `Leslie10D`; raw CSVs/script missing for fresh reproduction |
+| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_example1`    | `configs/leslie3d_example1.yaml`    | replay-ready (legacy 3-file checkpoint, `read_only`) |
+| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_example2` | `configs/leslie3d_example2.yaml` | read-only replay from Patrick `Leslie3D`; raw CSVs/script missing for fresh reproduction |
 | Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
 | Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
 | Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | partial read-only Brittany replay: selected `train_100`, complete `train_2000`; other sizes blocked |
@@ -156,7 +156,7 @@ default. This makes replay deterministic without dirtying the preserved trees.
 ../.venv/bin/pytest                           # full suite
 
 # Render one replay-ready paper figure from saved artifacts (no CMGDB, no training):
-../.venv/bin/python reproduce_paper.py --only fig_leslie3d_spurious
+../.venv/bin/python reproduce_paper.py --only fig_leslie3d_example1
 
 # Read-only configs route derived outputs to replay/<name>/; select usable
 # coral cells until the zero-byte source artifacts are re-synced.
@@ -231,6 +231,6 @@ artifacts; do not bake them into training or CMGDB.
   `latentdynamics.training.load_legacy_checkpoint` without rewriting them;
   `scripts/migrate_legacy_checkpoints.py` produces a `state_dict` + sidecar
   copy when needed.
-- Code identifiers may keep legacy names (`leslie_contraction`); paper-facing
+- Code identifiers may keep legacy names (`leslie_2gen_contraction`); paper-facing
   docs describe that example as the **10D Embedded Leslie** map (a 2D
   Leslie/Ricker map embedded in 10D with eight contracting tail coordinates).

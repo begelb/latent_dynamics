@@ -103,7 +103,7 @@ EXPECTED: dict[str, dict[str, dict[str, object]]] = {
             "out_activation": "sigmoid",
         },
     },
-    "leslie3d_spurious.yaml": {
+    "leslie3d_example1.yaml": {
         "encoder": {
             "hidden_shapes": (32, 32, 32),
             "activation": "relu",
@@ -120,7 +120,7 @@ EXPECTED: dict[str, dict[str, dict[str, object]]] = {
             "out_activation": "sigmoid",
         },
     },
-    "leslie3d_success.yaml": {
+    "leslie3d_example2.yaml": {
         "encoder": {
             "hidden_shapes": (64, 64),
             "activation": "relu",
@@ -137,7 +137,7 @@ EXPECTED: dict[str, dict[str, dict[str, object]]] = {
             "out_activation": "sigmoid",
         },
     },
-    "leslie_contraction.yaml": {
+    "leslie_2gen_contraction.yaml": {
         "encoder": {
             "hidden_shapes": (64, 64, 64, 64),
             "activation": "relu",

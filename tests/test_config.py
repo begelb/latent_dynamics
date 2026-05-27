@@ -294,7 +294,7 @@ class TestLoader:
                 20.0,
             ),
             (
-                "leslie_contraction_test_1101.yaml",
+                "leslie_2gen_contraction_test_1101.yaml",
                 "leslie_contraction",
                 10,
                 2,
@@ -303,7 +303,7 @@ class TestLoader:
                 0.25,
             ),
             (
-                "leslie3d_spurious_test_1101.yaml",
+                "leslie3d_example1_test_1101.yaml",
                 "leslie3d",
                 3,
                 2,
@@ -312,7 +312,7 @@ class TestLoader:
                 28.9,
             ),
             (
-                "leslie3d_success_test_1101.yaml",
+                "leslie3d_example2_test_1101.yaml",
                 "leslie3d",
                 3,
                 2,

@@ -12,18 +12,18 @@ Ground truth: every paper example has >=2 attractors; Chafee-Infante has exactly
 
 | example | attractor Morse sets | note |
 |---|---|---|
-| leslie3d_spurious | 3 | Author model (Brittany). Tristable: two period-4 spurious attractors + one fixed point. |
-| leslie3d_success | 2 | Author model (Patrick). Two period-4 attractors. |
-| leslie_contraction | 2 | Author model (Patrick). 10D->2D; period-3 + annulus. |
+| leslie3d_example1 | 3 | Author model (Brittany). Tristable: two period-4 spurious attractors + one fixed point. |
+| leslie3d_example2 | 2 | Author model (Patrick). Two period-4 attractors. |
+| leslie_2gen_contraction | 2 | Author model (Patrick). 10D->2D; period-3 + annulus. |
 | chafee_infante | 2 | Author model (Marcio). Correct: 2 attractors (u+/u-). |
 
 ## retrains/ (fresh reproductions)
 
 | example | attractor Morse sets | note |
 |---|---|---|
-| leslie3d_spurious | 2 | Fresh retrain seed 2. Bistable: spurious period-4 attractor + fixed point. Tristability (author=3) NOT reproducible: 0/19 retrains across 3 architectures reached 3 -> use the replay (replay_sources) for the tristable figure. |
-| leslie3d_success | 2 | Fresh retrain seed 2. Bistable (period-2 + fixed point). |
-| leslie_contraction | 2 | Fresh retrain seed 20, finer subdiv 27/29/30 (KEPT). Bistable: period-6 + annulus. |
+| leslie3d_example1 | 2 | Fresh retrain seed 2. Bistable: spurious period-4 attractor + fixed point. Tristability (author=3) NOT reproducible: 0/19 retrains across 3 architectures reached 3 -> use the replay (replay_sources) for the tristable figure. |
+| leslie3d_example2 | 2 | Fresh retrain seed 2. Bistable (period-2 + fixed point). |
+| leslie_2gen_contraction | 2 | Fresh retrain seed 20, finer subdiv 27/29/30 (KEPT). Bistable: period-6 + annulus. |
 | chafee_infante_dyn_heavy | 3 | CONSISTENT @14/20/30 -> 3 minimal attractors (truth is 2). OVERFIT: one spurious attractor. Cleanest retrain-failure illustration. |
 | chafee_infante_relu_mlp | 8 | CONSISTENT @18/22/30 -> 8 minimal attractors (truth is 2). Grossly OVERFIT under-constrained latent map; extreme retrain-failure example. |
 

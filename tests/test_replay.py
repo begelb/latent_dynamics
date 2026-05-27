@@ -23,22 +23,22 @@ from latentdynamics.replay import (
 
 def test_available_experiments_lists_known_configs():
     names = available_experiments()
-    for expected in ("leslie_contraction", "leslie3d_spurious", "coral_data_scaling"):
+    for expected in ("leslie_2gen_contraction", "leslie3d_example1", "coral_data_scaling"):
         assert expected in names
 
 
 def test_resolve_config_path_by_name_and_missing():
-    path = resolve_config_path("leslie3d_spurious")
-    assert path.name == "leslie3d_spurious.yaml"
+    path = resolve_config_path("leslie3d_example1")
+    assert path.name == "leslie3d_example1.yaml"
     assert path.exists()
     with pytest.raises(FileNotFoundError):
         resolve_config_path("definitely_not_a_config_xyz")
 
 
 def test_repo_path_is_absolute_under_root():
-    path = repo_path("configs", "leslie3d_spurious.yaml")
+    path = repo_path("configs", "leslie3d_example1.yaml")
     assert path.is_absolute()
-    assert path == replay.REPO_ROOT / "configs" / "leslie3d_spurious.yaml"
+    assert path == replay.REPO_ROOT / "configs" / "leslie3d_example1.yaml"
 
 
 def test_blocked_cell_raises_filenotfound():
@@ -55,8 +55,8 @@ def _load_or_skip(name: str, **kwargs) -> ReplayExperiment:
         pytest.skip(f"artifacts for {name} not present: {exc}")
 
 
-def test_load_replay_ready_leslie3d_spurious():
-    exp = _load_or_skip("leslie3d_spurious_brittany")
+def test_load_replay_ready_leslie3d_example1():
+    exp = _load_or_skip("leslie3d_example1_brittany")
     assert isinstance(exp, ReplayExperiment)
     assert (exp.arch.high_dims, exp.arch.low_dims) == (3, 2)
     assert exp.seed_dir.exists()
@@ -82,7 +82,7 @@ def test_encode_advance_shapes():
 
 
 def test_diagnostics_has_core_keys():
-    exp = _load_or_skip("leslie3d_spurious_brittany")
+    exp = _load_or_skip("leslie3d_example1_brittany")
     diag = exp.diagnostics()
     for key in ("experiment", "seed", "train_file", "dims", "seed_dir"):
         assert key in diag

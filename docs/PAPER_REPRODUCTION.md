@@ -30,7 +30,7 @@ datasets are validated as precomputed inputs.
 
 ```bash
 # Render/metrics for one replay-ready figure:
-python reproduce_paper.py --only fig_leslie3d_spurious
+python reproduce_paper.py --only fig_leslie3d_example1
 
 # One known-good coral sweep cell:
 python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
@@ -47,9 +47,9 @@ For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 
 | Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
 | ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_contraction`       | `configs/leslie_contraction.yaml`   | [contract](figure_contracts/leslie_contraction.md)       | read-only replay from Patrick `Leslie10D`; source script/raw CSVs missing |
-| Fig. 1.214        | `fig_leslie3d_spurious`        | `configs/leslie3d_spurious.yaml`    | [contract](figure_contracts/leslie3d_spurious.md)        | replay-ready (legacy 3-file checkpoint); read_only |
-| Sec. 1.211 success| `fig_leslie3d_success`         | `configs/leslie3d_success.yaml`     | [contract](figure_contracts/leslie3d_success.md)         | read-only replay from Patrick `Leslie3D`; source script/raw CSVs missing |
+| Fig. 1.83         | `fig_leslie_2gen_contraction`       | `configs/leslie_2gen_contraction.yaml`   | [contract](figure_contracts/leslie_2gen_contraction.md)       | read-only replay from Patrick `Leslie10D`; source script/raw CSVs missing |
+| Fig. 1.214        | `fig_leslie3d_example1`        | `configs/leslie3d_example1.yaml`    | [contract](figure_contracts/leslie3d_example1.md)        | replay-ready (legacy 3-file checkpoint); read_only |
+| Sec. 1.211 success| `fig_leslie3d_example2`         | `configs/leslie3d_example2.yaml`     | [contract](figure_contracts/leslie3d_example2.md)         | read-only replay from Patrick `Leslie3D`; source script/raw CSVs missing |
 | Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
 | Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
 | Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only Brittany replay: selected `train_100`, complete `train_2000` |
@@ -199,7 +199,7 @@ state_dict + sidecar copy for separate analysis.
 
 ```bash
 # Basic replay sanity on a laptop:
-python reproduce_paper.py --only fig_leslie3d_spurious
+python reproduce_paper.py --only fig_leslie3d_example1
 python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 
 # Cluster-scale jobs use the generic array template after checking the cell count:

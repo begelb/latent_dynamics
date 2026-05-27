@@ -12,9 +12,9 @@ TikZ schematics with no reproduction burden; the computational figures are 8–1
 
 | Fig | Example | Status | Source artifact | Gap / how to close |
 |---|---|---|---|---|
-| 8 (§5.2) | 10D embedded Leslie | **Replay-ready** | `replay_sources/leslie_contraction` (Patrick; flat, legacy 3-file ckpt) | Fresh *exact* retrain blocked: Patrick's training script + raw CSVs are not archived. Replay matches the paper. |
-| 9 (§5.3.1) | 3D Leslie, spurious | **Replay-ready** | `replay_sources/leslie3d_spurious/spurious_attractor_ex` (legacy ckpt) | None for replay (Hasse is byte-identical to Brittany's archive). |
-| 10 (§5.3.2) | 3D Leslie, correct | **Replay-ready** | `replay_sources/leslie3d_success` (Patrick) | Fresh exact retrain blocked: script + raw CSVs not archived. |
+| 8 (§5.2) | 10D embedded Leslie | **Replay-ready** | `replay_sources/leslie_2gen_contraction` (Patrick; flat, legacy 3-file ckpt) | Fresh *exact* retrain blocked: Patrick's training script + raw CSVs are not archived. Replay matches the paper. |
+| 9 (§5.3.1) | 3D Leslie, spurious | **Replay-ready** | `replay_sources/leslie3d_example1/spurious_attractor_ex` (legacy ckpt) | None for replay (Hasse is byte-identical to Brittany's archive). |
+| 10 (§5.3.2) | 3D Leslie, correct | **Replay-ready** | `replay_sources/leslie3d_example2` (Patrick) | Fresh exact retrain blocked: script + raw CSVs not archived. |
 | 11 (§5.4) | Chafee–Infante bifurcation diagram | **N/A (static asset)** | `paper/figures/ci_bif_diagram.pdf` | A steady-state continuation/BVP figure, not part of the learned-dynamics pipeline. No code reproduction intended. |
 | 12 (§5.4) | Chafee–Infante latent Morse graph | **Replay-ready (Marcio's model)** | `replay_sources/chafee_infante/marcio` (his `ci_model_weights.pth` converted via `scripts/convert_marcio_chafee.py`) | RESOLVED 2026-05-26: his weights load cleanly (arch identical); recomputing CMGDB reproduces Fig. 12 exactly — 7 nodes, 2 attractors `(x-1,0,0)`, 3 saddles `(0,x-1,0)`, 2 sources `(0,0,x-1)`. The bare `chafee_infante` config remains a separate fresh-retrain (derived-box) variant. |
 | 13 (§5.5) | Red coral, basic Morse graph | **Reproducible (retrain substitute)** | `output/coral_data_scaling/train_500/seed_0` (fresh retrain; passes the §5.5.1 success metric) | Brittany's *preserved* `train_500` checkpoints are 0-byte. The local retrain at the same size reproduces the figure; to recover the exact preserved run, re-sync from the cluster. |
@@ -77,7 +77,7 @@ notebooks.
 ## Documentation hygiene
 
 - `FIGURE_PARITY.md` is a 2026-05-03 snapshot; its "far off / 1 sink" rows for
-  `chafee_infante`, `leslie_contraction`, and `leslie3d_success` predate the
+  `chafee_infante`, `leslie_2gen_contraction`, and `leslie3d_example2` predate the
   current artifacts and are no longer accurate. Use this file instead.
 - `code/README.md` and `docs/PAPER_REPRODUCTION.md` still cite "119 tests"; the
   suite is now 272 (including the 8 `test_replay.py` tests).

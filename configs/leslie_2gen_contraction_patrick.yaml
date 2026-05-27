@@ -5,35 +5,47 @@ system:
     th2: 23.5
     survival_p1: 0.7
     contraction: 0.25
-
 arch:
   high_dims: 10
   low_dims: 2
   encoder:
-    hidden_shapes: [64, 64, 64, 64]
+    hidden_shapes:
+    - 64
+    - 64
+    - 64
+    - 64
     activation: relu
     out_activation: tanh
   latent_map:
-    hidden_shapes: [64, 64, 64, 64]
+    hidden_shapes:
+    - 64
+    - 64
+    - 64
+    - 64
     activation: relu
     out_activation: tanh
   decoder:
-    hidden_shapes: [64, 64, 64, 64]
+    hidden_shapes:
+    - 64
+    - 64
+    - 64
+    - 64
     activation: relu
     out_activation: sigmoid
-
 training:
   learning_rate: 0.001
   batch_size: 1024
   epochs: 1000
   patience: 100
   lr_patience: 10
-  loss_weights: [100, 10, 20]
+  loss_weights:
+  - 100
+  - 10
+  - 20
   gradient_clip_norm: 1.0
   scheduler_factor: 0.1
   scheduler_threshold: 0.001
   scheduler_min_lr: 0.0
-
 data:
   sampling_method: uniform
   scaling: minmax
@@ -44,27 +56,21 @@ data:
   train_seed: 42
   val_seed: 9999
   train_files: null
-
 cmgdb:
-  # Finer grid than the other 2D cases: the 10D->2D latent map packs its two
-  # recurrent orbits close together, so coarser subdivision (25/27/28) merges
-  # them into one attractor under the padded box map. 27/29/30 resolves both.
-  subdiv_init: 27
-  subdiv_min: 29
-  subdiv_max: 30
+  subdiv_init: 25
+  subdiv_min: 27
+  subdiv_max: 28
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
   lower_bounds: null
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  max_table_points: 1500000000
-
+  max_table_points: 300000000
 paths:
-  data_dir: data/leslie_contraction
-  output_dir: output/leslie_contraction
-  scaler_dir_override: null
-  flat_scaler: false
-  read_only: false
-
-seeds: [20]  # selected: bistable latent Morse structure (2 attractors at subdiv 27/29/30)
+  data_dir: data/leslie_2gen_contraction
+  output_dir: replay_sources/leslie_2gen_contraction
+  scaler_dir_override: replay_sources/leslie_2gen_contraction/data/scalers
+  flat_scaler: true
+  read_only: true
+seeds: []

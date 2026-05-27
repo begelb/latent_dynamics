@@ -4,8 +4,8 @@ The package is organized around one staged pipeline for all examples:
 
 | Source | Paper examples | Current config(s) |
 | --- | --- | --- |
-| Brittany | 3D Leslie, coral sweeps, adaptive coral | `leslie3d_spurious.yaml`, `leslie3d_success.yaml`, `coral_*.yaml` |
-| Patrick using Brittany's code | 10D Leslie contraction | `leslie_contraction.yaml` |
+| Brittany | 3D Leslie, coral sweeps, adaptive coral | `leslie3d_example1.yaml`, `leslie3d_example2.yaml`, `coral_*.yaml` |
+| Patrick using Brittany's code | 10D Leslie contraction | `leslie_2gen_contraction.yaml` |
 | Marcio | Chafee-Infante spectral PDE | `chafee_infante.yaml` |
 
 Each config expands to independent cells: `(train_file, seed, output_dir)`.
@@ -90,9 +90,9 @@ Configs:
 
 ```bash
 configs/leslie2d_to_2d_test_1101.yaml
-configs/leslie_contraction_test_1101.yaml
-configs/leslie3d_spurious_test_1101.yaml
-configs/leslie3d_success_test_1101.yaml
+configs/leslie_2gen_contraction_test_1101.yaml
+configs/leslie3d_example1_test_1101.yaml
+configs/leslie3d_example2_test_1101.yaml
 configs/chafee_infante_test_1101.yaml
 ```
 
@@ -102,9 +102,9 @@ Dry-run every config before submitting:
 cd code
 for CONFIG in \
   configs/leslie2d_to_2d_test_1101.yaml \
-  configs/leslie_contraction_test_1101.yaml \
-  configs/leslie3d_spurious_test_1101.yaml \
-  configs/leslie3d_success_test_1101.yaml \
+  configs/leslie_2gen_contraction_test_1101.yaml \
+  configs/leslie3d_example1_test_1101.yaml \
+  configs/leslie3d_example2_test_1101.yaml \
   configs/chafee_infante_test_1101.yaml
 do
   ../.venv/bin/python pipeline.py --config "$CONFIG" --dry-run
@@ -117,9 +117,9 @@ Prepare shared data/scalers for each config:
 cd code
 for CONFIG in \
   configs/leslie2d_to_2d_test_1101.yaml \
-  configs/leslie_contraction_test_1101.yaml \
-  configs/leslie3d_spurious_test_1101.yaml \
-  configs/leslie3d_success_test_1101.yaml \
+  configs/leslie_2gen_contraction_test_1101.yaml \
+  configs/leslie3d_example1_test_1101.yaml \
+  configs/leslie3d_example2_test_1101.yaml \
   configs/chafee_infante_test_1101.yaml
 do
   ../.venv/bin/python pipeline.py --config "$CONFIG" --stages data,scale --skip-completed
@@ -133,9 +133,9 @@ rather than writing `STAGES=train,morse` directly inside `--export`.
 cd code
 for CONFIG in \
   configs/leslie2d_to_2d_test_1101.yaml \
-  configs/leslie_contraction_test_1101.yaml \
-  configs/leslie3d_spurious_test_1101.yaml \
-  configs/leslie3d_success_test_1101.yaml \
+  configs/leslie_2gen_contraction_test_1101.yaml \
+  configs/leslie3d_example1_test_1101.yaml \
+  configs/leslie3d_example2_test_1101.yaml \
   configs/chafee_infante_test_1101.yaml
 do
   STAGES=train,diagnose,morse,render,metrics EXPECTED_CELLS=1 \

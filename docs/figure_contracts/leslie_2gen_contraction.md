@@ -1,4 +1,4 @@
-# fig_leslie_contraction
+# fig_leslie_2gen_contraction
 
 Paper Fig. 1.83: the 10D Embedded Leslie example. The first two coordinates
 follow the 2D Leslie/Ricker map, and the remaining eight coordinates contract
@@ -28,19 +28,19 @@ script and raw train/test CSVs are still not archived.
 ## Status
 
 **replay-ready for archived paper artifacts; fresh exact reproduction is still
-incomplete**. `configs/leslie_contraction.yaml` is read-only and points at the
-Patrick artifact mirror under `code/replay_sources/leslie_contraction/`.
+incomplete**. `configs/leslie_2gen_contraction.yaml` is read-only and points at the
+Patrick artifact mirror under `code/replay_sources/leslie_2gen_contraction/`.
 Patrick's original training script and raw train/test CSVs are still missing,
 so a fresh retrain is not the original Patrick run until it passes the expected
 Morse-graph and tolerance checks.
 
-Earlier package retrains in `code/output/leslie_contraction/` are diagnostic
+Earlier package retrains in `code/output/leslie_2gen_contraction/` are diagnostic
 only; they should not be treated as the paper source.
 
 ## Reproduction commands
 
 ```bash
-python pipeline.py --config configs/leslie_contraction.yaml --stages render,metrics
+python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages render,metrics
 ```
 
 Fresh retrain remains a separate recovery task because Patrick's source data
@@ -80,6 +80,6 @@ Paper figure shows four Morse sets in a chain `3 -> {2, 1, 0}` with Conley indic
 Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie_contraction.yaml --stages render,metrics
+python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages render,metrics
 # The rendered Morse graph should preserve the four-node Patrick Hasse diagram.
 ```

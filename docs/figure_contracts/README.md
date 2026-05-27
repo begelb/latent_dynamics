@@ -12,9 +12,9 @@ archive, and leave unknown values explicit instead of smoothing them over.
 
 | Paper reference   | Contract |
 |-------------------|----------|
-| Fig. 1.83         | [`leslie_contraction.md`](leslie_contraction.md) |
-| Fig. 1.214        | [`leslie3d_spurious.md`](leslie3d_spurious.md) |
-| §1.211 success    | [`leslie3d_success.md`](leslie3d_success.md) |
+| Fig. 1.83         | [`leslie_2gen_contraction.md`](leslie_2gen_contraction.md) |
+| Fig. 1.214        | [`leslie3d_example1.md`](leslie3d_example1.md) |
+| §1.211 success    | [`leslie3d_example2.md`](leslie3d_example2.md) |
 | §1.256 PDE        | [`chafee_infante.md`](chafee_infante.md) |
 | Fig. 1.376        | [`coral_basic.md`](coral_basic.md) |
 | Fig. 1.469        | [`coral_data_scaling.md`](coral_data_scaling.md) |
@@ -55,11 +55,11 @@ graph.
 
 ## Decisions captured by the contracts
 
-- `leslie3d_spurious` reproduces exactly today (legacy 3-file checkpoint;
+- `leslie3d_example1` reproduces exactly today (legacy 3-file checkpoint;
   CMGDB DOT/CSV identical to brittany's archive).
-- `leslie_contraction` is the legacy config id for the 10D Embedded Leslie
+- `leslie_2gen_contraction` is the legacy config id for the 10D Embedded Leslie
   example: a 2D Leslie/Ricker map embedded in 10D with eight contracting tail
-  coordinates. It and `leslie3d_success` now point to Patrick's archived paper
+  coordinates. It and `leslie3d_example2` now point to Patrick's archived paper
   artifacts under `archive/patrick/Leslie10D/` and
   `archive/patrick/Leslie3D/`. Their current configs are read-only replay
   paths; Patrick's original training scripts/raw CSVs are still not archived,

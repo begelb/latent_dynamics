@@ -1,4 +1,4 @@
-# fig_leslie3d_success
+# fig_leslie3d_example2
 
 Paper §1.211: the success case of the 3D Leslie experiment, where the learned latent dynamics correctly resolves the multiple invariant sets.
 
@@ -11,7 +11,7 @@ Paper §1.211: the success case of the 3D Leslie experiment, where the learned l
 
 Patrick. The saved non-spurious Leslie 3D paper run is archived under
 `archive/patrick/Leslie3D/`. This is distinct from Brittany's spurious Leslie
-3D run, which is documented in `leslie3d_spurious.md`.
+3D run, which is documented in `leslie3d_example1.md`.
 
 - training script:    MISSING (originated with Patrick)
 - checkpoint:         `archive/patrick/Leslie3D/models/{encoder,dynamics,decoder}.pt`
@@ -25,10 +25,10 @@ Patrick. The saved non-spurious Leslie 3D paper run is archived under
 ## Status
 
 **replay-ready for archived paper artifacts; fresh exact reproduction is still
-incomplete**. `configs/leslie3d_success.yaml` is read-only and points at the
-Patrick artifact mirror under `code/replay_sources/leslie3d_success/`.
+incomplete**. `configs/leslie3d_example2.yaml` is read-only and points at the
+Patrick artifact mirror under `code/replay_sources/leslie3d_example2/`.
 Patrick's original training script and raw train/test CSVs are still missing.
-The current `output/leslie3d_success/seed_0/` is a retrain produced by an
+The current `output/leslie3d_example2/seed_0/` is a retrain produced by an
 earlier session and should not be used as the original paper source.
 
 ## Reproduction commands
@@ -36,7 +36,7 @@ earlier session and should not be used as the original paper source.
 Replay Patrick's preserved paper artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_success.yaml --stages render,metrics
+python pipeline.py --config configs/leslie3d_example2.yaml --stages render,metrics
 ```
 
 Fresh retrain remains a separate recovery task because Patrick's source data
@@ -81,6 +81,6 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_success.yaml --stages render,metrics
+python pipeline.py --config configs/leslie3d_example2.yaml --stages render,metrics
 # metrics.json should report tau_bar > max_semiconjugacy_error
 ```

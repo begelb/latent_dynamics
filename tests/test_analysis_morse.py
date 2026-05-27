@@ -386,8 +386,8 @@ class TestBoxMapAdaptivePrecomputed:
         produces rectangular cells (axis-0 bisected one more time than
         axis-1 at odd depths).
 
-        Paper schedules (leslie3d_spurious: max=27, leslie_contraction:
-        max=28 with subdiv_init=25, leslie3d_success: max=29) all hit odd
+        Paper schedules (leslie3d_example1: max=27, leslie_2gen_contraction:
+        max=28 with subdiv_init=25, leslie3d_example2: max=29) all hit odd
         depths in their (init, min, max) ladder. The existing
         ``test_agrees_with_numpy_backend_at_multiple_depths`` only exercises
         subdiv_max=14 at even depths {8, 10, 12, 14}, so all tested cells

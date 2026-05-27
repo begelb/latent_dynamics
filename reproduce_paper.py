@@ -8,8 +8,8 @@ figures remain partial because their source artifacts are missing or zero-byte.
 To retrain, pass ``--stages all``.
 
 Usage:
-    python reproduce_paper.py --only fig_leslie3d_spurious # one replay-ready figure
-    python reproduce_paper.py --only fig_leslie_contraction
+    python reproduce_paper.py --only fig_leslie3d_example1 # one replay-ready figure
+    python reproduce_paper.py --only fig_leslie_2gen_contraction
     python reproduce_paper.py --stages all --max-seeds 1   # full re-run, capped seeds
 """
 
@@ -27,9 +27,9 @@ from latentdynamics.config import load_config
 CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
 
 EXPERIMENTS: dict[str, str] = {
-    "fig_leslie_contraction": "leslie_contraction_patrick.yaml",
-    "fig_leslie3d_spurious": "leslie3d_spurious_brittany.yaml",
-    "fig_leslie3d_success": "leslie3d_success_patrick.yaml",
+    "fig_leslie_2gen_contraction": "leslie_2gen_contraction_patrick.yaml",
+    "fig_leslie3d_example1": "leslie3d_example1_brittany.yaml",
+    "fig_leslie3d_example2": "leslie3d_example2_patrick.yaml",
     "fig_chafee_infante": "chafee_infante_marcio.yaml",
     "fig_coral_basic": "coral_basic.yaml",
     "fig_coral_data_scaling": "coral_data_scaling.yaml",

@@ -14,7 +14,7 @@ From the repository root (`code/`), using the prebuilt venv at the project root:
 ../.venv/bin/jupyter lab
 
 # or execute one headless (writes outputs back into the notebook)
-../.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/leslie_contraction.ipynb
+../.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/leslie_2gen_contraction.ipynb
 ```
 
 They also run as-is in VS Code / Jupyter when the project venv is selected.
@@ -24,7 +24,7 @@ Rendered figures are written to `notebooks/rendered/<experiment>/`.
 
 | Notebook | Paper | Reproduces | Notes |
 |---|---|---|---|
-| `leslie_contraction.ipynb` | §5.2 — 10D embedded Leslie | bistable Morse graph + Morse sets | Patrick's archived paper run |
+| `leslie_2gen_contraction.ipynb` | §5.2 — 10D embedded Leslie | bistable Morse graph + Morse sets | Patrick's archived paper run |
 | `leslie3d.ipynb` | §5.3 — 3D Leslie | spurious vs. correct regime; latent-trajectory overlay | the spurious orbit never settles — the failure the example exposes |
 | `chafee_infante.ipynb` | §5.4 — Chafee–Infante PDE | multistable Morse graph + Morse sets | a fresh local retrain, not pinned to Marcio's exact paper run |
 | `coral.ipynb` | §5.5 — red coral | Morse graph + 1D Morse sets + §5.5.1 success metric; §5.5.2 population histograms | the Morse-graph cell uses a local `train_500` retrain (the preserved `train_500` checkpoints are 0-byte) |

@@ -3,7 +3,7 @@
 This is the notebook-facing entry point. A single call
 
     >>> from latentdynamics.replay import load_experiment
-    >>> exp = load_experiment("leslie_contraction")
+    >>> exp = load_experiment("leslie_2gen_contraction")
     >>> exp.show_morse_graph()
     >>> exp.show_morse_sets()
 
@@ -81,7 +81,7 @@ def show_image(path: str | Path, *, width: int | None = None) -> None:
 
 
 def available_experiments() -> list[str]:
-    """Config stems that :func:`load_experiment` accepts, e.g. ``leslie3d_spurious``."""
+    """Config stems that :func:`load_experiment` accepts, e.g. ``leslie3d_example1``."""
     return sorted(p.stem for p in CONFIGS_DIR.glob("*.yaml"))
 
 
@@ -290,7 +290,7 @@ def load_experiment(
     Parameters
     ----------
     config:
-        Experiment name (config stem, e.g. ``"leslie3d_spurious"``) or a path to
+        Experiment name (config stem, e.g. ``"leslie3d_example1"``) or a path to
         a YAML config.
     seed:
         Seed to replay. Defaults to the config's first seed, or the flat

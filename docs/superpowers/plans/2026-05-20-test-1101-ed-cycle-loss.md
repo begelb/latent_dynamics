@@ -70,9 +70,9 @@ Expected: PASS.
 
 **Files:**
 - Create: `configs/leslie2d_to_2d_test_1101.yaml`
-- Create: `configs/leslie_contraction_test_1101.yaml`
-- Create: `configs/leslie3d_spurious_test_1101.yaml`
-- Create: `configs/leslie3d_success_test_1101.yaml`
+- Create: `configs/leslie_2gen_contraction_test_1101.yaml`
+- Create: `configs/leslie3d_example1_test_1101.yaml`
+- Create: `configs/leslie3d_example2_test_1101.yaml`
 - Create: `configs/chafee_infante_test_1101.yaml`
 - Modify: `tests/test_config.py`
 
@@ -88,7 +88,7 @@ Expected: FAIL because the five YAML files do not exist.
 
 - [x] **Step 3: Add configs**
 
-Copy the corresponding `test_110` experiment patterns and change only the comments, weight vector, and `paths.data_dir`/`paths.output_dir` stems. Use both Leslie 3D parameter sets under explicit names: `leslie3d_spurious_test_1101` and `leslie3d_success_test_1101`.
+Copy the corresponding `test_110` experiment patterns and change only the comments, weight vector, and `paths.data_dir`/`paths.output_dir` stems. Use both Leslie 3D parameter sets under explicit names: `leslie3d_example1_test_1101` and `leslie3d_example2_test_1101`.
 
 - [x] **Step 4: Run test to verify it passes**
 
@@ -113,9 +113,9 @@ Run:
 ```bash
 ../.venv/bin/python -m pytest tests/test_losses.py tests/test_config.py tests/test_training_smoke.py -q
 ../.venv/bin/python pipeline.py --config configs/leslie2d_to_2d_test_1101.yaml --dry-run
-../.venv/bin/python pipeline.py --config configs/leslie_contraction_test_1101.yaml --dry-run
-../.venv/bin/python pipeline.py --config configs/leslie3d_spurious_test_1101.yaml --dry-run
-../.venv/bin/python pipeline.py --config configs/leslie3d_success_test_1101.yaml --dry-run
+../.venv/bin/python pipeline.py --config configs/leslie_2gen_contraction_test_1101.yaml --dry-run
+../.venv/bin/python pipeline.py --config configs/leslie3d_example1_test_1101.yaml --dry-run
+../.venv/bin/python pipeline.py --config configs/leslie3d_example2_test_1101.yaml --dry-run
 ../.venv/bin/python pipeline.py --config configs/chafee_infante_test_1101.yaml --dry-run
 ```
 
