@@ -458,6 +458,7 @@ def run_one(
     skip_completed: bool = False,
     force_overwrite: bool = False,
     replay_root: Path | str | None = None,
+    figures: set[str] | None = None,
 ) -> dict:
     """Run requested stages for one (config, train_file, seed) cell.
 
@@ -575,6 +576,7 @@ def run_one(
             device=dev,
             verbose=verbose,
             out_dir=derived_dir,
+            figures=figures,
         )
     elif "render" in plan:
         skipped.append("render")
@@ -629,6 +631,7 @@ def run(
     skip_completed: bool = False,
     force_overwrite: bool = False,
     replay_root: Path | str | None = None,
+    figures: set[str] | None = None,
 ) -> list[dict]:
     """Run requested stages for every (train_file, seed) implied by ``cfg``.
 
@@ -761,6 +764,7 @@ def run(
                 device=dev,
                 verbose=verbose,
                 out_dir=derived_dir,
+                figures=figures,
             )
         elif "render" in plan:
             skipped.append("render")

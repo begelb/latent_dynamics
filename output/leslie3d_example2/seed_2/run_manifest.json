@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-27T02:36:06.054027+00:00",
+  "created_at_utc": "2026-05-27T18:53:01.088266+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -15,11 +15,11 @@
     "cell_index": 0,
     "train_file": "train",
     "seed": 2,
-    "output_dir": "output/leslie3d_success/seed_2",
+    "output_dir": "output/leslie3d_example2/seed_2",
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "3575289d3ff0f620cb727fcfa543b007aa0a0aea2608287019f44c647ff0b469",
+  "config_hash": "39767859aa826b250ee426a835dd72535bb16a24d42209fae219d5e9e5208558",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -116,8 +116,8 @@
       "collapse_roa_to_lca": true
     },
     "paths": {
-      "data_dir": "data/leslie3d_success",
-      "output_dir": "output/leslie3d_success",
+      "data_dir": "data/leslie3d_example2",
+      "output_dir": "output/leslie3d_example2",
       "scaler_dir_override": null,
       "flat_scaler": false,
       "read_only": false
@@ -125,15 +125,15 @@
     "seeds": [
       2
     ],
-    "experiment_name": "leslie3d_success"
+    "experiment_name": "leslie3d_example2"
   },
   "artifacts": {
-    "train_csv": "data/leslie3d_success/train.csv",
+    "train_csv": "data/leslie3d_example2/train.csv",
     "train_csv_sha256": "d96b66557e36e969e0a24a870d063d21d9f1c863483f3f50d04709f83afa0a78",
-    "scaler": "output/leslie3d_success/scalers/train/scaler.gz",
+    "scaler": "output/leslie3d_example2/scalers/train/scaler.gz",
     "scaler_sha256": "ad65c1ae61619aa965eed5eebfc87b34078f7fecc25ff8f83295ae2d50349763",
-    "model_dir": "output/leslie3d_success/seed_2/models",
-    "morse_dir": "output/leslie3d_success/seed_2/MG",
-    "metrics": "output/leslie3d_success/seed_2/metrics.json"
+    "model_dir": "output/leslie3d_example2/seed_2/models",
+    "morse_dir": "output/leslie3d_example2/seed_2/MG",
+    "metrics": "output/leslie3d_example2/seed_2/metrics.json"
   }
 }

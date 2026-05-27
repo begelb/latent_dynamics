@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-27T13:55:05.924802+00:00",
+  "created_at_utc": "2026-05-27T18:53:00.562249+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,17 +9,17 @@
     "mps_available": true
   },
   "requested_stages": [
-    "metrics"
+    "render"
   ],
   "cell": {
     "cell_index": 0,
     "train_file": "train",
     "seed": 2,
-    "output_dir": "output/leslie3d_spurious/seed_2",
+    "output_dir": "output/leslie3d_example1/seed_2",
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "2dc074c257aac6a0e879dd12b4ae84a50a4a549aeaaf100fe5e9bb92aae3f373",
+  "config_hash": "87c373d36b3064e757c2938e05311ad75bbcc3890ea07abdbd023eb171b0ab81",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -119,8 +119,8 @@
       "collapse_roa_to_lca": true
     },
     "paths": {
-      "data_dir": "data/leslie3d_spurious",
-      "output_dir": "output/leslie3d_spurious",
+      "data_dir": "data/leslie3d_example1",
+      "output_dir": "output/leslie3d_example1",
       "scaler_dir_override": null,
       "flat_scaler": false,
       "read_only": false
@@ -128,15 +128,15 @@
     "seeds": [
       2
     ],
-    "experiment_name": "leslie3d_spurious"
+    "experiment_name": "leslie3d_example1"
   },
   "artifacts": {
-    "train_csv": "data/leslie3d_spurious/train.csv",
+    "train_csv": "data/leslie3d_example1/train.csv",
     "train_csv_sha256": "a31520e7ea95505660c549e75c0ad573e549bd475c1b88d9090df2e0b90dcfb9",
-    "scaler": "output/leslie3d_spurious/scalers/train/scaler.gz",
+    "scaler": "output/leslie3d_example1/scalers/train/scaler.gz",
     "scaler_sha256": "f02ba59a29661b48e5bab3036a337bd40bd767546565a0522070f74aa6da0fe8",
-    "model_dir": "output/leslie3d_spurious/seed_2/models",
-    "morse_dir": "output/leslie3d_spurious/seed_2/MG",
-    "metrics": "output/leslie3d_spurious/seed_2/metrics.json"
+    "model_dir": "output/leslie3d_example1/seed_2/models",
+    "morse_dir": "output/leslie3d_example1/seed_2/MG",
+    "metrics": "output/leslie3d_example1/seed_2/metrics.json"
   }
 }

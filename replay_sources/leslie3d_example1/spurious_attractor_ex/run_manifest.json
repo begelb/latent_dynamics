@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-26T21:55:25.919001+00:00",
+  "created_at_utc": "2026-05-27T17:59:20.416281+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,18 +9,17 @@
     "mps_available": true
   },
   "requested_stages": [
-    "morse",
     "render"
   ],
   "cell": {
     "cell_index": 0,
     "train_file": "train",
     "seed": null,
-    "output_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex",
+    "output_dir": "replay_sources/leslie3d_example1/spurious_attractor_ex",
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "015e74571f3ec0f923de5989e7a85925ee076a3e64b58f6f0b6a2cd9168539f6",
+  "config_hash": "8731a9469f5bc6889ca7105cb6621680bd81f6de852e3c9a268aa8e8b3e9770b",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -120,22 +119,22 @@
       "collapse_roa_to_lca": true
     },
     "paths": {
-      "data_dir": "data/leslie3d_spurious",
-      "output_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex",
-      "scaler_dir_override": "replay_sources/leslie3d_spurious/28.9_29.8_22.0/scalers",
+      "data_dir": "data/leslie3d_example1",
+      "output_dir": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+      "scaler_dir_override": "replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers",
       "flat_scaler": true,
       "read_only": true
     },
     "seeds": [],
-    "experiment_name": "leslie3d_spurious_brittany"
+    "experiment_name": "leslie3d_example1_brittany"
   },
   "artifacts": {
-    "train_csv": "data/leslie3d_spurious/train.csv",
+    "train_csv": "data/leslie3d_example1/train.csv",
     "train_csv_sha256": "a31520e7ea95505660c549e75c0ad573e549bd475c1b88d9090df2e0b90dcfb9",
-    "scaler": "replay_sources/leslie3d_spurious/28.9_29.8_22.0/scalers/scaler.gz",
+    "scaler": "replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers/scaler.gz",
     "scaler_sha256": "1d86986b1622f6e57527b852cae5769c412450b7570b82e138e5afbae082d02d",
-    "model_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex/models",
-    "morse_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG",
-    "metrics": "replay_sources/leslie3d_spurious/spurious_attractor_ex/metrics.json"
+    "model_dir": "replay_sources/leslie3d_example1/spurious_attractor_ex/models",
+    "morse_dir": "replay_sources/leslie3d_example1/spurious_attractor_ex/MG",
+    "metrics": "replay_sources/leslie3d_example1/spurious_attractor_ex/metrics.json"
   }
 }

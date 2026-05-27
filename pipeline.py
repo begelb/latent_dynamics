@@ -79,6 +79,14 @@ def main(argv: list[str] | None = None) -> int:
             f"Defaults to {pipeline.DEFAULT_REPLAY_ROOT} when omitted."
         ),
     )
+    parser.add_argument(
+        "--figures",
+        type=str,
+        default=None,
+        help="comma-separated subset of {morse,roa,overlay,extras} for the render stage "
+        "(default: all); e.g. '--figures overlay' regenerates only the orbit overlay and "
+        "skips the regions-of-attraction recompute (the one expensive figure)",
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
@@ -97,6 +105,8 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps({"config": str(args.config), "stages": stages, "cells": plan}, indent=2))
         return 0
 
+    figures = {f for f in args.figures.split(",") if f} if args.figures else None
+
     results = pipeline.run(
         cfg,
         stages=stages,
@@ -107,6 +117,7 @@ def main(argv: list[str] | None = None) -> int:
         skip_completed=args.skip_completed,
         force_overwrite=args.force_overwrite,
         replay_root=args.replay_root,
+        figures=figures,
         verbose=not args.quiet,
     )
 

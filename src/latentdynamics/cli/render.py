@@ -53,8 +53,14 @@ def render_stage(
     device: torch.device | str | None = None,
     verbose: bool = True,
     out_dir: Path | None = None,
+    figures: set[str] | None = None,
 ) -> dict[str, list[str]]:
     """Re-render Morse plots from saved DOT/CSV plus any system-specific figures.
+
+    ``figures`` selects which groups to render -- a subset of
+    ``{"morse", "roa", "overlay", "extras"}``; ``None`` renders all. Only ``roa``
+    is expensive (it walks the latent map); the rest just read saved artifacts,
+    so an overlay tweak can pass ``figures={"overlay"}`` to regenerate in ~a second.
 
     Reads source artifacts from ``cfg.paths.morse_dir`` and
     ``cfg.paths.output_dir``. When ``out_dir`` is provided, all rendered
@@ -81,51 +87,59 @@ def render_stage(
     bounds_lower, bounds_upper = _bounds_from_log(cfg.paths.output_dir / "mg_params_log.txt")
 
     write_root = Path(out_dir) if out_dir is not None else cfg.paths.output_dir
-    figures = render_morse_from_files(
-        morse_dir,
-        bounds_lower=bounds_lower,
-        bounds_upper=bounds_upper,
-        out_dir=write_root / "MG",
-    )
-    rendered = [
-        str(figures.morse_graph_pdf),
-        str(figures.morse_graph_png),
-        *map(str, figures.morse_sets_paths),
-    ]
-
+    want = set(figures) if figures is not None else {"morse", "roa", "overlay", "extras"}
     render_device = _resolve_render_device(device)
-    roa = _render_roa_overlay(
-        cfg,
-        dot_path,
-        csv_path,
-        out_dir=write_root,
-        device=render_device,
-        verbose=verbose,
-    )
-    if roa is not None:
-        rendered.append(str(roa))
+    rendered: list[str] = []
 
-    overlay = _render_morse_overlay(
-        cfg,
-        csv_path,
-        dot_path,
-        out_dir=write_root,
-        device=render_device,
-        bounds_lower=bounds_lower,
-        bounds_upper=bounds_upper,
-        verbose=verbose,
-    )
-    if overlay is not None:
-        rendered.append(str(overlay))
+    if "morse" in want:
+        morse_figs = render_morse_from_files(
+            morse_dir,
+            bounds_lower=bounds_lower,
+            bounds_upper=bounds_upper,
+            out_dir=write_root / "MG",
+            box_scale="auto",
+        )
+        rendered += [
+            str(morse_figs.morse_graph_pdf),
+            str(morse_figs.morse_graph_png),
+            *map(str, morse_figs.morse_sets_paths),
+        ]
 
-    extras = render_extras(
-        cfg,
-        train_file=train_file,
-        device=render_device,
-        verbose=verbose,
-        out_dir=write_root,
-    )
-    rendered.extend(extras)
+    if "roa" in want:
+        roa = _render_roa_overlay(
+            cfg,
+            dot_path,
+            csv_path,
+            out_dir=write_root,
+            device=render_device,
+            verbose=verbose,
+        )
+        if roa is not None:
+            rendered.append(str(roa))
+
+    if "overlay" in want:
+        overlay = _render_morse_overlay(
+            cfg,
+            csv_path,
+            dot_path,
+            out_dir=write_root,
+            device=render_device,
+            bounds_lower=bounds_lower,
+            bounds_upper=bounds_upper,
+            verbose=verbose,
+        )
+        if overlay is not None:
+            rendered.append(str(overlay))
+
+    if "extras" in want:
+        extras = render_extras(
+            cfg,
+            train_file=train_file,
+            device=render_device,
+            verbose=verbose,
+            out_dir=write_root,
+        )
+        rendered.extend(extras)
 
     if verbose:
         print(f"render: {len(rendered)} file(s) under {write_root}")
@@ -181,6 +195,11 @@ def _render_roa_overlay(
     model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
     model.to(device).eval()
 
+    if verbose:
+        print(
+            "render: using the approximate uniform-grid RoA -- no exact RoA artifact found; "
+            "re-run the morse stage to compute the RoA on CMGDB's own grid"
+        )
     out_path = Path(out_dir) / "MG" / "regions_of_attraction.png"
     return render_cell_graph_roa(
         dot_path,
@@ -215,6 +234,36 @@ def _node_periods_from_dot(dot_path: Path) -> dict[int, int]:
     return periods
 
 
+def _box_components(centers: np.ndarray, box_w: float) -> tuple[np.ndarray, int]:
+    """Split a Morse set's boxes into spatially connected components.
+
+    Two boxes are linked when their centers lie within ``1.5 * box_w``; the
+    components are the connected pieces -- e.g. the n points of a period-n orbit.
+    """
+    from scipy.sparse import coo_matrix
+    from scipy.sparse.csgraph import connected_components
+    from scipy.spatial import cKDTree
+
+    n = len(centers)
+    if n <= 1:
+        return np.zeros(n, dtype=int), n
+    pairs = cKDTree(centers).query_pairs(r=1.5 * box_w, output_type="ndarray")
+    if len(pairs) == 0:
+        return np.arange(n), n
+    graph = coo_matrix((np.ones(len(pairs)), (pairs[:, 0], pairs[:, 1])), shape=(n, n))
+    n_comp, comp = connected_components(graph, directed=False)
+    return comp, n_comp
+
+
+def _closest_pair(a: np.ndarray, b: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    """The closest box-center pair between two components, returned as ``(in a, in b)``."""
+    from scipy.spatial import cKDTree
+
+    dist, idx = cKDTree(b).query(a)
+    i = int(np.argmin(dist))
+    return a[i], b[int(idx[i])]
+
+
 def _render_morse_overlay(
     cfg: ExperimentConfig,
     csv_path: Path,
@@ -226,16 +275,15 @@ def _render_morse_overlay(
     bounds_upper: list[float] | None,
     verbose: bool,
 ) -> Path | None:
-    """Morse sets + grey latent-orbit arrows (``morse_sets_with_overlay``).
+    """Morse sets + grey orbit arrows (``morse_sets_with_overlay``).
 
-    2D-only. Traces each *periodic* attractor (Morse-graph sink whose Conley
-    index is a cyclotomic-style ``x^n-1``/``x^n+1``) for exactly its period,
-    drawing the closed orbit as short grey arrows. Period-1 sinks (fixed points
-    or large invariant annuli, e.g. the contraction ``(x-1,x-1,0)`` set) are
-    left as plain filled boxes -- their orbit trace is degenerate/messy. Falls
-    back to short traces of every sink when none are periodic (e.g. the
-    fixed-point Chafee--Infante attractors). Skips silently when the latent map
-    is higher-dimensional or no checkpoint exists.
+    2D-only. For each periodic attractor (a Morse-graph sink with a cyclotomic
+    ``x^n-1``/``x^n+1`` index), split its boxes into spatial components (the n
+    points of the period-n orbit), order the components by the latent dynamics,
+    and draw a grey arrow between the closest boxes of each consecutive pair --
+    so every arrowhead stops at the next component's edge rather than over its
+    boxes. Period-1 sinks (fixed points, invariant annuli) get no arrows. Skips
+    silently when the latent map is higher-dimensional or no checkpoint exists.
     """
     if cfg.arch.low_dims != 2:
         return None
@@ -261,55 +309,51 @@ def _render_morse_overlay(
 
     sinks = _minimal_morse_labels(dot_path) if dot_path.exists() else []
     periods = _node_periods_from_dot(dot_path) if dot_path.exists() else {}
+    widths = data[:, 2] - data[:, 0]
 
-    def _rep(lbl: int) -> np.ndarray | None:
-        mask = labels == lbl
-        if not mask.any():
-            return None
-        pts = np.column_stack((cx[mask], cy[mask]))
-        centroid = pts.mean(axis=0)
-        return pts[np.argmin(np.linalg.norm(pts - centroid, axis=1))]
-
-    # Trace each periodic attractor for exactly its period; skip period-1 sinks.
-    starts: list[list[float]] = []
-    steps: list[int] = []
+    arrows: list[tuple[np.ndarray, np.ndarray]] = []
     for lbl in sinks:
         if periods.get(lbl, 1) < 2:
+            continue  # fixed points / annuli: an orbit arrow would only point inward
+        mask = labels == lbl
+        centers = np.column_stack((cx[mask], cy[mask]))
+        if len(centers) < 2:
             continue
-        rep = _rep(lbl)
-        if rep is None:
+        box_w = float(np.median(widths[mask]))
+        if box_w <= 0:
+            box_w = 0.02 * float(np.ptp(centers, axis=0).max()) + 1e-9
+        comp, n_comp = _box_components(centers, box_w)
+        if n_comp < 2:
+            continue  # one connected blob -- no distinct components to link
+        comp_pts = [centers[comp == c] for c in range(n_comp)]
+        comp_cent = np.array([p.mean(axis=0) for p in comp_pts])
+
+        # Order the components by following the latent dynamics for one period.
+        rep = centers[np.argmin(np.linalg.norm(centers - centers.mean(axis=0), axis=1))]
+        order: list[int] = []
+        z = rep[None, :]
+        for _ in range(int(periods[lbl])):
+            c = int(np.argmin(np.linalg.norm(comp_cent - z[0], axis=1)))
+            if c not in order:
+                order.append(c)
+            z = np.asarray(advance(z), dtype=np.float64)
+        # Only the components the period-length orbit actually visits (the orbit
+        # points) -- not every box-cluster, which for a large fragmented Morse
+        # set would be hundreds of spurious arrows.
+        if len(order) < 2:
             continue
-        starts.append([float(rep[0]), float(rep[1])])
-        steps.append(int(periods[lbl]))
 
-    if not starts:
-        # No periodic attractor: short-trace every sink so the overlay still
-        # indicates local flow (e.g. near-fixed-point Chafee attractors).
-        for lbl in sinks:
-            rep = _rep(lbl)
-            if rep is not None:
-                starts.append([float(rep[0]), float(rep[1])])
-                steps.append(4)
-
-    if not starts:
-        # Last resort: sparse inset grid when no sinks were parsed.
-        lo = np.array([data[:, 0].min(), data[:, 1].min()])
-        hi = np.array([data[:, 2].max(), data[:, 3].max()])
-        span = np.maximum(hi - lo, 1e-9)
-        gx = np.linspace(lo[0] + 0.15 * span[0], hi[0] - 0.15 * span[0], 2)
-        gy = np.linspace(lo[1] + 0.15 * span[1], hi[1] - 0.15 * span[1], 2)
-        starts = [[x, y] for x in gx for y in gy]
-        steps = [4] * len(starts)
+        # One arrow per consecutive pair, anchored at the closest boxes (cyclic).
+        for k in range(len(order)):
+            arrows.append(_closest_pair(comp_pts[order[k]], comp_pts[order[(k + 1) % len(order)]]))
 
     written = render_morse_sets_with_overlay(
         csv_path,
         Path(out_dir) / "MG",
-        latent_starts=np.asarray(starts, dtype=np.float64),
-        advance_latent=advance,
+        arrows=arrows,
         bounds_lower=bounds_lower,
         bounds_upper=bounds_upper,
-        trajectory_steps=steps,
-        box_scale=1.0,
+        box_scale="auto",
     )
     return written[0] if written else None
 

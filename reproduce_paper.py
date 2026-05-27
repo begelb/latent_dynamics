@@ -27,7 +27,7 @@ from latentdynamics.config import load_config
 CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
 
 EXPERIMENTS: dict[str, str] = {
-    "fig_leslie_2gen_contraction": "leslie_2gen_contraction_patrick.yaml",
+    "fig_leslie_2gen_contraction": "leslie_2gen_contraction_replay.yaml",
     "fig_leslie3d_example1": "leslie3d_example1_brittany.yaml",
     "fig_leslie3d_example2": "leslie3d_example2_patrick.yaml",
     "fig_chafee_infante": "chafee_infante_marcio.yaml",

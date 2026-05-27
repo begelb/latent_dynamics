@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pydot
 from matplotlib.axes import Axes
+from matplotlib.collections import PatchCollection
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
 
@@ -241,7 +242,7 @@ def plot_morse_sets_from_csv(
     palette: Sequence[str] = PALETTE,
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
-    box_scale: float = 1.0,
+    box_scale: float | dict[int, float] | str = 1.0,
 ) -> MorseSetsPlot:
     """Read a saved ``morse_sets`` CSV and return a live matplotlib canvas.
 
@@ -290,7 +291,7 @@ def render_morse_sets_from_csv(
     palette: Sequence[str] = PALETTE,
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
-    box_scale: float = 1.0,
+    box_scale: float | dict[int, float] | str = 1.0,
 ) -> list[Path]:
     """Read a saved ``morse_sets`` CSV and write rendered figure files.
 
@@ -370,6 +371,43 @@ def _plot_morse_sets_1d(
     return fig, ax, label_to_y
 
 
+def _resolve_box_scales(
+    box_scale: float | dict[int, float] | str,
+    lx: NDArray[np.float64],
+    ly: NDArray[np.float64],
+    ux: NDArray[np.float64],
+    uy: NDArray[np.float64],
+    lbls: NDArray[np.int_],
+    *,
+    min_frac: float = 0.025,
+    max_scale: float = 10.0,
+) -> Callable[[int], float]:
+    """Return a ``label -> box-scale`` function from a float, dict, or ``"auto"``.
+
+    ``"auto"`` inflates only Morse sets whose larger extent falls below
+    ``min_frac`` of the occupied view span, scaling each of their boxes up to
+    that floor (capped at ``max_scale``) so single-box / tiny sets stay visible;
+    all other sets keep scale 1.0 (faithful).
+    """
+    if isinstance(box_scale, dict):
+        per = {int(k): float(v) for k, v in box_scale.items()}
+        return lambda lbl: per.get(int(lbl), 1.0)
+    if isinstance(box_scale, str):
+        if box_scale != "auto":
+            raise ValueError(f"box_scale string must be 'auto', got {box_scale!r}")
+        span = max(float(ux.max() - lx.min()), float(uy.max() - ly.min()), 1e-12)
+        target = min_frac * span
+        per = {}
+        for label in np.unique(lbls):
+            m = lbls == label
+            ext = max(float(ux[m].max() - lx[m].min()), float(uy[m].max() - ly[m].min()))
+            if 0.0 < ext < target:
+                per[int(label)] = min(target / ext, max_scale)
+        return lambda lbl: per.get(int(lbl), 1.0)
+    bs = float(box_scale)
+    return lambda lbl: bs
+
+
 def _plot_morse_sets_2d(
     data: NDArray[np.float64],
     palette: Sequence[str],
@@ -378,7 +416,7 @@ def _plot_morse_sets_2d(
     labels_2d: tuple[str, str],
     *,
     ax: Axes | None = None,
-    box_scale: float = 1.0,
+    box_scale: float | dict[int, float] | str = 1.0,
 ) -> tuple[Figure, Axes]:
     lx, ly, ux, uy, lbls = (data[:, i] for i in range(5))
     lbls = lbls.astype(int)
@@ -387,21 +425,25 @@ def _plot_morse_sets_2d(
         fig, ax = plt.subplots(figsize=(8, 7))
     else:
         fig = ax.figure
-    # ``box_scale`` inflates each box about its own center so single-box
-    # attractor sets stay visible against the phase space; 1.0 is faithful.
+    # ``box_scale`` inflates each box about its own center so tiny attractor
+    # sets stay visible. It may be a float (global), a {label: scale} dict
+    # (per-set control), or "auto" (inflate only sets below a visibility floor).
+    scale_for = _resolve_box_scales(box_scale, lx, ly, ux, uy, lbls)
+    rects = []
+    facecolors = []
     for box_lx, box_ly, box_ux, box_uy, lbl in zip(lx, ly, ux, uy, lbls, strict=False):
-        width = (box_ux - box_lx) * box_scale
-        height = (box_uy - box_ly) * box_scale
+        s = scale_for(int(lbl))
+        width = (box_ux - box_lx) * s
+        height = (box_uy - box_ly) * s
         cx = 0.5 * (box_lx + box_ux)
         cy = 0.5 * (box_ly + box_uy)
-        rect = mpatches.Rectangle(
-            (cx - 0.5 * width, cy - 0.5 * height),
-            width,
-            height,
-            facecolor=palette[lbl % len(palette)],
-            edgecolor="none",
-        )
-        ax.add_patch(rect)
+        rects.append(mpatches.Rectangle((cx - 0.5 * width, cy - 0.5 * height), width, height))
+        facecolors.append(palette[int(lbl) % len(palette)])
+    # Draw all boxes as one rasterized collection (fast and small PDF even when a
+    # Morse set has 10^5+ boxes), rather than adding each as a separate patch.
+    ax.add_collection(
+        PatchCollection(rects, facecolors=facecolors, edgecolors="none", rasterized=True)
+    )
 
     xlim, ylim = _adaptive_2d_morse_set_limits(lx, ly, ux, uy, bounds_lower, bounds_upper)
     ax.set_xlim(*xlim)
@@ -456,7 +498,7 @@ def render_morse_from_files(
     basename_graph: str = "morse_graph",
     basename_sets: str = "morse_sets",
     paper_style: bool = True,
-    box_scale: float = 1.0,
+    box_scale: float | dict[int, float] | str = 1.0,
 ) -> RenderedMorseFigures:
     """Re-render both Morse outputs from saved ``morse_graph`` + ``morse_sets``."""
     morse_dir = Path(morse_dir)
@@ -534,16 +576,45 @@ def _draw_grey_trajectory(
         )
 
 
+def _draw_grey_arrows(
+    ax: Axes,
+    arrows: Sequence[tuple[NDArray[np.float64], NDArray[np.float64]]],
+) -> None:
+    """Draw explicit grey arrows, each spanning the gap between two components.
+
+    Each ``(p0, p1)`` runs from a box on one Morse-set component to the closest
+    box of the next component in orbit order. The head is shrunk so it stops at
+    the target component's near edge instead of landing over its boxes.
+    """
+    for p0, p1 in arrows:
+        ax.annotate(
+            "",
+            xy=(float(p1[0]), float(p1[1])),
+            xytext=(float(p0[0]), float(p0[1])),
+            arrowprops={
+                "arrowstyle": "-|>",
+                "color": _ARROW_GREY,
+                "lw": 0.8,
+                "alpha": 1.0,
+                "mutation_scale": 10,
+                "shrinkA": 3.0,
+                "shrinkB": 6.0,
+            },
+            zorder=100,
+        )
+
+
 def render_morse_sets_with_overlay(
     csv_path: str | Path,
     out_dir: str | Path,
     *,
-    latent_starts: NDArray[np.float64],
-    advance_latent: Callable[[NDArray[np.float64]], NDArray[np.float64]],
+    latent_starts: NDArray[np.float64] | None = None,
+    advance_latent: Callable[[NDArray[np.float64]], NDArray[np.float64]] | None = None,
+    arrows: Sequence[tuple[NDArray[np.float64], NDArray[np.float64]]] | None = None,
     bounds_lower: Sequence[float] | None = None,
     bounds_upper: Sequence[float] | None = None,
     trajectory_steps: int | Sequence[int] = 6,
-    box_scale: float = 1.0,
+    box_scale: float | dict[int, float] | str = 1.0,
     basename: str = "morse_sets_with_overlay",
     formats: tuple[str, ...] = ("pdf", "png"),
     palette: Sequence[str] = PALETTE,
@@ -572,18 +643,21 @@ def render_morse_sets_with_overlay(
     if plot.dim != 2:
         raise ValueError("morse_sets_with_overlay requires a 2-D latent space")
 
-    starts = np.atleast_2d(np.asarray(latent_starts, dtype=np.float64))
-    if isinstance(trajectory_steps, int):
-        steps_per_start = [trajectory_steps] * len(starts)
-    else:
-        steps_per_start = [int(s) for s in trajectory_steps]
-    for z0, steps in zip(starts, steps_per_start, strict=False):
-        traj = [z0]
-        z = z0[None, :]
-        for _ in range(steps):
-            z = np.asarray(advance_latent(z), dtype=np.float64)
-            traj.append(z[0])
-        _draw_grey_trajectory(plot.ax, np.asarray(traj))
+    if arrows is not None:
+        _draw_grey_arrows(plot.ax, arrows)
+    elif latent_starts is not None and advance_latent is not None:
+        starts = np.atleast_2d(np.asarray(latent_starts, dtype=np.float64))
+        if isinstance(trajectory_steps, int):
+            steps_per_start = [trajectory_steps] * len(starts)
+        else:
+            steps_per_start = [int(s) for s in trajectory_steps]
+        for z0, steps in zip(starts, steps_per_start, strict=False):
+            traj = [z0]
+            z = z0[None, :]
+            for _ in range(steps):
+                z = np.asarray(advance_latent(z), dtype=np.float64)
+                traj.append(z[0])
+            _draw_grey_trajectory(plot.ax, np.asarray(traj))
 
     written = save_figure(plot.fig, out / basename, formats=tuple(formats), close=True)
     return written

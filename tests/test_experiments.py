@@ -173,8 +173,8 @@ class TestConfigsLoadable:
     @pytest.mark.parametrize(
         ("config_name", "output_dir"),
         [
-            ("leslie_2gen_contraction_patrick.yaml", "replay_sources/leslie_2gen_contraction"),
             ("leslie3d_example2_patrick.yaml", "replay_sources/leslie3d_example2"),
+            ("leslie_2gen_contraction_replay.yaml", "replay_sources/leslie_2gen_contraction"),
             (
                 "leslie3d_example1_brittany.yaml",
                 "replay_sources/leslie3d_example1/spurious_attractor_ex",
