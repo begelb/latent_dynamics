@@ -173,10 +173,10 @@ class TestConfigsLoadable:
     @pytest.mark.parametrize(
         ("config_name", "output_dir"),
         [
-            ("leslie_contraction.yaml", "replay_sources/leslie_contraction"),
-            ("leslie3d_success.yaml", "replay_sources/leslie3d_success"),
+            ("leslie_contraction_patrick.yaml", "replay_sources/leslie_contraction"),
+            ("leslie3d_success_patrick.yaml", "replay_sources/leslie3d_success"),
             (
-                "leslie3d_spurious.yaml",
+                "leslie3d_spurious_brittany.yaml",
                 "replay_sources/leslie3d_spurious/spurious_attractor_ex",
             ),
             ("coral_basic.yaml", "replay_sources/coral"),
@@ -190,7 +190,7 @@ class TestConfigsLoadable:
         assert cfg.paths.output_dir == Path(output_dir)
 
     def test_chafee_infante_uses_marcio_cmgdb_parameters(self):
-        cfg = load_config(CONFIGS_DIR / "chafee_infante.yaml")
+        cfg = load_config(CONFIGS_DIR / "chafee_infante_marcio.yaml")
         assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
             10,
             14,

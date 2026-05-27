@@ -1,0 +1,143 @@
+{
+  "created_at_utc": "2026-05-27T06:07:38.874127+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "torch": {
+    "version": "2.11.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "requested_stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 1,
+    "output_dir": "output/chafee_arch_sweep/relu_mlp/seed_1",
+    "device": "mps",
+    "skipped_stages": []
+  },
+  "config_hash": "b98c9239b8305979a80d835bba63c94bd324f8ae5b61f009313b94cf857e5460",
+  "config": {
+    "system": {
+      "name": "chafee_infante",
+      "params": {
+        "N": 64,
+        "alpha": 28.0,
+        "tau": 0.1,
+        "amplitude": 2.0,
+        "decay": 0.5
+      }
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 64,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "none"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "none"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "none"
+      }
+    },
+    "training": {
+      "learning_rate": 0.003,
+      "batch_size": 30000,
+      "epochs": 4000,
+      "patience": 500,
+      "lr_patience": 100,
+      "loss_weights": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "gradient_clip_norm": null,
+      "scheduler_factor": 0.5,
+      "scheduler_threshold": 0.0001,
+      "scheduler_min_lr": 1e-06
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "none",
+      "n_samples_train": 1000,
+      "n_samples_val": 200,
+      "n_iterations": 30,
+      "skip": 0,
+      "train_seed": 7206,
+      "val_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 10,
+      "subdiv_min": 14,
+      "subdiv_max": 28,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.01,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": false,
+      "box_map_backend": "auto",
+      "max_table_points": 300000000,
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
+    },
+    "paths": {
+      "data_dir": "data/chafee_infante",
+      "output_dir": "output/chafee_arch_sweep/relu_mlp",
+      "scaler_dir_override": null,
+      "flat_scaler": false,
+      "read_only": false
+    },
+    "seeds": [
+      1
+    ],
+    "experiment_name": "relu_mlp_seed1"
+  },
+  "artifacts": {
+    "train_csv": "data/chafee_infante/train.csv",
+    "train_csv_sha256": "033cc6753e23b5c2175570a4ee05c360e00b84797ed27caf9b3400d2eba5f778",
+    "scaler": "output/chafee_arch_sweep/relu_mlp/scalers/train/scaler.gz",
+    "scaler_sha256": "7ca7c22bbe06d7e9c653ab24604544d8147b0c03852bcf88121e0e5d3a66c82e",
+    "model_dir": "output/chafee_arch_sweep/relu_mlp/seed_1/models",
+    "morse_dir": "output/chafee_arch_sweep/relu_mlp/seed_1/MG",
+    "metrics": "output/chafee_arch_sweep/relu_mlp/seed_1/metrics.json"
+  }
+}

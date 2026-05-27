@@ -71,15 +71,21 @@ def plot_latent_trajectory(
             trajectory.append(z)
 
         traj = np.asarray(trajectory)
-        ax.plot(
-            traj[:, 0],
-            traj[:, 1],
-            color="black",
-            alpha=0.3 if is_short else 0.1,
-            linestyle="-",
-            linewidth=0.8,
-            zorder=5,
-        )
+        # Grey, trimmed connecting segments: pull each end 8% toward the
+        # segment center so the path clears the Morse-set boxes (matches the
+        # shortened arrows) rather than running edge-to-edge.
+        line_alpha = 0.35 if is_short else 0.12
+        for start, end in zip(traj[:-1], traj[1:]):
+            delta = end - start
+            ax.plot(
+                [start[0] + 0.08 * delta[0], end[0] - 0.08 * delta[0]],
+                [start[1] + 0.08 * delta[1], end[1] - 0.08 * delta[1]],
+                color="#6e6e6e",
+                alpha=line_alpha,
+                linestyle="-",
+                linewidth=0.8,
+                zorder=5,
+            )
         for i in range(len(traj)):
             prog = i / (len(traj) - 1) if len(traj) > 1 else 1.0
             if is_short:

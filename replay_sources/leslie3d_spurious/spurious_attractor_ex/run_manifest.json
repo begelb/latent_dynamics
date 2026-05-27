@@ -1,26 +1,26 @@
 {
-  "created_at_utc": "2026-05-04T17:01:00.252417+00:00",
+  "created_at_utc": "2026-05-26T21:55:25.919001+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
-  "platform": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
   "torch": {
     "version": "2.11.0",
     "cuda_available": false,
     "mps_available": true
   },
   "requested_stages": [
-    "render",
-    "metrics"
+    "morse",
+    "render"
   ],
   "cell": {
     "cell_index": 0,
     "train_file": "train",
     "seed": null,
-    "output_dir": "output/Leslie_3D/spurious_attractor_ex",
+    "output_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex",
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "c7d3dd09d5776601957c64e8a7ea5bb5fa33d00716b81b7d9708a00db25dbc18",
+  "config_hash": "015e74571f3ec0f923de5989e7a85925ee076a3e64b58f6f0b6a2cd9168539f6",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -33,8 +33,8 @@
       }
     },
     "arch": {
-      "num_layers": 3,
-      "hidden_shape": 32,
+      "num_layers": null,
+      "hidden_shape": null,
       "hidden_shapes": null,
       "high_dims": 3,
       "low_dims": 2,
@@ -45,23 +45,35 @@
       "encoder": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          32,
+          32,
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
       },
       "latent_map": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          32,
+          32,
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
       },
       "decoder": {
         "num_layers": null,
         "hidden_shape": null,
-        "hidden_shapes": null,
-        "activation": null,
-        "out_activation": null
+        "hidden_shapes": [
+          32,
+          32,
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "sigmoid"
       }
     },
     "training": {
@@ -69,12 +81,12 @@
       "batch_size": 1024,
       "epochs": 1000,
       "patience": 100,
+      "lr_patience": 10,
       "loss_weights": [
         10.0,
         10.0,
         1.0
       ],
-      "loss_mode": "weighted",
       "gradient_clip_norm": 1.0,
       "scheduler_factor": 0.1,
       "scheduler_threshold": 0.001,
@@ -84,11 +96,11 @@
       "sampling_method": "uniform",
       "scaling": "minmax",
       "n_samples_train": 4000,
-      "n_samples_test": 5000,
+      "n_samples_val": 5000,
       "n_iterations": 30,
       "skip": 0,
-      "sobol_train_seed": 42,
-      "sobol_test_seed": 9999,
+      "train_seed": 42,
+      "val_seed": 9999,
       "train_files": null
     },
     "cmgdb": {
@@ -99,24 +111,31 @@
       "bounds_epsilon_frac": 0.01,
       "lower_bounds": null,
       "upper_bounds": null,
-      "padding": true
+      "padding": true,
+      "box_map_backend": "auto",
+      "max_table_points": 300000000,
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
     },
     "paths": {
-      "data_dir": "data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0",
-      "output_dir": "output/Leslie_3D/spurious_attractor_ex",
-      "scaler_dir_override": "output/Leslie_3D/28.9_29.8_22.0/scalers",
+      "data_dir": "data/leslie3d_spurious",
+      "output_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex",
+      "scaler_dir_override": "replay_sources/leslie3d_spurious/28.9_29.8_22.0/scalers",
       "flat_scaler": true,
       "read_only": true
     },
-    "seeds": []
+    "seeds": [],
+    "experiment_name": "leslie3d_spurious_brittany"
   },
-  "artefacts": {
-    "train_csv": "data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/train.csv",
-    "train_csv_sha256": null,
-    "scaler": "output/Leslie_3D/28.9_29.8_22.0/scalers/scaler.gz",
+  "artifacts": {
+    "train_csv": "data/leslie3d_spurious/train.csv",
+    "train_csv_sha256": "a31520e7ea95505660c549e75c0ad573e549bd475c1b88d9090df2e0b90dcfb9",
+    "scaler": "replay_sources/leslie3d_spurious/28.9_29.8_22.0/scalers/scaler.gz",
     "scaler_sha256": "1d86986b1622f6e57527b852cae5769c412450b7570b82e138e5afbae082d02d",
-    "model_dir": "output/Leslie_3D/spurious_attractor_ex/models",
-    "morse_dir": "output/Leslie_3D/spurious_attractor_ex/MG",
-    "metrics": "output/Leslie_3D/spurious_attractor_ex/metrics.json"
+    "model_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex/models",
+    "morse_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG",
+    "metrics": "replay_sources/leslie3d_spurious/spurious_attractor_ex/metrics.json"
   }
 }

@@ -98,7 +98,11 @@ def run(
         device=device,
         verbose=verbose,
     )
+    import time as _time
+
+    _t0 = _time.perf_counter()
     history = trainer.fit()
+    train_seconds = _time.perf_counter() - _t0
 
     trainer.save(output_root)
 
@@ -118,6 +122,8 @@ def run(
         "best_epoch": int(best_epoch),
         "loss_weights": list(cfg.training.loss_weights),
         "n_epochs_run": len(history.train["loss_total"]),
+        "train_duration_seconds": round(train_seconds, 2),
+        "train_duration_minutes": round(train_seconds / 60.0, 4),
     }
     for split_name, hist in (("train", history.train), ("val", history.val)):
         per_loss: dict[str, dict[str, float]] = {}
@@ -138,4 +144,5 @@ def run(
     (output_root / "training_summary.json").write_text(_json.dumps(summary, indent=2))
 
     if verbose:
+        print(f"trained {summary['n_epochs_run']} epochs in {train_seconds / 60:.2f} min")
         print(f"checkpoint and logs written to {output_root}")

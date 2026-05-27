@@ -1,0 +1,42 @@
+{
+  "minimal_morse_labels": [
+    0,
+    1,
+    4,
+    7,
+    9,
+    11
+  ],
+  "minimal_morse_sets": {
+    "0": {
+      "n_boxes": 1,
+      "tau_bar": 0.00012611981946974993,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "1": {
+      "n_boxes": 2,
+      "tau_bar": 0.00047213584184646606,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "4": {
+      "n_boxes": 7,
+      "tau_bar": 0.00035945267882198095,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "7": {
+      "n_boxes": 1,
+      "tau_bar": 0.0009843582520261407,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "9": {
+      "n_boxes": 4,
+      "tau_bar": 0.00011226197239011526,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "11": {
+      "n_boxes": 24,
+      "tau_bar": 8.032075129449368e-06,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    }
+  }
+}

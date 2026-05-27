@@ -27,12 +27,12 @@ training:
   learning_rate: 0.003
   batch_size: 30000
   epochs: 4000
-  patience: 100
-  lr_patience: 10
+  patience: 4000
+  lr_patience: 100
   loss_weights: [1.0, 1.0, 0.0]
   gradient_clip_norm: null
   scheduler_factor: 0.5
-  scheduler_threshold: 0.001
+  scheduler_threshold: 0.0001
   scheduler_min_lr: 0.000001
 
 data:
@@ -52,8 +52,8 @@ cmgdb:
   subdiv_max: 28
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
-  lower_bounds: [-3.0, -2.0]
-  upper_bounds: [3.0, 2.0]
+  lower_bounds: null
+  upper_bounds: null
   padding: false
   box_map_backend: auto
   max_table_points: 300000000

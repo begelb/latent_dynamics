@@ -1,0 +1,38 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/dyn_heavy_subdiv/s10_16_30/seed_0",
+    "render": {
+      "figures": [
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/morse_graph.pdf",
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/morse_graph.png",
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/morse_sets.pdf",
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/morse_sets.png",
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/regions_of_attraction.png",
+        "output/dyn_heavy_subdiv/s10_16_30/seed_0/MG/morse_sets_with_overlay.pdf"
+      ]
+    },
+    "metrics": {
+      "minimal_morse_labels": [
+        0,
+        1
+      ],
+      "minimal_morse_sets": {
+        "0": {
+          "n_boxes": 1,
+          "tau_bar": 0.0060838013887405396,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        },
+        "1": {
+          "n_boxes": 1,
+          "tau_bar": 0.008723445236682892,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        }
+      }
+    },
+    "manifest": "output/dyn_heavy_subdiv/s10_16_30/seed_0/run_manifest.json"
+  }
+]

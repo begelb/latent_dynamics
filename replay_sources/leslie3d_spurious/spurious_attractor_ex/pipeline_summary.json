@@ -4,22 +4,17 @@
     "train_file": "train",
     "seed": null,
     "device": "mps",
-    "output_dir": "output/Leslie_3D/spurious_attractor_ex",
+    "output_dir": "replay_sources/leslie3d_spurious/spurious_attractor_ex",
     "render": {
       "figures": [
-        "output/Leslie_3D/spurious_attractor_ex/MG/morse_graph.pdf",
-        "output/Leslie_3D/spurious_attractor_ex/MG/morse_graph.png",
-        "output/Leslie_3D/spurious_attractor_ex/MG/morse_sets.pdf",
-        "output/Leslie_3D/spurious_attractor_ex/MG/morse_sets.png",
-        "output/Leslie_3D/spurious_attractor_ex/figures/latent_trajectory.png"
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_graph.pdf",
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_graph.png",
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_sets.pdf",
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/morse_sets.png",
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/MG/regions_of_attraction.png",
+        "replay_sources/leslie3d_spurious/spurious_attractor_ex/figures/latent_trajectory.png"
       ]
     },
-    "metrics": {
-      "target_label": 0,
-      "tau_bar": 5.960464477539063e-08,
-      "max_semiconjugacy_error": 0.0004470703424885869,
-      "is_spurious_attractor": true
-    },
-    "manifest": "output/Leslie_3D/spurious_attractor_ex/run_manifest.json"
+    "manifest": "replay_sources/leslie3d_spurious/spurious_attractor_ex/run_manifest.json"
   }
 ]

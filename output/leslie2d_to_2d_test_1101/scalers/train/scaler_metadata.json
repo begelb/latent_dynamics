@@ -1,8 +1,0 @@
-{
-  "created_at_utc": "2026-05-20T02:49:20.777126+00:00",
-  "train_file": "train",
-  "train_csv": "data/leslie2d_to_2d_test_1101/train.csv",
-  "train_csv_sha256": "56f8cf69c36f2bd0d0ea19fb2ea128eeaecf9c52871fe9542adfbe8cc6819165",
-  "scaling": "minmax",
-  "high_dims": 2
-}

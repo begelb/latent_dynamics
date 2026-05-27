@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-21T11:07:13.314480+00:00",
+  "created_at_utc": "2026-05-27T13:55:05.924802+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,7 @@
     "mps_available": true
   },
   "requested_stages": [
-    "render"
+    "metrics"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,7 +19,7 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "ee1a9165b149d217e67636feea7a78fc86b1678f192824a6c79dc55d38596bcb",
+  "config_hash": "2dc074c257aac6a0e879dd12b4ae84a50a4a549aeaaf100fe5e9bb92aae3f373",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -115,7 +115,8 @@
       "max_table_points": 300000000,
       "precompute_batch_points": "auto",
       "compute_roa": false,
-      "roa_max_vertices": 50000000
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
     },
     "paths": {
       "data_dir": "data/leslie3d_spurious",

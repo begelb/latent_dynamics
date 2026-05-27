@@ -1,0 +1,198 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/chafee_infante_test_contraction/seed_0",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.3189913481473923,
+          0.15835991501808167
+        ],
+        "max_extent": 0.3189913481473923,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.15949567407369614
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 0.3632594251078323,
+        "image_diameter": 0.3493024511726674,
+        "contraction_ratio": 0.961578494677676,
+        "mean_step_relative": 0.14811040419464627,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.23765190646052362,
+          -0.32249175816774367
+        ],
+        "upper": [
+          0.08771926864981651,
+          -0.1609646448493004
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/chafee_infante_test_contraction/seed_0/run_manifest.json"
+  },
+  {
+    "cell_index": 1,
+    "train_file": "train",
+    "seed": 1,
+    "device": "mps",
+    "output_dir": "output/chafee_infante_test_contraction/seed_1",
+    "diagnose": {
+      "diagnostic": "encoder_collapsed_and_latent_overcontracted",
+      "hard_flags": {
+        "encoder_collapsed": true,
+        "latent_map_overcontracted": true
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.004491446539759636,
+          0.006904132664203644
+        ],
+        "max_extent": 0.006904132664203644,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.003452066332101822
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 0.008401242855373605,
+        "image_diameter": 0.00011177422471983527,
+        "contraction_ratio": 0.013304486805585226,
+        "mean_step_relative": 0.27881603054844445,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.025795810427516698,
+          0.06039414875209331
+        ],
+        "upper": [
+          -0.02121453495696187,
+          0.06743636406958103
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/chafee_infante_test_contraction/seed_1/run_manifest.json"
+  },
+  {
+    "cell_index": 2,
+    "train_file": "train",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/chafee_infante_test_contraction/seed_2",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.2803863659501076,
+          0.17294659931212664
+        ],
+        "max_extent": 0.2803863659501076,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.1401931829750538
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 0.3360231135762541,
+        "image_diameter": 0.3152998555356561,
+        "contraction_ratio": 0.9383278792341312,
+        "mean_step_relative": 0.159363787000037,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.12605134554207326,
+          0.0019401116576045752
+        ],
+        "upper": [
+          0.15994274772703648,
+          0.17834564295597374
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/chafee_infante_test_contraction/seed_2/run_manifest.json"
+  },
+  {
+    "cell_index": 3,
+    "train_file": "train",
+    "seed": 3,
+    "device": "mps",
+    "output_dir": "output/chafee_infante_test_contraction/seed_3",
+    "diagnose": {
+      "diagnostic": "encoder_collapsed_and_latent_overcontracted",
+      "hard_flags": {
+        "encoder_collapsed": true,
+        "latent_map_overcontracted": true
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.011546947062015533,
+          0.009531494230031967
+        ],
+        "max_extent": 0.011546947062015533,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.005773473531007767
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 0.015272141172933514,
+        "image_diameter": 0.00026228120743428275,
+        "contraction_ratio": 0.01717383335213782,
+        "mean_step_relative": 0.2722350641390291,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          0.09225015304982662,
+          -0.057543944232165814
+        ],
+        "upper": [
+          0.10402803905308247,
+          -0.047821820117533206
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/chafee_infante_test_contraction/seed_3/run_manifest.json"
+  }
+]

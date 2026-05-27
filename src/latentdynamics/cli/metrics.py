@@ -93,6 +93,14 @@ def metrics_stage(
         else:
             result = {}
 
+    # System-agnostic faithfulness flag: every attractor-type Morse set (stable
+    # Conley index) must be a minimal node. Non-minimal ones signal a too-coarse
+    # subdivision (spurious outgoing edges) -- an unfaithful Morse graph.
+    if isinstance(result, dict):
+        result["morse_graph_consistency"] = _morse_graph_consistency(
+            seed_cfg.paths.morse_dir / "morse_graph"
+        )
+
     write_root = Path(out_dir) if out_dir is not None else seed_cfg.paths.output_dir
     out_path = write_root / "metrics.json"
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -141,6 +149,38 @@ def _minimal_morse_labels(morse_graph_dot: Path) -> list[int]:
     edge_pairs = re.findall(r"^(\d+)\s*->\s*(\d+);", text, re.M)
     has_out = {int(s) for s, _ in edge_pairs}
     return sorted(n for n in node_ids if n not in has_out)
+
+
+def _morse_graph_consistency(morse_graph_dot: Path) -> dict:
+    """Flag attractor-type Morse sets that are not minimal (subdivision too coarse).
+
+    The Conley index carries dynamical type: a nontrivial degree-0 component
+    (``x-1`` stable fixed point, ``x^n-1`` stable periodic orbit, ``x-1, x-1``
+    stable set) marks an *attracting* Morse set, which must therefore be a
+    minimal node (a sink). An attractor-type set with outgoing edges indicates
+    a spurious edge from too-coarse subdivision -> raise ``subdiv_init``. Also
+    reports trivial-index ``(0,0,0)`` sets (raise ``subdiv_max`` to dissolve).
+    """
+    import re
+
+    if not morse_graph_dot.exists() or morse_graph_dot.stat().st_size == 0:
+        return {}
+    text = morse_graph_dot.read_text()
+    idx = {
+        int(m.group(1)): m.group(2).strip()
+        for m in re.finditer(r'^(\d+)\s+\[label="\d+\s*:\s*\(([^)]*)\)"', text, re.M)
+    }
+    has_out = {int(s) for s, _ in re.findall(r"^(\d+)\s*->\s*(\d+);", text, re.M)}
+    attractor_type = [n for n in idx if idx[n].split(",")[0].strip() not in ("0", "")]
+    nonminimal = sorted(n for n in attractor_type if n in has_out)
+    trivial = sorted(n for n, v in idx.items() if v.replace(" ", "") == "0,0,0")
+    return {
+        "n_morse_sets": len(idx),
+        "n_minimal_attractors": len([n for n in attractor_type if n not in has_out]),
+        "attractor_type_nonminimal": nonminimal,
+        "n_trivial_index": len(trivial),
+        "consistent": len(nonminimal) == 0,
+    }
 
 
 def _per_minimal_tolerance_metrics(

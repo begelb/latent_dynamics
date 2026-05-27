@@ -11,7 +11,8 @@
         "output/chafee_infante/seed_0/MG/morse_graph.png",
         "output/chafee_infante/seed_0/MG/morse_sets.pdf",
         "output/chafee_infante/seed_0/MG/morse_sets.png",
-        "output/chafee_infante/seed_0/MG/regions_of_attraction.png"
+        "output/chafee_infante/seed_0/MG/regions_of_attraction.png",
+        "output/chafee_infante/seed_0/MG/morse_sets_with_overlay.pdf"
       ]
     },
     "manifest": "output/chafee_infante/seed_0/run_manifest.json"

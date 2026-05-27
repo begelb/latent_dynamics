@@ -60,9 +60,9 @@ cmgdb:
 
 paths:
   data_dir: data/leslie3d_success
-  output_dir: replay_sources/leslie3d_success
-  scaler_dir_override: replay_sources/leslie3d_success/data/scalers
-  flat_scaler: true
-  read_only: true
+  output_dir: output/leslie3d_success
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
 
-seeds: []
+seeds: [2]  # selected: bistable latent Morse structure (2 attractors)

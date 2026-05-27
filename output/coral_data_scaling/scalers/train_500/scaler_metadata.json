@@ -1,8 +1,0 @@
-{
-  "created_at_utc": "2026-05-17T18:56:23.636604+00:00",
-  "train_file": "train_500",
-  "train_csv": "data/coral/train_500.csv",
-  "train_csv_sha256": "5daae8b66fb98e09dbbd87448e470f3f3bb913f078fc4fcb7b511f271031111c",
-  "scaling": "minmax",
-  "high_dims": 13
-}

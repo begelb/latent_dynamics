@@ -1,0 +1,43 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 2,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_test/seed_2",
+    "render": {
+      "figures": [
+        "output/leslie3d_spurious_test/seed_2/MG/morse_graph.pdf",
+        "output/leslie3d_spurious_test/seed_2/MG/morse_graph.png",
+        "output/leslie3d_spurious_test/seed_2/MG/morse_sets.pdf",
+        "output/leslie3d_spurious_test/seed_2/MG/morse_sets.png",
+        "output/leslie3d_spurious_test/seed_2/MG/regions_of_attraction.png",
+        "output/leslie3d_spurious_test/seed_2/MG/morse_sets_with_overlay.pdf",
+        "output/leslie3d_spurious_test/seed_2/figures/latent_trajectory.png"
+      ]
+    },
+    "metrics": {
+      "minimal_morse_labels": [
+        0,
+        1
+      ],
+      "minimal_morse_sets": {
+        "0": {
+          "n_boxes": 22862,
+          "tau_bar": 3.3387571420462336e-05,
+          "n_semiconjugacy_samples": 494,
+          "max_semiconjugacy_error": 0.004972719121724367,
+          "is_spurious_attractor": true
+        },
+        "1": {
+          "n_boxes": 40115,
+          "tau_bar": 3.3614645872148685e-05,
+          "n_semiconjugacy_samples": 13,
+          "max_semiconjugacy_error": 0.022833118215203285,
+          "is_spurious_attractor": true
+        }
+      }
+    },
+    "manifest": "output/leslie3d_spurious_test/seed_2/run_manifest.json"
+  }
+]

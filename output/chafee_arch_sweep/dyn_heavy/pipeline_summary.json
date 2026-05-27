@@ -1,0 +1,20 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/chafee_arch_sweep/dyn_heavy/seed_0",
+    "render": {
+      "figures": [
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/morse_graph.pdf",
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/morse_graph.png",
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/morse_sets.pdf",
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/morse_sets.png",
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/regions_of_attraction.png",
+        "output/chafee_arch_sweep/dyn_heavy/seed_0/MG/morse_sets_with_overlay.pdf"
+      ]
+    },
+    "manifest": "output/chafee_arch_sweep/dyn_heavy/seed_0/run_manifest.json"
+  }
+]

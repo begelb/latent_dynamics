@@ -40,16 +40,24 @@ def plot_roa_overlay_cell_graph(
     *,
     roa_alpha: float = 0.35,
     morse_alpha: float = 0.95,
+    single_basin_only: bool = True,
 ) -> Figure:
-    """Render basin (cell-graph RoA, low alpha) + Morse sets (full alpha)."""
+    """Render basin (cell-graph RoA, low alpha) + Morse sets (full alpha).
+
+    Like :func:`plot_exact_roa`, the basin layer defaults to single-basin cells
+    only (cells reverse-reaching exactly one minimal Morse set).
+    """
     grid = cg.grid
     mg = cg.morse_graph
+    minimal = {int(n) for n in mg.minimal}
     r = grid.resolution
 
     # Build a (resolution, resolution, 4) RGBA image from box_roa.
     img = np.zeros((r, r, 4), dtype=np.float64)
     roa = cg.box_roa.reshape(r, r)
     for label in np.unique(roa):
+        if single_basin_only and int(label) not in minimal:
+            continue  # leave multi-basin / boundary / escape cells transparent
         mask = roa == label
         if label == CellGraphROA.ESCAPE:
             color = _rgba(_ESCAPE_COLOR, 0.0)
@@ -131,9 +139,25 @@ def plot_exact_roa(
     morse_table: BoxROATable,
     *,
     roa_alpha: float = 0.55,
+    single_basin_only: bool = True,
+    show_morse_sets: bool = True,
+    morse_alpha: float = 0.95,
 ) -> Figure:
-    """Render exact CMGDB-cell RoA labels from a saved artifact."""
+    """Render exact CMGDB-cell RoA labels from a saved artifact.
+
+    By default only **single-basin** cells are drawn: a cell is colored (at
+    ``roa_alpha``) by its attractor only when it reverse-reaches exactly one
+    minimal Morse set -- i.e. its label is a minimal node. Cells that reach
+    several minima (basin boundaries: the LCA / ``BOUNDARY`` labels), recurrent
+    non-minimal sets, and escape cells are left transparent. Set
+    ``single_basin_only=False`` to draw every labelled cell (the old behavior).
+
+    When ``show_morse_sets`` (default), the recurrent Morse-set boxes are
+    overlaid at full alpha (``morse_alpha``), colored by their Morse node, so
+    each basin is visibly tied to the attractor / Morse set it flows to.
+    """
     mg = morse_table.morse_graph
+    minimal = {int(n) for n in mg.minimal}
     labels = np.asarray(roa.box_roa, dtype=np.int32)
     fig, ax = plt.subplots(figsize=(7.5, 6.5))
 
@@ -146,6 +170,8 @@ def plot_exact_roa(
         img = np.zeros(shape + (4,), dtype=np.float64)
         label_grid = labels.reshape(shape)
         for label in np.unique(label_grid):
+            if single_basin_only and int(label) not in minimal:
+                continue  # leave multi-basin / boundary / escape cells transparent
             mask = label_grid == label
             if label == ESCAPE:
                 color = _rgba(_ESCAPE_COLOR, 0.0)
@@ -177,6 +203,8 @@ def plot_exact_roa(
         patches = []
         facecolors = []
         for box, label in zip(roa.boxes, labels, strict=True):
+            if single_basin_only and int(label) not in minimal:
+                continue  # skip multi-basin / boundary / escape boxes
             lo_x, lo_y, hi_x, hi_y = box[:4]
             patches.append(Rectangle((lo_x, lo_y), hi_x - lo_x, hi_y - lo_y))
             if label == ESCAPE:
@@ -196,6 +224,23 @@ def plot_exact_roa(
             ax.autoscale()
     else:
         raise ValueError("exact RoA artifact has neither grid_shape nor box geometry")
+
+    if show_morse_sets:
+        # Overlay the recurrent Morse-set boxes at full alpha, colored by their
+        # Morse node, so each basin is tied to the attractor / set it flows to.
+        ms_patches = []
+        ms_colors = []
+        for _, row in morse_table.boxes.iterrows():
+            lo_x, lo_y = row["lower_0"], row["lower_1"]
+            hi_x, hi_y = row["upper_0"], row["upper_1"]
+            ms_patches.append(Rectangle((lo_x, lo_y), hi_x - lo_x, hi_y - lo_y))
+            ms_colors.append(mg.colors.get(int(row["morse_node"]), "#888888"))
+        if ms_patches:
+            pc = PatchCollection(ms_patches, match_original=False)
+            pc.set_facecolor(ms_colors)
+            pc.set_edgecolor("none")
+            pc.set_alpha(morse_alpha)
+            ax.add_collection(pc)
 
     ax.set_xlabel("$z_1$")
     ax.set_ylabel("$z_2$")

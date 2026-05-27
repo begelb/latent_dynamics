@@ -18,7 +18,7 @@ import torch
 
 from ..config import ExperimentConfig
 from ..training import has_legacy_checkpoint, has_new_checkpoint, load_any_checkpoint
-from ..viz import render_morse_from_files
+from ..viz import render_morse_from_files, render_morse_sets_with_overlay
 from ..analysis.cmgdb_roa import EXACT_ROA_FILENAME
 from ..viz.regions_of_attraction import render_cell_graph_roa, render_exact_roa_artifact
 
@@ -105,6 +105,19 @@ def render_stage(
     if roa is not None:
         rendered.append(str(roa))
 
+    overlay = _render_morse_overlay(
+        cfg,
+        csv_path,
+        dot_path,
+        out_dir=write_root,
+        device=render_device,
+        bounds_lower=bounds_lower,
+        bounds_upper=bounds_upper,
+        verbose=verbose,
+    )
+    if overlay is not None:
+        rendered.append(str(overlay))
+
     extras = render_extras(
         cfg,
         train_file=train_file,
@@ -152,6 +165,12 @@ def _render_roa_overlay(
     exact_artifact = dot_path.with_name(EXACT_ROA_FILENAME)
     if exact_artifact.exists():
         out_path = Path(out_dir) / "MG" / "regions_of_attraction_exact.png"
+        # Drop any stale cell-graph fallback render so the two don't coexist
+        # (the exact RoA, on CMGDB's grid, supersedes it).
+        for stale in ("regions_of_attraction.png", "regions_of_attraction.pdf"):
+            stale_path = Path(out_dir) / "MG" / stale
+            if stale_path.exists():
+                stale_path.unlink()
         return render_exact_roa_artifact(exact_artifact, dot_path, out_path)
 
     model_dir = cfg.paths.output_dir / "models"
@@ -171,6 +190,128 @@ def _render_roa_overlay(
         resolution=128,
         device=str(device),
     )
+
+
+def _node_periods_from_dot(dot_path: Path) -> dict[int, int]:
+    """Map Morse-graph node id -> orbit period parsed from its Conley index.
+
+    Reads labels like ``0 : (x^6-1, 0, 0)``. A component equal to ``x^n-1``
+    gives period ``n``; ``x^n+1`` gives ``2n``; ``x-1`` is period 1 (a fixed
+    point). Components that are not a bare cyclotomic-style factor (e.g.
+    ``x^2+x+1``) are ignored. Period 1 means no nontrivial orbit to trace.
+    """
+    import re
+
+    text = dot_path.read_text()
+    periods: dict[int, int] = {}
+    for m in re.finditer(r'(\d+) \[label="(\d+) : \(([^)]*)\)"', text):
+        best = 1
+        for comp in m.group(3).split(","):
+            mm = re.fullmatch(r"x\^?(\d*)([+-])1", comp.strip().replace(" ", ""))
+            if mm:
+                n = int(mm.group(1)) if mm.group(1) else 1
+                best = max(best, n if mm.group(2) == "-" else 2 * n)
+        periods[int(m.group(2))] = best
+    return periods
+
+
+def _render_morse_overlay(
+    cfg: ExperimentConfig,
+    csv_path: Path,
+    dot_path: Path,
+    *,
+    out_dir: Path,
+    device: torch.device,
+    bounds_lower: list[float] | None,
+    bounds_upper: list[float] | None,
+    verbose: bool,
+) -> Path | None:
+    """Morse sets + grey latent-orbit arrows (``morse_sets_with_overlay``).
+
+    2D-only. Traces each *periodic* attractor (Morse-graph sink whose Conley
+    index is a cyclotomic-style ``x^n-1``/``x^n+1``) for exactly its period,
+    drawing the closed orbit as short grey arrows. Period-1 sinks (fixed points
+    or large invariant annuli, e.g. the contraction ``(x-1,x-1,0)`` set) are
+    left as plain filled boxes -- their orbit trace is degenerate/messy. Falls
+    back to short traces of every sink when none are periodic (e.g. the
+    fixed-point Chafee--Infante attractors). Skips silently when the latent map
+    is higher-dimensional or no checkpoint exists.
+    """
+    if cfg.arch.low_dims != 2:
+        return None
+    if not csv_path.exists() or csv_path.stat().st_size == 0:
+        return None
+    model_dir = cfg.paths.output_dir / "models"
+    if not (has_legacy_checkpoint(model_dir) or has_new_checkpoint(model_dir)):
+        if verbose:
+            print(f"render: skipping Morse overlay (no checkpoint at {model_dir})")
+        return None
+    model, _arch = load_any_checkpoint(model_dir, arch=cfg.arch)
+    model.to(device).eval()
+    advance = _make_advance_callable(model.latent_map, device)
+
+    data = np.loadtxt(csv_path, delimiter=",", ndmin=2)
+    if data.shape[1] != 5:
+        return None
+    labels = data[:, 4].astype(int)
+    cx = 0.5 * (data[:, 0] + data[:, 2])
+    cy = 0.5 * (data[:, 1] + data[:, 3])
+
+    from .metrics import _minimal_morse_labels
+
+    sinks = _minimal_morse_labels(dot_path) if dot_path.exists() else []
+    periods = _node_periods_from_dot(dot_path) if dot_path.exists() else {}
+
+    def _rep(lbl: int) -> np.ndarray | None:
+        mask = labels == lbl
+        if not mask.any():
+            return None
+        pts = np.column_stack((cx[mask], cy[mask]))
+        centroid = pts.mean(axis=0)
+        return pts[np.argmin(np.linalg.norm(pts - centroid, axis=1))]
+
+    # Trace each periodic attractor for exactly its period; skip period-1 sinks.
+    starts: list[list[float]] = []
+    steps: list[int] = []
+    for lbl in sinks:
+        if periods.get(lbl, 1) < 2:
+            continue
+        rep = _rep(lbl)
+        if rep is None:
+            continue
+        starts.append([float(rep[0]), float(rep[1])])
+        steps.append(int(periods[lbl]))
+
+    if not starts:
+        # No periodic attractor: short-trace every sink so the overlay still
+        # indicates local flow (e.g. near-fixed-point Chafee attractors).
+        for lbl in sinks:
+            rep = _rep(lbl)
+            if rep is not None:
+                starts.append([float(rep[0]), float(rep[1])])
+                steps.append(4)
+
+    if not starts:
+        # Last resort: sparse inset grid when no sinks were parsed.
+        lo = np.array([data[:, 0].min(), data[:, 1].min()])
+        hi = np.array([data[:, 2].max(), data[:, 3].max()])
+        span = np.maximum(hi - lo, 1e-9)
+        gx = np.linspace(lo[0] + 0.15 * span[0], hi[0] - 0.15 * span[0], 2)
+        gy = np.linspace(lo[1] + 0.15 * span[1], hi[1] - 0.15 * span[1], 2)
+        starts = [[x, y] for x in gx for y in gy]
+        steps = [4] * len(starts)
+
+    written = render_morse_sets_with_overlay(
+        csv_path,
+        Path(out_dir) / "MG",
+        latent_starts=np.asarray(starts, dtype=np.float64),
+        advance_latent=advance,
+        bounds_lower=bounds_lower,
+        bounds_upper=bounds_upper,
+        trajectory_steps=steps,
+        box_scale=1.0,
+    )
+    return written[0] if written else None
 
 
 def render_extras(

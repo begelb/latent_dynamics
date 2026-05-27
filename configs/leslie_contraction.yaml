@@ -46,22 +46,25 @@ data:
   train_files: null
 
 cmgdb:
-  subdiv_init: 25
-  subdiv_min: 27
-  subdiv_max: 28
+  # Finer grid than the other 2D cases: the 10D->2D latent map packs its two
+  # recurrent orbits close together, so coarser subdivision (25/27/28) merges
+  # them into one attractor under the padded box map. 27/29/30 resolves both.
+  subdiv_init: 27
+  subdiv_min: 29
+  subdiv_max: 30
   subdiv_limit: 10000
   bounds_epsilon_frac: 0.01
   lower_bounds: null
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  max_table_points: 300000000
+  max_table_points: 1500000000
 
 paths:
   data_dir: data/leslie_contraction
-  output_dir: replay_sources/leslie_contraction
-  scaler_dir_override: replay_sources/leslie_contraction/data/scalers
-  flat_scaler: true
-  read_only: true
+  output_dir: output/leslie_contraction
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
 
-seeds: []
+seeds: [20]  # selected: bistable latent Morse structure (2 attractors at subdiv 27/29/30)

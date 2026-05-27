@@ -16,7 +16,7 @@ TikZ schematics with no reproduction burden; the computational figures are 8–1
 | 9 (§5.3.1) | 3D Leslie, spurious | **Replay-ready** | `replay_sources/leslie3d_spurious/spurious_attractor_ex` (legacy ckpt) | None for replay (Hasse is byte-identical to Brittany's archive). |
 | 10 (§5.3.2) | 3D Leslie, correct | **Replay-ready** | `replay_sources/leslie3d_success` (Patrick) | Fresh exact retrain blocked: script + raw CSVs not archived. |
 | 11 (§5.4) | Chafee–Infante bifurcation diagram | **N/A (static asset)** | `paper/figures/ci_bif_diagram.pdf` | A steady-state continuation/BVP figure, not part of the learned-dynamics pipeline. No code reproduction intended. |
-| 12 (§5.4) | Chafee–Infante latent Morse graph | **Partial (local retrain)** | `output/chafee_infante/seed_0` (fresh retrain: 9-node, 4 attractors) | Not pinned to Marcio's paper run. Close by converting `ci_model_weights.pth` → `autoencoder.pt` (+ sidecar) and recomputing CMGDB; his raw CMGDB DOT/CSV are not archived (only PDFs). |
+| 12 (§5.4) | Chafee–Infante latent Morse graph | **Replay-ready (Marcio's model)** | `replay_sources/chafee_infante/marcio` (his `ci_model_weights.pth` converted via `scripts/convert_marcio_chafee.py`) | RESOLVED 2026-05-26: his weights load cleanly (arch identical); recomputing CMGDB reproduces Fig. 12 exactly — 7 nodes, 2 attractors `(x-1,0,0)`, 3 saddles `(0,x-1,0)`, 2 sources `(0,0,x-1)`. The bare `chafee_infante` config remains a separate fresh-retrain (derived-box) variant. |
 | 13 (§5.5) | Red coral, basic Morse graph | **Reproducible (retrain substitute)** | `output/coral_data_scaling/train_500/seed_0` (fresh retrain; passes the §5.5.1 success metric) | Brittany's *preserved* `train_500` checkpoints are 0-byte. The local retrain at the same size reproduces the figure; to recover the exact preserved run, re-sync from the cluster. |
 | 14 (§5.5.2) | Coral population histograms | **Reproducible** | data CSVs: `data/coral/train_500.csv`, `replay_sources/coral/data/coral/train_500_300_adaptive.csv` | None — histograms come from the data, independent of checkpoints. |
 | 15 (§5.5.2) | Coral success rates (30 seeds × sizes) | **Partial** | `replay_sources/coral` (train_2000×30, train_100×10, adaptive M=100/200/300×30) + `output/coral_data_scaling` (6 sizes × ~4 seeds) | No single tree has 30 seeds across all sizes. Close with a fresh recompute sweep or a cluster re-sync (see below). |
@@ -43,18 +43,21 @@ array template is `slurm/pipeline_array.sbatch`; get the cell count with
 `pipeline.py --config configs/coral_data_scaling.yaml --dry-run`. Recomputing
 writes under `output/` (the `replay_sources` config is `read_only`).
 
-### Chafee–Infante — retrain vs. paper
+### Chafee–Infante — Marcio's model (resolved 2026-05-26)
 
-`output/chafee_infante/seed_0` is a fresh retrain that produces a rich
-multistable Morse graph (9 nodes, 4 attractors) — **not** the collapse the old
-notebook/`FIGURE_PARITY.md` describe. It is not Marcio's exact run, though:
+`scripts/convert_marcio_chafee.py` converts his `ci_model_weights.pth` to the
+package checkpoint format — his architecture is identical to the package's chafee
+arch, so it is a pure `.net` key rename. The read-only `chafee_infante_marcio`
+config now replays **his** model: recomputing CMGDB over his predefined box
+`[-3,-2]×[3,2]` reproduces Fig. 12 exactly — 7 nodes, 2 attractors `(x-1,0,0)`,
+3 saddles `(0,x-1,0)`, 2 sources `(0,0,x-1)`. Saved under
+`replay_sources/chafee_infante/marcio/`.
 
-- `ci_model_weights.pth` (his trained weights) is not converted to the unified
-  `autoencoder.pt` + sidecar format.
-- His raw CMGDB DOT/CSV are not archived (only the rendered PDFs).
-- `metrics.json` is empty: the §4 tolerance metric needs a one-step
-  `x_t → x_{t+τ}` map, and `chafee_infante` is currently typed as a continuous
-  integration rather than a `DiscreteMap`.
+The bare `chafee_infante` config is a *separate* fresh retrain (derived box); it
+produces a richer/different graph (9 nodes, 4 attractors) and is not pinned to
+his run. `metrics.json` stays empty for both: the §4 tolerance metric needs a
+one-step `x_t → x_{t+τ}` map, and `chafee_infante` is typed as a continuous
+integration rather than a `DiscreteMap`.
 
 ### Patrick's Leslie runs (Fig. 8, 10)
 

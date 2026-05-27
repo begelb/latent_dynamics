@@ -12,7 +12,7 @@ those artifacts and re-emit PDF/PNG plots without invoking CMGDB.
 
 from __future__ import annotations
 
-from collections.abc import Sequence
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -25,7 +25,7 @@ from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
 
-from .style import PALETTE, apply_paper_style
+from .style import PALETTE, apply_paper_style, save_figure
 
 
 @dataclass(frozen=True)
@@ -241,6 +241,7 @@ def plot_morse_sets_from_csv(
     palette: Sequence[str] = PALETTE,
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
+    box_scale: float = 1.0,
 ) -> MorseSetsPlot:
     """Read a saved ``morse_sets`` CSV and return a live matplotlib canvas.
 
@@ -272,6 +273,7 @@ def plot_morse_sets_from_csv(
             bounds_upper,
             labels_2d,
             ax=ax,
+            box_scale=box_scale,
         )
         label_to_y = {}
     return MorseSetsPlot(fig=fig, ax=ax, data=data, dim=dim, label_to_y=label_to_y)
@@ -288,6 +290,7 @@ def render_morse_sets_from_csv(
     palette: Sequence[str] = PALETTE,
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
+    box_scale: float = 1.0,
 ) -> list[Path]:
     """Read a saved ``morse_sets`` CSV and write rendered figure files.
 
@@ -305,6 +308,7 @@ def render_morse_sets_from_csv(
         palette=palette,
         labels_2d=labels_2d,
         paper_style=paper_style,
+        box_scale=box_scale,
     )
 
     rendered: list[Path] = []
@@ -374,6 +378,7 @@ def _plot_morse_sets_2d(
     labels_2d: tuple[str, str],
     *,
     ax: Axes | None = None,
+    box_scale: float = 1.0,
 ) -> tuple[Figure, Axes]:
     lx, ly, ux, uy, lbls = (data[:, i] for i in range(5))
     lbls = lbls.astype(int)
@@ -382,11 +387,17 @@ def _plot_morse_sets_2d(
         fig, ax = plt.subplots(figsize=(8, 7))
     else:
         fig = ax.figure
+    # ``box_scale`` inflates each box about its own center so single-box
+    # attractor sets stay visible against the phase space; 1.0 is faithful.
     for box_lx, box_ly, box_ux, box_uy, lbl in zip(lx, ly, ux, uy, lbls, strict=False):
+        width = (box_ux - box_lx) * box_scale
+        height = (box_uy - box_ly) * box_scale
+        cx = 0.5 * (box_lx + box_ux)
+        cy = 0.5 * (box_ly + box_uy)
         rect = mpatches.Rectangle(
-            (box_lx, box_ly),
-            box_ux - box_lx,
-            box_uy - box_ly,
+            (cx - 0.5 * width, cy - 0.5 * height),
+            width,
+            height,
             facecolor=palette[lbl % len(palette)],
             edgecolor="none",
         )
@@ -445,6 +456,7 @@ def render_morse_from_files(
     basename_graph: str = "morse_graph",
     basename_sets: str = "morse_sets",
     paper_style: bool = True,
+    box_scale: float = 1.0,
 ) -> RenderedMorseFigures:
     """Re-render both Morse outputs from saved ``morse_graph`` + ``morse_sets``."""
     morse_dir = Path(morse_dir)
@@ -464,6 +476,7 @@ def render_morse_from_files(
         basename=basename_sets,
         palette=palette,
         paper_style=paper_style,
+        box_scale=box_scale,
     )
     pdf = next((p for p in graph_paths if p.suffix == ".pdf"), graph_paths[0])
     png = next((p for p in graph_paths if p.suffix == ".png"), graph_paths[-1])
@@ -472,3 +485,105 @@ def render_morse_from_files(
         morse_graph_png=png,
         morse_sets_paths=set_paths,
     )
+
+
+# --------------------------------------------------------------------------- #
+# Morse-set + latent-trajectory overlay (grey arrows showing orbit direction) #
+# --------------------------------------------------------------------------- #
+
+_ARROW_GREY = "#6e6e6e"
+
+
+def _draw_grey_trajectory(
+    ax: Axes,
+    traj: NDArray[np.float64],
+) -> None:
+    """Overlay one latent orbit as short grey arrows between iterates.
+
+    Matches the shortened-arrow style of :func:`plot_latent_trajectory`: each
+    connecting segment is trimmed 8% at both ends and the arrow heads are
+    shrunk so they sit between, not over, the Morse-set boxes. No point markers
+    are drawn -- the colored Morse-set boxes already mark each orbit point, so
+    overlaying solid markers on them is redundant and distracting.
+    """
+    for start, end in zip(traj[:-1], traj[1:], strict=False):
+        delta = end - start
+        ax.plot(
+            [start[0] + 0.08 * delta[0], end[0] - 0.08 * delta[0]],
+            [start[1] + 0.08 * delta[1], end[1] - 0.08 * delta[1]],
+            color=_ARROW_GREY,
+            alpha=0.35,
+            linewidth=0.8,
+            zorder=5,
+        )
+    for i in range(len(traj) - 1):
+        ax.annotate(
+            "",
+            xy=(traj[i + 1, 0], traj[i + 1, 1]),
+            xytext=(traj[i, 0], traj[i, 1]),
+            arrowprops={
+                "arrowstyle": "-|>",
+                "color": _ARROW_GREY,
+                "lw": 0.8,
+                "alpha": 1.0,
+                "mutation_scale": 9,
+                "shrinkA": 7.0,
+                "shrinkB": 7.0,
+            },
+            zorder=100,
+        )
+
+
+def render_morse_sets_with_overlay(
+    csv_path: str | Path,
+    out_dir: str | Path,
+    *,
+    latent_starts: NDArray[np.float64],
+    advance_latent: Callable[[NDArray[np.float64]], NDArray[np.float64]],
+    bounds_lower: Sequence[float] | None = None,
+    bounds_upper: Sequence[float] | None = None,
+    trajectory_steps: int | Sequence[int] = 6,
+    box_scale: float = 1.0,
+    basename: str = "morse_sets_with_overlay",
+    formats: tuple[str, ...] = ("pdf", "png"),
+    palette: Sequence[str] = PALETTE,
+    labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
+    paper_style: bool = True,
+) -> list[Path]:
+    """Render filled Morse sets with grey latent-orbit arrows overlaid.
+
+    ``latent_starts`` are ``(N, 2)`` seed points already in latent space; each
+    is advanced ``trajectory_steps`` times through ``advance_latent`` and drawn
+    as a short grey arrow chain. ``box_scale`` inflates the Morse boxes so tiny
+    attractor sets remain visible under the overlay.
+    """
+    out = Path(out_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    plot = plot_morse_sets_from_csv(
+        csv_path,
+        bounds_lower=bounds_lower,
+        bounds_upper=bounds_upper,
+        palette=palette,
+        labels_2d=labels_2d,
+        paper_style=paper_style,
+        box_scale=box_scale,
+    )
+    if plot.dim != 2:
+        raise ValueError("morse_sets_with_overlay requires a 2-D latent space")
+
+    starts = np.atleast_2d(np.asarray(latent_starts, dtype=np.float64))
+    if isinstance(trajectory_steps, int):
+        steps_per_start = [trajectory_steps] * len(starts)
+    else:
+        steps_per_start = [int(s) for s in trajectory_steps]
+    for z0, steps in zip(starts, steps_per_start, strict=False):
+        traj = [z0]
+        z = z0[None, :]
+        for _ in range(steps):
+            z = np.asarray(advance_latent(z), dtype=np.float64)
+            traj.append(z[0])
+        _draw_grey_trajectory(plot.ax, np.asarray(traj))
+
+    written = save_figure(plot.fig, out / basename, formats=tuple(formats), close=True)
+    return written

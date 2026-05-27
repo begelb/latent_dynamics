@@ -1,0 +1,41 @@
+{
+  "diagnostic": "ok",
+  "hard_flags": {
+    "encoder_collapsed": false,
+    "latent_map_overcontracted": false
+  },
+  "encoder": {
+    "extent_per_axis": [
+      5.734868288040161,
+      3.519644856452942
+    ],
+    "max_extent": 5.734868288040161,
+    "out_activation": "none",
+    "reference_span": null,
+    "max_extent_relative": null
+  },
+  "latent_map": {
+    "n_grid_points": 2500,
+    "grid_diameter": 6.863365749417118,
+    "image_diameter": 4.247163774146849,
+    "contraction_ratio": 0.6188164712783296,
+    "mean_step_relative": 0.10721804262759031,
+    "near_identity": false
+  },
+  "matched_dims": false,
+  "encoder_near_identity": null,
+  "decoder_near_identity": null,
+  "mean_step_E_relative": null,
+  "mean_step_D_relative": null,
+  "bounds": {
+    "lower": [
+      -1.6461402916908263,
+      -2.024765158891678
+    ],
+    "upper": [
+      4.203425362110138,
+      1.565272594690323
+    ],
+    "source": "encoded_data"
+  }
+}

@@ -2,18 +2,19 @@
   {
     "cell_index": 0,
     "train_file": "train",
-    "seed": 0,
+    "seed": 20,
     "device": "mps",
-    "output_dir": "output/leslie_contraction/seed_0",
+    "output_dir": "output/leslie_contraction/seed_20",
     "render": {
       "figures": [
-        "output/leslie_contraction/seed_0/MG/morse_graph.pdf",
-        "output/leslie_contraction/seed_0/MG/morse_graph.png",
-        "output/leslie_contraction/seed_0/MG/morse_sets.pdf",
-        "output/leslie_contraction/seed_0/MG/morse_sets.png",
-        "output/leslie_contraction/seed_0/MG/regions_of_attraction.png"
+        "output/leslie_contraction/seed_20/MG/morse_graph.pdf",
+        "output/leslie_contraction/seed_20/MG/morse_graph.png",
+        "output/leslie_contraction/seed_20/MG/morse_sets.pdf",
+        "output/leslie_contraction/seed_20/MG/morse_sets.png",
+        "output/leslie_contraction/seed_20/MG/regions_of_attraction.png",
+        "output/leslie_contraction/seed_20/MG/morse_sets_with_overlay.pdf"
       ]
     },
-    "manifest": "output/leslie_contraction/seed_0/run_manifest.json"
+    "manifest": "output/leslie_contraction/seed_20/run_manifest.json"
   }
 ]

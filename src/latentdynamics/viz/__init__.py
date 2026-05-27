@@ -24,6 +24,7 @@ from .morse_plots import (
     render_morse_outputs,
     render_morse_sets,
     render_morse_sets_from_csv,
+    render_morse_sets_with_overlay,
     save_morse_graph_artifacts,
 )
 from .style import PALETTE, PAPER_RCPARAMS, apply_paper_style, color_for, save_figure
@@ -48,6 +49,7 @@ __all__ = [
     "render_morse_outputs",
     "render_morse_sets",
     "render_morse_sets_from_csv",
+    "render_morse_sets_with_overlay",
     "save_default_trajectory_plot",
     "save_morse_graph_artifacts",
 ]

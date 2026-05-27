@@ -27,10 +27,10 @@ from latentdynamics.config import load_config
 CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
 
 EXPERIMENTS: dict[str, str] = {
-    "fig_leslie_contraction": "leslie_contraction.yaml",
-    "fig_leslie3d_spurious": "leslie3d_spurious.yaml",
-    "fig_leslie3d_success": "leslie3d_success.yaml",
-    "fig_chafee_infante": "chafee_infante.yaml",
+    "fig_leslie_contraction": "leslie_contraction_patrick.yaml",
+    "fig_leslie3d_spurious": "leslie3d_spurious_brittany.yaml",
+    "fig_leslie3d_success": "leslie3d_success_patrick.yaml",
+    "fig_chafee_infante": "chafee_infante_marcio.yaml",
     "fig_coral_basic": "coral_basic.yaml",
     "fig_coral_data_scaling": "coral_data_scaling.yaml",
     "fig_coral_adaptive": "coral_adaptive.yaml",

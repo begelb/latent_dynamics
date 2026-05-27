@@ -5,15 +5,34 @@
     "seed": 2,
     "device": "mps",
     "output_dir": "output/leslie3d_spurious/seed_2",
-    "render": {
-      "figures": [
-        "output/leslie3d_spurious/seed_2/MG/morse_graph.pdf",
-        "output/leslie3d_spurious/seed_2/MG/morse_graph.png",
-        "output/leslie3d_spurious/seed_2/MG/morse_sets.pdf",
-        "output/leslie3d_spurious/seed_2/MG/morse_sets.png",
-        "output/leslie3d_spurious/seed_2/MG/regions_of_attraction.png",
-        "output/leslie3d_spurious/seed_2/figures/latent_trajectory.png"
-      ]
+    "metrics": {
+      "minimal_morse_labels": [
+        0,
+        1
+      ],
+      "minimal_morse_sets": {
+        "0": {
+          "n_boxes": 7489,
+          "tau_bar": 0.0002652924376889132,
+          "n_semiconjugacy_samples": 1891,
+          "max_semiconjugacy_error": 0.009571014903485775,
+          "is_spurious_attractor": true
+        },
+        "1": {
+          "n_boxes": 3921,
+          "tau_bar": 0.000289529380097543,
+          "n_semiconjugacy_samples": 131,
+          "max_semiconjugacy_error": 0.034295640885829926,
+          "is_spurious_attractor": true
+        }
+      },
+      "morse_graph_consistency": {
+        "n_morse_sets": 3,
+        "n_minimal_attractors": 2,
+        "attractor_type_nonminimal": [],
+        "n_trivial_index": 0,
+        "consistent": true
+      }
     },
     "manifest": "output/leslie3d_spurious/seed_2/run_manifest.json"
   }

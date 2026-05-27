@@ -1,0 +1,394 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 7,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_7",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          1.488575041294098,
+          1.1463174521923065
+        ],
+        "max_extent": 1.488575041294098,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.744287520647049
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.9163786913595307,
+        "image_diameter": 1.3917035965804239,
+        "contraction_ratio": 0.7262153366948115,
+        "mean_step_relative": 0.28660989495686284,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.7926857739686965,
+          -0.7140659782290458
+        ],
+        "upper": [
+          0.7256607681512832,
+          0.4551778230071068
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_7/run_manifest.json"
+  },
+  {
+    "cell_index": 1,
+    "train_file": "train",
+    "seed": 8,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_8",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.9666948616504669,
+          1.120223581790924
+        ],
+        "max_extent": 1.120223581790924,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.560111790895462
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.5092553070382344,
+        "image_diameter": 1.5046162067219695,
+        "contraction_ratio": 0.9969262322321273,
+        "mean_step_relative": 0.34398056617309747,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.32791989952325823,
+          -0.5333513814210892
+        ],
+        "upper": [
+          0.658108859360218,
+          0.6092766720056534
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_8/run_manifest.json"
+  },
+  {
+    "cell_index": 2,
+    "train_file": "train",
+    "seed": 9,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_9",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          1.1897065341472626,
+          1.485548973083496
+        ],
+        "max_extent": 1.485548973083496,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.742774486541748
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.9412873531063182,
+        "image_diameter": 1.5095896372673232,
+        "contraction_ratio": 0.7776229700625097,
+        "mean_step_relative": 0.38080611921373336,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.4160227856040001,
+          -0.6473040437698364
+        ],
+        "upper": [
+          0.7974778792262077,
+          0.8679559087753296
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_9/run_manifest.json"
+  },
+  {
+    "cell_index": 3,
+    "train_file": "train",
+    "seed": 10,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_10",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          1.3284859359264374,
+          1.5028055310249329
+        ],
+        "max_extent": 1.5028055310249329,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.7514027655124664
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 2.0459327065212154,
+        "image_diameter": 1.434128952462499,
+        "contraction_ratio": 0.7009658469662026,
+        "mean_step_relative": 0.31044414640891116,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.9739922258257866,
+          -0.6329897600412369
+        ],
+        "upper": [
+          0.38106342881917954,
+          0.8998718816041946
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_10/run_manifest.json"
+  },
+  {
+    "cell_index": 4,
+    "train_file": "train",
+    "seed": 11,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_11",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.9579329490661621,
+          0.966174453496933
+        ],
+        "max_extent": 0.966174453496933,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.4830872267484665
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.3877731101734023,
+        "image_diameter": 1.4557934281614886,
+        "contraction_ratio": 1.0490140048754708,
+        "mean_step_relative": 0.3030534186347382,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.3629592347145081,
+          -0.2859669134020805
+        ],
+        "upper": [
+          0.6141323733329773,
+          0.6995310291647912
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_11/run_manifest.json"
+  },
+  {
+    "cell_index": 5,
+    "train_file": "train",
+    "seed": 12,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_12",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          1.0961487293243408,
+          1.0519906878471375
+        ],
+        "max_extent": 1.0961487293243408,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.5480743646621704
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.5496705431990263,
+        "image_diameter": 1.3605202956487612,
+        "contraction_ratio": 0.8779416383821833,
+        "mean_step_relative": 0.3094182202123403,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.6092502021789551,
+          -0.5364639014005661
+        ],
+        "upper": [
+          0.5088215017318726,
+          0.5365666002035141
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_12/run_manifest.json"
+  },
+  {
+    "cell_index": 6,
+    "train_file": "train",
+    "seed": 13,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_13",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          0.852159783244133,
+          1.1583632826805115
+        ],
+        "max_extent": 1.1583632826805115,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.5791816413402557
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.4668088679821367,
+        "image_diameter": 1.439015894804047,
+        "contraction_ratio": 0.9810520826641006,
+        "mean_step_relative": 0.30163887324532973,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.9875086955726147,
+          -0.4649012750387192
+        ],
+        "upper": [
+          -0.11830571666359901,
+          0.7166292732954025
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_13/run_manifest.json"
+  },
+  {
+    "cell_index": 7,
+    "train_file": "train",
+    "seed": 14,
+    "device": "mps",
+    "output_dir": "output/leslie3d_spurious_search/seed_14",
+    "diagnose": {
+      "diagnostic": "ok",
+      "hard_flags": {
+        "encoder_collapsed": false,
+        "latent_map_overcontracted": false
+      },
+      "encoder": {
+        "extent_per_axis": [
+          1.29039466381073,
+          1.31599360704422
+        ],
+        "max_extent": 1.31599360704422,
+        "out_activation": "tanh",
+        "reference_span": 2.0,
+        "max_extent_relative": 0.65799680352211
+      },
+      "latent_map": {
+        "n_grid_points": 2500,
+        "grid_diameter": 1.879945384229082,
+        "image_diameter": 1.4624514528844268,
+        "contraction_ratio": 0.7779223083569212,
+        "mean_step_relative": 0.32691803402645164,
+        "near_identity": false
+      },
+      "matched_dims": false,
+      "encoder_near_identity": null,
+      "decoder_near_identity": null,
+      "mean_step_E_relative": null,
+      "mean_step_D_relative": null,
+      "bounds": {
+        "lower": [
+          -0.5996874749660492,
+          -0.3685874396562576
+        ],
+        "upper": [
+          0.7165150821208954,
+          0.9737260395288467
+        ],
+        "source": "encoded_data"
+      }
+    },
+    "manifest": "output/leslie3d_spurious_search/seed_14/run_manifest.json"
+  }
+]
