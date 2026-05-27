@@ -28,8 +28,8 @@ system:
   # - coral: parameters consumed by latentdynamics.systems.coral
   # - chafee_infante: N, tau, and PDE parameters consumed by that system
   params:
-    th1: 20.0
-    th2: 20.0
+    th1: 23.5
+    th2: 23.5
     survival_p1: 0.7
     contraction: 0.25
     lower_bounds: [0.0, 0.0]
