@@ -90,7 +90,6 @@ code/
 ├── pipeline.py                       # single-config staged runner
 ├── docs/
 │   ├── PAPER_REPRODUCTION.md         # figure -> command map, in detail
-│   ├── FIGURE_PARITY.md              # what does/doesn't currently match the paper
 │   ├── AMAREL.md                     # cluster + Slurm array workflow
 │   └── figure_contracts/             # one .md per paper figure, line-cited
 ├── configs/                          # one fully-explicit YAML per experiment

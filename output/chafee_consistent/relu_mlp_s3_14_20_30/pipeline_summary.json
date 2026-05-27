@@ -1,0 +1,62 @@
+[
+  {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "device": "mps",
+    "output_dir": "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0",
+    "render": {
+      "figures": [
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/morse_graph.pdf",
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/morse_graph.png",
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/morse_sets.pdf",
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/morse_sets.png",
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/regions_of_attraction.png",
+        "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/MG/morse_sets_with_overlay.pdf"
+      ]
+    },
+    "metrics": {
+      "minimal_morse_labels": [
+        0,
+        5,
+        7,
+        9
+      ],
+      "minimal_morse_sets": {
+        "0": {
+          "n_boxes": 17,
+          "tau_bar": 0.00022882129997015,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        },
+        "5": {
+          "n_boxes": 1,
+          "tau_bar": 0.0006884034955874085,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        },
+        "7": {
+          "n_boxes": 1,
+          "tau_bar": 0.0006058934377506375,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        },
+        "9": {
+          "n_boxes": 4,
+          "tau_bar": 0.0002621853491291404,
+          "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+        }
+      },
+      "morse_graph_consistency": {
+        "n_morse_sets": 17,
+        "n_minimal_attractors": 4,
+        "attractor_type_nonminimal": [
+          1,
+          2,
+          10,
+          13
+        ],
+        "n_trivial_index": 0,
+        "consistent": false
+      }
+    },
+    "manifest": "output/chafee_consistent/relu_mlp_s3_14_20_30/seed_0/run_manifest.json"
+  }
+]

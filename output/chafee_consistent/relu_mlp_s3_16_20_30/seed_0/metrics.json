@@ -1,0 +1,57 @@
+{
+  "minimal_morse_labels": [
+    0,
+    1,
+    3,
+    5,
+    7,
+    9,
+    11
+  ],
+  "minimal_morse_sets": {
+    "0": {
+      "n_boxes": 2,
+      "tau_bar": 0.00012218160554766655,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "1": {
+      "n_boxes": 6,
+      "tau_bar": 5.599460564553738e-06,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "3": {
+      "n_boxes": 17,
+      "tau_bar": 0.00022882129997015,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "5": {
+      "n_boxes": 1,
+      "tau_bar": 0.0006884034955874085,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "7": {
+      "n_boxes": 1,
+      "tau_bar": 0.0006058934377506375,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "9": {
+      "n_boxes": 7,
+      "tau_bar": 0.00013181136455386877,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    },
+    "11": {
+      "n_boxes": 4,
+      "tau_bar": 0.0002621853491291404,
+      "warning": "system is not a DiscreteMap; skipped semiconjugacy error"
+    }
+  },
+  "morse_graph_consistency": {
+    "n_morse_sets": 17,
+    "n_minimal_attractors": 7,
+    "attractor_type_nonminimal": [
+      12
+    ],
+    "n_trivial_index": 0,
+    "consistent": false
+  }
+}
