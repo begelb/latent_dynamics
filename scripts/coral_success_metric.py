@@ -360,7 +360,13 @@ def build_figure(
     ax.set_xticks(present_xs)
     ax.get_xaxis().set_tick_params(which="minor", size=0)
 
-    ax.legend()
+    ax.legend(
+        loc="center left",
+        bbox_to_anchor=(1.02, 0.5),
+        frameon=True,
+        handletextpad=0.4,
+        borderaxespad=0.0,
+    )
     ax.grid(axis="y", linestyle="--", alpha=0.4)
 
     # Annotate n < 30 below each tick.
