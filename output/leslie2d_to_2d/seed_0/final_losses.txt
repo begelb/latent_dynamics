@@ -1,0 +1,4 @@
+loss_ae1: 2.316495e-06
+loss_ae2: 2.351610e-06
+loss_dyn: 3.343086e-06
+loss_total: 3.220273e-04

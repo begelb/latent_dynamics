@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-05-14T20:28:26.990565+00:00",
+  "train_file": "train",
+  "train_csv": "data/leslie2d_to_2d_smoke/train.csv",
+  "train_csv_sha256": "7e41dcfdfbd38d872e551b70a82874a25c6fece5b433101af81b00acda7335da",
+  "scaling": "minmax",
+  "high_dims": 2
+}

@@ -1,0 +1,263 @@
+{
+  "config": "configs/leslie2d_to_2d.yaml",
+  "device": "cpu",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "cpu_count": 14,
+  "torch_version": "2.11.0",
+  "ambient_bounds": {
+    "lower": [
+      0.0,
+      0.0
+    ],
+    "upper": [
+      90.0,
+      70.0
+    ]
+  },
+  "latent_bounds": {
+    "lower": [
+      -0.864453911781311,
+      -0.6872784495353699
+    ],
+    "upper": [
+      0.5411344766616821,
+      0.6889714002609253
+    ]
+  },
+  "microbench": {
+    "analytic_single_call_s": 2.791995939332992e-06,
+    "analytic_boxmap_s": 1.3125005352776498e-05,
+    "latent_single_call_s": 1.7541999113745987e-05,
+    "latent_boxmap_s": 6.662499799858779e-05,
+    "latent_over_analytic_per_call": 6.2829601098692045,
+    "latent_over_analytic_per_box": 5.076188253477075
+  },
+  "sweep": [
+    {
+      "subdiv_init": 2,
+      "subdiv_min": 9,
+      "subdiv_max": 10,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 0.03164237499731826,
+        "duration_min": 0.0005273729166219709,
+        "morse_nodes": 1,
+        "morse_edges": 0,
+        "morse_total_boxes": 191,
+        "morse_boxes_per_set": {
+          "0": 191
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_10/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_10/morse_sets"
+      },
+      "latent": {
+        "duration_s": 0.14983400000346592,
+        "duration_min": 0.0024972333333910988,
+        "morse_nodes": 1,
+        "morse_edges": 0,
+        "morse_total_boxes": 202,
+        "morse_boxes_per_set": {
+          "0": 202
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_10/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_10/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 4,
+      "subdiv_min": 11,
+      "subdiv_max": 12,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 0.09991420799633488,
+        "duration_min": 0.0016652367999389146,
+        "morse_nodes": 2,
+        "morse_edges": 1,
+        "morse_total_boxes": 615,
+        "morse_boxes_per_set": {
+          "0": 614,
+          "1": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_12/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_12/morse_sets"
+      },
+      "latent": {
+        "duration_s": 0.39266025000688387,
+        "duration_min": 0.006544337500114731,
+        "morse_nodes": 1,
+        "morse_edges": 0,
+        "morse_total_boxes": 487,
+        "morse_boxes_per_set": {
+          "0": 487
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_12/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_12/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 6,
+      "subdiv_min": 13,
+      "subdiv_max": 14,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 0.32283883400668856,
+        "duration_min": 0.005380647233444809,
+        "morse_nodes": 2,
+        "morse_edges": 1,
+        "morse_total_boxes": 2003,
+        "morse_boxes_per_set": {
+          "0": 2002,
+          "1": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_14/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_14/morse_sets"
+      },
+      "latent": {
+        "duration_s": 1.0198554579983465,
+        "duration_min": 0.01699759096663911,
+        "morse_nodes": 1,
+        "morse_edges": 0,
+        "morse_total_boxes": 1274,
+        "morse_boxes_per_set": {
+          "0": 1274
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_14/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_14/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 8,
+      "subdiv_min": 15,
+      "subdiv_max": 16,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 1.032899958001508,
+        "duration_min": 0.01721499930002513,
+        "morse_nodes": 3,
+        "morse_edges": 2,
+        "morse_total_boxes": 5380,
+        "morse_boxes_per_set": {
+          "0": 711,
+          "1": 4668,
+          "2": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_16/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_16/morse_sets"
+      },
+      "latent": {
+        "duration_s": 2.942808416999469,
+        "duration_min": 0.049046806949991154,
+        "morse_nodes": 1,
+        "morse_edges": 0,
+        "morse_total_boxes": 3568,
+        "morse_boxes_per_set": {
+          "0": 3568
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_16/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_16/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 10,
+      "subdiv_min": 17,
+      "subdiv_max": 18,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 2.0337821670036647,
+        "duration_min": 0.033896369450061074,
+        "morse_nodes": 3,
+        "morse_edges": 2,
+        "morse_total_boxes": 15365,
+        "morse_boxes_per_set": {
+          "0": 1008,
+          "1": 14356,
+          "2": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_18/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_18/morse_sets"
+      },
+      "latent": {
+        "duration_s": 5.105693915997108,
+        "duration_min": 0.0850948985999518,
+        "morse_nodes": 2,
+        "morse_edges": 1,
+        "morse_total_boxes": 8414,
+        "morse_boxes_per_set": {
+          "0": 807,
+          "1": 7607
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_18/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_18/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 12,
+      "subdiv_min": 19,
+      "subdiv_max": 20,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 5.782022875006078,
+        "duration_min": 0.09636704791676796,
+        "morse_nodes": 4,
+        "morse_edges": 3,
+        "morse_total_boxes": 46632,
+        "morse_boxes_per_set": {
+          "0": 1408,
+          "1": 44643,
+          "2": 580,
+          "3": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_20/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_20/morse_sets"
+      },
+      "latent": {
+        "duration_s": 13.751933125000505,
+        "duration_min": 0.22919888541667507,
+        "morse_nodes": 2,
+        "morse_edges": 1,
+        "morse_total_boxes": 25767,
+        "morse_boxes_per_set": {
+          "0": 1196,
+          "1": 24571
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_20/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_20/morse_sets"
+      }
+    },
+    {
+      "subdiv_init": 14,
+      "subdiv_min": 21,
+      "subdiv_max": 22,
+      "subdiv_limit": 10000,
+      "analytic": {
+        "duration_s": 16.25713750000432,
+        "duration_min": 0.2709522916667387,
+        "morse_nodes": 4,
+        "morse_edges": 3,
+        "morse_total_boxes": 139289,
+        "morse_boxes_per_set": {
+          "0": 2287,
+          "1": 136407,
+          "2": 594,
+          "3": 1
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_22/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/analytic/smax_22/morse_sets"
+      },
+      "latent": {
+        "duration_s": 38.47599849999824,
+        "duration_min": 0.6412666416666374,
+        "morse_nodes": 3,
+        "morse_edges": 2,
+        "morse_total_boxes": 77939,
+        "morse_boxes_per_set": {
+          "0": 1866,
+          "1": 75713,
+          "2": 360
+        },
+        "dot": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_22/morse_graph",
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie2d_to_2d_profile/morse/latent/smax_22/morse_sets"
+      }
+    }
+  ]
+}
