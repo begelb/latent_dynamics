@@ -10,8 +10,8 @@ These notebooks replay saved latent-dynamics computations to generate paper figu
 |---|---|---|---|---|
 | [01_Leslie_2D.ipynb](figures/01_Leslie_2D.ipynb) | §5.1 | Leslie 2-gen + contraction | 2D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/01_Leslie_2D.ipynb) |
 | [02_Leslie_3D.ipynb](figures/02_Leslie_3D.ipynb) | §5.2 | Leslie 3D embedded | 3D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/02_Leslie_3D.ipynb) |
-| [03_Chafee_Infante.ipynb](figures/03_Chafee_Infante.ipynb) | §5.4 | Chafee-Infante PDE (64D) | 2D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/03_Chafee_Infante.ipynb) |
-| [04_Red_Coral.ipynb](figures/04_Red_Coral.ipynb) | §5.5 | Red Coral (13D) population | 1D latent bistable Morse graph; data scaling experiment | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/04_Red_Coral.ipynb) |
+| [03_Chafee_Infante.ipynb](figures/03_Chafee_Infante.ipynb) | §5.3 | Chafee-Infante PDE (64D) | 2D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/03_Chafee_Infante.ipynb) |
+| [04_Red_Coral.ipynb](figures/04_Red_Coral.ipynb) | §5.4 | Red Coral (13D) population | 1D latent bistable Morse graph; data scaling experiment | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/04_Red_Coral.ipynb) |
 
 ## Training Notebooks
 
@@ -22,7 +22,7 @@ These notebooks run the latent-dynamics training pipeline end-to-end — expensi
 | [Leslie_2D.ipynb](training/Leslie_2D.ipynb) | §5.1 | Leslie 2-gen + contraction | Train the autoencoder + latent map from scratch |
 | [Leslie_3D_ex1.ipynb](training/Leslie_3D_ex1.ipynb) | §5.2 | Leslie 3D (example 1) | Train the autoencoder + latent map from scratch |
 | [Leslie_3D_ex2.ipynb](training/Leslie_3D_ex2.ipynb) | §5.2 | Leslie 3D (example 2) | Train the autoencoder + latent map from scratch |
-| [Chafee_Infante.ipynb](training/Chafee_Infante.ipynb) | §5.4 | Chafee-Infante PDE (64D) | Train the autoencoder + latent map from scratch |
+| [Chafee_Infante.ipynb](training/Chafee_Infante.ipynb) | §5.3 | Chafee-Infante PDE (64D) | Train the autoencoder + latent map from scratch |
 
 ## Viewing Rendered HTML
 
