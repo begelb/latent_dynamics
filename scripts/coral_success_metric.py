@@ -18,14 +18,20 @@ by reusing ``latentdynamics.analysis.morse_metrics.check_unique_membership``.
 Seeds whose Morse artifacts are absent or 0-byte are silently skipped; the
 surviving count n is annotated on each tick with n < 30.
 
-Error bars use the sample standard deviation (ddof=1) clamped to [0,1].
-Both std and SE are saved to the summary CSV for auditability; the plotted
-bars show ±std.
+The three series (a0, a1, r) are dodged apart in x and drawn as markers with
+error whiskers (no connecting lines). The whisker type is selectable via
+``--error``: ``wilson`` (95% binomial confidence interval; the default and the
+appropriate uncertainty for a success *probability*), ``se`` (standard error of
+the mean), or ``std`` (sample standard deviation of the 0/1 indicators). All
+three (mean, std, se) are saved to the summary CSV regardless.
 
 Usage
 -----
 python code/scripts/coral_success_metric.py --mode adaptive
-python code/scripts/coral_success_metric.py --mode size
+python code/scripts/coral_success_metric.py --mode size --error se
+# Fast plot iteration from already-computed per-seed indicators:
+python code/scripts/coral_success_metric.py --mode adaptive \
+    --replot-from scratch/coral_success_stdev/coral_success_adaptive_perseed.csv
 """
 
 from __future__ import annotations
@@ -201,19 +207,59 @@ def aggregate_perseed(
 # Plotting
 # ---------------------------------------------------------------------------
 
-def _clamped_errorbar_limits(
-    mean: float, std: float
-) -> tuple[float, float]:
-    """Return (lower_err, upper_err) clamped so bars stay in [0, 1].
+_Z95 = 1.959963984540054  # standard normal 0.975 quantile
 
-    matplotlib's ``yerr`` with two rows uses:
-        bar_bottom = mean - lower_err
-        bar_top    = mean + upper_err
-    We want bar_bottom >= 0 and bar_top <= 1.
+
+def _wilson_interval(mean: float, n: int) -> tuple[float, float]:
+    """95% Wilson score interval (lower, upper) for a binomial proportion.
+
+    Appropriate for a success *probability* estimated from ``n`` Bernoulli
+    trials: it is asymmetric and always lies within [0, 1], so it never
+    pokes past 0 or 1 the way a symmetric std/SE bar does.
     """
-    lower = mean - max(0.0, mean - std)
-    upper = min(1.0, mean + std) - mean
-    return lower, upper
+    if n <= 0:
+        return mean, mean
+    k = round(mean * n)
+    p = k / n
+    z2 = _Z95 * _Z95
+    denom = 1.0 + z2 / n
+    center = (p + z2 / (2 * n)) / denom
+    half = (_Z95 / denom) * np.sqrt(p * (1 - p) / n + z2 / (4 * n * n))
+    return max(0.0, center - half), min(1.0, center + half)
+
+
+def error_bounds(
+    mean: float, n: int, std: float, se: float, error: str
+) -> tuple[float, float]:
+    """Return (lower_err, upper_err) for matplotlib ``yerr``, clamped to [0, 1].
+
+    ``error`` is one of ``"wilson"`` (asymmetric binomial CI; recommended for
+    a success probability), ``"se"`` (standard error of the mean), or ``"std"``
+    (sample standard deviation of the 0/1 indicators).
+    """
+    if error == "wilson":
+        lo, hi = _wilson_interval(mean, n)
+        # At p_hat = 0 or 1 the point estimate can sit just outside its own
+        # Wilson interval; clamp the whisker on that side to length 0.
+        return max(0.0, mean - lo), max(0.0, hi - mean)
+    spread = se if error == "se" else std
+    if np.isnan(spread):
+        return 0.0, 0.0
+    lower = mean - max(0.0, mean - spread)
+    upper = min(1.0, mean + spread) - mean
+    return max(0.0, lower), max(0.0, upper)
+
+
+def _dodged_x(x: int, point: str, mode: str) -> float:
+    """Nudge the three series apart in x so their markers/bars don't overlap.
+
+    Additive offset on a linear axis (adaptive), multiplicative on a log axis
+    (size). ``a0`` shifts left, ``a1`` stays, ``r`` shifts right.
+    """
+    step = {"a0": -1, "a1": 0, "r": 1}[point]
+    if mode == "size":
+        return x * (1.045 ** step)  # log axis -> geometric dodge
+    return x + step * 9.0  # linear axis -> ~9-unit dodge (gaps are 100)
 
 
 def build_figure(
@@ -221,8 +267,9 @@ def build_figure(
     *,
     mode: str,
     x_values_all: list[int],
+    error: str = "wilson",
 ) -> plt.Figure:
-    """Construct the success-rate figure with clamped std error bars.
+    """Construct the success-rate figure: x-dodged markers with error whiskers.
 
     Parameters
     ----------
@@ -233,6 +280,8 @@ def build_figure(
     x_values_all:
         All candidate x values in the mode (for setting ticks even if some
         are missing from summary_df).
+    error:
+        Whisker type: ``"wilson"`` (95% binomial CI; default), ``"se"``, or ``"std"``.
     """
     plt.rcParams.update(
         {
@@ -264,29 +313,35 @@ def build_figure(
         xs = pt_df["x"].to_numpy(dtype=int)
         means = pt_df["mean"].to_numpy(dtype=float)
         stds = pt_df["std"].to_numpy(dtype=float)
+        ses = pt_df["se"].to_numpy(dtype=float)
+        ns = pt_df["n"].to_numpy(dtype=int)
 
-        # Build asymmetric clamped yerr arrays (2 x N).
+        # Asymmetric yerr (2 x N) per the chosen error model, clamped to [0, 1].
         lower_errs = np.zeros(len(means))
         upper_errs = np.zeros(len(means))
-        for i, (m, s) in enumerate(zip(means, stds)):
-            if np.isnan(s):
-                lower_errs[i] = 0.0
-                upper_errs[i] = 0.0
-            else:
-                lower_errs[i], upper_errs[i] = _clamped_errorbar_limits(m, s)
+        for i in range(len(means)):
+            lower_errs[i], upper_errs[i] = error_bounds(
+                float(means[i]), int(ns[i]), float(stds[i]), float(ses[i]), error
+            )
 
+        xs_dodged = np.array([_dodged_x(int(x), pt, mode) for x in xs])
+
+        # Markers + whiskers only -- no connecting lines (3 noisy points
+        # should not be joined into a trend).
         ax.errorbar(
-            xs,
+            xs_dodged,
             means,
             yerr=np.array([lower_errs, upper_errs]),
             label=LABELS[pt],
             color=COLORS[pt],
             marker=MARKERS[pt],
-            linewidth=2,
-            markersize=7,
-            capsize=4,
-            capthick=1.5,
-            elinewidth=1.5,
+            linestyle="none",
+            markersize=9,
+            markeredgecolor="white",
+            markeredgewidth=0.8,
+            capsize=5,
+            capthick=1.6,
+            elinewidth=1.8,
         )
 
     # Axis labels and scale.
@@ -455,6 +510,20 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         ),
         help="Output directory for CSVs and figures.",
     )
+    parser.add_argument(
+        "--error",
+        choices=["wilson", "se", "std"],
+        default="wilson",
+        help="Whisker type: 'wilson' (95%% binomial CI; recommended for a "
+        "success probability), 'se' (standard error), or 'std' (sample stdev).",
+    )
+    parser.add_argument(
+        "--replot-from",
+        type=Path,
+        default=None,
+        help="Skip metric recomputation and re-plot from an existing per-seed "
+        "CSV (columns: dataset, x, seed, a0, a1, r). Fast for plot iteration.",
+    )
     return parser.parse_args(argv)
 
 
@@ -477,28 +546,39 @@ def main(argv: list[str] | None = None) -> None:
     x_values_all = [x for x, _ in datasets]
 
     # ------------------------------------------------------------------
-    # Collect per-seed indicators.
+    # Collect per-seed indicators (or load them from a saved CSV).
     # ------------------------------------------------------------------
-    all_rows: list[dict] = []
-    for x_val, dataset_name in datasets:
-        print(f"\n--- {dataset_name} (x={x_val}) ---")
-        count_before = len(all_rows)
-        for row in collect_seed_indicators(config_name, dataset_name, ALL_SEEDS):
-            row["x"] = x_val
-            all_rows.append(row)
-        n_real = len(all_rows) - count_before
-        print(f"  {n_real} real seeds collected.")
-        if n_real == 0:
-            print(f"  WARNING: no real seeds for {dataset_name} — skipping in figure.")
+    if args.replot_from is not None:
+        perseed_df = pd.read_csv(args.replot_from)
+        print(f"Re-plotting from saved per-seed CSV: {args.replot_from} "
+              f"({len(perseed_df)} rows)")
+        # Reconstruct the dataset->x map from the saved data.
+        x_map = (
+            perseed_df[["dataset", "x"]].drop_duplicates().set_index("dataset")["x"].to_dict()
+        )
+    else:
+        all_rows: list[dict] = []
+        for x_val, dataset_name in datasets:
+            print(f"\n--- {dataset_name} (x={x_val}) ---")
+            count_before = len(all_rows)
+            for row in collect_seed_indicators(config_name, dataset_name, ALL_SEEDS):
+                row["x"] = x_val
+                all_rows.append(row)
+            n_real = len(all_rows) - count_before
+            print(f"  {n_real} real seeds collected.")
+            if n_real == 0:
+                print(f"  WARNING: no real seeds for {dataset_name} — skipping in figure.")
 
-    if not all_rows:
-        print("ERROR: no data collected. Exiting.", file=sys.stderr)
-        sys.exit(1)
+        if not all_rows:
+            print("ERROR: no data collected. Exiting.", file=sys.stderr)
+            sys.exit(1)
 
-    perseed_df = pd.DataFrame(all_rows, columns=["dataset", "x", "seed", "a0", "a1", "r"])
-    perseed_path = out_dir / f"coral_success_{args.mode}_perseed.csv"
-    perseed_df.to_csv(perseed_path, index=False)
-    print(f"\nPer-seed CSV written: {perseed_path}")
+        perseed_df = pd.DataFrame(
+            all_rows, columns=["dataset", "x", "seed", "a0", "a1", "r"]
+        )
+        perseed_path = out_dir / f"coral_success_{args.mode}_perseed.csv"
+        perseed_df.to_csv(perseed_path, index=False)
+        print(f"\nPer-seed CSV written: {perseed_path}")
 
     # ------------------------------------------------------------------
     # Aggregate.
@@ -533,11 +613,16 @@ def main(argv: list[str] | None = None) -> None:
             file=sys.stderr,
         )
 
-    fig = build_figure(summary_df, mode=args.mode, x_values_all=x_values_all)
-    fig_stem = out_dir / f"morse_metric_plot_{args.mode}_stdev"
+    fig = build_figure(
+        summary_df, mode=args.mode, x_values_all=x_values_all, error=args.error
+    )
+    fig_stem = out_dir / f"morse_metric_plot_{args.mode}_{args.error}"
     written = save_figure(fig, fig_stem, formats=("pdf", "png"), close=True)
     for p in written:
         print(f"Figure written: {p}")
+
+    if args.replot_from is not None:
+        return  # re-plot only; skip the (expensive) cross-check
 
     # ------------------------------------------------------------------
     # Cross-check against saved metrics.json (size mode has old output).
