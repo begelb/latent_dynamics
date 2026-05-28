@@ -1,7 +1,10 @@
 """Combinatorial-topological analysis on top of CMGDB."""
 
 from .cmgdb_roa import (
+    BOUNDARY,
+    ESCAPE,
     EXACT_ROA_FILENAME,
+    MULTI,
     CellROA,
     collapse_roa_to_lca,
     compute_and_save_exact_roa,
@@ -36,11 +39,14 @@ from .tolerance import (
 )
 
 __all__ = [
+    "BOUNDARY",
     "Box",
     "CellROA",
+    "ESCAPE",
     "EXACT_ROA_FILENAME",
     "Edge",
     "LatentBounds",
+    "MULTI",
     "MorseGraph",
     "MorseSet",
     "check_unique_membership",

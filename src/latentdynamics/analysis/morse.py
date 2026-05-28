@@ -5,12 +5,12 @@ from __future__ import annotations
 import itertools
 import os
 from collections.abc import Callable
-from dataclasses import dataclass
 from typing import Any, Literal, cast
 
 import CMGDB
 import numpy as np
 import torch
+from CMGDB.cmgdb_roa import LatentBounds
 from numpy.typing import NDArray
 
 from ..config.schema import CMGDBConfig
@@ -40,18 +40,6 @@ ResolvedBoxMapBackend = Literal[
     "uniform_precomputed",
     "adaptive_precomputed",
 ]
-
-
-@dataclass(frozen=True)
-class LatentBounds:
-    """Min/max extents of a point cloud in latent space, with an optional buffer."""
-
-    lower: NDArray[np.float64]
-    upper: NDArray[np.float64]
-
-    @property
-    def dim(self) -> int:
-        return int(self.lower.shape[0])
 
 
 def infer_latent_bounds(
