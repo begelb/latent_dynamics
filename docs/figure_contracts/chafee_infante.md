@@ -46,7 +46,10 @@ checkpoint format, rerun CMGDB with the reference archived settings:
 python pipeline.py --config configs/chafee_infante.yaml --stages morse --max-seeds 1
 ```
 
-The morse-artifact guard will refuse a second run unless `--force-overwrite` is passed.
+`--stages morse` will refuse with the legacy-checkpoint guard if the model dir
+contains 3-file format files, but the new format
+`autoencoder.pt`+`autoencoder.json` will not trigger it. The morse-artifact
+guard will refuse a second run unless `--force-overwrite` is passed.
 
 ## Expected scientific output
 

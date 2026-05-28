@@ -192,19 +192,19 @@ def _get_memory_budget_bytes() -> int | None:
     """Resolve the available memory budget in bytes for transient allocations.
 
     Checks the env var LATENTDYNAMICS_MEM_BUDGET_BYTES first (supporting
-    K/M/G/T unit suffixes). Returns None if not set.
+    K/M/G/T unit suffixes, case-insensitive). Returns None if not set.
     """
     raw = os.environ.get("LATENTDYNAMICS_MEM_BUDGET_BYTES")
     if not raw:
         return None
     raw = raw.strip()
     unit_scale = {"K": 1024, "M": 1024**2, "G": 1024**3, "T": 1024**4}
-    if raw[-1:] in unit_scale:
+    if raw[-1:].upper() in unit_scale:
         try:
             value = int(raw[:-1])
         except ValueError:
             return None
-        scale = unit_scale[raw[-1]]
+        scale = unit_scale[raw[-1].upper()]
     else:
         try:
             value = int(raw)
