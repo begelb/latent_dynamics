@@ -347,7 +347,12 @@ def load_experiment(
             pass
 
     try:
-        model, arch = load_any_checkpoint(model_dir, arch=cfg.arch, map_location=dev)
+        model, arch = load_any_checkpoint(
+            model_dir,
+            arch=cfg.arch,
+            map_location=dev,
+            legacy_root=REPO_ROOT / "legacy",
+        )
     except FileNotFoundError as exc:
         raise FileNotFoundError(
             f"{name}: no usable checkpoint at {model_dir} "
