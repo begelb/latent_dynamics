@@ -16,7 +16,7 @@ def get_repo_root() -> Path:
     Tries in order:
     1. ``LATENTDYNAMICS_REPO_ROOT`` env var if set
     2. Walking up from ``__file__`` looking for a dir containing both
-       ``configs/`` and ``replay_sources/`` subdirs (the validity test)
+       ``pyproject.toml`` and ``src/latentdynamics/`` (the validity test)
     3. Fallback to a user cache dir (``~/.cache/latentdynamics/`` or
        ``$XDG_CACHE_HOME/latentdynamics/``)
 
@@ -30,10 +30,10 @@ def get_repo_root() -> Path:
         return Path(env_root).resolve()
 
     # Try walking up from this module's location
-    current = Path(__file__).resolve().parent
+    current = Path(__file__).resolve().parent.parent.parent  # src/latentdynamics/ -> src/ -> code/
     for _ in range(10):  # reasonable depth limit
-        if (current / "configs").is_dir() and (current / "replay_sources").is_dir():
-            return current.parent.parent  # Back out of src/latentdynamics/
+        if (current / "pyproject.toml").exists() and (current / "src" / "latentdynamics").is_dir():
+            return current
         parent = current.parent
         if parent == current:
             break

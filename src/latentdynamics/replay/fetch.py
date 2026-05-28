@@ -2,13 +2,14 @@
 
 from __future__ import annotations
 
-import hashlib
 import tarfile
 import urllib.error
 import urllib.request
 from pathlib import Path
 
 from .._paths import get_cache_dir
+
+# TODO: SHA256 verification against manifest (deferred to C.2 release publishing)
 
 _RELEASE_TAG = "v0.1.0-data"
 _RELEASE_URL = f"https://github.com/begelb/latent_dynamics/releases/download/{_RELEASE_TAG}"
@@ -75,7 +76,7 @@ def fetch_artifacts(name: str) -> Path:
     # Extract
     try:
         with tarfile.open(tar_path, "r:gz") as tar:
-            tar.extractall(path=cache_dir)
+            tar.extractall(path=cache_dir, filter='data')
     except tarfile.TarError as e:
         raise ValueError(
             f"failed to extract {tar_path}: {e}. The archive may be corrupted."

@@ -77,7 +77,7 @@ class TestFetchArtifactsCachePath:
         cache_dir = tmp_path / "new_cache"
         extracted = cache_dir / "leslie_2gen_contraction"
 
-        def mock_extract(path):
+        def mock_extract(path, **kwargs):
             extracted.mkdir(parents=True, exist_ok=True)
 
         mock_tar_instance = MagicMock()
@@ -148,7 +148,7 @@ class TestFetchArtifactsErrorHandling:
 
         mock_tar_instance = MagicMock()
         # extractall does nothing (doesn't create the dir)
-        mock_tar_instance.__enter__.return_value.extractall.side_effect = lambda path: None
+        mock_tar_instance.__enter__.return_value.extractall.side_effect = lambda path, **kwargs: None
         mock_tar_instance.__exit__.return_value = None
 
         with patch(

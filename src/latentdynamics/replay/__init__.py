@@ -54,7 +54,6 @@ from .fetch import fetch_artifacts
 # code/ -- the repo root the relative config paths are written against.
 # On pip-install, this falls back to the cache dir.
 REPO_ROOT = get_repo_root()
-CONFIGS_DIR = REPO_ROOT / "configs"
 # Where re-rendered PDFs/PNGs land (source trees are read-only).
 DEFAULT_RENDER_ROOT = REPO_ROOT / "notebooks" / "rendered"
 
@@ -337,6 +336,16 @@ def load_experiment(
     dev = _resolve_device(device)
 
     model_dir = _abs(seed_cfg.paths.model_dir)
+
+    # If model directory doesn't exist, try fetching artifacts for this experiment
+    if not model_dir.exists():
+        try:
+            fetch_artifacts(name)
+        except (ValueError, Exception) as e:
+            # fetch_artifacts failed (unknown name, network error, etc.)
+            # Fall through to the checkpoint load attempt, which will raise a clearer error
+            pass
+
     try:
         model, arch = load_any_checkpoint(model_dir, arch=cfg.arch, map_location=dev)
     except FileNotFoundError as exc:
