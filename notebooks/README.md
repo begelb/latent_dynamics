@@ -24,14 +24,13 @@ Rendered figures are written to `notebooks/rendered/<experiment>/`.
 
 | Notebook | Paper | Reproduces | Notes |
 |---|---|---|---|
-| `leslie_2gen_contraction.ipynb` | §5.2 — 10D embedded Leslie | bistable Morse graph + Morse sets | Patrick's archived paper run |
+| `leslie_2gen_contraction.ipynb` | §5.2 — 10D embedded Leslie | bistable Morse graph + Morse sets | fresh seed-20 retrain (recovers the period-six orbit) |
 | `leslie3d.ipynb` | §5.3 — 3D Leslie | spurious vs. correct regime; latent-trajectory overlay | the spurious orbit never settles — the failure the example exposes |
-| `chafee_infante.ipynb` | §5.4 — Chafee–Infante PDE | multistable Morse graph + Morse sets | a fresh local retrain, not pinned to Marcio's exact paper run |
-| `coral.ipynb` | §5.5 — red coral | Morse graph + 1D Morse sets + §5.5.1 success metric; §5.5.2 population histograms | the Morse-graph cell uses a local `train_500` retrain (the preserved `train_500` checkpoints are 0-byte) |
+| `chafee_infante.ipynb` | §5.4 — Chafee–Infante PDE | multistable Morse graph + Morse sets | the reference paper model, replayed |
+| `coral.ipynb` | §5.5 — red coral | Morse graph + 1D Morse sets + §5.5.1 success metric; §5.5.2 population histograms | the Morse-graph cell uses a local `train_500` retrain |
 
-See [`../docs/REPRODUCTION_GAPS.md`](../docs/REPRODUCTION_GAPS.md) for the full
-per-figure status (what is replay-ready, partial, or blocked, and how to close
-each gap).
+See [`../docs/PAPER_REPRODUCTION.md`](../docs/PAPER_REPRODUCTION.md) for
+per-figure reproduction details.
 
 ## Exploring other runs
 

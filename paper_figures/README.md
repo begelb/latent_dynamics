@@ -12,10 +12,10 @@ Ground truth: every paper example has >=2 attractors; Chafee-Infante has exactly
 
 | example | attractor Morse sets | note |
 |---|---|---|
-| leslie3d_example1 | 3 | Author model (Brittany). Tristable: two period-4 spurious attractors + one fixed point. |
-| leslie3d_example2 | 2 | Author model (Patrick). Two period-4 attractors. |
-| chafee_infante | 2 | Author model (Marcio). Correct: 2 attractors (u+/u-). |
-| leslie_2gen_contraction | 2 | OFFICIAL contraction model (promoted from retrain seed 20, replacing Patrick's run, archived in scratch/archive_contraction_patrick/). 10D->2D, finer subdiv 27/29/30. Bistable: period-6 orbit + annulus -- recovers the true period-six cascade orbit (main.tex:1453) that Patrick's period-3 computation did not detect. |
+| leslie3d_example1 | 3 | Reference model. Tristable: two period-4 spurious attractors + one fixed point. |
+| leslie3d_example2 | 2 | Reference model. Two period-4 attractors. |
+| chafee_infante | 2 | Reference model. Correct: 2 attractors (u+/u-). |
+| leslie_2gen_contraction | 2 | OFFICIAL contraction model (fresh retrain, seed 20). 10D->2D, finer subdiv 27/29/30. Bistable: period-6 orbit + annulus -- recovers the true period-six cascade orbit that an earlier period-3 computation did not detect. |
 
 ## retrains/ (fresh reproductions)
 
@@ -26,4 +26,4 @@ Ground truth: every paper example has >=2 attractors; Chafee-Infante has exactly
 | chafee_infante_dyn_heavy | 3 | CONSISTENT @14/20/30 -> 3 minimal attractors (truth is 2). OVERFIT: one spurious attractor. Cleanest retrain-failure illustration. |
 | chafee_infante_relu_mlp | 8 | CONSISTENT @18/22/30 -> 8 minimal attractors (truth is 2). Grossly OVERFIT under-constrained latent map; extreme retrain-failure example. |
 
-Chafee note: the baseline arch (`marcio_base`) always overcounts (4-5 spurious attractors). The architecture sweep (`scratch/chafee_arch_sweep.py`, results in `scratch/chafee_arch_sweep_results.csv`) found that a relu MLP gives the correct 2 attractors in all 4 seeds, and dynamics-weighted training gives the cleanest single figure. Two candidates are staged above; pick one for the paper.
+Chafee note: the baseline architecture always overcounts (4-5 spurious attractors). The architecture sweep (`scratch/chafee_arch_sweep.py`, results in `scratch/chafee_arch_sweep_results.csv`) found that a relu MLP gives the correct 2 attractors in all 4 seeds, and dynamics-weighted training gives the cleanest single figure. Two candidates are staged above; pick one for the paper.

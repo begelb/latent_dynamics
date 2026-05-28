@@ -173,10 +173,10 @@ class TestConfigsLoadable:
     @pytest.mark.parametrize(
         ("config_name", "output_dir"),
         [
-            ("leslie3d_example2_patrick.yaml", "replay_sources/leslie3d_example2"),
+            ("leslie3d_example2_replay.yaml", "replay_sources/leslie3d_example2"),
             ("leslie_2gen_contraction_replay.yaml", "replay_sources/leslie_2gen_contraction"),
             (
-                "leslie3d_example1_brittany.yaml",
+                "leslie3d_example1_replay.yaml",
                 "replay_sources/leslie3d_example1/spurious_attractor_ex",
             ),
             ("coral_basic.yaml", "replay_sources/coral"),
@@ -189,8 +189,8 @@ class TestConfigsLoadable:
         assert cfg.paths.read_only
         assert cfg.paths.output_dir == Path(output_dir)
 
-    def test_chafee_infante_uses_marcio_cmgdb_parameters(self):
-        cfg = load_config(CONFIGS_DIR / "chafee_infante_marcio.yaml")
+    def test_chafee_infante_cmgdb_parameters(self):
+        cfg = load_config(CONFIGS_DIR / "chafee_infante_replay.yaml")
         assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
             10,
             14,
@@ -204,7 +204,7 @@ class TestConfigsLoadable:
         "config_name",
         ["coral_basic.yaml", "coral_data_scaling.yaml", "coral_adaptive.yaml"],
     )
-    def test_coral_configs_use_brittany_cmgdb_parameters(self, config_name: str):
+    def test_coral_configs_cmgdb_parameters(self, config_name: str):
         cfg = load_config(CONFIGS_DIR / config_name)
         assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
             8,

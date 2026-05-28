@@ -1,7 +1,7 @@
-"""Convert Marcio's Chafee-Infante weights into the package checkpoint format.
+"""Convert the reference Chafee-Infante weights into the package checkpoint format.
 
-His ``DynamicsAutoencoder`` (archive/marcio/scripts/autoencoder_model.py) stores
-each component as a bare ``nn.Sequential`` -> state-dict keys ``encoder.0.weight``,
+The reference ``DynamicsAutoencoder`` (archive/marcio/scripts/autoencoder_model.py)
+stores each component as a bare ``nn.Sequential`` -> state-dict keys ``encoder.0.weight``,
 ``encoder.2.weight``, ``encoder.4.weight`` (and likewise ``latent_map.*`` /
 ``decoder.*``). The package's ``LatentDynamicsAutoencoder`` wraps each component
 in a ``.net`` Sequential, so its keys are ``encoder.net.0.weight`` etc. The only
@@ -10,7 +10,7 @@ otherwise identical (encoder [64,32], latent_map [32,32], decoder [32,64], tanh
 hidden, linear output).
 
 Run once from code/:
-    ../.venv/bin/python scripts/convert_marcio_chafee.py
+    ../.venv/bin/python scripts/convert_chafee_weights.py
 """
 
 from __future__ import annotations
@@ -25,8 +25,8 @@ from latentdynamics.training.checkpoints import save_checkpoint
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 SRC_WEIGHTS = CODE_ROOT.parent / "archive" / "marcio" / "scripts" / "ci_model_weights.pth"
-CONFIG = CODE_ROOT / "configs" / "chafee_infante_marcio.yaml"
-OUT_DIR = CODE_ROOT / "replay_sources" / "chafee_infante" / "marcio" / "models"
+CONFIG = CODE_ROOT / "configs" / "chafee_infante_replay.yaml"
+OUT_DIR = CODE_ROOT / "replay_sources" / "chafee_infante" / "replay" / "models"
 
 
 def convert() -> None:

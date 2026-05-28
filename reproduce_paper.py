@@ -28,9 +28,9 @@ CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
 
 EXPERIMENTS: dict[str, str] = {
     "fig_leslie_2gen_contraction": "leslie_2gen_contraction_replay.yaml",
-    "fig_leslie3d_example1": "leslie3d_example1_brittany.yaml",
-    "fig_leslie3d_example2": "leslie3d_example2_patrick.yaml",
-    "fig_chafee_infante": "chafee_infante_marcio.yaml",
+    "fig_leslie3d_example1": "leslie3d_example1_replay.yaml",
+    "fig_leslie3d_example2": "leslie3d_example2_replay.yaml",
+    "fig_chafee_infante": "chafee_infante_replay.yaml",
     "fig_coral_basic": "coral_basic.yaml",
     "fig_coral_data_scaling": "coral_data_scaling.yaml",
     "fig_coral_adaptive": "coral_adaptive.yaml",

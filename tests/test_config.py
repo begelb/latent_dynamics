@@ -232,7 +232,7 @@ class TestLoader:
         assert cfg.data.scaling == "minmax"
 
     def test_chafee_yaml_uses_archived_asymmetric_network(self):
-        cfg = load_config(CONFIGS_DIR / "chafee_infante_marcio.yaml")
+        cfg = load_config(CONFIGS_DIR / "chafee_infante_replay.yaml")
         assert cfg.data.scaling == "none"
         assert cfg.arch.component("encoder").hidden_shapes == (64, 32)
         assert cfg.arch.component("latent_map").hidden_shapes == (32, 32)

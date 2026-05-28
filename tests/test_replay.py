@@ -56,7 +56,7 @@ def _load_or_skip(name: str, **kwargs) -> ReplayExperiment:
 
 
 def test_load_replay_ready_leslie3d_example1():
-    exp = _load_or_skip("leslie3d_example1_brittany")
+    exp = _load_or_skip("leslie3d_example1_replay")
     assert isinstance(exp, ReplayExperiment)
     assert (exp.arch.high_dims, exp.arch.low_dims) == (3, 2)
     assert exp.seed_dir.exists()
@@ -82,7 +82,7 @@ def test_encode_advance_shapes():
 
 
 def test_diagnostics_has_core_keys():
-    exp = _load_or_skip("leslie3d_example1_brittany")
+    exp = _load_or_skip("leslie3d_example1_replay")
     diag = exp.diagnostics()
     for key in ("experiment", "seed", "train_file", "dims", "seed_dir"):
         assert key in diag
