@@ -45,13 +45,13 @@ def main(argv: list[str] | None = None) -> int:
         "--cell-index",
         type=int,
         default=None,
-        help="run only one zero-based train-file/seed cell (defaults to SLURM_ARRAY_TASK_ID if set)",
+        help="run only one zero-based train-file/seed cell",
     )
     parser.add_argument(
         "--expected-cells",
         type=int,
         default=None,
-        help="assert the expanded config has this many cells; useful for Slurm array sanity checks",
+        help="assert the expanded config has this many cells (optional sanity check)",
     )
     parser.add_argument(
         "--skip-completed",
@@ -97,8 +97,6 @@ def main(argv: list[str] | None = None) -> int:
         else [s for s in args.stages.split(",") if s]
     )
     cell_index = args.cell_index
-    if cell_index is None and os.environ.get("SLURM_ARRAY_TASK_ID"):
-        cell_index = int(os.environ["SLURM_ARRAY_TASK_ID"])
 
     if args.dry_run:
         plan = pipeline.plan_cells(cfg, max_seeds=args.max_seeds)

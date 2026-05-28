@@ -188,12 +188,13 @@ def _max_linear_width(latent_map: torch.nn.Module) -> int:
     return max(widths)
 
 
-def _parse_slurm_mem_bytes() -> int | None:
-    """Read SLURM_MEM_PER_NODE / SLURM_MEM_PER_CPU when running under SLURM
-    and convert to bytes. SLURM exposes these as integer megabytes per the
-    sbatch defaults; an optional trailing K/M/G/T unit is also accepted.
-    Returns ``None`` if no usable env var is set."""
-    raw = os.environ.get("SLURM_MEM_PER_NODE") or os.environ.get("SLURM_MEM_PER_CPU")
+def _get_memory_budget_bytes() -> int | None:
+    """Resolve the available memory budget in bytes for transient allocations.
+
+    Checks the env var LATENTDYNAMICS_MEM_BUDGET_BYTES first (supporting
+    K/M/G/T unit suffixes). Returns None if not set.
+    """
+    raw = os.environ.get("LATENTDYNAMICS_MEM_BUDGET_BYTES")
     if not raw:
         return None
     raw = raw.strip()
@@ -209,15 +210,9 @@ def _parse_slurm_mem_bytes() -> int | None:
             value = int(raw)
         except ValueError:
             return None
-        scale = 1024**2  # SLURM default unit is MB
+        scale = 1
     if value <= 0:
         return None
-    if "SLURM_MEM_PER_CPU" in os.environ and "SLURM_MEM_PER_NODE" not in os.environ:
-        try:
-            cpus = int(os.environ.get("SLURM_CPUS_PER_TASK", "1"))
-        except ValueError:
-            cpus = 1
-        value *= max(cpus, 1)
     return value * scale
 
 
@@ -232,9 +227,9 @@ def _available_memory_bytes(device: torch.device | None) -> int | None:
         except Exception:
             return None
 
-    slurm_bytes = _parse_slurm_mem_bytes()
-    if slurm_bytes is not None:
-        return slurm_bytes
+    budget = _get_memory_budget_bytes()
+    if budget is not None:
+        return budget
 
     try:
         import psutil

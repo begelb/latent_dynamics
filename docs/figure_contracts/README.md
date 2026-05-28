@@ -37,7 +37,7 @@ Each contract has the following fixed sections:
    - `fresh-reproducible` (regenerated end-to-end from a code-defined
      system via `--stages all`).
 4. **Reproduction commands** — the read-only replay command plus any validated
-   fresh-run or AMAREL command. If fresh reproduction needs a writable copy,
+   fresh-run command. If fresh reproduction needs a writable copy,
    say that explicitly.
 5. **Expected scientific output** — number of Morse sets, Hasse edges,
    Conley indices, and the metrics.json fields that should be present.

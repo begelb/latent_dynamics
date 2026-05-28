@@ -40,18 +40,13 @@ python pipeline.py --config configs/chafee_infante.yaml --stages diagnose --max-
 ```
 
 After converting the reference `ci_model_weights.pth` into the current
-checkpoint format, rerun CMGDB with the reference archived settings (long):
+checkpoint format, rerun CMGDB with the reference archived settings:
 
 ```bash
-CONFIG=configs/chafee_infante.yaml STAGES=morse EXPECTED_CELLS=1 \
-  sbatch --array=0-0 --export=ALL,CONFIG,STAGES,EXPECTED_CELLS \
-  slurm/pipeline_array.sbatch
+python pipeline.py --config configs/chafee_infante.yaml --stages morse --max-seeds 1
 ```
 
-`--stages morse` will refuse with the legacy-checkpoint guard if the model dir
-contains 3-file format files, but the new format
-`autoencoder.pt`+`autoencoder.json` will not trigger it. The morse-artifact
-guard will refuse a second run unless `--force-overwrite` is passed.
+The morse-artifact guard will refuse a second run unless `--force-overwrite` is passed.
 
 ## Expected scientific output
 

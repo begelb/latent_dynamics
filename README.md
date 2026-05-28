@@ -88,7 +88,6 @@ code/
 ├── pipeline.py                       # single-config staged runner
 ├── docs/
 │   ├── PAPER_REPRODUCTION.md         # figure -> command map, in detail
-│   ├── AMAREL.md                     # cluster + Slurm array workflow
 │   └── figure_contracts/             # one .md per paper figure, line-cited
 ├── configs/                          # one fully-explicit YAML per experiment
 │   └── scratch/                      # local examples or user-created writable copies
@@ -103,7 +102,6 @@ code/
 │   └── cli/          # entry-points consumed by reproduce_paper.py / pipeline.py
 ├── scripts/
 │   └── migrate_legacy_checkpoints.py # convert 3-file pickled modules -> state_dict + sidecar
-├── slurm/pipeline_array.sbatch       # AMAREL array template
 └── tests/                            # 140+ pytest cases
 ```
 
@@ -166,9 +164,8 @@ default. This makes replay deterministic without dirtying the preserved trees.
 ../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
 ```
 
-Sweep configs decompose into `(train_file, seed)` cells, one per Slurm array
-task; `pipeline.py --dry-run` reports the cell count, and
-`slurm/pipeline_array.sbatch` is the template.
+Individual cells in sweep configs can be run via the `--cell-index` argument;
+`pipeline.py --dry-run` reports the total cell count for reference.
 
 ## Reproduction stance (what "reproducing the paper" means)
 

@@ -43,8 +43,6 @@ python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
 python reproduce_paper.py --only fig_coral_data_scaling --max-seeds 3
 ```
 
-For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
-`slurm/pipeline_array.sbatch`; see `docs/AMAREL.md`.
 
 | Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
 | ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
@@ -205,7 +203,6 @@ state_dict + sidecar copy for separate analysis.
 python reproduce_paper.py --only fig_leslie3d_example1
 python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
 
-# Cluster-scale jobs use the generic array template after checking the cell count:
+# Check the cell count for reference:
 python pipeline.py --config configs/coral_data_scaling.yaml --dry-run
-# Then submit slurm/pipeline_array.sbatch with the reported EXPECTED_CELLS.
 ```

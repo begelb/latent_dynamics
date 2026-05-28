@@ -177,11 +177,9 @@ cmgdb:
   #
   # Choices:
   # - auto: pick a chunk size from the selected torch device, available
-  #   memory (psutil / SLURM_MEM_PER_NODE / SLURM_MEM_PER_CPU), and the
-  #   latent map's widest linear layer.
+  #   memory, and the latent map's widest linear layer.
   # - positive int: use this chunk size verbatim (clamped to the table
-  #   size). Use to override the auto heuristic on clusters or for
-  #   reproducibility.
+  #   size). Use to override the auto heuristic for reproducibility.
   precompute_batch_points: auto
 
   # Compute exact regions of attraction on CMGDB's returned MapGraph during
