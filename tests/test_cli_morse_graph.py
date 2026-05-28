@@ -154,7 +154,8 @@ def test_run_writes_exact_roa_when_enabled(
         cmgdb_morse_graph,
         morse_graph_dot,
         out_dir,
-        bounds,
+        lower_bounds,
+        upper_bounds,
         max_vertices,
         collapse_to_lca,
     ):
@@ -164,7 +165,7 @@ def test_run_writes_exact_roa_when_enabled(
                 cmgdb_morse_graph,
                 Path(morse_graph_dot),
                 Path(out_dir),
-                bounds,
+                (lower_bounds, upper_bounds),
                 max_vertices,
                 collapse_to_lca,
             )

@@ -130,7 +130,8 @@ def run(
                 cmgdb_morse_graph=morse_graph,
                 morse_graph_dot=dot_path,
                 out_dir=morse_dir,
-                bounds=bounds,
+                lower_bounds=bounds.lower,
+                upper_bounds=bounds.upper,
                 max_vertices=cfg.cmgdb.roa_max_vertices,
                 collapse_to_lca=cfg.cmgdb.collapse_roa_to_lca,
             )
