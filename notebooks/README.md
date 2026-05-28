@@ -1,53 +1,54 @@
-# Replay notebooks
+# Paper Notebooks
 
-Each notebook re-renders one paper example's figures from **saved artifacts** —
-no training and no CMGDB recompute. They are thin wrappers over
-`latentdynamics.replay.load_experiment`, so the cells stay short and readable;
-add your own analysis on top as needed.
+This directory contains Jupyter notebooks that replicate the paper's computational results. All notebooks install the `latentdynamics` package from GitHub and run end-to-end on a fresh Google Colab kernel.
 
-## Running
+## Figure Notebooks
 
-From the repository root (`code/`), using the prebuilt venv at the project root:
+These notebooks replay saved latent-dynamics computations to generate paper figures — minimal compute, suitable for free Colab.
+
+| Notebook | Paper Section | System | What It Shows | Colab |
+|---|---|---|---|---|
+| [01_Leslie_2D.ipynb](figures/01_Leslie_2D.ipynb) | §5.1 | Leslie 2-gen + contraction | 2D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/01_Leslie_2D.ipynb) |
+| [02_Leslie_3D.ipynb](figures/02_Leslie_3D.ipynb) | §5.2 | Leslie 3D embedded | 3D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/02_Leslie_3D.ipynb) |
+| [03_Chafee_Infante.ipynb](figures/03_Chafee_Infante.ipynb) | §5.4 | Chafee-Infante PDE (64D) | 2D latent bistable Morse graph | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/03_Chafee_Infante.ipynb) |
+| [04_Red_Coral.ipynb](figures/04_Red_Coral.ipynb) | §5.5 | Red Coral (13D) population | 1D latent bistable Morse graph; data scaling experiment | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/master/code/notebooks/figures/04_Red_Coral.ipynb) |
+
+## Training Notebooks
+
+These notebooks run the latent-dynamics training pipeline end-to-end — expensive compute, **requires GPU runtime** on Colab. See the GPU caveat at the top of each notebook.
+
+| Notebook | Paper Section | System | What It Does |
+|---|---|---|---|
+| [Leslie_2D.ipynb](training/Leslie_2D.ipynb) | §5.1 | Leslie 2-gen + contraction | Train the autoencoder + latent map from scratch |
+| [Leslie_3D_ex1.ipynb](training/Leslie_3D_ex1.ipynb) | §5.2 | Leslie 3D (example 1) | Train the autoencoder + latent map from scratch |
+| [Leslie_3D_ex2.ipynb](training/Leslie_3D_ex2.ipynb) | §5.2 | Leslie 3D (example 2) | Train the autoencoder + latent map from scratch |
+| [Chafee_Infante.ipynb](training/Chafee_Infante.ipynb) | §5.4 | Chafee-Infante PDE (64D) | Train the autoencoder + latent map from scratch |
+
+## Viewing Rendered HTML
+
+The `figures/` notebooks can be viewed as static HTML locally:
 
 ```bash
-# interactive
-../.venv/bin/jupyter lab
-
-# or execute one headless (writes outputs back into the notebook)
-../.venv/bin/jupyter nbconvert --to notebook --execute --inplace notebooks/leslie_2gen_contraction.ipynb
+cd code/notebooks
+jupyter nbconvert --to html figures/*.ipynb --output-dir rendered/
+open rendered/01_Leslie_2D.html
 ```
 
-They also run as-is in VS Code / Jupyter when the project venv is selected.
-Rendered figures are written to `notebooks/rendered/<experiment>/`.
+However, **Colab is the canonical viewing and execution environment** for this code. Use the Colab badges in the table above to open each notebook directly in the browser.
 
-## The notebooks
+## Data and Artifact Retrieval
 
-| Notebook | Paper | Reproduces | Notes |
-|---|---|---|---|
-| `leslie_2gen_contraction.ipynb` | §5.2 — 10D embedded Leslie | bistable Morse graph + Morse sets | fresh seed-20 retrain (recovers the period-six orbit) |
-| `leslie3d.ipynb` | §5.3 — 3D Leslie | spurious vs. correct regime; latent-trajectory overlay | the spurious orbit never settles — the failure the example exposes |
-| `chafee_infante.ipynb` | §5.4 — Chafee–Infante PDE | multistable Morse graph + Morse sets | the reference paper model, replayed |
-| `coral.ipynb` | §5.5 — red coral | Morse graph + 1D Morse sets + §5.5.1 success metric; §5.5.2 population histograms | the Morse-graph cell uses a local `train_500` retrain |
+Each figure notebook automatically fetches its required data and pre-trained artifacts from the GitHub Release `v0.1.0-data` on first run. The artifacts are cached locally so re-runs are fast.
 
-See [`../docs/PAPER_REPRODUCTION.md`](../docs/PAPER_REPRODUCTION.md) for
-per-figure reproduction details.
+Training notebooks write their outputs to a timestamped directory (via the config's `run_root` setting).
 
-## Exploring other runs
+## Notebook Structure
 
-`load_experiment` accepts any config name; sweep configs (coral) also take a
-`train_file` and `seed`:
+Each notebook follows this pattern:
 
-```python
-from latentdynamics.replay import load_experiment, available_experiments
+1. **Install cell** — `!pip install git+https://github.com/begelb/latent_dynamics.git`
+2. **Title & metadata** — Section number, system name, brief description
+3. **Setup** — Load config, fetch artifacts, initialize
+4. **Analysis & visualization** — Replays results, plots figures
 
-available_experiments()                       # list config names
-exp = load_experiment("coral_data_scaling", train_file="train_2000", seed=3)
-exp.show_morse_graph()
-exp.show_morse_sets()
-exp.diagnostics()
-```
-
-`ReplayExperiment` also exposes `encode()` / `advance()` (latent dynamics),
-`show_latent_trajectory()`, and `render_morse()` (returns figure paths without
-displaying). Pass `output_dir=...` to load a run from a tree other than the
-config's default.
+All imports are from the installed `latentdynamics` package. No local paths or `sys.path` hacks.
