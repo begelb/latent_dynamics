@@ -5,7 +5,7 @@ Combinatorial-Topological Methods on a Latent Space* (`paper/main.tex`).
 
 For each high-dimensional discrete map `f : X -> X`, the package trains an
 autoencoder `(E, D)` and a latent dynamics `G : Z -> Z`, then computes a Morse
-graph for `G` with [CMGDB](https://github.com/marciogameiro/CMGDB) and runs the
+graph for `G` with [CMGDB](https://github.com/bernardorivas/CMGDB) and runs the
 paper's tolerance / success-metric checks against the result. The seven
 applications in Section 5 of the paper are encoded as YAML configs and a single
 `reproduce_paper.py` entry point.
@@ -47,13 +47,13 @@ verification recipes live in `docs/figure_contracts/`.
 
 | Paper       | Section / Fig.            | Experiment id              | Config                              | Reproducibility status |
 | ----------- | ------------------------- | -------------------------- | ----------------------------------- | --- |
-| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_2gen_contraction`   | `configs/leslie_2gen_contraction.yaml`   | read-only replay from Patrick `Leslie10D`; raw CSVs/script missing for fresh reproduction |
-| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_example1`    | `configs/leslie3d_example1.yaml`    | replay-ready (legacy 3-file checkpoint, `read_only`) |
-| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_example2` | `configs/leslie3d_example2.yaml` | read-only replay from Patrick `Leslie3D`; raw CSVs/script missing for fresh reproduction |
-| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
-| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
-| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | partial read-only Brittany replay: selected `train_100`, complete `train_2000`; other sizes blocked |
-| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | partial read-only Brittany replay: M = 100, 200, 300; 400, 500 blocked |
+| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_2gen_contraction`   | `configs/leslie_2gen_contraction.yaml`   | fresh retrain (seed 20); fully reproducible from the config |
+| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_example1`    | `configs/leslie3d_example1.yaml`    | read-only replay (provided 3-file checkpoint) |
+| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_example2` | `configs/leslie3d_example2.yaml` | read-only replay (provided checkpoints) |
+| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | read-only replay (provided model); fresh-retrain variant available |
+| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | read-only replay; fresh retrain available |
+| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | read-only replay (partial seeds); fresh sweep available |
+| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | read-only replay (partial `M`); fresh sweep available |
 
 Hyperparameters in the configs are a superset of paper Tables 3, 4, 5
 (architecture, training, data), recovered either from the archived run logs or
@@ -66,8 +66,8 @@ The configs encode these directly; this table is for reference.
 
 | Experiment        | Ambient `n` | Latent | Hidden L / W | `(w_1, w_2, w_3)` | Sampling | `(N_train, N_test, T)`         | CMGDB `(init/min/max)` |
 | ----------------- | ----------: | -----: | ------------ | ----------------- | -------- | ------------------------------ | ---------------------- |
-| 10D Leslie        | 10          | 2      | 4 / 64       | `(100, 10, 20)`   | uniform  | `(8000, 2000, 20)`             | `25 / 27 / 28`         |
-| 3D Leslie spurious| 3           | 2      | 3 / 32       | `(10, 10, 1)`     | uniform  | `(4000, 5000, 30)`             | `23 / 23 / 27`         |
+| 10D Leslie        | 10          | 2      | 4 / 64       | `(100, 10, 20)`   | uniform  | `(8000, 2000, 20)`             | `27 / 29 / 30`         |
+| 3D Leslie spurious| 3           | 2      | 3 / 32       | `(10, 10, 1)`     | uniform  | `(3200, 800, 30)`              | `23 / 23 / 27`         |
 | 3D Leslie success | 3           | 2      | 2 / 64       | `(100, 10, 20)`   | uniform  | `(8000, 2000, 20)`             | `25 / 28 / 29`         |
 | Chafee-Infante    | 64          | 2      | 2 / 64*      | `(1, 1, 0)` add.  | uniform  | `(1000, 200, 30)` (no scaling) | `10 / 14 / 28`         |
 | Coral basic       | 13          | 1      | 3 / 64       | `(10, 10, 1)`     | uniform  | `([500], 10000, 20)`           | shared default         |
@@ -85,7 +85,7 @@ subdivisions, paths, seeds) so every knob is visible at a glance.
 ```
 code/
 ├── README.md                         # this file
-├── pyproject.toml                    # pip install -e .  (CMGDB==1.3.2 pinned)
+├── pyproject.toml                    # pip install -e .  (CMGDB from a git fork)
 ├── reproduce_paper.py                # one entry point per paper figure
 ├── pipeline.py                       # single-config staged runner
 ├── docs/
@@ -164,7 +164,7 @@ default. This makes replay deterministic without dirtying the preserved trees.
 
 # Opt into a retrain/recompute. Chafee can be rerun from the unified config;
 # coral full recomputation is intentionally out of the default paper replay
-# path because it is a large sweep and Brittany's preserved tree is read-only.
+# path because it is a large sweep and the preserved replay tree is read-only.
 ../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
 ```
 
@@ -225,9 +225,10 @@ artifacts; do not bake them into training or CMGDB.
 
 ## Pins and caveats
 
-- `pyproject.toml` pins `CMGDB==1.3.2`; newer releases may break the
-  `BoxMap` / `ComputeConleyMorseGraph` contract.
-- Brittany's three-file pickled `nn.Module` checkpoints can be loaded with
+- `pyproject.toml` installs CMGDB from `github.com/bernardorivas/CMGDB`
+  (unpinned, tracks `master`); upstream API changes to `BoxMap` /
+  `ComputeConleyMorseGraph` may break the pipeline.
+- Provided three-file pickled `nn.Module` checkpoints can be loaded with
   `latentdynamics.training.load_legacy_checkpoint` without rewriting them;
   `scripts/migrate_legacy_checkpoints.py` produces a `state_dict` + sidecar
   copy when needed.

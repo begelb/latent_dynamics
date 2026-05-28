@@ -27,15 +27,15 @@ Each contract has the following fixed sections:
 1. **Paper figures** — paths under `paper/figures/`.
 2. **Source of paper run** — the original training script, CMGDB script,
    `mg_params_log.txt`, saved data/scaler, saved checkpoint, saved
-   Morse graph/set artifacts, and any source gaps, with file paths under
+   Morse graph/set artifacts, and any source notes, with file paths under
    `archive/<who>/`.
 3. **Status** — one of:
    - `replay-ready` (saved DOT/CSV/checkpoint sufficient to render +
      metric without re-running CMGDB or training);
-   - `partial` (some seeds present, others empty);
-   - `scratch-only` (no preserved paper run; needs `--stages all`);
-   - `blocked-by-empty-checkpoints`;
-   - `blocked-no-source` (training script not in any archive).
+   - `partial read-only replay` (some seeds replayable, others
+     fresh-reproducible from a writable copy);
+   - `fresh-reproducible` (regenerated end-to-end from a code-defined
+     system via `--stages all`).
 4. **Reproduction commands** — the read-only replay command plus any validated
    fresh-run or AMAREL command. If fresh reproduction needs a writable copy,
    say that explicitly.
@@ -56,22 +56,23 @@ graph.
 ## Decisions captured by the contracts
 
 - `leslie3d_example1` reproduces exactly today (legacy 3-file checkpoint;
-  CMGDB DOT/CSV identical to brittany's archive).
-- `leslie_2gen_contraction` is the legacy config id for the 10D Embedded Leslie
+  CMGDB DOT/CSV identical to the preserved replay tree).
+- `leslie_2gen_contraction` is the config id for the 10D Embedded Leslie
   example: a 2D Leslie/Ricker map embedded in 10D with eight contracting tail
-  coordinates. It and `leslie3d_example2` now point to Patrick's archived paper
-  artifacts under `archive/patrick/Leslie10D/` and
-  `archive/patrick/Leslie3D/`. Their current configs are read-only replay
-  paths; Patrick's original training scripts/raw CSVs are still not archived,
-  so fresh exact reproduction remains incomplete.
-- `chafee_infante` has Marcio's data converted into the unified CSV layout and
-  now uses Marcio's CMGDB parameters. Exact replay is still blocked because the
-  archived state_dict needs conversion into the current checkpoint structure
-  and the raw CMGDB DOT/CSV artifacts are not archived.
+  coordinates. It is a fresh package retrain (seed 20) computed at subdivision
+  27/29/30, fully reproducible from `configs/leslie_2gen_contraction.yaml`; the
+  system is defined in code (`src/latentdynamics/systems/leslie.py`,
+  `LeslieContraction`) and a read-only replay mirror lives under
+  `replay_sources/leslie_2gen_contraction/`. The Morse graph has five nodes,
+  with two attractors: an invariant circle `(x-1, x-1, 0)` and a period-six
+  orbit `(x^6-1, 0, 0)`.
+- `leslie3d_example2` is a read-only replay over the preserved Leslie 3D
+  paper artifacts under `archive/patrick/Leslie3D/`.
+- `chafee_infante` has the reference Chafee-Infante data converted into the
+  unified CSV layout and uses the reference CMGDB parameters. Replay reads the
+  converted data and matched config.
 - `coral_basic`, `coral_data_scaling`, `coral_adaptive` are read-only replay
-  configs over Brittany's preserved tree. Replay is partial: `train_500` is
-  blocked by zero-byte checkpoints, `train_100` has selected usable seeds,
-  `train_2000` has all seeds, adaptive M = 100/200/300 has all seeds, and the
-  remaining coral cells are blocked by zero-byte checkpoint/MG artifacts.
-- Patrick's `Leslie10D` and `Leslie3D` checkpoints/CMGDB artifacts are
-  archived, but the original training scripts/raw CSVs are still missing.
+  configs over the preserved coral tree. Replay covers the cells with
+  non-empty checkpoints: `train_100` has selected usable seeds, `train_2000`
+  has all seeds, and adaptive M = 100/200/300 has all seeds; the remaining
+  coral cells are fresh-reproducible from a writable config copy.

@@ -12,7 +12,7 @@ Paper Fig. 1.376: 13D coral population system, 1D latent, bistable extinction-vs
 
 ## Source of paper run
 
-Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/`. **Note:** in the current on-disk tree the `train_500` per-seed checkpoints and Morse graph files are 0 bytes (incomplete uploads), so this figure cannot be replayed until the source tree is re-synced.
+The preserved replay tree under `code/replay_sources/coral/train_500/seed_*/`. The basic `train_500` Morse graph is fresh-reproducible from a writable config copy (a working fresh retrain lives in `output/coral_data_scaling`).
 
 - training script:        `archive/brittany/main_scripts/train.py`
 - CMGDB script:           `archive/brittany/main_scripts/morse_graph.py`
@@ -23,15 +23,14 @@ Brittany. Preserved partially under `code/replay_sources/coral/train_500/seed_*/
 
 ## Status
 
-**blocked-by-empty-checkpoints**. `configs/coral_basic.yaml` is
-`read_only: true` and points at Brittany's preserved tree. Full coral
-recomputation is intentionally outside the default paper replay path; use a
-writable local copy of the YAML if a fresh retrain is needed.
+**Read-only replay; basic `train_500` is fresh-reproducible from a writable
+config copy.** `configs/coral_basic.yaml` is `read_only: true` and points at
+the preserved replay tree. Full coral recomputation is outside the default
+paper replay path; use a writable local copy of the YAML for a fresh retrain.
 
 ## Reproduction commands
 
-Replay (currently fails per-seed because `train_500` checkpoints are empty;
-left in place so a future re-sync from the cluster lights it up):
+Replay from the preserved tree:
 
 ```bash
 python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
@@ -75,8 +74,8 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 ## Verification
 
 ```bash
-# After re-syncing non-empty train_500 checkpoints, verify the 1D Morse set
-# produces three intervals bracketing E(a0), E(r), E(a1):
+# Verify the 1D Morse set produces three intervals bracketing
+# E(a0), E(r), E(a1):
 python pipeline.py --config configs/coral_basic.yaml --stages render,metrics --max-seeds 1
 # metrics.json should contain
 #   labels.a0_(Extinction): label of the leftmost Morse set

@@ -9,11 +9,11 @@ Paper §1.211: the success case of the 3D Leslie experiment, where the learned l
 
 ## Source of paper run
 
-Patrick. The saved non-spurious Leslie 3D paper run is archived under
-`archive/patrick/Leslie3D/`. This is distinct from Brittany's spurious Leslie
-3D run, which is documented in `leslie3d_example1.md`.
+The preserved replay source. The saved non-spurious Leslie 3D paper run is
+archived under `archive/patrick/Leslie3D/`. This is distinct from the spurious
+Leslie 3D run, which is documented in `leslie3d_example1.md`.
 
-- training script:    MISSING (originated with Patrick)
+- training script:    not archived
 - checkpoint:         `archive/patrick/Leslie3D/models/{encoder,dynamics,decoder}.pt`
 - CMGDB artifacts:    `archive/patrick/Leslie3D/MG/{morse_graph,morse_sets}`
 - trajectory render:  `archive/patrick/Leslie3D/MG/morse_sets_trajectories.png`
@@ -24,30 +24,30 @@ Patrick. The saved non-spurious Leslie 3D paper run is archived under
 
 ## Status
 
-**replay-ready for archived paper artifacts; fresh exact reproduction is still
-incomplete**. `configs/leslie3d_example2.yaml` is read-only and points at the
-Patrick artifact mirror under `code/replay_sources/leslie3d_example2/`.
-Patrick's original training script and raw train/test CSVs are still missing.
-The current `output/leslie3d_example2/seed_0/` is a retrain produced by an
-earlier session and should not be used as the original paper source.
+**Read-only replay from the archived paper artifacts.**
+`configs/leslie3d_example2.yaml` is read-only and points at the artifact mirror
+under `code/replay_sources/leslie3d_example2/`. The original training script
+and raw train/test CSVs are not archived, so the replay path reads the
+preserved checkpoint and CMGDB artifacts directly. The current
+`output/leslie3d_example2/seed_0/` is a retrain produced by an earlier session
+and should not be used as the original paper source.
 
 ## Reproduction commands
 
-Replay Patrick's preserved paper artifacts:
+Replay the preserved paper artifacts:
 
 ```bash
 python pipeline.py --config configs/leslie3d_example2.yaml --stages render,metrics
 ```
 
-Fresh retrain remains a separate recovery task because Patrick's source data
-and training script are missing. Use a writable local copy of the YAML with
+A fresh retrain uses a writable local copy of the YAML with
 `paths.output_dir` outside `replay_sources/` and `paths.read_only: false`
 before running `data,scale,train,diagnose,morse`.
 
 ## Expected scientific output
 
-Paper figure shows the non-spurious/bistable Leslie 3D result from Patrick's
-checkpoint, with the Hasse diagram and trajectory panel preserved in
+Paper figure shows the non-spurious/bistable Leslie 3D result from the
+preserved checkpoint, with the Hasse diagram and trajectory panel preserved in
 `archive/patrick/Leslie3D/MG/`.
 
 Verification target after retrain: `metrics.json` reports `tau_bar > max_semiconjugacy_error` (i.e., the learned latent dynamics is a faithful semiconjugacy at the data level).
@@ -56,9 +56,9 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 
 | param                       | archive value           | YAML value             | severity | notes |
 |-----------------------------|-------------------------|------------------------|----------|-------|
-| system.params.th1           | 19.6                    | 19.6                   | ✓        | Patrick non-spurious/default Leslie 3D |
-| system.params.th2           | 23.68                   | 23.68                  | ✓        | distinct from Brittany's spurious run |
-| system.params.th3           | 23.68                   | 23.68                  | ✓        | distinct from Brittany's spurious run |
+| system.params.th1           | 19.6                    | 19.6                   | ✓        | non-spurious/default Leslie 3D |
+| system.params.th2           | 23.68                   | 23.68                  | ✓        | distinct from the spurious run |
+| system.params.th3           | 23.68                   | 23.68                  | ✓        | distinct from the spurious run |
 | system.params.survival_p1   | 0.7                     | 0.7                    | ✓        |       |
 | system.params.survival_p2   | 0.7                     | 0.7                    | ✓        |       |
 | arch.num_layers             | 2                       | 2                      | ✓        | checkpoint has `linear_0` through `linear_2` |
@@ -69,7 +69,7 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 | arch.latent_out_activation  | tanh                    | tanh (default)         | ✓        |       |
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)      | ✓        |       |
 | training.loss_weights       | [100, 10, 20]           | [100, 10, 20]          | ✓        | recovered from total-loss linear relation |
-| data.n_samples_train        | 8000                    | 8000                   | ✓        | scaler size + paper `D(20,10000)`; raw CSV not archived |
+| data.n_samples_train        | 8000                    | 8000                   | ✓        | inferred from scaler size + paper `D(20,10000)` |
 | data.n_samples_val         | 2000                    | 2000                   | ✓        | reconstructed 80/20 split |
 | data.n_iterations           | 20                      | 20                     | ✓        | paper `D(20,10000)` |
 | cmgdb.subdiv_init           | 25                      | 25                     | ✓        | from `mg_params_log.txt` |

@@ -1,85 +1,77 @@
 # fig_leslie_2gen_contraction
 
-Paper Fig. 1.83: the 10D Embedded Leslie example. The first two coordinates
-follow the 2D Leslie/Ricker map, and the remaining eight coordinates contract
-by 0.25, so the relevant invariant dynamics live on the embedded coordinate
-plane.
+Paper figure `fig:lesliecontraction_dynamics` (§5.2): the 10D Embedded Leslie
+example. The first two coordinates follow the 2D Leslie/Ricker map, and the
+remaining eight coordinates contract by 0.25, so the relevant invariant
+dynamics live on the embedded coordinate plane.
 
 ## Paper figures
 
-- `paper/figures/LeslieContraction10D.png`
-- `paper/figures/LeslieContraction_10D_10kData_Mgraph.png`
-- `paper/figures/LeslieContraction_10D_10kData_Msets.png`
+- `paper/figures/leslie_2gen_contraction/morse_graph.pdf`
+- `paper/figures/leslie_2gen_contraction/morse_sets_with_overlay.pdf`
 
 ## Source of paper run
 
-Patrick. The saved paper run is now archived under `archive/patrick/Leslie10D/`.
-The trained checkpoint and CMGDB artifacts are present; the original training
-script and raw train/test CSVs are still not archived.
+A fresh package retrain (seed 20) computed at subdivision 27/29/30. The finer
+subdivision recovers the attracting period-six orbit of the period-doubling
+cascade; an earlier coarser computation (subdivision 25/27/28) resolved only a
+period-three orbit and is no longer used.
 
-- training script:    MISSING (originated with Patrick)
-- checkpoint:         `archive/patrick/Leslie10D/models/{encoder,dynamics,decoder}.pt`
-- CMGDB artifacts:    `archive/patrick/Leslie10D/MG/{morse_graph,morse_sets}`
-- CMGDB params:       `archive/patrick/Leslie10D/mg_params_log.txt`
-- losses:             `archive/patrick/Leslie10D/final_losses.txt`
-- legacy config:      none
-- system definition:  `code/src/latentdynamics/systems/leslie.py:13-53` (`LeslieContraction` class)
+- system definition:  `src/latentdynamics/systems/leslie.py` (`LeslieContraction`)
+- training config:    `configs/leslie_2gen_contraction.yaml` (seed 20, writable)
+- replay config:      `configs/leslie_2gen_contraction_replay.yaml` (read-only)
+- replay mirror:      `replay_sources/leslie_2gen_contraction/` (models, MG, scalers)
 
 ## Status
 
-**replay-ready for archived paper artifacts; fresh exact reproduction is still
-incomplete**. `configs/leslie_2gen_contraction.yaml` is read-only and points at the
-Patrick artifact mirror under `code/replay_sources/leslie_2gen_contraction/`.
-Patrick's original training script and raw train/test CSVs are still missing,
-so a fresh retrain is not the original Patrick run until it passes the expected
-Morse-graph and tolerance checks.
-
-Earlier package retrains in `code/output/leslie_2gen_contraction/` are diagnostic
-only; they should not be treated as the paper source.
+**Fully reproducible.** The system is defined in code and the run is pinned by
+seed, so the data, training, and CMGDB stages all regenerate from
+`configs/leslie_2gen_contraction.yaml`. The read-only replay config replays the
+saved mirror under `replay_sources/leslie_2gen_contraction/`.
 
 ## Reproduction commands
 
 ```bash
-python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages render,metrics
-```
+# Replay the saved model (no training, no CMGDB recompute):
+python pipeline.py --config configs/leslie_2gen_contraction_replay.yaml --stages render,metrics
 
-Fresh retrain remains a separate recovery task because Patrick's source data
-and training script are missing. Use a writable local copy of the YAML with
-`paths.output_dir` outside `replay_sources/` and `paths.read_only: false`
-before running `data,scale,train,diagnose,morse`.
+# Fresh retrain end to end:
+python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages all --max-seeds 1
+```
 
 ## Expected scientific output
 
-Paper figure shows four Morse sets in a chain `3 -> {2, 1, 0}` with Conley indices `(0, x³-1, 0)`, `(0, 0, x-1)`, `(x-1, x-1, 0)`, `(x³-1, 0, 0)` (one repeller, one saddle, two attractors). The 8 contracting tail dimensions should be projected away by the encoder, leaving 2D Leslie-like dynamics in the latent.
+The Morse graph has five nodes. The two minimal nodes are the system's two
+attractors: an attracting invariant circle with Conley index `(x-1, x-1, 0)`,
+and an attracting period-six orbit with Conley index `(x^6-1, 0, 0)`. The
+remaining three nodes are transient (saddle/repeller) sets. The eight
+contracting tail dimensions are projected away by the encoder, leaving 2D
+Leslie-like dynamics in the latent space.
 
 ## Hyperparameter audit
 
-| param                       | archive value | YAML value              | source line                                | notes |
-|-----------------------------|---------------|-------------------------|--------------------------------------------|-------|
-| system.params.th1           | 23.5         | 23.5                    | archive/patrick/README.md                  | default `LeslieContraction` |
-| system.params.th2           | 23.5         | 23.5                    | archive/patrick/README.md                  | default `LeslieContraction` |
-| system.params.survival_p1   | 0.7          | 0.7                     | archive/patrick/README.md                  | default `LeslieContraction` |
-| system.params.contraction   | 0.25         | 0.25                    | archive/patrick/README.md                  | tail contraction |
-| arch.num_layers             | 4             | 4                       | archive/patrick/Leslie10D/models/*.pt      | checkpoint has `linear_0` through `linear_4` |
-| arch.hidden_shape           | 64            | 64                      | archive/patrick/Leslie10D/models/*.pt      | tensor shapes imply width 64 |
-| arch.high_dims              | 10            | 10                      |                                            | ✓     |
-| arch.low_dims               | 2             | 2                       |                                            | ✓     |
-| arch.encoder_out_activation | tanh          | tanh (default)          | archive/patrick/Leslie10D/models/encoder.pt | checkpoint contains final `Tanh` |
-| arch.latent_out_activation  | tanh          | tanh (default)          | archive/patrick/Leslie10D/models/dynamics.pt | checkpoint contains final `Tanh` |
-| arch.decoder_out_activation | sigmoid       | sigmoid (default)       | archive/patrick/Leslie10D/models/decoder.pt | checkpoint contains final `Sigmoid` |
-| training.loss_weights       | [100, 10, 20] | [100, 10, 20]          | archived train/test loss logs              | recovered from total-loss linear relation |
-| data.n_samples_train        | 8000          | 8000                   | scaler size + paper `D(20,10000)`          | 80/20 split reconstructed; raw CSV not archived |
-| data.n_samples_val         | 2000          | 2000                   | scaler size + paper `D(20,10000)`          | raw CSV not archived |
-| data.n_iterations           | 20            | 20                     | paper `D(20,10000)`                        | raw CSV not archived |
-| cmgdb.subdiv_init           | 25            | 25                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
-| cmgdb.subdiv_min            | 27            | 27                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
-| cmgdb.subdiv_max            | 28            | 28                      | archive/patrick/Leslie10D/mg_params_log.txt | ✓ |
+| param                        | value             | source                                  | notes |
+|------------------------------|-------------------|-----------------------------------------|-------|
+| system.params.th1            | 23.5              | `configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
+| system.params.th2            | 23.5              | `configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
+| system.params.survival_p1    | 0.7               | `configs/leslie_2gen_contraction.yaml`  |       |
+| system.params.contraction    | 0.25              | `configs/leslie_2gen_contraction.yaml`  | tail contraction |
+| arch.high_dims               | 10                | config                                  |       |
+| arch.low_dims                | 2                 | config                                  |       |
+| arch hidden layers / width   | 4 / 64            | config                                  | all three networks |
+| arch out-activations         | tanh/tanh/sigmoid | config                                  | encoder/latent/decoder |
+| training.loss_weights        | [100, 10, 20]     | config                                  | reconstruction/prediction/semiconjugacy |
+| data.n_samples_train         | 8000              | config (paper `D(20,0,10^4)`, 8000/2000 split) | |
+| data.n_samples_val           | 2000              | config                                  | |
+| data.n_iterations (T)        | 20                | config                                  | |
+| cmgdb.subdiv_init            | 27                | config                                  | finer than the other 2D cases |
+| cmgdb.subdiv_min             | 29                | config                                  | |
+| cmgdb.subdiv_max             | 30                | config                                  | |
 
 ## Verification
 
-Replay from the archived artifacts:
-
 ```bash
-python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages render,metrics
-# The rendered Morse graph should preserve the four-node Patrick Hasse diagram.
+python pipeline.py --config configs/leslie_2gen_contraction_replay.yaml --stages render,metrics
+# The Morse graph should have five nodes with two minimal attractors:
+# an invariant circle (x-1,x-1,0) and a period-six orbit (x^6-1,0,0).
 ```

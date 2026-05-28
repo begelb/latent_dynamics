@@ -49,7 +49,7 @@ data:
   val_seed: 9999
   train_files: null
 cmgdb:
-  # 10/14/28 (Marcio's canonical). Finer subdivision overcounts attractors here
+  # 10/14/28 (the reference subdivision). Finer subdivision overcounts attractors here
   # (14/20/28 -> 4); trivial-index nodes are seed-dependent, not subdiv-fixable.
   subdiv_init: 10
   subdiv_min: 14

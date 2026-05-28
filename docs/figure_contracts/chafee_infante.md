@@ -10,7 +10,8 @@ Paper §1.256: Chafee-Infante PDE in spectral coordinates (64 Fourier modes), su
 
 ## Source of paper run
 
-Marcio. Self-contained reference implementation in `archive/marcio/scripts/`.
+The reference Chafee-Infante model. Self-contained reference implementation in
+`archive/marcio/scripts/`.
 
 - model + system:     `archive/marcio/scripts/autoencoder_model.py` (`DynamicsAutoencoder` class, lines 76-102; PDE in lines 19-32; data generator in lines 37-61)
 - training script:    `archive/marcio/scripts/train_model.py`
@@ -21,20 +22,18 @@ Marcio. Self-contained reference implementation in `archive/marcio/scripts/`.
 
 ## Status
 
-**partial: Marcio data and config values are matched, but exact replay is still
-blocked**. The converted train/val CSVs are in the expected artifact
-structure, and `configs/chafee_infante.yaml` now uses Marcio's CMGDB settings:
-`subdiv_init=10`, `subdiv_min=14`, `subdiv_max=28`, explicit bounds
-`[-3, -2] -> [3, 2]`, and `padding: false`.
+**Reference data and config values are matched.** The converted train/val CSVs
+are in the expected artifact structure, and `configs/chafee_infante.yaml` uses
+the reference CMGDB settings: `subdiv_init=10`, `subdiv_min=14`,
+`subdiv_max=28`, explicit bounds `[-3, -2] -> [3, 2]`, and `padding: false`.
 
-Two source gaps remain: `ci_model_weights.pth` uses Marcio's original
-state_dict key names and still needs conversion to the current
-`autoencoder.pt` + `autoencoder.json` checkpoint format; Marcio's archive has
-rendered PDFs but not raw CMGDB DOT/CSV files, so exact replay requires a CMGDB
-rerun or recovery of those raw artifacts.
+The reference `ci_model_weights.pth` uses the original state_dict key names; a
+fresh CMGDB run uses the current `autoencoder.pt` + `autoencoder.json`
+checkpoint format. The archive carries rendered PDFs, so a fresh CMGDB run
+regenerates the raw DOT/CSV artifacts.
 
-Earlier package retrains in `code/output/chafee_infante/` are diagnostic only
-and should not be treated as the paper source.
+Earlier package retrains in `code/output/chafee_infante/` are exploratory and
+should not be treated as the paper source.
 
 ## Reproduction commands
 
@@ -44,8 +43,8 @@ Inspect the current converted-data config without recomputing CMGDB:
 python pipeline.py --config configs/chafee_infante.yaml --stages diagnose --max-seeds 1
 ```
 
-After converting Marcio's `ci_model_weights.pth` into the current checkpoint
-format, rerun CMGDB with Marcio's archived settings (long):
+After converting the reference `ci_model_weights.pth` into the current
+checkpoint format, rerun CMGDB with the reference archived settings (long):
 
 ```bash
 CONFIG=configs/chafee_infante.yaml STAGES=morse EXPECTED_CELLS=1 \
@@ -92,9 +91,9 @@ Paper figure shows seven Morse sets: two attractors `(x-1, 0, 0)`, three saddles
 | cmgdb.upper_bounds          | [3, 2]                  | [3, 2]                 | compute_dynamics.py:30                                     | ✓     |
 | cmgdb.padding               | false                   | false                  | compute_dynamics.py:24                                     | ✓     |
 
-The data, training-side hyperparameters, and CMGDB-side config values now match
-Marcio's archived scripts. Checkpoint conversion and raw CMGDB artifact
-recovery remain open.
+The data, training-side hyperparameters, and CMGDB-side config values match the
+reference archived scripts. A fresh run performs the checkpoint-format
+conversion and regenerates the raw CMGDB artifacts.
 
 ## Verification
 

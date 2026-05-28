@@ -9,7 +9,7 @@ Chafee-Infante, and Coral examples.
 ## Setup
 
 Python 3.13 is required. The pre-built `.venv/` at the project root has every
-dependency pinned (Torch 2.11, CMGDB 1.3.2, pydantic 2). To install or
+dependency installed (Torch 2.11, CMGDB from the bernardorivas fork, pydantic 2). To install or
 re-create it:
 
 ```bash
@@ -21,12 +21,13 @@ python3.13 -m venv .venv
 
 The `reproduce_paper.py` script at the repository root defaults to
 `render,metrics`, so it reads saved DOT/CSV/checkpoint artifacts and does not
-invoke training or CMGDB. Some paper figures are still partial because their
-archives lack non-empty checkpoints or raw CMGDB DOT/CSV files; the contracts
-below state which commands are expected to work today. Use `--stages all` only
-when you intend to retrain and recompute. The `data` stage is non-destructive:
-existing CSV+metadata pairs are kept as source artifacts, and adaptive coral
-datasets are validated as precomputed inputs.
+invoke training or CMGDB. Some paper figures replay only a subset of cells from
+the preserved tree; the remaining cells are fresh-reproducible from a writable
+config copy. The contracts below state which commands replay directly and which
+need a fresh run. Use `--stages all` only when you intend to retrain and
+recompute. The `data` stage is non-destructive: existing CSV+metadata pairs are
+kept as source artifacts, and adaptive coral datasets are validated as
+precomputed inputs.
 
 ```bash
 # Render/metrics for one replay-ready figure:
@@ -47,13 +48,13 @@ For AMAREL, use `pipeline.py --dry-run` to get the cell count and submit
 
 | Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
 | ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_2gen_contraction`       | `configs/leslie_2gen_contraction.yaml`   | [contract](figure_contracts/leslie_2gen_contraction.md)       | read-only replay from Patrick `Leslie10D`; source script/raw CSVs missing |
+| Fig. 1.83         | `fig_leslie_2gen_contraction`       | `configs/leslie_2gen_contraction.yaml`   | [contract](figure_contracts/leslie_2gen_contraction.md)       | fresh package retrain (seed 20, subdiv 27/29/30); fully reproducible; read-only replay mirror available |
 | Fig. 1.214        | `fig_leslie3d_example1`        | `configs/leslie3d_example1.yaml`    | [contract](figure_contracts/leslie3d_example1.md)        | replay-ready (legacy 3-file checkpoint); read_only |
-| Sec. 1.211 success| `fig_leslie3d_example2`         | `configs/leslie3d_example2.yaml`     | [contract](figure_contracts/leslie3d_example2.md)         | read-only replay from Patrick `Leslie3D`; source script/raw CSVs missing |
-| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | Marcio data/config matched; weights conversion and raw CMGDB DOT/CSV still missing |
-| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | read-only Brittany replay blocked by 0-byte `train_500` checkpoints |
-| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only Brittany replay: selected `train_100`, complete `train_2000` |
-| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial read-only Brittany replay: M = 100, 200, 300; 400, 500 blocked |
+| Sec. 1.211 success| `fig_leslie3d_example2`         | `configs/leslie3d_example2.yaml`     | [contract](figure_contracts/leslie3d_example2.md)         | read-only replay from the preserved Leslie 3D artifacts |
+| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | reference data/config matched; a fresh CMGDB run regenerates the DOT/CSV |
+| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | read-only replay; basic `train_500` fresh-reproducible from a writable copy |
+| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only replay: selected `train_100`, complete `train_2000` |
+| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial read-only replay: M = 100, 200, 300; 400, 500 fresh-reproducible |
 
 For per-figure expected outputs, hyperparameter audits with archive
 line citations, status, and verification recipes, see the contracts
@@ -65,10 +66,11 @@ There are two distinct modes:
 
 1. **Replay** reads preserved data, scalers, checkpoints, CMGDB DOT/CSV files,
    and logs. It is the default mode for inspecting paper figures and metrics.
-2. **Fresh reproduction** regenerates missing artifacts by rerunning data,
-   training, and CMGDB stages. It is useful for filling archive gaps and for
-   robustness checks, but it is not guaranteed to land on the same Morse graph
-   for every seed, hardware backend, or optimizer trajectory.
+2. **Fresh reproduction** regenerates artifacts by rerunning data,
+   training, and CMGDB stages. It is useful for recomputing cells outside the
+   preserved tree and for robustness checks, but it is not guaranteed to land
+   on the same Morse graph for every seed, hardware backend, or optimizer
+   trajectory.
 
 The paper's theoretical guarantee is conditional. Once a run has the required
 learned map, CMGDB structure, and verified error/tolerance bounds, the
@@ -181,11 +183,12 @@ is not guaranteed (BLAS / cuDNN / MPS heuristics can vary). For
 publication-grade exact-match reproducibility, run on the same hardware as
 the paper authors with `torch.use_deterministic_algorithms(True)`.
 
-## CMGDB version pinning
+## CMGDB dependency
 
-The Morse-graph computation depends on `CMGDB==1.3.2`. Newer versions may
-change the `BoxMap` or `ComputeConleyMorseGraph` signatures. The pin is in
-`pyproject.toml`.
+The Morse-graph computation depends on CMGDB, installed from the fork at
+`github.com/bernardorivas/CMGDB` (unpinned, tracks `master`). Upstream changes
+to the `BoxMap` or `ComputeConleyMorseGraph` signatures may break the pipeline.
+The dependency is declared in `pyproject.toml`.
 
 ## Legacy artifacts in `code/`
 

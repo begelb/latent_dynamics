@@ -37,7 +37,7 @@ class ReconstructionLoss(nn.Module):
     ``loss_ae1`` is the autoencoder reconstruction error at time t,
     ``loss_ae2`` is the predicted reconstruction at time t+tau, and
     ``loss_dyn`` is the latent-space semiconjugacy error. Set a weight to
-    zero to drop the corresponding term (e.g. ``[1, 1, 0]`` for Marcio's
+    zero to drop the corresponding term (e.g. ``[1, 1, 0]`` for a
     PDE setup with no semiconjugacy term). A fourth weight enables
     ``loss_cycle_pred = ||E(D(G(E(x_t)))) - G(E(x_t))||^2``.
     """

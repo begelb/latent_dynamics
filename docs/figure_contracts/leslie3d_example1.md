@@ -10,11 +10,11 @@ Paper Fig. 1.214 (chapter 1.2.10): the spurious-attractor case.
 
 ## Source of paper run
 
-Brittany. Preserved verbatim under `code/replay_sources/leslie3d_example1/spurious_attractor_ex/`.
+The preserved replay source under `code/replay_sources/leslie3d_example1/spurious_attractor_ex/`.
 
 - training script:    `archive/brittany/main_scripts/train.py`
 - CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
-- mg_params_log:      `archive/brittany/output/Leslie_3D/spurious_attractor_ex/mg_params_log.txt` (94 minutes; subdiv 23/23/27)
+- mg_params_log:      `archive/brittany/output/Leslie_3D/spurious_attractor_ex/mg_params_log.txt` (subdiv 23/23/27)
 - legacy checkpoint:  `archive/brittany/output/Leslie_3D/spurious_attractor_ex/models/{encoder,dynamics,decoder}.pt`
 
 The on-disk copy under `code/replay_sources/` was carried over to the new package; loaded through `latentdynamics.training.load_legacy_checkpoint`.
@@ -37,9 +37,9 @@ Diagnose (cheap, no CMGDB):
 python pipeline.py --config configs/leslie3d_example1.yaml --stages diagnose
 ```
 
-Note: data/ for spurious uses Brittany's legacy `2train.csv`/`2test.csv` naming; the diagnose stage looks for `train.csv` and will fail unless the files are renamed or `data.train_files: ["2train"]` is added to the config.
+Note: data/ for spurious uses the legacy `2train.csv`/`2test.csv` naming; the diagnose stage looks for `train.csv` and will fail unless the files are renamed or `data.train_files: ["2train"]` is added to the config.
 
-Forced retrain (~1.5 h CMGDB on AMAREL; do not run locally):
+Forced retrain (recompute data, training, and CMGDB):
 
 ```bash
 python pipeline.py --config configs/leslie3d_example1.yaml --stages all --force-overwrite
@@ -93,4 +93,4 @@ diff <(grep -E '^[0-9] |->' replay_sources/leslie3d_example1/spurious_attractor_
      <(grep -E '^[0-9] |->' archive/brittany/output/Leslie_3D/spurious_attractor_ex/MG/morse_graph)
 ```
 
-The diff should be empty (Hasse diagram structure is byte-identical between the on-disk copy and brittany's archive). `metrics.json` should contain `is_spurious_attractor: true`.
+The diff should be empty (Hasse diagram structure is byte-identical between the on-disk copy and the archived source). `metrics.json` should contain `is_spurious_attractor: true`.

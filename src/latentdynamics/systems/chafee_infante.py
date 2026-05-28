@@ -1,4 +1,4 @@
-"""Chafee-Infante PDE in spectral form (paper Sec. 1.256, originally marcio/scripts)."""
+"""Chafee-Infante PDE in spectral form (paper Sec. 1.256)."""
 
 from __future__ import annotations
 

@@ -2,11 +2,11 @@
 
 The package is organized around one staged pipeline for all examples:
 
-| Source | Paper examples | Current config(s) |
+| Paper examples | Current config(s) | Source |
 | --- | --- | --- |
-| Brittany | 3D Leslie, coral sweeps, adaptive coral | `leslie3d_example1.yaml`, `leslie3d_example2.yaml`, `coral_*.yaml` |
-| Patrick using Brittany's code | 10D Leslie contraction | `leslie_2gen_contraction.yaml` |
-| Marcio | Chafee-Infante spectral PDE | `chafee_infante.yaml` |
+| 3D Leslie, coral sweeps, adaptive coral | `leslie3d_example1.yaml`, `leslie3d_example2.yaml`, `coral_*.yaml` | read-only replay from the preserved tree |
+| 10D Leslie contraction | `leslie_2gen_contraction.yaml` | fresh package retrain (seed 20, subdiv 27/29/30); code-defined system, fully reproducible |
+| Chafee-Infante spectral PDE | `chafee_infante.yaml` | reference data/config matched |
 
 Each config expands to independent cells: `(train_file, seed, output_dir)`.
 Use a dry run to inspect the cell plan without generating data, training, or
