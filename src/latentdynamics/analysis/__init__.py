@@ -8,6 +8,7 @@ from .morse import (
     make_box_map_numpy,
     make_box_map_uniform_precomputed,
 )
+from .morse_graph_parser import MorseGraph
 from .morse_metrics import (
     check_unique_membership,
     find_morse_label_1d,
@@ -29,6 +30,7 @@ __all__ = [
     "Box",
     "Edge",
     "LatentBounds",
+    "MorseGraph",
     "MorseSet",
     "check_unique_membership",
     "compute_max_semiconjugacy_error",
