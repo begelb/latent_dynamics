@@ -10,12 +10,12 @@ readme = "README.md"
 requires-python = ">=3.13,<3.14"
 license = { text = "MIT" }
 authors = [
-    { name = "Brittany Bannish" },
-    { name = "Patrick Bardsley" },
+    { name = "Brittany Gelb" },
+    { name = "Patrick Bailon" },
     { name = "Marcio Gameiro" },
-    { name = "William Kalies" },
+    { name = "Bill Kalies" },
     { name = "Konstantin Mischaikow" },
-    { name = "Miroslav Kramar" },
+    { name = "Miro Kramar" },
     { name = "Bernardo Rivas", email = "bernardo.apr@gmail.com" },
 ]
 
