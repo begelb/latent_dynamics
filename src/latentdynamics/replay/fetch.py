@@ -28,7 +28,8 @@ def _normalize_experiment_name(name: str) -> str:
 
     Handles:
     - Strips a single trailing "_replay" suffix if present
-    - Maps "coral_data_scaling" -> "coral"
+    - Maps any coral config (coral, coral_basic, coral_data_scaling,
+      coral_adaptive) to the single "coral" artifact bundle
 
     Args:
         name: User-provided experiment name (e.g. from load_experiment).
@@ -45,8 +46,8 @@ def _normalize_experiment_name(name: str) -> str:
     if normalized.endswith("_replay"):
         normalized = normalized[:-7]  # len("_replay") == 7
 
-    # Map special case
-    if normalized == "coral_data_scaling":
+    # All coral configs share one artifact bundle.
+    if normalized.startswith("coral"):
         normalized = "coral"
 
     return normalized

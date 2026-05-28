@@ -178,9 +178,12 @@ class TestNormalizeExperimentName:
         assert _normalize_experiment_name("leslie3d_example1_replay") == "leslie3d_example1"
         assert _normalize_experiment_name("leslie3d_example2_replay") == "leslie3d_example2"
 
-    def test_coral_data_scaling_maps_to_coral(self):
-        """Map coral_data_scaling to coral."""
+    def test_coral_variants_map_to_coral(self):
+        """All coral configs share the single coral artifact bundle."""
         assert _normalize_experiment_name("coral_data_scaling") == "coral"
+        assert _normalize_experiment_name("coral_adaptive") == "coral"
+        assert _normalize_experiment_name("coral_basic") == "coral"
+        assert _normalize_experiment_name("coral") == "coral"
 
     def test_base_name_idempotent(self):
         """Base names pass through unchanged."""
