@@ -28,7 +28,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from .morse_graph_parser import MorseGraph  # noqa: F401
+from .morse_graph_parser import MorseGraph
 
 
 @dataclass
