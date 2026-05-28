@@ -1,5 +1,14 @@
 """Combinatorial-topological analysis on top of CMGDB."""
 
+from .cmgdb_roa import (
+    EXACT_ROA_FILENAME,
+    CellROA,
+    collapse_roa_to_lca,
+    compute_and_save_exact_roa,
+    compute_exact_roa,
+    load_exact_roa,
+    save_exact_roa,
+)
 from .morse import (
     LatentBounds,
     compute_morse_graph,
@@ -28,11 +37,16 @@ from .tolerance import (
 
 __all__ = [
     "Box",
+    "CellROA",
+    "EXACT_ROA_FILENAME",
     "Edge",
     "LatentBounds",
     "MorseGraph",
     "MorseSet",
     "check_unique_membership",
+    "collapse_roa_to_lca",
+    "compute_and_save_exact_roa",
+    "compute_exact_roa",
     "compute_max_semiconjugacy_error",
     "compute_min_boundary_separation",
     "compute_morse_graph",
@@ -42,8 +56,10 @@ __all__ = [
     "get_minimal_labels",
     "infer_latent_bounds",
     "is_in_range",
+    "load_exact_roa",
     "make_box_map",
     "make_box_map_numpy",
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
+    "save_exact_roa",
 ]
