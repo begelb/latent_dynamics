@@ -27,6 +27,7 @@ regardless of the current working directory.
 from __future__ import annotations
 
 import json
+import urllib.error
 import warnings
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -87,7 +88,7 @@ def available_experiments() -> list[str]:
     from ..config.loader import _get_packaged_configs_dir
 
     packaged_dir = _get_packaged_configs_dir()
-    return sorted(p.stem for p in packaged_dir.glob("*.yaml"))
+    return sorted(p.stem for p in packaged_dir.glob("*.yaml") if p.stem != "CONFIG_REFERENCE")
 
 
 def resolve_config_path(config: str | Path) -> Path:
@@ -341,10 +342,14 @@ def load_experiment(
     if not model_dir.exists():
         try:
             fetch_artifacts(name)
-        except (ValueError, Exception) as e:
-            # fetch_artifacts failed (unknown name, network error, etc.)
-            # Fall through to the checkpoint load attempt, which will raise a clearer error
-            pass
+        except ValueError as e:
+            # Unknown experiment name
+            raise ValueError(f"{name}: {e}") from e
+        except urllib.error.URLError as e:
+            # Network error or download failed
+            raise RuntimeError(
+                f"{name}: failed to download artifacts: {e}"
+            ) from e
 
     try:
         model, arch = load_any_checkpoint(
