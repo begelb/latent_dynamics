@@ -67,11 +67,12 @@ cmgdb:
   box_map_backend: auto
   compute_roa: true
   max_table_points: 300000000
-# Read-only replay of the reference trained model: ci_model_weights.pth
-# converted to the package checkpoint format (scripts/convert_chafee_weights.py).
-# Recompute CMGDB on this model with `--stages render,metrics` (the morse_graph /
-# morse_sets are already saved here). The training block above documents the
-# recipe but is not run for the replay.
+# Read-only replay of the reference trained model; the original
+# ci_model_weights.pth was converted externally to the package checkpoint format
+# under replay_sources/chafee_infante/replay/. Recompute CMGDB on this model with
+# `--stages render,metrics` (the morse_graph / morse_sets are already saved
+# here). The training block above documents the recipe but is not run for the
+# replay.
 paths:
   data_dir: data/chafee_infante
   output_dir: replay_sources/chafee_infante/replay

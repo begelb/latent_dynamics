@@ -10,17 +10,17 @@ Paper §1.211: the success case of the 3D Leslie experiment, where the learned l
 ## Source of paper run
 
 The preserved replay source. The saved non-spurious Leslie 3D paper run is
-archived under `archive/patrick/Leslie3D/`. This is distinct from the spurious
-Leslie 3D run, which is documented in `leslie3d_example1.md`.
+mirrored under `replay_sources/leslie3d_example2/`. This is distinct from the
+spurious Leslie 3D run, which is documented in `leslie3d_example1.md`.
 
 - training script:    not archived
-- checkpoint:         `archive/patrick/Leslie3D/models/{encoder,dynamics,decoder}.pt`
-- CMGDB artifacts:    `archive/patrick/Leslie3D/MG/{morse_graph,morse_sets}`
-- trajectory render:  `archive/patrick/Leslie3D/MG/morse_sets_trajectories.png`
-- CMGDB params:       `archive/patrick/Leslie3D/mg_params_log.txt`
-- losses:             `archive/patrick/Leslie3D/{final_losses.txt,logs/*.pkl}`
-- scaler:             `archive/patrick/Leslie3D/data/scalers/scaler`
-- tolerance log:      `archive/patrick/Leslie3D/tolerance_results.txt`
+- checkpoint:         `replay_sources/leslie3d_example2/models/{encoder,dynamics,decoder}.pt`
+- CMGDB artifacts:    `replay_sources/leslie3d_example2/MG/{morse_graph,morse_sets}`
+- trajectory render:  `replay_sources/leslie3d_example2/MG/morse_sets_trajectories.png`
+- CMGDB params:       `replay_sources/leslie3d_example2/mg_params_log.txt`
+- losses:             `replay_sources/leslie3d_example2/{final_losses.txt,logs/*.pkl}`
+- scaler:             `replay_sources/leslie3d_example2/data/scalers/scaler`
+- tolerance log:      `replay_sources/leslie3d_example2/tolerance_results.txt`
 
 ## Status
 
@@ -48,7 +48,7 @@ before running `data,scale,train,diagnose,morse`.
 
 Paper figure shows the non-spurious/bistable Leslie 3D result from the
 preserved checkpoint, with the Hasse diagram and trajectory panel preserved in
-`archive/patrick/Leslie3D/MG/`.
+`replay_sources/leslie3d_example2/MG/`.
 
 Verification target after retrain: `metrics.json` reports `tau_bar > max_semiconjugacy_error` (i.e., the learned latent dynamics is a faithful semiconjugacy at the data level).
 

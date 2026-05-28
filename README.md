@@ -22,9 +22,7 @@ L4(x_t, x_{t+1}) = || E(D(G(E(x_t)))) - G(E(x_t)) ||^2 # ED cycle on predicted l
 ```
 
 with weights `(w1, w2, w3)` or `(w1, w2, w3, w4)`. Existing three-weight
-configs set `w4 = 0`; `*_test_1101.yaml` configs use `[1, 1, 0, 1]` to test
-whether `DE ~= I_X`, `f ~= DGE`, and `ED ~= I_Z` on `GE(x)` recover
-`Ef ~= GE` without directly weighting `L3`. After training, CMGDB returns a Morse graph
+configs set `w4 = 0`. After training, CMGDB returns a Morse graph
 `MG(G)` over the latent box; for each minimal node `q` the package can:
 
 - compute the **tolerance** `tau(N_q, G)` of the corresponding attracting block

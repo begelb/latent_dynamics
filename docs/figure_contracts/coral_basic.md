@@ -14,12 +14,7 @@ Paper Fig. 1.376: 13D coral population system, 1D latent, bistable extinction-vs
 
 The preserved replay tree under `code/replay_sources/coral/train_500/seed_*/`. The basic `train_500` Morse graph is fresh-reproducible from a writable config copy (a working fresh retrain lives in `output/coral_data_scaling`).
 
-- training script:        `archive/brittany/main_scripts/train.py`
-- CMGDB script:           `archive/brittany/main_scripts/morse_graph.py`
-- 1D plotter:             `archive/brittany/coral_experiment_scripts/1D_morse_set_plot_for_coral.py`
-- legacy config:          `archive/brittany/config/coral.yaml`
-- mg_params_log per seed: `archive/brittany/output/coral/train_500/seed_*/mg_params_log.txt`
-- known fixed points (`a₀`, `a₁`, `r`): `archive/brittany/coral_experiment_scripts/1D_morse_set_plot_for_coral.py:18-22`
+- mg_params_log per seed: `replay_sources/coral/train_500/seed_*/mg_params_log.txt`
 
 ## Status
 
@@ -53,11 +48,11 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 | arch.hidden_shape           | 64                      | 64                     |                                            | ✓     |
 | arch.high_dims              | 13                      | 13                     |                                            | ✓     |
 | arch.low_dims               | 1                       | 1                      |                                            | ✓     |
-| arch.encoder_out_activation | tanh                    | tanh (default)         | archive/brittany/src/models.py             | ✓     |
+| arch.encoder_out_activation | tanh                    | tanh (default)         | default                                    | ✓     |
 | arch.latent_out_activation  | tanh                    | tanh (default)         |                                            | ✓     |
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)      |                                            | ✓     |
 | training.loss_weights       | [10, 10, 1]             | [10, 10, 1]            |                                            | ✓     |
-| training.epochs             | 1000                    | 1000 (default)         | archive/brittany/config/coral.yaml         | ✓     |
+| training.epochs             | 1000                    | 1000 (default)         | config                                     | ✓     |
 | training.learning_rate      | 0.001                   | 0.001 (default)        |                                            | ✓     |
 | training.batch_size         | 1024                    | 1024 (default)         |                                            | ✓     |
 | training.patience           | 100                     | 100 (default)          |                                            | ✓     |

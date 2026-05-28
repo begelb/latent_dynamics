@@ -67,7 +67,7 @@ graph.
   with two attractors: an invariant circle `(x-1, x-1, 0)` and a period-six
   orbit `(x^6-1, 0, 0)`.
 - `leslie3d_example2` is a read-only replay over the preserved Leslie 3D
-  paper artifacts under `archive/patrick/Leslie3D/`.
+  paper artifacts under `replay_sources/leslie3d_example2/`.
 - `chafee_infante` has the reference Chafee-Infante data converted into the
   unified CSV layout and uses the reference CMGDB parameters. Replay reads the
   converted data and matched config.

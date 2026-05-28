@@ -10,15 +10,11 @@ Paper §1.256: Chafee-Infante PDE in spectral coordinates (64 Fourier modes), su
 
 ## Source of paper run
 
-The reference Chafee-Infante model. Self-contained reference implementation in
-`archive/marcio/scripts/`.
+The reference Chafee-Infante model. The original training driver, CMGDB driver,
+and raw weights are not shipped; the converted checkpoint and the matched CMGDB
+parameters are mirrored under `code/replay_sources/chafee_infante/`.
 
-- model + system:     `archive/marcio/scripts/autoencoder_model.py` (`DynamicsAutoencoder` class, lines 76-102; PDE in lines 19-32; data generator in lines 37-61)
-- training script:    `archive/marcio/scripts/train_model.py`
-- CMGDB script:       `archive/marcio/scripts/compute_dynamics.py:25-30` (subdiv 10/14/28; bounds `[-3, 3] × [-2, 2]`)
-- weights:            `archive/marcio/scripts/ci_model_weights.pth` (single state_dict)
-- data:               `archive/marcio/scripts/train_data.csv` converted to `code/data/chafee_infante/{train,val}.csv` for the current pipeline; an exact header-added archive mirror also exists under `code/replay_sources/chafee_infante/data/`
-- rendered figures:   `archive/marcio/scripts/ci_morse_graph.pdf`, `archive/marcio/scripts/ci_morse_sets.pdf`
+- data:               converted to `code/data/chafee_infante/{train,val}.csv` for the current pipeline; an exact header-added mirror also exists under `code/replay_sources/chafee_infante/data/`
 
 ## Status
 

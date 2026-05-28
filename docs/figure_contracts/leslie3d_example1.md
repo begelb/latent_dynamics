@@ -12,12 +12,10 @@ Paper Fig. 1.214 (chapter 1.2.10): the spurious-attractor case.
 
 The preserved replay source under `code/replay_sources/leslie3d_example1/spurious_attractor_ex/`.
 
-- training script:    `archive/brittany/main_scripts/train.py`
-- CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
-- mg_params_log:      `archive/brittany/output/Leslie_3D/spurious_attractor_ex/mg_params_log.txt` (subdiv 23/23/27)
-- legacy checkpoint:  `archive/brittany/output/Leslie_3D/spurious_attractor_ex/models/{encoder,dynamics,decoder}.pt`
+- mg_params_log:      `replay_sources/leslie3d_example1/spurious_attractor_ex/mg_params_log.txt` (subdiv 23/23/27)
+- legacy checkpoint:  `replay_sources/leslie3d_example1/spurious_attractor_ex/models/{encoder,dynamics,decoder}.pt`
 
-The on-disk copy under `code/replay_sources/` was carried over to the new package; loaded through `latentdynamics.training.load_legacy_checkpoint`.
+The on-disk copy under `code/replay_sources/` is loaded through `latentdynamics.training.load_legacy_checkpoint`.
 
 ## Status
 
@@ -73,7 +71,7 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 | arch.hidden_shape           | 32                      | 32                        |                                                            | ✓     |
 | arch.high_dims              | 3                       | 3                         |                                                            | ✓     |
 | arch.low_dims               | 2                       | 2                         |                                                            | ✓     |
-| arch.encoder_out_activation | tanh                    | tanh (default)            | archive/brittany/src/models.py legacy default              | ✓     |
+| arch.encoder_out_activation | tanh                    | tanh (default)            | default                                                    | ✓     |
 | arch.latent_out_activation  | tanh                    | tanh (default)            |                                                            | ✓     |
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)         |                                                            | ✓     |
 | training.loss_weights       | [10, 10, 1]             | [10, 10, 1]               | configs/leslie3d_example1.yaml:17                          | ✓     |
@@ -89,8 +87,6 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 
 ```bash
 python pipeline.py --config configs/leslie3d_example1.yaml --stages render,metrics
-diff <(grep -E '^[0-9] |->' replay_sources/leslie3d_example1/spurious_attractor_ex/MG/morse_graph) \
-     <(grep -E '^[0-9] |->' archive/brittany/output/Leslie_3D/spurious_attractor_ex/MG/morse_graph)
 ```
 
-The diff should be empty (Hasse diagram structure is byte-identical between the on-disk copy and the archived source). `metrics.json` should contain `is_spurious_attractor: true`.
+`metrics.json` should contain `is_spurious_attractor: true`. The Hasse diagram of `replay_sources/leslie3d_example1/spurious_attractor_ex/MG/morse_graph` is preserved byte-for-byte from the original paper run.

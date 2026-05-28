@@ -12,10 +12,6 @@ Paper Fig. 1.528: how adaptive sampling on top of a 500-point base improves Mors
 
 The preserved replay tree under `code/replay_sources/coral/train_500_<M>_adaptive/seed_*/`. Sizes `M ∈ {100, 200, 300}` have non-empty checkpoints and Morse graph artifacts for all seeds; sizes `400, 500` are fresh-reproducible from a writable config copy.
 
-- training script:    `archive/brittany/main_scripts/train.py`
-- adaptive sampler:   present in `archive/brittany/main_scripts/make_data.py` and the experiment shell scripts
-- CMGDB script:       `archive/brittany/main_scripts/morse_graph.py`
-- experiment driver:  `archive/brittany/coral_experiment_scripts/run_adaptive_experiments.sh`
 - adaptive datasets:  `code/replay_sources/coral/data/train_500_<M>_adaptive.csv` (precomputed; the `data` stage does not re-derive these)
 
 ## Status
@@ -36,7 +32,7 @@ An unfiltered replay processes M = 100, 200, and 300 from the preserved tree;
 M = 400 and 500 are fresh-reproducible from a writable config copy. Select the
 replayable cell indices when generating replay metrics.
 
-Note: adaptive sampling assumes `replay_sources/coral/data/train_500_<M>_adaptive.csv` already exists. The `data` stage does **not** regenerate adaptive datasets (this uses the adaptive sampling workflow). To regenerate them, run `archive/brittany/coral_experiment_scripts/run_adaptive_experiments.sh`, or use the M values whose CSV is on disk.
+Note: adaptive sampling assumes `replay_sources/coral/data/train_500_<M>_adaptive.csv` already exists. The `data` stage does **not** regenerate adaptive datasets (this uses the adaptive sampling workflow). Use the M values whose CSV is on disk.
 
 ## Expected scientific output
 
