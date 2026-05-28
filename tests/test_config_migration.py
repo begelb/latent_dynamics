@@ -15,7 +15,7 @@ import pytest
 from latentdynamics.config import load_config
 from latentdynamics.training import has_legacy_checkpoint, has_new_checkpoint
 
-CONFIG_DIR = Path(__file__).resolve().parents[1] / "configs"
+CONFIG_DIR = Path(__file__).resolve().parents[1] / "src" / "latentdynamics" / "configs"
 
 EXPECTED: dict[str, dict[str, dict[str, object]]] = {
     "chafee_infante.yaml": {

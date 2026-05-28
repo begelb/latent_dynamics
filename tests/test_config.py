@@ -18,7 +18,7 @@ from latentdynamics.config import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-CONFIGS_DIR = REPO_ROOT / "configs"
+CONFIGS_DIR = REPO_ROOT / "src" / "latentdynamics" / "configs"
 
 
 class TestSchema:
