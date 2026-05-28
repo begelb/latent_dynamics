@@ -7,7 +7,7 @@ name = "latentdynamics"
 version = "0.1.0"
 description = "Rigorously characterizing high-dimensional dynamics by combinatorial-topological methods on a latent space."
 readme = "README.md"
-requires-python = ">=3.13,<3.14"
+requires-python = ">=3.11"
 license = { text = "MIT" }
 authors = [
     { name = "Brittany Gelb" },
@@ -46,6 +46,9 @@ dev = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+latentdynamics = ["configs/*.yaml"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
@@ -55,7 +58,7 @@ markers = [
 
 [tool.ruff]
 line-length = 100
-target-version = "py313"
+target-version = "py311"
 src = ["src", "tests", "scripts"]
 exclude = ["legacy"]
 

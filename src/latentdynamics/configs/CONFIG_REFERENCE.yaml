@@ -1,0 +1,208 @@
+# Reference for experiment config files.
+#
+# This file is documentation, not a runnable experiment. Copy the sections you
+# need into a real config and remove the __reference_only__ line.
+#
+# The accepted keys are defined by src/latentdynamics/config/schema.py. The
+# pydantic models use extra="forbid", so misspelled or unsupported keys fail
+# config loading instead of being silently ignored.
+__reference_only__: true
+
+# Optional stable id. If omitted in a real config, load_config() fills this with
+# the YAML filename stem.
+experiment_name: example_experiment
+
+system:
+  # Choices:
+  # - leslie_contraction
+  # - leslie3d
+  # - leslie4d
+  # - coral
+  # - chafee_infante
+  name: leslie_contraction
+
+  # Free-form system-specific parameters. Common examples:
+  # - leslie_contraction: th1, th2, survival_p1, contraction,
+  #   lower_bounds, upper_bounds
+  # - leslie3d / leslie4d: system-specific Leslie parameters and bounds
+  # - coral: parameters consumed by latentdynamics.systems.coral
+  # - chafee_infante: N, tau, and PDE parameters consumed by that system
+  params:
+    th1: 23.5
+    th2: 23.5
+    survival_p1: 0.7
+    contraction: 0.25
+    lower_bounds: [0.0, 0.0]
+    upper_bounds: [90.0, 70.0]
+
+arch:
+  # Ambient/input dimension and latent dimension.
+  high_dims: 2
+  low_dims: 2
+
+  # Shared architecture defaults. Use one of:
+  # - hidden_shapes: [64, 32] for explicit asymmetric widths
+  # - num_layers + hidden_shape for repeated-width MLPs
+  #
+  # If every component below specifies hidden_shapes, these can stay null.
+  num_layers: null
+  hidden_shape: null
+  hidden_shapes: null
+
+  # Shared hidden-layer activation. Choices: relu, tanh, gelu.
+  activation: relu
+
+  # Legacy/shared terminal activations used when a component omits
+  # out_activation. Choices: tanh, sigmoid, none.
+  encoder_out_activation: tanh
+  latent_out_activation: tanh
+  decoder_out_activation: sigmoid
+
+  # Each component can override shared width, activation, and terminal
+  # activation. Component width follows the same rule as the shared fields:
+  # hidden_shapes OR num_layers + hidden_shape.
+  encoder:
+    num_layers: null
+    hidden_shape: null
+    hidden_shapes: [64, 32]
+    activation: tanh
+    out_activation: none
+
+  latent_map:
+    num_layers: null
+    hidden_shape: null
+    hidden_shapes: [32, 32]
+    activation: tanh
+    out_activation: none
+
+  decoder:
+    num_layers: null
+    hidden_shape: null
+    hidden_shapes: [32, 64]
+    activation: tanh
+    out_activation: none
+
+training:
+  learning_rate: 0.003
+  batch_size: 30000
+  epochs: 4000
+
+  # Early stopping patience, in epochs.
+  patience: 100
+
+  # ReduceLROnPlateau patience. Must be strictly less than patience so the
+  # scheduler can lower LR before early stopping fires.
+  lr_patience: 10
+
+  # [reconstruct x_t, reconstruct x_tau, latent dynamics]
+  # Optionally add a fourth ED-cycle weight:
+  # [reconstruct x_t, reconstruct x_tau, latent dynamics, ED(GE)-GE]
+  loss_weights: [1.0, 1.0, 0.0]
+
+  # Positive float to enable clipping; null disables clipping.
+  gradient_clip_norm: null
+
+  # ReduceLROnPlateau settings.
+  scheduler_factor: 0.5
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.000001
+
+data:
+  # Choices: uniform, sobol, adaptive.
+  sampling_method: uniform
+
+  # Choices: minmax, none.
+  scaling: minmax
+
+  # Integer for one training set, or list of integers for size sweeps.
+  n_samples_train: 1000
+  n_samples_val: 200
+
+  # Number of map iterations used when generating paired trajectory data.
+  n_iterations: 30
+
+  # Number of initial trajectory iterates to skip before recording samples.
+  skip: 0
+
+  train_seed: 7206
+  val_seed: 9999
+
+  # Optional explicit training file basenames. When null, filenames are derived
+  # from n_samples_train and sampling_method.
+  train_files: null
+
+cmgdb:
+  # CMGDB subdivision schedule. Must satisfy:
+  # subdiv_init <= subdiv_min <= subdiv_max.
+  subdiv_init: 22
+  subdiv_min: 22
+  subdiv_max: 22
+
+  subdiv_limit: 10000
+
+  # Extra padding fraction when inferring latent bounds from encoded data.
+  bounds_epsilon_frac: 0.01
+
+  # Set both lower_bounds and upper_bounds to fix latent CMGDB bounds manually.
+  # Leave both null to infer bounds from encoded train/validation data.
+  lower_bounds: null
+  upper_bounds: null
+
+  # If true, expands each box-map image by one input box side length.
+  padding: false
+
+  # Choices:
+  # - auto: choose the fastest precomputed backend from the subdivision
+  #   schedule. Uniform divisible grids use uniform_precomputed; adaptive or
+  #   non-divisible grids use adaptive_precomputed.
+  # - uniform_precomputed: precomputes a fixed uniform corner grid. Requires
+  #   subdiv_init == subdiv_min == subdiv_max; subdiv_max must also be
+  #   divisible by arch.low_dims.
+  # - adaptive_precomputed: precomputes the maximal-resolution adaptive corner
+  #   grid once and serves coarser cells from that table.
+  # The slower per-box PyTorch and NumPy reference callbacks are intentionally
+  # not user-facing config options for new CMGDB runs.
+  box_map_backend: auto
+
+  # Maximum number of corner points allowed for precomputed backend tables.
+  # Raise this for high subdivision levels after checking memory requirements.
+  max_table_points: 10000000
+
+  # Forward-pass chunk size for precomputed backends. ``max_table_points``
+  # caps the persisted float64 lookup table; this bounds the *transient*
+  # float32 activation tensors created while evaluating ``latent_map`` over
+  # the lattice. Required because a single hidden-layer activation tensor
+  # over the full lattice can exceed device single-allocation buffer caps
+  # (notably on Apple MPS) even when total RAM is much larger.
+  #
+  # Choices:
+  # - auto: pick a chunk size from the selected torch device, available
+  #   memory, and the latent map's widest linear layer.
+  # - positive int: use this chunk size verbatim (clamped to the table
+  #   size). Use to override the auto heuristic for reproducibility.
+  precompute_batch_points: auto
+
+  # Compute exact regions of attraction on CMGDB's returned MapGraph during
+  # the morse stage. This gives same-cell labels for 2-D RoA figures, unlike
+  # the render-time diagnostic 128x128 grid. It is opt-in because building the
+  # reverse graph can require substantial memory at high subdivision levels.
+  compute_roa: false
+  roa_max_vertices: 50000000
+
+paths:
+  data_dir: data/example_experiment
+  output_dir: output/example_experiment
+
+  # Optional shared scaler directory. Leave null for output_dir/scalers.
+  scaler_dir_override: null
+
+  # false: scaler path is <scaler_dir>/<train_file>/scaler.gz
+  # true: scaler path is <scaler_dir>/scaler.gz
+  flat_scaler: false
+
+  # true marks a config as an artifact source. Pipeline-derived writes can be
+  # redirected to replay output roots instead of modifying source artifacts.
+  read_only: false
+
+# Seeds used for training/evaluation sweeps.
+seeds: [0]

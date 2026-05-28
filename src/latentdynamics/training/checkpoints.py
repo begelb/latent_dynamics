@@ -113,22 +113,28 @@ def load_legacy_checkpoint(
     arch: ArchConfig,
     *,
     map_location: str | torch.device = "cpu",
-    legacy_root: str | Path | None = None,
+    legacy_root: str | Path,
 ) -> LatentDynamicsAutoencoder:
     """Load a three-file pickled-nn.Module checkpoint into a LatentDynamicsAutoencoder.
 
     The legacy files were saved with ``torch.save(obj)`` of full ``nn.Module``
     instances whose qualified class name is ``src.models.Encoder`` (etc.).
     Unpickling therefore needs ``src.models`` importable. We add the
-    *parent* of the legacy ``src/`` directory (default: ``code/legacy``) to
-    ``sys.path`` so ``import src.models`` resolves there.
+    *parent* of the legacy ``src/`` directory to ``sys.path`` so
+    ``import src.models`` resolves there.
+
+    Args:
+        in_dir: Directory containing ``encoder.pt``, ``dynamics.pt``, ``decoder.pt``.
+        arch: Architecture config for the reconstructed model.
+        map_location: Device for loading tensors (default: ``cpu``).
+        legacy_root: **Required.** Directory containing the legacy ``src/`` folder
+            (e.g., ``code/legacy``). Must be explicitly provided; no default.
     """
     in_path = Path(in_dir)
     if not has_legacy_checkpoint(in_path):
         raise FileNotFoundError(f"missing one or more legacy files {LEGACY_FILES} in {in_path}")
 
-    default_root = Path(__file__).resolve().parents[3] / "legacy"
-    candidate = Path(legacy_root) if legacy_root is not None else default_root
+    candidate = Path(legacy_root)
     if candidate.is_dir() and str(candidate) not in sys.path:
         sys.path.insert(0, str(candidate))
 
@@ -162,6 +168,8 @@ def load_any_checkpoint(
 
     For the legacy format an explicit ``arch`` must be supplied (since the
     sidecar JSON does not exist in old runs); typically pass ``cfg.arch``.
+    If legacy checkpoints are detected, ``legacy_root`` must also be supplied
+    (the directory containing the legacy ``src/`` folder).
     """
     in_path = Path(in_dir)
     if has_new_checkpoint(in_path, basename=basename):
@@ -169,6 +177,11 @@ def load_any_checkpoint(
     if has_legacy_checkpoint(in_path):
         if arch is None:
             raise ValueError("legacy checkpoint requires an explicit ArchConfig")
+        if legacy_root is None:
+            raise ValueError(
+                "legacy checkpoint requires an explicit legacy_root argument "
+                "(the directory containing the legacy src/ folder)"
+            )
         model = load_legacy_checkpoint(
             in_path, arch, map_location=map_location, legacy_root=legacy_root
         )

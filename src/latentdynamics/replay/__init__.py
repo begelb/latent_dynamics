@@ -37,20 +37,23 @@ import numpy as np
 import torch
 from numpy.typing import NDArray
 
-from .cli.pipeline import (
+from .._paths import get_cache_dir, get_repo_root
+from ..cli.pipeline import (
     _config_for_seed,
     _parse_mg_params_log,
     _resolve_device,
     _train_files_for,
 )
-from .config import load_config
-from .config.schema import ArchConfig, ExperimentConfig
-from .models.autoencoder import LatentDynamicsAutoencoder
-from .training import load_any_checkpoint
-from .viz import RenderedMorseFigures, plot_latent_trajectory, render_morse_from_files
+from ..config import load_config
+from ..config.schema import ArchConfig, ExperimentConfig
+from ..models.autoencoder import LatentDynamicsAutoencoder
+from ..training import load_any_checkpoint
+from ..viz import RenderedMorseFigures, plot_latent_trajectory, render_morse_from_files
+from .fetch import fetch_artifacts
 
 # code/ -- the repo root the relative config paths are written against.
-REPO_ROOT = Path(__file__).resolve().parents[2]
+# On pip-install, this falls back to the cache dir.
+REPO_ROOT = get_repo_root()
 CONFIGS_DIR = REPO_ROOT / "configs"
 # Where re-rendered PDFs/PNGs land (source trees are read-only).
 DEFAULT_RENDER_ROOT = REPO_ROOT / "notebooks" / "rendered"
@@ -82,15 +85,21 @@ def show_image(path: str | Path, *, width: int | None = None) -> None:
 
 def available_experiments() -> list[str]:
     """Config stems that :func:`load_experiment` accepts, e.g. ``leslie3d_example1``."""
-    return sorted(p.stem for p in CONFIGS_DIR.glob("*.yaml"))
+    from ..config.loader import _get_packaged_configs_dir
+
+    packaged_dir = _get_packaged_configs_dir()
+    return sorted(p.stem for p in packaged_dir.glob("*.yaml"))
 
 
 def resolve_config_path(config: str | Path) -> Path:
     """Map an experiment name (or a path) to its YAML config file."""
+    from ..config.loader import _get_packaged_configs_dir
+
     p = Path(config)
     if p.suffix == ".yaml" and p.exists():
         return p
-    candidate = CONFIGS_DIR / f"{Path(config).stem}.yaml"
+    packaged_dir = _get_packaged_configs_dir()
+    candidate = packaged_dir / f"{Path(config).stem}.yaml"
     if candidate.exists():
         return candidate
     raise FileNotFoundError(
