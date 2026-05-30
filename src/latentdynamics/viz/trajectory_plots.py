@@ -10,7 +10,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 from numpy.typing import NDArray
 
-from .style import PALETTE, save_figure
+from .style import (
+    LATENT_ARROW_MUTATION_SCALE,
+    LATENT_FIG_WIDTH_IN,
+    PALETTE,
+    save_latent_figure,
+    style_latent_axes,
+)
 
 
 def _scatter_morse_sets(
@@ -59,7 +65,10 @@ def plot_latent_trajectory(
     gray_to_black = mcolors.LinearSegmentedColormap.from_list("gb", ["#cccccc", "#000000"])
     is_short = trajectory_steps < 5
 
-    fig, ax = plt.subplots(figsize=(10, 8))
+    fig, ax = plt.subplots(
+        figsize=(LATENT_FIG_WIDTH_IN, round(LATENT_FIG_WIDTH_IN * 0.8, 3)),
+        layout="constrained",
+    )
     _scatter_morse_sets(ax, morse_set_data, palette)
 
     for label, points in periodic_pts.items():
@@ -115,7 +124,7 @@ def plot_latent_trajectory(
                         "color": "#6e6e6e",
                         "lw": 0.8,
                         "alpha": arrow_alpha,
-                        "mutation_scale": 9,
+                        "mutation_scale": LATENT_ARROW_MUTATION_SCALE,
                         # Shrink both ends so arrows sit between, not over, the
                         # Morse-set boxes they connect.
                         "shrinkA": 7.0,
@@ -124,9 +133,8 @@ def plot_latent_trajectory(
                     zorder=100,
                 )
 
-    ax.set_xlabel("$z_1$", fontsize=20)
-    ax.set_ylabel("$z_2$", fontsize=20)
-    ax.tick_params(labelsize=16)
-    fig.tight_layout()
-    save_figure(fig, save_path, dpi=300, close=True)
+    ax.set_xlabel("$z_1$")
+    ax.set_ylabel("$z_2$")
+    style_latent_axes(ax, two_d=True)
+    save_latent_figure(fig, save_path, dpi=300, close=True)
     return save_path

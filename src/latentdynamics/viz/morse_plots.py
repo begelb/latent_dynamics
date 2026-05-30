@@ -26,7 +26,14 @@ from matplotlib.collections import PatchCollection
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
 
-from .style import PALETTE, apply_paper_style, save_figure
+from .style import (
+    LATENT_ARROW_MUTATION_SCALE,
+    LATENT_FIG_WIDTH_IN,
+    PALETTE,
+    apply_paper_style,
+    save_latent_figure,
+    style_latent_axes,
+)
 
 
 @dataclass(frozen=True)
@@ -312,13 +319,9 @@ def render_morse_sets_from_csv(
         box_scale=box_scale,
     )
 
-    rendered: list[Path] = []
-    for fmt in formats:
-        out_path = out / f"{basename}.{fmt}"
-        plot.fig.savefig(out_path)
-        rendered.append(out_path)
-    plt.close(plot.fig)
-    return rendered
+    # save_latent_figure neutralises the global tight-bbox so the saved canvas
+    # is exactly the figure's on-page width (1:1 \includegraphics placement).
+    return save_latent_figure(plot.fig, out / basename, formats=tuple(formats), close=True)
 
 
 def _plot_morse_sets_1d(
@@ -331,7 +334,10 @@ def _plot_morse_sets_1d(
     unique = sorted(np.unique(lbls).tolist())
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(10, 2.0))
+        fig, ax = plt.subplots(
+            figsize=(LATENT_FIG_WIDTH_IN, round(LATENT_FIG_WIDTH_IN * 0.2, 3)),
+            layout="constrained",
+        )
     else:
         fig = ax.figure
 
@@ -365,9 +371,9 @@ def _plot_morse_sets_1d(
         ax.spines[spine].set_visible(False)
     ax.spines["bottom"].set_position("zero")
     ax.xaxis.set_ticks_position("bottom")
+    style_latent_axes(ax, two_d=False)
 
     label_to_y = {lbl: 0.0 for lbl in unique}
-    fig.tight_layout()
     return fig, ax, label_to_y
 
 
@@ -422,7 +428,10 @@ def _plot_morse_sets_2d(
     lbls = lbls.astype(int)
 
     if ax is None:
-        fig, ax = plt.subplots(figsize=(8, 7))
+        fig, ax = plt.subplots(
+            figsize=(LATENT_FIG_WIDTH_IN, LATENT_FIG_WIDTH_IN),
+            layout="constrained",
+        )
     else:
         fig = ax.figure
     # ``box_scale`` inflates each box about its own center so tiny attractor
@@ -452,7 +461,7 @@ def _plot_morse_sets_2d(
     ax.set_aspect("equal", adjustable="box")
     ax.set_xlabel(labels_2d[0])
     ax.set_ylabel(labels_2d[1])
-    fig.tight_layout()
+    style_latent_axes(ax, two_d=True)
     return fig, ax
 
 
@@ -568,7 +577,7 @@ def _draw_grey_trajectory(
                 "color": _ARROW_GREY,
                 "lw": 0.8,
                 "alpha": 1.0,
-                "mutation_scale": 9,
+                "mutation_scale": LATENT_ARROW_MUTATION_SCALE,
                 "shrinkA": 7.0,
                 "shrinkB": 7.0,
             },
@@ -596,7 +605,7 @@ def _draw_grey_arrows(
                 "color": _ARROW_GREY,
                 "lw": 0.8,
                 "alpha": 1.0,
-                "mutation_scale": 10,
+                "mutation_scale": LATENT_ARROW_MUTATION_SCALE,
                 "shrinkA": 3.0,
                 "shrinkB": 6.0,
             },
@@ -659,5 +668,7 @@ def render_morse_sets_with_overlay(
                 traj.append(z[0])
             _draw_grey_trajectory(plot.ax, np.asarray(traj))
 
-    written = save_figure(plot.fig, out / basename, formats=tuple(formats), close=True)
+    written = save_latent_figure(
+        plot.fig, out / basename, formats=tuple(formats), close=True
+    )
     return written
