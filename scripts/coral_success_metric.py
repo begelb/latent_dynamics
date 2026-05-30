@@ -530,6 +530,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help="Skip metric recomputation and re-plot from an existing per-seed "
         "CSV (columns: dataset, x, seed, a0, a1, r). Fast for plot iteration.",
     )
+    parser.add_argument(
+        "--config",
+        type=str,
+        default=None,
+        help="Override the experiment config used to locate artifacts (a "
+        "packaged name or a path to a YAML). Default: the packaged coral config "
+        "for the chosen --mode.",
+    )
     return parser.parse_args(argv)
 
 
@@ -547,6 +555,9 @@ def main(argv: list[str] | None = None) -> None:
         config_name = "coral_data_scaling"
         datasets = SIZE_DATASETS
         xlabel_mode = "size"
+
+    if args.config is not None:
+        config_name = args.config
 
     x_map = {ds: x for x, ds in datasets}
     x_values_all = [x for x, _ in datasets]
