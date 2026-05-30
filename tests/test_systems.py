@@ -26,7 +26,7 @@ class TestLeslie3D:
         result = m.step(x)
         expected = np.array(
             [
-                (19.6 * 1 + 23.68 * 2 + 23.68 * 3) * math.exp(-0.6),
+                (28.9 * 1 + 29.8 * 2 + 22.0 * 3) * math.exp(-0.6),
                 0.7 * 1,
                 0.7 * 2,
             ]

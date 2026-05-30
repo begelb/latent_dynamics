@@ -1,9 +1,9 @@
 system:
   name: leslie3d
   params:
-    th1: 19.6
-    th2: 23.68
-    th3: 23.68
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
     survival_p1: 0.7
     survival_p2: 0.7
 arch:

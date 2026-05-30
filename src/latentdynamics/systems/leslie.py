@@ -58,9 +58,9 @@ class LeslieModel3D(DiscreteMap):
 
     def __init__(
         self,
-        th1: float = 19.6,
-        th2: float = 23.68,
-        th3: float = 23.68,
+        th1: float = 28.9,
+        th2: float = 29.8,
+        th3: float = 22.0,
         survival_p1: float = 0.7,
         survival_p2: float = 0.7,
         lower_bounds: ArrayLike = (0, 0, 0),
