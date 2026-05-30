@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-05-29T18:02:52.887145+00:00",
+  "train_file": "train_5000",
+  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/coral_retrain/data/size/train_5000.csv",
+  "train_csv_sha256": "96f69912f373db0df6b98126953daed4c030826d21677d3585bcf8a2f4ef8460",
+  "scaling": "minmax",
+  "high_dims": 13
+}

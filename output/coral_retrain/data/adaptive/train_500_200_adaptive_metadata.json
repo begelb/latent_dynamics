@@ -1,0 +1,81 @@
+{
+    "dataset_name": "train_500_200_adaptive",
+    "system": "RedCoralModel",
+    "dimension": 13,
+    "n_samples": 700,
+    "n_iterations": 20,
+    "sampling_method": "adaptive",
+    "source_dataset": "train_500",
+    "n_adaptive_samples": 200,
+    "source_model_subdir": "train_500/seed_16",
+    "morse_label_low": 0,
+    "morse_label_high": 2,
+    "latent_interval": [
+        -1.0082351048942657,
+        -0.0236793763935566
+    ],
+    "lower_bounds": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+    ],
+    "upper_bounds": [
+        1300,
+        1150,
+        750,
+        520,
+        270,
+        120,
+        35,
+        20,
+        7,
+        5,
+        5,
+        2,
+        2
+    ],
+    "model_params": {
+        "b": [
+            0.0,
+            0.0,
+            2.89,
+            10.03,
+            21.59,
+            39.02,
+            56.41,
+            77.72,
+            103.23,
+            131.87,
+            164.57,
+            201.46,
+            242.65
+        ],
+        "survival_rates": [
+            0.889,
+            0.633,
+            0.697,
+            0.517,
+            0.437,
+            0.287,
+            0.571,
+            0.333,
+            0.75,
+            1.0,
+            0.333,
+            1.0
+        ],
+        "surface_area": 36.0
+    },
+    "skip_initial_steps": 0,
+    "role": "train"
+}

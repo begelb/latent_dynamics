@@ -1,0 +1,19 @@
+{
+  "labels": {
+    "a0": null,
+    "a1": 3,
+    "r": null
+  },
+  "metrics": {
+    "a0": false,
+    "a1": true,
+    "r": false
+  },
+  "morse_graph_consistency": {
+    "n_morse_sets": 5,
+    "n_minimal_attractors": 2,
+    "attractor_type_nonminimal": [],
+    "n_trivial_index": 0,
+    "consistent": true
+  }
+}
