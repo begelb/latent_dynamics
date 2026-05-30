@@ -3,7 +3,7 @@
     "dimension": 3,
     "n_samples": 5000,
     "n_iterations": 30,
-    "skip_initial_steps": 0,
+    "skip_initial_steps": 10,
     "lower_bounds": [
         0.0,
         0.0,

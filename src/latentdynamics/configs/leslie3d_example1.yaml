@@ -50,7 +50,7 @@ data:
   n_samples_train: 4000
   n_samples_val: 5000
   n_iterations: 30
-  skip: 0
+  skip: 10
   train_seed: 42
   val_seed: 9999
   train_files: null

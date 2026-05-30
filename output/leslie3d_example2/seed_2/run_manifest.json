@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-27T18:53:01.088266+00:00",
+  "created_at_utc": "2026-05-30T14:15:46.896569+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,7 +9,7 @@
     "mps_available": true
   },
   "requested_stages": [
-    "render"
+    "data"
   ],
   "cell": {
     "cell_index": 0,
@@ -19,14 +19,14 @@
     "device": "mps",
     "skipped_stages": []
   },
-  "config_hash": "39767859aa826b250ee426a835dd72535bb16a24d42209fae219d5e9e5208558",
+  "config_hash": "eb7c5956397f807b4c0f05261ba27ceddf27332f2b5a78ac9f48f828aa48cc3c",
   "config": {
     "system": {
       "name": "leslie3d",
       "params": {
-        "th1": 19.6,
-        "th2": 23.68,
-        "th3": 23.68,
+        "th1": 28.9,
+        "th2": 29.8,
+        "th3": 22.0,
         "survival_p1": 0.7,
         "survival_p2": 0.7
       }
@@ -129,7 +129,7 @@
   },
   "artifacts": {
     "train_csv": "data/leslie3d_example2/train.csv",
-    "train_csv_sha256": "d96b66557e36e969e0a24a870d063d21d9f1c863483f3f50d04709f83afa0a78",
+    "train_csv_sha256": "8d8cc4e2c72e1db04e37225dfcac9d0c8fe41346e8b280a92a5c58498aeddc44",
     "scaler": "output/leslie3d_example2/scalers/train/scaler.gz",
     "scaler_sha256": "ad65c1ae61619aa965eed5eebfc87b34078f7fecc25ff8f83295ae2d50349763",
     "model_dir": "output/leslie3d_example2/seed_2/models",

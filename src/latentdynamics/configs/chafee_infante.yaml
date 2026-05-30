@@ -47,15 +47,16 @@ data:
   train_files: null
 
 cmgdb:
-  subdiv_init: 10
-  subdiv_min: 14
-  subdiv_max: 28
+  subdiv_init: 14
+  subdiv_min: 16
+  subdiv_max: 22
   subdiv_limit: 10000
-  bounds_epsilon_frac: 0.01
+  bounds_epsilon_frac: 0.10
   lower_bounds: null
   upper_bounds: null
-  padding: false
+  padding: true
   box_map_backend: auto
+  compute_roa: true
   max_table_points: 300000000
 
 paths:
