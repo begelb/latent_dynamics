@@ -1,0 +1,10 @@
+{
+  "error": "empty morse_sets or morse_graph file",
+  "morse_graph_consistency": {
+    "n_morse_sets": 0,
+    "n_minimal_attractors": 0,
+    "attractor_type_nonminimal": [],
+    "n_trivial_index": 0,
+    "consistent": true
+  }
+}
