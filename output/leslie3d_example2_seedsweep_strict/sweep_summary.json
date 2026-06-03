@@ -1,0 +1,230 @@
+{
+  "example": "leslie3d_example2",
+  "tag": "strict",
+  "cmgdb_subdiv": [
+    24,
+    25,
+    29
+  ],
+  "full_batch": false,
+  "ic_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "cells": [
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_1/seed_0",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_1/seed_1",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_1/seed_2",
+      "n_attractors_sinks": 4,
+      "n_attractor_type_nodes": 4,
+      "n_sinks": 4,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1",
+        "x^4-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_2/seed_0",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_2/seed_1",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_2/seed_2",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x^4-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_3/seed_0",
+      "n_attractors_sinks": 1,
+      "n_attractor_type_nodes": 1,
+      "n_sinks": 1,
+      "attractor_indices": [
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_3/seed_1",
+      "n_attractors_sinks": 3,
+      "n_attractor_type_nodes": 3,
+      "n_sinks": 3,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_3/seed_2",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_4/seed_0",
+      "n_attractors_sinks": 1,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 1,
+      "attractor_indices": [
+        "x^4-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_4/seed_1",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_4/seed_2",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_5/seed_0",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_5/seed_1",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x^3-1",
+        "x^4-1"
+      ]
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_strict/dataset_5/seed_2",
+      "n_attractors_sinks": 2,
+      "n_attractor_type_nodes": 2,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x^4-1",
+        "x^4-1"
+      ]
+    }
+  ]
+}

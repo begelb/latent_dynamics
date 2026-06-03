@@ -1,0 +1,27 @@
+{
+  "example": "chafee_infante",
+  "ic_seeds": [
+    1
+  ],
+  "model_seeds": [
+    0
+  ],
+  "stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "cells": [
+    {
+      "example": "chafee_infante",
+      "ic_seed": 1,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/seed_0",
+      "n_attractors": 2
+    }
+  ]
+}

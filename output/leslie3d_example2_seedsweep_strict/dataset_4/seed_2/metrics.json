@@ -1,0 +1,29 @@
+{
+  "minimal_morse_labels": [
+    0,
+    1
+  ],
+  "minimal_morse_sets": {
+    "0": {
+      "n_boxes": 7890,
+      "tau_bar": 0.00010459186160005629,
+      "n_semiconjugacy_samples": 1978,
+      "max_semiconjugacy_error": 0.0054353647865355015,
+      "is_spurious_attractor": true
+    },
+    "1": {
+      "n_boxes": 169,
+      "tau_bar": 0.0001102149544749409,
+      "n_semiconjugacy_samples": 2,
+      "max_semiconjugacy_error": 0.018128830939531326,
+      "is_spurious_attractor": true
+    }
+  },
+  "morse_graph_consistency": {
+    "n_morse_sets": 4,
+    "n_minimal_attractors": 2,
+    "attractor_type_nonminimal": [],
+    "n_trivial_index": 1,
+    "consistent": true
+  }
+}

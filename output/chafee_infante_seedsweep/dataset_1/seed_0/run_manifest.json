@@ -1,0 +1,147 @@
+{
+  "created_at_utc": "2026-06-01T21:33:31.761694+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
+  "torch": {
+    "version": "2.11.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "requested_stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/seed_0",
+    "device": "mps",
+    "skipped_stages": []
+  },
+  "config_hash": "844bfe61a0c995af155252dbda64c697c1779a472921fc712060835939970f09",
+  "config": {
+    "system": {
+      "name": "chafee_infante",
+      "params": {
+        "N": 64,
+        "alpha": 28.0,
+        "tau": 0.1,
+        "amplitude": 2.0,
+        "decay": 0.5
+      }
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 64,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          32
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          32
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          64
+        ],
+        "activation": "tanh",
+        "out_activation": "none"
+      }
+    },
+    "training": {
+      "learning_rate": 0.003,
+      "batch_size": 30000,
+      "epochs": 4000,
+      "patience": 4000,
+      "lr_patience": 100,
+      "loss_weights": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "gradient_clip_norm": null,
+      "scheduler_factor": 0.5,
+      "scheduler_threshold": 0.0001,
+      "scheduler_min_lr": 1e-06
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "none",
+      "n_samples_train": 1000,
+      "n_samples_val": 200,
+      "n_iterations": 30,
+      "skip": 0,
+      "train_seed": 1,
+      "val_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 14,
+      "subdiv_min": 16,
+      "subdiv_max": 22,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.1,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": true,
+      "box_map_backend": "auto",
+      "max_table_points": 300000000,
+      "precompute_batch_points": "auto",
+      "compute_roa": true,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
+    },
+    "paths": {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/chafee_infante_seedsweep/dataset_1",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1",
+      "scaler_dir_override": null,
+      "flat_scaler": false,
+      "read_only": false
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "experiment_name": "chafee_infante_seedsweep_dataset_1"
+  },
+  "artifacts": {
+    "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/chafee_infante_seedsweep/dataset_1/train.csv",
+    "train_csv_sha256": "cdafc7e75017451ea7030911172666b8ed6b2cc41cd6dfcad8309130336332d1",
+    "scaler": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/scalers/train/scaler.gz",
+    "scaler_sha256": "7ca7c22bbe06d7e9c653ab24604544d8147b0c03852bcf88121e0e5d3a66c82e",
+    "model_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/seed_0/models",
+    "morse_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/seed_0/MG",
+    "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_infante_seedsweep/dataset_1/seed_0/metrics.json"
+  }
+}

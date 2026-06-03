@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-05-31T01:04:43.890795+00:00",
+  "created_at_utc": "2026-06-01T00:51:52.800035+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.13.13 (main, Apr  7 2026, 18:19:01) [Clang 21.0.0 (clang-2100.0.123.102)]",
   "platform": "macOS-26.5-arm64-arm-64bit-Mach-O",
@@ -9,9 +9,7 @@
     "mps_available": true
   },
   "requested_stages": [
-    "train",
     "morse",
-    "render",
     "metrics"
   ],
   "cell": {
@@ -20,7 +18,10 @@
     "seed": 15,
     "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/coral_retrain/fullbatch_size/size/train_200/seed_15",
     "device": "cpu",
-    "skipped_stages": []
+    "skipped_stages": [
+      "morse",
+      "metrics"
+    ]
   },
   "config_hash": "16fc58108bb7e26e789fdb97ab06db2520a22c372e04d6435af14e837e1c5b58",
   "config": {
