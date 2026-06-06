@@ -334,6 +334,19 @@ def build_figure(
                 float(means[i]), int(ns[i]), float(stds[i]), float(ses[i]), error
             )
 
+        if error == "none":
+            # No uncertainty whiskers: markers joined by lines, no x-dodge.
+            ax.plot(
+                xs,
+                means,
+                label=labels[pt],
+                color=COLORS[pt],
+                marker=MARKERS[pt],
+                linewidth=2,
+                markersize=8,
+            )
+            continue
+
         xs_dodged = np.array([_dodged_x(int(x), pt, mode) for x in xs])
 
         # Markers + whiskers only -- no connecting lines (3 noisy points
@@ -370,13 +383,14 @@ def build_figure(
     ax.set_xticks(present_xs)
     ax.get_xaxis().set_tick_params(which="minor", size=0)
 
-    ax.legend(
-        loc="center left",
-        bbox_to_anchor=(1.02, 0.5),
-        frameon=True,
-        handletextpad=0.4,
-        borderaxespad=0.0,
-    )
+    if legend != "none":
+        ax.legend(
+            loc="center left",
+            bbox_to_anchor=(1.02, 0.5),
+            frameon=True,
+            handletextpad=0.4,
+            borderaxespad=0.0,
+        )
     ax.grid(axis="y", linestyle="--", alpha=0.4)
 
     # Annotate n < 30 below each tick.
@@ -528,14 +542,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     )
     parser.add_argument(
         "--error",
-        choices=["wilson", "se", "std"],
+        choices=["wilson", "se", "std", "none"],
         default="wilson",
         help="Whisker type: 'wilson' (95%% binomial CI; recommended for a "
-        "success probability), 'se' (standard error), or 'std' (sample stdev).",
+        "success probability), 'se' (standard error), 'std' (sample stdev), or "
+        "'none' (no whiskers; markers joined by lines, Brittany's original style).",
     )
     parser.add_argument(
         "--legend",
-        choices=["points", "phat"],
+        choices=["points", "phat", "none"],
         default="points",
         help="Legend labels: 'points' ($a_0$, $a_1$, $r$) or 'phat' "
         r"($\hat{p}(1_{a_0})$, ...), matching the paper body notation.",
