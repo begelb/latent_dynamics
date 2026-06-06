@@ -41,11 +41,17 @@ def test_repo_path_is_absolute_under_root():
     assert path == replay.REPO_ROOT / "configs" / "leslie3d_example1.yaml"
 
 
-def test_blocked_cell_raises_filenotfound():
-    # coral_basic points at the 0-byte replay_sources/coral train_500 tree;
-    # loading it must fail clearly rather than returning a broken model.
+def test_blocked_cell_raises_filenotfound(tmp_path):
+    # A cell whose checkpoints exist but are 0-byte must fail clearly rather than
+    # returning a broken model. coral_basic now has real models in replay_sources
+    # (train_500 was populated), so synthesize the blocked state under an
+    # output_dir override, which resolves to <output_dir>/train_500/seed_0/models.
+    models = tmp_path / "train_500" / "seed_0" / "models"
+    models.mkdir(parents=True)
+    for fname in ("encoder.pt", "decoder.pt", "dynamics.pt"):
+        (models / fname).touch()  # 0-byte stub
     with pytest.raises(FileNotFoundError):
-        load_experiment("coral_basic")
+        load_experiment("coral_basic", output_dir=tmp_path)
 
 
 def _load_or_skip(name: str, **kwargs) -> ReplayExperiment:

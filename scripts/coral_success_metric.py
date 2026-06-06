@@ -64,6 +64,13 @@ POINTS = ("a0", "a1", "r")
 COLORS = {"a0": "#648FFF", "a1": "#DC267F", "r": "#FFB000"}
 MARKERS = {"a0": "o", "a1": "s", "r": "^"}
 LABELS = {"a0": r"$a_0$", "a1": r"$a_1$", "r": r"$r$"}
+# Alternative legend matching the paper body notation: each series is the
+# empirical success probability of that fixed point's indicator.
+LABELS_PHAT = {
+    "a0": r"$\hat{p}(1_{a_0})$",
+    "a1": r"$\hat{p}(1_{a_1})$",
+    "r": r"$\hat{p}(1_{r})$",
+}
 
 # All 30 seeds declared in both coral configs.
 ALL_SEEDS: list[int] = list(range(30))
@@ -268,6 +275,7 @@ def build_figure(
     mode: str,
     x_values_all: list[int],
     error: str = "wilson",
+    legend: str = "points",
 ) -> plt.Figure:
     """Construct the success-rate figure: x-dodged markers with error whiskers.
 
@@ -299,6 +307,8 @@ def build_figure(
     )
 
     fig, ax = plt.subplots(figsize=(8, 5))
+
+    labels = LABELS_PHAT if legend == "phat" else LABELS
 
     # n annotation: how many seeds each x has (same for all points at that x)
     n_at_x: dict[int, int] = {}
@@ -332,7 +342,7 @@ def build_figure(
             xs_dodged,
             means,
             yerr=np.array([lower_errs, upper_errs]),
-            label=LABELS[pt],
+            label=labels[pt],
             color=COLORS[pt],
             marker=MARKERS[pt],
             linestyle="none",
@@ -524,6 +534,13 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "success probability), 'se' (standard error), or 'std' (sample stdev).",
     )
     parser.add_argument(
+        "--legend",
+        choices=["points", "phat"],
+        default="points",
+        help="Legend labels: 'points' ($a_0$, $a_1$, $r$) or 'phat' "
+        r"($\hat{p}(1_{a_0})$, ...), matching the paper body notation.",
+    )
+    parser.add_argument(
         "--replot-from",
         type=Path,
         default=None,
@@ -631,7 +648,11 @@ def main(argv: list[str] | None = None) -> None:
         )
 
     fig = build_figure(
-        summary_df, mode=args.mode, x_values_all=x_values_all, error=args.error
+        summary_df,
+        mode=args.mode,
+        x_values_all=x_values_all,
+        error=args.error,
+        legend=args.legend,
     )
     fig_stem = out_dir / f"morse_metric_plot_{args.mode}_{args.error}"
     written = save_figure(fig, fig_stem, formats=("pdf", "png"), close=True)

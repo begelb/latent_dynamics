@@ -1,0 +1,4 @@
+digraph {
+0 [label="0 : (x-1, 0)", shape=ellipse, style=filled, fillcolor="#ffb000ff", margin="0.11, 0.055"];
+{rank=same; 0 }; 
+}

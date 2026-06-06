@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -20,31 +21,25 @@ from .losses import LossBreakdown, ReconstructionLoss
 
 @dataclass
 class LossHistory:
-    """Per-epoch component-wise loss values for train and val splits."""
+    """Per-epoch component-wise loss values for train and val splits.
 
-    train: dict[str, list[float]] = field(default_factory=lambda: _empty_loss_dict())
-    val: dict[str, list[float]] = field(default_factory=lambda: _empty_loss_dict())
+    Keys are created on demand from each epoch's loss breakdown, so optional
+    terms (e.g. the cycle loss) appear only when they are actually used.
+    """
+
+    train: dict[str, list[float]] = field(default_factory=dict)
+    val: dict[str, list[float]] = field(default_factory=dict)
 
     def append_train(self, breakdown: dict[str, float]) -> None:
         for k, v in breakdown.items():
-            self.train[k].append(v)
+            self.train.setdefault(k, []).append(v)
 
     def append_val(self, breakdown: dict[str, float]) -> None:
         for k, v in breakdown.items():
-            self.val[k].append(v)
+            self.val.setdefault(k, []).append(v)
 
     def to_json(self) -> str:
         return json.dumps({"train": self.train, "val": self.val}, indent=2)
-
-
-def _empty_loss_dict() -> dict[str, list[float]]:
-    return {
-        "loss_ae1": [],
-        "loss_ae2": [],
-        "loss_dyn": [],
-        "loss_cycle_pred": [],
-        "loss_total": [],
-    }
 
 
 def _select_device() -> torch.device:
@@ -100,7 +95,7 @@ class Trainer:
 
     def _run_epoch(self, loader: DataLoader, *, training: bool) -> dict[str, float]:
         self.model.train(training)
-        accum = {k: 0.0 for k in _empty_loss_dict()}
+        accum: dict[str, float] = defaultdict(float)
         total_samples = 0
         ctx = torch.enable_grad if training else torch.no_grad
         with ctx():

@@ -117,11 +117,11 @@ class TestTrainingSmoke:
         trainer.save(tmp_path)
         h = json.loads((tmp_path / "logs" / "history.json").read_text())
         assert set(h.keys()) == {"train", "val"}
+        # loss_weights is length 3, so the cycle term is omitted entirely.
         assert set(h["train"].keys()) == {
-            "loss_ae1",
-            "loss_ae2",
-            "loss_dyn",
-            "loss_cycle_pred",
+            "loss_reconstruction",
+            "loss_prediction",
+            "loss_semiconjugacy",
             "loss_total",
         }
         assert len(h["train"]["loss_total"]) == 2
