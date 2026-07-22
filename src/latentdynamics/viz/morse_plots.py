@@ -14,6 +14,7 @@ from __future__ import annotations
 
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
+from itertools import pairwise
 from pathlib import Path
 
 import CMGDB
@@ -250,6 +251,9 @@ def plot_morse_sets_from_csv(
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
     box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    min_box_side_frac: float = 0.0,
 ) -> MorseSetsPlot:
     """Read a saved ``morse_sets`` CSV and return a live matplotlib canvas.
 
@@ -258,6 +262,11 @@ def plot_morse_sets_from_csv(
 
     2-D format: rows ``(lower_x, lower_y, upper_x, upper_y, label)``. Each box
     is drawn as a filled rectangle.
+
+    ``min_box_side_frac`` is a display-only visibility floor: after applying
+    ``box_scale``, each side is drawn at least this fraction of the plotted
+    span on the corresponding axis.  The default zero preserves the computed
+    box dimensions exactly.
 
     The returned :class:`MorseSetsPlot` keeps the figure open so callers can add
     postprocessing overlays before saving, e.g. encoded fixed points,
@@ -282,6 +291,9 @@ def plot_morse_sets_from_csv(
             labels_2d,
             ax=ax,
             box_scale=box_scale,
+            box_scale_min_frac=box_scale_min_frac,
+            box_scale_max=box_scale_max,
+            min_box_side_frac=min_box_side_frac,
         )
         label_to_y = {}
     return MorseSetsPlot(fig=fig, ax=ax, data=data, dim=dim, label_to_y=label_to_y)
@@ -299,6 +311,9 @@ def render_morse_sets_from_csv(
     labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
     box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    min_box_side_frac: float = 0.0,
 ) -> list[Path]:
     """Read a saved ``morse_sets`` CSV and write rendered figure files.
 
@@ -317,6 +332,9 @@ def render_morse_sets_from_csv(
         labels_2d=labels_2d,
         paper_style=paper_style,
         box_scale=box_scale,
+        box_scale_min_frac=box_scale_min_frac,
+        box_scale_max=box_scale_max,
+        min_box_side_frac=min_box_side_frac,
     )
 
     # save_latent_figure neutralises the global tight-bbox so the saved canvas
@@ -373,7 +391,7 @@ def _plot_morse_sets_1d(
     ax.xaxis.set_ticks_position("bottom")
     style_latent_axes(ax, two_d=False)
 
-    label_to_y = {lbl: 0.0 for lbl in unique}
+    label_to_y = dict.fromkeys(unique, 0.0)
     return fig, ax, label_to_y
 
 
@@ -423,6 +441,9 @@ def _plot_morse_sets_2d(
     *,
     ax: Axes | None = None,
     box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    min_box_side_frac: float = 0.0,
 ) -> tuple[Figure, Axes]:
     lx, ly, ux, uy, lbls = (data[:, i] for i in range(5))
     lbls = lbls.astype(int)
@@ -434,16 +455,25 @@ def _plot_morse_sets_2d(
         )
     else:
         fig = ax.figure
+    xlim, ylim = _adaptive_2d_morse_set_limits(lx, ly, ux, uy, bounds_lower, bounds_upper)
+    if min_box_side_frac < 0.0:
+        raise ValueError("min_box_side_frac must be nonnegative")
+    min_width = min_box_side_frac * (xlim[1] - xlim[0])
+    min_height = min_box_side_frac * (ylim[1] - ylim[0])
+
     # ``box_scale`` inflates each box about its own center so tiny attractor
     # sets stay visible. It may be a float (global), a {label: scale} dict
-    # (per-set control), or "auto" (inflate only sets below a visibility floor).
-    scale_for = _resolve_box_scales(box_scale, lx, ly, ux, uy, lbls)
+    # (per-set control), or "auto" (inflate only sets below a visibility floor;
+    # ``box_scale_min_frac`` sets the floor, ``box_scale_max`` caps the factor).
+    scale_for = _resolve_box_scales(
+        box_scale, lx, ly, ux, uy, lbls, min_frac=box_scale_min_frac, max_scale=box_scale_max
+    )
     rects = []
     facecolors = []
     for box_lx, box_ly, box_ux, box_uy, lbl in zip(lx, ly, ux, uy, lbls, strict=False):
         s = scale_for(int(lbl))
-        width = (box_ux - box_lx) * s
-        height = (box_uy - box_ly) * s
+        width = max((box_ux - box_lx) * s, min_width)
+        height = max((box_uy - box_ly) * s, min_height)
         cx = 0.5 * (box_lx + box_ux)
         cy = 0.5 * (box_ly + box_uy)
         rects.append(mpatches.Rectangle((cx - 0.5 * width, cy - 0.5 * height), width, height))
@@ -454,7 +484,6 @@ def _plot_morse_sets_2d(
         PatchCollection(rects, facecolors=facecolors, edgecolors="none", rasterized=True)
     )
 
-    xlim, ylim = _adaptive_2d_morse_set_limits(lx, ly, ux, uy, bounds_lower, bounds_upper)
     ax.set_xlim(*xlim)
     ax.set_ylim(*ylim)
 
@@ -506,8 +535,12 @@ def render_morse_from_files(
     out_dir: str | Path | None = None,
     basename_graph: str = "morse_graph",
     basename_sets: str = "morse_sets",
+    labels_2d: tuple[str, str] = ("$z_1$", "$z_2$"),
     paper_style: bool = True,
     box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    min_box_side_frac: float = 0.0,
 ) -> RenderedMorseFigures:
     """Re-render both Morse outputs from saved ``morse_graph`` + ``morse_sets``."""
     morse_dir = Path(morse_dir)
@@ -526,8 +559,12 @@ def render_morse_from_files(
         bounds_upper=bounds_upper,
         basename=basename_sets,
         palette=palette,
+        labels_2d=labels_2d,
         paper_style=paper_style,
         box_scale=box_scale,
+        box_scale_min_frac=box_scale_min_frac,
+        box_scale_max=box_scale_max,
+        min_box_side_frac=min_box_side_frac,
     )
     pdf = next((p for p in graph_paths if p.suffix == ".pdf"), graph_paths[0])
     png = next((p for p in graph_paths if p.suffix == ".png"), graph_paths[-1])
@@ -557,7 +594,7 @@ def _draw_grey_trajectory(
     are drawn -- the colored Morse-set boxes already mark each orbit point, so
     overlaying solid markers on them is redundant and distracting.
     """
-    for start, end in zip(traj[:-1], traj[1:], strict=False):
+    for start, end in pairwise(traj):
         delta = end - start
         ax.plot(
             [start[0] + 0.08 * delta[0], end[0] - 0.08 * delta[0]],
@@ -624,6 +661,9 @@ def render_morse_sets_with_overlay(
     bounds_upper: Sequence[float] | None = None,
     trajectory_steps: int | Sequence[int] = 6,
     box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    min_box_side_frac: float = 0.0,
     basename: str = "morse_sets_with_overlay",
     formats: tuple[str, ...] = ("pdf", "png"),
     palette: Sequence[str] = PALETTE,
@@ -635,7 +675,8 @@ def render_morse_sets_with_overlay(
     ``latent_starts`` are ``(N, 2)`` seed points already in latent space; each
     is advanced ``trajectory_steps`` times through ``advance_latent`` and drawn
     as a short grey arrow chain. ``box_scale`` inflates the Morse boxes so tiny
-    attractor sets remain visible under the overlay.
+    attractor sets remain visible under the overlay. ``min_box_side_frac``
+    applies the same display-only lower bound as :func:`plot_morse_sets_from_csv`.
     """
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -648,6 +689,9 @@ def render_morse_sets_with_overlay(
         labels_2d=labels_2d,
         paper_style=paper_style,
         box_scale=box_scale,
+        box_scale_min_frac=box_scale_min_frac,
+        box_scale_max=box_scale_max,
+        min_box_side_frac=min_box_side_frac,
     )
     if plot.dim != 2:
         raise ValueError("morse_sets_with_overlay requires a 2-D latent space")

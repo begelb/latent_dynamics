@@ -22,6 +22,7 @@ from latentdynamics.viz import (
     plot_morse_sets_from_csv,
     render_morse_sets_from_csv,
 )
+from latentdynamics.viz.morse_plots import _resolve_box_scales
 from latentdynamics.viz.regions_of_attraction import plot_roa_overlay_cell_graph
 
 
@@ -82,6 +83,47 @@ class TestPopulationHistogram:
         except FileNotFoundError:
             return
         raise AssertionError("expected FileNotFoundError")
+
+
+class TestBoxScaleResolution:
+    """One big set (label 0, extent 4.0) + one tiny set (label 1, extent 0.01)
+    in a view of span ~5; the auto floor decides which sets get inflated."""
+
+    def _arrays(self):
+        lx = np.array([0.0, 5.0])
+        ly = np.array([0.0, 5.0])
+        ux = np.array([4.0, 5.01])
+        uy = np.array([4.0, 5.01])
+        lbls = np.array([0, 1])
+        return lx, ly, ux, uy, lbls
+
+    def test_auto_inflates_only_sets_below_floor(self):
+        scale_for = _resolve_box_scales("auto", *self._arrays())
+        assert scale_for(0) == 1.0
+        assert scale_for(1) > 1.0
+
+    def test_auto_max_scale_caps_inflation(self):
+        # default floor 0.025 * 5.01 / 0.01 ≈ 12.5 wants more than the cap
+        capped = _resolve_box_scales("auto", *self._arrays(), max_scale=10.0)
+        uncapped = _resolve_box_scales("auto", *self._arrays(), max_scale=25.0)
+        assert capped(1) == 10.0
+        assert uncapped(1) > 10.0
+
+    def test_auto_min_frac_raises_floor(self):
+        # with a floor of 90% of the span, even the big set falls below it
+        scale_for = _resolve_box_scales("auto", *self._arrays(), min_frac=0.9)
+        assert scale_for(0) > 1.0
+
+    def test_dict_mode_ignores_auto_knobs(self):
+        scale_for = _resolve_box_scales(
+            {1: 3.0}, *self._arrays(), min_frac=0.9, max_scale=2.0
+        )
+        assert scale_for(1) == 3.0
+        assert scale_for(0) == 1.0
+
+    def test_float_mode_is_global(self):
+        scale_for = _resolve_box_scales(2.5, *self._arrays())
+        assert scale_for(0) == scale_for(1) == 2.5
 
 
 class TestMorseSetPlotting:
@@ -167,6 +209,67 @@ class TestMorseSetPlotting:
         assert rendered == [tmp_path / "base.png"]
         assert rendered[0].exists()
         assert rendered[0].stat().st_size > 0
+
+    def test_render_morse_sets_threads_box_scale_knobs(self, tmp_path):
+        csv_path = tmp_path / "morse_sets"
+        np.savetxt(
+            csv_path,
+            np.array([[0.0, 0.0, 4.0, 4.0, 0], [5.0, 5.0, 5.01, 5.01, 1]], dtype=np.float64),
+            delimiter=",",
+        )
+        rendered = render_morse_sets_from_csv(
+            csv_path,
+            tmp_path,
+            basename="scaled",
+            formats=("png",),
+            paper_style=False,
+            box_scale="auto",
+            box_scale_min_frac=0.5,
+            box_scale_max=25.0,
+        )
+        assert rendered[0].exists() and rendered[0].stat().st_size > 0
+
+    def test_min_box_side_frac_applies_display_floor(self, tmp_path):
+        csv_path = tmp_path / "morse_sets"
+        np.savetxt(
+            csv_path,
+            np.array([[0.0, 0.0, 0.001, 0.002, 0], [1.0, 2.0, 1.001, 2.002, 1]]),
+            delimiter=",",
+        )
+
+        plot = plot_morse_sets_from_csv(
+            csv_path,
+            bounds_lower=[0.0, 0.0],
+            bounds_upper=[2.0, 3.0],
+            paper_style=False,
+            min_box_side_frac=0.01,
+        )
+        x_span = plot.ax.get_xlim()[1] - plot.ax.get_xlim()[0]
+        y_span = plot.ax.get_ylim()[1] - plot.ax.get_ylim()[0]
+        extent = plot.ax.collections[0].get_paths()[0].get_extents()
+
+        assert extent.width >= 0.01 * x_span
+        assert extent.height >= 0.01 * y_span
+        plt.close(plot.fig)
+
+    def test_min_box_side_frac_rejects_negative_values(self, tmp_path):
+        csv_path = tmp_path / "morse_sets"
+        np.savetxt(
+            csv_path,
+            np.array([[0.0, 0.0, 1.0, 1.0, 0]], dtype=np.float64),
+            delimiter=",",
+        )
+
+        try:
+            plot_morse_sets_from_csv(
+                csv_path,
+                paper_style=False,
+                min_box_side_frac=-0.01,
+            )
+        except ValueError as exc:
+            assert "nonnegative" in str(exc)
+            return
+        raise AssertionError("expected ValueError")
 
     def test_roa_overlay_colors_recurrent_morse_sets_by_morse_node_not_lower_basin(self):
         mg = MorseGraph(

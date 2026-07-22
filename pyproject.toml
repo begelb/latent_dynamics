@@ -31,9 +31,12 @@ dependencies = [
     "joblib>=1.5",
     "pydot>=4.0",
     "pydantic>=2.9",
-    # Bernardo fork; tracks master HEAD (unpinned).
-    "CMGDB @ git+https://github.com/bernardorivas/CMGDB.git",
+    # Resolved to the maintained local fork by [tool.uv.sources] below.
+    "cmgdb>=1.3.3",
 ]
+
+[tool.uv.sources]
+cmgdb = { path = "../archive/CMGDB", editable = true }
 
 [project.optional-dependencies]
 dev = [

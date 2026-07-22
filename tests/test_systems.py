@@ -7,6 +7,7 @@ import math
 import numpy as np
 import pytest
 
+from latentdynamics.config import load_config
 from latentdynamics.systems import (
     SYSTEM_REGISTRY,
     ChafeeInfante,
@@ -70,6 +71,30 @@ class TestLeslieContraction:
         m = LeslieContraction()
         assert m.dim == 10
         assert m.lower_bounds.shape == (10,)
+
+    def test_paper_config_matches_exact_2d_restriction(self):
+        config = load_config("leslie_2gen_contraction")
+        m = build_system(config.system.name, config.system.params)
+
+        assert m.params == {
+            "th1": 23.5,
+            "th2": 23.5,
+            "survival_p1": 0.7,
+            "contraction": 0.25,
+        }
+        np.testing.assert_array_equal(m.lower_bounds, np.zeros(10))
+        np.testing.assert_array_equal(
+            m.upper_bounds,
+            np.array([90.0, 70.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0, 100.0]),
+        )
+
+        points_2d = np.array([[0.0, 0.0], [10.0, 5.0], [90.0, 70.0]])
+        embedded = np.zeros((len(points_2d), 10))
+        embedded[:, :2] = points_2d
+        projected = m.step(embedded)[:, :2]
+        x0, x1 = points_2d.T
+        expected = np.column_stack(((23.5 * x0 + 23.5 * x1) * np.exp(-0.1 * (x0 + x1)), 0.7 * x0))
+        np.testing.assert_allclose(projected, expected, rtol=1e-14, atol=0.0)
 
 
 class TestLeslieModel4D:

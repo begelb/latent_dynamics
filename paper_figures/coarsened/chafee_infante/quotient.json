@@ -1,0 +1,45 @@
+{
+  "source": "replay_sources/chafee_infante/replay/MG",
+  "projection": {
+    "0": 0,
+    "1": 1,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2
+  },
+  "fibers": {
+    "0": [
+      0
+    ],
+    "1": [
+      1
+    ],
+    "2": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ]
+  },
+  "quotient_edges": {
+    "2": [
+      0,
+      1
+    ]
+  },
+  "merged_morse_set_name": "M(1)",
+  "attracting_morse_set_names": {
+    "0": "M(0^-)",
+    "1": "M(0^+)"
+  },
+  "merged_morse_set_description": "the unstable equilibria represented by fine nodes 2--6 and their connecting orbits",
+  "box_union_note": "The plotted region is only the union of saved fine Morse-set boxes; it does not enclose connecting orbits and is not a newly computed coarse Morse set.",
+  "conley_index_note": "No Conley index is assigned to the merged fiber; it must be recomputed from an index pair for the union.",
+  "rendering": {
+    "min_box_side_frac": 0.0025,
+    "display_only": true
+  }
+}
