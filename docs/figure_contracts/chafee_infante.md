@@ -55,6 +55,29 @@ guard will refuse a second run unless `--force-overwrite` is passed.
 
 Paper figure shows seven Morse sets: two attractors `(x-1, 0, 0)`, three saddles `(0, x-1, 0)`, two repellers `(0, 0, x-1)`. The Hasse diagram is non-trivial.
 
+## Coarse Morse representation
+
+For the manuscript's bistability-level view, the five nonminimal nodes can be
+collapsed to a single fiber while the two attractors remain separate. Following
+the manuscript notation, the merged node is named `M(1)`: it represents the
+nine unstable equilibria and the connecting orbits between them at the level of
+the target coarse Morse representation.
+
+```bash
+python scripts/coarsen_chafee_infante.py
+```
+
+The resulting projection is `0 -> 0`, `1 -> 1`, and `{2,3,4,5,6} -> 2`;
+the quotient Hasse edges are `2 -> 0` and `2 -> 1`. The script verifies that
+the induced quotient is acyclic, relabels every row of the `morse_sets` CSV,
+and therefore draws the merged set as the literal union of its fine boxes.
+The quotient has `M(1)` pointing to both attracting nodes, corresponding to
+`M(0-)` and `M(0+)`. It intentionally assigns no Conley index to the merged
+node: that index would have to be recomputed from an index pair for the union.
+The plotted box union does not enclose the connecting orbits that belong to the
+true coarse set `M(1)`, so it is a visualization of the graph fiber rather than
+a newly computed coarse Morse set.
+
 ## Hyperparameter audit
 
 | param                       | archive value           | YAML value             | source line                                                | notes |

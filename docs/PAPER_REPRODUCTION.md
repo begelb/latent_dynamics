@@ -183,10 +183,13 @@ the paper authors with `torch.use_deterministic_algorithms(True)`.
 
 ## CMGDB dependency
 
-The Morse-graph computation depends on CMGDB, installed from the fork at
-`github.com/bernardorivas/CMGDB` (unpinned, tracks `master`). Upstream changes
-to the `BoxMap` or `ComputeConleyMorseGraph` signatures may break the pipeline.
-The dependency is declared in `pyproject.toml`.
+The Morse-graph computation depends on the maintained local CMGDB fork at
+`../archive/CMGDB`. The `tool.uv.sources` entry in `pyproject.toml` installs that
+checkout editably, so `uv sync --all-extras` must be rerun after pulling changes
+that affect the native extension. The DOT parser and exact
+regions-of-attraction computation also live in `latentdynamics.analysis`
+(`morse_graph_parser`, `cmgdb_roa`) for the paper workflow. Changes to the
+`BoxMap` or `ComputeConleyMorseGraph` signatures may break the pipeline.
 
 ## Legacy artifacts in `code/`
 

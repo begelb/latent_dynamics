@@ -220,9 +220,12 @@ artifacts; do not bake them into training or CMGDB.
 
 ## Pins and caveats
 
-- `pyproject.toml` installs CMGDB from `github.com/bernardorivas/CMGDB`
-  (unpinned, tracks `master`); upstream API changes to `BoxMap` /
-  `ComputeConleyMorseGraph` may break the pipeline.
+- `pyproject.toml` resolves `cmgdb>=1.3.3` to the maintained local fork at
+  `../archive/CMGDB` through `tool.uv.sources`. Run `uv sync --all-extras` from
+  `code/` after changing or pulling that checkout; building the native extension
+  requires CMake and a C++ toolchain. The DOT parser and exact
+  regions-of-attraction computation also live in `latentdynamics.analysis`
+  (`morse_graph_parser`, `cmgdb_roa`) for the paper workflow.
 - Provided three-file pickled `nn.Module` checkpoints can be loaded with
   `latentdynamics.training.load_legacy_checkpoint` without rewriting them;
   `scripts/migrate_legacy_checkpoints.py` produces a `state_dict` + sidecar
