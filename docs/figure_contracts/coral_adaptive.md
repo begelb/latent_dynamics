@@ -18,14 +18,14 @@ The preserved replay tree under `code/replay_sources/coral/train_500_<M>_adaptiv
 
 **Read-only replay** for `M ∈ {100, 200, 300}`; `M ∈ {400, 500}` are fresh-reproducible from a writable config copy.
 
-`configs/coral_adaptive.yaml` is `read_only: true` and points at the preserved replay tree. Fresh recomputation requires a writable YAML copy with `paths.output_dir` outside `replay_sources/` and `paths.read_only: false`.
+`src/latentdynamics/configs/coral_adaptive.yaml` is `read_only: true` and points at the preserved replay tree. Fresh recomputation requires a writable YAML copy with `paths.output_dir` outside `replay_sources/` and `paths.read_only: false`.
 
 ## Reproduction commands
 
 Replay one known-good cell (`M=300`, seed 0):
 
 ```bash
-python pipeline.py --config configs/coral_adaptive.yaml --stages render,metrics --cell-index 60 --expected-cells 150
+python pipeline.py --config coral_adaptive --stages render,metrics --cell-index 60 --expected-cells 150
 ```
 
 An unfiltered replay processes M = 100, 200, and 300 from the preserved tree;
@@ -56,7 +56,7 @@ The training, CMGDB, and per-fixed-point membership behavior all derive from
 
 ```bash
 # Replay a known-good M=300 cell:
-python pipeline.py --config configs/coral_adaptive.yaml --stages render,metrics --cell-index 60 --expected-cells 150
+python pipeline.py --config coral_adaptive --stages render,metrics --cell-index 60 --expected-cells 150
 
 # Inspect the per-size metrics.json; expect labels for a0, a1, r to be in
 # three distinct Morse sets at M >= 200. At M=100, a small fraction of seeds

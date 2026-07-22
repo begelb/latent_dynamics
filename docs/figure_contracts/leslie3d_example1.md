@@ -26,13 +26,13 @@ The on-disk copy under `code/replay_sources/` is loaded through `latentdynamics.
 Replay (no CMGDB, ~10 s):
 
 ```bash
-python pipeline.py --config configs/leslie3d_example1.yaml --stages render,metrics
+python pipeline.py --config leslie3d_example1 --stages render,metrics
 ```
 
 Diagnose (cheap, no CMGDB):
 
 ```bash
-python pipeline.py --config configs/leslie3d_example1.yaml --stages diagnose
+python pipeline.py --config leslie3d_example1 --stages diagnose
 ```
 
 Note: data/ for spurious uses the legacy `2train.csv`/`2test.csv` naming; the diagnose stage looks for `train.csv` and will fail unless the files are renamed or `data.train_files: ["2train"]` is added to the config.
@@ -40,7 +40,7 @@ Note: data/ for spurious uses the legacy `2train.csv`/`2test.csv` naming; the di
 Forced retrain (recompute data, training, and CMGDB):
 
 ```bash
-python pipeline.py --config configs/leslie3d_example1.yaml --stages all --force-overwrite
+python pipeline.py --config leslie3d_example1 --stages all --force-overwrite
 ```
 
 ## Expected scientific output
@@ -62,23 +62,23 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 
 | param                       | archive value           | YAML value                | source line                                                | notes |
 |-----------------------------|-------------------------|---------------------------|------------------------------------------------------------|-------|
-| system.params.th1           | 28.9                    | 28.9                      | configs/leslie3d_example1.yaml:5                           | ✓     |
+| system.params.th1           | 28.9                    | 28.9                      | src/latentdynamics/configs/leslie3d_example1.yaml:5                           | ✓     |
 | system.params.th2           | 29.8                    | 29.8                      |                                                            | ✓     |
 | system.params.th3           | 22.0                    | 22.0                      |                                                            | ✓     |
 | system.params.survival_p1   | 0.7                     | 0.7                       |                                                            | ✓     |
 | system.params.survival_p2   | 0.7                     | 0.7                       |                                                            | ✓     |
-| arch.num_layers             | 3                       | 3                         | configs/leslie3d_example1.yaml:11                          | ✓     |
+| arch.num_layers             | 3                       | 3                         | src/latentdynamics/configs/leslie3d_example1.yaml:11                          | ✓     |
 | arch.hidden_shape           | 32                      | 32                        |                                                            | ✓     |
 | arch.high_dims              | 3                       | 3                         |                                                            | ✓     |
 | arch.low_dims               | 2                       | 2                         |                                                            | ✓     |
 | arch.encoder_out_activation | tanh                    | tanh (default)            | default                                                    | ✓     |
 | arch.latent_out_activation  | tanh                    | tanh (default)            |                                                            | ✓     |
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)         |                                                            | ✓     |
-| training.loss_weights       | [10, 10, 1]             | [10, 10, 1]               | configs/leslie3d_example1.yaml:17                          | ✓     |
-| data.n_samples_train        | 4000                    | 4000                      | configs/leslie3d_example1.yaml:21                          | ✓     |
+| training.loss_weights       | [10, 10, 1]             | [10, 10, 1]               | src/latentdynamics/configs/leslie3d_example1.yaml:17                          | ✓     |
+| data.n_samples_train        | 4000                    | 4000                      | src/latentdynamics/configs/leslie3d_example1.yaml:21                          | ✓     |
 | data.n_samples_val         | 5000                    | 5000                      |                                                            | ✓     |
 | data.n_iterations           | 30                      | 30                        |                                                            | ✓     |
-| cmgdb.subdiv_init           | 23                      | 23                        | configs/leslie3d_example1.yaml:27                          | ✓     |
+| cmgdb.subdiv_init           | 23                      | 23                        | src/latentdynamics/configs/leslie3d_example1.yaml:27                          | ✓     |
 | cmgdb.subdiv_min            | 23                      | 23                        |                                                            | ✓     |
 | cmgdb.subdiv_max            | 27                      | 27                        |                                                            | ✓     |
 | cmgdb.bounds                | `[-0.6228695, -0.7421641]` -> `[0.30980384, 0.22416562]` | inferred from encoded data | mg_params_log.txt | bounds are reproducible from the legacy encoder image |
@@ -86,7 +86,7 @@ Leaves (attractors): 0, 1, 4. Saddles: 2, 3. Source: 5. The "spurious" attractor
 ## Verification
 
 ```bash
-python pipeline.py --config configs/leslie3d_example1.yaml --stages render,metrics
+python pipeline.py --config leslie3d_example1 --stages render,metrics
 ```
 
 `metrics.json` should contain `is_spurious_attractor: true`. The Hasse diagram of `replay_sources/leslie3d_example1/spurious_attractor_ex/MG/morse_graph` is preserved byte-for-byte from the original paper run.

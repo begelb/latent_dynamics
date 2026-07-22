@@ -5,10 +5,15 @@ Combinatorial-Topological Methods on a Latent Space* (`paper/main.tex`).
 
 For each high-dimensional discrete map `f : X -> X`, the package trains an
 autoencoder `(E, D)` and a latent dynamics `G : Z -> Z`, then computes a Morse
-graph for `G` with [CMGDB](https://github.com/bernardorivas/CMGDB) and runs the
-paper's tolerance / success-metric checks against the result. The seven
-applications in Section 5 of the paper are encoded as YAML configs and a single
-`reproduce_paper.py` entry point.
+graph for `G` with [CMGDB](https://github.com/marciogameiro/CMGDB)
+([`cmgdb`](https://pypi.org/project/cmgdb/) on PyPI) and runs the paper's
+tolerance / success-metric checks against the result. The seven applications in
+Section 5 of the paper are encoded as YAML configs.
+
+The reader-facing entry points are the [notebooks](notebooks/) — one per paper
+example, each able to replay the saved figures, recompute the Morse graph of the
+saved model at custom subdivisions, or retrain from scratch. `reproduce_paper.py`
+and `pipeline.py` drive the same pipeline from the command line.
 
 ## What the paper asks of the code
 
@@ -43,15 +48,19 @@ Every figure in `paper/main.tex` Section 5 has one YAML and one figure
 contract. Detailed hyperparameter audits, archive line citations, and per-figure
 verification recipes live in `docs/figure_contracts/`.
 
-| Paper       | Section / Fig.            | Experiment id              | Config                              | Reproducibility status |
+Config names below are packaged stems, resolved from
+`src/latentdynamics/configs/` by `load_config` (no path needed); pass
+`--config <stem>` or `load_experiment("<stem>")`.
+
+| Paper       | Section / Fig.            | Experiment id              | Config (notebook)                   | Reproducibility status |
 | ----------- | ------------------------- | -------------------------- | ----------------------------------- | --- |
-| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_2gen_contraction`   | `configs/leslie_2gen_contraction.yaml`   | fresh retrain (seed 20); fully reproducible from the config |
-| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_example1`    | `configs/leslie3d_example1.yaml`    | read-only replay (provided 3-file checkpoint) |
-| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_example2` | `configs/leslie3d_example2.yaml` | read-only replay (provided checkpoints) |
-| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `configs/chafee_infante.yaml`       | read-only replay (provided model); fresh-retrain variant available |
-| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `configs/coral_basic.yaml`          | read-only replay; fresh retrain available |
-| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `configs/coral_data_scaling.yaml`   | read-only replay (partial seeds); fresh sweep available |
-| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `configs/coral_adaptive.yaml`       | read-only replay (partial `M`); fresh sweep available |
+| 10D Embedded Leslie  | §5.2,  Fig. `lesliecontraction_dynamics`  | `fig_leslie_2gen_contraction`   | `leslie_2gen_contraction` ([01](notebooks/01_leslie_2d_contraction.ipynb))   | fresh retrain (seed 20); fully reproducible from the config |
+| 3D Leslie spurious   | §5.3.1, Fig. `3D_Leslie_latent_dynamics`  | `fig_leslie3d_example1`    | `leslie3d_example1` ([02](notebooks/02_leslie3d_example1.ipynb))    | read-only replay (provided 3-file checkpoint) |
+| 3D Leslie success    | §5.3.2, Fig. `3D_Leslie_latent_dynamics_success` | `fig_leslie3d_example2` | `leslie3d_example2` ([03](notebooks/03_leslie3d_example2.ipynb)) | read-only replay (provided checkpoints) |
+| Chafee-Infante PDE   | §5.4,  Fig. `ci_morse_graph_dynamics`     | `fig_chafee_infante`       | `chafee_infante` ([04](notebooks/04_chafee_infante.ipynb))       | read-only replay (provided model); fresh-retrain variant available |
+| Coral basic          | §5.5,   Fig. `coral_latent_dynamics`      | `fig_coral_basic`          | `coral_basic` ([05](notebooks/05_coral.ipynb))          | read-only replay; fresh retrain available |
+| Coral data-scaling   | §5.5.2, Fig. `coral_success_rates_init`   | `fig_coral_data_scaling`   | `coral_data_scaling`   | read-only replay (partial seeds); fresh sweep available |
+| Coral adaptive       | §5.5.3, Fig. `coral_success_rates_adaptive` | `fig_coral_adaptive`     | `coral_adaptive`       | read-only replay (partial `M`); fresh sweep available |
 
 Hyperparameters in the configs are a superset of paper Tables 3, 4, 5
 (architecture, training, data), recovered either from the archived run logs or
@@ -83,31 +92,59 @@ subdivisions, paths, seeds) so every knob is visible at a glance.
 ```
 code/
 ├── README.md                         # this file
-├── pyproject.toml                    # pip install -e .  (CMGDB from a git fork)
+├── pyproject.toml                    # local setup (CMGDB from ../archive/CMGDB)
 ├── reproduce_paper.py                # one entry point per paper figure
 ├── pipeline.py                       # single-config staged runner
+├── notebooks/                        # reader-facing: 00 CMGDB primer + 01-05 per example
+│   └── rendered/                     # re-rendered replay figures land here (writable)
 ├── docs/
 │   ├── PAPER_REPRODUCTION.md         # figure -> command map, in detail
+│   ├── cmgdb_reference.md            # CMGDB API + subdivision notes
 │   └── figure_contracts/             # one .md per paper figure, line-cited
-├── configs/                          # one fully-explicit YAML per experiment
-│   └── scratch/                      # local examples or user-created writable copies
 ├── src/latentdynamics/
+│   ├── configs/      # packaged YAMLs: one per experiment + *_replay variants (the source of truth)
 │   ├── systems/      # ground-truth f: LeslieContraction, LeslieModel3D, RedCoralModel, ChafeeInfante
 │   ├── sampling/     # uniform / Sobol / adaptive trajectory generation, scaling
 │   ├── models/       # Encoder + LatentMap + Decoder (per-component MLP widths)
 │   ├── training/     # trainer, L1+L2+L3 losses, checkpoints (state_dict + arch sidecar)
-│   ├── analysis/     # CMGDB wrapper, tau-bar tolerance, coral unique-membership metric
+│   ├── analysis/     # CMGDB wrapper, morse_graph_parser + cmgdb_roa, tolerance, coral metric
 │   ├── viz/          # palette, Morse graph/set rendering, plot_morse_sets_from_csv
-│   ├── config/       # pydantic v2 schema + YAML loader
-│   └── cli/          # entry-points consumed by reproduce_paper.py / pipeline.py
+│   ├── config/       # pydantic v2 schema + YAML loader (deep-merge overrides)
+│   ├── replay/       # load_experiment / recompute_morse / retrain (the notebook API)
+│   └── cli/          # pipeline stages consumed by reproduce_paper.py / pipeline.py
+├── configs/                          # local smoke-test YAMLs only (not the paper configs)
 ├── scripts/
-│   └── migrate_legacy_checkpoints.py # convert 3-file pickled modules -> state_dict + sidecar
-└── tests/                            # 140+ pytest cases
+│   ├── migrate_legacy_checkpoints.py # convert 3-file pickled modules -> state_dict + sidecar
+│   └── sweep_box_scale.py            # render Morse sets across box_scale settings to compare
+├── replay_sources/                   # preserved paper artifacts (read-only)
+├── paper_figures/                    # staged paper-ready PDF+PNG (read-only)
+├── output/                           # pipeline artifacts; output/notebooks/ is the notebook playground
+└── tests/                            # pytest suite
 ```
 
 The pre-restructure single-script versions are preserved under `code/legacy/`
-and `../archive/`; do not delete or rewrite saved `data/` or `output/` artifacts
-while validating figure parity.
+and `../archive/` (the latter also holds the CMGDB fork the project was built
+against before the PyPI switch); do not delete or rewrite saved `data/`,
+`output/`, `replay_sources/`, or `paper_figures/` artifacts while validating
+figure parity.
+
+## Notebooks (the reader-facing entry point)
+
+`notebooks/` holds a CMGDB primer (`00_cmgdb_intro.ipynb`) and one notebook per
+paper example (`01`–`05`). Each example notebook has a single **parameters cell**
+with a `MODE` switch:
+
+- `"replay"` — re-render the paper's saved Morse graph and Morse sets (seconds).
+- `"morse"` — recompute the Morse graph of the *saved* model at a custom CMGDB
+  subdivision triple `SUBDIV` (seconds–minutes); a toy `(10, 14, 20)` is a fast
+  preview, the paper value is noted in the cell.
+- `"retrain"` — run the full pipeline with config `OVERRIDES` (minutes–hours).
+
+These map to `latentdynamics.replay.load_experiment(...)`,
+`ReplayExperiment.recompute_morse(...)`, and `latentdynamics.replay.retrain(...)`.
+Everything they write goes under `output/notebooks/` or `notebooks/rendered/`;
+the preserved `replay_sources/` and `paper_figures/` trees are never touched.
+See `notebooks/README.md`.
 
 ## Pipeline (per experiment)
 
@@ -146,22 +183,22 @@ default. This makes replay deterministic without dirtying the preserved trees.
 ## Quick start
 
 ```bash
-# Use the pre-built venv at the repo root.
-../.venv/bin/pip install -e ".[dev]"
-../.venv/bin/pytest -m "not slow"            # ~2 s
-../.venv/bin/pytest                           # full suite
+# Set up the environment (uv-managed venv at the repo root).
+uv sync --extra dev
+.venv/bin/pytest -m "not slow"               # fast suite
+.venv/bin/pytest                              # full suite
 
 # Render one replay-ready paper figure from saved artifacts (no CMGDB, no training):
-../.venv/bin/python reproduce_paper.py --only fig_leslie3d_example1
+.venv/bin/python reproduce_paper.py --only fig_leslie3d_example1
 
-# Read-only configs route derived outputs to replay/<name>/; select usable
-# coral cells until the zero-byte source artifacts are re-synced.
-../.venv/bin/python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
+# Configs are referenced by packaged stem (resolved from src/latentdynamics/configs/).
+# Read-only configs route derived outputs to replay/<name>/.
+.venv/bin/python pipeline.py --config coral_data_scaling --stages render,metrics --cell-index 120 --expected-cells 180
 
 # Opt into a retrain/recompute. Chafee can be rerun from the unified config;
 # coral full recomputation is intentionally out of the default paper replay
 # path because it is a large sweep and the preserved replay tree is read-only.
-../.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
+.venv/bin/python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
 ```
 
 Individual cells in sweep configs can be run via the `--cell-index` argument;
@@ -208,10 +245,10 @@ artifacts; do not bake them into training or CMGDB.
 
 ## Adding a new experiment
 
-1. Drop a YAML in `configs/<name>.yaml`. Copy an existing config and edit
-   the values you need; every config spells out every field, so there is no
-   hidden inheritance.
-2. Register it in `reproduce_paper.py::EXPERIMENTS`.
+1. Drop a YAML in `src/latentdynamics/configs/<name>.yaml`. Copy an existing
+   config and edit the values you need; every config spells out every field, so
+   there is no hidden inheritance.
+2. Register it in `reproduce_paper.py::EXPERIMENTS` (by packaged stem).
 3. Add a `docs/figure_contracts/<name>.md` recording archive source, known
    gaps, expected Morse graph (number of nodes / minimal nodes / Conley
    indices), and the verification recipe.
@@ -226,10 +263,10 @@ artifacts; do not bake them into training or CMGDB.
   requires CMake and a C++ toolchain. The DOT parser and exact
   regions-of-attraction computation also live in `latentdynamics.analysis`
   (`morse_graph_parser`, `cmgdb_roa`) for the paper workflow.
-- Provided three-file pickled `nn.Module` checkpoints can be loaded with
-  `latentdynamics.training.load_legacy_checkpoint` without rewriting them;
-  `scripts/migrate_legacy_checkpoints.py` produces a `state_dict` + sidecar
-  copy when needed.
+- Provided three-file pickled `nn.Module` checkpoints load transparently:
+  `load_any_checkpoint` falls back to the in-repo `legacy/` tree, so the replay
+  configs work without any extra arguments. `scripts/migrate_legacy_checkpoints.py`
+  produces a `state_dict` + sidecar copy when needed.
 - Code identifiers may keep legacy names (`leslie_2gen_contraction`); paper-facing
   docs describe that example as the **10D Embedded Leslie** map (a 2D
   Leslie/Ricker map embedded in 10D with eight contracting tail coordinates).

@@ -13,14 +13,14 @@ The preserved replay tree under `code/replay_sources/coral/train_<N>/seed_*/`. T
 
 ## Status
 
-**Partial read-only replay.** `configs/coral_data_scaling.yaml` points at the preserved replay tree and is used for replay rather than full recomputation. The current mirror replays the `train_100` subset and all `train_2000` seeds; the other sizes are fresh-reproducible from a writable config copy.
+**Partial read-only replay.** `src/latentdynamics/configs/coral_data_scaling.yaml` points at the preserved replay tree and is used for replay rather than full recomputation. The current mirror replays the `train_100` subset and all `train_2000` seeds; the other sizes are fresh-reproducible from a writable config copy.
 
 ## Reproduction commands
 
 Replay one known-good cell (`train_2000`, seed 0):
 
 ```bash
-python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
+python pipeline.py --config coral_data_scaling --stages render,metrics --cell-index 120 --expected-cells 180
 ```
 
 Replay all currently replayable cells by selecting the preserved-artifact
@@ -43,7 +43,7 @@ Identical to `coral_basic.md` except `data.n_samples_train: [100, 200, 500, 1000
 After replaying a usable cell:
 
 ```bash
-python pipeline.py --config configs/coral_data_scaling.yaml --stages metrics --cell-index 120 --expected-cells 180
+python pipeline.py --config coral_data_scaling --stages metrics --cell-index 120 --expected-cells 180
 # Aggregate metrics.json (one per cell) should let us reproduce the
 # paper's success-rate curve: per-N count of seeds whose three encoded
 # fixed points (a0, a1, r) fall in three distinct Morse sets.

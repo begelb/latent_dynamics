@@ -25,7 +25,7 @@ spurious Leslie 3D run, which is documented in `leslie3d_example1.md`.
 ## Status
 
 **Read-only replay from the archived paper artifacts.**
-`configs/leslie3d_example2.yaml` is read-only and points at the artifact mirror
+`src/latentdynamics/configs/leslie3d_example2.yaml` is read-only and points at the artifact mirror
 under `code/replay_sources/leslie3d_example2/`. The original training script
 and raw train/test CSVs are not archived, so the replay path reads the
 preserved checkpoint and CMGDB artifacts directly. The current
@@ -37,7 +37,7 @@ and should not be used as the original paper source.
 Replay the preserved paper artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_example2.yaml --stages render,metrics
+python pipeline.py --config leslie3d_example2 --stages render,metrics
 ```
 
 A fresh retrain uses a writable local copy of the YAML with
@@ -81,6 +81,6 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config configs/leslie3d_example2.yaml --stages render,metrics
+python pipeline.py --config leslie3d_example2 --stages render,metrics
 # metrics.json should report tau_bar > max_semiconjugacy_error
 ```

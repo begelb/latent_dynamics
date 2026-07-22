@@ -178,10 +178,19 @@ def load_any_checkpoint(
         if arch is None:
             raise ValueError("legacy checkpoint requires an explicit ArchConfig")
         if legacy_root is None:
-            raise ValueError(
-                "legacy checkpoint requires an explicit legacy_root argument "
-                "(the directory containing the legacy src/ folder)"
-            )
+            # The preserved paper checkpoints are in the legacy three-file format;
+            # default to the in-repo legacy tree so every pipeline stage can load
+            # them without each call site threading the path through.
+            from .._paths import get_repo_root
+
+            candidate = get_repo_root() / "legacy"
+            if (candidate / "src").is_dir():
+                legacy_root = candidate
+            else:
+                raise ValueError(
+                    "legacy checkpoint requires an explicit legacy_root argument "
+                    "(the directory containing the legacy src/ folder)"
+                )
         model = load_legacy_checkpoint(
             in_path, arch, map_location=map_location, legacy_root=legacy_root
         )

@@ -24,3 +24,9 @@ tmp.py
 # read_only config. These are derived, machine-specific, and meant to be
 # regenerated on demand - do not track them.
 /replay/
+
+# Notebook playground + scratch renders. The notebooks (recompute_morse /
+# retrain) and the box_scale sweep write here; all regenerable on demand.
+/output/notebooks/
+/output/box_scale_sweep/
+/notebooks/rendered/

@@ -6,6 +6,7 @@ from .cmgdb_roa import (
     EXACT_ROA_FILENAME,
     MULTI,
     CellROA,
+    attractor_cells,
     collapse_roa_to_lca,
     compute_and_save_exact_roa,
     compute_exact_roa,
@@ -19,6 +20,12 @@ from .morse import (
     make_box_map,
     make_box_map_numpy,
     make_box_map_uniform_precomputed,
+)
+from .morse_coarsening import (
+    MorseGraphQuotient,
+    coarsen_morse_graph,
+    write_morse_graph_dot,
+    write_quotient_morse_sets,
 )
 from .morse_graph_parser import MorseGraph
 from .morse_metrics import (
@@ -40,16 +47,19 @@ from .tolerance import (
 
 __all__ = [
     "BOUNDARY",
-    "Box",
-    "CellROA",
     "ESCAPE",
     "EXACT_ROA_FILENAME",
+    "MULTI",
+    "Box",
+    "CellROA",
     "Edge",
     "LatentBounds",
-    "MULTI",
     "MorseGraph",
+    "MorseGraphQuotient",
     "MorseSet",
+    "attractor_cells",
     "check_unique_membership",
+    "coarsen_morse_graph",
     "collapse_roa_to_lca",
     "compute_and_save_exact_roa",
     "compute_exact_roa",
@@ -68,4 +78,6 @@ __all__ = [
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
     "save_exact_roa",
+    "write_morse_graph_dot",
+    "write_quotient_morse_sets",
 ]

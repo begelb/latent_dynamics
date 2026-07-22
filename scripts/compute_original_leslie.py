@@ -208,6 +208,16 @@ def main() -> int:
     parser.add_argument("--subdiv", type=int, nargs=3, metavar=("INIT", "MIN", "MAX"))
     parser.add_argument("--output", type=Path)
     parser.add_argument("--subdiv-limit", type=int, default=10_000)
+    parser.add_argument(
+        "--box-map-backend",
+        choices=("adaptive_precomputed", "on_demand"),
+        default="adaptive_precomputed",
+        help=(
+            "Use a finest-grid corner table or evaluate CMGDB.BoxMap as cells are "
+            "requested. The on-demand backend is required when the finest table "
+            "would be prohibitively large."
+        ),
+    )
     args = parser.parse_args()
 
     cmgdb_module_path = require_local_cmgdb()
@@ -228,22 +238,32 @@ def main() -> int:
     morse_dir = output / "MG"
     morse_dir.mkdir(parents=True, exist_ok=True)
 
-    print(
-        f"precomputing exact Leslie box map on {lower} -> {upper} at subdiv_max={subdiv_max}",
-        flush=True,
-    )
     setup_start = time.perf_counter()
-    box_map = make_adaptive_precomputed_box_map(
-        map_function,
-        lower,
-        upper,
-        subdiv_max=subdiv_max,
-        padding=True,
-        max_table_points=max_table_points,
-    )
+    if args.box_map_backend == "adaptive_precomputed":
+        print(
+            f"precomputing exact Leslie box map on {lower} -> {upper} at subdiv_max={subdiv_max}",
+            flush=True,
+        )
+        box_map = make_adaptive_precomputed_box_map(
+            map_function,
+            lower,
+            upper,
+            subdiv_max=subdiv_max,
+            padding=True,
+            max_table_points=max_table_points,
+        )
+    else:
+        print(
+            f"using on-demand exact Leslie box map on {lower} -> {upper}",
+            flush=True,
+        )
+
+        def box_map(rect: list[float]) -> list[float]:
+            return CMGDB.BoxMap(map_function, rect, padding=True)
+
     setup_seconds = time.perf_counter() - setup_start
 
-    print(f"box-map precomputation finished in {setup_seconds / 60:.2f} minutes", flush=True)
+    print(f"box-map setup finished in {setup_seconds / 60:.2f} minutes", flush=True)
     print("computing Conley--Morse graph", flush=True)
     compute_start = time.perf_counter()
     model = CMGDB.Model(
@@ -326,7 +346,7 @@ def main() -> int:
                 else None
             ),
         },
-        "box_map_backend": "adaptive_precomputed",
+        "box_map_backend": args.box_map_backend,
         "cmgdb": {
             "distribution_version": version("CMGDB"),
             "source": str(LOCAL_CMGDB_ROOT.relative_to(CODE_ROOT.parent)),

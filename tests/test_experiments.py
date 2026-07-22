@@ -442,7 +442,8 @@ class TestReproducePaperScript:
             mod = importlib.import_module("reproduce_paper")
             assert isinstance(mod.EXPERIMENTS, dict)
             assert len(mod.EXPERIMENTS) >= 7
-            for config_name in mod.EXPERIMENTS.values():
-                assert (CONFIGS_DIR / config_name).exists(), config_name
+            # EXPERIMENTS values are packaged config stems (resolved by load_config).
+            for stem in mod.EXPERIMENTS.values():
+                assert (CONFIGS_DIR / f"{stem}.yaml").exists(), stem
         finally:
             sys.path.pop(0)

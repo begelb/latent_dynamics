@@ -19,7 +19,7 @@ parameters are mirrored under `code/replay_sources/chafee_infante/`.
 ## Status
 
 **Reference data and config values are matched.** The converted train/val CSVs
-are in the expected artifact structure, and `configs/chafee_infante.yaml` uses
+are in the expected artifact structure, and `src/latentdynamics/configs/chafee_infante.yaml` uses
 the reference CMGDB settings: `subdiv_init=10`, `subdiv_min=14`,
 `subdiv_max=28`, explicit bounds `[-3, -2] -> [3, 2]`, and `padding: false`.
 
@@ -36,14 +36,14 @@ should not be treated as the paper source.
 Inspect the current converted-data config without recomputing CMGDB:
 
 ```bash
-python pipeline.py --config configs/chafee_infante.yaml --stages diagnose --max-seeds 1
+python pipeline.py --config chafee_infante --stages diagnose --max-seeds 1
 ```
 
 After converting the reference `ci_model_weights.pth` into the current
 checkpoint format, rerun CMGDB with the reference archived settings:
 
 ```bash
-python pipeline.py --config configs/chafee_infante.yaml --stages morse --max-seeds 1
+python pipeline.py --config chafee_infante --stages morse --max-seeds 1
 ```
 
 `--stages morse` will refuse with the legacy-checkpoint guard if the model dir
@@ -82,7 +82,7 @@ a newly computed coarse Morse set.
 
 | param                       | archive value           | YAML value             | source line                                                | notes |
 |-----------------------------|-------------------------|------------------------|------------------------------------------------------------|-------|
-| arch.encoder hidden_shapes  | [64, 32]                | [64, 32]               | configs/chafee_infante.yaml                                | ✓     |
+| arch.encoder hidden_shapes  | [64, 32]                | [64, 32]               | src/latentdynamics/configs/chafee_infante.yaml                                | ✓     |
 | arch.latent_map hidden_shapes | [32, 32]              | [32, 32]               |                                                            | ✓     |
 | arch.decoder hidden_shapes  | [32, 64]                | [32, 64]               |                                                            | ✓     |
 | arch.activation             | tanh                    | tanh                   | autoencoder_model.py:82,84,90,92,98,100                    | ✓     |
@@ -115,7 +115,7 @@ conversion and regenerates the raw CMGDB artifacts.
 ## Verification
 
 ```bash
-python pipeline.py --config configs/chafee_infante.yaml --stages metrics --max-seeds 1
+python pipeline.py --config chafee_infante --stages metrics --max-seeds 1
 # After CMGDB rerun, metrics.json should report
 #   diagnose_morse_cross_check.agreement: agree
 #   n_morse_sets: ~ 7  (two attractors, three saddles, two repellers)

@@ -24,16 +24,15 @@ from pathlib import Path
 from latentdynamics.cli import pipeline
 from latentdynamics.config import load_config
 
-CONFIGS_DIR = Path(__file__).resolve().parent / "configs"
-
+# Packaged config stems (resolved by load_config from src/latentdynamics/configs/).
 EXPERIMENTS: dict[str, str] = {
-    "fig_leslie_2gen_contraction": "leslie_2gen_contraction_replay.yaml",
-    "fig_leslie3d_example1": "leslie3d_example1_replay.yaml",
-    "fig_leslie3d_example2": "leslie3d_example2_replay.yaml",
-    "fig_chafee_infante": "chafee_infante_replay.yaml",
-    "fig_coral_basic": "coral_basic.yaml",
-    "fig_coral_data_scaling": "coral_data_scaling.yaml",
-    "fig_coral_adaptive": "coral_adaptive.yaml",
+    "fig_leslie_2gen_contraction": "leslie_2gen_contraction_replay",
+    "fig_leslie3d_example1": "leslie3d_example1_replay",
+    "fig_leslie3d_example2": "leslie3d_example2_replay",
+    "fig_chafee_infante": "chafee_infante_replay",
+    "fig_coral_basic": "coral_basic",
+    "fig_coral_data_scaling": "coral_data_scaling",
+    "fig_coral_adaptive": "coral_adaptive",
 }
 
 
@@ -67,11 +66,10 @@ def _run_one(
     force_overwrite: bool = False,
     replay_root: Path | None = None,
 ) -> str:
-    cfg_path = CONFIGS_DIR / config_name
-    if not cfg_path.exists():
-        return f"missing config: {cfg_path}"
-
-    cfg = load_config(cfg_path)
+    try:
+        cfg = load_config(config_name)
+    except FileNotFoundError:
+        return f"missing config: {config_name}"
     if not cfg.paths.output_dir.exists() and "data" not in stages:
         return f"no on-disk artifacts at {cfg.paths.output_dir}; rerun with --stages all to retrain"
 

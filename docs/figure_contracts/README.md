@@ -60,7 +60,7 @@ graph.
 - `leslie_2gen_contraction` is the config id for the 10D Embedded Leslie
   example: a 2D Leslie/Ricker map embedded in 10D with eight contracting tail
   coordinates. It is a fresh package retrain (seed 20) computed at subdivision
-  27/29/30, fully reproducible from `configs/leslie_2gen_contraction.yaml`; the
+  27/29/30, fully reproducible from `src/latentdynamics/configs/leslie_2gen_contraction.yaml`; the
   system is defined in code (`src/latentdynamics/systems/leslie.py`,
   `LeslieContraction`) and a read-only replay mirror lives under
   `replay_sources/leslie_2gen_contraction/`. The Morse graph has five nodes,

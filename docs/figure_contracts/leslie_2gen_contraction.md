@@ -18,25 +18,25 @@ cascade; an earlier coarser computation (subdivision 25/27/28) resolved only a
 period-three orbit and is no longer used.
 
 - system definition:  `src/latentdynamics/systems/leslie.py` (`LeslieContraction`)
-- training config:    `configs/leslie_2gen_contraction.yaml` (seed 20, writable)
-- replay config:      `configs/leslie_2gen_contraction_replay.yaml` (read-only)
+- training config:    `src/latentdynamics/configs/leslie_2gen_contraction.yaml` (seed 20, writable)
+- replay config:      `src/latentdynamics/configs/leslie_2gen_contraction_replay.yaml` (read-only)
 - replay mirror:      `replay_sources/leslie_2gen_contraction/` (models, MG, scalers)
 
 ## Status
 
 **Fully reproducible.** The system is defined in code and the run is pinned by
 seed, so the data, training, and CMGDB stages all regenerate from
-`configs/leslie_2gen_contraction.yaml`. The read-only replay config replays the
+`src/latentdynamics/configs/leslie_2gen_contraction.yaml`. The read-only replay config replays the
 saved mirror under `replay_sources/leslie_2gen_contraction/`.
 
 ## Reproduction commands
 
 ```bash
 # Replay the saved model (no training, no CMGDB recompute):
-python pipeline.py --config configs/leslie_2gen_contraction_replay.yaml --stages render,metrics
+python pipeline.py --config leslie_2gen_contraction_replay --stages render,metrics
 
 # Fresh retrain end to end:
-python pipeline.py --config configs/leslie_2gen_contraction.yaml --stages all --max-seeds 1
+python pipeline.py --config leslie_2gen_contraction --stages all --max-seeds 1
 ```
 
 ## Expected scientific output
@@ -52,10 +52,10 @@ Leslie-like dynamics in the latent space.
 
 | param                        | value             | source                                  | notes |
 |------------------------------|-------------------|-----------------------------------------|-------|
-| system.params.th1            | 23.5              | `configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
-| system.params.th2            | 23.5              | `configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
-| system.params.survival_p1    | 0.7               | `configs/leslie_2gen_contraction.yaml`  |       |
-| system.params.contraction    | 0.25              | `configs/leslie_2gen_contraction.yaml`  | tail contraction |
+| system.params.th1            | 23.5              | `src/latentdynamics/configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
+| system.params.th2            | 23.5              | `src/latentdynamics/configs/leslie_2gen_contraction.yaml`  | `LeslieContraction` default |
+| system.params.survival_p1    | 0.7               | `src/latentdynamics/configs/leslie_2gen_contraction.yaml`  |       |
+| system.params.contraction    | 0.25              | `src/latentdynamics/configs/leslie_2gen_contraction.yaml`  | tail contraction |
 | arch.high_dims               | 10                | config                                  |       |
 | arch.low_dims                | 2                 | config                                  |       |
 | arch hidden layers / width   | 4 / 64            | config                                  | all three networks |
@@ -80,7 +80,7 @@ maintained config instead of copying parameters from either legacy script.
 ## Verification
 
 ```bash
-python pipeline.py --config configs/leslie_2gen_contraction_replay.yaml --stages render,metrics
+python pipeline.py --config leslie_2gen_contraction_replay --stages render,metrics
 # The Morse graph should have five nodes with two minimal attractors:
 # an invariant circle (x-1,x-1,0) and a period-six orbit (x^6-1,0,0).
 ```

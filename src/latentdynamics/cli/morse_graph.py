@@ -24,6 +24,46 @@ from ..training import load_any_checkpoint
 from ..viz import save_morse_graph_artifacts
 
 
+def write_mg_params_log(
+    output_root,
+    *,
+    bounds: LatentBounds,
+    cmgdb_cfg,
+    bounds_source: str,
+    duration_s: float,
+):
+    """Write ``mg_params_log.txt`` recording the CMGDB parameters of a run.
+
+    The format is parsed back by ``cli.pipeline._parse_mg_params_log`` (replay
+    bounds, stage-completeness checks), so every producer of Morse artifacts
+    must write it through this helper.
+    """
+    log_path = output_root / "mg_params_log.txt"
+    log_path.parent.mkdir(parents=True, exist_ok=True)
+    log_path.write_text(
+        "\n".join(
+            [
+                f"Lower bounds: {bounds.lower.tolist()}",
+                f"Upper bounds: {bounds.upper.tolist()}",
+                f"subdiv_init: {cmgdb_cfg.subdiv_init}",
+                f"subdiv_min: {cmgdb_cfg.subdiv_min}",
+                f"subdiv_max: {cmgdb_cfg.subdiv_max}",
+                f"subdiv_limit: {cmgdb_cfg.subdiv_limit}",
+                f"bounds_epsilon_frac: {cmgdb_cfg.bounds_epsilon_frac}",
+                f"padding: {cmgdb_cfg.padding}",
+                f"box_map_backend: {cmgdb_cfg.box_map_backend}",
+                f"compute_roa: {cmgdb_cfg.compute_roa}",
+                f"roa_max_vertices: {cmgdb_cfg.roa_max_vertices}",
+                f"collapse_roa_to_lca: {cmgdb_cfg.collapse_roa_to_lca}",
+                f"bounds_source: {bounds_source}",
+                f"duration_minutes: {duration_s / 60.0:.4f}",
+            ]
+        )
+        + "\n"
+    )
+    return log_path
+
+
 def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
     train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
     val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
@@ -143,25 +183,10 @@ def run(
             print(f"exact RoA        -> {exact_roa_path}")
         print(f"computation took {duration_s / 60.0:.2f} min")
 
-    log_path = output_root / "mg_params_log.txt"
-    log_path.write_text(
-        "\n".join(
-            [
-                f"Lower bounds: {bounds.lower.tolist()}",
-                f"Upper bounds: {bounds.upper.tolist()}",
-                f"subdiv_init: {cfg.cmgdb.subdiv_init}",
-                f"subdiv_min: {cfg.cmgdb.subdiv_min}",
-                f"subdiv_max: {cfg.cmgdb.subdiv_max}",
-                f"subdiv_limit: {cfg.cmgdb.subdiv_limit}",
-                f"bounds_epsilon_frac: {cfg.cmgdb.bounds_epsilon_frac}",
-                f"padding: {cfg.cmgdb.padding}",
-                f"box_map_backend: {cfg.cmgdb.box_map_backend}",
-                f"compute_roa: {cfg.cmgdb.compute_roa}",
-                f"roa_max_vertices: {cfg.cmgdb.roa_max_vertices}",
-                f"collapse_roa_to_lca: {cfg.cmgdb.collapse_roa_to_lca}",
-                f"bounds_source: {bounds_source}",
-                f"duration_minutes: {duration_s / 60.0:.4f}",
-            ]
-        )
-        + "\n"
+    write_mg_params_log(
+        output_root,
+        bounds=bounds,
+        cmgdb_cfg=cfg.cmgdb,
+        bounds_source=bounds_source,
+        duration_s=duration_s,
     )

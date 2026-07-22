@@ -44,6 +44,10 @@ dev = [
     "pytest-cov>=5.0",
     "ruff>=0.6",
     "mypy>=1.10",
+    # Headless notebook execution (CI checks the reader-facing notebooks).
+    "nbconvert>=7.16",
+    "nbclient>=0.10",
+    "ipykernel>=6.29",
 ]
 
 [tool.setuptools.packages.find]

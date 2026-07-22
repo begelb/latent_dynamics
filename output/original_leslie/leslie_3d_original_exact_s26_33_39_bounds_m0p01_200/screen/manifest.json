@@ -1,0 +1,60 @@
+{
+  "system": "original 3D Leslie",
+  "theta": [
+    28.9,
+    29.8,
+    22.0
+  ],
+  "survival": [
+    0.7,
+    0.7
+  ],
+  "bounds": {
+    "lower": [
+      -0.01,
+      -0.01,
+      -0.01
+    ],
+    "upper": [
+      200.0,
+      200.0,
+      200.0
+    ]
+  },
+  "subdivision": {
+    "init": 26,
+    "min": 33,
+    "max": 39,
+    "limit": 10000
+  },
+  "box_map": "CMGDB.BoxMap(f, rect, padding=False)",
+  "cmgdb": {
+    "version": "1.3.3",
+    "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py"
+  },
+  "algorithm": "ComputeMorseGraph",
+  "compute_seconds": 644.293,
+  "morse_nodes": 5,
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "minimal_nodes": [
+    0
+  ],
+  "minimal_node_count": 1
+}

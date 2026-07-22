@@ -19,7 +19,7 @@ The preserved replay tree under `code/replay_sources/coral/train_500/seed_*/`. T
 ## Status
 
 **Read-only replay; basic `train_500` is fresh-reproducible from a writable
-config copy.** `configs/coral_basic.yaml` is `read_only: true` and points at
+config copy.** `src/latentdynamics/configs/coral_basic.yaml` is `read_only: true` and points at
 the preserved replay tree. Full coral recomputation is outside the default
 paper replay path; use a writable local copy of the YAML for a fresh retrain.
 
@@ -28,7 +28,7 @@ paper replay path; use a writable local copy of the YAML for a fresh retrain.
 Replay from the preserved tree:
 
 ```bash
-python pipeline.py --config configs/coral_basic.yaml --stages render,metrics
+python pipeline.py --config coral_basic --stages render,metrics
 ```
 
 Fresh retrain requires copying the YAML to a writable output location and
@@ -44,7 +44,7 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 
 | param                       | archive value           | YAML value             | source line                                | notes |
 |-----------------------------|-------------------------|------------------------|--------------------------------------------|-------|
-| arch.num_layers             | 3                       | 3                      | configs/coral_basic.yaml                   | ✓     |
+| arch.num_layers             | 3                       | 3                      | src/latentdynamics/configs/coral_basic.yaml                   | ✓     |
 | arch.hidden_shape           | 64                      | 64                     |                                            | ✓     |
 | arch.high_dims              | 13                      | 13                     |                                            | ✓     |
 | arch.low_dims               | 1                       | 1                      |                                            | ✓     |
@@ -71,7 +71,7 @@ Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are 
 ```bash
 # Verify the 1D Morse set produces three intervals bracketing
 # E(a0), E(r), E(a1):
-python pipeline.py --config configs/coral_basic.yaml --stages render,metrics --max-seeds 1
+python pipeline.py --config coral_basic --stages render,metrics --max-seeds 1
 # metrics.json should contain
 #   labels.a0_(Extinction): label of the leftmost Morse set
 #   labels.r_(Repeller):    label of the middle Morse set

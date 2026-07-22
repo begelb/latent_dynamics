@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib.metadata
 import json
 import platform
 import sys
@@ -24,6 +25,13 @@ def _canonical_config(cfg: ExperimentConfig) -> dict[str, Any]:
 def config_hash(cfg: ExperimentConfig) -> str:
     payload = json.dumps(_canonical_config(cfg), sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def _cmgdb_version() -> str | None:
+    try:
+        return importlib.metadata.version("cmgdb")
+    except importlib.metadata.PackageNotFoundError:
+        return None
 
 
 def _file_sha256(path: Path) -> str | None:
@@ -79,6 +87,7 @@ def write_run_manifest(
             "cuda_available": torch.cuda.is_available(),
             "mps_available": torch.backends.mps.is_available(),
         },
+        "cmgdb_version": _cmgdb_version(),
         "requested_stages": stages,
         "cell": cell_block,
         "config_hash": config_hash(root_cfg),

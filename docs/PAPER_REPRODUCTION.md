@@ -1,20 +1,20 @@
 # Reproducing the paper figures
 
-Every computational figure in `paper/main.tex` is represented by one YAML
-config under `configs/` and the staged pipeline in `src/latentdynamics/cli/`.
-The configs are meant to encode the archived historical runs as far as the
-saved files allow, while sharing one higher-level workflow across Leslie,
-Chafee-Infante, and Coral examples.
+Every computational figure in `paper/main.tex` is represented by one packaged
+YAML config (in `src/latentdynamics/configs/`, referenced by stem) and the
+staged pipeline in `src/latentdynamics/cli/`. The configs are meant to encode
+the archived historical runs as far as the saved files allow, while sharing one
+higher-level workflow across Leslie, Chafee-Infante, and Coral examples.
+
+For an interactive walk through any single example, use the
+[notebooks](../notebooks/) instead — see the mapping at the end of this file.
 
 ## Setup
 
-Python 3.13 is required. The pre-built `.venv/` at the project root has every
-dependency installed (Torch 2.11, CMGDB from the bernardorivas fork, pydantic 2). To install or
-re-create it:
+Python 3.11+ is required. Set up the uv-managed `.venv/` at the project root:
 
 ```bash
-python3.13 -m venv .venv
-.venv/bin/pip install -e ".[dev]"
+uv sync --extra dev
 ```
 
 ## Single command per figure
@@ -34,7 +34,7 @@ precomputed inputs.
 python reproduce_paper.py --only fig_leslie3d_example1
 
 # One known-good coral sweep cell:
-python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
+python pipeline.py --config coral_data_scaling --stages render,metrics --cell-index 120 --expected-cells 180
 
 # Full retrain/recompute for one seed:
 python reproduce_paper.py --only fig_chafee_infante --stages all --max-seeds 1
@@ -44,15 +44,15 @@ python reproduce_paper.py --only fig_coral_data_scaling --max-seeds 3
 ```
 
 
-| Paper reference   | Experiment id                  | Config                              | Contract                                                 | Notes                                        |
-| ----------------- | ------------------------------ | ----------------------------------- | -------------------------------------------------------- | -------------------------------------------- |
-| Fig. 1.83         | `fig_leslie_2gen_contraction`       | `configs/leslie_2gen_contraction.yaml`   | [contract](figure_contracts/leslie_2gen_contraction.md)       | fresh package retrain (seed 20, subdiv 27/29/30); fully reproducible; read-only replay mirror available |
-| Fig. 1.214        | `fig_leslie3d_example1`        | `configs/leslie3d_example1.yaml`    | [contract](figure_contracts/leslie3d_example1.md)        | replay-ready (legacy 3-file checkpoint); read_only |
-| Sec. 1.211 success| `fig_leslie3d_example2`         | `configs/leslie3d_example2.yaml`     | [contract](figure_contracts/leslie3d_example2.md)         | read-only replay from the preserved Leslie 3D artifacts |
-| Sec. 1.256 PDE    | `fig_chafee_infante`           | `configs/chafee_infante.yaml`       | [contract](figure_contracts/chafee_infante.md)           | reference data/config matched; a fresh CMGDB run regenerates the DOT/CSV |
-| Fig. 1.376        | `fig_coral_basic`              | `configs/coral_basic.yaml`          | [contract](figure_contracts/coral_basic.md)              | read-only replay; basic `train_500` fresh-reproducible from a writable copy |
-| Fig. 1.469        | `fig_coral_data_scaling`       | `configs/coral_data_scaling.yaml`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only replay: selected `train_100`, complete `train_2000` |
-| Fig. 1.528        | `fig_coral_adaptive`           | `configs/coral_adaptive.yaml`       | [contract](figure_contracts/coral_adaptive.md)           | partial read-only replay: M = 100, 200, 300; 400, 500 fresh-reproducible |
+| Paper reference   | Experiment id                  | Config stem                  | Contract                                                 | Notes                                        |
+| ----------------- | ------------------------------ | ---------------------------- | -------------------------------------------------------- | -------------------------------------------- |
+| Fig. 1.83         | `fig_leslie_2gen_contraction`       | `leslie_2gen_contraction`   | [contract](figure_contracts/leslie_2gen_contraction.md)       | fresh package retrain (seed 20, subdiv 27/29/30); fully reproducible; read-only replay mirror available |
+| Fig. 1.214        | `fig_leslie3d_example1`        | `leslie3d_example1`    | [contract](figure_contracts/leslie3d_example1.md)        | replay-ready (legacy 3-file checkpoint); read_only |
+| Sec. 1.211 success| `fig_leslie3d_example2`         | `leslie3d_example2`     | [contract](figure_contracts/leslie3d_example2.md)         | read-only replay from the preserved Leslie 3D artifacts |
+| Sec. 1.256 PDE    | `fig_chafee_infante`           | `chafee_infante`       | [contract](figure_contracts/chafee_infante.md)           | reference data/config matched; a fresh CMGDB run regenerates the DOT/CSV |
+| Fig. 1.376        | `fig_coral_basic`              | `coral_basic`          | [contract](figure_contracts/coral_basic.md)              | read-only replay; basic `train_500` fresh-reproducible from a writable copy |
+| Fig. 1.469        | `fig_coral_data_scaling`       | `coral_data_scaling`   | [contract](figure_contracts/coral_data_scaling.md)       | partial read-only replay: selected `train_100`, complete `train_2000` |
+| Fig. 1.528        | `fig_coral_adaptive`           | `coral_adaptive`       | [contract](figure_contracts/coral_adaptive.md)           | partial read-only replay: M = 100, 200, 300; 400, 500 fresh-reproducible |
 
 For per-figure expected outputs, hyperparameter audits with archive
 line citations, status, and verification recipes, see the contracts
@@ -167,9 +167,9 @@ arch:
     out_activation: none
 ```
 
-Shared `arch.num_layers` / `arch.hidden_shape` are optional. If every component supplies its own `hidden_shapes`, the shared fields may be omitted entirely (see `configs/chafee_infante.yaml`). If any component lacks an explicit width specification, either provide it per-component or fall back to the shared fields.
+Shared `arch.num_layers` / `arch.hidden_shape` are optional. If every component supplies its own `hidden_shapes`, the shared fields may be omitted entirely (see the packaged `chafee_infante` config). If any component lacks an explicit width specification, either provide it per-component or fall back to the shared fields.
 
-A worked example exercising asymmetric widths, per-network activations, and an `out_activation` override lives at `configs/scratch/asymmetric_example.yaml`.
+`src/latentdynamics/configs/CONFIG_REFERENCE.yaml` documents every field, including the asymmetric per-network width and activation forms.
 
 Training hyperparameters live under `training`. Data and CMGDB settings are unchanged by this refactor.
 
@@ -204,8 +204,23 @@ state_dict + sidecar copy for separate analysis.
 ```bash
 # Basic replay sanity on a laptop:
 python reproduce_paper.py --only fig_leslie3d_example1
-python pipeline.py --config configs/coral_data_scaling.yaml --stages render,metrics --cell-index 120 --expected-cells 180
+python pipeline.py --config coral_data_scaling --stages render,metrics --cell-index 120 --expected-cells 180
 
 # Check the cell count for reference:
-python pipeline.py --config configs/coral_data_scaling.yaml --dry-run
+python pipeline.py --config coral_data_scaling --dry-run
 ```
+
+## Notebooks
+
+For an interactive, per-example walkthrough, the notebooks cover the same
+figures with `replay` / `morse` / `retrain` modes (see `notebooks/README.md`):
+
+| Paper § | Notebook |
+| ------- | -------- |
+| 5.1     | `notebooks/01_leslie_2d_contraction.ipynb` |
+| 5.2.1   | `notebooks/02_leslie3d_example1.ipynb` |
+| 5.2.2   | `notebooks/03_leslie3d_example2.ipynb` |
+| 5.3     | `notebooks/04_chafee_infante.ipynb` |
+| 5.4     | `notebooks/05_coral.ipynb` |
+
+`notebooks/00_cmgdb_intro.ipynb` is a standalone CMGDB primer (no autoencoder).
