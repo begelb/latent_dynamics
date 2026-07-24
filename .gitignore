@@ -30,3 +30,9 @@ tmp.py
 /output/notebooks/
 /output/box_scale_sweep/
 /notebooks/rendered/
+
+# Morse-set box lists above GitHub's 100 MB file limit; kept local only.
+/output/original_leslie/leslie_2d_exact_restriction_s20_30_40_on_demand/MG/morse_sets
+/output/original_leslie/leslie_2d_exact_restriction_s26_30_36/MG/morse_sets
+/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/MG/morse_sets
+/output/original_leslie/leslie_2d_exact_restriction_s27_29_30/MG/morse_sets
