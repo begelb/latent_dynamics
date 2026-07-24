@@ -15,14 +15,15 @@ from importlib.metadata import version
 from pathlib import Path
 
 import CMGDB
+import matplotlib
 
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
 LOWER = [-0.01, -0.01, -0.01]
 UPPER = [200.0, 200.0, 200.0]
-SUBDIV_MIN = 33
-SUBDIV_MAX = 39
+DEFAULT_SUBDIV_MIN = 33
+DEFAULT_SUBDIV_MAX = 39
 SUBDIV_LIMIT = 10_000
 
 
@@ -42,6 +43,13 @@ def box_map(rect: list[float]) -> list[float]:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("initial", type=int)
+    parser.add_argument("--subdiv-min", type=int, default=DEFAULT_SUBDIV_MIN)
+    parser.add_argument("--subdiv-max", type=int, default=DEFAULT_SUBDIV_MAX)
+    parser.add_argument(
+        "--conley",
+        action="store_true",
+        help="Compute Conley indices and save Morse-set artifacts.",
+    )
     args = parser.parse_args()
 
     module_path = Path(CMGDB.__file__).resolve()
@@ -49,29 +57,39 @@ def main() -> int:
         raise RuntimeError(
             f"Expected CMGDB below {LOCAL_CMGDB_ROOT}; imported {module_path}"
         )
-    if not 1 <= args.initial <= SUBDIV_MIN:
-        raise ValueError(f"initial must lie in [1,{SUBDIV_MIN}]")
+    if not 1 <= args.initial <= args.subdiv_min <= args.subdiv_max:
+        raise ValueError(
+            "subdivision levels must satisfy "
+            f"1 <= initial <= min <= max, received "
+            f"{args.initial}/{args.subdiv_min}/{args.subdiv_max}"
+        )
 
-    output = (
+    run_root = (
         CODE_ROOT
         / "output"
         / "original_leslie"
-        / f"leslie_3d_original_exact_s{args.initial}_33_39_bounds_m0p01_200"
-        / "screen"
+        / (
+            "leslie_3d_original_exact_"
+            f"s{args.initial}_{args.subdiv_min}_{args.subdiv_max}_bounds_m0p01_200"
+        )
     )
+    output = run_root / ("conley" if args.conley else "screen")
     output.mkdir(parents=True, exist_ok=True)
 
     started = time.perf_counter()
     model = CMGDB.Model(
-        SUBDIV_MIN,
-        SUBDIV_MAX,
+        args.subdiv_min,
+        args.subdiv_max,
         args.initial,
         SUBDIV_LIMIT,
         LOWER,
         UPPER,
         box_map,
     )
-    morse_graph, _ = CMGDB.ComputeMorseGraph(model)
+    if args.conley:
+        morse_graph, _ = CMGDB.ComputeConleyMorseGraph(model)
+    else:
+        morse_graph, _ = CMGDB.ComputeMorseGraph(model)
     compute_seconds = time.perf_counter() - started
 
     vertices = list(morse_graph.vertices())
@@ -83,6 +101,28 @@ def main() -> int:
     minimal = [int(node) for node in vertices if not morse_graph.adjacencies(node)]
     graph = CMGDB.PlotMorseGraph(morse_graph)
     (output / "morse_graph").write_text(graph.source)
+    graph.render(str(output / "morse_graph"), format="pdf", view=False, cleanup=False)
+    graph.render(str(output / "morse_graph"), format="png", view=False, cleanup=False)
+    if args.conley:
+        morse_dir = output / "MG"
+        morse_dir.mkdir(parents=True, exist_ok=True)
+        CMGDB.SaveMorseSets(morse_graph, str(morse_dir / "morse_sets"))
+        for proj_dims, suffix, labels in [
+            ([0, 1], "x1_x2", ("$x_1$", "$x_2$")),
+            ([0, 2], "x1_x3", ("$x_1$", "$x_3$")),
+            ([1, 2], "x2_x3", ("$x_2$", "$x_3$")),
+        ]:
+            CMGDB.PlotMorseSets(
+                morse_graph,
+                proj_dims=proj_dims,
+                cmap=matplotlib.cm.cool,
+                axis_labels=True,
+                xlabel=labels[0],
+                ylabel=labels[1],
+                fontsize=18,
+                fig_fname=str(output / f"morse_sets_{suffix}"),
+                dpi=300,
+            )
 
     manifest = {
         "system": "original 3D Leslie",
@@ -91,8 +131,8 @@ def main() -> int:
         "bounds": {"lower": LOWER, "upper": UPPER},
         "subdivision": {
             "init": args.initial,
-            "min": SUBDIV_MIN,
-            "max": SUBDIV_MAX,
+            "min": args.subdiv_min,
+            "max": args.subdiv_max,
             "limit": SUBDIV_LIMIT,
         },
         "box_map": "CMGDB.BoxMap(f, rect, padding=False)",
@@ -100,7 +140,9 @@ def main() -> int:
             "version": version("CMGDB"),
             "module_path": str(module_path),
         },
-        "algorithm": "ComputeMorseGraph",
+        "algorithm": (
+            "ComputeConleyMorseGraph" if args.conley else "ComputeMorseGraph"
+        ),
         "compute_seconds": round(compute_seconds, 3),
         "morse_nodes": len(vertices),
         "edges": edges,
