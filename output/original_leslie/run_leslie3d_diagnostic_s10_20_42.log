@@ -22,8 +22,8 @@
     ]
   },
   "subdivision": {
-    "init": 28,
-    "min": 33,
+    "init": 10,
+    "min": 20,
     "max": 42,
     "limit": 10000
   },
@@ -33,24 +33,12 @@
     "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py"
   },
   "algorithm": "ComputeMorseGraph",
-  "compute_seconds": 2580.014,
-  "morse_nodes": 5,
+  "compute_seconds": 0.131,
+  "morse_nodes": 2,
   "edges": [
     [
       1,
       0
-    ],
-    [
-      2,
-      1
-    ],
-    [
-      3,
-      2
-    ],
-    [
-      4,
-      3
     ]
   ],
   "minimal_nodes": [

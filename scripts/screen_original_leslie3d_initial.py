@@ -20,8 +20,10 @@ import matplotlib
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
-LOWER = [-0.01, -0.01, -0.01]
-UPPER = [200.0, 200.0, 200.0]
+WIDE_CUBE_LOWER = [-0.01, -0.01, -0.01]
+WIDE_CUBE_UPPER = [200.0, 200.0, 200.0]
+PAPER_LOWER = [0.0, 0.0, 0.0]
+PAPER_UPPER = [220.0, 154.0, 108.0]
 DEFAULT_SUBDIV_MIN = 33
 DEFAULT_SUBDIV_MAX = 39
 SUBDIV_LIMIT = 10_000
@@ -46,6 +48,11 @@ def main() -> int:
     parser.add_argument("--subdiv-min", type=int, default=DEFAULT_SUBDIV_MIN)
     parser.add_argument("--subdiv-max", type=int, default=DEFAULT_SUBDIV_MAX)
     parser.add_argument(
+        "--domain",
+        choices=("wide_cube", "paper"),
+        default="wide_cube",
+    )
+    parser.add_argument(
         "--conley",
         action="store_true",
         help="Compute Conley indices and save Morse-set artifacts.",
@@ -64,13 +71,22 @@ def main() -> int:
             f"{args.initial}/{args.subdiv_min}/{args.subdiv_max}"
         )
 
+    if args.domain == "paper":
+        lower = PAPER_LOWER
+        upper = PAPER_UPPER
+        domain_suffix = "bounds_paper_X"
+    else:
+        lower = WIDE_CUBE_LOWER
+        upper = WIDE_CUBE_UPPER
+        domain_suffix = "bounds_m0p01_200"
+
     run_root = (
         CODE_ROOT
         / "output"
         / "original_leslie"
         / (
             "leslie_3d_original_exact_"
-            f"s{args.initial}_{args.subdiv_min}_{args.subdiv_max}_bounds_m0p01_200"
+            f"s{args.initial}_{args.subdiv_min}_{args.subdiv_max}_{domain_suffix}"
         )
     )
     output = run_root / ("conley" if args.conley else "screen")
@@ -82,8 +98,8 @@ def main() -> int:
         args.subdiv_max,
         args.initial,
         SUBDIV_LIMIT,
-        LOWER,
-        UPPER,
+        lower,
+        upper,
         box_map,
     )
     if args.conley:
@@ -128,7 +144,7 @@ def main() -> int:
         "system": "original 3D Leslie",
         "theta": [28.9, 29.8, 22.0],
         "survival": [0.7, 0.7],
-        "bounds": {"lower": LOWER, "upper": UPPER},
+        "bounds": {"lower": lower, "upper": upper},
         "subdivision": {
             "init": args.initial,
             "min": args.subdiv_min,
