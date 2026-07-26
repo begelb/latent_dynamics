@@ -1,0 +1,22 @@
+{
+  "source": "archive/marcio/scripts",
+  "uniform_grid_resolution": [
+    256,
+    256
+  ],
+  "uniform_map_vertices": 65536,
+  "uniform_morse_nodes": 137,
+  "uniform_attractors_left_to_right": [
+    0,
+    4
+  ],
+  "basin_cell_counts_left_to_right": [
+    15941,
+    15764
+  ],
+  "coarse_morse_sets": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/MG/morse_sets",
+  "outputs": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.png"
+  ]
+}

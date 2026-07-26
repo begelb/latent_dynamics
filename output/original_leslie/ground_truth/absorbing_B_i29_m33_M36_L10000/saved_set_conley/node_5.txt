@@ -1,0 +1,13 @@
+Node: 5
+Status: complete
+Uniform cyclic depth: 33
+Uniform sizes: [2048, 2048, 2048]
+Morse-set cubes: 1
+Index pair (X, A): (120, 119)
+S subset F(S): True
+F(X-A) subset X: True
+F(A) intersect X subset A: True
+F(A) intersect X subset A violations: 0
+Acyclic-fiber check enabled: True
+Conley index: ['0', '0', '0', '0']
+Total seconds: 0.009455

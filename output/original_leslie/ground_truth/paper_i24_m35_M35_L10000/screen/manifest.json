@@ -1,0 +1,180 @@
+{
+  "system": "original 3D Leslie",
+  "theta": [
+    28.9,
+    29.8,
+    22.0
+  ],
+  "survival": [
+    0.7,
+    0.7
+  ],
+  "bounds": {
+    "lower": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "upper": [
+      220.0,
+      154.0,
+      108.0
+    ]
+  },
+  "subdivision": {
+    "init": 24,
+    "min": 35,
+    "max": 35,
+    "limit": 10000
+  },
+  "box_map": "CMGDB.BoxMap(f, rect, padding=False)",
+  "algorithm": "ComputeMorseGraph",
+  "output": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/paper_i24_m35_M35_L10000/screen",
+  "cmgdb": {
+    "version": "1.3.3",
+    "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+    "revision": "94d360c7a45d48cbd0330d828773725544a3da05",
+    "dirty": false
+  },
+  "compute_seconds": 205.157,
+  "morse_nodes": 20,
+  "edges": [
+    [
+      1,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      2
+    ],
+    [
+      7,
+      5
+    ],
+    [
+      8,
+      5
+    ],
+    [
+      9,
+      8
+    ],
+    [
+      10,
+      5
+    ],
+    [
+      11,
+      6
+    ],
+    [
+      11,
+      9
+    ],
+    [
+      11,
+      10
+    ],
+    [
+      11,
+      7
+    ],
+    [
+      12,
+      9
+    ],
+    [
+      12,
+      7
+    ],
+    [
+      12,
+      6
+    ],
+    [
+      12,
+      10
+    ],
+    [
+      13,
+      12
+    ],
+    [
+      14,
+      11
+    ],
+    [
+      14,
+      13
+    ],
+    [
+      15,
+      14
+    ],
+    [
+      16,
+      14
+    ],
+    [
+      17,
+      16
+    ],
+    [
+      17,
+      15
+    ],
+    [
+      18,
+      17
+    ],
+    [
+      19,
+      18
+    ]
+  ],
+  "minimal_nodes": [
+    0
+  ],
+  "minimal_node_count": 1,
+  "morse_boxes_per_node": {
+    "0": 4284,
+    "1": 28,
+    "2": 1324555,
+    "3": 139,
+    "4": 15,
+    "5": 7155,
+    "6": 5,
+    "7": 4,
+    "8": 2,
+    "9": 4,
+    "10": 4,
+    "11": 4,
+    "12": 5,
+    "13": 12,
+    "14": 4314,
+    "15": 4,
+    "16": 4,
+    "17": 16,
+    "18": 11098,
+    "19": 1
+  },
+  "morse_boxes_total": 1351653,
+  "conley_indices": null
+}

@@ -1,0 +1,124 @@
+{
+  "started_at": "2026-07-25T11:41:13.044864+00:00",
+  "script": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/compute_original_leslie3d_conley_from_saved_sets.py",
+  "algorithm": "saved uniform Morse sets -> verified local index pair -> ComputeConleyIndex",
+  "morse_graph_recomputed": false,
+  "adaptive_phase_grid_recovered": false,
+  "index_pair_grid": "uniform grid at each saved Morse-set depth",
+  "screen_artifact_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen",
+  "source_artifacts": {
+    "manifest": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/manifest.json",
+      "size_bytes": 1578,
+      "mtime_ns": 1784926148152157033,
+      "sha256": "98d5997242a1242f51ba3c14e3b1ddd6f4730761622c3d1ec17ebc9719325e4a"
+    },
+    "morse_graph": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/morse_graph",
+      "size_bytes": 632,
+      "mtime_ns": 1784926143258317802,
+      "sha256": "8945479459edfa1c53367aead89cb5a2b9ecd8646de9dc56d66458d9e195a973"
+    },
+    "morse_sets": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/MG/morse_sets",
+      "size_bytes": 157780349,
+      "mtime_ns": 1784926147710184802,
+      "sha256": "91dce56924ebaa263d4b30b9ae4ce23656d40c71f3a5c29751af7c0e2e0b6fcd"
+    }
+  },
+  "saved_graph": {
+    "nodes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "edges": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "minimal_nodes": [
+      0,
+      1
+    ]
+  },
+  "requested_nodes": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "observed_morse_boxes_per_node": {
+    "0": 6687,
+    "1": 1920456,
+    "2": 9217,
+    "3": 5834,
+    "4": 13753,
+    "5": 1
+  },
+  "bounds": {
+    "lower": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "upper": [
+      110.0,
+      77.0,
+      54.0
+    ]
+  },
+  "theta": [
+    28.9,
+    29.8,
+    22.0
+  ],
+  "survival": [
+    0.7,
+    0.7
+  ],
+  "box_map": "CMGDB.BoxMap(f, rect, padding=False)",
+  "cmgdb": {
+    "version": "1.3.3",
+    "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+    "revision": "94d360c7a45d48cbd0330d828773725544a3da05",
+    "dirty": false,
+    "status": []
+  },
+  "screen_cmgdb": {
+    "version": "1.3.3",
+    "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+    "revision": "94d360c7a45d48cbd0330d828773725544a3da05",
+    "dirty": false
+  },
+  "cmgdb_revision_matches_screen": true,
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/saved_set_conley"
+}

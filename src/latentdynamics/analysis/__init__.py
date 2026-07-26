@@ -22,8 +22,11 @@ from .morse import (
     make_box_map_uniform_precomputed,
 )
 from .morse_coarsening import (
+    ConnectionCompleteMorseSets,
     MorseGraphQuotient,
     coarsen_morse_graph,
+    compute_connection_complete_morse_sets,
+    write_connection_complete_morse_sets,
     write_morse_graph_dot,
     write_quotient_morse_sets,
 )
@@ -52,6 +55,7 @@ __all__ = [
     "MULTI",
     "Box",
     "CellROA",
+    "ConnectionCompleteMorseSets",
     "Edge",
     "LatentBounds",
     "MorseGraph",
@@ -62,6 +66,7 @@ __all__ = [
     "coarsen_morse_graph",
     "collapse_roa_to_lca",
     "compute_and_save_exact_roa",
+    "compute_connection_complete_morse_sets",
     "compute_exact_roa",
     "compute_max_semiconjugacy_error",
     "compute_min_boundary_separation",
@@ -78,6 +83,7 @@ __all__ = [
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
     "save_exact_roa",
+    "write_connection_complete_morse_sets",
     "write_morse_graph_dot",
     "write_quotient_morse_sets",
 ]

@@ -1,0 +1,56 @@
+Original Leslie 3D ground-truth validation
+Artifacts: /Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/paper_i24_m35_M35_L10000/screen
+Selection: selected requested screen artifacts
+Subdivisions: 24/35/35, limit 10000
+Boxes streamed: 1351653 (106341732 bytes)
+Graph: 20 nodes, 27 edges, minimal nodes [0]
+
+Known-object assignments:
+  P0      unique             node=0 phases=[0]
+  P1      unique             node=2 phases=[2]
+  S2      unique             node=5 phases=[5]
+  S4      unique             node=14 phases=[14]
+  p*      unique             node=18 phases=[18]
+  origin  unique             node=19 phases=[19]
+
+Acceptance criteria:
+  PASS [topology] core_objects_have_unique_nodes
+  PASS [supplemental] all_known_objects_have_unique_nodes
+  PASS [topology] stable_period_four_orbits_are_distinct
+  PASS [topology] P1_and_S2_are_distinct
+  PASS [topology] P0_is_minimal
+  FAIL [topology] P1_is_minimal
+       expected: True
+       observed: {'node': 2, 'minimal_nodes': [0]}
+  FAIL [topology] minimal_nodes_are_exactly_P0_and_P1
+       expected: [0, 2]
+       observed: [0]
+  PASS [topology] S2_reaches_P1
+  FAIL [topology] S2_does_not_reach_P0
+       expected: no directed path S2 -> P0
+       observed: [5, 4, 3, 2, 1, 0]
+  PASS [topology] P1_does_not_reach_S2
+  PASS [supplemental] S4_reaches_P0
+  PASS [supplemental] S4_reaches_P1
+  N/A  [conley] P0_has_stable_period_four_index
+       expected: (x^4-1,0,0,0)
+       observed: None
+  N/A  [conley] P1_has_stable_period_four_index
+       expected: (x^4-1,0,0,0)
+       observed: None
+  PASS [supplemental] p_star_reaches_S2
+  N/A  [supplemental] S2_has_expected_index
+       expected: (0,x^2+1,0,0)
+       observed: None
+  N/A  [supplemental] S4_has_expected_index
+       expected: (0,x^4-1,0,0)
+       observed: None
+  N/A  [supplemental] p_star_has_expected_index
+       expected: (0,x+1,0,0)
+       observed: None
+  N/A  [supplemental] origin_has_expected_index
+       expected: (0,0,0,0)
+       observed: None
+
+Topology status: FAIL
+Full status: FAIL

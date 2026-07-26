@@ -36,3 +36,6 @@ tmp.py
 /output/original_leslie/leslie_2d_exact_restriction_s26_30_36/MG/morse_sets
 /output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/MG/morse_sets
 /output/original_leslie/leslie_2d_exact_restriction_s27_29_30/MG/morse_sets
+/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/MG/morse_sets
+/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/MG/morse_sets
+/output/original_leslie/ground_truth/paper_i24_m35_M35_L10000/screen/MG/morse_sets
