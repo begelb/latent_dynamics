@@ -23,11 +23,11 @@ from matplotlib.patches import Rectangle
 
 from coarsen_chafee_infante import (
     CODE_ROOT,
+    MARCIO_COARSE_PALETTE,
     MARCIO_ROOT,
     _load_marcio_model,
     _marcio_bounds,
 )
-from latentdynamics.viz import PALETTE
 from latentdynamics.viz.style import apply_paper_style, save_figure
 
 sys.path.insert(0, str(MARCIO_ROOT))
@@ -112,7 +112,7 @@ def _attractor_center(morse_graph, node: int) -> np.ndarray:
 def _basin_image(morse_graph, basins, ordered_attractors, bounds, resolution):
     image = np.zeros((resolution, resolution, 4), dtype=np.float64)
     cell_size = (bounds.upper - bounds.lower) / resolution
-    basin_colors = (PALETTE[0], PALETTE[1])
+    basin_colors = MARCIO_COARSE_PALETTE[:2]
     for color, attractor in zip(basin_colors, ordered_attractors, strict=True):
         rgb = tuple(int(color[index : index + 2], 16) / 255.0 for index in (1, 3, 5))
         for cell in basins[attractor]:
@@ -120,15 +120,15 @@ def _basin_image(morse_graph, basins, ordered_attractors, bounds, resolution):
             center = np.asarray([(lo_x + hi_x) / 2.0, (lo_y + hi_y) / 2.0])
             i, j = np.floor((center - bounds.lower) / cell_size).astype(int)
             if 0 <= i < resolution and 0 <= j < resolution:
-                image[j, i] = (*rgb, 0.28)
+                image[j, i] = (*rgb, 0.35)
     return image
 
 
 def _add_coarse_sets(ax, coarse_sets: np.ndarray) -> None:
     styles = {
-        0: (PALETTE[0], 1.0),
-        1: (PALETTE[1], 1.0),
-        2: (PALETTE[2], 1.0),
+        0: (MARCIO_COARSE_PALETTE[0], 1.0),
+        1: (MARCIO_COARSE_PALETTE[1], 1.0),
+        2: (MARCIO_COARSE_PALETTE[2], 1.0),
     }
     for label in (2, 0, 1):
         rows = coarse_sets[coarse_sets[:, -1].astype(int) == label]
@@ -142,6 +142,9 @@ def _add_coarse_sets(ax, coarse_sets: np.ndarray) -> None:
         collection = PatchCollection(patches, match_original=False)
         collection.set_facecolor(color)
         collection.set_edgecolor("none")
+        collection.set_linewidth(0)
+        collection.set_antialiased(False)
+        collection.set_rasterized(True)
         collection.set_alpha(alpha)
         collection.set_zorder(3 if label in (0, 1) else 2)
         ax.add_collection(collection)

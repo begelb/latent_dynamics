@@ -1,0 +1,341 @@
+{
+  "source": "archive/marcio/scripts/compute_att_basins_statistics.py",
+  "inputs": {
+    "weights": "archive/marcio/scripts/ci_model_weights.pth",
+    "weights_sha256": "1cf2cc163c58b0e8f7bd07676f9d84430fa1cb56825e1959e244266d51b39922",
+    "data": "archive/marcio/scripts/train_data.csv",
+    "data_sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
+  },
+  "bounds": {
+    "lower": [
+      -4.671730208396911,
+      -4.5805047988891605
+    ],
+    "upper": [
+      4.484875607490539,
+      4.222627067565918
+    ],
+    "rule": "encoded transition extrema plus 10 percent per-axis padding"
+  },
+  "cmgdb": {
+    "subdiv_init": 16,
+    "subdiv_min": 16,
+    "subdiv_max": 16,
+    "subdiv_limit": 10000,
+    "padding": true,
+    "resolution": [
+      256,
+      256
+    ],
+    "cells": 65536
+  },
+  "fine_graph": {
+    "nodes": 137,
+    "reduced_edges": 211,
+    "attractors": [
+      0,
+      4
+    ],
+    "annotation_histogram": {
+      "0,0,0": 130,
+      "0,0,x-1": 2,
+      "0,x-1,0": 3,
+      "x-1,0,0": 2
+    },
+    "uniform_to_adaptive_nonzero_nodes": {
+      "0": 0,
+      "4": 1,
+      "8": 2,
+      "45": 4,
+      "90": 5,
+      "96": 3,
+      "135": 6
+    },
+    "zero_index_nodes": 130,
+    "zero_index_color": "#bdbdbd",
+    "filtered_graph_note": "The seven-node graph is filtered to the nonzero-index components and is not the full uniform Morse graph."
+  },
+  "quotient": {
+    "projection": {
+      "0": 0,
+      "1": 2,
+      "2": 2,
+      "3": 2,
+      "4": 1,
+      "5": 2,
+      "6": 2,
+      "7": 2,
+      "8": 2,
+      "9": 2,
+      "10": 2,
+      "11": 2,
+      "12": 2,
+      "13": 2,
+      "14": 2,
+      "15": 2,
+      "16": 2,
+      "17": 2,
+      "18": 2,
+      "19": 2,
+      "20": 2,
+      "21": 2,
+      "22": 2,
+      "23": 2,
+      "24": 2,
+      "25": 2,
+      "26": 2,
+      "27": 2,
+      "28": 2,
+      "29": 2,
+      "30": 2,
+      "31": 2,
+      "32": 2,
+      "33": 2,
+      "34": 2,
+      "35": 2,
+      "36": 2,
+      "37": 2,
+      "38": 2,
+      "39": 2,
+      "40": 2,
+      "41": 2,
+      "42": 2,
+      "43": 2,
+      "44": 2,
+      "45": 2,
+      "46": 2,
+      "47": 2,
+      "48": 2,
+      "49": 2,
+      "50": 2,
+      "51": 2,
+      "52": 2,
+      "53": 2,
+      "54": 2,
+      "55": 2,
+      "56": 2,
+      "57": 2,
+      "58": 2,
+      "59": 2,
+      "60": 2,
+      "61": 2,
+      "62": 2,
+      "63": 2,
+      "64": 2,
+      "65": 2,
+      "66": 2,
+      "67": 2,
+      "68": 2,
+      "69": 2,
+      "70": 2,
+      "71": 2,
+      "72": 2,
+      "73": 2,
+      "74": 2,
+      "75": 2,
+      "76": 2,
+      "77": 2,
+      "78": 2,
+      "79": 2,
+      "80": 2,
+      "81": 2,
+      "82": 2,
+      "83": 2,
+      "84": 2,
+      "85": 2,
+      "86": 2,
+      "87": 2,
+      "88": 2,
+      "89": 2,
+      "90": 2,
+      "91": 2,
+      "92": 2,
+      "93": 2,
+      "94": 2,
+      "95": 2,
+      "96": 2,
+      "97": 2,
+      "98": 2,
+      "99": 2,
+      "100": 2,
+      "101": 2,
+      "102": 2,
+      "103": 2,
+      "104": 2,
+      "105": 2,
+      "106": 2,
+      "107": 2,
+      "108": 2,
+      "109": 2,
+      "110": 2,
+      "111": 2,
+      "112": 2,
+      "113": 2,
+      "114": 2,
+      "115": 2,
+      "116": 2,
+      "117": 2,
+      "118": 2,
+      "119": 2,
+      "120": 2,
+      "121": 2,
+      "122": 2,
+      "123": 2,
+      "124": 2,
+      "125": 2,
+      "126": 2,
+      "127": 2,
+      "128": 2,
+      "129": 2,
+      "130": 2,
+      "131": 2,
+      "132": 2,
+      "133": 2,
+      "134": 2,
+      "135": 2,
+      "136": 2
+    },
+    "edges": {
+      "2": [
+        0,
+        1
+      ]
+    },
+    "labels": {
+      "0": "M(0+)",
+      "1": "M(0-)",
+      "2": "M(1)"
+    },
+    "fiber_2_maxima": [
+      9,
+      90,
+      97,
+      98,
+      99,
+      100,
+      108,
+      109,
+      110,
+      111,
+      135,
+      136
+    ],
+    "fiber_2_minima": [
+      1,
+      5,
+      18,
+      35,
+      39,
+      42,
+      59,
+      91,
+      93,
+      112,
+      115,
+      122
+    ],
+    "top_down_bottom_up_verified": true,
+    "recurrent_cell_counts": {
+      "0": 9,
+      "1": 9,
+      "2": 1758
+    },
+    "connection_cell_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 5477
+    },
+    "completed_cell_counts": {
+      "0": 9,
+      "1": 9,
+      "2": 7235
+    },
+    "overlaps": 0,
+    "uniform_basin_overlaps": {
+      "0": {
+        "0": 9,
+        "4": 0
+      },
+      "1": {
+        "0": 0,
+        "4": 9
+      },
+      "2": {
+        "0": 0,
+        "4": 0
+      }
+    }
+  },
+  "filtered_nonzero_view": {
+    "fine_nodes": 7,
+    "omitted_zero_index_nodes": 130,
+    "note": "This is a filtered view, not a quotient of the complete 137-node uniform Morse graph.",
+    "coarse_projection": {
+      "0": 0,
+      "4": 1,
+      "8": 2,
+      "45": 2,
+      "90": 2,
+      "96": 2,
+      "135": 2
+    },
+    "coarse_recurrent_cell_counts": {
+      "0": 9,
+      "1": 9,
+      "2": 1515
+    },
+    "coarse_connection_cell_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 5530
+    },
+    "coarse_completed_cell_counts": {
+      "0": 9,
+      "1": 9,
+      "2": 7045
+    },
+    "coarse_overlaps": 0
+  },
+  "figures": {
+    "fine_graph": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine/morse_graph.png"
+    ],
+    "fine_sets": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine/morse_sets.png"
+    ],
+    "filtered_nonzero_graph": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine_nonzero_filtered/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine_nonzero_filtered/morse_graph.png"
+    ],
+    "filtered_nonzero_sets": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine_nonzero_filtered/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/fine_nonzero_filtered/morse_sets.png"
+    ],
+    "coarse_graph": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse/morse_graph.png"
+    ],
+    "coarse_sets": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse/morse_sets.png"
+    ],
+    "filtered_nonzero_coarse_graph": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered/morse_graph.png"
+    ],
+    "filtered_nonzero_coarse_sets": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered/morse_sets.png"
+    ],
+    "same_grid_overlay": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_morse_roa_overlay.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_morse_roa_overlay.png"
+    ],
+    "filtered_nonzero_same_grid_overlay": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered_morse_roa_overlay.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante_uniform_s16/coarse_nonzero_filtered_morse_roa_overlay.png"
+    ]
+  }
+}

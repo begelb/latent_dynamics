@@ -36,7 +36,8 @@ from latentdynamics.analysis.morse_graph_parser import MorseGraph
 from latentdynamics.config import load_config
 from latentdynamics.models import build_autoencoder
 from latentdynamics.replay import load_experiment
-from latentdynamics.viz import PALETTE, render_morse_from_files
+from latentdynamics.viz import plot_morse_sets_from_csv, render_morse_from_files
+from latentdynamics.viz.style import save_latent_figure
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = CODE_ROOT.parent
@@ -44,6 +45,20 @@ MARCIO_ROOT = PROJECT_ROOT / "archive" / "marcio" / "scripts"
 MARCIO_WEIGHTS = MARCIO_ROOT / "ci_model_weights.pth"
 MARCIO_DATA = MARCIO_ROOT / "train_data.csv"
 MARCIO_SUBDIVISIONS = (14, 16, 22)
+MARCIO_PALETTE = (
+    "#1f77b4",
+    "#e6550d",
+    "#31a354",
+    "#d62728",
+    "#9467bd",
+    "#8c564b",
+    "#e377c2",
+)
+MARCIO_COARSE_PALETTE = (
+    MARCIO_PALETTE[0],
+    MARCIO_PALETTE[1],
+    "#7f7f7f",
+)
 MARCIO_EXPECTED_EDGES = {
     (2, 0),
     (2, 1),
@@ -69,7 +84,10 @@ def _parsed_graph_from_live(cmgdb_morse_graph) -> MorseGraph:
     return MorseGraph(
         nodes=nodes,
         edges={source: sorted(targets) for source, targets in edges.items()},
-        colors={node: f"{PALETTE[node % len(PALETTE)]}ff" for node in nodes},
+        colors={
+            node: f"{MARCIO_PALETTE[node % len(MARCIO_PALETTE)]}ff"
+            for node in nodes
+        },
         labels={
             node: f"{node} : ({', '.join(cmgdb_morse_graph.annotations(node))})"
             for node in nodes
@@ -256,8 +274,8 @@ def main() -> int:
         graph,
         [merged],
         labels={
-            frozenset({0}): "M(0-)",
-            frozenset({1}): "M(0+)",
+            frozenset({0}): "M(0+)",
+            frozenset({1}): "M(0-)",
             merged: "M(1)",
         },
     )
@@ -318,9 +336,26 @@ def main() -> int:
         bounds_lower=None if bounds is None else bounds.lower.tolist(),
         bounds_upper=None if bounds is None else bounds.upper.tolist(),
         out_dir=args.output,
+        palette=MARCIO_COARSE_PALETTE,
         box_scale="auto",
         min_box_side_frac=0.0025,
     )
+    if bounds is not None:
+        coarse_plot = plot_morse_sets_from_csv(
+            morse_dir / "morse_sets",
+            bounds_lower=bounds.lower.tolist(),
+            bounds_upper=bounds.upper.tolist(),
+            palette=MARCIO_COARSE_PALETTE,
+            box_scale="auto",
+            min_box_side_frac=0.0025,
+        )
+        coarse_plot.ax.set_xticks([])
+        coarse_plot.ax.set_yticks([])
+        save_latent_figure(
+            coarse_plot.fig,
+            args.output / "morse_sets",
+            close=True,
+        )
 
     manifest = {
         "source": source_description,
@@ -329,7 +364,7 @@ def main() -> int:
         "fibers": {str(k): sorted(v) for k, v in quotient.fibers.items()},
         "quotient_edges": quotient.graph.edges,
         "merged_morse_set_name": "M(1)",
-        "attracting_morse_set_names": {"0": "M(0^-)", "1": "M(0^+)"},
+        "attracting_morse_set_names": {"0": "M(0^+)", "1": "M(0^-)"},
         "merged_morse_set_description": (
             "the unstable equilibria represented by fine nodes 2--6 and their connecting orbits"
         ),

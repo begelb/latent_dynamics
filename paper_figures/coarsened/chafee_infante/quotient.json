@@ -54,8 +54,8 @@
   },
   "merged_morse_set_name": "M(1)",
   "attracting_morse_set_names": {
-    "0": "M(0^-)",
-    "1": "M(0^+)"
+    "0": "M(0^+)",
+    "1": "M(0^-)"
   },
   "merged_morse_set_description": "the unstable equilibria represented by fine nodes 2--6 and their connecting orbits",
   "connection_completion": true,
