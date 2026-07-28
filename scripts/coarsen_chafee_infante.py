@@ -274,8 +274,8 @@ def main() -> int:
         graph,
         [merged],
         labels={
-            frozenset({0}): "M(0+)",
-            frozenset({1}): "M(0-)",
+            frozenset({0}): "M(0⁺)",
+            frozenset({1}): "M(0⁻)",
             merged: "M(1)",
         },
     )
