@@ -1,0 +1,25 @@
+{
+  "attempt": 1,
+  "plan_sha256": "08843341de244964991a18e91d9c77caf3b8f7ed1ba8e3a9bbfd1e342b250b0f",
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T14:30:54.160226+00:00",
+  "status": "started",
+  "trial": {
+    "dataset": 1,
+    "dataset_initial_condition_seed": 2158,
+    "plan_index": 1,
+    "run_id": "dataset_01_seed_00_lr3e3_e4000",
+    "training_data_source": "train_data_dataset_1",
+    "training_seed": 0,
+    "training_spec": {
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "run_id": "dataset_01_seed_00_lr3e3_e4000",
+      "scheduler_factor": 0.5,
+      "scheduler_min_lr": 1e-06,
+      "scheduler_patience": 100,
+      "scheduler_threshold": 0.0001,
+      "seed": 0
+    }
+  }
+}

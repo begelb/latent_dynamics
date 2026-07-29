@@ -1,0 +1,151 @@
+{
+  "completed_at_utc": "2026-07-29T02:31:51.596600+00:00",
+  "outputs": {
+    "basin_statistics": {
+      "path": "basin_statistics.json",
+      "sha256": "8e970117e354b816265c040e0827569e9b9976036290868452ad5c84256d0c20",
+      "size_bytes": 5039
+    },
+    "bounds": {
+      "path": "bounds.json",
+      "sha256": "f14255ffcbf7674496a6a104c7a093d91d61a21188f2c0c467c4d71835170bff",
+      "size_bytes": 443
+    },
+    "encoded_stable_roots": {
+      "path": "encoded_stable_roots.npy",
+      "sha256": "8846efa385204fd7b3d8e575e1b0cc93578485dfbab31424960665c2c523a496",
+      "size_bytes": 160
+    },
+    "morse_graph": {
+      "path": "MG_uniform_s16/morse_graph",
+      "sha256": "e150f5776139ee01bc4274a99f9b2fee8b609c7c378f000f48b2dc4da3f3cae6",
+      "size_bytes": 17258
+    },
+    "morse_sets": {
+      "path": "MG_uniform_s16/morse_sets",
+      "sha256": "ae11e61806b5de88c69108eb8124cdab8279d405df977ce6238d5ca248338a26",
+      "size_bytes": 144730
+    },
+    "query_artifact": {
+      "path": "MG_uniform_s16/marcio_singleton_reachability_queries.npz",
+      "sha256": "3dd9a7b58a0a6f931901809caca6fca8b50f9c0cd0526a45c469bf0c06fb0b8c",
+      "size_bytes": 65016
+    },
+    "strict_roa": {
+      "path": "MG_uniform_s16/regions_of_attraction_strict_singleton.npz",
+      "sha256": "27d8fb270d222958e87fe01183f4df94aad56d0c185686167068cb235434e0fb",
+      "size_bytes": 101662
+    },
+    "strict_roa_metadata": {
+      "path": "MG_uniform_s16/regions_of_attraction_strict_singleton.json",
+      "sha256": "a5e24882f99c5f59fc0ab16090bc1cc59c01e19988a256d4d146eaf6f3a8b904",
+      "size_bytes": 645
+    },
+    "strict_roa_png": {
+      "path": "MG_uniform_s16/regions_of_attraction_strict_singleton.png",
+      "sha256": "e85daf22034e0f31e391ceae09fe2539266ba8166c02a0294a2d5395f609a612",
+      "size_bytes": 23556
+    },
+    "trajectory_basin_labels": {
+      "path": "trajectory_basin_labels.npy",
+      "sha256": "53b49ec81c054406cb07054b2d0743caf8b3f4f4b2ae6e1707441715637e39d6",
+      "size_bytes": 40128
+    }
+  },
+  "protocol": {
+    "adaptive_archive_pdfs_not_consumed_for_roa": true,
+    "no_retraining": true,
+    "padding": true,
+    "strict_singleton_semantics": true,
+    "subdivisions": [
+      16,
+      16,
+      16
+    ],
+    "uniform_statistics_grid": true
+  },
+  "root_association_status": "valid",
+  "schema_version": 1,
+  "source": {
+    "archived_adaptive_morse_graph_pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/ci_morse_graph_1.pdf",
+      "sha256": "9e1a6a03d497154aced44fbf62e54e529c5a2bff00358734d0783ccc57846ad9",
+      "size_bytes": 13945
+    },
+    "archived_adaptive_morse_sets_pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/ci_morse_sets_1.pdf",
+      "sha256": "3123121dea99b202db8639324c5b9268023947e7a0744a72cbc85c15c1f43570",
+      "size_bytes": 27983
+    },
+    "archived_readme": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/Readme.txt",
+      "sha256": "c92ff2bc8cc74be174d07b5567eb16532965326d9b8d4ad83f79d55327ab64ac",
+      "size_bytes": 41
+    },
+    "checkpoint": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/ci_model_weights_1.pth",
+      "sha256": "f0480efba323b36c4e25356313a3e88bcb60553f99141c66b45cd4b7f19096dc",
+      "size_bytes": 61926
+    },
+    "dataset": 5,
+    "dataset_initial_condition_seed": 5727,
+    "training_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/train_data.csv",
+      "sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+      "size_bytes": 97944174
+    },
+    "training_trial": 1,
+    "training_trial_is_not_a_recorded_rng_seed": true
+  },
+  "statistics": {
+    "combined_correct_count": 4886,
+    "combined_correct_percentage": 62.14703637751208,
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 1679,
+      "correctly_classified_in_positive_basin": 3207,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 1,
+      "outside_both_basins": 2975
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 21.355889086746377,
+      "correctly_classified_in_positive_basin": 40.79114729076571,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.01271940981938438,
+      "outside_both_basins": 37.84024421266853
+    },
+    "total_trajectories": 10000
+  },
+  "status": "complete",
+  "timings": {
+    "encode_and_classify_seconds": 0.5593904579873197,
+    "full_strict_singleton_query_seconds": 0.007960832968819886,
+    "load_model_and_infer_bounds_seconds": 0.015435374982189387,
+    "precompute_corner_lattice_seconds": 0.008540416951291263,
+    "total_seconds": 2.190193208050914,
+    "uniform_cmgdb_seconds": 1.414868333027698
+  },
+  "topology": {
+    "attractor_nodes": [
+      0,
+      5
+    ],
+    "cached_edges": 927622,
+    "conley_indices_required_for_basin_statistics": false,
+    "grid_shape": [
+      256,
+      256
+    ],
+    "morse_edges": 232,
+    "morse_nodes": 160,
+    "padding": true,
+    "subdiv_init": 16,
+    "subdiv_limit": 10000,
+    "subdiv_max": 16,
+    "subdiv_min": 16,
+    "topology_only": true,
+    "uniform_cells": 65536
+  }
+}

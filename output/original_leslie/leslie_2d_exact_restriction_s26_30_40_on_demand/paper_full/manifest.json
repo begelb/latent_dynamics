@@ -1,0 +1,42 @@
+{
+  "purpose": "full six-node paper-colored direct 2D Leslie view",
+  "source": {
+    "morse_graph": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/MG/morse_graph",
+    "morse_graph_sha256": "93076589e37ff89a3acbc1e458020404f3b4f6a0524c418526ad4a687b86ec98",
+    "morse_sets": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/MG/morse_sets",
+    "morse_sets_sha256": "0a9686bef097543ab76861d001cd046e89f5f97ff9ae13093d9240ca7e4467df"
+  },
+  "expected_indices": {
+    "0": "(x^6-1, 0, 0)",
+    "1": "(0, x^3+1, 0)",
+    "2": "(x-1, x-1, 0)",
+    "3": "(0, x^3-1, 0)",
+    "4": "(0, 0, 0)",
+    "5": "(0, 0, x-1)"
+  },
+  "node_colors": {
+    "0": "#DC267F",
+    "1": "#648FFF",
+    "2": "#FFB000",
+    "3": "#FE6100",
+    "4": "#008080",
+    "5": "#785EF0"
+  },
+  "rendering": {
+    "bounds_lower": [
+      0.0,
+      0.0
+    ],
+    "bounds_upper": [
+      90.0,
+      70.0
+    ],
+    "min_box_side_frac": 0.0025
+  },
+  "outputs": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/paper_full/morse_graph.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/paper_full/morse_graph.png",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/paper_full/morse_sets.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/paper_full/morse_sets.png"
+  ]
+}

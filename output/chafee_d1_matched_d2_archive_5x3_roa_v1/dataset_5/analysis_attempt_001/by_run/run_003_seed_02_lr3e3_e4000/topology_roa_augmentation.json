@@ -1,0 +1,156 @@
+{
+  "adaptive_topology": {
+    "morse_graph": {
+      "path": "MG_adaptive/morse_graph",
+      "sha256": "d54938eb1da813410646b760e529490ec23e93329c0aa62527a98abfdf14e2db",
+      "size_bytes": 366
+    },
+    "morse_sets": {
+      "path": "MG_adaptive/morse_sets",
+      "sha256": "3628beda5e6043dccecde1ddc95e6f0c066e35142567aafc8df25041581143c8",
+      "size_bytes": 2485
+    },
+    "status": "complete"
+  },
+  "basin_statistics": {
+    "path": "basin_statistics.json",
+    "status": "available"
+  },
+  "completed_at_utc": "2026-07-29T03:08:32.741850+00:00",
+  "elapsed_seconds": 0.11919520801166072,
+  "full_uniform_roa": {
+    "exact_blocker_lca": {
+      "path": "MG_uniform_s8/regions_of_attraction_exact.npz",
+      "sha256": "d251f0b8ddc1eba3d3eecfddc1404d253b76d09dac07d79e2d1f761421a79226",
+      "size_bytes": 1274
+    },
+    "exact_blocker_lca_metadata": {
+      "path": "MG_uniform_s8/regions_of_attraction_exact.json",
+      "sha256": "dcc400f7d754652bf3723428fa9e511935a6e2ddda430e0ef6123fb68bef7ad2",
+      "size_bytes": 729
+    },
+    "queried_subset_validation": {
+      "artifact": "MG_uniform_s8/marcio_singleton_reachability_queries.npz",
+      "point_candidate_entries": 10000,
+      "queried_cells": 216,
+      "root_candidate_entries": 2,
+      "sha256": "0bc293ba8606d4e696dc7b4dae56aae022c53fbff617d9be1509ad1c898a57b7",
+      "status": "validated_exact_subset",
+      "trajectory_and_root_arrays_match_query_artifact": true
+    },
+    "status": "complete",
+    "strict_singleton": {
+      "path": "MG_uniform_s8/regions_of_attraction_strict_singleton.npz",
+      "sha256": "fc905eb9c1591cb33055dec33348327c8dea7b5d2f17d9777f7494b0e0e90195",
+      "size_bytes": 1740
+    },
+    "strict_singleton_metadata": {
+      "path": "MG_uniform_s8/regions_of_attraction_strict_singleton.json",
+      "sha256": "98fdcda7f5016d53c096afd994760c5fe3b6518f82275fb6a999d46e8be6f0d8",
+      "size_bytes": 1143
+    },
+    "uniform_cells": 256
+  },
+  "phase_statuses": {
+    "adaptive_topology": "complete",
+    "full_uniform_roa": "complete",
+    "uniform_topology": "complete"
+  },
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T03:08:32.622616+00:00",
+  "status": "complete",
+  "uniform_topology": {
+    "cache": {
+      "CMGDB_MAPGRAPH_MAX_EDGES": null,
+      "CMGDB_MAPGRAPH_MAX_VERTICES": null,
+      "cached_edges": 910,
+      "has_batch_cache": true,
+      "map_cells": 256
+    },
+    "lookup": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "lookup_duration_seconds": 0.0011339589837007225,
+    "map_cells": 256,
+    "minimal_attractor_nodes": [
+      0,
+      5
+    ],
+    "morse_graph": {
+      "path": "MG_uniform_s8/morse_graph",
+      "sha256": "67d1bbd4860b5c4172e5fa0d4d03c79a35009c93aad6b3711fa8c82d596da1ec",
+      "size_bytes": 1016
+    },
+    "morse_nodes": 10,
+    "morse_sets": {
+      "path": "MG_uniform_s8/morse_sets",
+      "sha256": "fb630d44afb8dabc3f4b133cbadca97c8a503b6b58dec198e5f3882a4bbb6269",
+      "size_bytes": 2770
+    },
+    "persisted_topology_validation": {
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          0
+        ],
+        [
+          3,
+          2
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          6
+        ],
+        [
+          8,
+          4
+        ],
+        [
+          8,
+          7
+        ],
+        [
+          9,
+          5
+        ]
+      ],
+      "morse_set_rows": 67,
+      "node_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "status": "validated"
+    },
+    "recovered_after_standard_analysis_failure": false,
+    "standard_uniform_marker_validation": {
+      "cached_edges": 910,
+      "map_cells": 256,
+      "status": "validated"
+    },
+    "status": "complete"
+  }
+}

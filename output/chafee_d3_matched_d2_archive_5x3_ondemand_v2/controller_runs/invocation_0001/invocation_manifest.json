@@ -1,0 +1,40 @@
+{
+  "analysis_plan": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/analysis_plan.json",
+    "sha256": "abb99937e57822c955580fbbb0142986a2d7e103dafb3100d918259c13f8d611",
+    "size_bytes": 4406
+  },
+  "analysis_plan_sha256": "7c0a2f739124bfe5a8e0e4cc351e0692ebf61316ef36f65c855759d33a79c208",
+  "concurrency": 2,
+  "controller": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_controller.py",
+    "sha256": "28cef10fc5935b35d2a2e439bf8ccf783a49013503b84cc1a54a9d5e3cd2f670",
+    "size_bytes": 32154
+  },
+  "initial_terminal_run_ids": [
+    "dataset_01_seed_00_lr3e3_e4000",
+    "dataset_01_seed_01_lr3e3_e4000",
+    "dataset_01_seed_02_lr3e3_e4000",
+    "dataset_02_seed_00_lr3e3_e4000"
+  ],
+  "scheduled_run_ids": [
+    "dataset_02_seed_01_lr3e3_e4000",
+    "dataset_02_seed_02_lr3e3_e4000",
+    "dataset_03_seed_00_lr3e3_e4000",
+    "dataset_03_seed_01_lr3e3_e4000",
+    "dataset_03_seed_02_lr3e3_e4000",
+    "dataset_04_seed_00_lr3e3_e4000",
+    "dataset_04_seed_01_lr3e3_e4000",
+    "dataset_04_seed_02_lr3e3_e4000",
+    "dataset_05_seed_00_lr3e3_e4000",
+    "dataset_05_seed_01_lr3e3_e4000",
+    "dataset_05_seed_02_lr3e3_e4000"
+  ],
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T15:20:34.340259+00:00",
+  "worker": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_worker.py",
+    "sha256": "e6c1fadf74fc93a5b71a9dccfae1faaefbefb4b0c60ddc37972e3814e45eec37",
+    "size_bytes": 38217
+  }
+}

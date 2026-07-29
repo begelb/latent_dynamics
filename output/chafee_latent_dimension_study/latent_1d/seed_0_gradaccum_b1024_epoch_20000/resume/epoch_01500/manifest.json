@@ -1,0 +1,11 @@
+{
+  "epoch": 1500,
+  "run_plan_sha256": "32cc24df584b797c124f426976f20f833b8078400f083be05513a9a2e1945c0f",
+  "safe_boundary": "after optimizer.step, scheduler.step, and optimizer.zero_grad",
+  "schema_version": 1,
+  "state": {
+    "path": "resume/epoch_01500/state.pt",
+    "sha256": "33cbf4e010a02c2b33f9490b94c6710f13e0b5ae28b05253672c7e92874ec23a",
+    "size_bytes": 254053
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "adaptive_graph": {
+    "edges": 14,
+    "is_bistable": true,
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "nodes": 11
+  },
+  "classification": {
+    "counts_by_singleton_label": {
+      "-2": 3680,
+      "0": 3218,
+      "2": 3102
+    },
+    "outside_encoded_bounds": 0,
+    "rule": "reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      2
+    ],
+    "cached_edges": 1096568300,
+    "conley_indices_computed": false,
+    "morse_nodes": 493,
+    "subdivisions": [
+      24,
+      24,
+      24
+    ],
+    "uniform_cells": 16777216
+  },
+  "dimension": 3,
+  "eligible_for_bistable_dimension_table": true,
+  "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on uniform CMGDB graph",
+  "roots_define_two_distinct_attractor_basins": true,
+  "schema_version": 2,
+  "seed": 0,
+  "stable_roots": {
+    "encoded": [
+      [
+        -1.2867095470428467,
+        -0.016268715262413025,
+        -1.7369526624679565
+      ],
+      [
+        1.213065505027771,
+        -0.18389807641506195,
+        1.9012900590896606
+      ]
+    ],
+    "negative_basin_label": 0,
+    "path": "archive/marcio/scripts/stable_solutions.csv",
+    "positive_basin_label": 2,
+    "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+    "uniform_cell_ids": [
+      5298750,
+      11480638
+    ]
+  },
+  "statistics": {
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3193,
+      "correctly_classified_in_positive_basin": 3097,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 1572
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 40.61307555329433,
+      "correctly_classified_in_positive_basin": 39.392012210633425,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 19.994912236072246
+    },
+    "total_trajectories": 10000
+  },
+  "trajectory_data": {
+    "path": "archive/marcio/scripts/traj_attractors.pkl",
+    "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+    "total": 10000
+  },
+  "uniform_is_bistable": true
+}

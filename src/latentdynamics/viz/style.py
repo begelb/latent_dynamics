@@ -18,6 +18,11 @@ PALETTE: list[str] = [
 ]
 """Color-blind-safe seven-step palette used throughout the paper figures."""
 
+CHAFEE_NEGATIVE_COLOR = PALETTE[0]
+CHAFEE_POSITIVE_COLOR = PALETTE[1]
+CHAFEE_CONNECTING_COLOR = "#7F7F7F"
+"""Canonical Chafee--Infante colors keyed by dynamical meaning."""
+
 
 PAPER_RCPARAMS: dict[str, object] = {
     "font.family": "serif",
@@ -58,7 +63,7 @@ def apply_paper_style() -> None:
     plt.rcParams.update(PAPER_RCPARAMS)
 
 
-def style_latent_axes(ax: "plt.Axes", *, two_d: bool) -> None:
+def style_latent_axes(ax: plt.Axes, *, two_d: bool) -> None:
     """Apply the shared latent-figure axis styling: sparse ticks + paper fonts.
 
     Caps each visible axis at :data:`LATENT_MAX_TICKS` major ticks and sets tick
@@ -78,6 +83,44 @@ def style_latent_axes(ax: "plt.Axes", *, two_d: bool) -> None:
 def color_for(label: int) -> str:
     """Return the palette color assigned to a Morse-set label."""
     return PALETTE[int(label) % len(PALETTE)]
+
+
+def chafee_semantic_palette(
+    size: int,
+    *,
+    negative_label: int,
+    positive_label: int,
+    connecting_labels: tuple[int, ...] = (),
+) -> tuple[str, ...]:
+    """Return a node-indexed palette with stable Chafee semantic colors.
+
+    The two stable physical solutions retain their colors even when CMGDB node
+    ids differ between latent dimensions. Any explicitly coarsened
+    unstable/connecting class is gray; remaining fine Morse nodes keep the
+    repository-wide cyclic palette.
+    """
+
+    if isinstance(size, bool) or not isinstance(size, int) or size < 1:
+        raise ValueError("size must be a positive integer")
+    negative = int(negative_label)
+    positive = int(positive_label)
+    connecting = tuple(int(label) for label in connecting_labels)
+    semantic_labels = (negative, positive, *connecting)
+    if any(label < 0 or label >= size for label in semantic_labels):
+        raise ValueError(
+            f"semantic labels {semantic_labels} must lie in [0, {size})"
+        )
+    if negative == positive:
+        raise ValueError("negative_label and positive_label must be distinct")
+    if negative in connecting or positive in connecting:
+        raise ValueError("stable labels cannot also be connecting labels")
+
+    colors = [color_for(label) for label in range(size)]
+    colors[negative] = CHAFEE_NEGATIVE_COLOR
+    colors[positive] = CHAFEE_POSITIVE_COLOR
+    for label in connecting:
+        colors[label] = CHAFEE_CONNECTING_COLOR
+    return tuple(colors)
 
 
 def save_figure(

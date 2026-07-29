@@ -1,0 +1,89 @@
+{
+  "duration_seconds": 1.701058040955104,
+  "experiment_label": "normalized first-Fourier-coordinate cubic map",
+  "fitted_graph_valid": true,
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_normalized_a_1_2365946",
+  "parameters": {
+    "a": 1.2365946,
+    "cmgdb_padding": true,
+    "cmgdb_subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "coordinate": "E(x)=float32(x[:,0])/a",
+    "dense_grid_points": 200001,
+    "fitted_mu": 0.159077082484416,
+    "map": "G_mu(z)=z+mu*z*(1-z^2)",
+    "predetermined_mu": 0.75
+  },
+  "post_hoc_materialization": {
+    "mu": 0.55,
+    "path": "posthoc_best_mu_0_55",
+    "script": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/package_chafee_d1_normalized_posthoc.py",
+      "sha256": "958c5846f18f6c31f28b5b681e30cc6074d7f38fbae66fcd5a6ba6a73a69f509"
+    }
+  },
+  "post_hoc_selection": {
+    "candidate_id": "grid_0.55",
+    "mu": 0.55,
+    "rule": "maximum combined-correct count among graph-valid candidates in the frozen scan",
+    "statistics": {
+      "combined_correct": {
+        "count": 7811,
+        "percentage": 99.3513100992114
+      },
+      "negative_correct_count": 3882,
+      "outside_count": 51,
+      "positive_correct_count": 3929,
+      "wrong_basin_count": 0
+    },
+    "warning": "descriptive limit test, not an unbiased estimate"
+  },
+  "predetermined_graph_valid": true,
+  "predetermined_mu_0_75_provenance": "pre-specified for this rerun; inherited exploratory/test-informed choice",
+  "runtime": {
+    "cmgdb_module": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "timestamp_utc": "2026-07-29T01:30:37.217873+00:00",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "script": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_normalized_coordinate.py",
+    "sha256": "5f8f2b2c48282605e62982679e9baad920c20f4f591b8c0018d8a4f28b3325aa"
+  },
+  "shared_drivers": [
+    {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_physics_coordinate_ceiling.py",
+      "sha256": "4b6d461ce37c9e010a92d7611022ff6f45b1adc5f16d2dfe27895fd16148d4fe"
+    },
+    {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_unit_scale_fitted_mu.py",
+      "sha256": "e4e5083b18300f74e5151f0c46e6d22aad9ad7860ca074e272cb12d8089e1bb3"
+    }
+  ]
+}

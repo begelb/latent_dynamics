@@ -1,0 +1,134 @@
+{
+  "architecture": {
+    "activation": "relu",
+    "decoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "encoder_out_activation": "tanh",
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 64,
+    "latent_map": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "latent_out_activation": "tanh",
+    "low_dims": 1,
+    "num_layers": null
+  },
+  "artifacts": {
+    "checkpoint": {
+      "path": "attempts/attempt_001/models/autoencoder.pt",
+      "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91",
+      "size_bytes": 61965
+    },
+    "checkpoint_metadata": {
+      "path": "attempts/attempt_001/models/autoencoder.json",
+      "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+      "size_bytes": 878
+    },
+    "history": {
+      "path": "attempts/attempt_001/logs/history.json",
+      "sha256": "793ba0b58e9caa18fc162f192d3cb3094692b9e996054c537c2ca78445a57067",
+      "size_bytes": 286739
+    },
+    "training_summary": {
+      "path": "attempts/attempt_001/training_summary.json",
+      "sha256": "d7f1742745560d0d62e30980d99c380542143af0b35e4c11a7971db438549602",
+      "size_bytes": 2733
+    }
+  },
+  "attempt": 1,
+  "completed_at_utc": "2026-07-29T00:26:44.780551+00:00",
+  "plan_sha256": "5fcaa50b8782ba7e18544501e1d968bb4b2e1ac59df260dd2f1c843f76bcc328",
+  "resolved_device": "mps",
+  "roa_analysis": {
+    "note": "Use the checkpoint and frozen source provenance in this manifest as inputs to a separate blinded batch analysis.",
+    "performed": false
+  },
+  "run": {
+    "epochs": 4000,
+    "learning_rate": 0.003,
+    "run_id": "seed_00_lr3e3_e4000",
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 0
+  },
+  "schema_version": 1,
+  "sources": {
+    "canonical_architecture_sidecar": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/models/autoencoder.json",
+      "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+      "size_bytes": 878
+    },
+    "canonical_checkpoint": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/models/autoencoder.pt",
+      "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91",
+      "size_bytes": 61965
+    },
+    "marcio_training_implementation": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/training/marcio.py",
+      "sha256": "e9d578ac8857e94ce28d150ee65a17d0a06de7dca5908d32d52beea4fe008113",
+      "size_bytes": 13305
+    },
+    "sweep_runner_implementation": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/sweep_chafee_d1_full_batch.py",
+      "sha256": "58030af12fc64779b69f836638c644cbbd3ad808de2bd7f95bc5be440fffc3ba",
+      "size_bytes": 35269
+    },
+    "train_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+      "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+      "size_bytes": 97916422
+    }
+  },
+  "status": "completed",
+  "training_entrypoint": "latentdynamics.training.train_marcio_full_batch",
+  "training_semantics": {
+    "checkpoint_selection": "fixed final epoch",
+    "data_rows": 30000,
+    "dtype": "float32",
+    "early_stopping_used": false,
+    "full_batch": true,
+    "high_dimension": 64,
+    "latent_dimension": 1,
+    "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+    "optimizer": {
+      "amsgrad": false,
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "epsilon": 1e-08,
+      "name": "Adam",
+      "weight_decay": 0.0
+    },
+    "validation_used": false
+  }
+}

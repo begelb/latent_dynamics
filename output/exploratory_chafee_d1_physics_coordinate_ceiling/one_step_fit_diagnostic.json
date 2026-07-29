@@ -1,0 +1,7 @@
+{
+  "least_squares_one_step_mse": 0.004817641329850191,
+  "selected_mu": 0.75,
+  "selected_mu_one_step_mse": 0.015753327515142822,
+  "selection_note": "the fitted value is diagnostic only; mu=0.75 was chosen for a strong globally monotone topology/certification ceiling",
+  "unconstrained_least_squares_mu": 0.15232045876601708
+}

@@ -1,0 +1,77 @@
+{
+  "comparability_path": "COMPARABILITY.md",
+  "duration_seconds": 1.0751033750129864,
+  "experiment_label": "test-informed exploratory physics-coordinate ceiling",
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_physics_coordinate_ceiling",
+  "parameters": {
+    "analytic_map": {
+      "mu": 0.75,
+      "stable_root_magnitude": 1.236594557762146
+    },
+    "cmgdb_padding": true,
+    "cmgdb_subdiv_limit": 10000,
+    "cmgdb_subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "coordinate": "x[:, 0] with float32-equivalent rounding",
+    "dense_grid_points": 200001
+  },
+  "primary_result": {
+    "combined_correct": {
+      "count": 7827,
+      "percentage": 99.55482065632155
+    },
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3886,
+      "correctly_classified_in_positive_basin": 3941,
+      "misclassified_in_negative_basin": 1,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 34
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 49.427626558127706,
+      "correctly_classified_in_positive_basin": 50.12719409819385,
+      "misclassified_in_negative_basin": 0.01271940981938438,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 0.43245993385906895
+    },
+    "total_trajectories": 10000
+  },
+  "runtime": {
+    "cmgdb_module": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "timestamp_utc": "2026-07-29T00:31:23.725490+00:00",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "script": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_physics_coordinate_ceiling.py",
+    "sha256": "4b6d461ce37c9e010a92d7611022ff6f45b1adc5f16d2dfe27895fd16148d4fe"
+  }
+}

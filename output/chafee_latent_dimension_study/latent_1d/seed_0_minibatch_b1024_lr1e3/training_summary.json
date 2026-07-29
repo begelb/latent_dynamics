@@ -1,0 +1,155 @@
+{
+  "arch": {
+    "activation": "relu",
+    "decoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "encoder_out_activation": "tanh",
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 64,
+    "latent_map": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "latent_out_activation": "tanh",
+    "low_dims": 1,
+    "num_layers": null
+  },
+  "artifacts": {
+    "history": "logs/history.json",
+    "history_csv": "logs/history.csv",
+    "primary_checkpoint": "models/selected.pt",
+    "primary_checkpoint_sha256": "080cce594cf07b9b16b1f66438ba69059488155960e8a56a80b75ef52a0e242d",
+    "primary_sidecar": "models/selected.json",
+    "selection_record": "selection_record.json"
+  },
+  "checkpoint_epoch": 291,
+  "checkpoint_selection": {
+    "basin_trajectories_consulted": false,
+    "best_validation_epoch": 364,
+    "eligible_epoch_count": 158,
+    "name": "best_normalized_latent_within_validation_tolerance",
+    "rule": "minimum val.normalized_latent_residual_rmse among epochs with val.loss_total <= 1.05 * minimum val.loss_total",
+    "selected_epoch": 291,
+    "validation_accumulation": "float64 sum of squared errors",
+    "validation_cutoff": 0.0011655117781771518,
+    "validation_evaluation_device": "cpu"
+  },
+  "data": {
+    "batch_size": 1024,
+    "batches_per_epoch": 30,
+    "drop_last": false,
+    "dtype": "float32",
+    "full_batch": false,
+    "high_dims": 64,
+    "last_batch_size": 304,
+    "scaling": "none",
+    "shuffle": true,
+    "training_pairs": 30000,
+    "validation_pairs": 6000
+  },
+  "duration_minutes": 1.4750057590164942,
+  "duration_seconds": 88.50034554098966,
+  "early_stopping": {
+    "minimum_epochs": 334,
+    "monitor": "val.loss_total",
+    "patience": 100,
+    "used": true
+  },
+  "epochs_completed": 464,
+  "epochs_requested": 1000,
+  "example_presentations": 13920000,
+  "final_learning_rate": 0.000125,
+  "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+  "optimizer": {
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "epsilon": 1e-08,
+    "learning_rate": 0.001,
+    "name": "Adam",
+    "weight_decay": 0.0
+  },
+  "optimizer_updates": 13920,
+  "run_plan_sha256": "d1d01f7140bf75f9212ab0fb5ffb8aa8e0bc75ddf055fcf7c4c063c212e19209",
+  "runtime": {
+    "cuda_available": false,
+    "deterministic_algorithms_enforced": false,
+    "device": "mps",
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "torch": "2.12.0"
+  },
+  "scheduler": {
+    "factor": 0.5,
+    "min_lr": 1e-06,
+    "monitor": "val.loss_total",
+    "name": "ReduceLROnPlateau",
+    "patience": 25,
+    "threshold": 0.0001,
+    "threshold_mode": "rel"
+  },
+  "schema_version": 1,
+  "settings": {
+    "batch_size": 1024,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "early_stopping_patience": 100,
+    "epsilon": 1e-08,
+    "equal_update_epoch": 334,
+    "learning_rate": 0.001,
+    "max_epochs": 1000,
+    "minimum_epochs": 334,
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 25,
+    "scheduler_threshold": 0.0001,
+    "seed": 0,
+    "validation_tolerance_fraction": 0.05,
+    "weight_decay": 0.0
+  },
+  "sources": {
+    "architecture_source_checkpoint": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/models/autoencoder.pt",
+      "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91",
+      "weights_reused": false
+    },
+    "training_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+      "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
+    },
+    "validation_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/chafee_infante/val.csv",
+      "sha256": "957b7fe13d03550d88f7fd4845c0870af890b248ef91fab26950a61c5b9b10a3"
+    }
+  },
+  "training_method": "marcio_seeded_minibatch"
+}

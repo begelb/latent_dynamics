@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "runs": [
+    {
+      "run_id": "seed_01_lr3e3_e2500",
+      "seed": 1,
+      "epochs": 2500
+    },
+    {
+      "run_id": "seed_01_lr3e3_e3000",
+      "seed": 1,
+      "epochs": 3000
+    },
+    {
+      "run_id": "seed_01_lr3e3_e3500",
+      "seed": 1,
+      "epochs": 3500
+    },
+    {
+      "run_id": "seed_01_lr3e3_e4500",
+      "seed": 1,
+      "epochs": 4500
+    },
+    {
+      "run_id": "seed_01_lr3e3_e5000",
+      "seed": 1,
+      "epochs": 5000
+    },
+    {
+      "run_id": "seed_01_lr3e3_e6000",
+      "seed": 1,
+      "epochs": 6000
+    }
+  ]
+}

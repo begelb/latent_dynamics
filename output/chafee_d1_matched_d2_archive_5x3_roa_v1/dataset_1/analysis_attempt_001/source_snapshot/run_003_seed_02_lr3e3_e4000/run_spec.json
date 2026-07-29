@@ -1,0 +1,14 @@
+{
+  "plan_sha256": "f9a1445bce55340ef14101d5d8b685628635c3909fad807f4eae494a5e185dc6",
+  "run": {
+    "epochs": 4000,
+    "learning_rate": 0.003,
+    "run_id": "seed_02_lr3e3_e4000",
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 2
+  },
+  "schema_version": 1
+}

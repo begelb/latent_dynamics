@@ -1,0 +1,234 @@
+{
+  "plan": {
+    "cmgdb": {
+      "git_commit": "94d360c7a45d48cbd0330d828773725544a3da05",
+      "git_dirty": true,
+      "git_status_porcelain": [
+        "M README.md",
+        " M src/CMGDB/PlotMorseGraph.py",
+        " M src/CMGDB/_cmgdb/CMGDB.cpp",
+        " M src/CMGDB/_cmgdb/include/database/MapGraph.h",
+        " M tests/test_batch_model_map.py",
+        "?? tests/test_native_morse_reachability.py",
+        "?? tests/test_plot_morse_graph.py"
+      ],
+      "native_extension": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/_cmgdb.cpython-312-darwin.so",
+        "sha256": "0c67639d1bee9329e9aff70c8a7cfad6ea3b0552a0c76f5d87b766191730b43f",
+        "size_bytes": 1008336
+      },
+      "python_module": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+        "sha256": "cf67d6fedc1c6fbcf1dffbb983adb251645befd6be3e828135069eb3441446ee",
+        "size_bytes": 390
+      },
+      "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB"
+    },
+    "created_at_utc": "2026-07-29T02:55:01.431589+00:00",
+    "design": {
+      "cellwise_d1_d2_trial_pairing_permitted": false,
+      "d2_archive_trials_have_unknown_initialization_seeds": true,
+      "dataset_level_dimension_comparison_is_primary": true,
+      "datasets": [
+        {
+          "dataset": 1,
+          "dataset_initial_condition_seed": 2158,
+          "train_data": {
+            "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_1/train_data.csv",
+            "sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b",
+            "size_bytes": 97942734
+          }
+        },
+        {
+          "dataset": 2,
+          "dataset_initial_condition_seed": 4792,
+          "train_data": {
+            "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_2/train_data.csv",
+            "sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d",
+            "size_bytes": 97920167
+          }
+        },
+        {
+          "dataset": 3,
+          "dataset_initial_condition_seed": 3174,
+          "train_data": {
+            "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/train_data.csv",
+            "sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46",
+            "size_bytes": 97907342
+          }
+        },
+        {
+          "dataset": 4,
+          "dataset_initial_condition_seed": 688,
+          "train_data": {
+            "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_4/train_data.csv",
+            "sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077",
+            "size_bytes": 97926258
+          }
+        },
+        {
+          "dataset": 5,
+          "dataset_initial_condition_seed": 5727,
+          "train_data": {
+            "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/train_data.csv",
+            "sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+            "size_bytes": 97944174
+          }
+        }
+      ],
+      "runs_per_dataset": 3,
+      "same_seed_across_datasets_is_a_paired_initialization": true,
+      "total_runs": 15,
+      "training_seeds": [
+        0,
+        1,
+        2
+      ]
+    },
+    "fixed_evaluation_inputs": {
+      "stable_roots": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "trajectory_labels": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    },
+    "implementations": {
+      "batch_analyzer": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/analyze_chafee_d1_full_batch_sweep.py",
+        "sha256": "15982ca86e1b460d6245fb5b1f02b4d49287afa93ee8a0455094c23d29d03c84",
+        "size_bytes": 53488
+      },
+      "dimension_study": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_latent_dimension_study.py",
+        "sha256": "3d3cab064837eab4be00f581a50616d8e0804fcc29cfbde4249ca1c582db25d5",
+        "size_bytes": 90108
+      },
+      "matched_driver": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d1_matched_5x3.py",
+        "sha256": "5daad2f213449598e0820b77c6a7f204bd97a7d1bf20836e271b0aa36259252c",
+        "size_bytes": 41914
+      },
+      "optional_roa_augmentation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/repeat_chafee_d1_full_batch.py",
+        "sha256": "d8f8a356382389f8e33c60559417a2b15497ad13f8b5cfbae310ea2c99ce8596",
+        "size_bytes": 65703
+      },
+      "training_sweep": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/sweep_chafee_d1_full_batch.py",
+        "sha256": "42eada9f705dbb0dd6e18a0fc329aac9120cbc9b91fd2cd841ed7e77eefe4541",
+        "size_bytes": 36462
+      }
+    },
+    "optional_postprocessing": {
+      "adaptive_topology": true,
+      "exact_blocker_lca_roa": true,
+      "full_strict_singleton_roa": true,
+      "required_for_primary_statistics": false
+    },
+    "primary_analysis_protocol": {
+      "adaptive_required": false,
+      "basin_semantics": "CMGDB.MorseSingletonReachability complete reachable set equals one singleton attractor",
+      "bounds": "E(current and next training states) plus 10% margin",
+      "cmgdb_subdivisions": [
+        8,
+        8,
+        8
+      ],
+      "dimension": 1,
+      "headline_validity": "exactly two uniform minimal attractors and distinct unique root singleton associations",
+      "padding": true,
+      "precompute": "257 persisted level-8 corner values",
+      "trajectory_truth_used_for_training_or_selection": false,
+      "uniform_cells": 256
+    },
+    "purpose": "matched d=1 robustness experiment over the five archived d=2 training datasets and three explicit model initializations",
+    "runtime_at_plan_creation": {
+      "cuda_available": false,
+      "mps_available": true,
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "python": "3.12.13",
+      "torch": "2.12.0"
+    },
+    "training_protocol": {
+      "architecture": {
+        "activation": "relu",
+        "decoder": {
+          "activation": "tanh",
+          "hidden_shape": null,
+          "hidden_shapes": [
+            32,
+            64
+          ],
+          "num_layers": null,
+          "out_activation": "none"
+        },
+        "decoder_out_activation": "sigmoid",
+        "encoder": {
+          "activation": "tanh",
+          "hidden_shape": null,
+          "hidden_shapes": [
+            64,
+            32
+          ],
+          "num_layers": null,
+          "out_activation": "none"
+        },
+        "encoder_out_activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "high_dims": 64,
+        "latent_map": {
+          "activation": "tanh",
+          "hidden_shape": null,
+          "hidden_shapes": [
+            32,
+            32
+          ],
+          "num_layers": null,
+          "out_activation": "none"
+        },
+        "latent_out_activation": "tanh",
+        "low_dims": 1,
+        "num_layers": null
+      },
+      "checkpoint_selection": "fixed final epoch",
+      "device": "cpu",
+      "dtype": "float32",
+      "early_stopping": false,
+      "entrypoint": "latentdynamics.training.train_marcio_full_batch",
+      "epochs": 4000,
+      "full_batch_rows": 30000,
+      "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+      "optimizer": {
+        "amsgrad": false,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "epsilon": 1e-08,
+        "learning_rate": 0.003,
+        "name": "Adam",
+        "weight_decay": 0.0
+      },
+      "scheduler": {
+        "factor": 0.5,
+        "min_lr": 1e-06,
+        "mode": "min",
+        "monitor": "full_batch_train_loss_total",
+        "name": "ReduceLROnPlateau",
+        "patience": 100,
+        "threshold": 0.0001,
+        "threshold_mode": "rel"
+      },
+      "updates_per_epoch": 1,
+      "validation": false
+    }
+  },
+  "plan_sha256": "a9dc1fdb28db29b24ba10eab192d8133f4c9294be098a36df9e0bff1479885d9",
+  "schema_version": 1
+}

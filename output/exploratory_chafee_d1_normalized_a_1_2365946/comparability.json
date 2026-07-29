@@ -1,0 +1,13 @@
+{
+  "coordinate": "fixed physics coordinate x[:,0]/1.2365946",
+  "fitted_variant_learned_parameter_count": 1,
+  "learned_decoder": false,
+  "learned_encoder": false,
+  "paper_eligible": false,
+  "post_hoc_mu_0_55_is_test_informed": true,
+  "post_hoc_scan_is_test_informed": true,
+  "predetermined_mu_0_75_provenance": "pre-specified for this rerun; inherited exploratory/test-informed choice",
+  "predetermined_variant_learned_parameter_count": 0,
+  "test_labels_used_in_least_squares_fit": false,
+  "valid_interpretation": "Exploratory comparison of residual fit and finite-grid topology for a normalized one-parameter physical-coordinate map."
+}

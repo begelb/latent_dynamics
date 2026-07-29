@@ -1,0 +1,95 @@
+{
+  "adaptive_graph": {
+    "edges": 2,
+    "is_bistable": true,
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "nodes": 3
+  },
+  "classification": {
+    "closed_cell_boundary_policy": "negative basin first, then positive basin, matching the archived loop",
+    "counts_by_point_label": {
+      "-4": 3879,
+      "0": 3052,
+      "3": 3069
+    },
+    "native_query": "CMGDB.MorseSingletonReachability",
+    "query_artifact": "MG_uniform_s8/marcio_singleton_reachability_queries.npz",
+    "rule": "complete reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      3
+    ],
+    "morse_nodes": 7,
+    "queried_uniform_cells": 217,
+    "subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "uniform_cells": 256
+  },
+  "dimension": 1,
+  "eligible_for_bistable_dimension_table": true,
+  "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on uniform CMGDB graph",
+  "roots_define_two_distinct_attractor_basins": true,
+  "schema_version": 2,
+  "seed": 0,
+  "stable_roots": {
+    "encoded": [
+      [
+        4.558890342712402
+      ],
+      [
+        -4.566638469696045
+      ]
+    ],
+    "negative_basin_label": 3,
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+    "positive_basin_label": 0,
+    "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+    "uniform_candidate_cell_ids": [
+      [
+        195
+      ],
+      [
+        60
+      ]
+    ]
+  },
+  "stage": "stats",
+  "statistics": {
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 2930,
+      "correctly_classified_in_positive_basin": 2938,
+      "misclassified_in_negative_basin": 6,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 1988
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 37.267870770796236,
+      "correctly_classified_in_positive_basin": 37.36962604935131,
+      "misclassified_in_negative_basin": 0.07631645891630628,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 25.286186720936147
+    },
+    "total_trajectories": 10000
+  },
+  "trajectory_data": {
+    "label_counts": {
+      "-1": 3909,
+      "0": 2138,
+      "1": 3953
+    },
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+    "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+    "total": 10000
+  },
+  "uniform_is_bistable": true
+}

@@ -1,0 +1,10 @@
+{
+  "completed_at_utc": "2026-07-29T14:51:19.624411+00:00",
+  "schema_version": 1,
+  "status": "complete",
+  "summary": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_ondemand_s24_dataset_01_seed_00_v1/MG_uniform_s24/summary.json",
+    "sha256": "bcd60680c6da792c0967db24a034fbc3bc0b09185386d0602c28b13fd497e4d3",
+    "size_bytes": 13236
+  }
+}

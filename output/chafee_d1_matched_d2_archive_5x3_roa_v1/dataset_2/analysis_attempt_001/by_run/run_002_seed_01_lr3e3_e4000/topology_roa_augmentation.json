@@ -1,0 +1,146 @@
+{
+  "adaptive_topology": {
+    "morse_graph": {
+      "path": "MG_adaptive/morse_graph",
+      "sha256": "d54938eb1da813410646b760e529490ec23e93329c0aa62527a98abfdf14e2db",
+      "size_bytes": 366
+    },
+    "morse_sets": {
+      "path": "MG_adaptive/morse_sets",
+      "sha256": "afba6d6347d5e9d99e15e4f40467ce4d9e11ab0387e70b34ac7fe16305e9cd7c",
+      "size_bytes": 2642
+    },
+    "status": "complete"
+  },
+  "basin_statistics": {
+    "path": "basin_statistics.json",
+    "status": "available"
+  },
+  "completed_at_utc": "2026-07-29T03:08:31.449734+00:00",
+  "elapsed_seconds": 0.11893262498779222,
+  "full_uniform_roa": {
+    "exact_blocker_lca": {
+      "path": "MG_uniform_s8/regions_of_attraction_exact.npz",
+      "sha256": "6098dec024f73fa3757726af90fbb85c0d1da4a5a36e29804ce2a77ee9684335",
+      "size_bytes": 1266
+    },
+    "exact_blocker_lca_metadata": {
+      "path": "MG_uniform_s8/regions_of_attraction_exact.json",
+      "sha256": "7ebe8ab863a3f3bf57cbf6e2b1480d8ee6013a7f12d1237de1678bc4a21355e9",
+      "size_bytes": 705
+    },
+    "queried_subset_validation": {
+      "artifact": "MG_uniform_s8/marcio_singleton_reachability_queries.npz",
+      "point_candidate_entries": 10000,
+      "queried_cells": 214,
+      "root_candidate_entries": 2,
+      "sha256": "12acf0cc83b34abef509a1213c92652bddd429fa63b29b9834e346026593a501",
+      "status": "validated_exact_subset",
+      "trajectory_and_root_arrays_match_query_artifact": true
+    },
+    "status": "complete",
+    "strict_singleton": {
+      "path": "MG_uniform_s8/regions_of_attraction_strict_singleton.npz",
+      "sha256": "ff93bdf3b94a34ddcc339c233bab586b20709564587d8bdb30595aa9ad1eaf2c",
+      "size_bytes": 1737
+    },
+    "strict_singleton_metadata": {
+      "path": "MG_uniform_s8/regions_of_attraction_strict_singleton.json",
+      "sha256": "ba4d0ed66008165fe79ecdf11d1fbb5c1b6912c0351cc02a047e165d2ebe19f5",
+      "size_bytes": 1143
+    },
+    "uniform_cells": 256
+  },
+  "phase_statuses": {
+    "adaptive_topology": "complete",
+    "full_uniform_roa": "complete",
+    "uniform_topology": "complete"
+  },
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T03:08:31.330766+00:00",
+  "status": "complete",
+  "uniform_topology": {
+    "cache": {
+      "CMGDB_MAPGRAPH_MAX_EDGES": null,
+      "CMGDB_MAPGRAPH_MAX_VERTICES": null,
+      "cached_edges": 935,
+      "has_batch_cache": true,
+      "map_cells": 256
+    },
+    "lookup": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "lookup_duration_seconds": 0.0009844170417636633,
+    "map_cells": 256,
+    "minimal_attractor_nodes": [
+      0,
+      3
+    ],
+    "morse_graph": {
+      "path": "MG_uniform_s8/morse_graph",
+      "sha256": "04db66bb462719de4045927249518b6ea578ae3c888adb56f86a6d5f88523ea5",
+      "size_bytes": 818
+    },
+    "morse_nodes": 8,
+    "morse_sets": {
+      "path": "MG_uniform_s8/morse_sets",
+      "sha256": "08aecce3f4c1ea9bd46ac4b6395746e89a47d24cf20f2d4ff46879779e2d227a",
+      "size_bytes": 2844
+    },
+    "persisted_topology_validation": {
+      "edges": [
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          4,
+          3
+        ],
+        [
+          5,
+          4
+        ],
+        [
+          6,
+          5
+        ],
+        [
+          7,
+          2
+        ],
+        [
+          7,
+          6
+        ]
+      ],
+      "morse_set_rows": 68,
+      "node_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "status": "validated"
+    },
+    "recovered_after_standard_analysis_failure": false,
+    "standard_uniform_marker_validation": {
+      "cached_edges": 935,
+      "map_cells": 256,
+      "status": "validated"
+    },
+    "status": "complete"
+  }
+}

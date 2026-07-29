@@ -1,0 +1,14 @@
+{
+  "all_runs_completed": true,
+  "counts": {
+    "completed": 8,
+    "failed": 0,
+    "invalid_existing_run": 0,
+    "total": 8
+  },
+  "schema_version": 1,
+  "summary": {
+    "path": "summaries/invocation_0001.json",
+    "sha256": "8d6e5c89c61b54dae16a91156362938fd74cd5ee892aacca09fcfa0b479b2b10"
+  }
+}

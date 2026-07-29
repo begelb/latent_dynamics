@@ -1,0 +1,65 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "correct_drift_away_from_fixed_points": true,
+    "dense_grid_has_exactly_three_roots": true,
+    "dense_roots_match_minus_a_zero_plus_a": true,
+    "fixed_point_residuals_near_machine_precision": true,
+    "map_preserves_nonzero_sign_on_dense_domain": true,
+    "oddness_near_machine_precision": true,
+    "origin_strictly_unstable": true,
+    "outer_fixed_points_strictly_stable": true,
+    "strictly_positive_derivative_on_dense_domain": true,
+    "strictly_positive_theoretical_global_derivative_bound": true
+  },
+  "dense_grid": {
+    "lower": -2.397326099872589,
+    "points": 200001,
+    "spacing": 2.397326099856656e-05,
+    "upper": 2.397326099872589
+  },
+  "derivatives": {
+    "at_minus_a_zero_plus_a": [
+      0.25,
+      1.75,
+      0.25
+    ],
+    "dense_maximum": 1.75,
+    "dense_minimum": 0.06250000000021949,
+    "expected_at_origin": 1.75,
+    "expected_at_outer_roots": 0.25,
+    "theoretical_global_lower_bound": 0.0625
+  },
+  "drift": {
+    "maximum_absolute_drift": 1.0422759284098788,
+    "minimum_correctly_signed_drift_away_from_roots": 0.00014383955907268863,
+    "root_exclusion_radius": 0.00019178608798853247
+  },
+  "fixed_points": {
+    "absolute_residuals": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dense_sign_change_estimates": [
+      -1.236594557719483,
+      0.0,
+      1.236594557719483
+    ],
+    "expected": [
+      -1.236594557762146,
+      0.0,
+      1.236594557762146
+    ],
+    "matching_tolerance": 7.191978299569968e-05
+  },
+  "formula": "G(z)=a*(q + mu*q*(1-q^2)/(1+q^2)), q=z/a",
+  "oddness": {
+    "maximum_absolute_Gz_plus_Gminusz": 0.0
+  },
+  "parameters": {
+    "mu": 0.75,
+    "stable_root_magnitude": 1.236594557762146
+  },
+  "schema_version": 1
+}

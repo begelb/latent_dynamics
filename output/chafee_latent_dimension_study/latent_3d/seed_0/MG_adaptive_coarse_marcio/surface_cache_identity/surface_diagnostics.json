@@ -1,0 +1,177 @@
+{
+  "adaptive_box_count": 203108,
+  "adaptive_scale_distribution": [
+    {
+      "adaptive_boxes": 22,
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "terminal_voxels": 22
+    },
+    {
+      "adaptive_boxes": 410,
+      "scale": [
+        1,
+        1,
+        2
+      ],
+      "terminal_voxels": 820
+    },
+    {
+      "adaptive_boxes": 1705,
+      "scale": [
+        1,
+        2,
+        2
+      ],
+      "terminal_voxels": 6820
+    },
+    {
+      "adaptive_boxes": 63206,
+      "scale": [
+        2,
+        2,
+        2
+      ],
+      "terminal_voxels": 505648
+    },
+    {
+      "adaptive_boxes": 11318,
+      "scale": [
+        2,
+        2,
+        4
+      ],
+      "terminal_voxels": 181088
+    },
+    {
+      "adaptive_boxes": 5622,
+      "scale": [
+        2,
+        4,
+        4
+      ],
+      "terminal_voxels": 179904
+    },
+    {
+      "adaptive_boxes": 120825,
+      "scale": [
+        4,
+        4,
+        4
+      ],
+      "terminal_voxels": 7732800
+    }
+  ],
+  "bounds_lower": [
+    -4.127716660499573,
+    -2.7807257175445557,
+    -3.2104987144470214
+  ],
+  "bounds_upper": [
+    3.8589504957199097,
+    2.5888736248016357,
+    3.2438191413879394
+  ],
+  "cache_files": {
+    "surface_face_codes.npy": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/surface_cache_identity/surface_face_codes.npy",
+      "sha256": "6ce37d068538f66dd3e1a6804faa5788616bfa2af2aef3d5aa15adddc55fdedf"
+    },
+    "surface_face_labels.npy": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/surface_cache_identity/surface_face_labels.npy",
+      "sha256": "82329194d3868aeb8d361cf16dd6a8d6e850ca35872c9e3424d9aa96f0fb8a65"
+    },
+    "surface_face_sides.npy": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/surface_cache_identity/surface_face_sides.npy",
+      "sha256": "1e3c981bb66ffd7261c10498ca606f83dbcc1e31d06e348175238d3ac9f83631"
+    }
+  },
+  "cross_label_face_adjacency_counts": {
+    "0,1": 0,
+    "0,2": 0,
+    "1,2": 0
+  },
+  "cross_label_interface_rule": "one deterministic face; node 0 then node 1 then node 2 priority",
+  "face_encoding_base": 513,
+  "projection_terminal_footprints": {
+    "z1,z2": {
+      "footprint_counts_by_label": {
+        "0": 48,
+        "1": 36,
+        "2": 72672
+      },
+      "pairwise_overlap_counts": {
+        "0,1": 0,
+        "0,2": 48,
+        "1,2": 36
+      },
+      "triple_overlap_count": 0
+    },
+    "z1,z3": {
+      "footprint_counts_by_label": {
+        "0": 48,
+        "1": 36,
+        "2": 45776
+      },
+      "pairwise_overlap_counts": {
+        "0,1": 0,
+        "0,2": 0,
+        "1,2": 0
+      },
+      "triple_overlap_count": 0
+    },
+    "z2,z3": {
+      "footprint_counts_by_label": {
+        "0": 36,
+        "1": 36,
+        "2": 73508
+      },
+      "pairwise_overlap_counts": {
+        "0,1": 0,
+        "0,2": 0,
+        "1,2": 0
+      },
+      "triple_overlap_count": 0
+    }
+  },
+  "rendered_face_count": 431016,
+  "rendered_face_counts_by_label": {
+    "0": 264,
+    "1": 216,
+    "2": 430536
+  },
+  "same_label_exposed_face_counts": {
+    "0": 264,
+    "1": 216,
+    "2": 430536
+  },
+  "schema_version": 1,
+  "source": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/morse_sets",
+    "sha256": "3df9e69130de3067deb241e4b09117cf9f1b2f1e9e0426ef0bb8f3d0e648fc25"
+  },
+  "terminal_grid_shape": [
+    512,
+    512,
+    512
+  ],
+  "terminal_voxel_count": 8607102,
+  "terminal_voxel_counts_by_label": {
+    "0": 288,
+    "1": 216,
+    "2": 8606598
+  },
+  "terminal_voxel_overlap_counts": {
+    "0,1": 0,
+    "0,2": 0,
+    "1,2": 0
+  },
+  "terminal_widths": [
+    0.015598959289491177,
+    0.010487498715519905,
+    0.012606089562177597
+  ]
+}

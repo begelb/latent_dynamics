@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "lower": [
+    -10.372615814208984
+  ],
+  "upper": [
+    10.248717308044434
+  ],
+  "dimension": 1,
+  "coarse_subdiv": 8,
+  "fine_subdiv": 11,
+  "padding": true,
+  "has_fine_blocks": true,
+  "n_active_coarse_cells": 256,
+  "callback_neural_evaluations": 0
+}

@@ -1,0 +1,19 @@
+{
+  "basin_artifacts_accessed": false,
+  "checkpoint": {
+    "path": "milestones/epoch_05000/models/autoencoder.pt",
+    "sha256": "4dc603171f29d8390bbc4e3d7ce68a100ac0d19a1a00330dbd66bde9c363defa",
+    "sidecar_path": "milestones/epoch_05000/models/autoencoder.json",
+    "sidecar_sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798"
+  },
+  "epoch": 5000,
+  "learning_rate": 0.003,
+  "optimizer_updates": 5000,
+  "run_plan_sha256": "32cc24df584b797c124f426976f20f833b8078400f083be05513a9a2e1945c0f",
+  "schema_version": 1,
+  "train": {
+    "loss_prediction": 0.00022553964391117915,
+    "loss_reconstruction": 0.000519183727245157,
+    "loss_total": 0.0007447233657663068
+  }
+}

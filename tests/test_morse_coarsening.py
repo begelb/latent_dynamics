@@ -9,6 +9,7 @@ from latentdynamics.analysis.morse_coarsening import (
     coarsen_morse_graph,
     compute_connection_complete_morse_sets,
     write_connection_complete_morse_sets,
+    write_morse_graph_dot,
     write_quotient_morse_sets,
 )
 from latentdynamics.analysis.morse_graph_parser import MorseGraph
@@ -92,6 +93,23 @@ def test_chafee_nonattracting_nodes_collapse_to_m1_epimorphism(tmp_path: Path) -
             q_source = quotient.projection[source]
             q_target = quotient.projection[target]
             assert q_source == q_target or q_target in quotient.graph.descendants[q_source]
+
+
+def test_morse_graph_dot_preserves_unicode_labels(tmp_path: Path) -> None:
+    graph = MorseGraph(
+        nodes=[0, 1],
+        edges={1: [0]},
+        labels={0: "M(0⁻)", 1: "M(1)"},
+        colors={0: "#ffb000ff", 1: "#7f7f7fff"},
+    )
+
+    output = write_morse_graph_dot(graph, tmp_path / "morse_graph")
+
+    text = output.read_text(encoding="utf-8")
+    assert 'label="M(0⁻)"' in text
+    assert "\\u207b" not in text
+    parsed = MorseGraph.from_dot(output)
+    assert parsed.labels[0] == "M(0⁻)"
 
 
 def test_nonconvex_merge_that_creates_cycle_is_rejected(tmp_path: Path) -> None:

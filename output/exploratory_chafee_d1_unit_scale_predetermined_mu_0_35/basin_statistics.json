@@ -1,0 +1,280 @@
+{
+  "bounds": {
+    "coordinate": "first Fourier coefficient x[:, 0]",
+    "dimension": 1,
+    "encoded_rows": [
+      "training current x",
+      "training next y"
+    ],
+    "epsilon_fraction": 0.1,
+    "float_evaluation": "input coefficient rounded to float32, then stored as float64",
+    "lower": [
+      -2.397326099872589
+    ],
+    "n_encoded_states": 60000,
+    "raw_lower": [
+      -1.9979363679885864
+    ],
+    "raw_upper": [
+      1.9959609508514404
+    ],
+    "upper": [
+      2.395350682735443
+    ]
+  },
+  "classification": {
+    "closed_cell_boundary_policy": "negative basin first, then positive basin, matching the archived loop",
+    "counts_by_point_label": {
+      "-4": 2018,
+      "0": 3919,
+      "5": 4063
+    },
+    "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on the level-8 uniform CMGDB graph",
+    "native_query": "CMGDB.MorseSingletonReachability",
+    "outside_label": -4,
+    "rule": "complete reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      5
+    ],
+    "callback": {
+      "batch_calls": 2,
+      "box_calls": 512,
+      "scalar_evaluations": 1024
+    },
+    "compute_seconds": 0.002424667007289827,
+    "conley": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "graph_checks": {
+      "exactly_two_minimal_attractors": true,
+      "stable_roots_resolve_to_distinct_attractors": true,
+      "uniform_cell_count_matches_level_8": true
+    },
+    "graph_summary": {
+      "edges": 10,
+      "is_bistable": true,
+      "minimal_nodes": [
+        0,
+        5
+      ],
+      "nodes": 11
+    },
+    "morse_graph_path": "MG_uniform_s8/morse_graph",
+    "morse_nodes": 11,
+    "morse_set_intervals": {
+      "0": {
+        "cell_count": 4,
+        "enclosure_lower": 0.9538033692166208,
+        "enclosure_upper": 1.0286889439448714
+      },
+      "1": {
+        "cell_count": 1,
+        "enclosure_lower": 1.0286889439448714,
+        "enclosure_upper": 1.0474103376269341
+      },
+      "10": {
+        "cell_count": 1,
+        "enclosure_lower": -1.0493857547640801,
+        "enclosure_upper": -1.0306643610820174
+      },
+      "2": {
+        "cell_count": 1,
+        "enclosure_lower": 0.09261925984174013,
+        "enclosure_upper": 0.11134065352380279
+      },
+      "3": {
+        "cell_count": 1,
+        "enclosure_lower": 0.07389786615967746,
+        "enclosure_upper": 0.09261925984174013
+      },
+      "4": {
+        "cell_count": 1,
+        "enclosure_lower": 0.055176472477614785,
+        "enclosure_upper": 0.07389786615967746
+      },
+      "5": {
+        "cell_count": 4,
+        "enclosure_lower": -1.0306643610820174,
+        "enclosure_upper": -0.9557787863537668
+      },
+      "6": {
+        "cell_count": 1,
+        "enclosure_lower": -0.11331607066094879,
+        "enclosure_upper": -0.09459467697888613
+      },
+      "7": {
+        "cell_count": 1,
+        "enclosure_lower": -0.09459467697888613,
+        "enclosure_upper": -0.07587328329682345
+      },
+      "8": {
+        "cell_count": 1,
+        "enclosure_lower": -0.07587328329682345,
+        "enclosure_upper": -0.05715188961476078
+      },
+      "9": {
+        "cell_count": 6,
+        "enclosure_lower": -0.05715188961476078,
+        "enclosure_upper": 0.055176472477614785
+      }
+    },
+    "morse_sets_path": "MG_uniform_s8/morse_sets",
+    "negative_attractor": 5,
+    "nonminimal_recurrent_nodes": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "padding": true,
+    "positive_attractor": 0,
+    "queried_uniform_cells": 214,
+    "reachability_query_seconds": 6.024999311193824e-05,
+    "root_resolution_error": null,
+    "statistics_comparable": true,
+    "subdiv_limit": 10000,
+    "subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "uniform_cells": 256
+  },
+  "comparability": {
+    "designation": "post-hoc unit-scale cubic topology-strength probe, mu=0.35",
+    "invalid_interpretations": [
+      "the least-squares residual minimizer",
+      "an unbiased hyperparameter choice",
+      "a held-out generalization result",
+      "a paper-eligible comparison"
+    ],
+    "learned_parameter_count": 0,
+    "mu_selection_status": "post_hoc_test_informed",
+    "no_test_labels_used_in_residual_diagnostic": true,
+    "paper_eligible": false,
+    "predetermined_mu": 0.35,
+    "test_labels_informed_mu_selection": true,
+    "valid_interpretation": "A deliberately post-hoc limit test of how stronger unit-scale cubic drift changes the fixed level-8 CMGDB graph."
+  },
+  "comparison": {
+    "baselines": {
+      "rational_topology_ceiling": {
+        "available": true,
+        "baseline": {
+          "combined_correct_count": 7827,
+          "combined_correct_percentage": 99.55482065632155,
+          "label": "a=1.2366 saturated rational topology ceiling",
+          "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_physics_coordinate_ceiling/basin_statistics.json",
+          "sha256": "3ad602c0c4a5925bee26abac477361bf4cfa8df8283c65dfea0adc4cd34fbd1c"
+        },
+        "unit_scale_minus_baseline_count": -1471,
+        "unit_scale_minus_baseline_percentage_points": -18.710251844314428
+      },
+      "scaled_polynomial_mu_0_75": {
+        "available": true,
+        "baseline": {
+          "combined_correct_count": 7092,
+          "combined_correct_percentage": 90.20605443907402,
+          "label": "a=1.2366 scaled polynomial with predetermined mu=0.75",
+          "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_polynomial_coordinate_map/basin_statistics.json",
+          "sha256": "873389b4c52750291e81a495eabfc07e2b6ea1c2ada8f4dd2164c2a9714dd5d9"
+        },
+        "unit_scale_minus_baseline_count": -736,
+        "unit_scale_minus_baseline_percentage_points": -9.361485627066898
+      }
+    },
+    "unit_scale_combined_correct_count": 6356,
+    "unit_scale_combined_correct_percentage": 80.84456881200713,
+    "warning": "Descriptive only: mu=0.35 was selected post-hoc after inspecting exploratory topology/basin outcomes."
+  },
+  "coordinate": {
+    "encoded_stable_roots": [
+      [
+        -1.236594557762146
+      ],
+      [
+        1.236594557762146
+      ]
+    ],
+    "formula": "E(x)=x_1=x[:,0]",
+    "learned": false,
+    "normalized": false,
+    "source": "raw first Fourier/spectral coefficient"
+  },
+  "experiment": {
+    "label": "post-hoc unit-scale cubic topology-strength probe, mu=0.35",
+    "learned_parameter_count": 0,
+    "paper_eligible": false,
+    "test_labels_informed_mu_selection": true,
+    "test_labels_used_in_residual_diagnostic": false
+  },
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "schema_version": 1,
+  "statistics": {
+    "combined_correct": {
+      "count": 6356,
+      "percentage": 80.84456881200713
+    },
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3216,
+      "correctly_classified_in_positive_basin": 3140,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 1506
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 40.905621979140165,
+      "correctly_classified_in_positive_basin": 39.938946832866954,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 19.15543118799288
+    },
+    "total_trajectories": 10000
+  },
+  "status": "computed",
+  "unit_scale_cubic_map": {
+    "a": 1.0,
+    "fit_path": "fit.json",
+    "fixed_point_mismatch_path": "fixed_point_mismatch.json",
+    "formula": "G(z)=z+mu*z*(1-z^2)",
+    "mu_learned": false,
+    "mu_selection": "post-hoc predetermined topology-strength probe",
+    "parameters": {
+      "mu": 0.35
+    },
+    "topology_diagnostics_path": "topology_diagnostics.json"
+  }
+}

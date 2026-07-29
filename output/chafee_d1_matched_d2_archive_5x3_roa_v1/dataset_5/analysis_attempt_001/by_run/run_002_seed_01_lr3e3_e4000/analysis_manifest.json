@@ -1,0 +1,129 @@
+{
+  "analysis_plan_sha256": "60a39b4ebb31a0f85cef1611d4fe458bd9bbf81f23b97123e6539894e513e553",
+  "basin_statistics": {
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 1589,
+      "correctly_classified_in_positive_basin": 1446,
+      "misclassified_in_negative_basin": 3,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 4824
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 20.21114220300178,
+      "correctly_classified_in_positive_basin": 18.392266598829814,
+      "misclassified_in_negative_basin": 0.03815822945815314,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 61.358432968710254
+    },
+    "total_trajectories": 10000
+  },
+  "bistability": {
+    "adaptive": null,
+    "eligible": false,
+    "roots_distinct": true,
+    "uniform": true,
+    "uniform_headline_valid": true
+  },
+  "completed_at_utc": "2026-07-29T03:08:21.621743+00:00",
+  "completed_stages": [
+    "bounds",
+    "precompute-coarse",
+    "uniform"
+  ],
+  "elapsed_seconds": 1.240629917010665,
+  "output_files": {
+    "MG_uniform_s8/marcio_singleton_reachability_queries.npz": {
+      "sha256": "3febce742312079e18a259475ba6690ae74e7739723d829f6e979fa5fb181fe3",
+      "size_bytes": 40090
+    },
+    "MG_uniform_s8/morse_graph": {
+      "sha256": "e190144eb7409671e69111688e0e0b3b9b73fc1ab6e50782f1a0707665dc5cd4",
+      "size_bytes": 917
+    },
+    "MG_uniform_s8/morse_sets": {
+      "sha256": "6665a18e9a866a6e2df4e077d50740f2d6c8bc49c75100b5798519027a03fef5",
+      "size_bytes": 2840
+    },
+    "basin_statistics.json": {
+      "sha256": "450dfe0c527395a8ebef13de0c7362fecb458861864559e5d22a5bffe79f04a0",
+      "size_bytes": 2593
+    },
+    "bounds.json": {
+      "sha256": "3adbdf66a5dd06f5c1051a617e2338b3c061b66f809c1e0a5122fcb23a06a350",
+      "size_bytes": 351
+    },
+    "encoded_stable_roots.npy": {
+      "sha256": "ca7b2d30a7f5944f7e01306e4662a1ed988aa7988e38bd5ce93061f617b56b25",
+      "size_bytes": 144
+    },
+    "models/autoencoder.json": {
+      "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+      "size_bytes": 878
+    },
+    "models/autoencoder.pt": {
+      "sha256": "1355d5fdbcd2d3e819c117ce9bda8a459dd4443b25d4550901849593c17a8fee",
+      "size_bytes": 61965
+    },
+    "precomputed_level8_to11/coarse_values.npy": {
+      "sha256": "f5250e480a5dc381d07b2c3b6adbd9c2634c41cfef1575732261c9afdb5fcca0",
+      "size_bytes": 2184
+    },
+    "precomputed_level8_to11/metadata.json": {
+      "sha256": "ea529bbae09b636d5259470d1e9fc37f2d4d1d8a4e53ad9ec00cd2f5bf867f71",
+      "size_bytes": 281
+    },
+    "source_manifests/artifact_manifest.json": {
+      "sha256": "45ee2b5b8abe819ba41557c4f28e21150704f12514cbd8a2689a1c36fa1971aa",
+      "size_bytes": 4305
+    },
+    "source_manifests/completed.json": {
+      "sha256": "15bfdd3988919173c0e3cc3d2f3e4120378085fa40b11ec8b5870a9f2762f5c5",
+      "size_bytes": 750
+    },
+    "source_manifests/history.json": {
+      "sha256": "44fc79f94ea79cf15816774ba45666d5cd278850d6efbf25b5e35cbdbf1476a6",
+      "size_bytes": 286789
+    },
+    "source_manifests/run_spec.json": {
+      "sha256": "3b4e07ac0b8a021644aabd7ad40a0f4a8cffe1bf25ebe7b926e5ea787216f832",
+      "size_bytes": 352
+    },
+    "source_manifests/training_summary.json": {
+      "sha256": "f309318b759adca2a528b7599890176ee37ef767ff252c76aeef5e298afc12b4",
+      "size_bytes": 2734
+    },
+    "stage_status/bounds.json": {
+      "sha256": "27e2af0b010b9b60cab680a5f368392c843ee8bc342dd48f6656b708c6f5a3cc",
+      "size_bytes": 385
+    },
+    "stage_status/precompute-coarse.json": {
+      "sha256": "6c71221bf20d656d5ca003e9da05892b6b7d06a16f643f74669cdc4623fb6109",
+      "size_bytes": 697
+    },
+    "stage_status/uniform.json": {
+      "sha256": "de69d94034d0ede406f33961a49fe701565a5f0cd41466038a35b0d9c10e8c29",
+      "size_bytes": 1720
+    },
+    "trajectory_basin_labels.npy": {
+      "sha256": "b25495440454a2da366f0bae3a0294cabea3eaff628320ae83fdcc7e9238421c",
+      "size_bytes": 40128
+    }
+  },
+  "plan_index": 2,
+  "run": {
+    "epochs": 4000,
+    "learning_rate": 0.003,
+    "run_id": "seed_01_lr3e3_e4000",
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 1
+  },
+  "schema_version": 1,
+  "source_checkpoint_sha256": "1355d5fdbcd2d3e819c117ce9bda8a459dd4443b25d4550901849593c17a8fee",
+  "started_at_utc": "2026-07-29T03:08:20.380666+00:00",
+  "status": "complete"
+}

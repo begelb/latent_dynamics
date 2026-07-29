@@ -1,0 +1,14 @@
+{
+  "analysis_plan_sha256": "1de18960ac03e9dc1274da1c0da3a04e25491d7ffed14256ee3ed09a9f3dd3a8",
+  "comparison_csv": "comparison.csv",
+  "comparison_json": "comparison.json",
+  "completed_at_utc": "2026-07-29T00:24:27.374422+00:00",
+  "elapsed_seconds": 25.96903395804111,
+  "milestones_complete": 18,
+  "milestones_expected": 20,
+  "milestones_failed": 2,
+  "milestones_processed": 20,
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T00:24:01.405055+00:00",
+  "status": "complete_with_failures"
+}

@@ -1,0 +1,10 @@
+{
+  "completed_at_utc": "2026-07-29T15:20:05.935701+00:00",
+  "schema_version": 1,
+  "status": "complete",
+  "summary": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_00_lr3e3_e4000/attempts/attempt_001/summary.json",
+    "sha256": "9dddf2560af92c5900286c16141af1b1d4a439746d516dc77db9d13eaf8a085c",
+    "size_bytes": 23438
+  }
+}

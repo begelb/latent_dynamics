@@ -1,0 +1,15 @@
+{
+  "device": "mps",
+  "dimension": 1,
+  "epsilon_frac": 0.1,
+  "lower": [
+    -8.130346298217773
+  ],
+  "n_encoded_states": 60000,
+  "schema_version": 1,
+  "source": "encoder(train_data current states + next states)",
+  "train_data_sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+  "upper": [
+    8.002230644226074
+  ]
+}

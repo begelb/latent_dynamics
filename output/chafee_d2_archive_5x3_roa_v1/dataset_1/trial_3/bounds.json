@@ -1,0 +1,15 @@
+{
+  "checkpoint_sha256": "328ef4d60f0cacacd4ca59e3704fb3f0a8513366ba89d362b97b4040edf6d9ac",
+  "encoding_device": "cpu",
+  "epsilon_frac": 0.1,
+  "lower": [
+    -4.065005922317505,
+    -3.829125452041626
+  ],
+  "source": "bbox of checkpoint encoder applied to dataset E(X) and E(Y)",
+  "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b",
+  "upper": [
+    3.9258386135101317,
+    4.181742238998413
+  ]
+}

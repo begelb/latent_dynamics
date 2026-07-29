@@ -1,0 +1,89 @@
+{
+  "comparability_path": "COMPARABILITY.md",
+  "duration_seconds": 0.9662233749986626,
+  "experiment_label": "exploratory raw-coordinate unit-scale fitted-mu cubic map",
+  "fit": {
+    "formula": "min_mu sum_i (delta_z_i-mu*f(z_i))^2; no intercept",
+    "mu": 0.047558503232248646,
+    "one_step_mse": 0.004556932468173328,
+    "stable_roots_used": false,
+    "test_labels_used": false,
+    "training_pairs": 30000
+  },
+  "graph_checks": {
+    "exactly_two_minimal_attractors": false,
+    "stable_roots_resolve_to_distinct_attractors": false,
+    "uniform_cell_count_matches_level_8": true
+  },
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_unit_scale_fitted_mu",
+  "parameters": {
+    "a": 1.0,
+    "cmgdb_padding": true,
+    "cmgdb_subdiv_limit": 10000,
+    "cmgdb_subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "coordinate": "raw x[:,0] with float32-equivalent rounding",
+    "dense_grid_points": 200001,
+    "map": "G(z)=z+mu*z*(1-z^2)"
+  },
+  "primary_result": null,
+  "runtime": {
+    "cmgdb_module": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "timestamp_utc": "2026-07-29T01:12:23.839747+00:00",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "script": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_unit_scale_fitted_mu.py",
+    "sha256": "e4e5083b18300f74e5151f0c46e6d22aad9ad7860ca074e272cb12d8089e1bb3"
+  },
+  "shared_reference_drivers": [
+    {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_physics_coordinate_ceiling.py",
+      "sha256": "4b6d461ce37c9e010a92d7611022ff6f45b1adc5f16d2dfe27895fd16148d4fe"
+    },
+    {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_d1_polynomial_coordinate_map.py",
+      "sha256": "7f310574a28d1dd116035641079ef1e2493739d5effc016fc17b8141c05dea30"
+    }
+  ],
+  "statistics_comparable": false,
+  "topology_checks": {
+    "correct_unit_scale_double_well_drift": true,
+    "dense_grid_has_exactly_three_fixed_points": true,
+    "dense_roots_match_minus_one_zero_plus_one": true,
+    "fixed_point_residuals_near_machine_precision": true,
+    "map_preserves_nonzero_sign_on_archived_domain": true,
+    "mapped_archived_domain_stays_inside_cmgdb_bounds": true,
+    "oddness_near_machine_precision": true,
+    "origin_strictly_unstable": true,
+    "outer_fixed_points_strictly_stable": true,
+    "strictly_positive_derivative_on_archived_domain": true
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "CMGDB_MAPGRAPH_MAX_EDGES": null,
+  "CMGDB_MAPGRAPH_MAX_VERTICES": null,
+  "cached_edges": 691,
+  "callback": "persisted HierarchicalPrecomputedBoxMap dense-coarse/sparse-fine lookup",
+  "callback_neural_evaluations": 0,
+  "conley": {
+    "computed": true,
+    "requested": true,
+    "routine": "CMGDB.ComputeConleyMorseGraph",
+    "status": "computed",
+    "topology_morse_sets_map_graph_and_basins_invariant": true
+  },
+  "dimension": 1,
+  "dot_path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000/MG_adaptive/morse_graph",
+  "duration_seconds": 0.013128749968018383,
+  "edges": 2,
+  "has_batch_cache": true,
+  "is_bistable": true,
+  "map_cells": 177,
+  "minimal_nodes": [
+    0,
+    1
+  ],
+  "morse_sets_path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000/MG_adaptive/morse_sets",
+  "nodes": 3,
+  "padding": true,
+  "schema_version": 2,
+  "seed": 0,
+  "stage": "adaptive",
+  "subdiv_init": 7,
+  "subdiv_limit": 10000,
+  "subdiv_max": 11,
+  "subdiv_min": 8
+}

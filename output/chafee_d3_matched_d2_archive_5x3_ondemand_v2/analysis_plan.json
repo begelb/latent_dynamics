@@ -1,0 +1,115 @@
+{
+  "created_at_utc": "2026-07-29T15:13:08.925151+00:00",
+  "plan": {
+    "common_sources": {
+      "basin_statistics_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/analysis/basin_statistics.py",
+        "sha256": "0f03707a7159d287ba1b32ee0f5b2f0bc47f325c16a6072eecdc7a16cfe963ac",
+        "size_bytes": 26513
+      },
+      "morse_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/analysis/morse.py",
+        "sha256": "a093962b902ae6ea63d6ef315dc7d9f6117a6b5bc9db08efc67321c6bea293f5",
+        "size_bytes": 20694
+      },
+      "ondemand_backend": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_s24.py",
+        "sha256": "7fe847cda9f442ddce4996e18a0cfee8faa4562e001a8b3d36af480404192ea1",
+        "size_bytes": 49755
+      },
+      "stable_roots": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "study_helpers": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_latent_dimension_study.py",
+        "sha256": "3d3cab064837eab4be00f581a50616d8e0804fcc29cfbde4249ca1c582db25d5",
+        "size_bytes": 90108
+      },
+      "training_plan": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/experiment_plan.json",
+        "sha256": "10192bf6df69574bba30492a87c74d3028be068640a164727e66d82e3fdf67f3",
+        "size_bytes": 15054
+      },
+      "trajectories": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      },
+      "worker": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_worker.py",
+        "sha256": "e6c1fadf74fc93a5b71a9dccfae1faaefbefb4b0c60ddc37972e3814e45eec37",
+        "size_bytes": 38217
+      }
+    },
+    "computation": {
+      "backend": "batched_on_demand_neural",
+      "device": "mps",
+      "expected_callback_rectangles": 33554432,
+      "expected_cells": 16777216,
+      "expected_neural_corner_points": 268435456,
+      "max_edges": 1200000000,
+      "max_forward_points": 800000,
+      "padding": true,
+      "precomputed": false,
+      "rss_sample_seconds": 0.1,
+      "subdivisions": [
+        24,
+        24,
+        24
+      ],
+      "trajectory_and_root_encoding_device": "cpu"
+    },
+    "concurrency": {
+      "maximum_processes": 2,
+      "shared_mps_device": true,
+      "timing_caveat": "Concurrent wall times are operational throughput measurements and are not directly comparable to the isolated s24 benchmark."
+    },
+    "matrix": {
+      "datasets": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "required_runs": 15,
+      "training_seeds": [
+        0,
+        1,
+        2
+      ]
+    },
+    "purpose": "matched D3 5x3 uniform-s24 on-demand CMGDB plus strict RoA",
+    "runtime": {
+      "cmgdb_native": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/_cmgdb.cpython-312-darwin.so",
+        "sha256": "0c67639d1bee9329e9aff70c8a7cfad6ea3b0552a0c76f5d87b766191730b43f",
+        "size_bytes": 1008336
+      },
+      "cmgdb_python": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+        "sha256": "cf67d6fedc1c6fbcf1dffbb983adb251645befd6be3e828135069eb3441446ee",
+        "size_bytes": 390
+      },
+      "cuda_available": false,
+      "device": "mps",
+      "mps_available": true,
+      "numpy": "2.4.6",
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "python": "3.12.13",
+      "torch": "2.12.0"
+    },
+    "schema_version": 1,
+    "strict_roa": {
+      "conditioned_trajectories": 7862,
+      "negative_root_first": true,
+      "one_combined_unique_query": true,
+      "semantics": "singleton-all-reachable-Morse-set"
+    },
+    "training_plan_sha256": "08843341de244964991a18e91d9c77caf3b8f7ed1ba8e3a9bbfd1e342b250b0f"
+  },
+  "plan_sha256": "7c0a2f739124bfe5a8e0e4cc351e0692ebf61316ef36f65c855759d33a79c208",
+  "schema_version": 1
+}

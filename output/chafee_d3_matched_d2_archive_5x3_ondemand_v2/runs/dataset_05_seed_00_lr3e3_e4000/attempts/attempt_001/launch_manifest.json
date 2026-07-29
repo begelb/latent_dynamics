@@ -1,0 +1,126 @@
+{
+  "analysis_attempt": 1,
+  "analysis_attempt_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001",
+  "analysis_plan": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/analysis_plan.json",
+    "sha256": "abb99937e57822c955580fbbb0142986a2d7e103dafb3100d918259c13f8d611",
+    "size_bytes": 4406
+  },
+  "analysis_plan_sha256": "7c0a2f739124bfe5a8e0e4cc351e0692ebf61316ef36f65c855759d33a79c208",
+  "analysis_run_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_05_seed_00_lr3e3_e4000",
+  "backend": "batched_on_demand_neural",
+  "created_at_utc": "2026-07-29T15:33:19.928406+00:00",
+  "dataset": 5,
+  "device": "mps",
+  "max_edges": 1200000000,
+  "max_forward_points": 800000,
+  "padding": true,
+  "precomputed": false,
+  "purpose": "matched D3 uniform-s24 on-demand graph plus strict RoA query",
+  "run_id": "dataset_05_seed_00_lr3e3_e4000",
+  "runtime": {
+    "cmgdb_native": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/_cmgdb.cpython-312-darwin.so",
+      "sha256": "0c67639d1bee9329e9aff70c8a7cfad6ea3b0552a0c76f5d87b766191730b43f",
+      "size_bytes": 1008336
+    },
+    "cmgdb_python": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+      "sha256": "cf67d6fedc1c6fbcf1dffbb983adb251645befd6be3e828135069eb3441446ee",
+      "size_bytes": 390
+    },
+    "cuda_available": false,
+    "device": "mps",
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "sources": {
+    "artifact_manifest": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+      "sha256": "a8b2c2fc61410dea343f3437b9781b84237f0b8ab627d95f16316eab018c85ae",
+      "size_bytes": 7443
+    },
+    "basin_statistics_implementation": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/analysis/basin_statistics.py",
+      "sha256": "0f03707a7159d287ba1b32ee0f5b2f0bc47f325c16a6072eecdc7a16cfe963ac",
+      "size_bytes": 26513
+    },
+    "checkpoint": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+      "sha256": "a35ac7c7e7ccc57ee3e4149deb616f6f4bea5799b212dd3c776862759f84d411",
+      "size_bytes": 62989
+    },
+    "checkpoint_sidecar": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+      "sha256": "54ebb8b172b3a23de981ce2495de6bab6a605c3ccad285188ad433d5b73197d1",
+      "size_bytes": 878
+    },
+    "completion_marker": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/completed.json",
+      "sha256": "6c318da5d500e6dfdca8410f888f4d3ac37d034a463b3f3680850f4b668900b0",
+      "size_bytes": 761
+    },
+    "morse_implementation": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/analysis/morse.py",
+      "sha256": "a093962b902ae6ea63d6ef315dc7d9f6117a6b5bc9db08efc67321c6bea293f5",
+      "size_bytes": 20694
+    },
+    "ondemand_backend": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_s24.py",
+      "sha256": "7fe847cda9f442ddce4996e18a0cfee8faa4562e001a8b3d36af480404192ea1",
+      "size_bytes": 49755
+    },
+    "run_spec": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/run_spec.json",
+      "sha256": "3380bdc57f66f0b5372e15871c9b6dac871cba40c869448928db191112060e38",
+      "size_bytes": 363
+    },
+    "stable_roots": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+      "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+      "size_bytes": 3264
+    },
+    "study_helpers": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_latent_dimension_study.py",
+      "sha256": "3d3cab064837eab4be00f581a50616d8e0804fcc29cfbde4249ca1c582db25d5",
+      "size_bytes": 90108
+    },
+    "train_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/train_data.csv",
+      "sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+      "size_bytes": 97944174
+    },
+    "training_plan": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/experiment_plan.json",
+      "sha256": "10192bf6df69574bba30492a87c74d3028be068640a164727e66d82e3fdf67f3",
+      "size_bytes": 15054
+    },
+    "training_summary": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_training_v1/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+      "sha256": "b156992eebf3a58f6158dcdeb9abe0cab13aedce022a17ea98249446e6a829ab",
+      "size_bytes": 2733
+    },
+    "trajectories": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+      "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+      "size_bytes": 12223522
+    },
+    "worker": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_worker.py",
+      "sha256": "e6c1fadf74fc93a5b71a9dccfae1faaefbefb4b0c60ddc37972e3814e45eec37",
+      "size_bytes": 38217
+    }
+  },
+  "subdivisions": [
+    24,
+    24,
+    24
+  ],
+  "training_plan_sha256": "08843341de244964991a18e91d9c77caf3b8f7ed1ba8e3a9bbfd1e342b250b0f",
+  "training_seed": 0,
+  "trajectory_and_root_encoding_device": "cpu"
+}

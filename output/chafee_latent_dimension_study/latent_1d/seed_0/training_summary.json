@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "training_method": "marcio_full_batch",
+  "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+  "optimizer": {
+    "name": "Adam",
+    "learning_rate": 0.003
+  },
+  "scheduler": {
+    "name": "ReduceLROnPlateau",
+    "monitor": "train.loss_total",
+    "mode": "min",
+    "factor": 0.5,
+    "patience": 100,
+    "threshold": 0.0001,
+    "threshold_mode": "rel",
+    "min_lr": 1e-06
+  },
+  "seed": 0,
+  "device": "mps",
+  "data": {
+    "n_pairs": 30000,
+    "high_dims": 64,
+    "dtype": "float32",
+    "full_batch": true,
+    "source": "archive/marcio/scripts/train_data.csv",
+    "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
+  },
+  "arch": {
+    "num_layers": null,
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 64,
+    "low_dims": 1,
+    "activation": "relu",
+    "encoder_out_activation": "tanh",
+    "latent_out_activation": "tanh",
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "latent_map": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "decoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    }
+  },
+  "model_initialized_by_helper": true,
+  "epochs_requested": 4000,
+  "epochs_completed": 4000,
+  "checkpoint_epoch": 4000,
+  "checkpoint_selection": "final_epoch",
+  "validation_used": false,
+  "early_stopping_used": false,
+  "best_weight_restoration_used": false,
+  "final_epoch_train": {
+    "loss_reconstruction": 0.0005308969411998987,
+    "loss_prediction": 0.00023834362218622118,
+    "loss_total": 0.0007692405488342047
+  },
+  "final_learning_rate": 0.003,
+  "artifacts": {
+    "checkpoint": "models/autoencoder.pt",
+    "checkpoint_metadata": "models/autoencoder.json",
+    "history": "logs/history.json"
+  },
+  "duration_seconds": 31.33577350003179,
+  "duration_minutes": 0.5222628916671965,
+  "software": {
+    "python_torch": "2.12.0",
+    "numpy": "2.4.6",
+    "mps_available": true
+  }
+}

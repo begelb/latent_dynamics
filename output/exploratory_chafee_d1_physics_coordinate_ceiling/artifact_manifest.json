@@ -1,0 +1,59 @@
+{
+  "files": {
+    "COMPARABILITY.md": {
+      "sha256": "36f27e38217ccb4d1d0e9b92980f5742a5e758553355104134d4b7f05d6905e6",
+      "size_bytes": 1843
+    },
+    "MG_uniform_s8/marcio_singleton_reachability_queries.npz": {
+      "sha256": "fe920826df4d840aa78ca7859940faad63cecf97340376b36fd2ffe3bbf8e99f",
+      "size_bytes": 40352
+    },
+    "MG_uniform_s8/morse_graph": {
+      "sha256": "dac00b35c7b37c1be3781ede30528753c1fbaf437e1865de6e0f6a8ce82ea71f",
+      "size_bytes": 527
+    },
+    "MG_uniform_s8/morse_sets": {
+      "sha256": "25bf561726053a0a4e10bf7b6ea24ba6e34d3bcb68897b57d10b486fd04d7942",
+      "size_bytes": 603
+    },
+    "basin_statistics.json": {
+      "sha256": "3ad602c0c4a5925bee26abac477361bf4cfa8df8283c65dfea0adc4cd34fbd1c",
+      "size_bytes": 8481
+    },
+    "bounds.json": {
+      "sha256": "78e61be6ee37ed6e8f63671bcd650e188a58d6472057e3c7b7667b6883dffe48",
+      "size_bytes": 461
+    },
+    "comparability.json": {
+      "sha256": "08f7cd9c1cbdab11bfc007edff138c5220ca93767fa73e420d1d51ea9bd3c218",
+      "size_bytes": 2048
+    },
+    "comparison.json": {
+      "sha256": "84f5597c4b2977b8a3d9f2328e1a9c20985cffbf99143dccb950231f57d5343f",
+      "size_bytes": 1589
+    },
+    "encoded_stable_roots.npy": {
+      "sha256": "1193047a181b812d9fd3f1d00e7c8ba2e69d42c887fb39829b230544405c0c79",
+      "size_bytes": 144
+    },
+    "one_step_fit_diagnostic.json": {
+      "sha256": "d22e895eec3ba3bee168d84e292dced7bd33e74b57fd3360469044ef39dc8a83",
+      "size_bytes": 330
+    },
+    "run_manifest.json": {
+      "sha256": "4f19bc72dd877a283d800461edf65c8ddd43a50dc3e8de30fc53b2dec268452c",
+      "size_bytes": 2869
+    },
+    "topology_validation.json": {
+      "sha256": "bae8edee6d5454c83443b1c0e0068846fc3a10e791005dae0859d176c96680b8",
+      "size_bytes": 1755
+    },
+    "trajectory_basin_labels.npy": {
+      "sha256": "1e535300f4d4b279de8ced30bd9a5befb2bb96e364e18589685ed3e72f77b092",
+      "size_bytes": 40128
+    }
+  },
+  "root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_physics_coordinate_ceiling",
+  "schema_version": 1,
+  "self_excluded": "artifact_manifest.json"
+}

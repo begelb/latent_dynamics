@@ -1,0 +1,6 @@
+{
+  "epoch": 20000,
+  "generation_manifest": "resume/epoch_20000/manifest.json",
+  "generation_manifest_sha256": "c8e3f5c6804ca0041721b8878bfdfbc0ffb57d67ad0d29861b11bb8f3de4da64",
+  "schema_version": 1
+}

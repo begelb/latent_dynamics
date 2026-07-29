@@ -1,0 +1,20 @@
+{
+  "a": 1.2365946,
+  "absolute_mismatch": [
+    3.415658944572186e-08,
+    3.415658944572186e-08
+  ],
+  "encoded_minus_model": [
+    3.415658944572186e-08,
+    -3.415658944572186e-08
+  ],
+  "encoded_pde_stable_roots": [
+    -0.9999999658434106,
+    0.9999999658434106
+  ],
+  "maximum_absolute_mismatch": 3.415658944572186e-08,
+  "model_outer_fixed_points": [
+    -1.0,
+    1.0
+  ]
+}

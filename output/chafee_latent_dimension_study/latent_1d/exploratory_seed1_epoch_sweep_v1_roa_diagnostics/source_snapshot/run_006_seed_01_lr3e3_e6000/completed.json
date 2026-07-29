@@ -1,0 +1,25 @@
+{
+  "artifact_manifest": {
+    "path": "attempts/attempt_001/artifact_manifest.json",
+    "sha256": "61d608995337d68bc0dea81325486a23f7628319eabe7aa8b41a1046191dfa10"
+  },
+  "attempt": 1,
+  "checkpoint": {
+    "path": "attempts/attempt_001/models/autoencoder.pt",
+    "sha256": "21369d1f22b24d88f6337d5515a37fb5cc8bf6569b052f77e880e0a0eed81f13",
+    "size_bytes": 61965
+  },
+  "plan_sha256": "0407c49ea291793b5ed35cb5e4a6888531abfcdc614773194b0fb298da980392",
+  "run": {
+    "epochs": 6000,
+    "learning_rate": 0.003,
+    "run_id": "seed_01_lr3e3_e6000",
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 1
+  },
+  "schema_version": 1,
+  "status": "completed"
+}

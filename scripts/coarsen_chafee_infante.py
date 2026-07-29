@@ -37,7 +37,7 @@ from latentdynamics.config import load_config
 from latentdynamics.models import build_autoencoder
 from latentdynamics.replay import load_experiment
 from latentdynamics.viz import plot_morse_sets_from_csv, render_morse_from_files
-from latentdynamics.viz.style import save_latent_figure
+from latentdynamics.viz.style import chafee_semantic_palette, save_latent_figure
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = CODE_ROOT.parent
@@ -45,19 +45,16 @@ MARCIO_ROOT = PROJECT_ROOT / "archive" / "marcio" / "scripts"
 MARCIO_WEIGHTS = MARCIO_ROOT / "ci_model_weights.pth"
 MARCIO_DATA = MARCIO_ROOT / "train_data.csv"
 MARCIO_SUBDIVISIONS = (14, 16, 22)
-MARCIO_PALETTE = (
-    "#1f77b4",
-    "#e6550d",
-    "#31a354",
-    "#d62728",
-    "#9467bd",
-    "#8c564b",
-    "#e377c2",
+MARCIO_PALETTE = chafee_semantic_palette(
+    7,
+    negative_label=1,
+    positive_label=0,
 )
-MARCIO_COARSE_PALETTE = (
-    MARCIO_PALETTE[0],
-    MARCIO_PALETTE[1],
-    "#7f7f7f",
+MARCIO_COARSE_PALETTE = chafee_semantic_palette(
+    3,
+    negative_label=1,
+    positive_label=0,
+    connecting_labels=(2,),
 )
 MARCIO_EXPECTED_EDGES = {
     (2, 0),

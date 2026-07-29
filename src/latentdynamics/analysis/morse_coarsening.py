@@ -125,6 +125,61 @@ def _backward_reachable(
     return visited
 
 
+def _native_directed_path_cells(
+    map_graph,
+    fine_morse_graph,
+    source_nodes: Iterable[int],
+    target_nodes: Iterable[int],
+) -> np.ndarray | None:
+    """Use CMGDB's cached-CSR traversal when the native helper is available."""
+    has_cache = getattr(map_graph, "has_cache", None)
+    if not callable(has_cache) or not bool(has_cache()):
+        return None
+    try:
+        import CMGDB
+    except ImportError:
+        return None
+    native = getattr(CMGDB, "MorseDirectedPathCells", None)
+    if not callable(native):
+        return None
+
+    raw = native(
+        map_graph,
+        fine_morse_graph,
+        sorted(int(node) for node in source_nodes),
+        sorted(int(node) for node in target_nodes),
+    )
+    if (
+        not isinstance(raw, np.ndarray)
+        or raw.ndim != 1
+        or raw.dtype != np.uint64
+        or not raw.flags.c_contiguous
+    ):
+        raise TypeError(
+            "CMGDB.MorseDirectedPathCells must return a C-contiguous uint64 "
+            f"vector; got {type(raw).__name__}, "
+            f"dtype={getattr(raw, 'dtype', None)}, "
+            f"shape={getattr(raw, 'shape', None)}"
+        )
+    if raw.size > 1 and np.any(raw[1:] <= raw[:-1]):
+        raise ValueError(
+            "CMGDB.MorseDirectedPathCells returned cell ids that are not "
+            "strictly increasing"
+        )
+    return raw.astype(np.int64, copy=False)
+
+
+def _native_directed_path_cells_available(map_graph) -> bool:
+    has_cache = getattr(map_graph, "has_cache", None)
+    if not callable(has_cache) or not bool(has_cache()):
+        return False
+    try:
+        import CMGDB
+    except ImportError:
+        return False
+    return callable(getattr(CMGDB, "MorseDirectedPathCells", None))
+
+
 def _topological_order(nodes: list[int], edges: Mapping[int, Iterable[int]]) -> list[int]:
     node_set = set(nodes)
     indegree = dict.fromkeys(nodes, 0)
@@ -338,9 +393,20 @@ def compute_connection_complete_morse_sets(
         fine_cells[fine] = cells
 
     needs_completion = any(len(fiber) > 1 for fiber in fibers.values())
+    fine_vertex_count = getattr(fine_morse_graph, "num_vertices", None)
+    projection_is_total = (
+        callable(fine_vertex_count)
+        and set(normalized_projection)
+        == set(range(int(fine_vertex_count())))
+    )
+    use_native = (
+        needs_completion
+        and projection_is_total
+        and _native_directed_path_cells_available(map_graph)
+    )
     reverse_pointers: np.ndarray | None = None
     reverse_neighbors: np.ndarray | None = None
-    if needs_completion:
+    if needs_completion and not use_native:
         reverse_pointers, reverse_neighbors = _reverse_csr(map_graph, n_vertices)
 
     cells_by_coarse: dict[int, np.ndarray] = {}
@@ -355,15 +421,39 @@ def compute_connection_complete_morse_sets(
         if len(fiber) == 1 or base.size == 0:
             complete = base
         else:
-            forward = _forward_reachable(map_graph, base, n_vertices)
-            assert reverse_pointers is not None and reverse_neighbors is not None
-            backward = _backward_reachable(
-                reverse_pointers,
-                reverse_neighbors,
-                base,
-                n_vertices,
+            complete = (
+                _native_directed_path_cells(
+                    map_graph,
+                    fine_morse_graph,
+                    fiber,
+                    fiber,
+                )
+                if use_native
+                else None
             )
-            complete = np.flatnonzero(forward & backward).astype(np.int64, copy=False)
+            if complete is None:
+                forward = _forward_reachable(map_graph, base, n_vertices)
+                assert reverse_pointers is not None and reverse_neighbors is not None
+                backward = _backward_reachable(
+                    reverse_pointers,
+                    reverse_neighbors,
+                    base,
+                    n_vertices,
+                )
+                complete = np.flatnonzero(forward & backward).astype(
+                    np.int64,
+                    copy=False,
+                )
+            if complete.size and (complete[0] < 0 or complete[-1] >= n_vertices):
+                raise ValueError(
+                    "directed-path completion returned cells outside "
+                    f"[0, {n_vertices})"
+                )
+            if not np.all(np.isin(base, complete, assume_unique=True)):
+                raise ValueError(
+                    f"directed-path completion for projection fiber "
+                    f"{sorted(fiber)} omitted recurrent cells"
+                )
 
             recurrent_indices = np.unique(
                 recurrent_owner[complete][recurrent_owner[complete] != -1]
@@ -425,7 +515,8 @@ def write_morse_graph_dot(morse_graph: MorseGraph, path: str | Path) -> Path:
         label = morse_graph.labels.get(node, str(node))
         color = morse_graph.colors.get(node, "#808080ff")
         lines.append(
-            f'{node} [label={json.dumps(label)}, shape=ellipse, style=filled, fillcolor="{color}"];'
+            f'{node} [label={json.dumps(label, ensure_ascii=False)}, '
+            f'shape=ellipse, style=filled, fillcolor="{color}"];'
         )
     for source in morse_graph.nodes:
         for target in morse_graph.edges.get(source, ()):

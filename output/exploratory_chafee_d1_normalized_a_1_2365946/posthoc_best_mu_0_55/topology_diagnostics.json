@@ -1,0 +1,81 @@
+{
+  "all_archived_domain_checks_passed": false,
+  "checks": {
+    "correct_unit_scale_double_well_drift": true,
+    "dense_grid_has_exactly_three_fixed_points": true,
+    "dense_roots_match_minus_one_zero_plus_one": true,
+    "fixed_point_residuals_near_machine_precision": true,
+    "map_preserves_nonzero_sign_on_archived_domain": false,
+    "mapped_archived_domain_stays_inside_cmgdb_bounds": true,
+    "oddness_near_machine_precision": true,
+    "origin_strictly_unstable": true,
+    "outer_fixed_points_strictly_stable": true,
+    "strictly_positive_derivative_on_archived_domain": false
+  },
+  "dense_grid": {
+    "lower": -1.938651600025254,
+    "points": 200001,
+    "spacing": 1.9386516000308163e-05,
+    "upper": 1.938651600025254
+  },
+  "derivatives": {
+    "at_minus_one_zero_plus_one": [
+      -0.10000000000000009,
+      1.55,
+      -0.10000000000000009
+    ],
+    "dense_maximum": 1.55,
+    "dense_minimum": -4.651310543362788,
+    "expected_at_origin": 1.55,
+    "expected_at_outer_roots": -0.10000000000000009,
+    "fold_magnitude": 0.9692233691951198,
+    "folds_are_outside_archived_domain": false
+  },
+  "drift": {
+    "maximum_absolute_drift": 2.941135155700693,
+    "minimum_correctly_signed_drift_away_from_roots": 9.596325127976914e-05
+  },
+  "failed_checks": [
+    "strictly_positive_derivative_on_archived_domain",
+    "map_preserves_nonzero_sign_on_archived_domain"
+  ],
+  "fixed_points": {
+    "absolute_residuals": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "dense_sign_change_estimates": [
+      -0.9999999998959883,
+      0.0,
+      0.9999999998959883
+    ],
+    "expected": [
+      -1.0,
+      0.0,
+      1.0
+    ],
+    "matching_tolerance": 5.815954800092449e-05
+  },
+  "formula": "G(z)=z+mu*z*(1-z^2); raw z=E(x)=x[:,0]; a=1",
+  "global_caveat": "The cubic is unbounded and eventually folds/sign-reverses outside the finite archived domain even when all finite-domain checks pass.",
+  "oddness": {
+    "maximum_absolute_Gz_plus_Gminusz": 0.0
+  },
+  "parameters": {
+    "mu": 0.55
+  },
+  "range": {
+    "cmgdb_lower": -1.938651600025254,
+    "cmgdb_upper": 1.9370541345849666,
+    "mapped_maximum": 1.0024835556754388,
+    "mapped_minimum": -1.0024835556754388
+  },
+  "schema_version": 1,
+  "sign_reversal": {
+    "negative_grid_points_mapped_positive": 13407,
+    "nonzero_G_zero_magnitude": 1.6787441193290351,
+    "positive_grid_points_mapped_negative": 13407,
+    "sign_reversal_is_outside_archived_domain": false
+  }
+}

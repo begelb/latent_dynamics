@@ -1,0 +1,17 @@
+{
+  "attempt": 1,
+  "plan_sha256": "6cdc43750dd267d8ffe425a33bfd40af6ab45c9029c27b6fd0e7aeb9c2bae89a",
+  "run": {
+    "epochs": 4000,
+    "learning_rate": 0.003,
+    "run_id": "seed_02_lr3e3_e4000",
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 2
+  },
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T03:07:08.627331+00:00",
+  "status": "started"
+}

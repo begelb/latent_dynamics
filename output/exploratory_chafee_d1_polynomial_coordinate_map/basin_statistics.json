@@ -1,0 +1,272 @@
+{
+  "bounds": {
+    "coordinate": "first Fourier coefficient x[:, 0]",
+    "dimension": 1,
+    "encoded_rows": [
+      "training current x",
+      "training next y"
+    ],
+    "epsilon_fraction": 0.1,
+    "float_evaluation": "input coefficient rounded to float32, then stored as float64",
+    "lower": [
+      -2.397326099872589
+    ],
+    "n_encoded_states": 60000,
+    "raw_lower": [
+      -1.9979363679885864
+    ],
+    "raw_upper": [
+      1.9959609508514404
+    ],
+    "upper": [
+      2.395350682735443
+    ]
+  },
+  "classification": {
+    "closed_cell_boundary_policy": "negative basin first, then positive basin, matching the archived loop",
+    "counts_by_point_label": {
+      "-4": 642,
+      "0": 4668,
+      "2": 4690
+    },
+    "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on the level-8 uniform CMGDB graph",
+    "native_query": "CMGDB.MorseSingletonReachability",
+    "outside_label": -4,
+    "rule": "complete reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      2
+    ],
+    "compute_seconds": 0.001937165972776711,
+    "conley": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "graph_checks": {
+      "exactly_two_minimal_attractors": true,
+      "stable_roots_resolve_to_distinct_attractors": true,
+      "uniform_cell_count_matches_level_8": true
+    },
+    "graph_summary": {
+      "edges": 5,
+      "is_bistable": true,
+      "minimal_nodes": [
+        0,
+        2
+      ],
+      "nodes": 6
+    },
+    "morse_graph_path": "MG_uniform_s8/morse_graph",
+    "morse_nodes": 6,
+    "morse_set_intervals": {
+      "0": {
+        "cell_count": 6,
+        "enclosure_lower": 1.1784600934013723,
+        "enclosure_upper": 1.290788455493748
+      },
+      "1": {
+        "cell_count": 1,
+        "enclosure_lower": 0.03645507879555234,
+        "enclosure_upper": 0.055176472477614785
+      },
+      "2": {
+        "cell_count": 6,
+        "enclosure_lower": -1.292763872630894,
+        "enclosure_upper": -1.1804355105385183
+      },
+      "3": {
+        "cell_count": 1,
+        "enclosure_lower": -0.05715188961476078,
+        "enclosure_upper": -0.03843049593269834
+      },
+      "4": {
+        "cell_count": 4,
+        "enclosure_lower": -0.03843049593269834,
+        "enclosure_upper": 0.03645507879555234
+      },
+      "5": {
+        "cell_count": 2,
+        "enclosure_lower": -2.3786047061905267,
+        "enclosure_upper": 2.3766292890533807
+      }
+    },
+    "morse_sets_path": "MG_uniform_s8/morse_sets",
+    "negative_attractor": 2,
+    "nonminimal_recurrent_nodes": [
+      1,
+      3,
+      4,
+      5
+    ],
+    "padding": true,
+    "polynomial_callback": {
+      "batch_calls": 2,
+      "box_calls": 512,
+      "scalar_evaluations": 1024
+    },
+    "positive_attractor": 0,
+    "queried_uniform_cells": 214,
+    "reachability_query_seconds": 6.154098082333803e-05,
+    "root_resolution_error": null,
+    "statistics_comparable": true,
+    "subdiv_limit": 10000,
+    "subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "uniform_cells": 256
+  },
+  "comparability": {
+    "designation": "test-informed exploratory polynomial physics-coordinate map",
+    "generic_autoencoder_result": false,
+    "invalid_interpretations": [
+      "a trained or learned model result",
+      "an unbiased held-out generalization result",
+      "a paper-eligible comparison",
+      "proof that the polynomial is globally topology preserving"
+    ],
+    "known_global_failure": "The cubic folds, reverses sign for sufficiently large |q|, and is unbounded outside the finite CMGDB domain.",
+    "paper_eligible": false,
+    "preserved_from_rational_ceiling": [
+      "exact SHA256-verified archived inputs",
+      "E(x)=x[:, 0] with float32-equivalent rounding",
+      "a from the same two archived stable roots",
+      "mu=0.75",
+      "bounds from all 30,000 current and next training pairs",
+      "10 percent bounds padding",
+      "level-8 uniform 256-cell CMGDB graph",
+      "CMGDB BoxMap padding=True",
+      "native CMGDB.MorseSingletonReachability",
+      "negative-first closed-cell classification",
+      "same 7,862 conditioned-trajectory denominator"
+    ],
+    "single_intentional_map_change": "Removed the /(1+q^2) saturation factor: G(z)=a*(q+mu*q*(1-q^2)).",
+    "unbiased_test_result": false,
+    "valid_interpretation": "An isolated limit test of how the unsaturated cubic changes the same fixed-coordinate, fixed-grid basin calculation."
+  },
+  "comparison": {
+    "canonical_learned_baselines": {
+      "canonical_10k": {
+        "available": true,
+        "baseline": {
+          "combined_correct_count": 3932,
+          "combined_correct_percentage": 50.01271940981938,
+          "label": "learned D1, 10,000 epochs",
+          "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0_epoch_10000/basin_statistics.json",
+          "sha256": "a2ad66ccafbea33db13a2166ba3dd4a73016eac0a8272968d50762e425f74516"
+        },
+        "ceiling_minus_baseline_count": 3160,
+        "ceiling_minus_baseline_percentage_points": 40.19333502925464,
+        "ceiling_to_baseline_correct_count_ratio": 1.8036622583926756
+      },
+      "canonical_4k": {
+        "available": true,
+        "baseline": {
+          "combined_correct_count": 3490,
+          "combined_correct_percentage": 44.39074026965149,
+          "label": "canonical learned D1, 4,000 epochs",
+          "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/basin_statistics.json",
+          "sha256": "91aaa1fdbd992608b74708f6fa57bcd651f354901a5ff9dc4d99b6d8adc9c1d1"
+        },
+        "ceiling_minus_baseline_count": 3602,
+        "ceiling_minus_baseline_percentage_points": 45.815314169422535,
+        "ceiling_to_baseline_correct_count_ratio": 2.0320916905444126
+      }
+    },
+    "polynomial_combined_correct_count": 7092,
+    "polynomial_combined_correct_percentage": 90.20605443907402,
+    "rational_ceiling": {
+      "available": true,
+      "baseline": {
+        "combined_correct_count": 7827,
+        "combined_correct_percentage": 99.55482065632155,
+        "label": "rational saturated physics-coordinate ceiling",
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_physics_coordinate_ceiling/basin_statistics.json",
+        "sha256": "3ad602c0c4a5925bee26abac477361bf4cfa8df8283c65dfea0adc4cd34fbd1c"
+      },
+      "polynomial_minus_rational_count": -735,
+      "polynomial_minus_rational_percentage_points": -9.34876621724753
+    },
+    "warning": "All comparisons are descriptive only; this map was designed after examining archived labels and is not learned."
+  },
+  "coordinate": {
+    "encoded_stable_roots": [
+      [
+        -1.236594557762146
+      ],
+      [
+        1.236594557762146
+      ]
+    ],
+    "formula": "E(x)=x_1=x[:, 0]",
+    "learned": false,
+    "source": "first Fourier/spectral coefficient"
+  },
+  "experiment": {
+    "generic_autoencoder_result": false,
+    "label": "test-informed exploratory polynomial physics-coordinate map",
+    "paper_eligible": false,
+    "test_labels_informed_design": true
+  },
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "polynomial_map": {
+    "formula": "G(z)=a*(q + mu*q*(1-q^2)), q=z/a",
+    "learned": false,
+    "one_step_fit_diagnostic_path": "one_step_fit_diagnostic.json",
+    "parameters": {
+      "mu": 0.75,
+      "stable_root_magnitude": 1.236594557762146
+    },
+    "topology_diagnostics_path": "topology_diagnostics.json"
+  },
+  "schema_version": 1,
+  "statistics": {
+    "combined_correct": {
+      "count": 7092,
+      "percentage": 90.20605443907402
+    },
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3537,
+      "correctly_classified_in_positive_basin": 3555,
+      "misclassified_in_negative_basin": 181,
+      "misclassified_in_positive_basin": 203,
+      "outside_both_basins": 386
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 44.988552531162554,
+      "correctly_classified_in_positive_basin": 45.217501907911476,
+      "misclassified_in_negative_basin": 2.3022131773085728,
+      "misclassified_in_positive_basin": 2.5820401933350294,
+      "outside_both_basins": 4.909692190282371
+    },
+    "total_trajectories": 10000
+  },
+  "status": "computed"
+}

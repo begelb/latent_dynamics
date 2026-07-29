@@ -1,0 +1,2575 @@
+{
+  "by_dataset": [
+    {
+      "d1": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 5447.0,
+          "correctly_classified_in_negative_basin": 2736.6666666666665,
+          "correctly_classified_in_positive_basin": 2710.3333333333335,
+          "misclassified_in_negative_basin": 6.0,
+          "misclassified_in_positive_basin": 4.0,
+          "outside_both_basins": 2405.0,
+          "total_misclassified": 10.0
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 69.28262528618673,
+          "correctly_classified_in_negative_basin": 34.80878487238192,
+          "correctly_classified_in_positive_basin": 34.4738404138048,
+          "misclassified_in_negative_basin": 0.07631645891630628,
+          "misclassified_in_positive_basin": 0.05087763927753752,
+          "outside_both_basins": 30.590180615619435,
+          "total_misclassified": 0.1271940981938438
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 80.64105825489698,
+            "outside_both_basins_percentage": 19.257186466547953,
+            "replicate_label": "s0",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.10175527855507505
+          },
+          {
+            "combined_correct_percentage": 81.22615110658866,
+            "outside_both_basins_percentage": 18.722971254133807,
+            "replicate_label": "s1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.05087763927753752
+          },
+          {
+            "combined_correct_percentage": 45.98066649707454,
+            "outside_both_basins_percentage": 53.79038412617655,
+            "replicate_label": "s2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.22894937674891885
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "d2": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 5362.0,
+          "correctly_classified_in_negative_basin": 3150.3333333333335,
+          "correctly_classified_in_positive_basin": 2211.6666666666665,
+          "misclassified_in_negative_basin": 3.0,
+          "misclassified_in_positive_basin": 3.0,
+          "outside_both_basins": 2494.0,
+          "total_misclassified": 6.0
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 68.20147545153905,
+          "correctly_classified_in_negative_basin": 40.070380734333924,
+          "correctly_classified_in_positive_basin": 28.131094717205126,
+          "misclassified_in_negative_basin": 0.03815822945815314,
+          "misclassified_in_positive_basin": 0.03815822945815314,
+          "outside_both_basins": 31.722208089544647,
+          "total_misclassified": 0.07631645891630628
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 82.34545917069448,
+            "outside_both_basins_percentage": 17.552785550750446,
+            "replicate_label": "t1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.10175527855507505
+          },
+          {
+            "combined_correct_percentage": 42.48282879674383,
+            "outside_both_basins_percentage": 57.504451793436786,
+            "replicate_label": "t2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.01271940981938438
+          },
+          {
+            "combined_correct_percentage": 79.77613838717883,
+            "outside_both_basins_percentage": 20.109386924446707,
+            "replicate_label": "t3",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.11447468837445943
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "dataset": 1,
+      "dataset_alignment_status": "verified_match",
+      "dataset_initial_condition_seed": 2158,
+      "delta_d1_minus_d2": {
+        "difference_in_reportable_valid_runs": 0,
+        "difference_in_topology_failures": 0,
+        "mean_counts_per_run": {
+          "combined_correct": 85.0,
+          "correctly_classified_in_negative_basin": -413.66666666666697,
+          "correctly_classified_in_positive_basin": 498.66666666666697,
+          "misclassified_in_negative_basin": 3.0,
+          "misclassified_in_positive_basin": 1.0,
+          "outside_both_basins": -89.0,
+          "total_misclassified": 4.0
+        },
+        "mean_percentage_points": {
+          "combined_correct": 1.0811498346476753,
+          "correctly_classified_in_negative_basin": -5.261595861952003,
+          "correctly_classified_in_positive_basin": 6.342745696599675,
+          "misclassified_in_negative_basin": 0.03815822945815314,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": -1.1320274739252127,
+          "total_misclassified": 0.05087763927753752
+        }
+      }
+    },
+    {
+      "d1": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 4495.333333333333,
+          "correctly_classified_in_negative_basin": 1929.3333333333333,
+          "correctly_classified_in_positive_basin": 2566.0,
+          "misclassified_in_negative_basin": 1.3333333333333333,
+          "misclassified_in_positive_basin": 7.666666666666667,
+          "outside_both_basins": 3357.6666666666665,
+          "total_misclassified": 9.0
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 57.17798694140592,
+          "correctly_classified_in_negative_basin": 24.539981344865595,
+          "correctly_classified_in_positive_basin": 32.63800559654032,
+          "misclassified_in_negative_basin": 0.01695921309251251,
+          "misclassified_in_positive_basin": 0.09751547528194693,
+          "outside_both_basins": 42.70753837021962,
+          "total_misclassified": 0.11447468837445944
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 57.8987534978377,
+            "outside_both_basins_percentage": 41.961332994149075,
+            "replicate_label": "s0",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.1399135080132282
+          },
+          {
+            "combined_correct_percentage": 58.91630628338845,
+            "outside_both_basins_percentage": 40.918341388959554,
+            "replicate_label": "s1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.16535232765199695
+          },
+          {
+            "combined_correct_percentage": 54.718901042991604,
+            "outside_both_basins_percentage": 45.24294072755024,
+            "replicate_label": "s2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.03815822945815314
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "d2": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 6564.333333333333,
+          "correctly_classified_in_negative_basin": 3258.0,
+          "correctly_classified_in_positive_basin": 3306.3333333333335,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 1.3333333333333333,
+          "outside_both_basins": 1296.3333333333333,
+          "total_misclassified": 1.3333333333333333
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 83.4944458577122,
+          "correctly_classified_in_negative_basin": 41.43983719155431,
+          "correctly_classified_in_positive_basin": 42.05460866615789,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.01695921309251251,
+          "outside_both_basins": 16.488594929195287,
+          "total_misclassified": 0.01695921309251251
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 83.10862375985754,
+            "outside_both_basins_percentage": 16.891376240142456,
+            "replicate_label": "t1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.0
+          },
+          {
+            "combined_correct_percentage": 83.41388959552276,
+            "outside_both_basins_percentage": 16.57339099465785,
+            "replicate_label": "t2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.01271940981938438
+          },
+          {
+            "combined_correct_percentage": 83.9608242177563,
+            "outside_both_basins_percentage": 16.00101755278555,
+            "replicate_label": "t3",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.03815822945815314
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "dataset": 2,
+      "dataset_alignment_status": "verified_match",
+      "dataset_initial_condition_seed": 4792,
+      "delta_d1_minus_d2": {
+        "difference_in_reportable_valid_runs": 0,
+        "difference_in_topology_failures": 0,
+        "mean_counts_per_run": {
+          "combined_correct": -2069.0,
+          "correctly_classified_in_negative_basin": -1328.6666666666667,
+          "correctly_classified_in_positive_basin": -740.3333333333335,
+          "misclassified_in_negative_basin": 1.3333333333333333,
+          "misclassified_in_positive_basin": 6.333333333333334,
+          "outside_both_basins": 2061.333333333333,
+          "total_misclassified": 7.666666666666667
+        },
+        "mean_percentage_points": {
+          "combined_correct": -26.316458916306274,
+          "correctly_classified_in_negative_basin": -16.899855846688716,
+          "correctly_classified_in_positive_basin": -9.416603069617572,
+          "misclassified_in_negative_basin": 0.01695921309251251,
+          "misclassified_in_positive_basin": 0.08055626218943442,
+          "outside_both_basins": 26.218943441024336,
+          "total_misclassified": 0.09751547528194693
+        }
+      }
+    },
+    {
+      "d1": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 4513.666666666667,
+          "correctly_classified_in_negative_basin": 1779.3333333333333,
+          "correctly_classified_in_positive_basin": 2734.3333333333335,
+          "misclassified_in_negative_basin": 4.666666666666667,
+          "misclassified_in_positive_basin": 7.333333333333333,
+          "outside_both_basins": 3336.3333333333335,
+          "total_misclassified": 12.0
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 57.411176121427964,
+          "correctly_classified_in_negative_basin": 22.632069871957942,
+          "correctly_classified_in_positive_basin": 34.779106249470026,
+          "misclassified_in_negative_basin": 0.05935724582379378,
+          "misclassified_in_positive_basin": 0.0932756720088188,
+          "outside_both_basins": 42.436190960739424,
+          "total_misclassified": 0.15263291783261257
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 54.515390485881454,
+            "outside_both_basins_percentage": 45.408293055202236,
+            "replicate_label": "s0",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.07631645891630628
+          },
+          {
+            "combined_correct_percentage": 60.22640549478504,
+            "outside_both_basins_percentage": 39.51920630882727,
+            "replicate_label": "s1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.2543881963876876
+          },
+          {
+            "combined_correct_percentage": 57.4917323836174,
+            "outside_both_basins_percentage": 42.38107351818876,
+            "replicate_label": "s2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.1271940981938438
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "d2": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 5477.0,
+          "correctly_classified_in_negative_basin": 2673.3333333333335,
+          "correctly_classified_in_positive_basin": 2803.6666666666665,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 1.3333333333333333,
+          "outside_both_basins": 2383.6666666666665,
+          "total_misclassified": 1.3333333333333333
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 69.66420758076825,
+          "correctly_classified_in_negative_basin": 34.003222250487575,
+          "correctly_classified_in_positive_basin": 35.660985330280674,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.01695921309251251,
+          "outside_both_basins": 30.31883320613923,
+          "total_misclassified": 0.01695921309251251
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 44.721444924955485,
+            "outside_both_basins_percentage": 55.278555075044515,
+            "replicate_label": "t1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.0
+          },
+          {
+            "combined_correct_percentage": 82.56168913762401,
+            "outside_both_basins_percentage": 17.412872042737217,
+            "replicate_label": "t2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.02543881963876876
+          },
+          {
+            "combined_correct_percentage": 81.70948867972525,
+            "outside_both_basins_percentage": 18.26507250063597,
+            "replicate_label": "t3",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.02543881963876876
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "dataset": 3,
+      "dataset_alignment_status": "verified_match",
+      "dataset_initial_condition_seed": 3174,
+      "delta_d1_minus_d2": {
+        "difference_in_reportable_valid_runs": 0,
+        "difference_in_topology_failures": 0,
+        "mean_counts_per_run": {
+          "combined_correct": -963.333333333333,
+          "correctly_classified_in_negative_basin": -894.0000000000002,
+          "correctly_classified_in_positive_basin": -69.33333333333303,
+          "misclassified_in_negative_basin": 4.666666666666667,
+          "misclassified_in_positive_basin": 6.0,
+          "outside_both_basins": 952.666666666667,
+          "total_misclassified": 10.666666666666666
+        },
+        "mean_percentage_points": {
+          "combined_correct": -12.253031459340285,
+          "correctly_classified_in_negative_basin": -11.371152378529633,
+          "correctly_classified_in_positive_basin": -0.8818790808106485,
+          "misclassified_in_negative_basin": 0.05935724582379378,
+          "misclassified_in_positive_basin": 0.07631645891630628,
+          "outside_both_basins": 12.117357754600192,
+          "total_misclassified": 0.13567370474010007
+        }
+      }
+    },
+    {
+      "d1": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 4621.333333333333,
+          "correctly_classified_in_negative_basin": 2474.6666666666665,
+          "correctly_classified_in_positive_basin": 2146.6666666666665,
+          "misclassified_in_negative_basin": 3.3333333333333335,
+          "misclassified_in_positive_basin": 3.3333333333333335,
+          "outside_both_basins": 3234.0,
+          "total_misclassified": 6.666666666666667
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 58.78063257864835,
+          "correctly_classified_in_negative_basin": 31.476299499703213,
+          "correctly_classified_in_positive_basin": 27.304333078945138,
+          "misclassified_in_negative_basin": 0.04239803273128127,
+          "misclassified_in_positive_basin": 0.04239803273128127,
+          "outside_both_basins": 41.134571355889086,
+          "total_misclassified": 0.08479606546256253
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 65.89926227423048,
+            "outside_both_basins_percentage": 33.99898244721445,
+            "replicate_label": "s0",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.10175527855507505
+          },
+          {
+            "combined_correct_percentage": 78.41516153650471,
+            "outside_both_basins_percentage": 21.432205545662683,
+            "replicate_label": "s1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.15263291783261257
+          },
+          {
+            "combined_correct_percentage": 32.02747392520987,
+            "outside_both_basins_percentage": 67.97252607479012,
+            "replicate_label": "s2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.0
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "d2": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 4960.666666666667,
+          "correctly_classified_in_negative_basin": 1622.3333333333333,
+          "correctly_classified_in_positive_basin": 3338.3333333333335,
+          "misclassified_in_negative_basin": 1.0,
+          "misclassified_in_positive_basin": 1.6666666666666667,
+          "outside_both_basins": 2898.6666666666665,
+          "total_misclassified": 2.6666666666666665
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 63.096752310692786,
+          "correctly_classified_in_negative_basin": 20.635122530314593,
+          "correctly_classified_in_positive_basin": 42.46162978037819,
+          "misclassified_in_negative_basin": 0.01271940981938438,
+          "misclassified_in_positive_basin": 0.021199016365640633,
+          "outside_both_basins": 36.86932926312219,
+          "total_misclassified": 0.03391842618502502
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 63.07555329432714,
+            "outside_both_basins_percentage": 36.89900788603409,
+            "replicate_label": "t1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.02543881963876876
+          },
+          {
+            "combined_correct_percentage": 62.808445688120074,
+            "outside_both_basins_percentage": 37.127957262783006,
+            "replicate_label": "t2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.0635970490969219
+          },
+          {
+            "combined_correct_percentage": 63.40625794963114,
+            "outside_both_basins_percentage": 36.58102264054948,
+            "replicate_label": "t3",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.01271940981938438
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "dataset": 4,
+      "dataset_alignment_status": "verified_match",
+      "dataset_initial_condition_seed": 688,
+      "delta_d1_minus_d2": {
+        "difference_in_reportable_valid_runs": 0,
+        "difference_in_topology_failures": 0,
+        "mean_counts_per_run": {
+          "combined_correct": -339.33333333333394,
+          "correctly_classified_in_negative_basin": 852.3333333333333,
+          "correctly_classified_in_positive_basin": -1191.666666666667,
+          "misclassified_in_negative_basin": 2.3333333333333335,
+          "misclassified_in_positive_basin": 1.6666666666666667,
+          "outside_both_basins": 335.3333333333335,
+          "total_misclassified": 4.0
+        },
+        "mean_percentage_points": {
+          "combined_correct": -4.316119732044434,
+          "correctly_classified_in_negative_basin": 10.84117696938862,
+          "correctly_classified_in_positive_basin": -15.15729670143305,
+          "misclassified_in_negative_basin": 0.029678622911896886,
+          "misclassified_in_positive_basin": 0.021199016365640633,
+          "outside_both_basins": 4.265242092766897,
+          "total_misclassified": 0.050877639277537516
+        }
+      }
+    },
+    {
+      "d1": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 1669.6666666666667,
+          "correctly_classified_in_negative_basin": 1096.6666666666667,
+          "correctly_classified_in_positive_basin": 573.0,
+          "misclassified_in_negative_basin": 6.0,
+          "misclassified_in_positive_basin": 0.3333333333333333,
+          "outside_both_basins": 6186.0,
+          "total_misclassified": 6.333333333333333
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 21.23717459509879,
+          "correctly_classified_in_negative_basin": 13.948952768591539,
+          "correctly_classified_in_positive_basin": 7.28822182650725,
+          "misclassified_in_negative_basin": 0.07631645891630628,
+          "misclassified_in_positive_basin": 0.004239803273128127,
+          "outside_both_basins": 78.68226914271177,
+          "total_misclassified": 0.08055626218943442
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 3.777664716357161,
+            "outside_both_basins_percentage": 96.19689646400407,
+            "replicate_label": "s0",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.02543881963876876
+          },
+          {
+            "combined_correct_percentage": 38.6034088018316,
+            "outside_both_basins_percentage": 61.358432968710254,
+            "replicate_label": "s1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.03815822945815314
+          },
+          {
+            "combined_correct_percentage": 21.330450267107608,
+            "outside_both_basins_percentage": 78.49147799542101,
+            "replicate_label": "s2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.17807173747138133
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "d2": {
+        "mean_counts_across_reportable_runs": {
+          "combined_correct": 5894.333333333333,
+          "correctly_classified_in_negative_basin": 2670.6666666666665,
+          "correctly_classified_in_positive_basin": 3223.6666666666665,
+          "misclassified_in_negative_basin": 1.3333333333333333,
+          "misclassified_in_positive_basin": 2.6666666666666665,
+          "outside_both_basins": 1963.6666666666667,
+          "total_misclassified": 4.0
+        },
+        "mean_percentages_across_reportable_runs": {
+          "combined_correct": 74.97244127872466,
+          "correctly_classified_in_negative_basin": 33.96930382430255,
+          "correctly_classified_in_positive_basin": 41.00313745442211,
+          "misclassified_in_negative_basin": 0.01695921309251251,
+          "misclassified_in_positive_basin": 0.03391842618502502,
+          "outside_both_basins": 24.976681081997793,
+          "total_misclassified": 0.05087763927753752
+        },
+        "run_cells": [
+          {
+            "combined_correct_percentage": 62.14703637751208,
+            "outside_both_basins_percentage": 37.84024421266853,
+            "replicate_label": "t1",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.01271940981938438
+          },
+          {
+            "combined_correct_percentage": 81.5059781226151,
+            "outside_both_basins_percentage": 18.46858305774612,
+            "replicate_label": "t2",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.02543881963876876
+          },
+          {
+            "combined_correct_percentage": 81.26430933604681,
+            "outside_both_basins_percentage": 18.621215975578732,
+            "replicate_label": "t3",
+            "reportable_valid": true,
+            "statistics_failure_reasons": [],
+            "statistics_valid": true,
+            "topology_failure_reasons": [],
+            "topology_valid": true,
+            "total_misclassified_percentage": 0.11447468837445943
+          }
+        ],
+        "run_counts": {
+          "input_status_complete": 3,
+          "planned": 3,
+          "reportable_valid": 3,
+          "result_rows_present": 3,
+          "statistics_failed": 0,
+          "statistics_valid": 3,
+          "topology_failed": 0,
+          "topology_valid": 3
+        }
+      },
+      "dataset": 5,
+      "dataset_alignment_status": "verified_match",
+      "dataset_initial_condition_seed": 5727,
+      "delta_d1_minus_d2": {
+        "difference_in_reportable_valid_runs": 0,
+        "difference_in_topology_failures": 0,
+        "mean_counts_per_run": {
+          "combined_correct": -4224.666666666666,
+          "correctly_classified_in_negative_basin": -1573.9999999999998,
+          "correctly_classified_in_positive_basin": -2650.6666666666665,
+          "misclassified_in_negative_basin": 4.666666666666667,
+          "misclassified_in_positive_basin": -2.333333333333333,
+          "outside_both_basins": 4222.333333333333,
+          "total_misclassified": 2.333333333333333
+        },
+        "mean_percentage_points": {
+          "combined_correct": -53.735266683625866,
+          "correctly_classified_in_negative_basin": -20.02035105571101,
+          "correctly_classified_in_positive_basin": -33.71491562791486,
+          "misclassified_in_negative_basin": 0.05935724582379377,
+          "misclassified_in_positive_basin": -0.02967862291189689,
+          "outside_both_basins": 53.70558806071398,
+          "total_misclassified": 0.029678622911896893
+        }
+      }
+    }
+  ],
+  "comparison_scope": "matched_training_datasets_unpaired_training_runs",
+  "dataset_alignment": {
+    "datasets": [
+      {
+        "d1_dataset_initial_condition_seed_values": [
+          2158
+        ],
+        "d1_training_data_sha256_values": [
+          "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+        ],
+        "d2_dataset_initial_condition_seed_values": [
+          2158
+        ],
+        "d2_training_data_sha256_values": [
+          "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+        ],
+        "dataset": 1,
+        "dataset_initial_condition_seed_status": "verified_match",
+        "status": "verified_match",
+        "training_data_sha256_status": "verified_match"
+      },
+      {
+        "d1_dataset_initial_condition_seed_values": [
+          4792
+        ],
+        "d1_training_data_sha256_values": [
+          "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+        ],
+        "d2_dataset_initial_condition_seed_values": [
+          4792
+        ],
+        "d2_training_data_sha256_values": [
+          "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+        ],
+        "dataset": 2,
+        "dataset_initial_condition_seed_status": "verified_match",
+        "status": "verified_match",
+        "training_data_sha256_status": "verified_match"
+      },
+      {
+        "d1_dataset_initial_condition_seed_values": [
+          3174
+        ],
+        "d1_training_data_sha256_values": [
+          "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+        ],
+        "d2_dataset_initial_condition_seed_values": [
+          3174
+        ],
+        "d2_training_data_sha256_values": [
+          "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+        ],
+        "dataset": 3,
+        "dataset_initial_condition_seed_status": "verified_match",
+        "status": "verified_match",
+        "training_data_sha256_status": "verified_match"
+      },
+      {
+        "d1_dataset_initial_condition_seed_values": [
+          688
+        ],
+        "d1_training_data_sha256_values": [
+          "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+        ],
+        "d2_dataset_initial_condition_seed_values": [
+          688
+        ],
+        "d2_training_data_sha256_values": [
+          "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+        ],
+        "dataset": 4,
+        "dataset_initial_condition_seed_status": "verified_match",
+        "status": "verified_match",
+        "training_data_sha256_status": "verified_match"
+      },
+      {
+        "d1_dataset_initial_condition_seed_values": [
+          5727
+        ],
+        "d1_training_data_sha256_values": [
+          "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+        ],
+        "d2_dataset_initial_condition_seed_values": [
+          5727
+        ],
+        "d2_training_data_sha256_values": [
+          "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+        ],
+        "dataset": 5,
+        "dataset_initial_condition_seed_status": "verified_match",
+        "status": "verified_match",
+        "training_data_sha256_status": "verified_match"
+      }
+    ],
+    "status": "verified_match"
+  },
+  "delta_convention": "All deltas are D1 minus D2. Percentage deltas are percentage points.",
+  "design": {
+    "d1_replicates": {
+      "field": "training_seed",
+      "recorded_rng_seeds": true,
+      "values": [
+        0,
+        1,
+        2
+      ]
+    },
+    "d2_replicates": {
+      "field": "training_trial",
+      "recorded_rng_seeds": false,
+      "values": [
+        1,
+        2,
+        3
+      ]
+    },
+    "datasets": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "planned_runs_per_dimension": 15
+  },
+  "dimension_aggregates": {
+    "d1": {
+      "descriptive_across_reportable_runs": {
+        "counts": {
+          "combined_correct": {
+            "maximum": 6386.0,
+            "mean": 4149.4,
+            "median": 4520.0,
+            "minimum": 297.0,
+            "n": 15,
+            "sample_standard_deviation": 1711.0531760961057
+          },
+          "correctly_classified_in_negative_basin": {
+            "maximum": 3182.0,
+            "mean": 2003.3333333333333,
+            "median": 1589.0,
+            "minimum": 146.0,
+            "n": 15,
+            "sample_standard_deviation": 988.6983988100334
+          },
+          "correctly_classified_in_positive_basin": {
+            "maximum": 3288.0,
+            "mean": 2146.0666666666666,
+            "median": 2087.0,
+            "minimum": 122.0,
+            "n": 15,
+            "sample_standard_deviation": 1135.8850210088963
+          },
+          "misclassified_in_negative_basin": {
+            "maximum": 14.0,
+            "mean": 4.266666666666667,
+            "median": 3.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 4.682286783592983
+          },
+          "misclassified_in_positive_basin": {
+            "maximum": 12.0,
+            "mean": 4.533333333333333,
+            "median": 5.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 4.356713483917939
+          },
+          "outside_both_basins": {
+            "maximum": 7563.0,
+            "mean": 3703.8,
+            "median": 3332.0,
+            "minimum": 1472.0,
+            "n": 15,
+            "sample_standard_deviation": 1712.3582819358471
+          },
+          "total_misclassified": {
+            "maximum": 20.0,
+            "mean": 8.8,
+            "median": 8.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 5.94258241123215
+          }
+        },
+        "percentages": {
+          "combined_correct": {
+            "maximum": 81.22615110658866,
+            "mean": 52.777919104553554,
+            "median": 57.4917323836174,
+            "minimum": 3.777664716357161,
+            "n": 15,
+            "sample_standard_deviation": 21.763586569525643
+          },
+          "correctly_classified_in_negative_basin": {
+            "maximum": 40.4731620452811,
+            "mean": 25.48121767150004,
+            "median": 20.21114220300178,
+            "minimum": 1.8570338336301195,
+            "n": 15,
+            "sample_standard_deviation": 12.575660122233954
+          },
+          "correctly_classified_in_positive_basin": {
+            "maximum": 41.821419486135845,
+            "mean": 27.296701433053506,
+            "median": 26.545408293055203,
+            "minimum": 1.5517679979648944,
+            "n": 15,
+            "sample_standard_deviation": 14.44778708991219
+          },
+          "misclassified_in_negative_basin": {
+            "maximum": 0.17807173747138133,
+            "mean": 0.05426948189604002,
+            "median": 0.03815822945815314,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.0595559244924063
+          },
+          "misclassified_in_positive_basin": {
+            "maximum": 0.15263291783261257,
+            "mean": 0.05766132451454253,
+            "median": 0.0635970490969219,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.05541482426759016
+          },
+          "outside_both_basins": {
+            "maximum": 96.19689646400407,
+            "mean": 47.11015008903587,
+            "median": 42.38107351818876,
+            "minimum": 18.722971254133807,
+            "n": 15,
+            "sample_standard_deviation": 21.78018674555898
+          },
+          "total_misclassified": {
+            "maximum": 0.2543881963876876,
+            "mean": 0.11193080641058255,
+            "median": 0.10175527855507505,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.07558614107392712
+          }
+        }
+      },
+      "dimension": 1,
+      "dimension_label": "D1",
+      "input_status_counts": {
+        "complete": 15
+      },
+      "pooled_across_reportable_runs": {
+        "conditioned_rows": 117930,
+        "counts": {
+          "combined_correct": 62241,
+          "correctly_classified_in_negative_basin": 30050,
+          "correctly_classified_in_positive_basin": 32191,
+          "misclassified_in_negative_basin": 64,
+          "misclassified_in_positive_basin": 68,
+          "outside_both_basins": 55557,
+          "total_misclassified": 132
+        },
+        "interpretation": "Descriptive only. Evaluation trajectories are reused across model runs.",
+        "percentages": {
+          "combined_correct": 52.77791910455355,
+          "correctly_classified_in_negative_basin": 25.481217671500044,
+          "correctly_classified_in_positive_basin": 27.296701433053506,
+          "misclassified_in_negative_basin": 0.05426948189604002,
+          "misclassified_in_positive_basin": 0.05766132451454253,
+          "outside_both_basins": 47.11015008903587,
+          "total_misclassified": 0.11193080641058255
+        },
+        "valid_runs": 15
+      },
+      "replicate_kind": "recorded_training_seed",
+      "run_counts": {
+        "input_status_complete": 15,
+        "planned": 15,
+        "reportable_valid": 15,
+        "result_rows_present": 15,
+        "statistics_failed": 0,
+        "statistics_valid": 15,
+        "topology_failed": 0,
+        "topology_valid": 15
+      },
+      "statistics_failure_reasons": {},
+      "topology_failure_reasons": {}
+    },
+    "d2": {
+      "descriptive_across_reportable_runs": {
+        "counts": {
+          "combined_correct": {
+            "maximum": 6601.0,
+            "mean": 5651.666666666667,
+            "median": 6389.0,
+            "minimum": 3340.0,
+            "n": 15,
+            "sample_standard_deviation": 1130.8525018552955
+          },
+          "correctly_classified_in_negative_basin": {
+            "maximum": 3275.0,
+            "mean": 2674.9333333333334,
+            "median": 3159.0,
+            "minimum": 1594.0,
+            "n": 15,
+            "sample_standard_deviation": 752.1687184085636
+          },
+          "correctly_classified_in_positive_basin": {
+            "maximum": 3344.0,
+            "mean": 2976.733333333333,
+            "median": 3283.0,
+            "minimum": 229.0,
+            "n": 15,
+            "sample_standard_deviation": 850.5370124361488
+          },
+          "misclassified_in_negative_basin": {
+            "maximum": 6.0,
+            "mean": 1.0666666666666667,
+            "median": 0.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 1.6242214252050853
+          },
+          "misclassified_in_positive_basin": {
+            "maximum": 7.0,
+            "mean": 2.0,
+            "median": 1.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 2.138089935299395
+          },
+          "outside_both_basins": {
+            "maximum": 4521.0,
+            "mean": 2207.266666666667,
+            "median": 1464.0,
+            "minimum": 1258.0,
+            "n": 15,
+            "sample_standard_deviation": 1132.0305060671583
+          },
+          "total_misclassified": {
+            "maximum": 9.0,
+            "mean": 3.066666666666667,
+            "median": 2.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 3.1502078540644782
+          }
+        },
+        "percentages": {
+          "combined_correct": {
+            "maximum": 83.9608242177563,
+            "mean": 71.88586449588739,
+            "median": 81.26430933604681,
+            "minimum": 42.48282879674383,
+            "n": 15,
+            "sample_standard_deviation": 14.383776416373637
+          },
+          "correctly_classified_in_negative_basin": {
+            "maximum": 41.65606715848384,
+            "mean": 34.02357330619859,
+            "median": 40.18061561943526,
+            "minimum": 20.2747392520987,
+            "n": 15,
+            "sample_standard_deviation": 9.567142182759648
+          },
+          "correctly_classified_in_positive_basin": {
+            "maximum": 42.53370643602137,
+            "mean": 37.8622911896888,
+            "median": 41.75782243703892,
+            "minimum": 2.912744848639023,
+            "n": 15,
+            "sample_standard_deviation": 10.818328827730205
+          },
+          "misclassified_in_negative_basin": {
+            "maximum": 0.07631645891630628,
+            "mean": 0.013567370474010005,
+            "median": 0.0,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.020659137944608053
+          },
+          "misclassified_in_positive_basin": {
+            "maximum": 0.08903586873569067,
+            "mean": 0.02543881963876876,
+            "median": 0.01271940981938438,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.027195242117774042
+          },
+          "outside_both_basins": {
+            "maximum": 57.504451793436786,
+            "mean": 28.075129313999827,
+            "median": 18.621215975578732,
+            "minimum": 16.00101755278555,
+            "n": 15,
+            "sample_standard_deviation": 14.398759934713283
+          },
+          "total_misclassified": {
+            "maximum": 0.11447468837445943,
+            "mean": 0.03900619011277877,
+            "median": 0.02543881963876876,
+            "minimum": 0.0,
+            "n": 15,
+            "sample_standard_deviation": 0.04006878471208952
+          }
+        }
+      },
+      "dimension": 2,
+      "dimension_label": "D2",
+      "input_status_counts": {
+        "complete": 15
+      },
+      "pooled_across_reportable_runs": {
+        "conditioned_rows": 117930,
+        "counts": {
+          "combined_correct": 84775,
+          "correctly_classified_in_negative_basin": 40124,
+          "correctly_classified_in_positive_basin": 44651,
+          "misclassified_in_negative_basin": 16,
+          "misclassified_in_positive_basin": 30,
+          "outside_both_basins": 33109,
+          "total_misclassified": 46
+        },
+        "interpretation": "Descriptive only. Evaluation trajectories are reused across model runs.",
+        "percentages": {
+          "combined_correct": 71.88586449588739,
+          "correctly_classified_in_negative_basin": 34.02357330619859,
+          "correctly_classified_in_positive_basin": 37.8622911896888,
+          "misclassified_in_negative_basin": 0.013567370474010005,
+          "misclassified_in_positive_basin": 0.02543881963876876,
+          "outside_both_basins": 28.07512931399983,
+          "total_misclassified": 0.03900619011277877
+        },
+        "valid_runs": 15
+      },
+      "replicate_kind": "archived_unseeded_training_trial",
+      "run_counts": {
+        "input_status_complete": 15,
+        "planned": 15,
+        "reportable_valid": 15,
+        "result_rows_present": 15,
+        "statistics_failed": 0,
+        "statistics_valid": 15,
+        "topology_failed": 0,
+        "topology_valid": 15
+      },
+      "statistics_failure_reasons": {},
+      "topology_failure_reasons": {}
+    }
+  },
+  "generated_at_utc": "2026-07-29T03:10:56.535853+00:00",
+  "inputs": {
+    "d1": {
+      "experiment_plan_sha256": "a9dc1fdb28db29b24ba10eab192d8133f4c9294be098a36df9e0bff1479885d9",
+      "package_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1",
+      "results_path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/results.json",
+      "results_sha256": "2c51756ee05159321feed9ae9e116001255dc1aa4f3ee16c80f3e9ea949a396d",
+      "source_row_count": 15,
+      "source_schema_version": 1,
+      "source_status": "complete"
+    },
+    "d2": {
+      "experiment_plan_sha256": null,
+      "package_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1",
+      "results_path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/results.json",
+      "results_sha256": "d91d40b749980d7bb9dda11fa0eed8bcbd384acdc9af3005656c28e687b77473",
+      "source_row_count": 15,
+      "source_schema_version": 1,
+      "source_status": null,
+      "training_trial_ids_are_not_recorded_rng_seeds": true
+    }
+  },
+  "overall_delta_d1_minus_d2": {
+    "mean_counts_per_run": {
+      "combined_correct": -1502.2666666666673,
+      "correctly_classified_in_negative_basin": -671.6000000000001,
+      "correctly_classified_in_positive_basin": -830.6666666666665,
+      "misclassified_in_negative_basin": 3.2,
+      "misclassified_in_positive_basin": 2.533333333333333,
+      "outside_both_basins": 1496.5333333333333,
+      "total_misclassified": 5.733333333333334
+    },
+    "mean_percentage_points": {
+      "combined_correct": -19.107945391333836,
+      "correctly_classified_in_negative_basin": -8.542355634698552,
+      "correctly_classified_in_positive_basin": -10.56558975663529,
+      "misclassified_in_negative_basin": 0.040702111422030014,
+      "misclassified_in_positive_basin": 0.032222504875773765,
+      "outside_both_basins": 19.035020775036042,
+      "total_misclassified": 0.07292461629780378
+    }
+  },
+  "pairing_statement": "The five training datasets are matched across dimensions, but D1 training seeds are not paired to D2 trial IDs. D2 trial IDs are archival labels, not recorded RNG seeds; all D1-D2 deltas are dataset- or dimension-level aggregate contrasts, never cellwise paired differences.",
+  "per_run": [
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "dca2bf4dd6fb124882ce0dfab510642d1bf6536675dd0ed39a0ff80e0a626d13",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6340,
+        "correctly_classified_in_negative_basin": 3147,
+        "correctly_classified_in_positive_basin": 3193,
+        "misclassified_in_negative_basin": 7,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 1514,
+        "total_misclassified": 8
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 80.64105825489698,
+        "correctly_classified_in_negative_basin": 40.027982701602646,
+        "correctly_classified_in_positive_basin": 40.61307555329433,
+        "misclassified_in_negative_basin": 0.08903586873569067,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 19.257186466547953,
+        "total_misclassified": 0.10175527855507505
+      },
+      "replicate_id": 0,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s0",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "bb13d3cc15d776f5a58934d4bf02eb8d176a41711541c0372232e7b7568b611e",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6386,
+        "correctly_classified_in_negative_basin": 3182,
+        "correctly_classified_in_positive_basin": 3204,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 2,
+        "outside_both_basins": 1472,
+        "total_misclassified": 4
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 81.22615110658866,
+        "correctly_classified_in_negative_basin": 40.4731620452811,
+        "correctly_classified_in_positive_basin": 40.75298906130755,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.02543881963876876,
+        "outside_both_basins": 18.722971254133807,
+        "total_misclassified": 0.05087763927753752
+      },
+      "replicate_id": 1,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "d1924d22b723ecad2a2d24f0253a841546600f06d11c8045d1b14c980dc1142a",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 3615,
+        "correctly_classified_in_negative_basin": 1881,
+        "correctly_classified_in_positive_basin": 1734,
+        "misclassified_in_negative_basin": 9,
+        "misclassified_in_positive_basin": 9,
+        "outside_both_basins": 4229,
+        "total_misclassified": 18
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 45.98066649707454,
+        "correctly_classified_in_negative_basin": 23.92520987026202,
+        "correctly_classified_in_positive_basin": 22.055456626812514,
+        "misclassified_in_negative_basin": 0.11447468837445943,
+        "misclassified_in_positive_basin": 0.11447468837445943,
+        "outside_both_basins": 53.79038412617655,
+        "total_misclassified": 0.22894937674891885
+      },
+      "replicate_id": 2,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "1ac0a0cfc1e68e28f94ba3730d39b6369039b2f1b5be088f19016a990c3dd53c",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4552,
+        "correctly_classified_in_negative_basin": 1322,
+        "correctly_classified_in_positive_basin": 3230,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 11,
+        "outside_both_basins": 3299,
+        "total_misclassified": 11
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 57.8987534978377,
+        "correctly_classified_in_negative_basin": 16.81505978122615,
+        "correctly_classified_in_positive_basin": 41.08369371661155,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.1399135080132282,
+        "outside_both_basins": 41.961332994149075,
+        "total_misclassified": 0.1399135080132282
+      },
+      "replicate_id": 0,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s0",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "248350ed4849105cbdab65c505449467420bd674ef8b9d183a002f1b00b96bbf",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4632,
+        "correctly_classified_in_negative_basin": 1511,
+        "correctly_classified_in_positive_basin": 3121,
+        "misclassified_in_negative_basin": 1,
+        "misclassified_in_positive_basin": 12,
+        "outside_both_basins": 3217,
+        "total_misclassified": 13
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 58.91630628338845,
+        "correctly_classified_in_negative_basin": 19.2190282370898,
+        "correctly_classified_in_positive_basin": 39.69727804629865,
+        "misclassified_in_negative_basin": 0.01271940981938438,
+        "misclassified_in_positive_basin": 0.15263291783261257,
+        "outside_both_basins": 40.918341388959554,
+        "total_misclassified": 0.16535232765199695
+      },
+      "replicate_id": 1,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "eb55d09db7fb8e138aba678a95a5632ee10f9b95a420d4bae1d164829d9c0fee",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4302,
+        "correctly_classified_in_negative_basin": 2955,
+        "correctly_classified_in_positive_basin": 1347,
+        "misclassified_in_negative_basin": 3,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 3557,
+        "total_misclassified": 3
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 54.718901042991604,
+        "correctly_classified_in_negative_basin": 37.58585601628084,
+        "correctly_classified_in_positive_basin": 17.13304502671076,
+        "misclassified_in_negative_basin": 0.03815822945815314,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 45.24294072755024,
+        "total_misclassified": 0.03815822945815314
+      },
+      "replicate_id": 2,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "54a00eeaebce465803cae99410771a03ee9786e867351aabe0a3cba57d97dbaa",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4286,
+        "correctly_classified_in_negative_basin": 998,
+        "correctly_classified_in_positive_basin": 3288,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 6,
+        "outside_both_basins": 3570,
+        "total_misclassified": 6
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 54.515390485881454,
+        "correctly_classified_in_negative_basin": 12.693970999745611,
+        "correctly_classified_in_positive_basin": 41.821419486135845,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.07631645891630628,
+        "outside_both_basins": 45.408293055202236,
+        "total_misclassified": 0.07631645891630628
+      },
+      "replicate_id": 0,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s0",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "51ec7576cb59e8117f25a652d10025aafb6f0dd547ce29d5b503cc892fd0fde8",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4735,
+        "correctly_classified_in_negative_basin": 3051,
+        "correctly_classified_in_positive_basin": 1684,
+        "misclassified_in_negative_basin": 14,
+        "misclassified_in_positive_basin": 6,
+        "outside_both_basins": 3107,
+        "total_misclassified": 20
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 60.22640549478504,
+        "correctly_classified_in_negative_basin": 38.80691935894175,
+        "correctly_classified_in_positive_basin": 21.419486135843297,
+        "misclassified_in_negative_basin": 0.17807173747138133,
+        "misclassified_in_positive_basin": 0.07631645891630628,
+        "outside_both_basins": 39.51920630882727,
+        "total_misclassified": 0.2543881963876876
+      },
+      "replicate_id": 1,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "a85588170be632514d83a110b1e5eb038914c113501ec3a65f5c5d804bacd912",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4520,
+        "correctly_classified_in_negative_basin": 1289,
+        "correctly_classified_in_positive_basin": 3231,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 10,
+        "outside_both_basins": 3332,
+        "total_misclassified": 10
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 57.4917323836174,
+        "correctly_classified_in_negative_basin": 16.39531925718647,
+        "correctly_classified_in_positive_basin": 41.09641312643093,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.1271940981938438,
+        "outside_both_basins": 42.38107351818876,
+        "total_misclassified": 0.1271940981938438
+      },
+      "replicate_id": 2,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "54ee0477f6700ede42d04b99efa014a4d7203aaf74435152d111aa1366effca1",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 5181,
+        "correctly_classified_in_negative_basin": 3094,
+        "correctly_classified_in_positive_basin": 2087,
+        "misclassified_in_negative_basin": 3,
+        "misclassified_in_positive_basin": 5,
+        "outside_both_basins": 2673,
+        "total_misclassified": 8
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 65.89926227423048,
+        "correctly_classified_in_negative_basin": 39.35385398117528,
+        "correctly_classified_in_positive_basin": 26.545408293055203,
+        "misclassified_in_negative_basin": 0.03815822945815314,
+        "misclassified_in_positive_basin": 0.0635970490969219,
+        "outside_both_basins": 33.99898244721445,
+        "total_misclassified": 0.10175527855507505
+      },
+      "replicate_id": 0,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s0",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "896105c6a3c03355743feb85145e2a86d04bbedcd197804fc59bcc479812f2ea",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6165,
+        "correctly_classified_in_negative_basin": 3081,
+        "correctly_classified_in_positive_basin": 3084,
+        "misclassified_in_negative_basin": 7,
+        "misclassified_in_positive_basin": 5,
+        "outside_both_basins": 1685,
+        "total_misclassified": 12
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 78.41516153650471,
+        "correctly_classified_in_negative_basin": 39.188501653523275,
+        "correctly_classified_in_positive_basin": 39.22665988298143,
+        "misclassified_in_negative_basin": 0.08903586873569067,
+        "misclassified_in_positive_basin": 0.0635970490969219,
+        "outside_both_basins": 21.432205545662683,
+        "total_misclassified": 0.15263291783261257
+      },
+      "replicate_id": 1,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "094639bb4339d88e6bb098974fbe8fc03a916a95e9feed7882a376459924683b",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 2518,
+        "correctly_classified_in_negative_basin": 1249,
+        "correctly_classified_in_positive_basin": 1269,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 5344,
+        "total_misclassified": 0
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 32.02747392520987,
+        "correctly_classified_in_negative_basin": 15.88654286441109,
+        "correctly_classified_in_positive_basin": 16.140931060798778,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 67.97252607479012,
+        "total_misclassified": 0.0
+      },
+      "replicate_id": 2,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "28ee488672e6d087e35894bb4bf69bf7e520d03aa32a864ec70b3cab867b6e21",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 297,
+        "correctly_classified_in_negative_basin": 146,
+        "correctly_classified_in_positive_basin": 151,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 7563,
+        "total_misclassified": 2
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 3.777664716357161,
+        "correctly_classified_in_negative_basin": 1.8570338336301195,
+        "correctly_classified_in_positive_basin": 1.9206308827270415,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 96.19689646400407,
+        "total_misclassified": 0.02543881963876876
+      },
+      "replicate_id": 0,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s0",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "1355d5fdbcd2d3e819c117ce9bda8a459dd4443b25d4550901849593c17a8fee",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 3035,
+        "correctly_classified_in_negative_basin": 1589,
+        "correctly_classified_in_positive_basin": 1446,
+        "misclassified_in_negative_basin": 3,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 4824,
+        "total_misclassified": 3
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 38.6034088018316,
+        "correctly_classified_in_negative_basin": 20.21114220300178,
+        "correctly_classified_in_positive_basin": 18.392266598829814,
+        "misclassified_in_negative_basin": 0.03815822945815314,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 61.358432968710254,
+        "total_misclassified": 0.03815822945815314
+      },
+      "replicate_id": 1,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "5151926206a9b0b1519ff1e15ec839dfe835f8235feb708f381c7966df5dd7a9",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 1677,
+        "correctly_classified_in_negative_basin": 1555,
+        "correctly_classified_in_positive_basin": 122,
+        "misclassified_in_negative_basin": 13,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 6171,
+        "total_misclassified": 14
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 1,
+      "dimension_label": "D1",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": "",
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000",
+      "percentages": {
+        "combined_correct": 21.330450267107608,
+        "correctly_classified_in_negative_basin": 19.778682269142713,
+        "correctly_classified_in_positive_basin": 1.5517679979648944,
+        "misclassified_in_negative_basin": 0.16535232765199695,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 78.49147799542101,
+        "total_misclassified": 0.17807173747138133
+      },
+      "replicate_id": 2,
+      "replicate_kind": "recorded_training_seed",
+      "replicate_label": "s2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "03245502f713a6a2cc196068c6ad723bb862718256b5f29005aa997660d130db",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6474,
+        "correctly_classified_in_negative_basin": 3187,
+        "correctly_classified_in_positive_basin": 3287,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 6,
+        "outside_both_basins": 1380,
+        "total_misclassified": 8
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_1",
+      "percentages": {
+        "combined_correct": 82.34545917069448,
+        "correctly_classified_in_negative_basin": 40.53675909437802,
+        "correctly_classified_in_positive_basin": 41.80870007631646,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.07631645891630628,
+        "outside_both_basins": 17.552785550750446,
+        "total_misclassified": 0.10175527855507505
+      },
+      "replicate_id": 1,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "e99195ef440dcb8704028664a1fba2b99da8edccd3ff58bfa21132c11b823edf",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 3340,
+        "correctly_classified_in_negative_basin": 3111,
+        "correctly_classified_in_positive_basin": 229,
+        "misclassified_in_negative_basin": 1,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 4521,
+        "total_misclassified": 1
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_2",
+      "percentages": {
+        "combined_correct": 42.48282879674383,
+        "correctly_classified_in_negative_basin": 39.57008394810481,
+        "correctly_classified_in_positive_basin": 2.912744848639023,
+        "misclassified_in_negative_basin": 0.01271940981938438,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 57.504451793436786,
+        "total_misclassified": 0.01271940981938438
+      },
+      "replicate_id": 2,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "328ef4d60f0cacacd4ca59e3704fb3f0a8513366ba89d362b97b4040edf6d9ac",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6272,
+        "correctly_classified_in_negative_basin": 3153,
+        "correctly_classified_in_positive_basin": 3119,
+        "misclassified_in_negative_basin": 6,
+        "misclassified_in_positive_basin": 3,
+        "outside_both_basins": 1581,
+        "total_misclassified": 9
+      },
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_3",
+      "percentages": {
+        "combined_correct": 79.77613838717883,
+        "correctly_classified_in_negative_basin": 40.10429916051895,
+        "correctly_classified_in_positive_basin": 39.671839226659884,
+        "misclassified_in_negative_basin": 0.07631645891630628,
+        "misclassified_in_positive_basin": 0.03815822945815314,
+        "outside_both_basins": 20.109386924446707,
+        "total_misclassified": 0.11447468837445943
+      },
+      "replicate_id": 3,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t3",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "56a74d6026aeccdd7475eeca9442d47f465da14a6772c50516ced1a27ab4dd93",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6534,
+        "correctly_classified_in_negative_basin": 3231,
+        "correctly_classified_in_positive_basin": 3303,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 1328,
+        "total_misclassified": 0
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_1",
+      "percentages": {
+        "combined_correct": 83.10862375985754,
+        "correctly_classified_in_negative_basin": 41.09641312643093,
+        "correctly_classified_in_positive_basin": 42.01221063342661,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 16.891376240142456,
+        "total_misclassified": 0.0
+      },
+      "replicate_id": 1,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "ab82c22bda5c9d4c47fce8e0df9226de39c0b0ac9992aa52ec5c18965820898b",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6558,
+        "correctly_classified_in_negative_basin": 3275,
+        "correctly_classified_in_positive_basin": 3283,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 1303,
+        "total_misclassified": 1
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_2",
+      "percentages": {
+        "combined_correct": 83.41388959552276,
+        "correctly_classified_in_negative_basin": 41.65606715848384,
+        "correctly_classified_in_positive_basin": 41.75782243703892,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 16.57339099465785,
+        "total_misclassified": 0.01271940981938438
+      },
+      "replicate_id": 2,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "fcc5c5aec8e11e43a6d12c5ccbfee506e64637200e09565a195409baed3bfe0e",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6601,
+        "correctly_classified_in_negative_basin": 3268,
+        "correctly_classified_in_positive_basin": 3333,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 3,
+        "outside_both_basins": 1258,
+        "total_misclassified": 3
+      },
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_3",
+      "percentages": {
+        "combined_correct": 83.9608242177563,
+        "correctly_classified_in_negative_basin": 41.56703128974816,
+        "correctly_classified_in_positive_basin": 42.39379292800814,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.03815822945815314,
+        "outside_both_basins": 16.00101755278555,
+        "total_misclassified": 0.03815822945815314
+      },
+      "replicate_id": 3,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t3",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "e2bd223b31a31887cec36afcf1db50adfa26bf1761009f23551171f440653752",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 3516,
+        "correctly_classified_in_negative_basin": 1701,
+        "correctly_classified_in_positive_basin": 1815,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 4346,
+        "total_misclassified": 0
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_1",
+      "percentages": {
+        "combined_correct": 44.721444924955485,
+        "correctly_classified_in_negative_basin": 21.635716102772832,
+        "correctly_classified_in_positive_basin": 23.085728822182652,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 55.278555075044515,
+        "total_misclassified": 0.0
+      },
+      "replicate_id": 1,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "aaed6971022fd4e162c782088a550479448408f1505dd9eed6c88fa2888794b0",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6491,
+        "correctly_classified_in_negative_basin": 3159,
+        "correctly_classified_in_positive_basin": 3332,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 2,
+        "outside_both_basins": 1369,
+        "total_misclassified": 2
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_2",
+      "percentages": {
+        "combined_correct": 82.56168913762401,
+        "correctly_classified_in_negative_basin": 40.18061561943526,
+        "correctly_classified_in_positive_basin": 42.38107351818876,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.02543881963876876,
+        "outside_both_basins": 17.412872042737217,
+        "total_misclassified": 0.02543881963876876
+      },
+      "replicate_id": 2,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "eef4aaac8a193d8e85e02d8a5010d2135f16d22f57ef089e42b03fddd160d293",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6424,
+        "correctly_classified_in_negative_basin": 3160,
+        "correctly_classified_in_positive_basin": 3264,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 2,
+        "outside_both_basins": 1436,
+        "total_misclassified": 2
+      },
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_3",
+      "percentages": {
+        "combined_correct": 81.70948867972525,
+        "correctly_classified_in_negative_basin": 40.19333502925464,
+        "correctly_classified_in_positive_basin": 41.51615365047062,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.02543881963876876,
+        "outside_both_basins": 18.26507250063597,
+        "total_misclassified": 0.02543881963876876
+      },
+      "replicate_id": 3,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t3",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "1f8883c23731952bcdad3f009475ca29b1eed0ad03474ee9b59298fa65cace32",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4959,
+        "correctly_classified_in_negative_basin": 1628,
+        "correctly_classified_in_positive_basin": 3331,
+        "misclassified_in_negative_basin": 1,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 2901,
+        "total_misclassified": 2
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_1",
+      "percentages": {
+        "combined_correct": 63.07555329432714,
+        "correctly_classified_in_negative_basin": 20.707199185957773,
+        "correctly_classified_in_positive_basin": 42.368354108369374,
+        "misclassified_in_negative_basin": 0.01271940981938438,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 36.89900788603409,
+        "total_misclassified": 0.02543881963876876
+      },
+      "replicate_id": 1,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "c223da9644ee7c150c916f8f494c1e4e145e813462ba89187a2468d02b0ee413",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4938,
+        "correctly_classified_in_negative_basin": 1594,
+        "correctly_classified_in_positive_basin": 3344,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 3,
+        "outside_both_basins": 2919,
+        "total_misclassified": 5
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_2",
+      "percentages": {
+        "combined_correct": 62.808445688120074,
+        "correctly_classified_in_negative_basin": 20.2747392520987,
+        "correctly_classified_in_positive_basin": 42.53370643602137,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.03815822945815314,
+        "outside_both_basins": 37.127957262783006,
+        "total_misclassified": 0.0635970490969219
+      },
+      "replicate_id": 2,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "7023160d0f569c1e54964ec3e9e43b4329abafa23794aaae13538d1a1fed4900",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4985,
+        "correctly_classified_in_negative_basin": 1645,
+        "correctly_classified_in_positive_basin": 3340,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 2876,
+        "total_misclassified": 1
+      },
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_3",
+      "percentages": {
+        "combined_correct": 63.40625794963114,
+        "correctly_classified_in_negative_basin": 20.923429152887305,
+        "correctly_classified_in_positive_basin": 42.48282879674383,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 36.58102264054948,
+        "total_misclassified": 0.01271940981938438
+      },
+      "replicate_id": 3,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t3",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "f0480efba323b36c4e25356313a3e88bcb60553f99141c66b45cd4b7f19096dc",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 4886,
+        "correctly_classified_in_negative_basin": 1679,
+        "correctly_classified_in_positive_basin": 3207,
+        "misclassified_in_negative_basin": 0,
+        "misclassified_in_positive_basin": 1,
+        "outside_both_basins": 2975,
+        "total_misclassified": 1
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_1",
+      "percentages": {
+        "combined_correct": 62.14703637751208,
+        "correctly_classified_in_negative_basin": 21.355889086746377,
+        "correctly_classified_in_positive_basin": 40.79114729076571,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.01271940981938438,
+        "outside_both_basins": 37.84024421266853,
+        "total_misclassified": 0.01271940981938438
+      },
+      "replicate_id": 1,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t1",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "85f5ad713f8050a38cc25bc46576420f04598714819b33957b9abddf3ab5ba47",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6408,
+        "correctly_classified_in_negative_basin": 3174,
+        "correctly_classified_in_positive_basin": 3234,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 0,
+        "outside_both_basins": 1452,
+        "total_misclassified": 2
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_2",
+      "percentages": {
+        "combined_correct": 81.5059781226151,
+        "correctly_classified_in_negative_basin": 40.371406766726025,
+        "correctly_classified_in_positive_basin": 41.134571355889086,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.0,
+        "outside_both_basins": 18.46858305774612,
+        "total_misclassified": 0.02543881963876876
+      },
+      "replicate_id": 2,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t2",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    },
+    {
+      "attractor_count": 2,
+      "checkpoint_sha256": "b5a3fe25d6deec6834fd06b8fe4f788a98afd4c0c15411fc6fc7fbef778b3a09",
+      "conditioned_trajectories": 7862,
+      "counts": {
+        "combined_correct": 6389,
+        "correctly_classified_in_negative_basin": 3159,
+        "correctly_classified_in_positive_basin": 3230,
+        "misclassified_in_negative_basin": 2,
+        "misclassified_in_positive_basin": 7,
+        "outside_both_basins": 1464,
+        "total_misclassified": 9
+      },
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dimension": 2,
+      "dimension_label": "D2",
+      "error_message": null,
+      "error_type": null,
+      "failure_reason": null,
+      "input_status": "complete",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_3",
+      "percentages": {
+        "combined_correct": 81.26430933604681,
+        "correctly_classified_in_negative_basin": 40.18061561943526,
+        "correctly_classified_in_positive_basin": 41.08369371661155,
+        "misclassified_in_negative_basin": 0.02543881963876876,
+        "misclassified_in_positive_basin": 0.08903586873569067,
+        "outside_both_basins": 18.621215975578732,
+        "total_misclassified": 0.11447468837445943
+      },
+      "replicate_id": 3,
+      "replicate_kind": "archived_unseeded_training_trial",
+      "replicate_label": "t3",
+      "reportable_valid": true,
+      "result_row_present": true,
+      "root_association_status": "valid",
+      "statistics_failure_reasons": [],
+      "statistics_valid": true,
+      "topology_failure_reasons": [],
+      "topology_valid": true,
+      "training_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb"
+    }
+  ],
+  "schema_version": 1,
+  "validity_convention": "Metric summaries use only rows whose five category counts conserve the conditioned denominator and whose reported percentages agree. Topology validity is checked separately and requires exactly two attractors plus valid distinct stable-root association. An input row marked invalid can therefore be statistics-valid but topology-invalid, or vice versa; only rows passing both checks enter metric summaries."
+}

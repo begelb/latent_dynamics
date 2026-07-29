@@ -1,0 +1,246 @@
+{
+  "bounds": {
+    "coordinate": "first Fourier coefficient x[:, 0]",
+    "dimension": 1,
+    "encoded_rows": [
+      "training current x",
+      "training next y"
+    ],
+    "epsilon_fraction": 0.1,
+    "float_evaluation": "input coefficient rounded to float32, then stored as float64",
+    "lower": [
+      -2.397326099872589
+    ],
+    "n_encoded_states": 60000,
+    "raw_lower": [
+      -1.9979363679885864
+    ],
+    "raw_upper": [
+      1.9959609508514404
+    ],
+    "upper": [
+      2.395350682735443
+    ]
+  },
+  "classification": {
+    "closed_cell_boundary_policy": "negative basin first, then positive basin, matching the archived loop",
+    "counts_by_point_label": null,
+    "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on the level-8 uniform CMGDB graph",
+    "native_query": "CMGDB.MorseSingletonReachability",
+    "outside_label": -4,
+    "rule": "complete reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0
+    ],
+    "callback": {
+      "batch_calls": 2,
+      "box_calls": 512,
+      "scalar_evaluations": 1024
+    },
+    "compute_seconds": 0.0024557500146329403,
+    "conley": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "graph_checks": {
+      "exactly_two_minimal_attractors": false,
+      "stable_roots_resolve_to_distinct_attractors": false,
+      "uniform_cell_count_matches_level_8": true
+    },
+    "graph_summary": {
+      "edges": 11,
+      "is_bistable": false,
+      "minimal_nodes": [
+        0
+      ],
+      "nodes": 12
+    },
+    "morse_graph_path": "MG_uniform_s8/morse_graph",
+    "morse_nodes": 12,
+    "morse_set_intervals": {
+      "0": {
+        "cell_count": 124,
+        "enclosure_lower": -1.1617141168564555,
+        "enclosure_upper": 1.1597386997193095
+      },
+      "1": {
+        "cell_count": 1,
+        "enclosure_lower": -1.1804355105385183,
+        "enclosure_upper": -1.1617141168564558
+      },
+      "10": {
+        "cell_count": 1,
+        "enclosure_lower": 1.2346242744475602,
+        "enclosure_upper": 1.2533456681296227
+      },
+      "11": {
+        "cell_count": 1,
+        "enclosure_lower": 1.253345668129623,
+        "enclosure_upper": 1.2720670618116854
+      },
+      "2": {
+        "cell_count": 1,
+        "enclosure_lower": -1.199156904220581,
+        "enclosure_upper": -1.1804355105385183
+      },
+      "3": {
+        "cell_count": 1,
+        "enclosure_lower": -1.2178782979026437,
+        "enclosure_upper": -1.199156904220581
+      },
+      "4": {
+        "cell_count": 1,
+        "enclosure_lower": -1.2365996915847064,
+        "enclosure_upper": -1.2178782979026437
+      },
+      "5": {
+        "cell_count": 1,
+        "enclosure_lower": -1.2553210852667687,
+        "enclosure_upper": -1.2365996915847062
+      },
+      "6": {
+        "cell_count": 1,
+        "enclosure_lower": 1.1597386997193098,
+        "enclosure_upper": 1.1784600934013723
+      },
+      "7": {
+        "cell_count": 1,
+        "enclosure_lower": 1.1784600934013723,
+        "enclosure_upper": 1.197181487083435
+      },
+      "8": {
+        "cell_count": 1,
+        "enclosure_lower": 1.197181487083435,
+        "enclosure_upper": 1.2159028807654977
+      },
+      "9": {
+        "cell_count": 1,
+        "enclosure_lower": 1.2159028807654977,
+        "enclosure_upper": 1.2346242744475604
+      }
+    },
+    "morse_sets_path": "MG_uniform_s8/morse_sets",
+    "negative_attractor": null,
+    "nonminimal_recurrent_nodes": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "padding": true,
+    "positive_attractor": null,
+    "queried_uniform_cells": 214,
+    "reachability_query_seconds": 6.77499920129776e-05,
+    "root_resolution_error": null,
+    "statistics_comparable": false,
+    "subdiv_limit": 10000,
+    "subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "uniform_cells": 256
+  },
+  "comparability": {
+    "designation": "exploratory raw-coordinate unit-scale fitted-mu cubic map",
+    "evaluation_only_inputs": [
+      "archived stable roots for attractor association and mismatch reporting",
+      "archived trajectory points and labels for requested basin statistics"
+    ],
+    "fit_data": "all 30,000 archived training current/next pairs only",
+    "invalid_interpretations": [
+      "a trained autoencoder result",
+      "a learned encoder result",
+      "a reconstruction or full-state prediction model",
+      "a paper-eligible model comparison"
+    ],
+    "learned_components": [
+      "one scalar mu by closed-form least squares"
+    ],
+    "no_test_label_leakage_into_fit": true,
+    "not_learned": [
+      "the fixed first-Fourier-coordinate encoder",
+      "the unit scale a=1",
+      "the cubic functional form"
+    ],
+    "paper_eligible": false,
+    "preserved_evaluation_semantics": [
+      "raw E(x)=x[:,0] with float32-equivalent rounding",
+      "bounds from all current and next training pairs",
+      "10 percent bounds padding",
+      "level-8 uniform 256-cell CMGDB graph",
+      "CMGDB BoxMap padding=True",
+      "native CMGDB.MorseSingletonReachability",
+      "negative-first closed-cell basin classification",
+      "7,862 conditioned-trajectory denominator"
+    ],
+    "valid_interpretation": "An exploratory one-parameter reduced map showing the effect of forcing a=1 while leaving the physical coordinate unnormalized."
+  },
+  "comparison": null,
+  "coordinate": {
+    "encoded_stable_roots": [
+      [
+        -1.236594557762146
+      ],
+      [
+        1.236594557762146
+      ]
+    ],
+    "formula": "E(x)=x_1=x[:,0]",
+    "learned": false,
+    "normalized": false,
+    "source": "raw first Fourier/spectral coefficient"
+  },
+  "experiment": {
+    "label": "exploratory raw-coordinate unit-scale fitted-mu cubic map",
+    "learned_parameter_count": 1,
+    "paper_eligible": false,
+    "test_labels_used_in_fit": false
+  },
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "schema_version": 1,
+  "statistics": null,
+  "status": "unavailable",
+  "unit_scale_cubic_map": {
+    "a": 1.0,
+    "fit_path": "fit.json",
+    "fixed_point_mismatch_path": "fixed_point_mismatch.json",
+    "formula": "G(z)=z+mu*z*(1-z^2)",
+    "mu_learned": true,
+    "parameters": {
+      "mu": 0.047558503232248646
+    },
+    "topology_diagnostics_path": "topology_diagnostics.json"
+  }
+}

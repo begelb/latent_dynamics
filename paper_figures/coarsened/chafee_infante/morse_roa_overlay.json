@@ -10,12 +10,46 @@
     0,
     4
   ],
+  "uniform_attractors_by_physical_state": {
+    "negative": 4,
+    "positive": 0
+  },
   "basin_cell_counts_left_to_right": [
     15941,
     15764
   ],
+  "basin_cell_counts_by_physical_state": {
+    "negative": 15764,
+    "positive": 15941
+  },
+  "physical_colors": {
+    "negative": "#FFB000",
+    "positive": "#DC267F",
+    "coarse_unstable_connecting": "#7F7F7F"
+  },
+  "rendering": {
+    "basin_layer": "single RGBA image via imshow",
+    "per_cell_scatter": false,
+    "basin_alpha": 0.35,
+    "attractor_set_alpha": 1.0
+  },
+  "axis_visibility": {
+    "ticks": false,
+    "latent_coordinate_labels": false,
+    "grid": false
+  },
   "coarse_morse_sets": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/MG/morse_sets",
+  "basin_only_outputs": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/attractor_basins.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/attractor_basins.png"
+  ],
+  "overlay_outputs": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.png"
+  ],
   "outputs": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/attractor_basins.pdf",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/attractor_basins.png",
     "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.pdf",
     "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/coarsened/chafee_infante/morse_roa_overlay.png"
   ]

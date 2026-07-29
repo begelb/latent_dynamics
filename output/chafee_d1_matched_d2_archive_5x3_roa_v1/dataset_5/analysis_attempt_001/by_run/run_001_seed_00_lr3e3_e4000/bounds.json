@@ -1,0 +1,15 @@
+{
+  "device": "cpu",
+  "dimension": 1,
+  "epsilon_frac": 0.1,
+  "lower": [
+    -10.77241325378418
+  ],
+  "n_encoded_states": 60000,
+  "schema_version": 1,
+  "source": "encoder(train_data current states + next states)",
+  "train_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+  "upper": [
+    10.497369766235352
+  ]
+}

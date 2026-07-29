@@ -1,0 +1,11 @@
+{
+  "combined_correct": {
+    "count": 6356,
+    "percentage": 80.84456881200713
+  },
+  "selected_candidate_id": "0.35",
+  "selected_mu": 0.35,
+  "selection_rule": "maximum combined-correct count among graph-valid candidates in this frozen exploratory inventory",
+  "selection_status": "post_hoc_test_informed",
+  "warning": "The same archived labels were used to select and report this candidate; it is not an unbiased estimate."
+}

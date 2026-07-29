@@ -1,5 +1,14 @@
 """Combinatorial-topological analysis on top of CMGDB."""
 
+from .basin_statistics import (
+    OUTSIDE,
+    CellIndexLookup,
+    ChafeeBasinStatistics,
+    PointBasinClassification,
+    classify_points_in_cell_roa,
+    cmgdb_morton_cell_indices,
+    compute_chafee_basin_statistics,
+)
 from .cmgdb_roa import (
     BOUNDARY,
     ESCAPE,
@@ -13,6 +22,7 @@ from .cmgdb_roa import (
     load_exact_roa,
     save_exact_roa,
 )
+from .hierarchical_precomputed import HierarchicalPrecomputedBoxMap
 from .morse import (
     LatentBounds,
     compute_morse_graph,
@@ -53,19 +63,27 @@ __all__ = [
     "ESCAPE",
     "EXACT_ROA_FILENAME",
     "MULTI",
+    "OUTSIDE",
     "Box",
+    "CellIndexLookup",
     "CellROA",
+    "ChafeeBasinStatistics",
     "ConnectionCompleteMorseSets",
     "Edge",
+    "HierarchicalPrecomputedBoxMap",
     "LatentBounds",
     "MorseGraph",
     "MorseGraphQuotient",
     "MorseSet",
+    "PointBasinClassification",
     "attractor_cells",
     "check_unique_membership",
+    "classify_points_in_cell_roa",
+    "cmgdb_morton_cell_indices",
     "coarsen_morse_graph",
     "collapse_roa_to_lca",
     "compute_and_save_exact_roa",
+    "compute_chafee_basin_statistics",
     "compute_connection_complete_morse_sets",
     "compute_exact_roa",
     "compute_max_semiconjugacy_error",

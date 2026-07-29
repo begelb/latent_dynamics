@@ -1,0 +1,23 @@
+digraph {
+0 [label="0", shape=ellipse, style=filled, fillcolor="#ffb000ff", margin="0.11, 0.055"];
+1 [label="1", shape=ellipse, style=filled, fillcolor="#dc267fff", margin="0.11, 0.055"];
+2 [label="2", shape=ellipse, style=filled, fillcolor="#648fffff", margin="0.11, 0.055"];
+3 [label="3", shape=ellipse, style=filled, fillcolor="#fe6100ff", margin="0.11, 0.055"];
+4 [label="4", shape=ellipse, style=filled, fillcolor="#785ef0ff", margin="0.11, 0.055"];
+5 [label="5", shape=ellipse, style=filled, fillcolor="#008080ff", margin="0.11, 0.055"];
+6 [label="6", shape=ellipse, style=filled, fillcolor="#fcc2e8ff", margin="0.11, 0.055"];
+7 [label="7", shape=ellipse, style=filled, fillcolor="#ffb000ff", margin="0.11, 0.055"];
+8 [label="8", shape=ellipse, style=filled, fillcolor="#dc267fff", margin="0.11, 0.055"];
+9 [label="9", shape=ellipse, style=filled, fillcolor="#648fffff", margin="0.11, 0.055"];
+{rank=same; 0 2 }; 
+{rank=same; 9 }; 
+1 -> 0;
+3 -> 2;
+4 -> 3;
+5 -> 4;
+6 -> 5;
+7 -> 6;
+8 -> 7;
+9 -> 8;
+9 -> 1;
+}

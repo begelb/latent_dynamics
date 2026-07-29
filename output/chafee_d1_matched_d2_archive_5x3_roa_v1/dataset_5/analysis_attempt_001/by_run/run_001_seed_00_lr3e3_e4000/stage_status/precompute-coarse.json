@@ -1,0 +1,36 @@
+{
+  "arrays": {
+    "coarse_values.npy": {
+      "dtype": "float64",
+      "shape": [
+        257,
+        1
+      ],
+      "size_bytes": 2184
+    }
+  },
+  "batch_points": "auto",
+  "device": "cpu",
+  "dimension": 1,
+  "duration_seconds": 0.0012127500376664102,
+  "metadata": {
+    "callback_neural_evaluations": 0,
+    "coarse_subdiv": 8,
+    "dimension": 1,
+    "fine_subdiv": 11,
+    "has_fine_blocks": false,
+    "lower": [
+      -10.77241325378418
+    ],
+    "n_active_coarse_cells": 0,
+    "padding": true,
+    "schema_version": 1,
+    "upper": [
+      10.497369766235352
+    ]
+  },
+  "neural_evaluations_during_cmgdb": 0,
+  "schema_version": 2,
+  "seed": 0,
+  "stage": "precompute-coarse"
+}

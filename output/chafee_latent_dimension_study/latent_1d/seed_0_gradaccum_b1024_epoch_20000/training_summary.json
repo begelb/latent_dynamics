@@ -1,0 +1,58 @@
+{
+  "artifacts": {
+    "checkpoint": "models/autoencoder.pt",
+    "checkpoint_sha256": "f7140bcc6692297490cf23d426666a31c668b7aa39ba92767da01460134d6007",
+    "history": "logs/history.json",
+    "latest_resume": "resume/latest.json",
+    "milestones": "milestones/",
+    "sidecar": "models/autoencoder.json",
+    "sidecar_sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798"
+  },
+  "basin_artifacts_accessed": false,
+  "duration_minutes": 27.172587595133034,
+  "duration_seconds": 1630.355255707982,
+  "early_stopping_used": false,
+  "epochs_completed": 20000,
+  "epochs_requested": 20000,
+  "example_presentations": 600000000,
+  "final_epoch_train": {
+    "loss_prediction": 0.00013839129989113037,
+    "loss_reconstruction": 0.00041418147093305987,
+    "loss_total": 0.0005525727718913307
+  },
+  "final_learning_rate": 0.000375,
+  "microbatches_completed": 600000,
+  "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+  "optimizer_updates": 20000,
+  "run_plan_sha256": "32cc24df584b797c124f426976f20f833b8078400f083be05513a9a2e1945c0f",
+  "runtime": {
+    "cuda_available": false,
+    "deterministic_algorithms_enforced": false,
+    "device": "mps",
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "settings": {
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "effective_batch_size": 30000,
+    "epochs": 20000,
+    "epsilon": 1e-08,
+    "learning_rate": 0.003,
+    "microbatch_size": 1024,
+    "milestone_interval": 1000,
+    "resume_interval": 250,
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 0,
+    "weight_decay": 0.0
+  },
+  "training_method": "marcio_gradient_accumulation",
+  "validation_used": false
+}

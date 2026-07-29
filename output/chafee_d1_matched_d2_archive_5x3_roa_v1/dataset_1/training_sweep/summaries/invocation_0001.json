@@ -1,0 +1,78 @@
+{
+  "all_runs_completed": true,
+  "completed_at_utc": "2026-07-29T02:57:38.458435+00:00",
+  "counts": {
+    "completed": 3,
+    "failed": 0,
+    "invalid_existing_run": 0,
+    "total": 3
+  },
+  "invocation": 1,
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/training_sweep",
+  "plan_sha256": "f9a1445bce55340ef14101d5d8b685628635c3909fad807f4eae494a5e185dc6",
+  "resolved_device": "cpu",
+  "roa_analysis_performed": false,
+  "runs": [
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "e50e0d63a0cdaa6377c21eb985019a807d2cd6d526c4660964ac28af8f4514da"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "dca2bf4dd6fb124882ce0dfab510642d1bf6536675dd0ed39a0ff80e0a626d13",
+        "size_bytes": 61965
+      },
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "run_id": "seed_00_lr3e3_e4000",
+      "seed": 0,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "262c99fa18052de83ac3e0a66f72995c4d57c88bb480a4ae068010126d687242"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "bb13d3cc15d776f5a58934d4bf02eb8d176a41711541c0372232e7b7568b611e",
+        "size_bytes": 61965
+      },
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e4000",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "f6adf6d5a770cb9bdb726831ba0e956cffbb02d9f53379e29246f77a9b642134"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "d1924d22b723ecad2a2d24f0253a841546600f06d11c8045d1b14c980dc1142a",
+        "size_bytes": 61965
+      },
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "run_id": "seed_02_lr3e3_e4000",
+      "seed": 2,
+      "status": "completed"
+    }
+  ],
+  "runtime": {
+    "cuda_available": false,
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T02:55:01.741289+00:00"
+}

@@ -1,0 +1,62 @@
+{
+  "dimension": 3,
+  "provenance": {
+    "direct_input_fingerprint": "daa762a296e776ef801783aa9cda1126b0b6518f44dc2e008a2f218348cead51",
+    "direct_inputs": {
+      "configuration": {
+        "batch_points": "auto",
+        "coarse_subdiv": 24,
+        "device": "mps",
+        "fine_subdiv": 33,
+        "padding": true,
+        "zero_neural_evaluations_during_cmgdb": true
+      },
+      "provenance_schema_version": 2,
+      "stage_algorithm_version": 1,
+      "study": {
+        "dimension": 3,
+        "seed": 0,
+        "train_data_sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
+      },
+      "upstream_output_fingerprints": {
+        "bounds": "a077d4378b2184056e93d3baaba5bfb1a8bd1ef695d3c7a3e13b100a3eed37fe",
+        "train": "d78b0e82963a245f20ad2351777cfd233cd2d33a256e79cb06f001ed97099b51"
+      }
+    },
+    "legacy_artifacts_adopted_after_validation": true,
+    "outputs": {
+      "components": {
+        "table_geometry": {
+          "callback_neural_evaluations": 0,
+          "coarse_subdiv": 24,
+          "dimension": 3,
+          "fine_subdiv": 33,
+          "lower": [
+            -4.127716660499573,
+            -2.7807257175445557,
+            -3.2104987144470214
+          ],
+          "padding": true,
+          "schema_version": 1,
+          "upper": [
+            3.8589504957199097,
+            2.5888736248016357,
+            3.2438191413879394
+          ]
+        }
+      },
+      "files": {
+        "coarse_values": {
+          "path": "precomputed_level24_to33/coarse_values.npy",
+          "sha256": "b25165e8289e5d65f06e9e190e78a0bad192afe367c684a3ce50d2eadc0c7842",
+          "size_bytes": 407390360
+        }
+      },
+      "fingerprint": "7031caf22b6f243c94906362144fd3ed264a7b02b9ca3a1795a3a73cb1f2385e"
+    },
+    "schema_version": 2
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "stage": "precompute-coarse"
+}

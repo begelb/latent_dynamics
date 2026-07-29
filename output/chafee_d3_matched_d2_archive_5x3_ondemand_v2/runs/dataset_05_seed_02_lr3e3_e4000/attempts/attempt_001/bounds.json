@@ -1,0 +1,20 @@
+{
+  "checkpoint_sha256": "78e86aceaf2d89cba1aa29cf18346a28f2cbb33c680bd2e473f032987885d8cf",
+  "dimension": 3,
+  "encoder_device": "cpu",
+  "epsilon_frac": 0.1,
+  "lower": [
+    -3.582315683364868,
+    -2.6543569564819336,
+    -3.904229164123535
+  ],
+  "n_encoded_states": 60000,
+  "schema_version": 1,
+  "source": "encoder(concatenate(current,next))",
+  "train_data_sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+  "upper": [
+    3.4546098709106445,
+    2.704951524734497,
+    3.989156723022461
+  ]
+}

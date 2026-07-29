@@ -1,0 +1,16 @@
+{
+  "designation": "post-hoc unit-scale cubic topology-strength probe, mu=0.35",
+  "invalid_interpretations": [
+    "the least-squares residual minimizer",
+    "an unbiased hyperparameter choice",
+    "a held-out generalization result",
+    "a paper-eligible comparison"
+  ],
+  "learned_parameter_count": 0,
+  "mu_selection_status": "post_hoc_test_informed",
+  "no_test_labels_used_in_residual_diagnostic": true,
+  "paper_eligible": false,
+  "predetermined_mu": 0.35,
+  "test_labels_informed_mu_selection": true,
+  "valid_interpretation": "A deliberately post-hoc limit test of how stronger unit-scale cubic drift changes the fixed level-8 CMGDB graph."
+}

@@ -1,0 +1,133 @@
+{
+  "axis_annotations_visible": false,
+  "cmgdb_model_evaluations": 0,
+  "computations": {
+    "latent_1d": {
+      "geometry": {
+        "box_scale": 1.0,
+        "coordinate_bounds_lower": [
+          -7.7618739128112795
+        ],
+        "coordinate_bounds_upper": [
+          7.715793323516846
+        ],
+        "minimum_display_side_fraction": 0.0
+      },
+      "graph_labels": {
+        "0": "0 : (x-1, 0)",
+        "1": "1 : (x-1, 0)",
+        "2": "2 : (0, x-1)"
+      },
+      "node_semantics": {
+        "negative": 0,
+        "positive": 1,
+        "unstable_or_connecting": []
+      },
+      "outputs": {
+        "ci_latent_1d_morse_graph.pdf": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_latent_1d_morse_graph.pdf",
+          "sha256": "0121e69fd0be57910025cad1c0597e46e2504907b17780b6a5076c976ca5108d",
+          "size_bytes": 11539
+        },
+        "ci_latent_1d_morse_graph.png": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_latent_1d_morse_graph.png",
+          "sha256": "ade8a6f4cd5dd6317252164599f73fa57a8b4f03ddb87d4fc25de2c38621645b",
+          "size_bytes": 13833
+        },
+        "ci_latent_1d_morse_sets.pdf": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_latent_1d_morse_sets.pdf",
+          "sha256": "136b42efe0fd58b0a41e877c3f9043d1e6943a71293b134ba0f8468bbb6d2173",
+          "size_bytes": 5525
+        },
+        "ci_latent_1d_morse_sets.png": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_latent_1d_morse_sets.png",
+          "sha256": "74abc82838af27b1f2bb4dae42a50794035e944a0a74407ee904f25fd3817f75",
+          "size_bytes": 4264
+        }
+      },
+      "palette_by_node": {
+        "0": "#FFB000",
+        "1": "#DC267F",
+        "2": "#648FFF"
+      },
+      "source": {
+        "directory": "code/output/chafee_latent_dimension_study/latent_1d/seed_0/MG_adaptive",
+        "morse_graph_sha256": "d54938eb1da813410646b760e529490ec23e93329c0aa62527a98abfdf14e2db",
+        "morse_sets_rows": 85,
+        "morse_sets_sha256": "ff7b5b704974153e5d2c082c09407d437a488df7f3d5639e5df93816f34e6154"
+      }
+    },
+    "latent_2d_coarse": {
+      "geometry": {
+        "box_scale": 1.0,
+        "coordinate_bounds_lower": [
+          -4.671730208396911,
+          -4.5805047988891605
+        ],
+        "coordinate_bounds_upper": [
+          4.484875607490539,
+          4.222627067565918
+        ],
+        "minimum_display_side_fraction": 0.0
+      },
+      "graph_labels": {
+        "0": "M(0\u207a)",
+        "1": "M(0\u207b)",
+        "2": "M(1)"
+      },
+      "node_semantics": {
+        "negative": 1,
+        "positive": 0,
+        "unstable_or_connecting": [
+          2
+        ]
+      },
+      "outputs": {
+        "ci_coarse_morse_graph.pdf": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_coarse_morse_graph.pdf",
+          "sha256": "a8defc6c768f6c4ffc171429008dd517fd28bc5c072dc0c18741413044fe46ed",
+          "size_bytes": 15236
+        },
+        "ci_coarse_morse_graph.png": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_coarse_morse_graph.png",
+          "sha256": "03b41715dfd2e80eedc1f148ba797919cd10b3862b959e1a53ed209a32098e55",
+          "size_bytes": 11951
+        },
+        "ci_coarse_morse_sets.pdf": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_coarse_morse_sets.pdf",
+          "sha256": "528ed905909d76ea543f5ff98ed39aebce928a1ad0224cd1a15dba93d950c0f9",
+          "size_bytes": 8135
+        },
+        "ci_coarse_morse_sets.png": {
+          "path": "code/paper_figures/standardized/chafee_infante/ci_coarse_morse_sets.png",
+          "sha256": "bb12e6fb910a555237220a0bb2ec472ee5d9e82a511099151ae866740616fd4e",
+          "size_bytes": 8501
+        }
+      },
+      "palette_by_node": {
+        "0": "#DC267F",
+        "1": "#FFB000",
+        "2": "#7F7F7F"
+      },
+      "source": {
+        "directory": "code/paper_figures/coarsened/chafee_infante/MG",
+        "morse_graph_sha256": "190a739625719420f3965a77631255e3404e67c9e2905daffd5d74b3677f0cb5",
+        "morse_sets_rows": 4235,
+        "morse_sets_sha256": "3c4ae0683bc693860a120ea3e8626570f66dd321ea57d7fda444bb2b66535aac"
+      }
+    }
+  },
+  "latent_2d_fine": {
+    "reason": "Marcio's exact adaptive fine computation is preserved only as PDFs; no exact persisted DOT/CSV snapshot is currently available. The saved package replay is scientifically different and is rejected by the source checks.",
+    "status": "omitted"
+  },
+  "neural_network_evaluations": 0,
+  "purpose": "standardized Chafee--Infante color and axis staging",
+  "render_only": true,
+  "schema_version": 1,
+  "semantic_colors": {
+    "explicit_unstable_or_connecting": "#7F7F7F",
+    "negative_stable": "#FFB000",
+    "positive_stable": "#DC267F"
+  }
+}

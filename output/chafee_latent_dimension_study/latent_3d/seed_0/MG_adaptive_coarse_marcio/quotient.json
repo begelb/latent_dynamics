@@ -1,0 +1,374 @@
+{
+  "alternative_2d_semantic_display": {
+    "display_colors": {
+      "0": "#1f77b4ff",
+      "1": "#e6550dff",
+      "2": "#7f7f7fff"
+    },
+    "display_labels": {
+      "0": "M(0\u207a)",
+      "1": "M(0\u207b)",
+      "2": "M(1)"
+    },
+    "fine_to_display": {
+      "0": 1,
+      "1": 0,
+      "10": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 2,
+      "7": 2,
+      "8": 2,
+      "9": 2
+    },
+    "note": "Optional display relabel matching the archived 2-D semantic palette. The canonical coarse data retain the 3-D fine-node identities."
+  },
+  "computation": {
+    "cached_edges": 276797823,
+    "callback": "persisted HierarchicalPrecomputedBoxMap lookup",
+    "callback_neural_evaluations": 0,
+    "cmgdb_routine": "CMGDB.ComputeMorseGraph",
+    "cmgdb_seconds": 26.753987499978393,
+    "environment": {
+      "CMGDB_MAPGRAPH_MAX_EDGES": "1200000000",
+      "CMGDB_MAPGRAPH_MAX_VERTICES": "16777216",
+      "CMGDB_MAPGRAPH_RESERVE_EDGES": "300000000"
+    },
+    "map_cells": 2177356,
+    "padding": true,
+    "path_completion": "CMGDB.MorseDirectedPathCells cached-CSR traversal",
+    "path_completion_seconds": 0.15442829200765118,
+    "subdivisions": {
+      "init": 21,
+      "limit": 10000,
+      "max": 33,
+      "min": 24
+    }
+  },
+  "fine_graph": {
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        6,
+        5
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        7,
+        3
+      ],
+      [
+        8,
+        7
+      ],
+      [
+        9,
+        8
+      ],
+      [
+        10,
+        6
+      ],
+      [
+        10,
+        9
+      ]
+    ],
+    "nodes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "recurrent_cell_counts": {
+      "0": 36,
+      "1": 27,
+      "10": 8,
+      "2": 3140,
+      "3": 3115,
+      "4": 11094,
+      "5": 2647,
+      "6": 502,
+      "7": 7734,
+      "8": 1517,
+      "9": 852
+    }
+  },
+  "outputs": {
+    "cells": {
+      "coarse_0_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_0_cells.npy",
+        "sha256": "c45dce480c19300c58d0e43e6e55dcf02390660530ebf78d5089ce582f990e76"
+      },
+      "coarse_0_connection_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_0_connection_cells.npy",
+        "sha256": "e734dac55ea9fbbe782af2d8c02c3c5992131906228afb2aaaf137d6f3ed74db"
+      },
+      "coarse_1_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_1_cells.npy",
+        "sha256": "ebce34e900d6cf37f7d5c97643a2fe302bb9441d5415b7dbbaad250dc7cc8fe0"
+      },
+      "coarse_1_connection_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_1_connection_cells.npy",
+        "sha256": "e734dac55ea9fbbe782af2d8c02c3c5992131906228afb2aaaf137d6f3ed74db"
+      },
+      "coarse_2_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_2_cells.npy",
+        "sha256": "da65e8bdef29009e6fe8d0376b9630fe71f25206ef4775f0767b255f90034565"
+      },
+      "coarse_2_connection_cells.npy": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/cells/coarse_2_connection_cells.npy",
+        "sha256": "3890b35f0318a7a61446faef48d409da6e14b18f75e4458971d2894895de8604"
+      }
+    },
+    "morse_graph": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/morse_graph",
+      "sha256": "680c5d64edcee1a655419d8c7fa2f26a6d79f24b7b86cd08209faaa4e8cf329f"
+    },
+    "morse_sets": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive_coarse_marcio/morse_sets",
+      "sha256": "3df9e69130de3067deb241e4b09117cf9f1b2f1e9e0426ef0bb8f3d0e648fc25"
+    }
+  },
+  "quotient": {
+    "colors": {
+      "0": "#ffb000ff",
+      "1": "#dc267fff",
+      "2": "#7f7f7fff"
+    },
+    "connection_cell_counts": {
+      "0": 0,
+      "1": 0,
+      "2": 172436
+    },
+    "edges": {
+      "2": [
+        0,
+        1
+      ]
+    },
+    "fibers": {
+      "0": [
+        0
+      ],
+      "1": [
+        1
+      ],
+      "2": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    "labels": {
+      "0": "M(0\u207b)",
+      "1": "M(0\u207a)",
+      "2": "M(1)"
+    },
+    "merged_node_conley_index": null,
+    "merged_node_conley_note": "No Conley index is inferred for the merged fiber.",
+    "overlap_count": 0,
+    "projection": {
+      "0": 0,
+      "1": 1,
+      "10": 2,
+      "2": 2,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 2,
+      "7": 2,
+      "8": 2,
+      "9": 2
+    },
+    "recurrent_cell_counts": {
+      "0": 36,
+      "1": 27,
+      "2": 30609
+    },
+    "root_owners": {
+      "negative": 0,
+      "positive": 1
+    },
+    "total_cell_counts": {
+      "0": 36,
+      "1": 27,
+      "2": 203045
+    }
+  },
+  "rendering_diagnostics": {
+    "box_width_distribution": {
+      "scale_distribution": [
+        {
+          "count": 22,
+          "scale": [
+            1,
+            1,
+            1
+          ],
+          "widths": [
+            0.015598959289491177,
+            0.010487498715519905,
+            0.012606089562177597
+          ]
+        },
+        {
+          "count": 410,
+          "scale": [
+            1,
+            1,
+            2
+          ],
+          "widths": [
+            0.015598959289491177,
+            0.010487498715519905,
+            0.025212179124355194
+          ]
+        },
+        {
+          "count": 1705,
+          "scale": [
+            1,
+            2,
+            2
+          ],
+          "widths": [
+            0.015598959289491177,
+            0.02097499743103981,
+            0.025212179124355194
+          ]
+        },
+        {
+          "count": 63206,
+          "scale": [
+            2,
+            2,
+            2
+          ],
+          "widths": [
+            0.031197918578982353,
+            0.02097499743103981,
+            0.025212179124355194
+          ]
+        },
+        {
+          "count": 11318,
+          "scale": [
+            2,
+            2,
+            4
+          ],
+          "widths": [
+            0.031197918578982353,
+            0.02097499743103981,
+            0.05042435824871039
+          ]
+        },
+        {
+          "count": 5622,
+          "scale": [
+            2,
+            4,
+            4
+          ],
+          "widths": [
+            0.031197918578982353,
+            0.04194999486207962,
+            0.05042435824871039
+          ]
+        },
+        {
+          "count": 120825,
+          "scale": [
+            4,
+            4,
+            4
+          ],
+          "widths": [
+            0.062395837157964706,
+            0.04194999486207962,
+            0.05042435824871039
+          ]
+        }
+      ],
+      "terminal_widths": [
+        0.015598959289491177,
+        0.010487498715519905,
+        0.012606089562177597
+      ],
+      "uniform_terminal_grid": false
+    }
+  },
+  "schema_version": 1,
+  "source": {
+    "bounds": {
+      "lower": [
+        -4.127716660499573,
+        -2.7807257175445557,
+        -3.2104987144470214
+      ],
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/bounds.json",
+      "sha256": "63d15dc8a4333b23927233b177454b5b77a4c9abbbbd1d7c1936b39acbc47fa9",
+      "upper": [
+        3.8589504957199097,
+        2.5888736248016357,
+        3.2438191413879394
+      ]
+    },
+    "fine_morse_graph": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive/morse_graph",
+      "sha256": "1b032a5cda8f53b8adb8bcc8460991ab7c857ba87d052e1ac0e7da2967848156"
+    },
+    "fine_morse_sets": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive/morse_sets",
+      "sha256": "14979bd3f3cf526e24a7a486822e0c48328b93bfc57d374cf0709682c2370919"
+    },
+    "lookup_table": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/precomputed_level24_to33",
+    "run": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0"
+  }
+}

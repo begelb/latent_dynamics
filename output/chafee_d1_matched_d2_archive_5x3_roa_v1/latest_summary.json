@@ -1,0 +1,15 @@
+{
+  "invocation": 2,
+  "run_counts": {
+    "available": 15,
+    "expected": 15,
+    "headline_valid": 15,
+    "invalid": 0
+  },
+  "schema_version": 1,
+  "status": "complete",
+  "summary": {
+    "path": "summaries/invocation_0002.json",
+    "sha256": "aac9e53cf557e58bd58601845b47dc65148ada7b7426d40102e82cf8f1ec6af2"
+  }
+}

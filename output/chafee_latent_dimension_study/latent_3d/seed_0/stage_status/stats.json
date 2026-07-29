@@ -1,0 +1,126 @@
+{
+  "adaptive_graph": {
+    "edges": 14,
+    "is_bistable": true,
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "nodes": 11
+  },
+  "classification": {
+    "counts_by_singleton_label": {
+      "-2": 3680,
+      "0": 3218,
+      "2": 3102
+    },
+    "outside_encoded_bounds": 0,
+    "rule": "reachable Morse-node set equals exactly the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      2
+    ],
+    "cached_edges": 1096568300,
+    "conley_indices_computed": false,
+    "morse_nodes": 493,
+    "subdivisions": [
+      24,
+      24,
+      24
+    ],
+    "uniform_cells": 16777216
+  },
+  "dimension": 3,
+  "eligible_for_bistable_dimension_table": true,
+  "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on uniform CMGDB graph",
+  "provenance": {
+    "direct_input_fingerprint": "25806d36bade3e339ae40d982e8eba508a8bebd3d0ee4f916a82a407cadfc035",
+    "direct_inputs": {
+      "configuration": {
+        "adaptive_precondition": "exactly two minimal Morse nodes",
+        "root_precondition": "two distinct uniform minimal-node basins",
+        "statistics_algorithm": "condition on nonzero truth labels",
+        "uniform_precondition": "exactly two minimal Morse nodes"
+      },
+      "provenance_schema_version": 2,
+      "stage_algorithm_version": 2,
+      "study": {
+        "dimension": 3,
+        "seed": 0,
+        "stable_roots_sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "train_data_sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "trajectory_labels_sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145"
+      },
+      "upstream_output_fingerprints": {
+        "adaptive": "f73da3056cb20898719ec68722853e56b7d0b3c4d2e9d54732fe30843f02d341",
+        "uniform": "aee0b32816c3798efc011c8d60488cb484c4647909135e5f617144b457a53154"
+      }
+    },
+    "legacy_artifacts_adopted_after_validation": false,
+    "outputs": {
+      "components": {},
+      "files": {
+        "basin_statistics": {
+          "path": "basin_statistics.json",
+          "sha256": "2056ae2f60ff69233e68c9c05785fd93b45d66520189c2c68008762dffae8a7c",
+          "size_bytes": 2313
+        }
+      },
+      "fingerprint": "f20d3beed2ca62f3244835669437053f889fe22268b61fd7ca85e727f1bf74ac"
+    },
+    "schema_version": 2
+  },
+  "roots_define_two_distinct_attractor_basins": true,
+  "schema_version": 2,
+  "seed": 0,
+  "stable_roots": {
+    "encoded": [
+      [
+        -1.2867095470428467,
+        -0.016268715262413025,
+        -1.7369526624679565
+      ],
+      [
+        1.213065505027771,
+        -0.18389807641506195,
+        1.9012900590896606
+      ]
+    ],
+    "negative_basin_label": 0,
+    "path": "archive/marcio/scripts/stable_solutions.csv",
+    "positive_basin_label": 2,
+    "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+    "uniform_cell_ids": [
+      5298750,
+      11480638
+    ]
+  },
+  "stage": "stats",
+  "statistics": {
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3193,
+      "correctly_classified_in_positive_basin": 3097,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 1572
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 40.61307555329433,
+      "correctly_classified_in_positive_basin": 39.392012210633425,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 19.994912236072246
+    },
+    "total_trajectories": 10000
+  },
+  "trajectory_data": {
+    "path": "archive/marcio/scripts/traj_attractors.pkl",
+    "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+    "total": 10000
+  },
+  "uniform_is_bistable": true
+}

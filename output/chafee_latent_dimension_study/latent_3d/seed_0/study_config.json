@@ -1,0 +1,123 @@
+{
+  "architecture": {
+    "activation": "relu",
+    "decoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "encoder_out_activation": "tanh",
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 64,
+    "latent_map": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "latent_out_activation": "tanh",
+    "low_dims": 3,
+    "num_layers": null
+  },
+  "bounds_epsilon_frac": 0.1,
+  "cmgdb": {
+    "CMGDB_MAPGRAPH_MAX_EDGES": "1200000000",
+    "CMGDB_MAPGRAPH_MAX_VERTICES": "16777216",
+    "CMGDB_MAPGRAPH_RESERVE_EDGES": "1200000000",
+    "adaptive_init": 21,
+    "adaptive_max": 33,
+    "adaptive_min": 24,
+    "batch_points": "auto",
+    "callback_policy": "persisted lookup only; zero neural evaluations",
+    "conley_policy": {
+      "adaptive": "explicit_topology_only_fallback",
+      "uniform": "deferred_to_adaptive"
+    },
+    "dimension": 3,
+    "padding": true,
+    "subdiv_limit": 10000,
+    "uniform_cells": 16777216,
+    "uniform_init": 24,
+    "uniform_max": 24,
+    "uniform_min": 24
+  },
+  "device": "mps",
+  "dimension": 3,
+  "inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "training": {
+    "epochs": 4000,
+    "learning_rate": 0.003,
+    "method": "Marcio-faithful fixed full batch",
+    "reproducibility": {
+      "bitwise_reproducible_across_backends_or_runtime_versions": false,
+      "canonical_artifact_backend": "mps",
+      "deterministic_algorithms_enforced": false,
+      "limitation": "Seed 0 fixes the initialized RNG streams, but deterministic PyTorch algorithms are not forced. MPS/CPU/CUDA kernels, hardware, and PyTorch versions may produce numerically different trained checkpoints.",
+      "resolved_backend": "mps",
+      "runtime": {
+        "cuda_available": false,
+        "mps_available": true,
+        "numpy": "2.4.6",
+        "platform": "macOS-26.5.2-arm64-arm-64bit",
+        "python": "3.12.13",
+        "torch": "2.12.0"
+      },
+      "seed": 0,
+      "seeded_rngs": [
+        "python",
+        "numpy",
+        "torch_cpu",
+        "torch_cuda_if_available"
+      ]
+    },
+    "scheduler": {
+      "factor": 0.5,
+      "min_lr": 1e-06,
+      "name": "ReduceLROnPlateau",
+      "patience": 100,
+      "threshold": 0.0001
+    }
+  }
+}

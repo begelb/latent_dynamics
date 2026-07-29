@@ -1,0 +1,55 @@
+{
+  "files": {
+    "COMPARABILITY.md": {
+      "sha256": "d3e04262d67915b559b5720ead47320ed58ce41869f2a744def7df62550ec34c",
+      "size_bytes": 1053
+    },
+    "MG_uniform_s8/marcio_singleton_reachability_queries.npz": {
+      "sha256": "d5beba429bafc9e36ad251df130b53303372e20ad471e564464d70d864ddb0ef",
+      "size_bytes": 36598
+    },
+    "MG_uniform_s8/morse_graph": {
+      "sha256": "3e02337e3b9b9ef438f9bb3bf269e3be074cabb0e25e7f08540a6d76afea6908",
+      "size_bytes": 1214
+    },
+    "MG_uniform_s8/morse_sets": {
+      "sha256": "a5873f2471970153a053cf5c66d43f02ce39c3026beaa9ffddd41a016100ec76",
+      "size_bytes": 5727
+    },
+    "basin_statistics.json": {
+      "sha256": "ad9277d5831bb18e7279ac5becc15a960d532d9dda56776b0d599f350153769b",
+      "size_bytes": 7364
+    },
+    "bounds.json": {
+      "sha256": "78e61be6ee37ed6e8f63671bcd650e188a58d6472057e3c7b7667b6883dffe48",
+      "size_bytes": 461
+    },
+    "comparability.json": {
+      "sha256": "1c4e6892612d2164c8ed675eec0762e5f317a376e4829eaba0b9d46bc9388454",
+      "size_bytes": 1388
+    },
+    "encoded_stable_roots.npy": {
+      "sha256": "1193047a181b812d9fd3f1d00e7c8ba2e69d42c887fb39829b230544405c0c79",
+      "size_bytes": 144
+    },
+    "fit.json": {
+      "sha256": "7b1bbaa8b05f7d828833019730a4cfd73c578e94d56c935529c1b94983b0fae6",
+      "size_bytes": 1184
+    },
+    "fixed_point_mismatch.json": {
+      "sha256": "b3b7d3088dc11298ee36bf51a72bcd1ff8ce5039505ad12ab92ffe78d1f99279",
+      "size_bytes": 1056
+    },
+    "run_manifest.json": {
+      "sha256": "e3cc0231522bf59970da8512bafd8979d471e840b43ca7fcadaf75e71793b264",
+      "size_bytes": 3516
+    },
+    "topology_diagnostics.json": {
+      "sha256": "b03b79d240ed0fc67e62d3453b4cb4357c5859d775c73eee2ac95b75a660028b",
+      "size_bytes": 2385
+    }
+  },
+  "root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_unit_scale_fitted_mu",
+  "schema_version": 1,
+  "self_excluded": "artifact_manifest.json"
+}

@@ -1,0 +1,129 @@
+{
+  "all_runs_completed": true,
+  "completed_at_utc": "2026-07-29T00:35:59.513720+00:00",
+  "counts": {
+    "completed": 6,
+    "failed": 0,
+    "invalid_existing_run": 0,
+    "total": 6
+  },
+  "invocation": 1,
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/exploratory_seed1_epoch_sweep_v1",
+  "plan_sha256": "0407c49ea291793b5ed35cb5e4a6888531abfcdc614773194b0fb298da980392",
+  "resolved_device": "mps",
+  "roa_analysis_performed": false,
+  "runs": [
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "0584c6b71eb9fa801c396875add3e4dfab97079e27ddbd71cd85c9a7b5a23797"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "75f6acb21463d96781ea120f4406decc1456b3a4b4729ea0399404e9780d66c3",
+        "size_bytes": 61965
+      },
+      "epochs": 2500,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e2500",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "5a8aa8f4e09b2e890cce13d9e205b49eccb5de6a3c948b19059b6c4b8f66b0f2"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "e54302f84f6c8ee08502599ad276c6d7df089df805c53c5ea551b0c71e5d3a15",
+        "size_bytes": 61965
+      },
+      "epochs": 3000,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e3000",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "a2243140d4713631174b4e4c7e2c2f1f4d9687d1badde4e04f2768b252bfae69"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "c5f6e239ac0a1b7ff91dd5caa3c1b4f0873dea510db6c523e1fb249e691feba1",
+        "size_bytes": 61965
+      },
+      "epochs": 3500,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e3500",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "20f19d9d60e88200137bf9aa869f50a87e81c8401958bdad60ab9823ed361b50"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "53f979a540df1a7a5f4b9dbb2910f32bfc59ec0a5f8fecfc1294819a2fe8a351",
+        "size_bytes": 61965
+      },
+      "epochs": 4500,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e4500",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "e38e2f57a55dcbf4060d82358dfdd961091e7110f11ea494ee6660522b28d4d4"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "fa61b340c81cad06d430989f0f602a847c7a0635259e63da4b775171cb2e627c",
+        "size_bytes": 61965
+      },
+      "epochs": 5000,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e5000",
+      "seed": 1,
+      "status": "completed"
+    },
+    {
+      "artifact_manifest": {
+        "path": "attempts/attempt_001/artifact_manifest.json",
+        "sha256": "61d608995337d68bc0dea81325486a23f7628319eabe7aa8b41a1046191dfa10"
+      },
+      "attempt": 1,
+      "checkpoint": {
+        "path": "attempts/attempt_001/models/autoencoder.pt",
+        "sha256": "21369d1f22b24d88f6337d5515a37fb5cc8bf6569b052f77e880e0a0eed81f13",
+        "size_bytes": 61965
+      },
+      "epochs": 6000,
+      "learning_rate": 0.003,
+      "run_id": "seed_01_lr3e3_e6000",
+      "seed": 1,
+      "status": "completed"
+    }
+  ],
+  "runtime": {
+    "cuda_available": false,
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit",
+    "python": "3.12.13",
+    "torch": "2.12.0"
+  },
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T00:33:07.604001+00:00"
+}

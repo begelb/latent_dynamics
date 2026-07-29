@@ -1,0 +1,314 @@
+{
+  "attracting_block_construction": "N_q is the cell-level forward closure of the minimal Morse node",
+  "latent_domain_Z": {
+    "lower": [
+      -1.938651600025254
+    ],
+    "upper": [
+      1.9370541345849666
+    ]
+  },
+  "nodes": {
+    "0": {
+      "N_q_definition": "cell-level forward closure from latentdynamics.analysis.cmgdb_roa.attractor_cells",
+      "cell_ids": [
+        192,
+        193,
+        194,
+        195
+      ],
+      "connected_interval_count": 1,
+      "encoded_root_inclusion": {
+        "negative": {
+          "closed_N": false,
+          "interior_N": false,
+          "value": -0.9999999658434106
+        },
+        "positive": {
+          "closed_N": true,
+          "interior_N": true,
+          "value": 0.9999999658434106
+        }
+      },
+      "encoded_root_to_nearest_block_boundary_clearance": {
+        "negative": null,
+        "positive": 0.028685637192285562
+      },
+      "forward_closure_cell_count": 4,
+      "forward_closure_equals_recurrent_cells": true,
+      "forward_invariant_adjacency_verified": true,
+      "intervals": [
+        {
+          "lower": 0.9681277009324114,
+          "upper": 1.0286856030356961,
+          "width": 0.06055790210328471
+        }
+      ],
+      "morse_node": 0,
+      "numerical_grid_robustness": {
+        "boxmap_padding_cells_per_side": 1,
+        "grid_width_h": 0.015139475525821174,
+        "interpretation": "tau is the theorem quantity; tau-h is a separate diagnostic after accounting for one BoxMap padding cell per side",
+        "padded_invariance_margin_tau_minus_h": 0.012015312674917848,
+        "tau_exceeds_one_padding_width": true
+      },
+      "physical_attractor": "positive",
+      "recurrent_cell_count": 4,
+      "stored_pair_residuals_conditioned_on_E_x_in_N": {
+        "absolute_residual_quantiles": {
+          "q50": 3.75722465362216e-08,
+          "q90": 8.577244370311377e-08,
+          "q95": 1.4567174039114913e-05,
+          "q99": 0.0011570394738768274,
+          "q999": 0.16869977158536603
+        },
+        "accepted_pairs": 9210,
+        "comparison_to_tau": "sample_counterexample_exceeds_tau",
+        "evaluated_pairs": 30000,
+        "logical_caveat": "This stored pair proves the sampled residual exceeds tau and therefore contradicts the tolerance inequality.",
+        "mae": 0.00038511429212329765,
+        "max_absolute_residual": 0.44075605328658984,
+        "max_sample_over_tau": 16.231246218101404,
+        "membership": "closed interval-union membership E(x) in N",
+        "mse": 0.00010048454931089028,
+        "rmse": 0.01002419818792956,
+        "witness": {
+          "E_x": 1.0205523309395126,
+          "E_y": 0.5564869817144439,
+          "G_E_x": 0.9972430350010337,
+          "absolute_residual": 0.44075605328658984,
+          "training_pair_index": 17490
+        }
+      },
+      "tau": {
+        "definition": "inf_{z in N} dist(G(z), R\\Int(N))",
+        "intervals": [
+          {
+            "derivative_partition": [
+              0.9681277009324114,
+              0.9692233691951198,
+              1.0286856030356961
+            ],
+            "segments": [
+              {
+                "endpoint_interior_margins": [
+                  0.02715670732149933,
+                  0.027154788200739022
+                ],
+                "mapped_endpoints": [
+                  1.0015288957141968,
+                  1.001530814834957
+                ],
+                "source_segment": [
+                  0.9681277009324114,
+                  0.9692233691951198
+                ],
+                "tau": 0.027154788200739022,
+                "witness": {
+                  "G_z": 1.001530814834957,
+                  "distance_to_complement_of_interior": 0.027154788200739022,
+                  "z": 0.9692233691951198
+                }
+              },
+              {
+                "endpoint_interior_margins": [
+                  0.027154788200739022,
+                  0.027633031068793334
+                ],
+                "mapped_endpoints": [
+                  1.001530814834957,
+                  0.9957607320012047
+                ],
+                "source_segment": [
+                  0.9692233691951198,
+                  1.0286856030356961
+                ],
+                "tau": 0.027154788200739022,
+                "witness": {
+                  "G_z": 1.001530814834957,
+                  "distance_to_complement_of_interior": 0.027154788200739022,
+                  "z": 0.9692233691951198
+                }
+              }
+            ],
+            "source_interval": [
+              0.9681277009324114,
+              1.0286856030356961
+            ],
+            "source_interval_index": 0,
+            "tau": 0.027154788200739022,
+            "width": 0.06055790210328471,
+            "witness": {
+              "G_z": 1.001530814834957,
+              "distance_to_complement_of_interior": 0.027154788200739022,
+              "source_segment": [
+                0.9681277009324114,
+                0.9692233691951198
+              ],
+              "z": 0.9692233691951198
+            }
+          }
+        ],
+        "method": "analytic D1 cubic extrema: interval endpoints plus the exact derivative-critical points +/-sqrt((1+mu)/(3mu))",
+        "positive_attracting_margin": true,
+        "tau": 0.027154788200739022,
+        "witness": {
+          "G_z": 1.001530814834957,
+          "distance_to_complement_of_interior": 0.027154788200739022,
+          "source_interval_index": 0,
+          "source_segment": [
+            0.9681277009324114,
+            0.9692233691951198
+          ],
+          "z": 0.9692233691951198
+        }
+      },
+      "total_interval_width": 0.06055790210328471
+    },
+    "3": {
+      "N_q_definition": "cell-level forward closure from latentdynamics.analysis.cmgdb_roa.attractor_cells",
+      "cell_ids": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "connected_interval_count": 1,
+      "encoded_root_inclusion": {
+        "negative": {
+          "closed_N": true,
+          "interior_N": true,
+          "value": -0.9999999658434106
+        },
+        "positive": {
+          "closed_N": false,
+          "interior_N": false,
+          "value": 0.9999999658434106
+        }
+      },
+      "encoded_root_to_nearest_block_boundary_clearance": {
+        "negative": 0.030274799470711655,
+        "positive": null
+      },
+      "forward_closure_cell_count": 4,
+      "forward_closure_equals_recurrent_cells": true,
+      "forward_invariant_adjacency_verified": true,
+      "intervals": [
+        {
+          "lower": -1.0302830684759836,
+          "upper": -0.9697251663726989,
+          "width": 0.06055790210328471
+        }
+      ],
+      "morse_node": 3,
+      "numerical_grid_robustness": {
+        "boxmap_padding_cells_per_side": 1,
+        "grid_width_h": 0.015139475525821174,
+        "interpretation": "tau is the theorem quantity; tau-h is a separate diagnostic after accounting for one BoxMap padding cell per side",
+        "padded_invariance_margin_tau_minus_h": 0.010578620928465735,
+        "tau_exceeds_one_padding_width": true
+      },
+      "physical_attractor": "negative",
+      "recurrent_cell_count": 4,
+      "stored_pair_residuals_conditioned_on_E_x_in_N": {
+        "absolute_residual_quantiles": {
+          "q50": 3.75722465362216e-08,
+          "q90": 8.577244370311377e-08,
+          "q95": 1.64512780666146e-05,
+          "q99": 0.0012298936589921893,
+          "q999": 0.06036008166262649
+        },
+        "accepted_pairs": 9938,
+        "comparison_to_tau": "sample_counterexample_exceeds_tau",
+        "evaluated_pairs": 30000,
+        "logical_caveat": "This stored pair proves the sampled residual exceeds tau and therefore contradicts the tolerance inequality.",
+        "mae": 0.0002549809750315722,
+        "max_absolute_residual": 0.4583015575171646,
+        "max_sample_over_tau": 17.82019747580389,
+        "membership": "closed interval-union membership E(x) in N",
+        "mse": 6.235895498812215e-05,
+        "rmse": 0.007896768642180304,
+        "witness": {
+          "E_x": -0.9828538432110773,
+          "E_y": -0.5429307459646683,
+          "G_E_x": -1.001232303481833,
+          "absolute_residual": 0.4583015575171646,
+          "training_pair_index": 21000
+        }
+      },
+      "tau": {
+        "definition": "inf_{z in N} dist(G(z), R\\Int(N))",
+        "intervals": [
+          {
+            "derivative_partition": [
+              -1.0302830684759836,
+              -0.9697251663726989
+            ],
+            "segments": [
+              {
+                "endpoint_interior_margins": [
+                  0.02571809645428691,
+                  0.028752656394405163
+                ],
+                "mapped_endpoints": [
+                  -0.9954432628269858,
+                  -1.0015304120815784
+                ],
+                "source_segment": [
+                  -1.0302830684759836,
+                  -0.9697251663726989
+                ],
+                "tau": 0.02571809645428691,
+                "witness": {
+                  "G_z": -0.9954432628269858,
+                  "distance_to_complement_of_interior": 0.02571809645428691,
+                  "z": -1.0302830684759836
+                }
+              }
+            ],
+            "source_interval": [
+              -1.0302830684759836,
+              -0.9697251663726989
+            ],
+            "source_interval_index": 0,
+            "tau": 0.02571809645428691,
+            "width": 0.06055790210328471,
+            "witness": {
+              "G_z": -0.9954432628269858,
+              "distance_to_complement_of_interior": 0.02571809645428691,
+              "source_segment": [
+                -1.0302830684759836,
+                -0.9697251663726989
+              ],
+              "z": -1.0302830684759836
+            }
+          }
+        ],
+        "method": "analytic D1 cubic extrema: interval endpoints plus the exact derivative-critical points +/-sqrt((1+mu)/(3mu))",
+        "positive_attracting_margin": true,
+        "tau": 0.02571809645428691,
+        "witness": {
+          "G_z": -0.9954432628269858,
+          "distance_to_complement_of_interior": 0.02571809645428691,
+          "source_interval_index": 0,
+          "source_segment": [
+            -1.0302830684759836,
+            -0.9697251663726989
+          ],
+          "z": -1.0302830684759836
+        }
+      },
+      "total_interval_width": 0.06055790210328471
+    }
+  },
+  "one_dimensional_equivalence_note": "For these interior attracting intervals, the nearest points of Z\\Int(N_q) are the interval endpoints, so the analytic endpoint/critical-point computation equals the reported theorem quantity.",
+  "sample_supremum_caveat": "A stored-pair maximum is a lower bound on the true supremum. max_sample <= tau is inconclusive; max_sample > tau contradicts the tolerance hypothesis.",
+  "schema_version": 1,
+  "theorem_definition_on_latent_domain": "tau(N_q,G)=inf_{z in N_q} dist(G(z), Z\\Int(N_q))",
+  "theorem_quantity": "tau(N_q,G)",
+  "uniform_grid": {
+    "boxmap_padding": "one grid cell h on each side",
+    "cells": 256,
+    "width_h": 0.015139475525821174
+  }
+}

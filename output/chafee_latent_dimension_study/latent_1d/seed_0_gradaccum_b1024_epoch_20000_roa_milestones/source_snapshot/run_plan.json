@@ -1,0 +1,124 @@
+{
+  "accumulation": {
+    "last_microbatch_rows": 304,
+    "loss_weighting": "microbatch mean objective multiplied by microbatch_rows / effective_batch_size",
+    "microbatches_per_update": 30,
+    "optimizer_steps_per_epoch": 1
+  },
+  "architecture": {
+    "activation": "relu",
+    "decoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "encoder_out_activation": "tanh",
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 64,
+    "latent_map": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "latent_out_activation": "tanh",
+    "low_dims": 1,
+    "num_layers": null
+  },
+  "architecture_source": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/models/autoencoder.pt",
+    "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91",
+    "weights_reused": false
+  },
+  "basin_or_cmgdb_inputs_allowed": false,
+  "created_at_utc": "2026-07-28T23:56:35.634076+00:00",
+  "data": {
+    "drop_last": false,
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+    "scaling": "none",
+    "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+    "shape": [
+      30000,
+      128
+    ],
+    "shuffle": false
+  },
+  "early_stopping": false,
+  "milestone_epochs": [
+    1000,
+    2000,
+    3000,
+    4000,
+    5000,
+    6000,
+    7000,
+    8000,
+    9000,
+    10000,
+    11000,
+    12000,
+    13000,
+    14000,
+    15000,
+    16000,
+    17000,
+    18000,
+    19000,
+    20000
+  ],
+  "objective": {
+    "formula": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+    "weights": [
+      1.0,
+      1.0,
+      0.0
+    ]
+  },
+  "purpose": "long fixed-horizon 1-D gradient-accumulation experiment",
+  "run_id": "seed_0_gradaccum_b1024_epoch_20000",
+  "schema_version": 1,
+  "settings": {
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "effective_batch_size": 30000,
+    "epochs": 20000,
+    "epsilon": 1e-08,
+    "learning_rate": 0.003,
+    "microbatch_size": 1024,
+    "milestone_interval": 1000,
+    "resume_interval": 250,
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001,
+    "seed": 0,
+    "weight_decay": 0.0
+  },
+  "status": "frozen_before_training",
+  "training_script": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/compare_chafee_d1_grad_accum.py",
+    "sha256": "48aa2970ad9c8b5ca2850e8b3cf14063faef5f3afe5162fdb49b73983b2bfe56"
+  },
+  "validation_used": false
+}

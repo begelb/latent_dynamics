@@ -1,0 +1,17 @@
+{
+  "analysis_complete": 3,
+  "analysis_failed": 0,
+  "analysis_plan_sha256": "60a39b4ebb31a0f85cef1611d4fe458bd9bbf81f23b97123e6539894e513e553",
+  "completed_at_utc": "2026-07-29T03:08:22.877506+00:00",
+  "elapsed_seconds": 3.7497876249835826,
+  "results_csv": "results_by_run.csv",
+  "results_json": "results_by_run.json",
+  "rows_processed": 3,
+  "runs_expected": 3,
+  "schema_version": 1,
+  "source_completed_valid": 3,
+  "source_invalid": 0,
+  "source_not_completed": 0,
+  "started_at_utc": "2026-07-29T03:08:19.127302+00:00",
+  "status": "complete"
+}

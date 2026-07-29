@@ -1,0 +1,151 @@
+{
+  "bounds": {
+    "epsilon_frac": 0.1,
+    "lower": [
+      -4.981322622299194,
+      -4.08662965297699
+    ],
+    "upper": [
+      4.954653596878051,
+      3.981246495246887
+    ]
+  },
+  "classification": {
+    "closed_cell_boundary_policy": "negative basin first, then positive basin, matching archive",
+    "counts_by_predicted_point_label": {
+      "-4": 6471,
+      "0": 1707,
+      "6": 1822
+    },
+    "queried_unique_cells": 8273,
+    "rule": "complete reachable Morse-node set equals the corresponding singleton attractor"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      6
+    ],
+    "cached_edges": 939248,
+    "conley_indices_required_for_basin_statistics": false,
+    "grid_shape": [
+      256,
+      256
+    ],
+    "morse_edges": 222,
+    "morse_nodes": 150,
+    "padding": true,
+    "subdiv_init": 16,
+    "subdiv_limit": 10000,
+    "subdiv_max": 16,
+    "subdiv_min": 16,
+    "topology_only": true,
+    "uniform_cells": 65536
+  },
+  "dataset": 3,
+  "dataset_initial_condition_seed": 3174,
+  "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on a uniform level-16 CMGDB graph",
+  "reference_inputs": {
+    "conditioned_nonzero_trajectories": 7862,
+    "stable_roots": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+      "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+      "size_bytes": 3264
+    },
+    "trajectory_archive": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+      "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+      "size_bytes": 12223522
+    },
+    "trajectory_label_counts": {
+      "-1": 3909,
+      "0": 2138,
+      "1": 3953
+    }
+  },
+  "root_association": {
+    "distinct_attractor_basins": true,
+    "encoded_roots_negative_then_positive": [
+      [
+        -1.788129448890686,
+        -1.4515200853347778
+      ],
+      [
+        2.028724193572998,
+        1.4218876361846924
+      ]
+    ],
+    "negative_basin_label": 0,
+    "negative_root_candidate_cells": [
+      13069
+    ],
+    "positive_basin_label": 6,
+    "positive_root_candidate_cells": [
+      52852
+    ],
+    "status": "valid"
+  },
+  "schema_version": 1,
+  "source": {
+    "archived_adaptive_morse_graph_pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/ci_morse_graph_1.pdf",
+      "sha256": "3d55f5c6b1585f1cfe1d0e371ca9fefd08417349aae0dcac3f83c6995c9383b6",
+      "size_bytes": 12947
+    },
+    "archived_adaptive_morse_sets_pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/ci_morse_sets_1.pdf",
+      "sha256": "1166b71c490c8f56f36ab095b32ea98e4dbc562f91589e6435b6a4f50ea162b0",
+      "size_bytes": 26338
+    },
+    "archived_readme": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/Readme.txt",
+      "sha256": "a0724b9d6e1013374ee446c6475df0cc56abe9a2e304bb4f0443198923b4f20e",
+      "size_bytes": 41
+    },
+    "checkpoint": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/ci_model_weights_1.pth",
+      "sha256": "e2bd223b31a31887cec36afcf1db50adfa26bf1761009f23551171f440653752",
+      "size_bytes": 61926
+    },
+    "dataset": 3,
+    "dataset_initial_condition_seed": 3174,
+    "training_data": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/train_data.csv",
+      "sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46",
+      "size_bytes": 97907342
+    },
+    "training_trial": 1,
+    "training_trial_is_not_a_recorded_rng_seed": true
+  },
+  "statistics": {
+    "combined_correct_count": 3516,
+    "combined_correct_percentage": 44.721444924955485,
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 1701,
+      "correctly_classified_in_positive_basin": 1815,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 4346
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 21.635716102772832,
+      "correctly_classified_in_positive_basin": 23.085728822182652,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 55.278555075044515
+    },
+    "total_trajectories": 10000
+  },
+  "status": "complete",
+  "timings": {
+    "encode_and_classify_seconds": 0.5580324169714004,
+    "full_strict_singleton_query_seconds": 0.009721375012304634,
+    "load_model_and_infer_bounds_seconds": 0.018784749961923808,
+    "precompute_corner_lattice_seconds": 0.0075063330004923046,
+    "total_seconds": 2.2314710409846157,
+    "uniform_cmgdb_seconds": 1.4589521249872632
+  },
+  "training_trial": 1,
+  "training_trial_is_not_a_recorded_rng_seed": true
+}

@@ -1,0 +1,457 @@
+{
+  "plan": {
+    "architecture": {
+      "activation": "relu",
+      "decoder": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          64
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          32
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "encoder_out_activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 64,
+      "latent_map": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          32
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "latent_out_activation": "tanh",
+      "low_dims": 3,
+      "num_layers": null
+    },
+    "created_at_utc": "2026-07-29T14:30:54.121643+00:00",
+    "design": {
+      "dataset_initial_condition_seeds": {
+        "1": 2158,
+        "2": 4792,
+        "3": 3174,
+        "4": 688,
+        "5": 5727
+      },
+      "datasets": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "runs_per_dataset": 3,
+      "same_seed_across_datasets_is_a_paired_initialization": true,
+      "total_runs": 15,
+      "training_seeds": [
+        0,
+        1,
+        2
+      ]
+    },
+    "purpose": "training-only matched Chafee d=3 robustness matrix over five archived datasets and three explicit initialization seeds",
+    "resolved_device": "cpu",
+    "runtime_at_plan_creation": {
+      "cuda_available": false,
+      "mps_available": true,
+      "numpy": "2.4.6",
+      "platform": "macOS-26.5.2-arm64-arm-64bit",
+      "python": "3.12.13",
+      "torch": "2.12.0"
+    },
+    "scope_guards": {
+      "cmgdb_imported_or_invoked": false,
+      "existing_d3_artifacts_mutated": false,
+      "morse_graph_or_roa_analysis_performed": false,
+      "training_only": true
+    },
+    "sources": {
+      "architecture_schema_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/config/schema.py",
+        "sha256": "6847580f86274fa510e727cdb613c6146418e48bef0907c94aa35bf8440e80dc",
+        "size_bytes": 17235
+      },
+      "autoencoder_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/models/autoencoder.py",
+        "sha256": "1941730bf855863d4ad83efea1a9b2c4b48e97ffb69484f85e443a1a8c11c0f4",
+        "size_bytes": 4215
+      },
+      "checkpoint_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/training/checkpoints.py",
+        "sha256": "6f65c79584489944064922528a0839544c7bbeac58d387eb768267b4c1e44c6e",
+        "size_bytes": 7552
+      },
+      "d3_runner_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_matched_5x3_training.py",
+        "sha256": "766b2592098d7394ae1cca0720c53e3daa356df4d784a12214beb6037472e1ae",
+        "size_bytes": 32744
+      },
+      "existing_d3_architecture_sidecar": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/models/autoencoder.json",
+        "sha256": "54ebb8b172b3a23de981ce2495de6bab6a605c3ccad285188ad433d5b73197d1",
+        "size_bytes": 878
+      },
+      "marcio_training_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/training/marcio.py",
+        "sha256": "e9d578ac8857e94ce28d150ee65a17d0a06de7dca5908d32d52beea4fe008113",
+        "size_bytes": 13305
+      },
+      "reusable_sweep_implementation": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/sweep_chafee_d1_full_batch.py",
+        "sha256": "42eada9f705dbb0dd6e18a0fc329aac9120cbc9b91fd2cd841ed7e77eefe4541",
+        "size_bytes": 36462
+      },
+      "train_data_dataset_1": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_1/train_data.csv",
+        "sha256": "f50e3f44b4d6a4e5cf516ead5f3e44d2b4a3afdb0dff34c76613d0444caf8f7b",
+        "size_bytes": 97942734
+      },
+      "train_data_dataset_2": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_2/train_data.csv",
+        "sha256": "b183613bf887b8eb2e85f780e440295dc16b1320bff178da6886c0d0dc93353d",
+        "size_bytes": 97920167
+      },
+      "train_data_dataset_3": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_3/train_data.csv",
+        "sha256": "980f9320588ca49d87e319f7dc727a885692d12ccb523bac3c9ad92ffc33ad46",
+        "size_bytes": 97907342
+      },
+      "train_data_dataset_4": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_4/train_data.csv",
+        "sha256": "6025463fc0b50334a6bdad35dd8aa039e7ce78ffde6c9d7b64b7879f77261077",
+        "size_bytes": 97926258
+      },
+      "train_data_dataset_5": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/computations/run_dataset_5/train_data.csv",
+        "sha256": "35971c3db99009acf2f9163d2fdceaf333cf156dc9d357e83f6f957732047adb",
+        "size_bytes": 97944174
+      }
+    },
+    "training_entrypoint": "latentdynamics.training.train_marcio_full_batch",
+    "training_semantics": {
+      "checkpoint_selection": "fixed final epoch",
+      "data_rows": 30000,
+      "dtype": "float32",
+      "early_stopping_used": false,
+      "epochs": 4000,
+      "full_batch": true,
+      "high_dimension": 64,
+      "latent_dimension": 3,
+      "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+      "optimizer": {
+        "amsgrad": false,
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "epsilon": 1e-08,
+        "learning_rate": 0.003,
+        "name": "Adam",
+        "weight_decay": 0.0
+      },
+      "scheduler": {
+        "factor": 0.5,
+        "min_lr": 1e-06,
+        "mode": "min",
+        "monitor": "train.loss_total",
+        "name": "ReduceLROnPlateau",
+        "patience": 100,
+        "threshold": 0.0001,
+        "threshold_mode": "rel"
+      },
+      "updates_per_epoch": 1,
+      "validation_used": false
+    },
+    "trials": [
+      {
+        "dataset": 1,
+        "dataset_initial_condition_seed": 2158,
+        "plan_index": 1,
+        "run_id": "dataset_01_seed_00_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_1",
+        "training_seed": 0,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_01_seed_00_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 0
+        }
+      },
+      {
+        "dataset": 1,
+        "dataset_initial_condition_seed": 2158,
+        "plan_index": 2,
+        "run_id": "dataset_01_seed_01_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_1",
+        "training_seed": 1,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_01_seed_01_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 1
+        }
+      },
+      {
+        "dataset": 1,
+        "dataset_initial_condition_seed": 2158,
+        "plan_index": 3,
+        "run_id": "dataset_01_seed_02_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_1",
+        "training_seed": 2,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_01_seed_02_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 2
+        }
+      },
+      {
+        "dataset": 2,
+        "dataset_initial_condition_seed": 4792,
+        "plan_index": 4,
+        "run_id": "dataset_02_seed_00_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_2",
+        "training_seed": 0,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_02_seed_00_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 0
+        }
+      },
+      {
+        "dataset": 2,
+        "dataset_initial_condition_seed": 4792,
+        "plan_index": 5,
+        "run_id": "dataset_02_seed_01_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_2",
+        "training_seed": 1,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_02_seed_01_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 1
+        }
+      },
+      {
+        "dataset": 2,
+        "dataset_initial_condition_seed": 4792,
+        "plan_index": 6,
+        "run_id": "dataset_02_seed_02_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_2",
+        "training_seed": 2,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_02_seed_02_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 2
+        }
+      },
+      {
+        "dataset": 3,
+        "dataset_initial_condition_seed": 3174,
+        "plan_index": 7,
+        "run_id": "dataset_03_seed_00_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_3",
+        "training_seed": 0,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_03_seed_00_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 0
+        }
+      },
+      {
+        "dataset": 3,
+        "dataset_initial_condition_seed": 3174,
+        "plan_index": 8,
+        "run_id": "dataset_03_seed_01_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_3",
+        "training_seed": 1,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_03_seed_01_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 1
+        }
+      },
+      {
+        "dataset": 3,
+        "dataset_initial_condition_seed": 3174,
+        "plan_index": 9,
+        "run_id": "dataset_03_seed_02_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_3",
+        "training_seed": 2,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_03_seed_02_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 2
+        }
+      },
+      {
+        "dataset": 4,
+        "dataset_initial_condition_seed": 688,
+        "plan_index": 10,
+        "run_id": "dataset_04_seed_00_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_4",
+        "training_seed": 0,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_04_seed_00_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 0
+        }
+      },
+      {
+        "dataset": 4,
+        "dataset_initial_condition_seed": 688,
+        "plan_index": 11,
+        "run_id": "dataset_04_seed_01_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_4",
+        "training_seed": 1,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_04_seed_01_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 1
+        }
+      },
+      {
+        "dataset": 4,
+        "dataset_initial_condition_seed": 688,
+        "plan_index": 12,
+        "run_id": "dataset_04_seed_02_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_4",
+        "training_seed": 2,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_04_seed_02_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 2
+        }
+      },
+      {
+        "dataset": 5,
+        "dataset_initial_condition_seed": 5727,
+        "plan_index": 13,
+        "run_id": "dataset_05_seed_00_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_5",
+        "training_seed": 0,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_05_seed_00_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 0
+        }
+      },
+      {
+        "dataset": 5,
+        "dataset_initial_condition_seed": 5727,
+        "plan_index": 14,
+        "run_id": "dataset_05_seed_01_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_5",
+        "training_seed": 1,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_05_seed_01_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 1
+        }
+      },
+      {
+        "dataset": 5,
+        "dataset_initial_condition_seed": 5727,
+        "plan_index": 15,
+        "run_id": "dataset_05_seed_02_lr3e3_e4000",
+        "training_data_source": "train_data_dataset_5",
+        "training_seed": 2,
+        "training_spec": {
+          "epochs": 4000,
+          "learning_rate": 0.003,
+          "run_id": "dataset_05_seed_02_lr3e3_e4000",
+          "scheduler_factor": 0.5,
+          "scheduler_min_lr": 1e-06,
+          "scheduler_patience": 100,
+          "scheduler_threshold": 0.0001,
+          "seed": 2
+        }
+      }
+    ]
+  },
+  "plan_sha256": "08843341de244964991a18e91d9c77caf3b8f7ed1ba8e3a9bbfd1e342b250b0f",
+  "schema_version": 1
+}

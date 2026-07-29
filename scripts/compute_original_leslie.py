@@ -37,10 +37,11 @@ CODE_ROOT = Path(__file__).resolve().parents[1]
 LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
 LESLIE_2D_CORRESPONDENCE_PALETTE = (
     PALETTE[1],  # direct 0: periodic attractor -> latent periodic-attractor color
-    PALETTE[0],  # direct 1: invariant circle -> latent invariant-circle color
-    PALETTE[3],  # direct 2: (0, x^3-1, 0) -> latent node 3
-    "#7F7F7F",  # direct 3: (0, 0, 0), with no defensible latent counterpart
-    PALETTE[4],  # direct 4: (0, 0, x-1) -> latent node 4
+    PALETTE[2],  # direct 1: (0, x^3+1, 0) -> latent node 2
+    PALETTE[0],  # direct 2: invariant circle -> latent invariant-circle color
+    PALETTE[3],  # direct 3: (0, x^3-1, 0) -> latent node 3
+    PALETTE[5],  # direct 4: trivial index, with no latent counterpart
+    PALETTE[4],  # direct 5: (0, 0, x-1) -> latent node 4
 )
 
 
@@ -330,18 +331,16 @@ def main() -> int:
             "display_only": True,
             "node_colors": (
                 {
-                    "0": LESLIE_2D_CORRESPONDENCE_PALETTE[0],
-                    "1": LESLIE_2D_CORRESPONDENCE_PALETTE[1],
-                    "2": LESLIE_2D_CORRESPONDENCE_PALETTE[2],
-                    "3": LESLIE_2D_CORRESPONDENCE_PALETTE[3],
-                    "4": LESLIE_2D_CORRESPONDENCE_PALETTE[4],
+                    str(node): color
+                    for node, color in enumerate(LESLIE_2D_CORRESPONDENCE_PALETTE)
                 }
                 if args.system == "2d"
                 else "default"
             ),
             "color_correspondence": (
                 "attractors matched by dynamical role; nonminimal nodes matched by "
-                "equal Conley index; unmatched direct node 3 shown in grey"
+                "equal Conley index; unmatched trivial-index direct node 4 shown "
+                "in canonical teal"
                 if args.system == "2d"
                 else None
             ),

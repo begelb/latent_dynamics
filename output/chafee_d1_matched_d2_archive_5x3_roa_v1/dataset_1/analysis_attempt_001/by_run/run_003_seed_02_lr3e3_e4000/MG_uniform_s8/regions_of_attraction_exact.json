@@ -1,0 +1,30 @@
+{
+  "counts_by_box_roa_label": {
+    "0": 93,
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "4": 93,
+    "5": 1,
+    "6": 1,
+    "7": 64,
+    "8": 1
+  },
+  "different_from_strict_singleton_lookup": true,
+  "method": "compute_exact_roa(collapse_to_lca=True)",
+  "minimal_order": [
+    0,
+    4
+  ],
+  "negative_sentinels": {
+    "-1": "BOUNDARY",
+    "-2": "ESCAPE",
+    "-3": "MULTI (must be absent after LCA collapse)"
+  },
+  "reach_mask_persisted": true,
+  "schema_version": 1,
+  "semantics": "other recurrent Morse sets block reverse reachability; cells reaching multiple minimal sets collapse to their Morse-poset LCA",
+  "status": "complete",
+  "uniform_cells": 256,
+  "used_for_marcio_trajectory_statistics": false
+}

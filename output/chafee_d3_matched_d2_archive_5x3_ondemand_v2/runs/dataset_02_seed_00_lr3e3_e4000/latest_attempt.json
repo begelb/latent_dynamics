@@ -1,0 +1,12 @@
+{
+  "attempt": 1,
+  "attempt_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_00_lr3e3_e4000/attempts/attempt_001",
+  "run_id": "dataset_02_seed_00_lr3e3_e4000",
+  "schema_version": 1,
+  "status": "completed",
+  "terminal_marker": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_00_lr3e3_e4000/completed.json",
+    "sha256": "1f234b855b88aa5923af1687d27407a59f5dd85255c6ddd21544ee921b21c2cc",
+    "size_bytes": 616
+  }
+}

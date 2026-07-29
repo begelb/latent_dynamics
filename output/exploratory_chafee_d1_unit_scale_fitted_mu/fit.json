@@ -1,0 +1,28 @@
+{
+  "closed_form": "mu=(f dot delta_z)/(f dot f)",
+  "coordinate": "raw first Fourier coefficient E(x)=x[:, 0]",
+  "delta_residual_mse": 0.004556932468173325,
+  "delta_residual_sse": 136.70797404519976,
+  "feature_dot_delta": 612.4977664711405,
+  "feature_dot_feature": 12878.827651073252,
+  "fit_role": "the only learned parameter in the experiment",
+  "fitted_mu": 0.047558503232248646,
+  "map": "G(z)=z+mu*z*(1-z^2)",
+  "mse_improvement_over_persistence": 0.0009709825668820929,
+  "n_training_pairs": 30000,
+  "normalization": "none; a is fixed to 1 and E(x) is not divided by a",
+  "objective": "min_mu sum_i (delta_z_i-mu*f(z_i))^2; no intercept",
+  "one_step_mse": 0.004556932468173328,
+  "persistence_mu_zero_mse": 0.005527915035055418,
+  "residual_equation": "delta_z=(E(y)-E(x)) ~= mu*f(z), f(z)=z*(1-z^2)",
+  "schema_version": 1,
+  "selection": "unconstrained least-squares minimizer on training pairs",
+  "stable_roots_used_in_fit": false,
+  "test_labels_used_in_fit": false,
+  "training_coordinate_range": {
+    "z_maximum": 1.9959609508514404,
+    "z_minimum": -1.9979363679885864,
+    "z_next_maximum": 1.2386858463287354,
+    "z_next_minimum": -1.238641619682312
+  }
+}

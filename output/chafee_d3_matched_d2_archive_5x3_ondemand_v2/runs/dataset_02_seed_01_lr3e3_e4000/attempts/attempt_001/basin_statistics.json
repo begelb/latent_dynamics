@@ -1,0 +1,77 @@
+{
+  "classification": {
+    "counts_by_singleton_label": {
+      "-4": 3843,
+      "0": 3126,
+      "5": 3031
+    },
+    "queried_uniform_cells": 9979,
+    "rule": "complete reachable Morse-node set equals one singleton"
+  },
+  "cmgdb": {
+    "attractor_nodes": [
+      0,
+      5
+    ],
+    "cached_edges": 1081058890,
+    "morse_nodes": 228,
+    "subdivisions": [
+      24,
+      24,
+      24
+    ],
+    "uniform_cells": 16777216
+  },
+  "dataset": 2,
+  "method": "Exact Marcio singleton-all-reachable-Morse-set basin semantics on uniform CMGDB graph",
+  "run_id": "dataset_02_seed_01_lr3e3_e4000",
+  "schema_version": 2,
+  "stable_roots": {
+    "candidate_cell_ids": [
+      [
+        10334814
+      ],
+      [
+        4651878
+      ]
+    ],
+    "encoded": [
+      [
+        2.188006639480591,
+        -0.4816623628139496,
+        -0.14118193089962006
+      ],
+      [
+        -2.5617220401763916,
+        0.4015069901943207,
+        -0.18391793966293335
+      ]
+    ],
+    "negative_basin_label": 5,
+    "positive_basin_label": 0
+  },
+  "statistics": {
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 3017,
+      "correctly_classified_in_positive_basin": 3116,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 1729
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 38.37445942508268,
+      "correctly_classified_in_positive_basin": 39.63368099720173,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 21.991859577715594
+    },
+    "total_trajectories": 10000
+  },
+  "training_seed": 1,
+  "trajectory_data": {
+    "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+    "total": 10000
+  }
+}

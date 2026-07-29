@@ -1,0 +1,117 @@
+{
+  "analysis": [
+    {
+      "analysis_attempt": 1,
+      "analysis_complete": 3,
+      "analysis_failed": 0,
+      "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001",
+      "dataset": 1,
+      "status": "complete"
+    },
+    {
+      "analysis_attempt": 1,
+      "analysis_complete": 3,
+      "analysis_failed": 0,
+      "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001",
+      "dataset": 2,
+      "status": "complete"
+    },
+    {
+      "analysis_attempt": 1,
+      "analysis_complete": 3,
+      "analysis_failed": 0,
+      "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001",
+      "dataset": 3,
+      "status": "complete"
+    },
+    {
+      "analysis_attempt": 1,
+      "analysis_complete": 3,
+      "analysis_failed": 0,
+      "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001",
+      "dataset": 4,
+      "status": "complete"
+    },
+    {
+      "analysis_attempt": 1,
+      "analysis_complete": 3,
+      "analysis_failed": 0,
+      "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001",
+      "dataset": 5,
+      "status": "complete"
+    }
+  ],
+  "completed_at_utc": "2026-07-29T03:08:22.894515+00:00",
+  "elapsed_seconds": 801.5029736249708,
+  "experiment_plan_sha256": "a9dc1fdb28db29b24ba10eab192d8133f4c9294be098a36df9e0bff1479885d9",
+  "invocation": 1,
+  "optional_roa_augmentation": [],
+  "output_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d1_matched_d2_archive_5x3_roa_v1",
+  "run_counts": {
+    "available": 15,
+    "expected": 15,
+    "headline_valid": 15,
+    "invalid": 0
+  },
+  "schema_version": 1,
+  "stage": "all",
+  "started_at_utc": "2026-07-29T02:55:01.696943+00:00",
+  "status": "complete",
+  "training": [
+    {
+      "counts": {
+        "completed": 3,
+        "failed": 0,
+        "invalid_existing_run": 0,
+        "total": 3
+      },
+      "dataset": 1,
+      "plan_sha256": "f9a1445bce55340ef14101d5d8b685628635c3909fad807f4eae494a5e185dc6",
+      "status": "complete"
+    },
+    {
+      "counts": {
+        "completed": 3,
+        "failed": 0,
+        "invalid_existing_run": 0,
+        "total": 3
+      },
+      "dataset": 2,
+      "plan_sha256": "269d99a585cd73e314f9cf4dc88fe5ff6df601cec904d38f455849352dae7f2e",
+      "status": "complete"
+    },
+    {
+      "counts": {
+        "completed": 3,
+        "failed": 0,
+        "invalid_existing_run": 0,
+        "total": 3
+      },
+      "dataset": 3,
+      "plan_sha256": "a09080401401ac0b89b211d5a7272f3ab43b7dfa22be10fda54908b43807f472",
+      "status": "complete"
+    },
+    {
+      "counts": {
+        "completed": 3,
+        "failed": 0,
+        "invalid_existing_run": 0,
+        "total": 3
+      },
+      "dataset": 4,
+      "plan_sha256": "60a2df12e3656d024b76be13559d30234f0fbad40da4fda877608ed0d9e021d3",
+      "status": "complete"
+    },
+    {
+      "counts": {
+        "completed": 3,
+        "failed": 0,
+        "invalid_existing_run": 0,
+        "total": 3
+      },
+      "dataset": 5,
+      "plan_sha256": "6cdc43750dd267d8ffe425a33bfd40af6ab45c9029c27b6fd0e7aeb9c2bae89a",
+      "status": "complete"
+    }
+  ]
+}

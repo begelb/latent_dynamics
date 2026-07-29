@@ -1,9 +1,11 @@
 """Render the paper-style Morse graph for the original Leslie 3D ground truth.
 
 The saved CMGDB screen supplies the graph topology. The Conley-index labels
-below are the indices computed for the corresponding six Morse sets. The
-zero-index node is omitted from the displayed graph, and the remaining colors
-match the corresponding Conley indices in the latent Leslie 3D figures.
+below are the indices computed for the corresponding six Morse sets. By
+default, the zero-index node is omitted from the displayed graph. Pass
+``--include-zero-index`` to retain it. The colors match the corresponding
+Conley indices in the latent Leslie 3D figures; the zero-index node uses the
+sixth color in the repository-wide paper palette.
 """
 
 from __future__ import annotations
@@ -35,11 +37,11 @@ EXPECTED_EDGES = (
     (5, 3),
     (5, 4),
 )
-DISPLAYED_NODES = (0, 1, 2, 3, 4)
-DISPLAYED_EDGES = tuple(
+NONTRIVIAL_NODES = (0, 1, 2, 3, 4)
+NONTRIVIAL_EDGES = tuple(
     (source, target)
     for source, target in EXPECTED_EDGES
-    if source in DISPLAYED_NODES and target in DISPLAYED_NODES
+    if source in NONTRIVIAL_NODES and target in NONTRIVIAL_NODES
 )
 COLORS = {
     0: "#FFB000FF",
@@ -47,6 +49,7 @@ COLORS = {
     2: "#FE6100FF",
     3: "#648FFFFF",
     4: "#785EF0FF",
+    5: "#008080FF",
 }
 
 
@@ -90,15 +93,21 @@ def load_indices(path: Path) -> dict[int, str]:
     return indices
 
 
-def paper_dot(conley_indices: dict[int, str]) -> str:
+def paper_dot(
+    conley_indices: dict[int, str],
+    *,
+    include_zero_index: bool = False,
+) -> str:
     """Return the paper-style Graphviz source."""
     if conley_indices[5] != "(0, 0, 0, 0)":
         raise ValueError(
             "node 5 can only be omitted when its Conley index is "
             f"(0, 0, 0, 0), found {conley_indices[5]}"
         )
+    displayed_nodes = EXPECTED_NODES if include_zero_index else NONTRIVIAL_NODES
+    displayed_edges = EXPECTED_EDGES if include_zero_index else NONTRIVIAL_EDGES
     lines = ["digraph G {"]
-    for node in DISPLAYED_NODES:
+    for node in displayed_nodes:
         lines.append(
             f'{node} [label="{node} : {conley_indices[node]}", '
             f"shape=ellipse, style=filled, fillcolor=\"{COLORS[node]}\", "
@@ -118,7 +127,7 @@ def paper_dot(conley_indices: dict[int, str]) -> str:
             "}",
         ]
     )
-    lines.extend(f"{source} -> {target};" for source, target in DISPLAYED_EDGES)
+    lines.extend(f"{source} -> {target};" for source, target in displayed_edges)
     lines.append("}")
     return "\n".join(lines) + "\n"
 
@@ -142,6 +151,11 @@ def main() -> int:
         type=Path,
         default=DEFAULT_OUTPUT,
         help="Directory for morse_graph, morse_graph.pdf, and morse_graph.png.",
+    )
+    parser.add_argument(
+        "--include-zero-index",
+        action="store_true",
+        help="Retain node 5, whose Conley index is (0, 0, 0, 0).",
     )
     args = parser.parse_args()
 
@@ -167,7 +181,13 @@ def main() -> int:
     output_dir = args.output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     dot_path = output_dir / "morse_graph"
-    dot_path.write_text(paper_dot(conley_indices), encoding="utf-8")
+    dot_path.write_text(
+        paper_dot(
+            conley_indices,
+            include_zero_index=args.include_zero_index,
+        ),
+        encoding="utf-8",
+    )
 
     for output_format in ("pdf", "png"):
         output_path = output_dir / f"morse_graph.{output_format}"

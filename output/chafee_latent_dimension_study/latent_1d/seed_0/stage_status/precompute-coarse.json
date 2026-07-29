@@ -1,0 +1,88 @@
+{
+  "arrays": {
+    "coarse_values.npy": {
+      "dtype": "float64",
+      "shape": [
+        257,
+        1
+      ],
+      "size_bytes": 2184
+    }
+  },
+  "batch_points": "auto",
+  "device": "mps",
+  "dimension": 1,
+  "duration_seconds": 0.02782416599802673,
+  "metadata": {
+    "callback_neural_evaluations": 0,
+    "coarse_subdiv": 8,
+    "dimension": 1,
+    "fine_subdiv": 11,
+    "has_fine_blocks": false,
+    "lower": [
+      -7.7618739128112795
+    ],
+    "n_active_coarse_cells": 0,
+    "padding": true,
+    "schema_version": 1,
+    "upper": [
+      7.715793323516846
+    ]
+  },
+  "neural_evaluations_during_cmgdb": 0,
+  "provenance": {
+    "direct_input_fingerprint": "944fd04106c8785f5a6ce80f66b07a87cd7fb77c0513359aea77c96758681630",
+    "direct_inputs": {
+      "configuration": {
+        "batch_points": "auto",
+        "coarse_subdiv": 8,
+        "device": "mps",
+        "fine_subdiv": 11,
+        "padding": true,
+        "zero_neural_evaluations_during_cmgdb": true
+      },
+      "provenance_schema_version": 2,
+      "stage_algorithm_version": 1,
+      "study": {
+        "dimension": 1,
+        "seed": 0,
+        "train_data_sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
+      },
+      "upstream_output_fingerprints": {
+        "bounds": "f6db4511e0e6dc19b6d2a52ead575c461a55f0f0ba0b624928c7112d9780caa1",
+        "train": "33468c39987666119cb1d0193eb1ddff375b19fa2588b1362154c3226b1e94d0"
+      }
+    },
+    "legacy_artifacts_adopted_after_validation": false,
+    "outputs": {
+      "components": {
+        "table_geometry": {
+          "callback_neural_evaluations": 0,
+          "coarse_subdiv": 8,
+          "dimension": 1,
+          "fine_subdiv": 11,
+          "lower": [
+            -7.7618739128112795
+          ],
+          "padding": true,
+          "schema_version": 1,
+          "upper": [
+            7.715793323516846
+          ]
+        }
+      },
+      "files": {
+        "coarse_values": {
+          "path": "precomputed_level8_to11/coarse_values.npy",
+          "sha256": "296cb500564266b2bf709dfd8b5de473b29be8140a09a535c395158cdf27329d",
+          "size_bytes": 2184
+        }
+      },
+      "fingerprint": "b372377f51aa677106d92314cbf6630a2ed034bd0b1821c4d79a00ddde6ee386"
+    },
+    "schema_version": 2
+  },
+  "schema_version": 2,
+  "seed": 0,
+  "stage": "precompute-coarse"
+}

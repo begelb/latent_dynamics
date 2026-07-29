@@ -1,0 +1,552 @@
+{
+  "attracting_block_audit": {
+    "attracting_block_construction": "N_q is the cell-level forward closure of the minimal Morse node",
+    "latent_domain_Z": {
+      "lower": [
+        -1.938651600025254
+      ],
+      "upper": [
+        1.9370541345849666
+      ]
+    },
+    "nodes": {
+      "0": {
+        "N_q_definition": "cell-level forward closure from latentdynamics.analysis.cmgdb_roa.attractor_cells",
+        "cell_ids": [
+          59,
+          60,
+          61,
+          62,
+          63,
+          64,
+          65
+        ],
+        "connected_interval_count": 1,
+        "encoded_root_inclusion": {
+          "negative": {
+            "closed_N": true,
+            "interior_N": true,
+            "value": -0.9999999658434106
+          },
+          "positive": {
+            "closed_N": false,
+            "interior_N": false,
+            "value": 0.9999999658434106
+          }
+        },
+        "encoded_root_to_nearest_block_boundary_clearance": {
+          "negative": 0.04542257815839423,
+          "positive": null
+        },
+        "forward_closure_cell_count": 7,
+        "forward_closure_equals_recurrent_cells": true,
+        "forward_invariant_adjacency_verified": true,
+        "intervals": [
+          {
+            "lower": -1.0454225440018048,
+            "upper": -0.9394462153210565,
+            "width": 0.10597632868074824
+          }
+        ],
+        "morse_node": 0,
+        "numerical_grid_robustness": {
+          "boxmap_padding_cells_per_side": 1,
+          "grid_width_h": 0.015139475525821174,
+          "interpretation": "tau is the theorem quantity; tau-h is a separate diagnostic after accounting for one BoxMap padding cell per side",
+          "padded_invariance_margin_tau_minus_h": 0.00031143121164656576,
+          "tau_exceeds_one_padding_width": true
+        },
+        "physical_attractor": "negative",
+        "recurrent_cell_count": 7,
+        "stored_pair_residuals_conditioned_on_E_x_in_N": {
+          "absolute_residual_quantiles": {
+            "q50": 1.0867060584729415e-08,
+            "q90": 7.121723571978933e-07,
+            "q95": 0.00024285577037537926,
+            "q99": 0.017302028803168355,
+            "q999": 0.06211805007817284
+          },
+          "accepted_pairs": 10012,
+          "comparison_to_tau": "sample_counterexample_exceeds_tau",
+          "evaluated_pairs": 30000,
+          "logical_caveat": "This stored pair proves the sampled residual exceeds tau and therefore contradicts the tolerance inequality.",
+          "mae": 0.000656041203028087,
+          "max_absolute_residual": 0.4452387187744591,
+          "max_sample_over_tau": 28.81634886157041,
+          "membership": "closed interval-union membership E(x) in N",
+          "mse": 7.51605945358083e-05,
+          "rmse": 0.008669521009594953,
+          "witness": {
+            "E_x": -0.9828538432110773,
+            "E_y": -0.5429307459646683,
+            "G_E_x": -0.9881694647391274,
+            "absolute_residual": 0.4452387187744591,
+            "training_pair_index": 21000
+          }
+        },
+        "tau": {
+          "definition": "inf_{z in N} dist(G(z), R\\Int(N))",
+          "intervals": [
+            {
+              "derivative_partition": [
+                -1.0454225440018048,
+                -0.9394462153210565
+              ],
+              "segments": [
+                {
+                  "endpoint_interior_margins": [
+                    0.01545090673746774,
+                    0.017550866829218692
+                  ],
+                  "mapped_endpoints": [
+                    -1.029971637264337,
+                    -0.9569970821502752
+                  ],
+                  "source_segment": [
+                    -1.0454225440018048,
+                    -0.9394462153210565
+                  ],
+                  "tau": 0.01545090673746774,
+                  "witness": {
+                    "G_z": -1.029971637264337,
+                    "distance_to_complement_of_interior": 0.01545090673746774,
+                    "z": -1.0454225440018048
+                  }
+                }
+              ],
+              "source_interval": [
+                -1.0454225440018048,
+                -0.9394462153210565
+              ],
+              "source_interval_index": 0,
+              "tau": 0.01545090673746774,
+              "width": 0.10597632868074824,
+              "witness": {
+                "G_z": -1.029971637264337,
+                "distance_to_complement_of_interior": 0.01545090673746774,
+                "source_segment": [
+                  -1.0454225440018048,
+                  -0.9394462153210565
+                ],
+                "z": -1.0454225440018048
+              }
+            }
+          ],
+          "method": "analytic D1 cubic extrema: interval endpoints plus the exact derivative-critical points +/-sqrt((1+mu)/(3mu))",
+          "positive_attracting_margin": true,
+          "tau": 0.01545090673746774,
+          "witness": {
+            "G_z": -1.029971637264337,
+            "distance_to_complement_of_interior": 0.01545090673746774,
+            "source_interval_index": 0,
+            "source_segment": [
+              -1.0454225440018048,
+              -0.9394462153210565
+            ],
+            "z": -1.0454225440018048
+          }
+        },
+        "total_interval_width": 0.10597632868074824
+      },
+      "13": {
+        "N_q_definition": "cell-level forward closure from latentdynamics.analysis.cmgdb_roa.attractor_cells",
+        "cell_ids": [
+          190,
+          191,
+          192,
+          193,
+          194,
+          195,
+          196,
+          197
+        ],
+        "connected_interval_count": 1,
+        "encoded_root_inclusion": {
+          "negative": {
+            "closed_N": false,
+            "interior_N": false,
+            "value": -0.9999999658434106
+          },
+          "positive": {
+            "closed_N": true,
+            "interior_N": true,
+            "value": 0.9999999658434106
+          }
+        },
+        "encoded_root_to_nearest_block_boundary_clearance": {
+          "negative": null,
+          "positive": 0.05896458824392792
+        },
+        "forward_closure_cell_count": 8,
+        "forward_closure_equals_recurrent_cells": true,
+        "forward_invariant_adjacency_verified": true,
+        "intervals": [
+          {
+            "lower": 0.937848749880769,
+            "upper": 1.0589645540873385,
+            "width": 0.12111580420656942
+          }
+        ],
+        "morse_node": 13,
+        "numerical_grid_robustness": {
+          "boxmap_padding_cells_per_side": 1,
+          "grid_width_h": 0.015139475525821174,
+          "interpretation": "tau is the theorem quantity; tau-h is a separate diagnostic after accounting for one BoxMap padding cell per side",
+          "padded_invariance_margin_tau_minus_h": 0.0028289559110895625,
+          "tau_exceeds_one_padding_width": true
+        },
+        "physical_attractor": "positive",
+        "recurrent_cell_count": 8,
+        "stored_pair_residuals_conditioned_on_E_x_in_N": {
+          "absolute_residual_quantiles": {
+            "q50": 1.0867060584729415e-08,
+            "q90": 9.0279201928609e-07,
+            "q95": 0.00023480722290887773,
+            "q99": 0.023786874177472602,
+            "q999": 0.24023114683558794
+          },
+          "accepted_pairs": 9302,
+          "comparison_to_tau": "sample_counterexample_exceeds_tau",
+          "evaluated_pairs": 30000,
+          "logical_caveat": "This stored pair proves the sampled residual exceeds tau and therefore contradicts the tolerance inequality.",
+          "mae": 0.0010057186971113381,
+          "max_absolute_residual": 0.45732357687477954,
+          "max_sample_over_tau": 25.45150245754595,
+          "membership": "closed interval-union membership E(x) in N",
+          "mse": 0.00016388296472442387,
+          "rmse": 0.012801678199533992,
+          "witness": {
+            "E_x": 1.0205523309395126,
+            "E_y": 0.5564869817144439,
+            "G_E_x": 1.0138105585892234,
+            "absolute_residual": 0.45732357687477954,
+            "training_pair_index": 17490
+          }
+        },
+        "tau": {
+          "definition": "inf_{z in N} dist(G(z), R\\Int(N))",
+          "intervals": [
+            {
+              "derivative_partition": [
+                0.937848749880769,
+                1.0589645540873385
+              ],
+              "segments": [
+                {
+                  "endpoint_interior_margins": [
+                    0.017968431436910737,
+                    0.02045167720779606
+                  ],
+                  "mapped_endpoints": [
+                    0.9558171813176798,
+                    1.0385128768795424
+                  ],
+                  "source_segment": [
+                    0.937848749880769,
+                    1.0589645540873385
+                  ],
+                  "tau": 0.017968431436910737,
+                  "witness": {
+                    "G_z": 0.9558171813176798,
+                    "distance_to_complement_of_interior": 0.017968431436910737,
+                    "z": 0.937848749880769
+                  }
+                }
+              ],
+              "source_interval": [
+                0.937848749880769,
+                1.0589645540873385
+              ],
+              "source_interval_index": 0,
+              "tau": 0.017968431436910737,
+              "width": 0.12111580420656942,
+              "witness": {
+                "G_z": 0.9558171813176798,
+                "distance_to_complement_of_interior": 0.017968431436910737,
+                "source_segment": [
+                  0.937848749880769,
+                  1.0589645540873385
+                ],
+                "z": 0.937848749880769
+              }
+            }
+          ],
+          "method": "analytic D1 cubic extrema: interval endpoints plus the exact derivative-critical points +/-sqrt((1+mu)/(3mu))",
+          "positive_attracting_margin": true,
+          "tau": 0.017968431436910737,
+          "witness": {
+            "G_z": 0.9558171813176798,
+            "distance_to_complement_of_interior": 0.017968431436910737,
+            "source_interval_index": 0,
+            "source_segment": [
+              0.937848749880769,
+              1.0589645540873385
+            ],
+            "z": 0.937848749880769
+          }
+        },
+        "total_interval_width": 0.12111580420656942
+      }
+    },
+    "one_dimensional_equivalence_note": "For these interior attracting intervals, the nearest points of Z\\Int(N_q) are the interval endpoints, so the analytic endpoint/critical-point computation equals the reported theorem quantity.",
+    "sample_supremum_caveat": "A stored-pair maximum is a lower bound on the true supremum. max_sample <= tau is inconclusive; max_sample > tau contradicts the tolerance hypothesis.",
+    "schema_version": 1,
+    "theorem_definition_on_latent_domain": "tau(N_q,G)=inf_{z in N_q} dist(G(z), Z\\Int(N_q))",
+    "theorem_quantity": "tau(N_q,G)",
+    "uniform_grid": {
+      "boxmap_padding": "one grid cell h on each side",
+      "cells": 256,
+      "width_h": 0.015139475525821174
+    }
+  },
+  "cmgdb": {
+    "callback": {
+      "batch_calls": 2,
+      "box_calls": 512,
+      "scalar_evaluations": 1024
+    },
+    "compute_seconds": 0.0027447500033304095,
+    "conley": {
+      "computed": false,
+      "requested": false,
+      "routine": "CMGDB.ComputeMorseGraph",
+      "status": "topology_only",
+      "topology_morse_sets_map_graph_and_basins_invariant": true
+    },
+    "padding": true,
+    "reachability_query_seconds": 6.325001595541835e-05,
+    "subdivisions": [
+      8,
+      8,
+      8
+    ],
+    "uniform_cells": 256
+  },
+  "graph_checks": {
+    "encoded_roots_resolve_to_distinct_attractors": true,
+    "exactly_two_minimal_attractors": true,
+    "uniform_cell_count_matches_level_8": true
+  },
+  "graph_summary": {
+    "edges": 25,
+    "is_bistable": true,
+    "minimal_nodes": [
+      0,
+      13
+    ],
+    "nodes": 26
+  },
+  "graph_valid_for_basin_statistics": true,
+  "map": "G_mu(z)=z+mu*z*(1-z^2)",
+  "minimal_attractors": [
+    0,
+    13
+  ],
+  "morse_graph_path": "MG_uniform_s8/morse_graph",
+  "morse_nodes": 26,
+  "morse_set_intervals": {
+    "0": {
+      "cell_count": 7,
+      "enclosure_lower": -1.0454225440018048,
+      "enclosure_upper": -0.9394462153210565
+    },
+    "1": {
+      "cell_count": 1,
+      "enclosure_lower": -1.060562019527626,
+      "enclosure_upper": -1.0454225440018048
+    },
+    "10": {
+      "cell_count": 1,
+      "enclosure_lower": -0.15219348797835544,
+      "enclosure_upper": -0.1370540124525343
+    },
+    "11": {
+      "cell_count": 1,
+      "enclosure_lower": -0.13705401245253426,
+      "enclosure_upper": -0.1219145369267131
+    },
+    "12": {
+      "cell_count": 1,
+      "enclosure_lower": -0.1219145369267131,
+      "enclosure_upper": -0.10677506140089192
+    },
+    "13": {
+      "cell_count": 8,
+      "enclosure_lower": 0.937848749880769,
+      "enclosure_upper": 1.0589645540873385
+    },
+    "14": {
+      "cell_count": 1,
+      "enclosure_lower": 0.9227092743549479,
+      "enclosure_upper": 0.9378487498807692
+    },
+    "15": {
+      "cell_count": 1,
+      "enclosure_lower": 0.9075697988291267,
+      "enclosure_upper": 0.922709274354948
+    },
+    "16": {
+      "cell_count": 1,
+      "enclosure_lower": 0.8924303233033055,
+      "enclosure_upper": 0.9075697988291268
+    },
+    "17": {
+      "cell_count": 1,
+      "enclosure_lower": 0.19601444911553156,
+      "enclosure_upper": 0.2111539246413526
+    },
+    "18": {
+      "cell_count": 1,
+      "enclosure_lower": 0.18087497358971039,
+      "enclosure_upper": 0.1960144491155314
+    },
+    "19": {
+      "cell_count": 1,
+      "enclosure_lower": 0.16573549806388924,
+      "enclosure_upper": 0.18087497358971044
+    },
+    "2": {
+      "cell_count": 1,
+      "enclosure_lower": -1.0757014950534471,
+      "enclosure_upper": -1.060562019527626
+    },
+    "20": {
+      "cell_count": 1,
+      "enclosure_lower": 0.15059602253806795,
+      "enclosure_upper": 0.16573549806388926
+    },
+    "21": {
+      "cell_count": 1,
+      "enclosure_lower": 0.13545654701224677,
+      "enclosure_upper": 0.1505960225380681
+    },
+    "22": {
+      "cell_count": 1,
+      "enclosure_lower": 0.1203170714864256,
+      "enclosure_upper": 0.1354565470122469
+    },
+    "23": {
+      "cell_count": 1,
+      "enclosure_lower": 0.10517759596060444,
+      "enclosure_upper": 0.12031707148642572
+    },
+    "24": {
+      "cell_count": 14,
+      "enclosure_lower": -0.10677506140089194,
+      "enclosure_upper": 0.10517759596060454
+    },
+    "25": {
+      "cell_count": 1,
+      "enclosure_lower": 1.0589645540873385,
+      "enclosure_upper": 1.0741040296131596
+    },
+    "3": {
+      "cell_count": 1,
+      "enclosure_lower": -0.9394462153210564,
+      "enclosure_upper": -0.9243067397952354
+    },
+    "4": {
+      "cell_count": 1,
+      "enclosure_lower": -0.9243067397952353,
+      "enclosure_upper": -0.9091672642694142
+    },
+    "5": {
+      "cell_count": 1,
+      "enclosure_lower": -0.9091672642694141,
+      "enclosure_upper": -0.894027788743593
+    },
+    "6": {
+      "cell_count": 1,
+      "enclosure_lower": -0.21275139008164012,
+      "enclosure_upper": -0.197611914555819
+    },
+    "7": {
+      "cell_count": 1,
+      "enclosure_lower": -0.19761191455581895,
+      "enclosure_upper": -0.18247243902999782
+    },
+    "8": {
+      "cell_count": 1,
+      "enclosure_lower": -0.18247243902999777,
+      "enclosure_upper": -0.16733296350417665
+    },
+    "9": {
+      "cell_count": 1,
+      "enclosure_lower": -0.16733296350417662,
+      "enclosure_upper": -0.15219348797835547
+    }
+  },
+  "morse_sets_path": "MG_uniform_s8/morse_sets",
+  "mu": 0.159077082484416,
+  "negative_attractor": 0,
+  "positive_attractor": 13,
+  "role": "training-only least-squares fitted mu",
+  "root_resolution_error": null,
+  "statistics": {
+    "combined_correct": {
+      "count": 671,
+      "percentage": 8.534723988806919
+    },
+    "conditioned_trajectories": 7862,
+    "counts": {
+      "correctly_classified_in_negative_basin": 306,
+      "correctly_classified_in_positive_basin": 365,
+      "misclassified_in_negative_basin": 0,
+      "misclassified_in_positive_basin": 0,
+      "outside_both_basins": 7191
+    },
+    "excluded_zero_trajectories": 2138,
+    "percentages": {
+      "correctly_classified_in_negative_basin": 3.8921394047316205,
+      "correctly_classified_in_positive_basin": 4.642584584075299,
+      "misclassified_in_negative_basin": 0.0,
+      "misclassified_in_positive_basin": 0.0,
+      "outside_both_basins": 91.46527601119308
+    },
+    "total_trajectories": 10000
+  },
+  "test_informed": false,
+  "topology": {
+    "all_archived_domain_checks_passed": false,
+    "derivatives": {
+      "at_minus_one_zero_plus_one": [
+        0.681845835031168,
+        1.159077082484416,
+        0.681845835031168
+      ],
+      "dense_maximum": 1.159077082484416,
+      "dense_minimum": -0.6345345335483126,
+      "expected_at_origin": 1.159077082484416,
+      "expected_at_outer_roots": 0.681845835031168,
+      "fold_magnitude": 1.5584458738586342,
+      "folds_are_outside_archived_domain": false
+    },
+    "failed_checks": [
+      "strictly_positive_derivative_on_archived_domain"
+    ],
+    "fixed_points": {
+      "absolute_residuals": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "dense_sign_change_estimates": [
+        -0.9999999998959881,
+        0.0,
+        0.9999999998959883
+      ],
+      "expected": [
+        -1.0,
+        0.0,
+        1.0
+      ],
+      "matching_tolerance": 5.815954800092449e-05
+    },
+    "sign_reversal": {
+      "negative_grid_points_mapped_positive": 0,
+      "nonzero_G_zero_magnitude": 2.6993074343692323,
+      "positive_grid_points_mapped_negative": 0,
+      "sign_reversal_is_outside_archived_domain": true
+    }
+  }
+}

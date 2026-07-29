@@ -1,0 +1,45 @@
+{
+  "canonical_learned_baselines": {
+    "canonical_10k": {
+      "available": true,
+      "baseline": {
+        "combined_correct_count": 3932,
+        "combined_correct_percentage": 50.01271940981938,
+        "label": "learned D1, 10,000 epochs",
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0_epoch_10000/basin_statistics.json",
+        "sha256": "a2ad66ccafbea33db13a2166ba3dd4a73016eac0a8272968d50762e425f74516"
+      },
+      "ceiling_minus_baseline_count": 3160,
+      "ceiling_minus_baseline_percentage_points": 40.19333502925464,
+      "ceiling_to_baseline_correct_count_ratio": 1.8036622583926756
+    },
+    "canonical_4k": {
+      "available": true,
+      "baseline": {
+        "combined_correct_count": 3490,
+        "combined_correct_percentage": 44.39074026965149,
+        "label": "canonical learned D1, 4,000 epochs",
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0/basin_statistics.json",
+        "sha256": "91aaa1fdbd992608b74708f6fa57bcd651f354901a5ff9dc4d99b6d8adc9c1d1"
+      },
+      "ceiling_minus_baseline_count": 3602,
+      "ceiling_minus_baseline_percentage_points": 45.815314169422535,
+      "ceiling_to_baseline_correct_count_ratio": 2.0320916905444126
+    }
+  },
+  "polynomial_combined_correct_count": 7092,
+  "polynomial_combined_correct_percentage": 90.20605443907402,
+  "rational_ceiling": {
+    "available": true,
+    "baseline": {
+      "combined_correct_count": 7827,
+      "combined_correct_percentage": 99.55482065632155,
+      "label": "rational saturated physics-coordinate ceiling",
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/exploratory_chafee_d1_physics_coordinate_ceiling/basin_statistics.json",
+      "sha256": "3ad602c0c4a5925bee26abac477361bf4cfa8df8283c65dfea0adc4cd34fbd1c"
+    },
+    "polynomial_minus_rational_count": -735,
+    "polynomial_minus_rational_percentage_points": -9.34876621724753
+  },
+  "warning": "All comparisons are descriptive only; this map was designed after examining archived labels and is not learned."
+}

@@ -1,0 +1,19 @@
+{
+  "elapsed_seconds": 40.952514458971564,
+  "error_message": "",
+  "error_type": "KeyboardInterrupt",
+  "failed_at_utc": "2026-07-29T15:06:11.077361+00:00",
+  "memory": {
+    "baseline_rss_bytes": 308248576,
+    "rss_sample_interval_seconds": 0.1,
+    "rss_sampler_available": true,
+    "rss_sampler_error": null,
+    "rss_samples": 96,
+    "ru_maxrss_bytes": 4927012864,
+    "sampled_peak_rss_bytes": 4922474496
+  },
+  "run_id": "dataset_01_seed_01_lr3e3_e4000",
+  "schema_version": 1,
+  "status": "failed",
+  "traceback": "Traceback (most recent call last):\n  File \"/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_worker.py\", line 330, in run_worker\n    morse_graph, map_graph = CMGDB.ComputeMorseGraph(cmgdb_model)\n                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_s24.py\", line 614, in batch\n    def batch(self, rects: Any) -> list[list[float]]:\n    \nKeyboardInterrupt\n"
+}

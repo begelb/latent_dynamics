@@ -39,3 +39,7 @@ tmp.py
 /output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/MG/morse_sets
 /output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/MG/morse_sets
 /output/original_leslie/ground_truth/paper_i24_m35_M35_L10000/screen/MG/morse_sets
+
+# Precomputed grid values above GitHub's 100 MB file limit; kept local only.
+/output/chafee_latent_dimension_study/latent_3d/seed_0/precomputed_level24_to33/fine_block_values.npy
+/output/chafee_latent_dimension_study/latent_3d/seed_0/precomputed_level24_to33/coarse_values.npy

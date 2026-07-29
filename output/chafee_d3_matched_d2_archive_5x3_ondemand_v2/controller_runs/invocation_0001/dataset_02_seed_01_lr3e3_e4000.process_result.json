@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/.venv/bin/python",
+    "-u",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/run_chafee_d3_ondemand_5x3_worker.py",
+    "--run-id",
+    "dataset_02_seed_01_lr3e3_e4000",
+    "--output-root",
+    "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2",
+    "--device",
+    "mps",
+    "--max-edges",
+    "1200000000",
+    "--max-forward-points",
+    "800000",
+    "--rss-sample-seconds",
+    "0.1"
+  ],
+  "finished_at_utc": "2026-07-29T15:23:48.733217+00:00",
+  "pid": 62435,
+  "returncode": 0,
+  "run_id": "dataset_02_seed_01_lr3e3_e4000",
+  "schema_version": 1,
+  "started_at_utc": "2026-07-29T15:20:34.349003+00:00",
+  "stderr": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/controller_runs/invocation_0001/dataset_02_seed_01_lr3e3_e4000.stderr.log",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size_bytes": 0
+  },
+  "stdout": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/controller_runs/invocation_0001/dataset_02_seed_01_lr3e3_e4000.stdout.log",
+    "sha256": "9a220a47119848ca412959925948b1277536901a994bf7da7077f93db99722ff",
+    "size_bytes": 146
+  },
+  "terminal_marker": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_01_lr3e3_e4000/completed.json",
+    "sha256": "40118eb05fc405536269208539920f754f17ac0b75aa5f2400b9ca5e22f9057c",
+    "size_bytes": 616
+  },
+  "terminal_status": "completed",
+  "wall_seconds": 194.38429004204227
+}

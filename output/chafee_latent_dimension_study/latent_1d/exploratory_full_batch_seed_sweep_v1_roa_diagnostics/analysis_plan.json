@@ -1,0 +1,613 @@
+{
+  "analysis_protocol": {
+    "analysis_order_source_completed_valid_runs": [
+      "seed_00_lr3e3_e4000",
+      "seed_01_lr3e3_e4000",
+      "seed_02_lr3e3_e4000",
+      "seed_03_lr3e3_e4000",
+      "seed_04_lr3e3_e4000",
+      "seed_05_lr3e3_e4000",
+      "seed_06_lr3e3_e4000",
+      "seed_07_lr3e3_e4000"
+    ],
+    "basin_statistics_used_for_candidate_inclusion_or_order": false,
+    "batch_points": "auto",
+    "checkpoint_selection": "none; analyze every source-completed valid checkpoint in frozen sweep-plan order",
+    "cmgdb_adaptive_subdivision": 11,
+    "cmgdb_uniform_subdivision": 8,
+    "continue_after_candidate_failure": true,
+    "device": "mps",
+    "dimension": 1,
+    "frozen_plan_order_all_runs": [
+      "seed_00_lr3e3_e4000",
+      "seed_01_lr3e3_e4000",
+      "seed_02_lr3e3_e4000",
+      "seed_03_lr3e3_e4000",
+      "seed_04_lr3e3_e4000",
+      "seed_05_lr3e3_e4000",
+      "seed_06_lr3e3_e4000",
+      "seed_07_lr3e3_e4000"
+    ],
+    "post_hoc_ranking_used_for_computation_or_selection": false,
+    "stages": [
+      "bounds",
+      "precompute-coarse",
+      "uniform",
+      "precompute-fine",
+      "adaptive",
+      "stats"
+    ]
+  },
+  "analysis_scripts": {
+    "batch_analyzer": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/analyze_chafee_d1_full_batch_sweep.py",
+      "sha256": "83db83d3f0519201fa85ff077ab208ba8f71994615b98ec06b228d69dd7bc5f4"
+    },
+    "single_checkpoint_analyzer": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/analyze_chafee_d1_checkpoint.py",
+      "sha256": "bad9561aa6533b64be1a072eab1a69968d4805c1ab75e34065b687d2423d2e99"
+    },
+    "study_driver": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/chafee_latent_dimension_study.py",
+      "sha256": "3d3cab064837eab4be00f581a50616d8e0804fcc29cfbde4249ca1c582db25d5"
+    },
+    "sweep_runner": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/sweep_chafee_d1_full_batch.py",
+      "sha256": "58030af12fc64779b69f836638c644cbbd3ad808de2bd7f95bc5be440fffc3ba"
+    }
+  },
+  "archived_inputs": {
+    "archive_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts",
+    "files": {
+      "stable_solutions.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/stable_solutions.csv",
+        "sha256": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+        "size_bytes": 3264
+      },
+      "train_data.csv": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/train_data.csv",
+        "sha256": "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329",
+        "size_bytes": 97916422
+      },
+      "traj_attractors.pkl": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/traj_attractors.pkl",
+        "sha256": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145",
+        "size_bytes": 12223522
+      }
+    }
+  },
+  "created_at_utc": "2026-07-29T00:31:28.076478+00:00",
+  "references": {
+    "full_batch_10000": {
+      "adaptive_is_bistable": true,
+      "conditioned_trajectories": 7862,
+      "correct_combined_count": 3932,
+      "correct_combined_percent": 50.01271940981938,
+      "eligible_for_bistable_dimension_table": true,
+      "label": "fresh seed-0 full-batch 10,000-epoch run",
+      "misc_count": 2,
+      "misc_percent": 0.02543881963876876,
+      "negative_correct_count": 1524,
+      "negative_correct_percent": 19.384380564741797,
+      "outside_count": 3928,
+      "outside_percent": 49.961841770541845,
+      "positive_correct_count": 2408,
+      "positive_correct_percent": 30.62833884507759,
+      "roots_define_two_distinct_attractor_basins": true,
+      "source": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/seed_0_epoch_10000/basin_statistics.json",
+        "sha256": "a2ad66ccafbea33db13a2166ba3dd4a73016eac0a8272968d50762e425f74516"
+      },
+      "uniform_is_bistable": true
+    },
+    "marcio_archived": {
+      "conditioned_trajectories": 7862,
+      "correct_combined_count": 6163,
+      "correct_combined_percent": 78.38972271686593,
+      "label": "Marcio archived d=1 statistic",
+      "misc_count": 5,
+      "misc_percent": 0.0635970490969219,
+      "negative_correct_count": 3094,
+      "negative_correct_percent": 39.35385398117528,
+      "outside_count": 1694,
+      "outside_percent": 21.54668023403714,
+      "positive_correct_count": 3069,
+      "positive_correct_percent": 39.03586873569066,
+      "source": {
+        "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/marcio/scripts/Readme.txt",
+        "sha256": "eac15b7db0ef7d9da2d3b29fc5aafdf19d1ca1b0fdcc3b971eda564a087b8beb"
+      }
+    }
+  },
+  "schema_version": 1,
+  "source_inventory": [
+    {
+      "attempt": 1,
+      "plan_index": 1,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_00_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 0
+      },
+      "snapshot_directory": "source_snapshot/run_001_seed_00_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_00_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "b02327f37dbab62269135a6b4600edaa1b16f4062b0b652336176d6dedc00c3d",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_00_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_00_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_00_lr3e3_e4000/completed.json",
+          "sha256": "17a357f7fbc9e9b068dba6080b1614df2d2180dfc027875ea837c0a9a3336d42",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_00_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "793ba0b58e9caa18fc162f192d3cb3094692b9e996054c537c2ca78445a57067",
+          "size_bytes": 286739
+        },
+        "run_spec": {
+          "path": "runs/seed_00_lr3e3_e4000/run_spec.json",
+          "sha256": "ecdc1b49e6a107eb672d4425bca6a58fc196056e5b45638666e9bccc9980e0cd",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_00_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "d7f1742745560d0d62e30980d99c380542143af0b35e4c11a7971db438549602",
+          "size_bytes": 2733
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00023834362218622118,
+        "loss_reconstruction": 0.0005308969411998987,
+        "loss_total": 0.0007692405488342047,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 2,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_01_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 1
+      },
+      "snapshot_directory": "source_snapshot/run_002_seed_01_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_01_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "e315874929abebee9a16363a08b8cdb5036cae7ab3e0a0cec1196b3afc6900b9",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_01_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "f69bb5e135f89dbc2eaa8d37dded6278aa8e6e7b9e3e4bc8337745cc212d299e",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_01_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_01_lr3e3_e4000/completed.json",
+          "sha256": "25b35a3d1d515d897d620e015312573e87011e6f87a452efe8ad31dac508ca07",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_01_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "abb7e9a7b83f0840b345a1569cd6a3979d9ec009f55a31b703078d0caee502af",
+          "size_bytes": 286776
+        },
+        "run_spec": {
+          "path": "runs/seed_01_lr3e3_e4000/run_spec.json",
+          "sha256": "93d1d06c4ab9c811fcf9bae367b0dd7ef2737d2ad9c1dd7d58ef29ad86e9ce57",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_01_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "62b4e38304916d342bb2fcd1022834df1a5ac5f7c884254cc55d5c2880a99fd6",
+          "size_bytes": 2732
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00023627541668247432,
+        "loss_reconstruction": 0.000535406346898526,
+        "loss_total": 0.0007716817781329155,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 3,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_02_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 2
+      },
+      "snapshot_directory": "source_snapshot/run_003_seed_02_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_02_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "e53d767e51cc352645d81a593a18f63bb6d51ac2f01f652f5e9e78077a9e417e",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_02_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "252f784306f0e2ce8da58813c203ef314fcb764a9b392a60b188c4e27f858a90",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_02_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_02_lr3e3_e4000/completed.json",
+          "sha256": "84c2a3a5ff2f5ed040c61226a6c5fdff7d1405a9b26ad31a507c9bc9dc46a065",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_02_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "afddd9ef6285e6989fca3c58288c918267d8adccaf47cf80685c4a6a2b58674e",
+          "size_bytes": 286822
+        },
+        "run_spec": {
+          "path": "runs/seed_02_lr3e3_e4000/run_spec.json",
+          "sha256": "3f7aff1a256a5c751705eb4822e48428bbd3f8203adaa741168728a6a5fdabd1",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_02_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "656454f8f086a70c4b7c30024e4043a37430cdca94c932782ba21112713b37ea",
+          "size_bytes": 2733
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00024056699476204813,
+        "loss_reconstruction": 0.0005069379112683237,
+        "loss_total": 0.0007475048769265413,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 4,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_03_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 3
+      },
+      "snapshot_directory": "source_snapshot/run_004_seed_03_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_03_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "b5c757c1233c5d6a849436734109f26b087cb3dd3e9be598f90ee16a1c8d2fbf",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_03_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "db01ac5a935a67be67a32d7341155c4ab495bced47a874b8fa7138dae15a5a8f",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_03_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_03_lr3e3_e4000/completed.json",
+          "sha256": "740de86041855749c5ae6b0460f1ae5b66da69098948a532c21a6b2032619698",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_03_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "415862c5caa48dbee9e1f475c5f96caa323b71e4621c45f26767c46124cb199c",
+          "size_bytes": 286352
+        },
+        "run_spec": {
+          "path": "runs/seed_03_lr3e3_e4000/run_spec.json",
+          "sha256": "07934e5f52424b0bf39542f7e14680c52b6cd428f27dd7c1965009bef979ed4d",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_03_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "43bd85e3db960a4beee1e80369f0f9179de80a048911b23f8dce316f8743dc33",
+          "size_bytes": 2733
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00026681472081691027,
+        "loss_reconstruction": 0.0005216755671426654,
+        "loss_total": 0.0007884902879595757,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 5,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_04_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 4
+      },
+      "snapshot_directory": "source_snapshot/run_005_seed_04_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_04_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "276bc081d76ada8625d80d82efd249e7b2708b62646f12e1037112ec99cb0d45",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_04_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "7bce9da720ff6e5aca7ce57504a2502013c32194781a6c9bb544d54431ea6868",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_04_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_04_lr3e3_e4000/completed.json",
+          "sha256": "5819fd79939a2c8c1b40665f091218fda04b36b9be4bfe0934b94d8b5d563c37",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_04_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "d7236c8f3b91622718f91c58dc8c55b341c67d2af0425ab66a14b3f012b17cd5",
+          "size_bytes": 286878
+        },
+        "run_spec": {
+          "path": "runs/seed_04_lr3e3_e4000/run_spec.json",
+          "sha256": "c816c1034743476497a0d3602b587a07437d4c108c4dda4126c8623c00e37daa",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_04_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "98e6d557f5b75bb31f8ee885f22ed0c02d010d5f0cccac0d6c591964b0cee5d9",
+          "size_bytes": 2732
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00023607384355273098,
+        "loss_reconstruction": 0.000526518386323005,
+        "loss_total": 0.0007625922444276512,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 6,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_05_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 5
+      },
+      "snapshot_directory": "source_snapshot/run_006_seed_05_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_05_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "29e4cc80e1a83e8b32427f2a63a2d695f8277ce0676505ff10d0292c3fbfcb23",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_05_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "30ccf381110fefdf327465811698dc5583e6c3480555d14db108931b90f924ca",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_05_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_05_lr3e3_e4000/completed.json",
+          "sha256": "873058c60ed3fef5cacf63b811f3225615efb23e788ddaf47b7a05d9486ac4ea",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_05_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "c2408f24c444e5d5906a3c97c59e1026a2f6a947fe152ae0e5953885f1997f3d",
+          "size_bytes": 285681
+        },
+        "run_spec": {
+          "path": "runs/seed_05_lr3e3_e4000/run_spec.json",
+          "sha256": "0663bcd8c6a7180123815d58edc04356338c4367f9c9a0db2cc46fe216518270",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_05_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "da839963bce6840215a77256410942bdb652d988af8c6ef61507be2938a7d233",
+          "size_bytes": 2732
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.0003085960925091058,
+        "loss_reconstruction": 0.0005359111819416285,
+        "loss_total": 0.0008445072453469038,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 7,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_06_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 6
+      },
+      "snapshot_directory": "source_snapshot/run_007_seed_06_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_06_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "f5aa9642b7c343b3ef1d8f45149838f3843150eb9277fdab97aa270f8d1a2b66",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_06_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "fb29305147f2ded822dda4399d5f816b328423f56b019cf97907b212a73c594c",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_06_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_06_lr3e3_e4000/completed.json",
+          "sha256": "6da868359479c70cd6b14c5dc9a4706c11b8b7f1dff1277c33e84bc51fac573b",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_06_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "83e9b5732c7b4f904e65e708e913531e8ae772b7fe96a93282dd633e915089a3",
+          "size_bytes": 285849
+        },
+        "run_spec": {
+          "path": "runs/seed_06_lr3e3_e4000/run_spec.json",
+          "sha256": "6adbf5996149b6b9fa5a82ebc1832a4daa1353bd5182a67a24873714f8a744d3",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_06_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "c0b711f104261ab41bccc742596f1a117b469980ddeadf39003d339e06f9b5a9",
+          "size_bytes": 2732
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00032068995642475784,
+        "loss_reconstruction": 0.0005611050873994827,
+        "loss_total": 0.000881795072928071,
+        "optimizer_final_learning_rate": 0.003
+      }
+    },
+    {
+      "attempt": 1,
+      "plan_index": 8,
+      "run": {
+        "epochs": 4000,
+        "learning_rate": 0.003,
+        "run_id": "seed_07_lr3e3_e4000",
+        "scheduler_factor": 0.5,
+        "scheduler_min_lr": 1e-06,
+        "scheduler_patience": 100,
+        "scheduler_threshold": 0.0001,
+        "seed": 7
+      },
+      "snapshot_directory": "source_snapshot/run_008_seed_07_lr3e3_e4000",
+      "source_files": {
+        "artifact_manifest": {
+          "path": "runs/seed_07_lr3e3_e4000/attempts/attempt_001/artifact_manifest.json",
+          "sha256": "043b31c4dd3ddd63076c383551827991b211228041a4ab06b6f543e1dfdaf33d",
+          "size_bytes": 4286
+        },
+        "checkpoint": {
+          "path": "runs/seed_07_lr3e3_e4000/attempts/attempt_001/models/autoencoder.pt",
+          "sha256": "47a6e038df09bae8b92c191146eaf600456d1c009dc41fa2cf4dd5870d4eb106",
+          "size_bytes": 61965
+        },
+        "checkpoint_metadata": {
+          "path": "runs/seed_07_lr3e3_e4000/attempts/attempt_001/models/autoencoder.json",
+          "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+          "size_bytes": 878
+        },
+        "completion": {
+          "path": "runs/seed_07_lr3e3_e4000/completed.json",
+          "sha256": "6a9a91abf1a446af1354c252d71641b2781066fd16d8f1b32e5bdf60e4d6980c",
+          "size_bytes": 750
+        },
+        "history": {
+          "path": "runs/seed_07_lr3e3_e4000/attempts/attempt_001/logs/history.json",
+          "sha256": "e030bfce7539c0e4600aa0dce94e0f71366facc87b612ff80430a038c799bbb7",
+          "size_bytes": 286969
+        },
+        "run_spec": {
+          "path": "runs/seed_07_lr3e3_e4000/run_spec.json",
+          "sha256": "0bf6fcf7f1d8e287bd090e1f0fdd0206b197bd6923938aec5e08d31b1efdd077",
+          "size_bytes": 352
+        },
+        "training_summary": {
+          "path": "runs/seed_07_lr3e3_e4000/attempts/attempt_001/training_summary.json",
+          "sha256": "d6d755de8f68183030893f426e3c3c052919dd3b958e236d99d94e8d8056030d",
+          "size_bytes": 2733
+        }
+      },
+      "source_status": "completed_valid",
+      "training_endpoint": {
+        "history_final_learning_rate": 0.003,
+        "loss_prediction": 0.00021694140741601586,
+        "loss_reconstruction": 0.0005080625996924937,
+        "loss_total": 0.0007250040071085095,
+        "optimizer_final_learning_rate": 0.003
+      }
+    }
+  ],
+  "source_snapshot": "source_snapshot",
+  "source_sweep": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/exploratory_full_batch_seed_sweep_v1",
+  "source_sweep_plan": {
+    "file_sha256": "2b404c03e5b58e0a010ce649abe3150eeac9e5c995aa9a25afea7d41fe592b64",
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_1d/exploratory_full_batch_seed_sweep_v1/sweep_plan.json",
+    "payload_sha256": "5fcaa50b8782ba7e18544501e1d968bb4b2e1ac59df260dd2f1c843f76bcc328"
+  },
+  "status": "frozen_before_analysis"
+}

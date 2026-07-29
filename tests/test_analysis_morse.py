@@ -111,6 +111,23 @@ class TestBoxMapUniformPrecomputed:
         G = make_box_map_uniform_precomputed(m.latent_map, bounds, subdiv_k=2)
         assert callable(G)
 
+    def test_exposes_batch_lookup_matching_single_calls(self):
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        G = make_box_map_uniform_precomputed(
+            m.latent_map, bounds, subdiv_k=4, padding=False
+        )
+        rects = [
+            [-1.0, -1.0, -0.5, -0.5],
+            [-0.5, 0.0, 0.0, 0.5],
+        ]
+
+        expected = [G(rect) for rect in rects]
+
+        assert hasattr(G, "batch")
+        np.testing.assert_array_equal(G.batch(rects), expected)
+
     def test_rejects_non_divisible_k(self):
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
@@ -163,6 +180,46 @@ class TestBoxMapUniformPrecomputed:
         assert "1089" in msg
         assert "500" in msg
         assert "max_table_points" in msg
+
+
+def test_compute_morse_graph_installs_precomputed_batch_callback(monkeypatch):
+    import latentdynamics.analysis.morse as morse
+
+    torch.manual_seed(0)
+    autoencoder = build_autoencoder(_arch())
+    bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+    cfg = CMGDBConfig(
+        subdiv_init=4,
+        subdiv_min=4,
+        subdiv_max=4,
+        box_map_backend="uniform_precomputed",
+    )
+    captured = {}
+
+    class FakeModel:
+        def __init__(self, *args):
+            captured["box_map"] = args[-1]
+
+        def set_batch_map(self, batch_map):
+            captured["batch_map"] = batch_map
+
+    class FakeCMGDB:
+        Model = FakeModel
+
+    def compute_conley_morse_graph(model):
+        captured["model"] = model
+        return "morse", "map"
+
+    FakeCMGDB.ComputeConleyMorseGraph = staticmethod(compute_conley_morse_graph)
+
+    monkeypatch.setattr(morse, "CMGDB", FakeCMGDB)
+
+    result = morse.compute_morse_graph(
+        autoencoder, bounds, cfg, device=torch.device("cpu")
+    )
+
+    assert result == ("morse", "map")
+    assert captured["batch_map"].__self__ is captured["box_map"]
 
 
 class TestCMGDBConfigBackendValidation:

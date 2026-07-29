@@ -54,6 +54,19 @@ class LatentBounds:
         return int(self.lower.shape[0])
 
 
+class _PrecomputedBoxMap:
+    """Callable lookup table with CMGDB's optional batched-map interface."""
+
+    def __init__(self, lookup: Callable[[Any], list[float]]) -> None:
+        self._lookup = lookup
+
+    def __call__(self, rect: Any) -> list[float]:
+        return self._lookup(rect)
+
+    def batch(self, rects: Any) -> list[list[float]]:
+        return [self._lookup(rect) for rect in rects]
+
+
 def infer_latent_bounds(
     encoder: torch.nn.Module,
     all_data_scaled: NDArray[np.float64],
@@ -337,7 +350,7 @@ def _precompute_corner_grid(
         ys_flat[start:end] = y_chunk
 
     assert ys_flat is not None, "n_total must be >= 1"
-    ys_grid = ys_flat.reshape(shape + (out_dim,))
+    ys_grid = ys_flat.reshape((*shape, out_dim))
     return ys_grid, out_dim
 
 
@@ -408,7 +421,7 @@ def make_box_map_uniform_precomputed(
             Y_u = Y_u + box_size
         return Y_l.tolist() + Y_u.tolist()
 
-    return box_map
+    return _PrecomputedBoxMap(box_map)
 
 
 def make_box_map_adaptive_precomputed(
@@ -448,7 +461,7 @@ def make_box_map_adaptive_precomputed(
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
     finest_box_side = (U - L) / n_per_axis
-    ys_grid, out_dim = _precompute_corner_grid(
+    ys_grid, _out_dim = _precompute_corner_grid(
         latent_map, L, U, corners_per_axis, d,
         device=device, batch_points=precompute_batch_points,
     )
@@ -476,7 +489,7 @@ def make_box_map_adaptive_precomputed(
             Y_u = Y_u + box_size
         return Y_l.tolist() + Y_u.tolist()
 
-    return box_map
+    return _PrecomputedBoxMap(box_map)
 
 
 def _build_box_map(
@@ -540,4 +553,7 @@ def compute_morse_graph(
         bounds.upper.tolist(),
         box_map,
     )
+    batch_map = getattr(box_map, "batch", None)
+    if callable(batch_map) and hasattr(model, "set_batch_map"):
+        model.set_batch_map(batch_map)
     return CMGDB.ComputeConleyMorseGraph(model)
