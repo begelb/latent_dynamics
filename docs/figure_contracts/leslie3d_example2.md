@@ -1,17 +1,22 @@
 # fig_leslie3d_example2
 
-Paper §1.211: the success case of the 3D Leslie experiment, where the learned latent dynamics correctly resolves the multiple invariant sets.
+Paper figure `fig:3D_Leslie_latent_dynamics_success`: the Leslie \(g_2\)
+computation.
 
 ## Paper figures
 
-- `paper/figures/Leslie3D_correctParam_graph.png`
-- `paper/figures/Leslie3D_trajs.png`
+- `paper/figures/leslie3d_example2/morse_graph.pdf`
+- `paper/figures/leslie3d_example2/morse_sets_with_overlay.pdf`
 
 ## Source of paper run
 
-The preserved replay source. The saved non-spurious Leslie 3D paper run is
-mirrored under `replay_sources/leslie3d_example2/`. This is distinct from the
-spurious Leslie 3D run, which is documented in `leslie3d_example1.md`.
+The active graph is the May 27 render under
+`code/replay/leslie3d_example2_patrick/MG/morse_graph.pdf`; its SHA-256
+`9eaf1ee72b6e93885acfce78eb3680edbad25a022098b73f5458a6d54e0b968b`
+is identical to the paper asset. It was rendered from the preserved checkpoint
+and raw CMGDB artifacts mirrored under `replay_sources/leslie3d_example2/`.
+This is distinct from the \(g_1\) run documented in
+`leslie3d_example1.md`.
 
 - training script:    not archived
 - checkpoint:         `replay_sources/leslie3d_example2/models/{encoder,dynamics,decoder}.pt`
@@ -24,20 +29,22 @@ spurious Leslie 3D run, which is documented in `leslie3d_example1.md`.
 
 ## Status
 
-**Read-only replay from the archived paper artifacts.**
-`src/latentdynamics/configs/leslie3d_example2.yaml` is read-only and points at the artifact mirror
-under `code/replay_sources/leslie3d_example2/`. The original training script
-and raw train/test CSVs are not archived, so the replay path reads the
-preserved checkpoint and CMGDB artifacts directly. The current
-`output/leslie3d_example2/seed_0/` is a retrain produced by an earlier session
-and should not be used as the original paper source.
+**Artifact-only, read-only replay from the archived paper output.**
+`src/latentdynamics/configs/leslie3d_example2_replay.yaml` points at the
+artifact mirror under `code/replay_sources/leslie3d_example2/`. The original
+training script and raw train/test CSVs are not archived, so the replay path
+reads the preserved checkpoint and CMGDB artifacts directly. The generated
+May 27 render manifest records the obsolete parameter inference
+`(19.6, 23.68, 23.68)` and is render provenance, not training provenance. The
+current `output/leslie3d_example2/` is a later retrain and must not be used as
+the original paper source.
 
 ## Reproduction commands
 
 Replay the preserved paper artifacts:
 
 ```bash
-python pipeline.py --config leslie3d_example2 --stages render,metrics
+python pipeline.py --config leslie3d_example2_replay --stages render,metrics
 ```
 
 A fresh retrain uses a writable local copy of the YAML with
@@ -46,19 +53,28 @@ before running `data,scale,train,diagnose,morse`.
 
 ## Expected scientific output
 
-Paper figure shows the non-spurious/bistable Leslie 3D result from the
-preserved checkpoint, with the Hasse diagram and trajectory panel preserved in
-`replay_sources/leslie3d_example2/MG/`.
+The raw graph has five Morse sets and the edges
 
-Verification target after retrain: `metrics.json` reports `tau_bar > max_semiconjugacy_error` (i.e., the learned latent dynamics is a faithful semiconjugacy at the data level).
+```
+2 -> 0
+2 -> 1
+3 -> 1
+4 -> 3
+```
+
+Its minimal nodes 0 and 1 both have Conley index `(x^4-1, 0, 0)`. The saved
+sampled tolerance tests fail for both nodes: the maximum sampled residuals are
+`0.2937395` and `0.1954082`, while the respective sampled tolerances are
+`7.628916e-05` and `1.261359e-04`. These finite diagnostics do not certify a
+semiconjugacy and must not be described as passing.
 
 ## Hyperparameter audit
 
 | param                       | archive value           | YAML value             | severity | notes |
 |-----------------------------|-------------------------|------------------------|----------|-------|
-| system.params.th1           | 19.6                    | 19.6                   | ✓        | non-spurious/default Leslie 3D |
-| system.params.th2           | 23.68                   | 23.68                  | ✓        | distinct from the spurious run |
-| system.params.th3           | 23.68                   | 23.68                  | ✓        | distinct from the spurious run |
+| system.params.th1           | 28.9                    | 28.9                   | ✓        | recovered by probing the archived checkpoint |
+| system.params.th2           | 29.8                    | 29.8                   | ✓        | earlier default-based inference was wrong |
+| system.params.th3           | 22.0                    | 22.0                   | ✓        | generated May 27 manifest is stale |
 | system.params.survival_p1   | 0.7                     | 0.7                    | ✓        |       |
 | system.params.survival_p2   | 0.7                     | 0.7                    | ✓        |       |
 | arch.num_layers             | 2                       | 2                      | ✓        | checkpoint has `linear_0` through `linear_2` |
@@ -69,18 +85,25 @@ Verification target after retrain: `metrics.json` reports `tau_bar > max_semicon
 | arch.latent_out_activation  | tanh                    | tanh (default)         | ✓        |       |
 | arch.decoder_out_activation | sigmoid                 | sigmoid (default)      | ✓        |       |
 | training.loss_weights       | [100, 10, 20]           | [100, 10, 20]          | ✓        | recovered from total-loss linear relation |
-| data.n_samples_train        | 8000                    | 8000                   | ✓        | inferred from scaler size + paper `D(20,10000)` |
-| data.n_samples_val         | 2000                    | 2000                   | ✓        | reconstructed 80/20 split |
-| data.n_iterations           | 20                      | 20                     | ✓        | paper `D(20,10000)` |
+| data.n_samples_train        | not independently archived | 8000               | unresolved | source CSVs and training script are absent |
+| data.n_samples_val          | not independently archived | 2000               | unresolved | source CSVs and training script are absent |
+| data.n_iterations           | paper reports 20        | 20                     | manuscript | not independently recoverable from raw data |
 | cmgdb.subdiv_init           | 25                      | 25                     | ✓        | from `mg_params_log.txt` |
 | cmgdb.subdiv_min            | 28                      | 28                     | ✓        | from `mg_params_log.txt` |
 | cmgdb.subdiv_max            | 29                      | 29                     | ✓        | from `mg_params_log.txt` |
+| cmgdb.bounds                | `[-0.37490714, -0.4695556]` -> `[0.3535685, 0.455769]` | inferred | ✓ | from `mg_params_log.txt` |
+| cmgdb.bounds_epsilon_frac   | 0.01                    | 0.01                   | ✓        | archived generator convention |
+| cmgdb.padding               | true                    | true                   | ✓        | replay config |
 
 ## Verification
 
 Replay from the archived artifacts:
 
 ```bash
-python pipeline.py --config leslie3d_example2 --stages render,metrics
-# metrics.json should report tau_bar > max_semiconjugacy_error
+python pipeline.py --config leslie3d_example2_replay --stages render,metrics
+# Check the five graph nodes, the four edges above, and the two recorded FAILs.
 ```
+
+The active paper graph must remain byte-identical to
+`replay/leslie3d_example2_patrick/MG/morse_graph.pdf`. Do not use the generated
+render manifest's Leslie parameters as training provenance.

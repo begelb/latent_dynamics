@@ -1,12 +1,23 @@
 # fig_chafee_infante
 
-Paper §1.256: Chafee-Infante PDE in spectral coordinates (64 Fourier modes), super-critical regime `α = 28`. Demonstrates the framework on a stiff PDE with multiple equilibria and saddle structure.
+Paper section `sec:chafee_infante`: Chafee-Infante PDE in spectral coordinates
+(64 Fourier modes), super-critical regime `α = 28`.
 
 ## Paper figures
 
-- `paper/figures/ci_morse_graph.pdf`
-- `paper/figures/ci_morse_sets.pdf`
-- `paper/figures/ci_bif_diagram.pdf`
+- `paper/figures/chafee_infante/ci_latent_1d_morse_graph.pdf`
+- `paper/figures/chafee_infante/ci_latent_1d_morse_sets.pdf`
+- `paper/figures/chafee_infante/ci_morse_graph.pdf`
+- `paper/figures/chafee_infante/ci_morse_sets.pdf`
+- `paper/figures/chafee_infante/ci_coarse_morse_graph.pdf`
+- `paper/figures/chafee_infante/ci_coarse_morse_sets.pdf`
+- `paper/figures/chafee_infante/ci_latent_3d_morse_graph.pdf`
+- `paper/figures/chafee_infante/ci_latent_3d_conley_morse_graph.pdf`
+- `paper/figures/chafee_infante/ci_latent_3d_morse_sets_z1_z2.pdf`
+- `paper/figures/chafee_infante/ci_latent_3d_morse_sets_z1_z3.pdf`
+- `paper/figures/chafee_infante/ci_latent_3d_morse_sets_z2_z3.pdf`
+- `paper/figures/chafee_infante/ci_attractor_basins.pdf`
+- `paper/figures/chafee_infante/morse_roa_overlay.pdf`
 
 ## Source of paper run
 
@@ -20,6 +31,12 @@ also present there.
 - CMGDB: data-derived latent bounds with 10% per-axis expansion,
   `subdiv_init=14`, `subdiv_min=16`, `subdiv_max=22`, and `padding=True`
 
+The one- and three-dimensional panels come from the separate saved latent
+dimension study under
+`code/output/chafee_latent_dimension_study/latent_{1,3}d/seed_0/`. The active
+three-dimensional graph is byte-identical to the level-palette render under
+`code/paper_figures/standardized/chafee_infante/latent_3d_level_palette/`.
+
 ## Status
 
 **Marcio's original computation is the production source.** The package replay
@@ -30,6 +47,13 @@ and must not be used to generate the manuscript's collapsed Morse set.
 
 Earlier package retrains in `code/output/chafee_infante/` are exploratory and
 should not be treated as the paper source.
+
+The original saved three-dimensional adaptive stage remains a topology-only
+fallback in its status record. Its 30,672 saved Morse boxes all lie on the
+common level-24 cubical grid, so the Conley indices have now been computed
+post hoc from verified local uniform index pairs using those exact boxes and
+the persisted lookup map. This preserves the original stage provenance while
+supporting the annotated active paper graph.
 
 ## Reproduction commands
 
@@ -55,7 +79,69 @@ python scripts/coarsen_chafee_infante.py \
 
 ## Expected scientific output
 
-Paper figure shows seven Morse sets: two attractors `(x-1, 0, 0)`, three saddles `(0, x-1, 0)`, two repellers `(0, 0, x-1)`. The Hasse diagram is non-trivial.
+The two-dimensional Marcio computation shows seven Morse sets: two attractors
+`(x-1, 0, 0)`, three saddles `(0, x-1, 0)`, and two repellers
+`(0, 0, x-1)`. This statement is scoped to the two-dimensional computation;
+the one- and three-dimensional study outputs have different node counts.
+
+## Latent-dimension study
+
+The saved one-dimensional adaptive computation uses bounds
+`[-7.7618739128112795, 7.715793323516846]`, subdivisions `7/8/11`, and
+padding. It computed a three-node Conley--Morse graph with edges `2 -> 0` and
+`2 -> 1` and indices `(x-1, 0)`, `(x-1, 0)`, and `(0, x-1)`.
+
+The saved three-dimensional adaptive computation uses bounds
+`[-4.127716660499573, -2.7807257175445557, -3.2104987144470214]` to
+`[3.8589504957199097, 2.5888736248016357, 3.2438191413879394]`, subdivisions
+`21/24/33`, and padding. Its raw graph has 11 nodes, 14 edges, and minimal
+nodes 0 and 1.
+The authoritative inputs are
+`output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive/morse_graph`
+(SHA-256
+`1b032a5cda8f53b8adb8bcc8460991ab7c857ba87d052e1ac0e7da2967848156`)
+and the corresponding `morse_sets` file (SHA-256
+`14979bd3f3cf526e24a7a486822e0c48328b93bfc57d374cf0709682c2370919`).
+The source-level annotated graph is
+`paper_figures/standardized/chafee_infante/latent_3d_level_palette/ci_latent_3d_conley_morse_graph.dot`
+(SHA-256
+`47d6c6682251f4533f37ba1b566e94b3012fdffe3e7c312040ee664171851b8d`).
+The topology-only `ci_latent_3d_morse_graph.pdf` remains unchanged. The active
+annotated panel uses `ci_latent_3d_conley_morse_graph.pdf`, which is
+byte-identical to the standardized Conley--Morse render and has
+SHA-256
+`3fbe39b57b984985ef74d35489aedc8daa384b28f8106a1e53e264046dc45d54`.
+
+The computed indices, ordered by node, are:
+
+| node | Conley index `(H0,H1,H2,H3)` |
+|-----:|--------------------------------|
+| 0 | `(x-1, 0, 0, 0)` |
+| 1 | `(x-1, 0, 0, 0)` |
+| 2 | `(0, x-1, 0, 0)` |
+| 3 | `(0, x-1, 0, 0)` |
+| 4 | `(0, 0, 0, 0)` |
+| 5 | `(0, 0, 0, 0)` |
+| 6 | `(0, 0, x-1, 0)` |
+| 7 | `(0, x-1, 0, 0)` |
+| 8 | `(0, 0, x-1, 0)` |
+| 9 | `(0, 0, x-1, 0)` |
+| 10 | `(0, 0, 0, x-1)` |
+
+Two complete audit runs reproduced every index and index-pair signature. In
+each run all 2,952 fiber acyclicity checks passed, and all 2,070
+Morse-reduced preboundary solves passed an explicit
+`boundary(result) == input` validation. The repository build reproduced all 11
+indices once more.
+
+`scripts/chafee_latent_dimension_study.py` provides the source-level
+`ComputeConleyMorseGraph` route, and
+`scripts/render_chafee_infante_3d_graph_palette.py` preserves the resulting DOT
+labels while applying the paper palette. The performance fix activates the
+existing Morse-reduced fiber-preboundary path in
+`archive/CMGDB/src/CMGDB/_cmgdb/include/chomp/FiberComplex.h` and validates
+every lifted preboundary before use. The former direct Smith solve on each
+unreduced fiber was the source of the stall.
 
 ## Coarse Morse representation
 
@@ -84,10 +170,10 @@ node: that index would have to be recomputed from an index pair for the union.
 
 Connection completion is always enabled for the default Marcio computation.
 
-### Exploratory basin overlay
+### Active basin overlay
 
-To overlay the coarse Morse representation on Marcio's original uniform-grid
-regions of attraction:
+The paper's panel (b) overlays the coarse Morse representation on Marcio's
+original uniform-grid regions of attraction. Regenerate it with:
 
 ```bash
 python scripts/plot_chafee_coarse_morse_roa_overlay.py

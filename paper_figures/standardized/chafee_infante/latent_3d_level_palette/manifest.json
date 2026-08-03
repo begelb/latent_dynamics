@@ -1,5 +1,28 @@
 {
   "cmgdb_model_evaluations": 0,
+  "conley_annotation": {
+    "acyclic_fiber_checks": 2952,
+    "indices_by_node": {
+      "0": ["x-1", "0", "0", "0"],
+      "1": ["x-1", "0", "0", "0"],
+      "10": ["0", "0", "0", "x-1"],
+      "2": ["0", "x-1", "0", "0"],
+      "3": ["0", "x-1", "0", "0"],
+      "4": ["0", "0", "0", "0"],
+      "5": ["0", "0", "0", "0"],
+      "6": ["0", "0", "x-1", "0"],
+      "7": ["0", "x-1", "0", "0"],
+      "8": ["0", "0", "x-1", "0"],
+      "9": ["0", "0", "x-1", "0"]
+    },
+    "method": "verified local uniform index pairs reconstructed from the exact saved level-24 Morse boxes and persisted lookup map",
+    "preboundary_validations": 2070,
+    "repeat_runs": 2,
+    "source_dot": {
+      "path": "ci_latent_3d_conley_morse_graph.dot",
+      "sha256": "47d6c6682251f4533f37ba1b566e94b3012fdffe3e7c312040ee664171851b8d"
+    }
+  },
   "display": {
     "camera": {
       "azim": -55.0,
@@ -41,6 +64,16 @@
       "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/standardized/chafee_infante/latent_3d_level_palette/ci_latent_3d_morse_graph_level_palette.png",
       "sha256": "141ca8868b356e78ea01dd08db96d348f00a3e0d99e0d3e3d8bd348a0537ec8f",
       "size_bytes": 27396
+    },
+    "ci_latent_3d_conley_morse_graph_level_palette.pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/standardized/chafee_infante/latent_3d_level_palette/ci_latent_3d_conley_morse_graph_level_palette.pdf",
+      "sha256": "3fbe39b57b984985ef74d35489aedc8daa384b28f8106a1e53e264046dc45d54",
+      "size_bytes": 14965
+    },
+    "ci_latent_3d_conley_morse_graph_level_palette.png": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/standardized/chafee_infante/latent_3d_level_palette/ci_latent_3d_conley_morse_graph_level_palette.png",
+      "sha256": "cc19f4c3a3f45b96a5608d070f9cf8240f6120125f743d34bebe9f806270a530",
+      "size_bytes": 53388
     },
     "ci_latent_3d_morse_sets_cubical_level_palette.pdf": {
       "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/paper_figures/standardized/chafee_infante/latent_3d_level_palette/ci_latent_3d_morse_sets_cubical_level_palette.pdf",
@@ -125,7 +158,7 @@
   "schema_version": 1,
   "source": {
     "directory": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_latent_dimension_study/latent_3d/seed_0/MG_adaptive",
-    "morse_graph_sha256": "1b032a5cda8f53b8adb8bcc8460991ab7c857ba87d052e1ac0e7da2967848156",
+    "morse_graph_topology_sha256": "1b032a5cda8f53b8adb8bcc8460991ab7c857ba87d052e1ac0e7da2967848156",
     "morse_sets_rows": 30672,
     "morse_sets_sha256": "14979bd3f3cf526e24a7a486822e0c48328b93bfc57d374cf0709682c2370919"
   }

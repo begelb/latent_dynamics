@@ -8,6 +8,7 @@ dynamics live on the embedded coordinate plane.
 ## Paper figures
 
 - `paper/figures/leslie_2gen_contraction/morse_graph.pdf`
+- `paper/figures/leslie_2gen_contraction/morse_graph_flipped.pdf`
 - `paper/figures/leslie_2gen_contraction/morse_sets_with_overlay.pdf`
 
 ## Source of paper run
@@ -83,6 +84,25 @@ maintained config instead of copying parameters from either legacy script.
 python pipeline.py --config leslie_2gen_contraction_replay --stages render,metrics
 # The Morse graph should have five nodes with two minimal attractors:
 # an invariant circle (x-1,x-1,0) and a period-six orbit (x^6-1,0,0).
+```
+
+## Postprocessing
+
+The original `morse_graph.pdf` remains unchanged. The active aligned panel is
+`morse_graph_flipped.pdf`, rendered from
+`paper_figures/standardized/leslie_2gen_contraction/aligned_morse_graph.dot`.
+It contains the exact five nodes, four directed edges, labels, and Conley
+indices in the saved replay DOT. Two invisible same-rank constraints change
+only the left-to-right order so that this panel aligns with the direct-model
+panel; no PDF mirroring or arrow reversal is used. The aligned DOT has SHA-256
+`c9926e9e92fa3b6433666f51d7bfc20d42b71b2af886379e423abb90faf52517`,
+and the rendered paper PDF has SHA-256
+`6c5d2d6812fd77f361266a945878e7d1fdb8596e3e6b243cc85c59afae9af8a2`.
+
+```bash
+dot -Tpdf \
+  paper_figures/standardized/leslie_2gen_contraction/aligned_morse_graph.dot \
+  -o ../paper/figures/leslie_2gen_contraction/morse_graph_flipped.pdf
 ```
 
 ## Original-map baseline

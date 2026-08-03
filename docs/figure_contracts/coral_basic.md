@@ -1,80 +1,101 @@
 # fig_coral_basic
 
-Paper Fig. 1.376: 13D coral population system, 1D latent, bistable extinction-vs-recovery dynamics.
+Paper figure `fig:coral_latent_dynamics`: 13D coral population system, 1D latent,
+bistable extinction-versus-recovery dynamics.
 
 ## Paper figures
 
 - `paper/figures/coral_morse_graph.pdf`
-- `paper/figures/coral_morse_sets.pdf`
 - `paper/figures/morse_sets_1D.pdf` (custom 1D segment plot with encoded fixed points)
-- `paper/figures/morse_sets_1D_old.pdf`
-- `paper/figures/1D_Coral_MG.pdf`
 
 ## Source of paper run
 
-The preserved replay tree under `code/replay_sources/coral/train_500/seed_*/`. The basic `train_500` Morse graph is fresh-reproducible from a writable config copy (a working fresh retrain lives in `output/coral_data_scaling`).
+The featured paper model is specifically
+`code/replay_sources/coral/train_500/seed_16/`, as recorded in the replay-tree
+README and hard-coded in the archived 1D figure generator. The basic
+`train_500` sweep is fresh-reproducible from a writable config copy, but a new
+training run is not provenance for this selected paper asset.
 
-- mg_params_log per seed: `replay_sources/coral/train_500/seed_*/mg_params_log.txt`
+- parameter log: `replay_sources/coral/train_500/seed_16/mg_params_log.txt`
+- checkpoint: `replay_sources/coral/train_500/seed_16/models/{encoder,dynamics,decoder}.pt`
+- raw CMGDB artifacts: `replay_sources/coral/train_500/seed_16/MG/{morse_graph,morse_sets}`
+- paper-data metadata: `archive/brittany/data/coral/train_500_metadata.json`
+- 1D plot source: `archive/brittany/coral_experiment_scripts/1D_morse_set_plot_for_coral.py`
 
 ## Status
 
-**Read-only replay; basic `train_500` is fresh-reproducible from a writable
-config copy.** `src/latentdynamics/configs/coral_basic.yaml` is `read_only: true` and points at
-the preserved replay tree. Full coral recomputation is outside the default
-paper replay path; use a writable local copy of the YAML for a fresh retrain.
+**Read-only artifact replay; basic `train_500` is fresh-reproducible from a
+writable config copy.** `src/latentdynamics/configs/coral_basic.yaml` points at
+the preserved replay tree. Its `data.sampling_method: uniform` does not match
+the archived paper dataset metadata, which records scrambled Sobol sampling,
+so that YAML must not be presented as exact data-generation provenance for the
+paper run.
 
 ## Reproduction commands
 
-Replay from the preserved tree:
+Replay the selected paper cell from the preserved tree:
 
 ```bash
-python pipeline.py --config coral_basic --stages render,metrics
+python pipeline.py --config coral_basic --stages render,metrics \
+  --cell-index 16 --expected-cells 30
 ```
 
-Fresh retrain requires copying the YAML to a writable output location and
+Fresh retraining requires copying the YAML to a writable output location and
 setting `paths.read_only: false`; do not write into `replay_sources/coral/`.
 
 ## Expected scientific output
 
-Paper figure shows three Morse sets in 1D: two attractors at the encoded `E(a₀)` (extinction) and `E(a₁)` (healthy steady state), separated by one repeller at `E(r)` (the population separatrix).
+The seed-16 graph has three Morse sets in 1D: two attractors at the encoded
+`E(a₀)` (extinction) and `E(a₁)` (healthy steady state), separated by one
+repeller at `E(r)` (the population separatrix). Its edges are `2 -> 0` and
+`2 -> 1`, with indices `(x-1, 0)`, `(x-1, 0)`, and `(0, x-1)`.
 
-Per-seed bounds vary (see archive `mg_params_log.txt`s); CMGDB subdivisions are `subdiv_init=8, subdiv_min=8, subdiv_max=12, subdiv_limit=10000` for every seed.
+For the featured seed, the exact latent interval is
+`[-1.0138611376285553, 0.4264032423496246]`. CMGDB uses
+`subdiv_init=8`, `subdiv_min=8`, `subdiv_max=12`, `subdiv_limit=10000`, and
+padding. The archived generator first expands the encoded-data interval by
+`0.01 * width`; CMGDB padding is a separate setting.
 
 ## Hyperparameter audit
 
-| param                       | archive value           | YAML value             | source line                                | notes |
-|-----------------------------|-------------------------|------------------------|--------------------------------------------|-------|
-| arch.num_layers             | 3                       | 3                      | src/latentdynamics/configs/coral_basic.yaml                   | ✓     |
-| arch.hidden_shape           | 64                      | 64                     |                                            | ✓     |
-| arch.high_dims              | 13                      | 13                     |                                            | ✓     |
-| arch.low_dims               | 1                       | 1                      |                                            | ✓     |
-| arch.encoder_out_activation | tanh                    | tanh (default)         | default                                    | ✓     |
-| arch.latent_out_activation  | tanh                    | tanh (default)         |                                            | ✓     |
-| arch.decoder_out_activation | sigmoid                 | sigmoid (default)      |                                            | ✓     |
-| training.loss_weights       | [10, 10, 1]             | [10, 10, 1]            |                                            | ✓     |
-| training.epochs             | 1000                    | 1000 (default)         | config                                     | ✓     |
-| training.learning_rate      | 0.001                   | 0.001 (default)        |                                            | ✓     |
-| training.batch_size         | 1024                    | 1024 (default)         |                                            | ✓     |
-| training.patience           | 100                     | 100 (default)          |                                            | ✓     |
-| data.n_samples_train        | 500                     | [500]                  |                                            | ✓     |
-| data.n_samples_val         | 10000                   | 10000                  |                                            | ✓     |
-| data.n_iterations           | 20                      | 20                     |                                            | ✓     |
-| data.sampling_method        | uniform                 | uniform                |                                            | ✓     |
-| cmgdb.subdiv_init           | 8                       | 8                      | mg_params_log.txt per seed                 | ✓     |
-| cmgdb.subdiv_min            | 8                       | 8                      |                                            | ✓     |
-| cmgdb.subdiv_max            | 12                      | 12                     |                                            | ✓     |
-| cmgdb.lower_bounds          | per-seed inferred       | inferred               | mg_params_log.txt                          | ✓     |
-| cmgdb.upper_bounds          | per-seed inferred       | inferred               |                                            | ✓     |
+| param                       | archive value           | YAML value             | source | notes |
+|-----------------------------|-------------------------|------------------------|--------|-------|
+| arch.num_layers             | 3                       | 3                      | replay config | ✓ |
+| arch.hidden_shape           | 64                      | 64                     | replay config | ✓ |
+| arch.high_dims              | 13                      | 13                     | replay config | ✓ |
+| arch.low_dims               | 1                       | 1                      | replay config | ✓ |
+| arch.encoder_out_activation | tanh                    | tanh                   | replay config | ✓ |
+| arch.latent_out_activation  | tanh                    | tanh                   | replay config | ✓ |
+| arch.decoder_out_activation | sigmoid                 | sigmoid                | replay config | ✓ |
+| training.loss_weights       | [10, 10, 1]             | [10, 10, 1]            | replay config | ✓ |
+| training.epochs             | 1000                    | 1000                   | replay config | ✓ |
+| training.learning_rate      | 0.001                   | 0.001                  | replay config | ✓ |
+| training.batch_size         | 1024                    | 1024                   | replay config | ✓ |
+| training.patience           | 100                     | 100                    | replay config | ✓ |
+| data.n_samples_train        | 500                     | [500]                  | archived metadata | ✓ |
+| data.n_samples_val          | 10000                   | 10000                  | replay config | not independently recorded in train metadata |
+| data.n_iterations           | 20                      | 20                     | archived metadata | ✓ |
+| data.sampling_method        | scrambled Sobol         | uniform                | archived metadata and `make_data.py` | YAML is stale for paper data |
+| data.train_seed             | 42                      | 42                     | archived `make_data.py` | Sobol scramble seed |
+| data.initial-condition box  | `[0]*13` -> `[1300,1150,750,520,270,120,35,20,7,5,5,2,2]` | not encoded in YAML | archived metadata | exact paper-data domain |
+| cmgdb.subdiv_init           | 8                       | 8                      | seed-16 parameter log | ✓ |
+| cmgdb.subdiv_min            | 8                       | 8                      | seed-16 parameter log | ✓ |
+| cmgdb.subdiv_max            | 12                      | 12                     | seed-16 parameter log | ✓ |
+| cmgdb.subdiv_limit          | 10000                   | 10000                  | seed-16 parameter log | ✓ |
+| cmgdb.lower_bounds          | `[-1.0138611376285553]` | inferred               | seed-16 parameter log | featured model |
+| cmgdb.upper_bounds          | `[0.4264032423496246]`  | inferred               | seed-16 parameter log | featured model |
+| cmgdb.bounds_epsilon_frac   | 0.01                    | 0.01                   | archived `morse_graph.py` | applied before CMGDB padding |
+| cmgdb.padding               | true                    | true                   | replay config | ✓ |
 
 ## Verification
 
 ```bash
-# Verify the 1D Morse set produces three intervals bracketing
-# E(a0), E(r), E(a1):
-python pipeline.py --config coral_basic --stages render,metrics --max-seeds 1
-# metrics.json should contain
-#   labels.a0_(Extinction): label of the leftmost Morse set
-#   labels.r_(Repeller):    label of the middle Morse set
-#   labels.a1_(Healthy):    label of the rightmost Morse set
-# All three must be distinct.
+python pipeline.py --config coral_basic --stages render,metrics \
+  --cell-index 16 --expected-cells 30
+# metrics.json should assign distinct labels to E(a0), E(r), and E(a1).
 ```
+
+All six non-adaptive sample-size directories currently contain raw graphs,
+raw Morse sets, parameter logs, and checkpoint triplets for all 30 seeds.
+Rendered PDFs are not present in every cell and may be regenerated from those
+saved raw artifacts.
