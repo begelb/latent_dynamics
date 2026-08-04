@@ -10,20 +10,23 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import subprocess
 import sys
 import time
-from importlib.metadata import version
 from pathlib import Path
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
 LOCAL_CMGDB_SRC = LOCAL_CMGDB_ROOT / "src"
-if str(LOCAL_CMGDB_SRC) not in sys.path:
+if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
     sys.path.insert(0, str(LOCAL_CMGDB_SRC))
 
 import CMGDB  # noqa: E402
 import matplotlib  # noqa: E402
+
+from latentdynamics.analysis.cmgdb_fork import (  # noqa: E402
+    cmgdb_provenance,
+    require_fork_cmgdb,
+)
 
 WIDE_CUBE_LOWER = [-0.01, -0.01, -0.01]
 WIDE_CUBE_UPPER = [200.0, 200.0, 200.0]
@@ -48,21 +51,6 @@ def f(x: list[float]) -> list[float]:
 def box_map(rect: list[float]) -> list[float]:
     return CMGDB.BoxMap(f, rect, padding=False)
 
-
-def git_state(repository: Path) -> dict[str, object]:
-    revision = subprocess.run(
-        ["git", "-C", str(repository), "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    status = subprocess.run(
-        ["git", "-C", str(repository), "status", "--short"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout
-    return {"revision": revision, "dirty": bool(status.strip())}
 
 
 def count_saved_morse_boxes(path: Path) -> dict[str, int]:
@@ -95,11 +83,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    module_path = Path(CMGDB.__file__).resolve()
-    if LOCAL_CMGDB_ROOT not in module_path.parents:
-        raise RuntimeError(
-            f"Expected CMGDB below {LOCAL_CMGDB_ROOT}; imported {module_path}"
-        )
+    require_fork_cmgdb()
     if not 1 <= args.initial <= args.subdiv_min <= args.subdiv_max:
         raise ValueError(
             "subdivision levels must satisfy "
@@ -176,12 +160,7 @@ def main() -> int:
             "ComputeConleyMorseGraph" if args.conley else "ComputeMorseGraph"
         ),
         "output": str(output),
-        "cmgdb": {
-            "version": version("CMGDB"),
-            "module_path": str(module_path),
-            "repository": str(LOCAL_CMGDB_ROOT),
-            **git_state(LOCAL_CMGDB_ROOT),
-        },
+        "cmgdb": cmgdb_provenance(LOCAL_CMGDB_ROOT),
     }
     (output / "run_config.json").write_text(
         json.dumps(resolved_config, indent=2) + "\n"

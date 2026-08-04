@@ -2,8 +2,9 @@
 
 One notebook per paper example, plus a CMGDB primer. Each notebook is a thin
 driver over the `latentdynamics` package and runs end-to-end on a fresh Google
-Colab kernel (the install cell pulls the package and its dependencies, including
-the PyPI `cmgdb` wheels — no compilation).
+Colab kernel. The install cell pulls a prebuilt wheel of the
+[CMGDB fork](https://github.com/bernardorivas/CMGDB) — which is not on PyPI —
+followed by the package and its dependencies, so nothing is compiled.
 
 | Notebook | Paper § | System | Colab |
 |---|---|---|---|
@@ -63,4 +64,6 @@ jupyter nbconvert --to notebook --execute notebooks/0*.ipynb
 ```
 
 With the default parameters (`MODE = "replay"`) this re-renders every figure
-without training or recomputing CMGDB.
+without training or recomputing CMGDB. The install cell runs only on Colab, so
+a local run keeps whatever `latentdynamics` and CMGDB the venv already has —
+an editable checkout is not replaced by the released wheel.

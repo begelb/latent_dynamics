@@ -21,13 +21,13 @@ import itertools
 import json
 import time
 from collections.abc import Callable
-from importlib.metadata import version
 from pathlib import Path
 
 import CMGDB
 import numpy as np
 from numpy.typing import NDArray
 
+from latentdynamics.analysis.cmgdb_fork import cmgdb_provenance, require_fork_cmgdb
 from latentdynamics.analysis.morse_metrics import get_minimal_labels
 from latentdynamics.config import load_config
 from latentdynamics.systems import LeslieContraction, build_system
@@ -46,15 +46,8 @@ LESLIE_2D_CORRESPONDENCE_PALETTE = (
 
 
 def require_local_cmgdb() -> Path:
-    """Fail before a long run unless CMGDB resolves to the maintained local fork."""
-    module_path = Path(CMGDB.__file__).resolve()
-    if LOCAL_CMGDB_ROOT not in module_path.parents:
-        raise RuntimeError(
-            "CMGDB must be imported from the maintained local checkout at "
-            f"{LOCAL_CMGDB_ROOT}; imported {module_path}. Run `uv sync --all-extras` "
-            "from code/ and use code/.venv/bin/python."
-        )
-    return module_path
+    """Fail before a long run unless CMGDB is the maintained fork."""
+    return require_fork_cmgdb()
 
 
 def make_adaptive_precomputed_box_map(
@@ -346,11 +339,7 @@ def main() -> int:
             ),
         },
         "box_map_backend": args.box_map_backend,
-        "cmgdb": {
-            "distribution_version": version("CMGDB"),
-            "source": str(LOCAL_CMGDB_ROOT.relative_to(CODE_ROOT.parent)),
-            "module_path": str(cmgdb_module_path),
-        },
+        "cmgdb": cmgdb_provenance(LOCAL_CMGDB_ROOT),
         "setup_seconds": round(setup_seconds, 3),
         "compute_seconds": round(compute_seconds, 3),
         "morse_nodes": morse_graph.num_vertices(),

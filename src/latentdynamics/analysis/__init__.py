@@ -9,6 +9,7 @@ from .basin_statistics import (
     cmgdb_morton_cell_indices,
     compute_chafee_basin_statistics,
 )
+from .cmgdb_fork import cmgdb_provenance, require_fork_cmgdb
 from .cmgdb_roa import (
     BOUNDARY,
     ESCAPE,
@@ -80,6 +81,7 @@ __all__ = [
     "check_unique_membership",
     "classify_points_in_cell_roa",
     "cmgdb_morton_cell_indices",
+    "cmgdb_provenance",
     "coarsen_morse_graph",
     "collapse_roa_to_lca",
     "compute_and_save_exact_roa",
@@ -100,6 +102,7 @@ __all__ = [
     "make_box_map_numpy",
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
+    "require_fork_cmgdb",
     "save_exact_roa",
     "write_connection_complete_morse_sets",
     "write_morse_graph_dot",

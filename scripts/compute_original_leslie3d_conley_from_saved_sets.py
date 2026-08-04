@@ -14,12 +14,10 @@ import itertools
 import json
 import math
 import re
-import subprocess
 import sys
 import time
 from collections import Counter
 from datetime import UTC, datetime
-from importlib.metadata import version
 from pathlib import Path
 from typing import Any
 
@@ -27,10 +25,12 @@ CODE_ROOT = Path(__file__).resolve().parents[1]
 PROJECT_ROOT = CODE_ROOT.parent
 LOCAL_CMGDB_ROOT = (PROJECT_ROOT / "archive" / "CMGDB").resolve()
 LOCAL_CMGDB_SRC = LOCAL_CMGDB_ROOT / "src"
-if str(LOCAL_CMGDB_SRC) not in sys.path:
+if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
     sys.path.insert(0, str(LOCAL_CMGDB_SRC))
 
 import CMGDB  # noqa: E402
+
+from latentdynamics.analysis.cmgdb_fork import cmgdb_provenance  # noqa: E402
 
 INT_PHASE_WIDTH = 1 << 60
 TRUNCATION_ERROR = 1 << 10
@@ -47,26 +47,6 @@ DOT_EDGE_RE = re.compile(r'^\s*"?(\d+)"?\s*->\s*"?(\d+)"?\s*;?\s*$')
 def utc_now() -> str:
     return datetime.now(UTC).isoformat()
 
-
-def git_state(repository: Path) -> dict[str, Any]:
-    revision = subprocess.run(
-        ["git", "-C", str(repository), "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    status_lines = subprocess.run(
-        ["git", "-C", str(repository), "status", "--short"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.splitlines()
-    return {
-        "repository": str(repository),
-        "revision": revision,
-        "dirty": bool(status_lines),
-        "status": status_lines,
-    }
 
 
 def sha256_file(path: Path) -> str:
@@ -745,16 +725,7 @@ def main() -> int:
     if len(requested_nodes) != len(args.node):
         raise ValueError("each requested node may be specified only once")
 
-    module_path = Path(CMGDB.__file__).resolve()
-    if LOCAL_CMGDB_ROOT not in module_path.parents:
-        raise RuntimeError(
-            f"expected CMGDB below {LOCAL_CMGDB_ROOT}, imported {module_path}"
-        )
-    cmgdb_state = {
-        "version": version("CMGDB"),
-        "module_path": str(module_path),
-        **git_state(LOCAL_CMGDB_ROOT),
-    }
+    cmgdb_state = cmgdb_provenance(LOCAL_CMGDB_ROOT)
 
     screen_dir = resolve_screen_dir(args.screen)
     manifest_path = screen_dir / "manifest.json"

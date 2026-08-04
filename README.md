@@ -5,8 +5,10 @@ Combinatorial-Topological Methods on a Latent Space* (`paper/main.tex`).
 
 For each high-dimensional discrete map `f : X -> X`, the package trains an
 autoencoder `(E, D)` and a latent dynamics `G : Z -> Z`, then computes a Morse
-graph for `G` with [CMGDB](https://github.com/marciogameiro/CMGDB)
-([`cmgdb`](https://pypi.org/project/cmgdb/) on PyPI) and runs the paper's
+graph for `G` with [CMGDB](https://github.com/bernardorivas/CMGDB) (a fork of
+[marciogameiro/CMGDB](https://github.com/marciogameiro/CMGDB); prebuilt wheels
+are attached to its
+[releases](https://github.com/bernardorivas/CMGDB/releases)) and runs the paper's
 tolerance / success-metric checks against the result. The seven applications in
 Section 5 of the paper are encoded as YAML configs.
 

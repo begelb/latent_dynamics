@@ -226,14 +226,14 @@ class UniformGrid:
 
 
 def require_local_cmgdb() -> tuple[object, Path]:
-    if str(LOCAL_CMGDB_SRC) not in sys.path:
+    """Import CMGDB, preferring the checkout, and confirm it is the fork."""
+    if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
         sys.path.insert(0, str(LOCAL_CMGDB_SRC))
     import CMGDB
 
-    module_path = Path(CMGDB.__file__).resolve()
-    if LOCAL_CMGDB_ROOT not in module_path.parents:
-        raise RuntimeError(f"Expected CMGDB below {LOCAL_CMGDB_ROOT}; imported {module_path}")
-    return CMGDB, module_path
+    from latentdynamics.analysis.cmgdb_fork import require_fork_cmgdb
+
+    return CMGDB, require_fork_cmgdb()
 
 
 def validate_adjacencies(grid: UniformGrid, level: int) -> dict[str, object]:
