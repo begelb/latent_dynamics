@@ -31,17 +31,44 @@ tmp.py
 /output/box_scale_sweep/
 /notebooks/rendered/
 
-# Morse-set box lists above GitHub's 100 MB file limit; kept local only.
-/output/original_leslie/leslie_2d_exact_restriction_s20_30_40_on_demand/MG/morse_sets
-/output/original_leslie/leslie_2d_exact_restriction_s26_30_36/MG/morse_sets
-/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand/MG/morse_sets
-/output/original_leslie/leslie_2d_exact_restriction_s27_29_30/MG/morse_sets
-/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/screen/MG/morse_sets
-/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/MG/morse_sets
-/output/original_leslie/ground_truth/paper_i24_m35_M35_L10000/screen/MG/morse_sets
-/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_2/MG/morse_sets
-/output/leslie3d_example2_seedsweep_t40/dataset_2/seed_0/MG/morse_sets
+# ---------------------------------------------------------------------------
+# Heavy run artefacts under data/ and output/: local only.
+#
+# data/ and output/ are working directories - every dataset, checkpoint,
+# box list and render in them is regenerable from a config. What the paper
+# actually ships lives elsewhere and stays tracked:
+#   replay_sources/  the fixed models replayed for the paper figures
+#   paper_figures/   the staged paper-ready PDFs/PNGs
+# Only the small provenance records under data/ and output/ stay tracked
+# (config.yaml, metrics.json, run_manifest.json, training_summary.json,
+# morse_graph.dot, mg_params_log.txt).
+# ---------------------------------------------------------------------------
 
-# Precomputed grid values above GitHub's 100 MB file limit; kept local only.
-/output/chafee_latent_dimension_study/latent_3d/seed_0/precomputed_level24_to33/fine_block_values.npy
-/output/chafee_latent_dimension_study/latent_3d/seed_0/precomputed_level24_to33/coarse_values.npy
+# Datasets and cached arrays
+/data/**/*.csv
+/data/**/*.pkl
+/data/**/*.npy
+/data/**/*.npz
+/output/**/*.csv
+/output/**/*.pkl
+/output/**/*.npy
+/output/**/*.npz
+
+# CMGDB box lists (one line per box; the largest exceed GitHub's 100 MB limit)
+/output/**/morse_sets
+/output/**/morse_sets2
+
+# Model checkpoints - retrain from the config
+/data/**/*.pt
+/output/**/*.pt
+
+# Rendered figures - paper-going copies live in paper_figures/
+/data/**/*.pdf
+/data/**/*.png
+/data/**/*.gif
+/output/**/*.pdf
+/output/**/*.png
+/output/**/*.gif
+
+# Per-epoch training histories; training_summary.json is kept
+/output/**/*history.json
