@@ -188,8 +188,15 @@ def run(
             f"padding={cfg.cmgdb.padding} backend={cfg.cmgdb.box_map_backend}"
         )
 
+    # The returned MapGraph costs a full extra box-map pass over the phase
+    # space. Exact RoA is the only consumer, and it is 2-D only (see below), so
+    # ask for it under exactly the condition that it will be used.
+    need_map_graph = bool(cfg.cmgdb.compute_roa and cfg.arch.low_dims == 2)
+
     t0 = time.perf_counter()
-    morse_graph, map_graph = compute_morse_graph(model, bounds, cfg.cmgdb, device=device)
+    morse_graph, map_graph = compute_morse_graph(
+        model, bounds, cfg.cmgdb, device=device, need_map_graph=need_map_graph
+    )
     duration_s = time.perf_counter() - t0
 
     dot_path, csv_path = save_morse_graph_artifacts(morse_graph, morse_dir)

@@ -88,6 +88,7 @@ ALIASES: dict[str, str] = {
 DEFAULT_IC_SEEDS = [1, 2, 3, 4, 5]
 DEFAULT_MODEL_SEEDS = [0, 1, 2]
 BOX_MAP_BACKENDS = ("auto", "uniform_precomputed", "adaptive_precomputed")
+RENDER_FIGURE_GROUPS = frozenset({"morse", "roa", "overlay", "extras"})
 
 
 def _resolve_example(name: str) -> str:
@@ -104,6 +105,27 @@ def _resolve_example(name: str) -> str:
 
 def _parse_int_list(raw: str) -> list[int]:
     return [int(tok) for tok in raw.split(",") if tok.strip() != ""]
+
+
+def _parse_figure_set(raw: str | None) -> set[str] | None:
+    """Parse an optional comma-separated render-group selection.
+
+    ``None`` deliberately remains distinct from an empty set: the pipeline's
+    longstanding ``None`` behavior renders every group, while an explicit
+    selection lets long sweeps omit the expensive regions-of-attraction pass.
+    """
+    if raw is None:
+        return None
+    figures = {token.strip() for token in raw.split(",") if token.strip()}
+    if not figures:
+        raise ValueError("--figures must select at least one render group")
+    unknown = figures - RENDER_FIGURE_GROUPS
+    if unknown:
+        raise ValueError(
+            "unknown --figures group(s) "
+            f"{sorted(unknown)}; choose from {sorted(RENDER_FIGURE_GROUPS)}"
+        )
+    return figures
 
 
 def _sweep_label(config_name: str, tag: str | None) -> str:
@@ -335,6 +357,16 @@ def main(argv: list[str] | None = None) -> int:
         default="all",
         help=f"comma-separated subset of {list(pipeline.ALL_STAGES)} or 'all'",
     )
+    parser.add_argument(
+        "--figures",
+        type=str,
+        default=None,
+        help=(
+            "optional comma-separated render groups from "
+            "morse,roa,overlay,extras; omitted preserves the pipeline default "
+            "of rendering all groups"
+        ),
+    )
     parser.add_argument("--device", type=str, default=None, help="cpu, cuda, or mps")
     parser.add_argument(
         "--cmgdb-subdiv",
@@ -417,6 +449,10 @@ def main(argv: list[str] | None = None) -> int:
         if args.stages == "all"
         else [s for s in args.stages.split(",") if s]
     )
+    try:
+        figures = _parse_figure_set(args.figures)
+    except ValueError as exc:
+        parser.error(str(exc))
     cmgdb_subdiv = None
     if args.cmgdb_subdiv:
         parts = _parse_int_list(args.cmgdb_subdiv)
@@ -448,6 +484,7 @@ def main(argv: list[str] | None = None) -> int:
                     "ic_seeds": ic_seeds,
                     "model_seeds": effective_model_seeds,
                     "stages": stages,
+                    "figures": sorted(figures) if figures is not None else None,
                     "tag": tag,
                     "cmgdb_subdiv": cmgdb_subdiv,
                     "box_map_backend": args.box_map_backend,
@@ -509,6 +546,7 @@ def main(argv: list[str] | None = None) -> int:
                 device=args.device,
                 skip_completed=args.skip_completed,
                 verbose=verbose,
+                figures=figures,
             )
             for cell in cell_results:
                 out_dir = Path(cell["output_dir"])
@@ -544,6 +582,7 @@ def main(argv: list[str] | None = None) -> int:
                     "ic_seeds": ic_seeds,
                     "model_seeds": effective_model_seeds,
                     "stages": stages,
+                    "figures": sorted(figures) if figures is not None else None,
                     "data_size": _data_size_summary(
                         cfg,
                         requested_total_initial_conditions=(

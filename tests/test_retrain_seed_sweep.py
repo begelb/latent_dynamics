@@ -175,6 +175,49 @@ def test_t25_n50000_dry_run_records_full_5x3_data_plan(capsys) -> None:
     )
 
 
+def test_figures_selection_is_recorded_in_dry_run(capsys) -> None:
+    result = SWEEP.main(
+        [
+            "--example",
+            "leslie3d_example2",
+            "--figures",
+            "morse,overlay,extras",
+            "--dry-run",
+        ]
+    )
+
+    assert result == 0
+    plan = json.loads(capsys.readouterr().out)
+    assert plan["figures"] == ["extras", "morse", "overlay"]
+
+
+def test_figures_default_preserves_render_all_contract(capsys) -> None:
+    result = SWEEP.main(
+        [
+            "--example",
+            "leslie3d_example2",
+            "--max-datasets",
+            "1",
+            "--max-seeds",
+            "1",
+            "--dry-run",
+        ]
+    )
+
+    assert result == 0
+    plan = json.loads(capsys.readouterr().out)
+    assert plan["figures"] is None
+
+
+def test_figures_selection_rejects_unknown_group() -> None:
+    try:
+        SWEEP._parse_figure_set("morse,basins")
+    except ValueError as exc:
+        assert "unknown --figures group" in str(exc)
+    else:
+        raise AssertionError("expected an unknown render group to fail")
+
+
 def test_total_initial_conditions_rejects_degenerate_total() -> None:
     try:
         SWEEP._dataset_config(

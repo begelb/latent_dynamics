@@ -8,7 +8,7 @@
   "full_batch": false,
   "shared_val_seed": 9999,
   "ic_seeds": [
-    1
+    4
   ],
   "model_seeds": [
     0
@@ -43,16 +43,15 @@
   "cells": [
     {
       "example": "leslie3d_example2",
-      "ic_seed": 1,
+      "ic_seed": 4,
       "val_seed": 9999,
       "model_seed": 0,
-      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_4/seed_0",
       "n_attractors_sinks": null,
-      "n_attractor_type_nodes": 3,
+      "n_attractor_type_nodes": 2,
       "n_sinks": 2,
       "attractor_indices": [
         "x^2-1",
-        "x^4-1",
         "x^4-1"
       ]
     }

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import itertools
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from typing import Any, Literal, cast
 
@@ -55,15 +55,33 @@ class LatentBounds:
 
 
 class _PrecomputedBoxMap:
-    """Callable lookup table with CMGDB's optional batched-map interface."""
+    """Callable lookup table with CMGDB's optional batched-map interface.
 
-    def __init__(self, lookup: Callable[[Any], list[float]]) -> None:
+    ``batch_lookup``, when supplied, evaluates a whole chunk of rectangles with
+    array operations instead of one NumPy call chain per rectangle. That matters
+    a great deal: CMGDB routes every adjacency query through this interface, so
+    the per-rectangle constant is multiplied by millions. Measured on a 2-D
+    latent map, the per-rectangle loop costs 12.3 us/rect and the vectorized
+    form 0.48 us/rect, for 85% of ``ComputeConleyMorseGraph`` wall clock.
+
+    The scalar ``__call__`` keeps its own dedicated implementation rather than
+    routing through the batch path, so single-rectangle latency is unchanged.
+    """
+
+    def __init__(
+        self,
+        lookup: Callable[[Any], list[float]],
+        batch_lookup: Callable[[Any], list[list[float]]] | None = None,
+    ) -> None:
         self._lookup = lookup
+        self._batch_lookup = batch_lookup
 
     def __call__(self, rect: Any) -> list[float]:
         return self._lookup(rect)
 
     def batch(self, rects: Any) -> list[list[float]]:
+        if self._batch_lookup is not None:
+            return self._batch_lookup(rects)
         return [self._lookup(rect) for rect in rects]
 
 
@@ -298,15 +316,20 @@ def _precompute_corner_grid(
     latent_map: torch.nn.Module,
     L: NDArray[np.float64],
     U: NDArray[np.float64],
-    corners_per_axis: int,
+    corners_per_axis: int | Sequence[int],
     d: int,
     *,
     device: torch.device | None = None,
     batch_points: int | Literal["auto"] = "auto",
 ) -> tuple[NDArray[np.float64], int]:
-    """Evaluate ``latent_map`` on the ``corners_per_axis^d`` product lattice
-    over ``[L, U]`` in chunks and return ``(ys_grid, out_dim)`` with
-    ``ys_grid.shape == (corners_per_axis,) * d + (out_dim,)``.
+    """Evaluate ``latent_map`` on the corner lattice over ``[L, U]`` in chunks
+    and return ``(ys_grid, out_dim)``.
+
+    ``corners_per_axis`` is either a single count used for every axis, or one
+    count per axis. The per-axis form matters because CMGDB bisects a different
+    coordinate at each depth (``depth % d``), so at a subdivision level that is
+    not a multiple of ``d`` the axes are refined unequally and a cubic lattice
+    over-samples the coarse ones. ``ys_grid.shape == tuple(corners_per_axis) + (out_dim,)``.
 
     The forward pass runs in float32 on ``device`` and the result is cast to
     float64. Lattice coordinates are generated chunk-by-chunk from flat
@@ -317,21 +340,30 @@ def _precompute_corner_grid(
     device = device or next(latent_map.parameters()).device
     latent_map.eval()
 
-    n_total = int(corners_per_axis) ** int(d)
-    # Per-axis step: linspace endpoints L and U give corners_per_axis nodes,
-    # so the step between consecutive nodes is (U - L) / (corners_per_axis - 1).
-    # When corners_per_axis == 1 the whole lattice collapses to L; treat the
-    # step as zero in that edge case.
-    if corners_per_axis > 1:
-        step = (U - L) / float(corners_per_axis - 1)
+    if isinstance(corners_per_axis, int):
+        shape = (int(corners_per_axis),) * int(d)
     else:
-        step = np.zeros_like(U - L)
+        shape = tuple(int(c) for c in corners_per_axis)
+        if len(shape) != int(d):
+            raise ValueError(
+                f"corners_per_axis has {len(shape)} entries but d={d}"
+            )
+
+    n_total = 1
+    for c in shape:
+        n_total *= c
+
+    # Per-axis step: linspace endpoints L and U give shape[j] nodes on axis j,
+    # so the step between consecutive nodes is (U - L) / (shape[j] - 1). When an
+    # axis has a single node the lattice collapses to L there; step is zero.
+    counts = np.asarray(shape, dtype=np.int64)
+    step = np.zeros_like(U - L, dtype=np.float64)
+    multi = counts > 1
+    step[multi] = (U - L)[multi] / (counts[multi] - 1).astype(np.float64)
 
     chunk_size = _resolve_precompute_batch_points(
         batch_points, latent_map=latent_map, n_total=n_total, device=device
     )
-
-    shape = (corners_per_axis,) * d
     ys_flat: NDArray[np.float64] | None = None
     out_dim = -1
 
@@ -404,6 +436,12 @@ def make_box_map_uniform_precomputed(
         device=device, batch_points=precompute_batch_points,
     )
 
+    # Corner offsets, hoisted out of the per-box work. Order is irrelevant
+    # because only min/max over the 2^d corners is taken.
+    combos = np.array(
+        list(itertools.product(range(2), repeat=d)), dtype=np.int64
+    )  # (2^d, d)
+
     def box_map(rect):
         rect_arr = np.asarray(rect, dtype=np.float64)
         center = (rect_arr[:d] + rect_arr[d:]) / 2.0
@@ -421,7 +459,75 @@ def make_box_map_uniform_precomputed(
             Y_u = Y_u + box_size
         return Y_l.tolist() + Y_u.tolist()
 
-    return _PrecomputedBoxMap(box_map)
+    def box_map_batch(rects):
+        R = np.asarray(rects, dtype=np.float64)
+        if R.size == 0:
+            return []
+        R = R.reshape(-1, 2 * d)
+        center = (R[:, :d] + R[:, d:]) / 2.0
+        idx = np.floor((center - L) / box_side).astype(np.int64)
+        np.clip(idx, 0, n_per_axis - 1, out=idx)
+        corner_indices = idx[:, None, :] + combos[None, :, :]  # (m, 2^d, d)
+        corners = ys_grid[tuple(corner_indices[..., k] for k in range(d))]
+        Y_l = corners.min(axis=1)
+        Y_u = corners.max(axis=1)
+        if padding:
+            box_size = R[:, d:] - R[:, :d]
+            Y_l = Y_l - box_size
+            Y_u = Y_u + box_size
+        return np.concatenate([Y_l, Y_u], axis=1).tolist()
+
+    return _PrecomputedBoxMap(box_map, box_map_batch)
+
+
+# float32 matmul results depend on the batch shape: the backend selects
+# different blocking for small or ragged batches, and the outputs differ by up
+# to one ulp. Table construction runs in large chunks, so on-demand evaluation
+# must too, or the same point evaluated the two ways disagrees. Padding every
+# batch up to a multiple of this block makes them agree exactly.
+#
+# 256 is the smallest block that is exact; 128 and below are not. It is also
+# the smallest that is affordable: on-demand calls arrive tiny and frequent
+# (~15 points per call on the production ladder), so padding to 4096 would
+# evaluate 314M rows to serve 1.1M points -- worse than the table it replaces.
+_GEMM_BLOCK = 256
+
+
+def _eval_points(
+    latent_map: torch.nn.Module,
+    points: NDArray[np.float64],
+    *,
+    device: torch.device,
+    chunk: int,
+) -> NDArray[np.float64]:
+    """Evaluate ``latent_map`` at arbitrary points, matching the table recipe.
+
+    Uses the same float32 forward / float64 cast as
+    :func:`_precompute_corner_grid`, and pads each batch to a multiple of
+    ``_GEMM_BLOCK``, so a point evaluated here and the same point read from the
+    table agree bit for bit.
+    """
+    latent_map.eval()
+    n = int(points.shape[0])
+    if n == 0:
+        raise ValueError("points must be non-empty")
+    pad = (-n) % _GEMM_BLOCK
+    if pad:
+        points = np.vstack([points, np.repeat(points[:1], pad, axis=0)])
+    chunk = max(_GEMM_BLOCK, (chunk // _GEMM_BLOCK) * _GEMM_BLOCK)
+
+    total = int(points.shape[0])
+    out: NDArray[np.float64] | None = None
+    for start in range(0, total, chunk):
+        end = min(start + chunk, total)
+        with torch.no_grad():
+            x_t = torch.as_tensor(points[start:end], dtype=torch.float32, device=device)
+            y = latent_map(x_t).cpu().numpy().astype(np.float64)
+        if out is None:
+            out = np.empty((total, y.shape[-1]), dtype=np.float64)
+        out[start:end] = y
+    assert out is not None, "points must be non-empty"
+    return out[:n]
 
 
 def make_box_map_adaptive_precomputed(
@@ -433,8 +539,21 @@ def make_box_map_adaptive_precomputed(
     device: torch.device | None = None,
     max_table_points: int = 10_000_000,
     precompute_batch_points: int | Literal["auto"] = "auto",
+    dense_subdiv: int | None = None,
 ) -> Callable[[Any], Any]:
     """Whole-grid pre-evaluation for adaptive CMGDB grids.
+
+    With ``dense_subdiv`` set, the dense table is built at that depth instead of
+    at ``subdiv_max``, and corners that do not land on the coarser lattice are
+    evaluated on demand. This matters because CMGDB reaches ``subdiv_max`` only
+    inside the recurrent set: on the production 24/27/28 ladder, 97.8% of the
+    17.2M rectangle queries are at depth 24, and a table sized for depth 28
+    costs 268M evaluations to serve them against 16.8M for a depth-24 table.
+
+    Results are unchanged. Every box corner at any depth <= ``subdiv_max`` lies
+    on the finest lattice, and the two ways of computing such a point agree
+    exactly because the lattice spacings differ by a power of two, which scales
+    floating-point values without rounding.
 
     Generalises ``make_box_map_uniform_precomputed`` to the adaptive ladder
     ``subdiv_init <= subdiv_min <= subdiv_max``. At any depth ``k`` reached by
@@ -445,16 +564,43 @@ def make_box_map_adaptive_precomputed(
     gathering the ``2^d`` corners they span.
     """
     d = bounds.dim
-    M = (subdiv_max + d - 1) // d  # ceil(subdiv_max / d)
-    n_per_axis = 2**M
-    corners_per_axis = n_per_axis + 1
+    # CMGDB bisects coordinate ``depth % d`` at each depth, so after
+    # ``subdiv_max`` subdivisions axis j has been split
+    # ``(subdiv_max - j + d - 1) // d`` times -- not ``ceil(subdiv_max / d)``
+    # times on every axis. Using the max on all axes over-samples every axis but
+    # the first whenever ``subdiv_max % d != 0``, which in 2-D doubles the table
+    # (at subdiv_max=29: 32769^2 instead of 32769 x 16385, 16 GiB instead of 8).
+    # Verified empirically against CMGDB's finest box widths.
+    axis_depths = np.array(
+        [(subdiv_max - j + d - 1) // d for j in range(d)], dtype=np.int64
+    )
+    n_per_axis = (2**axis_depths).astype(np.int64)
 
-    table_points = corners_per_axis**d
+    # Depth at which the dense table is built. `dense_subdiv=None` keeps the
+    # historical behaviour of tabulating the finest level over the whole domain.
+    table_subdiv = subdiv_max if dense_subdiv is None else int(dense_subdiv)
+    if table_subdiv > subdiv_max:
+        raise ValueError(
+            f"dense_subdiv ({table_subdiv}) must not exceed subdiv_max ({subdiv_max})"
+        )
+    table_axis_depths = np.array(
+        [(table_subdiv - j + d - 1) // d for j in range(d)], dtype=np.int64
+    )
+    table_n_per_axis = (2**table_axis_depths).astype(np.int64)
+    corners_per_axis = table_n_per_axis + 1
+    # Index stride from the finest lattice down to the table lattice. Always a
+    # power of two per axis, which is what makes the two point computations
+    # agree bitwise.
+    stride = (2 ** (axis_depths - table_axis_depths)).astype(np.int64)
+
+    table_points = int(np.prod(corners_per_axis.astype(object)))
     if table_points > max_table_points:
+        shape_str = " x ".join(str(int(c)) for c in corners_per_axis)
         raise ValueError(
             f"adaptive_precomputed table size ({table_points} corners) exceeds "
-            f"max_table_points ({max_table_points}). For d={d}, subdiv_max="
-            f"{subdiv_max}, M=ceil(subdiv_max/d)={M} -> (2^{M}+1)^{d} corners. "
+            f"max_table_points ({max_table_points}). For d={d}, table depth="
+            f"{table_subdiv}, per-axis depths {table_axis_depths.tolist()} -> "
+            f"{shape_str} corners. "
             f"Lower subdiv_max or raise max_table_points."
         )
 
@@ -462,9 +608,68 @@ def make_box_map_adaptive_precomputed(
     U = np.asarray(bounds.upper, dtype=np.float64)
     finest_box_side = (U - L) / n_per_axis
     ys_grid, _out_dim = _precompute_corner_grid(
-        latent_map, L, U, corners_per_axis, d,
+        latent_map, L, U, corners_per_axis.tolist(), d,
         device=device, batch_points=precompute_batch_points,
     )
+    eval_device = device or next(latent_map.parameters()).device
+    ondemand_chunk = _resolve_precompute_batch_points(
+        precompute_batch_points, latent_map=latent_map,
+        n_total=int(np.prod(n_per_axis.astype(object))), device=eval_device,
+    )
+
+    out_dim = int(ys_grid.shape[-1])
+    # Strides are powers of two, so alignment is a bit test and the table index
+    # is a shift. Both are much cheaper than % and // over ~70M corner indices.
+    stride_mask = (stride - 1).astype(np.int64)
+    stride_shift = (axis_depths - table_axis_depths).astype(np.int64)
+    # Off-lattice corners are shared between neighbouring boxes and re-queried
+    # across refinement passes, so memoize them. Keys pack the finest-lattice
+    # index; on the production ladder the whole cache holds ~10^5 entries.
+    pack_dims = (n_per_axis + 1).astype(np.int64)
+    ondemand_cache: dict[int, NDArray[np.float64]] = {}
+
+    def _corner_values(corner_idx: NDArray[np.int64]) -> NDArray[np.float64]:
+        """Values at finest-lattice integer corner indices, shape (..., out_dim).
+
+        Corners on the table lattice are read from it; the rest are evaluated
+        once and cached. On the production ladder the second branch handles
+        ~2% of rectangles.
+        """
+        flat = corner_idx.reshape(-1, d)
+        resid = flat & stride_mask
+        if not resid.any():
+            # Fast path: everything is on the table. This is 97.8% of queries
+            # on the production ladder, so it must not pay for the split.
+            t_idx = flat >> stride_shift
+            vals = ys_grid[tuple(t_idx[:, k] for k in range(d))]
+            return vals.reshape(*corner_idx.shape[:-1], out_dim)
+
+        on_table = ~resid.any(axis=1)
+        out = np.empty((flat.shape[0], out_dim), dtype=np.float64)
+        if on_table.any():
+            t_idx = flat[on_table] >> stride_shift
+            out[on_table] = ys_grid[tuple(t_idx[:, k] for k in range(d))]
+
+        off_rows = np.nonzero(~on_table)[0]
+        off_idx = flat[off_rows]
+        keys = np.ravel_multi_index(tuple(off_idx[:, k] for k in range(d)), pack_dims)
+        misses = []
+        for i, key in enumerate(keys.tolist()):
+            hit = ondemand_cache.get(key)
+            if hit is None:
+                misses.append(i)
+            else:
+                out[off_rows[i]] = hit
+        if misses:
+            m_idx = off_idx[misses]
+            pts = L + m_idx.astype(np.float64) * finest_box_side
+            vals = _eval_points(
+                latent_map, pts, device=eval_device, chunk=ondemand_chunk
+            )
+            for j, i in enumerate(misses):
+                ondemand_cache[int(keys[i])] = vals[j]
+                out[off_rows[i]] = vals[j]
+        return out.reshape(*corner_idx.shape[:-1], out_dim)
 
     # Precompute the 2^d corner-combination matrix once.
     combos = np.array(
@@ -480,7 +685,7 @@ def make_box_map_adaptive_precomputed(
         np.clip(i_hi, 0, n_per_axis, out=i_hi)
         idx_per_axis = np.stack([i_lo, i_hi], axis=0)        # (2, d)
         corner_indices = idx_per_axis[combos, axis_idx]      # (2^d, d)
-        corners = ys_grid[tuple(corner_indices.T)]           # (2^d, out_dim)
+        corners = _corner_values(corner_indices)             # (2^d, out_dim)
         Y_l = corners.min(axis=0)
         Y_u = corners.max(axis=0)
         if padding:
@@ -489,7 +694,27 @@ def make_box_map_adaptive_precomputed(
             Y_u = Y_u + box_size
         return Y_l.tolist() + Y_u.tolist()
 
-    return _PrecomputedBoxMap(box_map)
+    def box_map_batch(rects):
+        R = np.asarray(rects, dtype=np.float64)
+        if R.size == 0:
+            return []
+        R = R.reshape(-1, 2 * d)
+        i_lo = np.round((R[:, :d] - L) / finest_box_side).astype(np.int64)
+        i_hi = np.round((R[:, d:] - L) / finest_box_side).astype(np.int64)
+        np.clip(i_lo, 0, n_per_axis, out=i_lo)
+        np.clip(i_hi, 0, n_per_axis, out=i_hi)
+        idx_per_axis = np.stack([i_lo, i_hi], axis=1)         # (m, 2, d)
+        corner_indices = idx_per_axis[:, combos, axis_idx]    # (m, 2^d, d)
+        corners = _corner_values(corner_indices)              # (m, 2^d, out_dim)
+        Y_l = corners.min(axis=1)
+        Y_u = corners.max(axis=1)
+        if padding:
+            box_size = R[:, d:] - R[:, :d]
+            Y_l = Y_l - box_size
+            Y_u = Y_u + box_size
+        return np.concatenate([Y_l, Y_u], axis=1).tolist()
+
+    return _PrecomputedBoxMap(box_map, box_map_batch)
 
 
 def _build_box_map(
@@ -519,6 +744,12 @@ def _build_box_map(
             device=device,
             max_table_points=cmgdb_cfg.max_table_points,
             precompute_batch_points=cmgdb_cfg.precompute_batch_points,
+            # CMGDB subdivides eagerly to subdiv_init and builds its first
+            # MapGraph over the whole domain there; everything deeper is
+            # confined to the recurrent set. Tabulating at subdiv_init and
+            # evaluating the rest on demand is the same computation for a small
+            # fraction of the evaluations.
+            dense_subdiv=cmgdb_cfg.subdiv_init,
         )
     raise ValueError(f"unknown box_map_backend: {backend!r}")
 
@@ -541,8 +772,17 @@ def compute_morse_graph(
     cmgdb_cfg: CMGDBConfig,
     *,
     device: torch.device | None = None,
+    need_map_graph: bool = True,
 ):
-    """Run CMGDB on the given latent map and return ``(morse_graph, map_graph)``."""
+    """Run CMGDB on the given latent map and return ``(morse_graph, map_graph)``.
+
+    ``need_map_graph=False`` returns ``(morse_graph, None)`` and skips building
+    the returned ``MapGraph`` entirely. That object costs a full extra pass of
+    the box map over the whole phase space -- roughly half of all box-map
+    evaluations -- and is only used for exact regions of attraction. Requires a
+    CMGDB build exposing ``ComputeConleyMorseGraphOnly``; older builds fall back
+    to the two-pass path transparently.
+    """
     box_map = _build_box_map(autoencoder.latent_map, bounds, cmgdb_cfg, device=device)
     model = CMGDB.Model(
         cmgdb_cfg.subdiv_min,
@@ -556,4 +796,8 @@ def compute_morse_graph(
     batch_map = getattr(box_map, "batch", None)
     if callable(batch_map) and hasattr(model, "set_batch_map"):
         model.set_batch_map(batch_map)
+    if not need_map_graph:
+        compute_only = getattr(CMGDB, "ComputeConleyMorseGraphOnly", None)
+        if callable(compute_only):
+            return compute_only(model), None
     return CMGDB.ComputeConleyMorseGraph(model)

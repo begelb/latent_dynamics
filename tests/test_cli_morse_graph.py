@@ -112,7 +112,7 @@ def test_run_uses_any_checkpoint_loader_without_autoencoder_sidecar(
     monkeypatch.setattr(
         morse_graph,
         "compute_morse_graph",
-        lambda actual_model, bounds, cmgdb, device: ("graph", None),
+        lambda actual_model, bounds, cmgdb, device, need_map_graph=True: ("graph", None),
     )
 
     def fake_save_morse_graph_artifacts(morse, morse_dir):
@@ -184,7 +184,7 @@ def test_run_writes_exact_roa_when_enabled(
     monkeypatch.setattr(
         morse_graph,
         "compute_morse_graph",
-        lambda actual_model, bounds, cmgdb, device: (morse, map_graph),
+        lambda actual_model, bounds, cmgdb, device, need_map_graph=True: (morse, map_graph),
     )
 
     def fake_save_morse_graph_artifacts(_morse, morse_dir):
