@@ -1,7 +1,9 @@
 # Leslie3D Example 2: T=25, N=50,000 seed sweep
 
-Date: 2026-08-03  
-Status: running (`data`, `scale`, training, and diagnosis complete; CMGDB pending)  
+Date: 2026-08-04
+
+Status: complete (15/15 cells strictly verified; 1/15 exact sink-index recovery)
+
 Scope: code-local exploratory experiment; nothing was written under `../paper/`.
 
 ## Question and design
@@ -21,10 +23,10 @@ split is preserved:
 - 25 retained transitions per initial condition and no discarded steps.
 
 Thus each dataset tree contains 1,000,000 training and 250,000 validation
-transition pairs. Across the five trees this is 5,000,000 independently
-sampled training pairs plus five references to the same 250,000-pair holdout
-CSV. Validation is deliberately shared so held-out losses are directly
-comparable across both seed axes.
+transition pairs. Across the five trees this is 5,000,000 training pairs
+generated from independently sampled initial conditions, plus five references
+to the same 250,000-pair holdout CSV. Validation is deliberately shared so
+held-out losses are directly comparable across both seed axes.
 
 ## Leslie map and fixed settings
 
@@ -53,9 +55,11 @@ padding.
 
 The box-map backend is pinned to `adaptive_precomputed`. In two latent
 dimensions the finest corner lattice contains
-`(2^(29-14)+1)^2 = 32,769^2 = 1,073,807,361` points. The raw Morse sets, DOT
-Morse graph, rendered graph/sets, checkpoint, diagnosis, metrics, and
-provenance manifest are retained separately for every cell below
+`(2^15+1)^2 = 32,769^2 = 1,073,807,361` points. Every one of the 15
+`mg_params_log.txt` files records `compute_roa: False`; regions of attraction
+were not computed. The raw Morse sets, DOT Morse graph, rendered graph/sets,
+checkpoint, diagnosis, metrics, and provenance manifest are retained
+separately for every cell below
 `output/leslie3d_example2_seedsweep_t25_n50000/dataset_D/seed_S/`.
 
 ## Verified input data
@@ -94,8 +98,43 @@ Training and diagnosis use the same overrides plus:
 
 CMGDB is run serially, one cell at a time, with the native allocation guards
 `CMGDB_MAPGRAPH_MAX_VERTICES=40000000` and
-`CMGDB_MAPGRAPH_MAX_EDGES=1200000000`. Rendering and metrics follow without
-retraining. Strict aggregation is performed with:
+`CMGDB_MAPGRAPH_MAX_EDGES=1200000000`. Each `(D,S)` cell uses:
+
+```bash
+PYTHONPATH=src \
+CMGDB_MAPGRAPH_MAX_VERTICES=40000000 \
+CMGDB_MAPGRAPH_MAX_EDGES=1200000000 \
+.venv/bin/python scripts/retrain_seed_sweep.py \
+  --example leslie3d_example2 \
+  --ic-seeds D --model-seeds S \
+  --trajectory-length 25 \
+  --total-initial-conditions 50000 \
+  --box-map-backend adaptive_precomputed \
+  --tag t25_n50000 \
+  --device cpu \
+  --stages morse \
+  --skip-completed
+```
+
+Rendering and metrics follow without retraining. The render selection
+deliberately excludes regions of attraction:
+
+```bash
+PYTHONPATH=src .venv/bin/python scripts/retrain_seed_sweep.py \
+  --example leslie3d_example2 \
+  --trajectory-length 25 \
+  --total-initial-conditions 50000 \
+  --box-map-backend adaptive_precomputed \
+  --tag t25_n50000 \
+  --device cpu \
+  --stages render,metrics \
+  --figures morse,overlay,extras \
+  --skip-completed
+```
+
+This writes the Morse graph, Morse sets, Morse-set/trajectory overlay, and
+Leslie trajectory extras, but no `roa` render group. Strict aggregation is
+performed with:
 
 ```bash
 PYTHONPATH=src .venv/bin/python \
@@ -140,7 +179,94 @@ mean of `22.99` minutes per cell and range `14.40--34.97` minutes.
 
 ### Morse graphs and Conley indices
 
-Pending completion of all 15 serialized CMGDB cells. The primary success
-criterion is exactly two graph sinks, with both sink Conley-index tuples equal
-to `(x^4-1,0,0)`, matching the two period-four attractors in the precise
-direct-map computation after dropping its unused fourth homological slot.
+The strict primary criterion is exactly two graph sinks, with both sink
+Conley-index tuples equal to `(x^4-1,0,0)`, matching the two period-four
+attractors in the precise direct-map computation after dropping its unused
+fourth homological slot.
+
+| dataset | model seed | Morse nodes | graph sinks | sink Conley-index multiset | exact criterion |
+|---:|---:|---:|---:|---|:---:|
+| 1 | 0 | 8 | 2 | `(x^4-1,0,0)`; `(x^2-1,0,0)` | no |
+| 1 | 1 | 6 | 3 | `(x^4-1,0,0)` twice; `(x-1,0,0)` | no |
+| 1 | 2 | 6 | 3 | `(x^4-1,0,0)` twice; `(x-1,0,0)` | no |
+| 2 | 0 | 5 | 2 | `(x^4-1,0,0)`; `(x-1,0,0)` | no |
+| 2 | 1 | 8 | 2 | `(x^2-1,0,0)`; `(x^4-1,0,0)` | no |
+| 2 | 2 | 5 | 2 | `(x^4-1,0,0)` twice | **yes** |
+| 3 | 0 | 4 | 2 | `(x^2-1,0,0)`; `(x^4-1,0,0)` | no |
+| 3 | 1 | 10 | 2 | `(x^4-1,0,0)`; `(x-1,0,0)` | no |
+| 3 | 2 | 7 | 3 | `(x^4-1,0,0)`; `(x-1,0,0)`; `(x^2-1,0,0)` | no |
+| 4 | 0 | 5 | 2 | `(x^2-1,0,0)`; `(x^4-1,0,0)` | no |
+| 4 | 1 | 11 | 2 | `(x^8-1,0,0)`; `(x^2-1,0,0)` | no |
+| 4 | 2 | 10 | 3 | `(0,0,x-1)`; `(x^4-1,0,0)`; `(x^2-1,0,0)` | no |
+| 5 | 0 | 7 | 2 | `(x^8-1,0,0)`; `(x^2-1,0,0)` | no |
+| 5 | 1 | 5 | 2 | `(x^2-1,0,0)`; `(x^4-1,0,0)` | no |
+| 5 | 2 | 7 | 2 | `(x-1,x-1,0)`; `(x^8-1,0,0)` | no |
+
+Only dataset 2 / model seed 2 meets the strict criterion: `1/15 = 6.67%`.
+This is sink-level recovery only. Its five-node learned Morse graph is not a
+claim of full nodewise equivalence to the six-node direct-map graph.
+
+The topology remains highly seed-sensitive: 11 cells have two graph sinks,
+four have three, and the 15 cells realize 14 distinct full topology
+signatures. The sole repeated signature is shared by dataset 1 / seeds 1 and
+2. Morse-node counts range from 4 to 11.
+
+The runner's broader interim `bistability_pass` label reports `10/15`, but that
+label accepts any two periodic-attractor sinks `(x^p-1,0,0)` with possibly
+different periods. It therefore counts period-1, period-2, and period-8
+outcomes that do **not** recover the ground-truth pair. The scientific result
+for this question is the strict analyzer's `1/15`, not the broader `10/15`.
+
+### Numerical-tolerance diagnostic
+
+The tolerance classifier is auxiliary and is not used by the exact Conley
+criterion. Only three cells had both minimal sets fully evaluable; none passed,
+for six failed minimal sets in total. In the one exact-index cell (dataset 2 /
+seed 2), both sinks had zero semiconjugacy samples, so their tolerance result is
+inconclusive rather than a pass. The exact result should therefore be read as
+combinatorial sink-index recovery, not as independent numerical validation of
+those two sinks.
+
+### Comparison with the T=40, N=10,000 sweep
+
+| sweep | train/validation ICs | train/validation pairs | exact recovery | sink counts | distinct topology signatures | mean final validation total |
+|---|---:|---:|---:|---|---:|---:|
+| `T=40, N=10,000` | 8,000 / 2,000 | 320,000 / 80,000 | 1/15 (dataset 5 / seed 0) | 14 two-sink; 1 three-sink | 15 | 0.0227374 |
+| `T=25, N=50,000` | 40,000 / 10,000 | 1,000,000 / 250,000 | 1/15 (dataset 2 / seed 2) | 11 two-sink; 4 three-sink | 14 | 0.0349829 |
+
+The larger-data run does not improve the strict recovery rate: both sweeps
+recover the two precise period-four sink indices in only one of 15 cells, and
+not in the same cell. It also produces more three-sink outcomes. This is not a
+controlled data-size-only comparison because both `T` and `N` differ. It shows
+that the requested larger-data/shorter-trajectory combination does not solve
+the recovery problem; isolating the effect of `N` would require holding `T`
+fixed.
+
+The T=25 CMGDB stage took `4,906.692` seconds in total (mean `5.45` minutes per
+cell; range `2.96--16.59`). The final held-out total loss has mean `0.0349829`,
+population standard deviation `0.0155558`, and range
+`0.0180968--0.0626824`. This final re-evaluation is distinct from the
+best-epoch validation values reported in the training table above.
+
+### Saved products and QA
+
+The strict analyzer verified all 15 cells and all five dataset trees with zero
+errors or warnings. Each cell has a nonempty checkpoint, training summary,
+diagnosis, raw DOT graph, raw Morse-set CSV, CMGDB parameter log, metrics,
+manifest, rendered Morse graph, rendered Morse sets, rendered overlay, and
+Leslie trajectory figure in both PNG/PDF formats. All 15 checkpoint hashes are
+distinct. All 15 CMGDB logs record `adaptive_precomputed`, subdivision
+`25/28/29`, and `compute_roa: False`.
+
+Rendering used exactly `--figures morse,overlay,extras`. A recursive artifact
+check found zero files whose names contain `roa` or `region...attraction` under
+the sweep root. Visual inspection of the exact-recovery cell's graph, Morse
+sets, and overlay found the renders readable and internally consistent. The
+21 focused runner/analyzer tests pass, the relevant files pass Ruff and
+whitespace checks, the recorded analyzer hash matches the tested script, and
+the `../paper/` worktree remains clean. Machine-readable results are in:
+
+- `output/leslie3d_example2_seedsweep_t25_n50000/analysis/aggregate_summary.json`
+- `output/leslie3d_example2_seedsweep_t25_n50000/analysis/cells.csv`
+- `output/leslie3d_example2_seedsweep_t25_n50000/analysis/cells.json`
+- `output/leslie3d_example2_seedsweep_t25_n50000/sweep_summary.json`

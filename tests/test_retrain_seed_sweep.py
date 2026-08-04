@@ -48,6 +48,22 @@ def test_leslie_example2_t40_uses_explicit_precomputation_and_isolated_paths() -
     assert str(cfg.paths.output_dir).endswith("output/leslie3d_example2_seedsweep_t40/dataset_3")
 
 
+def test_patrick_replication_pins_train_bounds_and_min_precompute() -> None:
+    cfg = SWEEP._dataset_config(
+        "leslie3d_example2",
+        ic_seed=1,
+        model_seeds=[0, 1, 2],
+        tag="patrick_paper_3x5_v1",
+        box_map_backend="adaptive_precomputed",
+        bounds_data_role="train_pairs",
+        adaptive_precompute_subdiv="min",
+    )
+
+    assert cfg.cmgdb.bounds_data_role == "train_pairs"
+    assert cfg.cmgdb.adaptive_precompute_subdiv == "min"
+    assert cfg.cmgdb.compute_roa is False
+
+
 def test_dataset_axis_keeps_one_shared_validation_holdout() -> None:
     configs = [
         SWEEP._dataset_config(
@@ -115,9 +131,7 @@ def test_t25_n50000_preserves_packaged_split_and_counts_pairs() -> None:
     assert cfg.data.train_seed == 5
     assert cfg.data.val_seed == 9999
     assert cfg.cmgdb.box_map_backend == "adaptive_precomputed"
-    assert str(cfg.paths.data_dir).endswith(
-        "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5"
-    )
+    assert str(cfg.paths.data_dir).endswith("data/leslie3d_example2_seedsweep_t25_n50000/dataset_5")
 
     sizes = SWEEP._data_size_summary(
         cfg,
@@ -216,6 +230,92 @@ def test_figures_selection_rejects_unknown_group() -> None:
         assert "unknown --figures group" in str(exc)
     else:
         raise AssertionError("expected an unknown render group to fail")
+
+
+def test_periodic_attractor_index_is_exact() -> None:
+    assert SWEEP._periodic_attractor_period(["x-1", "0", "0"]) == 1
+    assert SWEEP._periodic_attractor_period(["x^4-1", "0", "0"]) == 4
+    assert SWEEP._periodic_attractor_period(["x^12-1", "0", "0"]) == 12
+    assert SWEEP._periodic_attractor_period(["x^4-1", "x-1", "0"]) is None
+    assert SWEEP._periodic_attractor_period(["x^4-1", "0"]) is None
+    assert SWEEP._periodic_attractor_period(["0", "0", "0"]) is None
+
+
+def test_bistability_pass_requires_exactly_two_periodic_sinks(tmp_path) -> None:
+    morse_dir = tmp_path / "MG"
+    morse_dir.mkdir()
+    (morse_dir / "morse_graph").write_text(
+        """digraph {
+        0 [label="0 : (x^4-1, 0, 0)"];
+        1 [label="1 : (x^2-1, 0, 0)"];
+        2 [label="2 : (0, x-1, 0)"];
+        2 -> 0;
+        2 -> 1;
+        }
+        """
+    )
+
+    summary = SWEEP._morse_node_summary(tmp_path)
+
+    assert summary["bistability_pass"] is True
+    assert summary["n_sinks"] == 2
+    assert summary["sink_nodes"] == [
+        {"node": 0, "index": "(x^4-1, 0, 0)", "period": 4},
+        {"node": 1, "index": "(x^2-1, 0, 0)", "period": 2},
+    ]
+
+
+def test_bistability_pass_rejects_nonperiodic_sink(tmp_path) -> None:
+    morse_dir = tmp_path / "MG"
+    morse_dir.mkdir()
+    (morse_dir / "morse_graph").write_text(
+        """digraph {
+        0 [label="0 : (x^4-1, 0, 0)"];
+        1 [label="1 : (x^4-1, x-1, 0)"];
+        }
+        """
+    )
+
+    assert SWEEP._morse_node_summary(tmp_path)["bistability_pass"] is False
+
+
+def test_figures_selection_is_passed_to_pipeline(monkeypatch, tmp_path) -> None:
+    captured: list[set[str] | None] = []
+
+    def fake_run(cfg, **kwargs):
+        captured.append(kwargs.get("figures"))
+        return [
+            {
+                "seed": 0,
+                "output_dir": str(cfg.paths.output_dir / "seed_0"),
+            }
+        ]
+
+    monkeypatch.setattr(SWEEP, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(SWEEP.pipeline, "run", fake_run)
+
+    result = SWEEP.main(
+        [
+            "--example",
+            "leslie3d_example2",
+            "--ic-seeds",
+            "1",
+            "--model-seeds",
+            "0",
+            "--stages",
+            "render,metrics",
+            "--figures",
+            "morse,overlay,extras",
+            "--quiet",
+        ]
+    )
+
+    assert result == 0
+    assert captured == [{"morse", "overlay", "extras"}]
+    summary = json.loads(
+        (tmp_path / "output" / "leslie3d_example2_seedsweep" / "sweep_summary.json").read_text()
+    )
+    assert summary["figures"] == ["extras", "morse", "overlay"]
 
 
 def test_total_initial_conditions_rejects_degenerate_total() -> None:

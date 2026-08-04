@@ -308,8 +308,7 @@ def _float_lists_close(left: list[float], right: list[float]) -> bool:
     if len(left) != len(right):
         return False
     return all(
-        math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-12)
-        for a, b in zip(left, right, strict=True)
+        math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-12) for a, b in zip(left, right, strict=True)
     )
 
 
@@ -332,6 +331,23 @@ def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) ->
         return False
     if params.get("box_map_backend") != cfg.cmgdb.box_map_backend:
         return False
+    logged_bounds_role = params.get("bounds_data_role")
+    if logged_bounds_role is not None and logged_bounds_role != cfg.cmgdb.bounds_data_role:
+        return False
+    if cfg.cmgdb.bounds_data_role != "train_and_validation_pairs" and (
+        logged_bounds_role != cfg.cmgdb.bounds_data_role
+    ):
+        return False
+    logged_precompute_subdiv = params.get("adaptive_precompute_subdiv")
+    if (
+        logged_precompute_subdiv is not None
+        and logged_precompute_subdiv != cfg.cmgdb.adaptive_precompute_subdiv
+    ):
+        return False
+    if cfg.cmgdb.adaptive_precompute_subdiv != "init" and (
+        logged_precompute_subdiv != cfg.cmgdb.adaptive_precompute_subdiv
+    ):
+        return False
     logged_compute_roa = _log_bool(params, "compute_roa")
     if cfg.cmgdb.compute_roa and logged_compute_roa is not True:
         return False
@@ -353,7 +369,10 @@ def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) ->
             and _float_lists_close(upper, [float(v) for v in cfg.cmgdb.upper_bounds])
         )
 
-    if bounds_source != "encoded_data":
+    expected_bounds_source = (
+        "encoded_train_pairs" if cfg.cmgdb.bounds_data_role == "train_pairs" else "encoded_data"
+    )
+    if bounds_source != expected_bounds_source:
         return False
     logged_epsilon = _log_float(params, "bounds_epsilon_frac")
     return logged_epsilon is not None and math.isclose(

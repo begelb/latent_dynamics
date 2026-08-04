@@ -168,6 +168,11 @@ cmgdb:
   # The slower per-box PyTorch and NumPy reference callbacks are intentionally
   # not user-facing config options for new CMGDB runs.
   box_map_backend: auto
+  # Which pairs define inferred latent bounds. Use train_pairs to keep the
+  # validation holdout out of CMGDB domain selection.
+  bounds_data_role: train_and_validation_pairs
+  # Dense adaptive lookup-table depth; later corners are batched on demand.
+  adaptive_precompute_subdiv: init
 
   # Maximum number of corner points allowed for precomputed backend tables.
   # Raise this for high subdivision levels after checking memory requirements.

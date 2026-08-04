@@ -6,7 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from latentdynamics.cli.provenance import config_hash
+from latentdynamics.cli.provenance import config_conflicts_with_manifest, hash_config_dict
 from latentdynamics.config import load_config
 
 
@@ -30,8 +30,16 @@ def test_authoritative_manifest_matches_replay_config() -> None:
 
     assert cfg.experiment_name == "leslie3d_example2_patrick"
     assert _theta(manifest) == CORRECTED_THETA
-    assert manifest["config"] == cfg.model_dump(mode="json")
-    assert manifest["config_hash"] == config_hash(cfg)
+    # Every field the manifest recorded must still hold. Fields added to the
+    # schema after this run was stamped are absent here and are not compared:
+    # the recorded run predates them and their defaults describe it. Comparing
+    # full serializations instead would make any additive config change break
+    # every archived manifest at once.
+    assert config_conflicts_with_manifest(cfg, manifest["config"]) == []
+    # The stored hash is checked against the manifest's own config, which is
+    # what it was computed from. It cannot be reproduced from the current
+    # schema once a field has been added, and should not be.
+    assert manifest["config_hash"] == hash_config_dict(manifest["config"])
     assert manifest["manifest_role"] == "corrected_authoritative_reproduction_metadata"
     assert manifest["historical_render_manifest"] == str(
         HISTORICAL_MANIFEST.relative_to(REPO_ROOT)

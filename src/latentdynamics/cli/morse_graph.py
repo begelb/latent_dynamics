@@ -33,6 +33,7 @@ def write_mg_params_log(
     bounds: LatentBounds,
     cmgdb_cfg,
     bounds_source: str,
+    bounds_data_role: BoundsDataRole | None = None,
     duration_s: float,
 ):
     """Write ``mg_params_log.txt`` recording the CMGDB parameters of a run.
@@ -55,6 +56,8 @@ def write_mg_params_log(
                 f"bounds_epsilon_frac: {cmgdb_cfg.bounds_epsilon_frac}",
                 f"padding: {cmgdb_cfg.padding}",
                 f"box_map_backend: {cmgdb_cfg.box_map_backend}",
+                f"bounds_data_role: {bounds_data_role or cmgdb_cfg.bounds_data_role}",
+                f"adaptive_precompute_subdiv: {cmgdb_cfg.adaptive_precompute_subdiv}",
                 f"max_table_points: {cmgdb_cfg.max_table_points}",
                 f"precompute_batch_points: {cmgdb_cfg.precompute_batch_points}",
                 f"compute_roa: {cmgdb_cfg.compute_roa}",
@@ -85,13 +88,13 @@ def _load_data_and_scale(
 
     if bounds_data_role not in {"train_and_validation_pairs", "train_pairs"}:
         raise ValueError(f"unknown CMGDB bounds data role {bounds_data_role!r}")
-    train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
+    train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1, ndmin=2)
     scaler = load_scaler(cfg.paths.scaler_path(train_file))
     high = cfg.arch.high_dims
     train_current = scaler.transform(train[:, :high])
     train_next = scaler.transform(train[:, high:])
     if bounds_data_role == "train_and_validation_pairs":
-        val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
+        val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1, ndmin=2)
         return np.vstack(
             [
                 train_current,
@@ -118,7 +121,7 @@ def run(
     cfg: ExperimentConfig,
     *,
     train_file: str = "train",
-    bounds_data_role: BoundsDataRole = "train_and_validation_pairs",
+    bounds_data_role: BoundsDataRole | None = None,
     output_subdir: str | None = None,
     device: torch.device | str | None = None,
     verbose: bool = True,
@@ -151,6 +154,9 @@ def run(
         device = torch.device(device)
     model.to(device)
 
+    if bounds_data_role is None:
+        bounds_data_role = cfg.cmgdb.bounds_data_role
+
     all_scaled = _load_data_and_scale(
         cfg,
         train_file,
@@ -167,9 +173,7 @@ def run(
             model.encoder, all_scaled, epsilon_frac=cfg.cmgdb.bounds_epsilon_frac, device=device
         )
         bounds_source = (
-            "encoded_train_pairs"
-            if bounds_data_role == "train_pairs"
-            else "encoded_data"
+            "encoded_train_pairs" if bounds_data_role == "train_pairs" else "encoded_data"
         )
     if not (np.all(np.isfinite(bounds.lower)) and np.all(np.isfinite(bounds.upper))):
         raise ValueError(
@@ -229,5 +233,6 @@ def run(
         bounds=bounds,
         cmgdb_cfg=cfg.cmgdb,
         bounds_source=bounds_source,
+        bounds_data_role=bounds_data_role,
         duration_s=duration_s,
     )

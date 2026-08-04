@@ -22,9 +22,54 @@ def _canonical_config(cfg: ExperimentConfig) -> dict[str, Any]:
     return cfg.model_dump(mode="json")
 
 
-def config_hash(cfg: ExperimentConfig) -> str:
-    payload = json.dumps(_canonical_config(cfg), sort_keys=True, separators=(",", ":"))
+def hash_config_dict(config: dict[str, Any]) -> str:
+    """Hash an already-serialized config dict.
+
+    Stamping uses :func:`config_hash`; this exists so an archived manifest can
+    be checked against *its own* recorded config. That check is stable forever,
+    because it never involves the current schema.
+    """
+    payload = json.dumps(config, sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(payload.encode()).hexdigest()
+
+
+def config_hash(cfg: ExperimentConfig) -> str:
+    return hash_config_dict(_canonical_config(cfg))
+
+
+def config_conflicts_with_manifest(
+    cfg: ExperimentConfig, manifest_config: dict[str, Any]
+) -> list[str]:
+    """Fields the manifest recorded whose value the current config disagrees on.
+
+    Returns dotted paths, empty when compatible.
+
+    Only keys present in ``manifest_config`` are compared. Adding a field to the
+    schema therefore does not invalidate an archived manifest: the recorded run
+    simply predates the field, and the field's default describes it. The
+    alternative -- comparing full serializations -- makes every additive schema
+    change break every stored manifest at once, which is what this replaces.
+
+    Note that a *stored* hash cannot be reproduced from the current schema for
+    the same reason. Check record integrity with :func:`hash_config_dict`
+    against the manifest's own config instead.
+    """
+
+    def walk(cur: Any, old: Any, path: str) -> list[str]:
+        if isinstance(old, dict):
+            if not isinstance(cur, dict):
+                return [path or "<root>"]
+            bad: list[str] = []
+            for key, old_val in old.items():
+                sub = f"{path}.{key}" if path else key
+                if key not in cur:
+                    bad.append(sub)
+                else:
+                    bad.extend(walk(cur[key], old_val, sub))
+            return bad
+        return [] if cur == old else [path or "<root>"]
+
+    return walk(_canonical_config(cfg), manifest_config, "")
 
 
 def _cmgdb_version() -> str | None:

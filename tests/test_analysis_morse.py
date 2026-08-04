@@ -115,9 +115,7 @@ class TestBoxMapUniformPrecomputed:
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
-        G = make_box_map_uniform_precomputed(
-            m.latent_map, bounds, subdiv_k=4, padding=False
-        )
+        G = make_box_map_uniform_precomputed(m.latent_map, bounds, subdiv_k=4, padding=False)
         rects = [
             [-1.0, -1.0, -0.5, -0.5],
             [-0.5, 0.0, 0.0, 0.5],
@@ -157,9 +155,7 @@ class TestBoxMapUniformPrecomputed:
         m = build_autoencoder(_arch())
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
         G_pad = make_box_map_uniform_precomputed(m.latent_map, bounds, subdiv_k=4, padding=True)
-        G_nopad = make_box_map_uniform_precomputed(
-            m.latent_map, bounds, subdiv_k=4, padding=False
-        )
+        G_nopad = make_box_map_uniform_precomputed(m.latent_map, bounds, subdiv_k=4, padding=False)
         rect = [-0.5, 0.0, 0.0, 0.5]
         out_pad = np.array(G_pad(rect))
         out_nopad = np.array(G_nopad(rect))
@@ -214,9 +210,7 @@ def test_compute_morse_graph_installs_precomputed_batch_callback(monkeypatch):
 
     monkeypatch.setattr(morse, "CMGDB", FakeCMGDB)
 
-    result = morse.compute_morse_graph(
-        autoencoder, bounds, cfg, device=torch.device("cpu")
-    )
+    result = morse.compute_morse_graph(autoencoder, bounds, cfg, device=torch.device("cpu"))
 
     assert result == ("morse", "map")
     assert captured["batch_map"].__self__ is captured["box_map"]
@@ -350,12 +344,8 @@ class TestBoxMapAdaptivePrecomputed:
 
         from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
 
-        G_uni = make_box_map_uniform_precomputed(
-            m.latent_map, bounds, subdiv_k=k, padding=False
-        )
-        G_adp = make_box_map_adaptive_precomputed(
-            m.latent_map, bounds, subdiv_max=k, padding=False
-        )
+        G_uni = make_box_map_uniform_precomputed(m.latent_map, bounds, subdiv_k=k, padding=False)
+        G_adp = make_box_map_adaptive_precomputed(m.latent_map, bounds, subdiv_max=k, padding=False)
         for i in range(n_per_axis):
             for j in range(n_per_axis):
                 rect = [
@@ -402,7 +392,10 @@ class TestBoxMapAdaptivePrecomputed:
                 out_adp = np.array(G_adp(rect))
                 out_np = np.array(G_np(rect))
                 np.testing.assert_allclose(
-                    out_adp, out_np, atol=1e-5, rtol=1e-5,
+                    out_adp,
+                    out_np,
+                    atol=1e-5,
+                    rtol=1e-5,
                     err_msg=f"depth={depth}, i={i.tolist()}",
                 )
 
@@ -419,9 +412,7 @@ class TestBoxMapAdaptivePrecomputed:
 
         from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
 
-        G = make_box_map_adaptive_precomputed(
-            m.latent_map, bounds, subdiv_max=5, padding=False
-        )
+        G = make_box_map_adaptive_precomputed(m.latent_map, bounds, subdiv_max=5, padding=False)
         # Cell at depth 5, axis-0 index 3 of 8, axis-1 index 1 of 4.
         side = np.array([0.25, 0.5])
         L = bounds.lower
@@ -476,7 +467,10 @@ class TestBoxMapAdaptivePrecomputed:
                 out_adp = np.array(G_adp(rect))
                 out_np = np.array(G_np(rect))
                 np.testing.assert_allclose(
-                    out_adp, out_np, atol=1e-5, rtol=1e-5,
+                    out_adp,
+                    out_np,
+                    atol=1e-5,
+                    rtol=1e-5,
                     err_msg=f"subdiv_max={subdiv_max}, depth={depth}, i={i.tolist()}",
                 )
 
@@ -517,6 +511,33 @@ class TestBoxMapAdaptivePrecomputed:
         out = box_map([-1.0, -1.0, -0.5, -0.5])
         assert len(out) == 4
         assert out[0] <= out[2] and out[1] <= out[3]
+
+    def test_dispatch_uses_configured_dense_subdivision(self, monkeypatch):
+        torch.manual_seed(0)
+        m = build_autoencoder(_arch())
+        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
+        cfg = CMGDBConfig(
+            subdiv_init=4,
+            subdiv_min=6,
+            subdiv_max=8,
+            box_map_backend="adaptive_precomputed",
+            adaptive_precompute_subdiv="min",
+        )
+        observed = {}
+
+        def fake_make(*args, **kwargs):
+            observed.update(kwargs)
+            return lambda rect: rect
+
+        monkeypatch.setattr(
+            "latentdynamics.analysis.morse.make_box_map_adaptive_precomputed",
+            fake_make,
+        )
+        from latentdynamics.analysis.morse import _build_box_map
+
+        _build_box_map(m.latent_map, bounds, cfg, device=torch.device("cpu"))
+
+        assert observed["dense_subdiv"] == 6
 
     def test_morse_graph_matches_numpy_backend(self):
         """End-to-end equivalence: same model + bounds + subdivs, two backends,
@@ -559,9 +580,7 @@ class TestBoxMapAdaptivePrecomputed:
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
         from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
 
-        G_pad = make_box_map_adaptive_precomputed(
-            m.latent_map, bounds, subdiv_max=4, padding=True
-        )
+        G_pad = make_box_map_adaptive_precomputed(m.latent_map, bounds, subdiv_max=4, padding=True)
         G_nopad = make_box_map_adaptive_precomputed(
             m.latent_map, bounds, subdiv_max=4, padding=False
         )
@@ -667,13 +686,23 @@ class TestPrecomputeForwardChunking:
         U = np.array([1.0, 1.0])
 
         ys_chunked, _ = _precompute_corner_grid(
-            m.latent_map, L, U, corners_per_axis=17, d=2,
-            device=torch.device("cpu"), batch_points=64,
+            m.latent_map,
+            L,
+            U,
+            corners_per_axis=17,
+            d=2,
+            device=torch.device("cpu"),
+            batch_points=64,
         )
         # Large explicit batch -> single forward pass.
         ys_oneshot, _ = _precompute_corner_grid(
-            m.latent_map, L, U, corners_per_axis=17, d=2,
-            device=torch.device("cpu"), batch_points=10_000,
+            m.latent_map,
+            L,
+            U,
+            corners_per_axis=17,
+            d=2,
+            device=torch.device("cpu"),
+            batch_points=10_000,
         )
         np.testing.assert_array_equal(ys_chunked, ys_oneshot)
 
@@ -702,7 +731,9 @@ class TestPrecomputeForwardChunking:
         m = build_autoencoder(_arch())
         n_total = 289
         chunk = _resolve_precompute_batch_points(
-            "auto", latent_map=m.latent_map, n_total=n_total,
+            "auto",
+            latent_map=m.latent_map,
+            n_total=n_total,
             device=torch.device("cpu"),
         )
         assert isinstance(chunk, int)
@@ -714,7 +745,9 @@ class TestPrecomputeForwardChunking:
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
         chunk = _resolve_precompute_batch_points(
-            "auto", latent_map=m.latent_map, n_total=10,
+            "auto",
+            latent_map=m.latent_map,
+            n_total=10,
             device=torch.device("cpu"),
         )
         assert chunk == 10
@@ -725,7 +758,9 @@ class TestPrecomputeForwardChunking:
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
         chunk = _resolve_precompute_batch_points(
-            1_000_000, latent_map=m.latent_map, n_total=500,
+            1_000_000,
+            latent_map=m.latent_map,
+            n_total=500,
             device=torch.device("cpu"),
         )
         assert chunk == 500

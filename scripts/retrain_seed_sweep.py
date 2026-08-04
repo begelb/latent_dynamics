@@ -88,6 +88,8 @@ ALIASES: dict[str, str] = {
 DEFAULT_IC_SEEDS = [1, 2, 3, 4, 5]
 DEFAULT_MODEL_SEEDS = [0, 1, 2]
 BOX_MAP_BACKENDS = ("auto", "uniform_precomputed", "adaptive_precomputed")
+BOUNDS_DATA_ROLES = ("train_and_validation_pairs", "train_pairs")
+ADAPTIVE_PRECOMPUTE_SUBDIVS = ("init", "min", "max")
 RENDER_FIGURE_GROUPS = frozenset({"morse", "roa", "overlay", "extras"})
 
 
@@ -139,10 +141,7 @@ def _split_total_initial_conditions(
     if total_initial_conditions < 2:
         raise ValueError("total_initial_conditions must be at least 2")
     if not isinstance(cfg.data.n_samples_train, int):
-        raise ValueError(
-            "total_initial_conditions requires a scalar packaged "
-            "data.n_samples_train"
-        )
+        raise ValueError("total_initial_conditions requires a scalar packaged data.n_samples_train")
 
     packaged_train = int(cfg.data.n_samples_train)
     packaged_validation = int(cfg.data.n_samples_val)
@@ -201,6 +200,8 @@ def _dataset_config(
     tag: str | None = None,
     cmgdb_subdiv: tuple[int, int, int] | None = None,
     box_map_backend: str | None = None,
+    bounds_data_role: str | None = None,
+    adaptive_precompute_subdiv: str | None = None,
     trajectory_length: int | None = None,
     total_initial_conditions: int | None = None,
     full_batch: bool = False,
@@ -211,7 +212,10 @@ def _dataset_config(
     Overrides the IC seed (``data.train_seed``), the model-seed list (``seeds``),
     and the two path roots. Optional overrides: ``cmgdb_subdiv`` sets the CMGDB
     (init, min, max) subdivision ladder; ``box_map_backend`` makes the CMGDB map
-    evaluation strategy explicit; ``trajectory_length`` sets the number of
+    evaluation strategy explicit; ``bounds_data_role`` controls whether the
+    validation holdout participates in inferred CMGDB bounds;
+    ``adaptive_precompute_subdiv`` selects the dense lookup depth before
+    batched on-demand evaluation; ``trajectory_length`` sets the number of
     generated map steps; ``total_initial_conditions`` changes the combined
     training/validation IC count while preserving the packaged split ratio;
     ``full_batch`` sets ``batch_size`` to the full retained training-pair count;
@@ -232,6 +236,20 @@ def _dataset_config(
                 f"unknown box_map_backend {box_map_backend!r}; choose from {BOX_MAP_BACKENDS}"
             )
         cfg.cmgdb.box_map_backend = box_map_backend
+    if bounds_data_role is not None:
+        if bounds_data_role not in BOUNDS_DATA_ROLES:
+            raise ValueError(
+                f"unknown bounds_data_role {bounds_data_role!r}; choose from {BOUNDS_DATA_ROLES}"
+            )
+        cfg.cmgdb.bounds_data_role = bounds_data_role
+    if adaptive_precompute_subdiv is not None:
+        if adaptive_precompute_subdiv not in ADAPTIVE_PRECOMPUTE_SUBDIVS:
+            raise ValueError(
+                "unknown adaptive_precompute_subdiv "
+                f"{adaptive_precompute_subdiv!r}; "
+                f"choose from {ADAPTIVE_PRECOMPUTE_SUBDIVS}"
+            )
+        cfg.cmgdb.adaptive_precompute_subdiv = adaptive_precompute_subdiv
     if trajectory_length is not None:
         if trajectory_length <= cfg.data.skip:
             raise ValueError(
@@ -240,9 +258,7 @@ def _dataset_config(
             )
         cfg.data.n_iterations = trajectory_length
     if total_initial_conditions is not None:
-        n_train, n_validation = _split_total_initial_conditions(
-            cfg, total_initial_conditions
-        )
+        n_train, n_validation = _split_total_initial_conditions(cfg, total_initial_conditions)
         cfg.data.n_samples_train = n_train
         cfg.data.n_samples_val = n_validation
     if full_batch:
@@ -269,6 +285,68 @@ def _read_n_attractors(metrics_path: Path) -> int | None:
     return len(labels) if isinstance(labels, list) else None
 
 
+def _nonempty(path: Path) -> bool:
+    return path.is_file() and path.stat().st_size > 0
+
+
+def _training_summary(output_dir: Path) -> dict:
+    """Return the compact training fields needed by the sweep-level report."""
+
+    path = output_dir / "training_summary.json"
+    out = {
+        "complete": False,
+        "epochs_run": None,
+        "best_epoch": None,
+        "duration_minutes": None,
+        "best_validation_total": None,
+    }
+    if not _nonempty(path):
+        return out
+    try:
+        payload = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return out
+    val_total = payload.get("val", {}).get("loss_total", {})
+    out.update(
+        {
+            "complete": True,
+            "epochs_run": payload.get("n_epochs_run"),
+            "best_epoch": payload.get("best_epoch"),
+            "duration_minutes": payload.get("train_duration_minutes"),
+            "best_validation_total": val_total.get("best_epoch_value"),
+        }
+    )
+    return out
+
+
+def _artifact_summary(output_dir: Path) -> dict[str, bool]:
+    """Presence checks for the four products requested by the replication."""
+
+    model_dir = output_dir / "models"
+    checkpoint = _nonempty(model_dir / "autoencoder.pt") or all(
+        _nonempty(model_dir / name) for name in ("encoder.pt", "dynamics.pt", "decoder.pt")
+    )
+    return {
+        "checkpoint": checkpoint,
+        "training_summary": _nonempty(output_dir / "training_summary.json"),
+        "morse_graph": _nonempty(output_dir / "MG" / "morse_graph"),
+        "morse_sets": _nonempty(output_dir / "MG" / "morse_sets"),
+    }
+
+
+def _periodic_attractor_period(components: list[str]) -> int | None:
+    """Return p exactly for ``(x^p-1, 0, 0)``, including ``x-1`` as p=1."""
+
+    import re
+
+    if len(components) != 3 or components[1:] != ["0", "0"]:
+        return None
+    match = re.fullmatch(r"x(?:\^([1-9]\d*))?-1", components[0].replace(" ", ""))
+    if match is None:
+        return None
+    return int(match.group(1) or 1)
+
+
 def _morse_node_summary(output_dir: Path) -> dict:
     """Count attractor-type Conley nodes vs graph sinks from the saved DOT.
 
@@ -280,7 +358,16 @@ def _morse_node_summary(output_dir: Path) -> dict:
     import re
 
     dot = output_dir / "MG" / "morse_graph"
-    out = {"n_attractor_type": None, "n_sinks": None, "attractor_indices": None}
+    out = {
+        "n_nodes": None,
+        "n_edges": None,
+        "n_attractor_type": None,
+        "n_periodic_attractor_nodes": None,
+        "n_sinks": None,
+        "attractor_indices": None,
+        "sink_nodes": None,
+        "bistability_pass": None,
+    }
     if not dot.is_file() or dot.stat().st_size == 0:
         return out
     try:
@@ -299,11 +386,46 @@ def _morse_node_summary(output_dir: Path) -> dict:
         nodes[nm] = [s.strip() for s in m.group(1).split(",")] if m else []
     edges = [(e.get_source().strip('"'), e.get_destination().strip('"')) for e in g.get_edges()]
     srcs = {s for s, _ in edges}
-    attr = [c[0] for n, c in nodes.items() if c and c[0] not in ("0", "")]
+    attr = [c[0] for c in nodes.values() if c and c[0] not in ("0", "")]
+    periodic = {
+        node: period
+        for node, components in nodes.items()
+        if (period := _periodic_attractor_period(components)) is not None
+    }
+    sink_names = sorted((node for node in nodes if node not in srcs), key=lambda value: int(value))
+    sink_nodes = [
+        {
+            "node": int(node),
+            "index": f"({', '.join(nodes[node])})" if nodes[node] else None,
+            "period": periodic.get(node),
+        }
+        for node in sink_names
+    ]
+    out["n_nodes"] = len(nodes)
+    out["n_edges"] = len(edges)
     out["n_attractor_type"] = len(attr)
+    out["n_periodic_attractor_nodes"] = len(periodic)
     out["attractor_indices"] = sorted(attr)
-    out["n_sinks"] = len([n for n in nodes if n not in srcs])
+    out["n_sinks"] = len(sink_nodes)
+    out["sink_nodes"] = sink_nodes
+    out["bistability_pass"] = len(sink_nodes) == 2 and all(
+        sink["period"] is not None for sink in sink_nodes
+    )
     return out
+
+
+def _outcome_summary(records: list[dict]) -> dict:
+    classified = [r for r in records if r["bistability_pass"] is not None]
+    passed = [r for r in classified if r["bistability_pass"]]
+    return {
+        "planned_cells": len(records),
+        "training_complete": sum(r["training"]["complete"] for r in records),
+        "morse_graphs_complete": sum(r["artifacts"]["morse_graph"] for r in records),
+        "morse_sets_complete": sum(r["artifacts"]["morse_sets"] for r in records),
+        "classified_cells": len(classified),
+        "passed_cells": len(passed),
+        "pass_rate_among_classified": (len(passed) / len(classified) if classified else None),
+    }
 
 
 def _plan(
@@ -379,6 +501,23 @@ def main(argv: list[str] | None = None) -> int:
         choices=BOX_MAP_BACKENDS,
         default=None,
         help="override CMGDB box-map backend (use adaptive_precomputed to pin precomputation)",
+    )
+    parser.add_argument(
+        "--bounds-data-role",
+        choices=BOUNDS_DATA_ROLES,
+        default=None,
+        help=(
+            "override which pairs define inferred latent CMGDB bounds; "
+            "train_pairs keeps the validation holdout excluded"
+        ),
+    )
+    parser.add_argument(
+        "--adaptive-precompute-subdiv",
+        choices=ADAPTIVE_PRECOMPUTE_SUBDIVS,
+        default=None,
+        help=(
+            "dense lookup depth for adaptive_precomputed before batched on-demand corner evaluation"
+        ),
     )
     parser.add_argument(
         "--trajectory-length",
@@ -471,6 +610,8 @@ def main(argv: list[str] | None = None) -> int:
                 tag=tag,
                 cmgdb_subdiv=cmgdb_subdiv,
                 box_map_backend=args.box_map_backend,
+                bounds_data_role=args.bounds_data_role,
+                adaptive_precompute_subdiv=args.adaptive_precompute_subdiv,
                 trajectory_length=args.trajectory_length,
                 total_initial_conditions=args.total_initial_conditions,
                 full_batch=args.full_batch,
@@ -488,6 +629,8 @@ def main(argv: list[str] | None = None) -> int:
                     "tag": tag,
                     "cmgdb_subdiv": cmgdb_subdiv,
                     "box_map_backend": args.box_map_backend,
+                    "bounds_data_role": args.bounds_data_role,
+                    "adaptive_precompute_subdiv": args.adaptive_precompute_subdiv,
                     "trajectory_length": args.trajectory_length,
                     "total_initial_conditions": args.total_initial_conditions,
                     "full_batch": args.full_batch,
@@ -497,9 +640,7 @@ def main(argv: list[str] | None = None) -> int:
                     "data_sizes": {
                         name: _data_size_summary(
                             cfg,
-                            requested_total_initial_conditions=(
-                                args.total_initial_conditions
-                            ),
+                            requested_total_initial_conditions=(args.total_initial_conditions),
                             dataset_count=len(ic_seeds),
                         )
                         for name, cfg in dry_configs.items()
@@ -524,6 +665,8 @@ def main(argv: list[str] | None = None) -> int:
                 tag=tag,
                 cmgdb_subdiv=cmgdb_subdiv,
                 box_map_backend=args.box_map_backend,
+                bounds_data_role=args.bounds_data_role,
+                adaptive_precompute_subdiv=args.adaptive_precompute_subdiv,
                 trajectory_length=args.trajectory_length,
                 total_initial_conditions=args.total_initial_conditions,
                 full_batch=args.full_batch,
@@ -534,6 +677,8 @@ def main(argv: list[str] | None = None) -> int:
                     f"seeds={effective_model_seeds}, subdiv="
                     f"{(cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max)}, "
                     f"backend={cfg.cmgdb.box_map_backend}, T={cfg.data.n_iterations}, "
+                    f"bounds={cfg.cmgdb.bounds_data_role}, "
+                    f"precompute={cfg.cmgdb.adaptive_precompute_subdiv}, "
                     f"N={int(cfg.data.n_samples_train) + cfg.data.n_samples_val} "
                     f"({cfg.data.n_samples_train}/{cfg.data.n_samples_val}), "
                     f"batch={cfg.training.batch_size}, val_seed={cfg.data.val_seed}) ===",
@@ -559,8 +704,15 @@ def main(argv: list[str] | None = None) -> int:
                     "output_dir": cell["output_dir"],
                     "n_attractors_sinks": _read_n_attractors(out_dir / "metrics.json"),
                     "n_attractor_type_nodes": node_summary["n_attractor_type"],
+                    "n_periodic_attractor_nodes": node_summary["n_periodic_attractor_nodes"],
+                    "n_morse_nodes": node_summary["n_nodes"],
+                    "n_morse_edges": node_summary["n_edges"],
                     "n_sinks": node_summary["n_sinks"],
                     "attractor_indices": node_summary["attractor_indices"],
+                    "sink_nodes": node_summary["sink_nodes"],
+                    "bistability_pass": node_summary["bistability_pass"],
+                    "training": _training_summary(out_dir),
+                    "artifacts": _artifact_summary(out_dir),
                 }
                 all_results.append(cell_record)
 
@@ -575,6 +727,8 @@ def main(argv: list[str] | None = None) -> int:
                     "tag": tag,
                     "cmgdb_subdiv": cmgdb_subdiv,
                     "box_map_backend": args.box_map_backend,
+                    "bounds_data_role": args.bounds_data_role,
+                    "adaptive_precompute_subdiv": args.adaptive_precompute_subdiv,
                     "trajectory_length": args.trajectory_length,
                     "total_initial_conditions": args.total_initial_conditions,
                     "full_batch": args.full_batch,
@@ -583,13 +737,20 @@ def main(argv: list[str] | None = None) -> int:
                     "model_seeds": effective_model_seeds,
                     "stages": stages,
                     "figures": sorted(figures) if figures is not None else None,
+                    "pass_criterion": {
+                        "name": "two_periodic_attractor_sinks",
+                        "definition": (
+                            "exactly two graph sinks and each full Conley index "
+                            "matches (x^p-1, 0, 0) for an integer p >= 1"
+                        ),
+                        "periods_may_differ": True,
+                    },
                     "data_size": _data_size_summary(
                         cfg,
-                        requested_total_initial_conditions=(
-                            args.total_initial_conditions
-                        ),
+                        requested_total_initial_conditions=(args.total_initial_conditions),
                         dataset_count=len(ic_seeds),
                     ),
+                    "outcome": _outcome_summary(example_records),
                     "cells": example_records,
                 },
                 indent=2,
@@ -597,12 +758,12 @@ def main(argv: list[str] | None = None) -> int:
         )
 
     if verbose and all_results:
-        print("\n=== per-cell: attractor-type Conley nodes (sinks) ===")
+        print("\n=== per-cell: periodic-attractor bistability ===")
         for r in all_results:
             print(
                 f"  {r['example']:<26} ic={r['ic_seed']} model={r['model_seed']}  "
                 f"attractor_type={r['n_attractor_type_nodes']} sinks={r['n_sinks']} "
-                f"indices={r['attractor_indices']}"
+                f"pass={r['bistability_pass']} sink_nodes={r['sink_nodes']}"
             )
 
     return 0

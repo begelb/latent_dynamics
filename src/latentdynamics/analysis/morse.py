@@ -345,9 +345,7 @@ def _precompute_corner_grid(
     else:
         shape = tuple(int(c) for c in corners_per_axis)
         if len(shape) != int(d):
-            raise ValueError(
-                f"corners_per_axis has {len(shape)} entries but d={d}"
-            )
+            raise ValueError(f"corners_per_axis has {len(shape)} entries but d={d}")
 
     n_total = 1
     for c in shape:
@@ -432,15 +430,18 @@ def make_box_map_uniform_precomputed(
     U = np.asarray(bounds.upper, dtype=np.float64)
     box_side = (U - L) / n_per_axis
     ys_grid, out_dim = _precompute_corner_grid(
-        latent_map, L, U, corners_per_axis, d,
-        device=device, batch_points=precompute_batch_points,
+        latent_map,
+        L,
+        U,
+        corners_per_axis,
+        d,
+        device=device,
+        batch_points=precompute_batch_points,
     )
 
     # Corner offsets, hoisted out of the per-box work. Order is irrelevant
     # because only min/max over the 2^d corners is taken.
-    combos = np.array(
-        list(itertools.product(range(2), repeat=d)), dtype=np.int64
-    )  # (2^d, d)
+    combos = np.array(list(itertools.product(range(2), repeat=d)), dtype=np.int64)  # (2^d, d)
 
     def box_map(rect):
         rect_arr = np.asarray(rect, dtype=np.float64)
@@ -571,18 +572,14 @@ def make_box_map_adaptive_precomputed(
     # the first whenever ``subdiv_max % d != 0``, which in 2-D doubles the table
     # (at subdiv_max=29: 32769^2 instead of 32769 x 16385, 16 GiB instead of 8).
     # Verified empirically against CMGDB's finest box widths.
-    axis_depths = np.array(
-        [(subdiv_max - j + d - 1) // d for j in range(d)], dtype=np.int64
-    )
+    axis_depths = np.array([(subdiv_max - j + d - 1) // d for j in range(d)], dtype=np.int64)
     n_per_axis = (2**axis_depths).astype(np.int64)
 
     # Depth at which the dense table is built. `dense_subdiv=None` keeps the
     # historical behaviour of tabulating the finest level over the whole domain.
     table_subdiv = subdiv_max if dense_subdiv is None else int(dense_subdiv)
     if table_subdiv > subdiv_max:
-        raise ValueError(
-            f"dense_subdiv ({table_subdiv}) must not exceed subdiv_max ({subdiv_max})"
-        )
+        raise ValueError(f"dense_subdiv ({table_subdiv}) must not exceed subdiv_max ({subdiv_max})")
     table_axis_depths = np.array(
         [(table_subdiv - j + d - 1) // d for j in range(d)], dtype=np.int64
     )
@@ -608,13 +605,20 @@ def make_box_map_adaptive_precomputed(
     U = np.asarray(bounds.upper, dtype=np.float64)
     finest_box_side = (U - L) / n_per_axis
     ys_grid, _out_dim = _precompute_corner_grid(
-        latent_map, L, U, corners_per_axis.tolist(), d,
-        device=device, batch_points=precompute_batch_points,
+        latent_map,
+        L,
+        U,
+        corners_per_axis.tolist(),
+        d,
+        device=device,
+        batch_points=precompute_batch_points,
     )
     eval_device = device or next(latent_map.parameters()).device
     ondemand_chunk = _resolve_precompute_batch_points(
-        precompute_batch_points, latent_map=latent_map,
-        n_total=int(np.prod(n_per_axis.astype(object))), device=eval_device,
+        precompute_batch_points,
+        latent_map=latent_map,
+        n_total=int(np.prod(n_per_axis.astype(object))),
+        device=eval_device,
     )
 
     out_dim = int(ys_grid.shape[-1])
@@ -663,9 +667,7 @@ def make_box_map_adaptive_precomputed(
         if misses:
             m_idx = off_idx[misses]
             pts = L + m_idx.astype(np.float64) * finest_box_side
-            vals = _eval_points(
-                latent_map, pts, device=eval_device, chunk=ondemand_chunk
-            )
+            vals = _eval_points(latent_map, pts, device=eval_device, chunk=ondemand_chunk)
             for j, i in enumerate(misses):
                 ondemand_cache[int(keys[i])] = vals[j]
                 out[off_rows[i]] = vals[j]
@@ -683,9 +685,9 @@ def make_box_map_adaptive_precomputed(
         i_hi = np.round((rect_arr[d:] - L) / finest_box_side).astype(np.int64)
         np.clip(i_lo, 0, n_per_axis, out=i_lo)
         np.clip(i_hi, 0, n_per_axis, out=i_hi)
-        idx_per_axis = np.stack([i_lo, i_hi], axis=0)        # (2, d)
-        corner_indices = idx_per_axis[combos, axis_idx]      # (2^d, d)
-        corners = _corner_values(corner_indices)             # (2^d, out_dim)
+        idx_per_axis = np.stack([i_lo, i_hi], axis=0)  # (2, d)
+        corner_indices = idx_per_axis[combos, axis_idx]  # (2^d, d)
+        corners = _corner_values(corner_indices)  # (2^d, out_dim)
         Y_l = corners.min(axis=0)
         Y_u = corners.max(axis=0)
         if padding:
@@ -703,9 +705,9 @@ def make_box_map_adaptive_precomputed(
         i_hi = np.round((R[:, d:] - L) / finest_box_side).astype(np.int64)
         np.clip(i_lo, 0, n_per_axis, out=i_lo)
         np.clip(i_hi, 0, n_per_axis, out=i_hi)
-        idx_per_axis = np.stack([i_lo, i_hi], axis=1)         # (m, 2, d)
-        corner_indices = idx_per_axis[:, combos, axis_idx]    # (m, 2^d, d)
-        corners = _corner_values(corner_indices)              # (m, 2^d, out_dim)
+        idx_per_axis = np.stack([i_lo, i_hi], axis=1)  # (m, 2, d)
+        corner_indices = idx_per_axis[:, combos, axis_idx]  # (m, 2^d, d)
+        corners = _corner_values(corner_indices)  # (m, 2^d, out_dim)
         Y_l = corners.min(axis=1)
         Y_u = corners.max(axis=1)
         if padding:
@@ -736,6 +738,11 @@ def _build_box_map(
             precompute_batch_points=cmgdb_cfg.precompute_batch_points,
         )
     if backend == "adaptive_precomputed":
+        dense_subdiv = {
+            "init": cmgdb_cfg.subdiv_init,
+            "min": cmgdb_cfg.subdiv_min,
+            "max": cmgdb_cfg.subdiv_max,
+        }[cmgdb_cfg.adaptive_precompute_subdiv]
         return make_box_map_adaptive_precomputed(
             latent_map,
             bounds,
@@ -744,12 +751,7 @@ def _build_box_map(
             device=device,
             max_table_points=cmgdb_cfg.max_table_points,
             precompute_batch_points=cmgdb_cfg.precompute_batch_points,
-            # CMGDB subdivides eagerly to subdiv_init and builds its first
-            # MapGraph over the whole domain there; everything deeper is
-            # confined to the recurrent set. Tabulating at subdiv_init and
-            # evaluating the rest on demand is the same computation for a small
-            # fraction of the evaluations.
-            dense_subdiv=cmgdb_cfg.subdiv_init,
+            dense_subdiv=dense_subdiv,
         )
     raise ValueError(f"unknown box_map_backend: {backend!r}")
 

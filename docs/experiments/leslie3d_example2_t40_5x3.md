@@ -74,6 +74,12 @@ For latent dimension two and `subdiv_max=29`, the lookup uses
 guards `CMGDB_MAPGRAPH_MAX_VERTICES=40000000` and
 `CMGDB_MAPGRAPH_MAX_EDGES=1200000000`.
 
+Exact regions-of-attraction computation was disabled in every cell
+(`compute_roa: false`). The optional `regions_of_attraction.*` pictures in
+this already-completed sweep are approximate rendering artifacts generated
+before the no-RoA request; they are not outputs of an exact CMGDB basin
+computation.
+
 ## Training and diagnosis
 
 All 15 independently initialized models completed and have distinct checkpoint

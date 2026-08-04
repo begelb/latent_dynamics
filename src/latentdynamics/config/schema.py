@@ -280,6 +280,17 @@ class CMGDBConfig(BaseModel):
     upper_bounds: list[float] | None = None
     padding: bool = True
     box_map_backend: BoxMapBackend = "auto"
+    # Which scaled ambient pairs define inferred latent CMGDB bounds. Historical
+    # pipeline runs used the validation holdout as well; paper-faithful runs can
+    # keep it strictly out of both fitting and bound inference.
+    bounds_data_role: Literal["train_and_validation_pairs", "train_pairs"] = (
+        "train_and_validation_pairs"
+    )
+    # Dense-table depth for the adaptive precomputed backend. Finer corners are
+    # evaluated in batches on demand and memoized. ``init`` preserves the
+    # historical optimized behavior; ``min`` is the intended Leslie replication
+    # protocol and remains far smaller than a full ``max`` table.
+    adaptive_precompute_subdiv: Literal["init", "min", "max"] = "init"
     max_table_points: int = Field(
         ge=1,
         default=10_000_000,
@@ -330,13 +341,9 @@ class CMGDBConfig(BaseModel):
                 )
             return v
         if isinstance(v, bool) or not isinstance(v, int):
-            raise ValueError(
-                f"precompute_batch_points must be a positive int or 'auto'; got {v!r}"
-            )
+            raise ValueError(f"precompute_batch_points must be a positive int or 'auto'; got {v!r}")
         if v <= 0:
-            raise ValueError(
-                f"precompute_batch_points must be positive when an int; got {v}"
-            )
+            raise ValueError(f"precompute_batch_points must be positive when an int; got {v}")
         return v
 
     @model_validator(mode="after")
