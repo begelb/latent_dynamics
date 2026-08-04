@@ -1,5 +1,5 @@
 {
-  "created_at_utc": "2026-08-04T09:36:30.227857+00:00",
+  "created_at_utc": "2026-08-04T16:14:24.246215+00:00",
   "latentdynamics_version": "0.1.0",
   "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]",
   "platform": "macOS-26.5.2-arm64-arm-64bit",
@@ -10,18 +10,18 @@
   },
   "cmgdb_version": "1.3.3",
   "requested_stages": [
-    "train",
-    "diagnose"
+    "render",
+    "metrics"
   ],
   "cell": {
     "cell_index": 1,
     "train_file": "train",
     "seed": 1,
     "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_4/seed_1",
-    "device": "mps",
+    "device": "cpu",
     "skipped_stages": []
   },
-  "config_hash": "5dd839f1df1dc2be4ed73ffa71ff8b677c7cacb966267849d098d5ea879cae0e",
+  "config_hash": "5ab4e32e46ace72d8757f5355db6cf4d82653b90627ff1fc346220e4d92dad20",
   "config": {
     "system": {
       "name": "leslie3d",
@@ -112,6 +112,8 @@
       "upper_bounds": null,
       "padding": true,
       "box_map_backend": "adaptive_precomputed",
+      "bounds_data_role": "train_and_validation_pairs",
+      "adaptive_precompute_subdiv": "init",
       "max_table_points": 1200000000,
       "precompute_batch_points": "auto",
       "compute_roa": false,

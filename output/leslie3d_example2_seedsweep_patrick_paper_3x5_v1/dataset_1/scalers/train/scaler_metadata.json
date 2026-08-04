@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-08-04T16:18:18.327808+00:00",
+  "train_file": "train",
+  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_1/train.csv",
+  "train_csv_sha256": "66ee2b7dd3a9fbb7a53ed8106bfc8890e6fc57c51f66bcba4c22eaefb7b56c7e",
+  "scaling": "minmax",
+  "high_dims": 3
+}

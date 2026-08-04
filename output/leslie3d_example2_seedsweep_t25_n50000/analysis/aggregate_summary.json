@@ -1,0 +1,908 @@
+{
+  "adaptive_precompute_lattice": {
+    "all_recorded_cells_same_lattice": true,
+    "lattices": [
+      {
+        "axis_depth_M": 15,
+        "axis_depth_formula": "ceil(subdiv_max / dimension)",
+        "backend": "adaptive_precomputed",
+        "cells_per_axis": 32768,
+        "configured_max_table_points": 1200000000,
+        "corners_per_axis": 32769,
+        "dimension": 2,
+        "lattice_shape": [
+          32769,
+          32769
+        ],
+        "n_cells": 15,
+        "subdiv_max": 29,
+        "table_points": 1073807361,
+        "table_points_formula": "(2^M + 1)^dimension",
+        "within_configured_max_table_points": true
+      }
+    ],
+    "n_cells_recorded": 15,
+    "n_distinct_lattices": 1
+  },
+  "analysis_script": {
+    "path": "scripts/analyze_leslie3d_example2_t40_sweep.py",
+    "sha256": "255ee5291ef7ff2893537aa895768c53d91ecfc56861511b564d48dac72ccf7f",
+    "size_bytes": 64472
+  },
+  "data_root": "data/leslie3d_example2_seedsweep_t25_n50000",
+  "dataset_design": {
+    "errors": [],
+    "expected_dataset_count": 5,
+    "training": {
+      "all_training_csvs_distinct": true,
+      "csv_sha256_by_dataset": {
+        "1": "9350bd5e1276792471d507e9454bff94c1eb8b5360c2d6f0f8a4a4e9940becd2",
+        "2": "648175a04c5527e4965ed9ddcb418b1a885d1c55a72cf7c56e8e695d06bbfde2",
+        "3": "8c75ed72a8af12c5a423cc1b97237b682c56f29f4ed51237f69c0803832c72fd",
+        "4": "c5042cc993b812384fab81cc258b6be9d32b1bde6a84e495188ef6806cf9c0c2",
+        "5": "359ca1390d132b967767c9423a3e8172a7942cbb93e331d13d2f3501e317c61e"
+      },
+      "distinct_csv_sha256": [
+        "359ca1390d132b967767c9423a3e8172a7942cbb93e331d13d2f3501e317c61e",
+        "648175a04c5527e4965ed9ddcb418b1a885d1c55a72cf7c56e8e695d06bbfde2",
+        "8c75ed72a8af12c5a423cc1b97237b682c56f29f4ed51237f69c0803832c72fd",
+        "9350bd5e1276792471d507e9454bff94c1eb8b5360c2d6f0f8a4a4e9940becd2",
+        "c5042cc993b812384fab81cc258b6be9d32b1bde6a84e495188ef6806cf9c0c2"
+      ],
+      "n_distinct_csv_sha256": 5,
+      "n_hashes_present": 5
+    },
+    "validation": {
+      "csv_sha256_by_dataset": {
+        "1": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+        "2": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+        "3": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+        "4": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+        "5": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5"
+      },
+      "distinct_csv_sha256": [
+        "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5"
+      ],
+      "distinct_hash_seed_pairs": [
+        {
+          "csv_sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "seed": 9999
+        }
+      ],
+      "distinct_seeds": [
+        9999
+      ],
+      "n_distinct_csv_sha256": 1,
+      "n_distinct_seeds": 1,
+      "n_hashes_present": 5,
+      "n_seeds_present": 5,
+      "seed_by_dataset": {
+        "1": 9999,
+        "2": 9999,
+        "3": 9999,
+        "4": 9999,
+        "5": 9999
+      },
+      "shared_csv_sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+      "shared_hash_and_seed": true,
+      "shared_seed": 9999
+    },
+    "verification_passed": true
+  },
+  "dataset_provenance": [
+    {
+      "complete": true,
+      "dataset_id": 1,
+      "directory": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_1",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_1/train.csv",
+          "sha256": "9350bd5e1276792471d507e9454bff94c1eb8b5360c2d6f0f8a4a4e9940becd2",
+          "size_bytes": 68603406
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_1/train_metadata.json",
+          "sha256": "a51dc1ac316b912099a7efcf45f2db25eb9a6e3e644ca89d3094c78d7310b577",
+          "size_bytes": 525
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_1/val.csv",
+          "sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "size_bytes": 17146588
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_1/val_metadata.json",
+          "sha256": "b96d5bfdb2dccc533f93c5b81971a62881c685663ae903cde3d67c86b0b2ecf6",
+          "size_bytes": 524
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 40000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 40000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 1,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 1,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 1000000,
+        "transition_pairs_observed": 1000000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 10000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 10000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 250000,
+        "transition_pairs_observed": 250000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 2,
+      "directory": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_2",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_2/train.csv",
+          "sha256": "648175a04c5527e4965ed9ddcb418b1a885d1c55a72cf7c56e8e695d06bbfde2",
+          "size_bytes": 68601012
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_2/train_metadata.json",
+          "sha256": "91609f5bb7ceddb10f19f2d3d79aa6bd48e2775bd7cb1c49795a101fd95ca827",
+          "size_bytes": 525
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_2/val.csv",
+          "sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "size_bytes": 17146588
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_2/val_metadata.json",
+          "sha256": "b96d5bfdb2dccc533f93c5b81971a62881c685663ae903cde3d67c86b0b2ecf6",
+          "size_bytes": 524
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 40000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 40000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 2,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 2,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 1000000,
+        "transition_pairs_observed": 1000000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 10000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 10000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 250000,
+        "transition_pairs_observed": 250000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 3,
+      "directory": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_3",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_3/train.csv",
+          "sha256": "8c75ed72a8af12c5a423cc1b97237b682c56f29f4ed51237f69c0803832c72fd",
+          "size_bytes": 68597877
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_3/train_metadata.json",
+          "sha256": "0b5bb4e5c3a674331406b0139550220f5dd7b41b4c9008fd5ca16900a7f76714",
+          "size_bytes": 525
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_3/val.csv",
+          "sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "size_bytes": 17146588
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_3/val_metadata.json",
+          "sha256": "b96d5bfdb2dccc533f93c5b81971a62881c685663ae903cde3d67c86b0b2ecf6",
+          "size_bytes": 524
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 40000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 40000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 3,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 3,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 1000000,
+        "transition_pairs_observed": 1000000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 10000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 10000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 250000,
+        "transition_pairs_observed": 250000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 4,
+      "directory": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_4",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_4/train.csv",
+          "sha256": "c5042cc993b812384fab81cc258b6be9d32b1bde6a84e495188ef6806cf9c0c2",
+          "size_bytes": 68602778
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_4/train_metadata.json",
+          "sha256": "d5bf59517e623701c9249f6b8526ed3f5eb0f619c584de6be3f40a12e408b468",
+          "size_bytes": 525
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_4/val.csv",
+          "sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "size_bytes": 17146588
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_4/val_metadata.json",
+          "sha256": "b96d5bfdb2dccc533f93c5b81971a62881c685663ae903cde3d67c86b0b2ecf6",
+          "size_bytes": 524
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 40000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 40000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 4,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 4,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 1000000,
+        "transition_pairs_observed": 1000000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 10000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 10000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 250000,
+        "transition_pairs_observed": 250000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 5,
+      "directory": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5/train.csv",
+          "sha256": "359ca1390d132b967767c9423a3e8172a7942cbb93e331d13d2f3501e317c61e",
+          "size_bytes": 68600778
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5/train_metadata.json",
+          "sha256": "47aaa393bfde772d82a3c89e3472eb1fb1c5d86b2c8b3fffec9a2ce8234c9895",
+          "size_bytes": 525
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5/val.csv",
+          "sha256": "f55553a78bffa5edec2200dcd676b2efb81e2a443b6f4d072795a3976caefbd5",
+          "size_bytes": 17146588
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_t25_n50000/dataset_5/val_metadata.json",
+          "sha256": "b96d5bfdb2dccc533f93c5b81971a62881c685663ae903cde3d67c86b0b2ecf6",
+          "size_bytes": 524
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 40000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 40000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 5,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 5,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 1000000,
+        "transition_pairs_observed": 1000000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 10000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 25,
+          "n_samples": 10000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 25,
+        "transition_pairs_expected": 250000,
+        "transition_pairs_observed": 250000
+      },
+      "verification_passed": true
+    }
+  ],
+  "durations_seconds": {
+    "cmgdb": {
+      "count": 15,
+      "max": 995.3520000000001,
+      "mean": 327.1128,
+      "min": 177.756,
+      "population_std": 267.9554018611306
+    },
+    "combined_training_cmgdb": {
+      "count": 15,
+      "max": 2390.308,
+      "mean": 1706.6974666666667,
+      "min": 1061.264,
+      "population_std": 385.98151047770267
+    },
+    "sum_cmgdb": 4906.692,
+    "sum_training": 20693.77,
+    "training": {
+      "count": 15,
+      "max": 2098.12,
+      "mean": 1379.5846666666666,
+      "min": 864.26,
+      "population_std": 346.9568334892525
+    }
+  },
+  "exact_conley_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.2
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_successes": 1,
+    "rate_over_expected_15_cells": 0.06666666666666667,
+    "success_rate_among_evaluated": 0.06666666666666667
+  },
+  "expected_design": {
+    "box_map_backend": "adaptive_precomputed",
+    "dataset_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "model_seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_cells": 15,
+    "train_initial_conditions": 40000,
+    "trajectory_length_T": 25,
+    "validation_initial_conditions": 10000
+  },
+  "generated_at_utc": "2026-08-04T16:14:40.726860+00:00",
+  "inventory": {
+    "error_counts_by_code": {},
+    "n_cells_with_errors": 0,
+    "n_complete_cells": 15,
+    "n_complete_datasets": 5,
+    "n_expected_cells": 15,
+    "n_incomplete_cells": 0,
+    "n_records": 15,
+    "n_sweep_design_errors": 0,
+    "n_verified_cells": 15,
+    "n_verified_datasets": 5,
+    "warning_counts_by_code": {}
+  },
+  "losses": {
+    "train_prediction_final": {
+      "count": 15,
+      "max": 0.0005452953690551222,
+      "mean": 0.00023383261131914334,
+      "min": 0.00011044279392436147,
+      "population_std": 0.00012586026724577338
+    },
+    "train_reconstruction_final": {
+      "count": 15,
+      "max": 0.0005713192799668759,
+      "mean": 0.0003131276657157888,
+      "min": 0.0001565707344422117,
+      "population_std": 0.00014255090549612835
+    },
+    "train_semiconjugacy_final": {
+      "count": 15,
+      "max": 6.41881509758532e-05,
+      "mean": 3.483522297039939e-05,
+      "min": 1.7172757460095454e-05,
+      "population_std": 1.1780967063698061e-05
+    },
+    "train_total_final": {
+      "count": 15,
+      "max": 0.06293299750089645,
+      "mean": 0.03434779707671801,
+      "min": 0.017104956508398057,
+      "population_std": 0.015619438391138761
+    },
+    "validation_prediction_final": {
+      "count": 15,
+      "max": 0.0005448942551501096,
+      "mean": 0.00023680723184139546,
+      "min": 0.0001160270157767227,
+      "population_std": 0.0001240890210178945
+    },
+    "validation_reconstruction_final": {
+      "count": 15,
+      "max": 0.0005693820904275636,
+      "mean": 0.00031911666009958327,
+      "min": 0.0001659080292712024,
+      "population_std": 0.00014227182676211598
+    },
+    "validation_semiconjugacy_final": {
+      "count": 15,
+      "max": 6.331601336318999e-05,
+      "mean": 3.515829508325066e-05,
+      "min": 1.7284176531102276e-05,
+      "population_std": 1.1385391860652217e-05
+    },
+    "validation_total_final": {
+      "count": 15,
+      "max": 0.06268241073304415,
+      "mean": 0.034982904376534125,
+      "min": 0.018096756133511662,
+      "population_std": 0.015555761829784732
+    }
+  },
+  "provisional": false,
+  "schema_version": 1,
+  "source_is_read_only": true,
+  "success_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and the Conley-index tuple on each sink is exactly (x^4-1, 0, 0): x^4-1 in homological degree 0 and zero in the other saved degrees.",
+    "name": "exact_two_period4_sink_indices",
+    "required_sink_conley_index": [
+      "x^4-1",
+      "0",
+      "0"
+    ],
+    "sink_count": 2,
+    "uses_graph_sinks_not_tolerance_classification": true
+  },
+  "sweep_root": "output/leslie3d_example2_seedsweep_t25_n50000",
+  "tolerance": {
+    "n_cells_all_minimal_pass": 0,
+    "n_cells_evaluated": 3,
+    "total_failed_minimal_sets": 6
+  },
+  "topology": {
+    "n_distinct_signatures": 14,
+    "signature_counts": {
+      "27c26c78a84a9ad7fdf487111ee5a8d47e7ec15a75efee032c50cc944aef37aa": 1,
+      "2e0c023b38f617f52345400512f5af80479579a74b045afa8b6be66c53d12a94": 1,
+      "2e6a6e40827935b1527f20e61f9ba56ec92ad3eb5397893d9cc45bb4859d79eb": 1,
+      "420883d3e56290ea2c86c7d14048a64b5b8b697ac730d3a16ce5d8765a7d3cbf": 1,
+      "6b9b479f36d9fb12d6fede76b66bfa566d13cd7ba6b034c28974e9ad79536143": 1,
+      "6e2472eead9504af2cedd85b8d54b4af537e5b25797f90b15a113c8114bc22e8": 1,
+      "6f0a9fda381177aa5fa0ee133ec9583cfb3b025d37b339b57c4bf8dd79398d5a": 1,
+      "97696d990eecdea9e3e7d343f131cc414222dc4d4086073e45e6e3ffa59908c2": 1,
+      "9be5779a574aefeabc86b1385bc1f21b25c516c10eade9b44a9374fd0996cbc7": 1,
+      "a9f1e1dfd8f3c380a0de8fb3bc26800203c1bd01c8633dae9e809145155be1b9": 1,
+      "b5ae3bb63d0f2f46a6918553f68ed7ff19fc5e5b352d325f060c9e42746c4acb": 1,
+      "d12ff316528424a97ff7ef4fdd4681b3b245531796a7c964d0b64190b5727820": 1,
+      "efe4febdb21ef205d1ca9182fecd8729ee70f3423dc7cb5c207bb5c0252bccbf": 1,
+      "fe0f091447d5319ab91b4961236980ea2269d455fbe8751c5f2507f6c5d8eadd": 2
+    },
+    "sink_conley_index_multiset_counts": {
+      "[[\"0\",\"0\",\"x-1\"],[\"x^4-1\",\"0\",\"0\"],[\"x^2-1\",\"0\",\"0\"]]": 1,
+      "[[\"x-1\",\"x-1\",\"0\"],[\"x^8-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^2-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"]]": 4,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"],[\"x^2-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"]]": 2,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^2-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"]]": 2,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^8-1\",\"0\",\"0\"],[\"x^2-1\",\"0\",\"0\"]]": 2
+    },
+    "sink_count_distribution": {
+      "2": 11,
+      "3": 4
+    }
+  }
+}

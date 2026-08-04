@@ -1,0 +1,510 @@
+{
+  "example": "leslie3d_example2",
+  "tag": "patrick_paper_3x5_v1",
+  "cmgdb_subdiv": [
+    25,
+    28,
+    29
+  ],
+  "box_map_backend": "adaptive_precomputed",
+  "bounds_data_role": "train_pairs",
+  "adaptive_precompute_subdiv": "min",
+  "trajectory_length": 20,
+  "total_initial_conditions": 10000,
+  "full_batch": false,
+  "shared_val_seed": 9999,
+  "ic_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "stages": [
+    "data",
+    "scale"
+  ],
+  "figures": [
+    "morse"
+  ],
+  "pass_criterion": {
+    "name": "two_periodic_attractor_sinks",
+    "definition": "exactly two graph sinks and each full Conley index matches (x^p-1, 0, 0) for an integer p >= 1",
+    "periods_may_differ": true
+  },
+  "data_size": {
+    "requested_total_initial_conditions_per_dataset": 10000,
+    "effective_initial_conditions_per_dataset": {
+      "train": 8000,
+      "validation": 2000,
+      "total": 10000
+    },
+    "trajectory": {
+      "generated_steps": 20,
+      "discarded_steps": 0,
+      "retained_steps": 20
+    },
+    "transition_pairs_per_dataset": {
+      "train": 160000,
+      "validation": 40000,
+      "total": 200000
+    },
+    "planned_dataset_count": 5,
+    "transition_pairs_across_dataset_trees": {
+      "train": 800000,
+      "validation": 200000,
+      "total": 1000000
+    }
+  },
+  "outcome": {
+    "planned_cells": 15,
+    "training_complete": 0,
+    "morse_graphs_complete": 0,
+    "morse_sets_complete": 0,
+    "classified_cells": 0,
+    "passed_cells": 0,
+    "pass_rate_among_classified": null
+  },
+  "cells": [
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_1/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "val_seed": 9999,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_1/seed_1",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "val_seed": 9999,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_1/seed_2",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_2/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "val_seed": 9999,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_2/seed_1",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 2,
+      "val_seed": 9999,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_2/seed_2",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_3/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "val_seed": 9999,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_3/seed_1",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 3,
+      "val_seed": 9999,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_3/seed_2",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_4/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "val_seed": 9999,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_4/seed_1",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 4,
+      "val_seed": 9999,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_4/seed_2",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_5/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "val_seed": 9999,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_5/seed_1",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    },
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 5,
+      "val_seed": 9999,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_patrick_paper_3x5_v1/dataset_5/seed_2",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": null,
+      "n_periodic_attractor_nodes": null,
+      "n_morse_nodes": null,
+      "n_morse_edges": null,
+      "n_sinks": null,
+      "attractor_indices": null,
+      "sink_nodes": null,
+      "bistability_pass": null,
+      "training": {
+        "complete": false,
+        "epochs_run": null,
+        "best_epoch": null,
+        "duration_minutes": null,
+        "best_validation_total": null
+      },
+      "artifacts": {
+        "checkpoint": false,
+        "training_summary": false,
+        "morse_graph": false,
+        "morse_sets": false
+      }
+    }
+  ]
+}
