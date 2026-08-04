@@ -12,6 +12,7 @@ plus ``mg_params_log.txt`` recording the latent bounds used by CMGDB.
 from __future__ import annotations
 
 import time
+from typing import Literal
 
 import numpy as np
 import torch
@@ -22,6 +23,8 @@ from ..config import ExperimentConfig
 from ..sampling import load_scaler
 from ..training import load_any_checkpoint
 from ..viz import save_morse_graph_artifacts
+
+BoundsDataRole = Literal["train_and_validation_pairs", "train_pairs"]
 
 
 def write_mg_params_log(
@@ -52,6 +55,8 @@ def write_mg_params_log(
                 f"bounds_epsilon_frac: {cmgdb_cfg.bounds_epsilon_frac}",
                 f"padding: {cmgdb_cfg.padding}",
                 f"box_map_backend: {cmgdb_cfg.box_map_backend}",
+                f"max_table_points: {cmgdb_cfg.max_table_points}",
+                f"precompute_batch_points: {cmgdb_cfg.precompute_batch_points}",
                 f"compute_roa: {cmgdb_cfg.compute_roa}",
                 f"roa_max_vertices: {cmgdb_cfg.roa_max_vertices}",
                 f"collapse_roa_to_lca: {cmgdb_cfg.collapse_roa_to_lca}",
@@ -64,18 +69,38 @@ def write_mg_params_log(
     return log_path
 
 
-def _load_data_and_scale(cfg: ExperimentConfig, train_file: str) -> np.ndarray:
+def _load_data_and_scale(
+    cfg: ExperimentConfig,
+    train_file: str,
+    *,
+    bounds_data_role: BoundsDataRole = "train_and_validation_pairs",
+) -> np.ndarray:
+    """Load the scaled ambient pairs used to infer a latent CMGDB rectangle.
+
+    The default preserves the historical pipeline behavior: current and next
+    states from both the training and validation CSVs are encoded.  Callers
+    that require a strict evaluation holdout may opt into ``"train_pairs"``
+    to use only current and next states from the training CSV.
+    """
+
+    if bounds_data_role not in {"train_and_validation_pairs", "train_pairs"}:
+        raise ValueError(f"unknown CMGDB bounds data role {bounds_data_role!r}")
     train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1)
-    val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
     scaler = load_scaler(cfg.paths.scaler_path(train_file))
     high = cfg.arch.high_dims
-    pieces = [
-        scaler.transform(train[:, :high]),
-        scaler.transform(val[:, :high]),
-        scaler.transform(train[:, high:]),
-        scaler.transform(val[:, high:]),
-    ]
-    return np.vstack(pieces)
+    train_current = scaler.transform(train[:, :high])
+    train_next = scaler.transform(train[:, high:])
+    if bounds_data_role == "train_and_validation_pairs":
+        val = np.loadtxt(cfg.paths.val_csv(), delimiter=",", skiprows=1)
+        return np.vstack(
+            [
+                train_current,
+                scaler.transform(val[:, :high]),
+                train_next,
+                scaler.transform(val[:, high:]),
+            ]
+        )
+    return np.vstack([train_current, train_next])
 
 
 def _morse_artifacts_present(morse_dir) -> bool:
@@ -93,6 +118,7 @@ def run(
     cfg: ExperimentConfig,
     *,
     train_file: str = "train",
+    bounds_data_role: BoundsDataRole = "train_and_validation_pairs",
     output_subdir: str | None = None,
     device: torch.device | str | None = None,
     verbose: bool = True,
@@ -125,7 +151,11 @@ def run(
         device = torch.device(device)
     model.to(device)
 
-    all_scaled = _load_data_and_scale(cfg, train_file)
+    all_scaled = _load_data_and_scale(
+        cfg,
+        train_file,
+        bounds_data_role=bounds_data_role,
+    )
     if cfg.cmgdb.lower_bounds is not None and cfg.cmgdb.upper_bounds is not None:
         bounds = LatentBounds(
             lower=np.asarray(cfg.cmgdb.lower_bounds, dtype=np.float64),
@@ -136,7 +166,11 @@ def run(
         bounds = infer_latent_bounds(
             model.encoder, all_scaled, epsilon_frac=cfg.cmgdb.bounds_epsilon_frac, device=device
         )
-        bounds_source = "encoded_data"
+        bounds_source = (
+            "encoded_train_pairs"
+            if bounds_data_role == "train_pairs"
+            else "encoded_data"
+        )
     if not (np.all(np.isfinite(bounds.lower)) and np.all(np.isfinite(bounds.upper))):
         raise ValueError(
             f"latent bounds contain NaN/Inf (lower={bounds.lower.tolist()}, "

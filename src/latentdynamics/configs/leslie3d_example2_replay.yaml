@@ -69,3 +69,4 @@ paths:
   flat_scaler: true
   read_only: true
 seeds: []
+experiment_name: leslie3d_example2_patrick

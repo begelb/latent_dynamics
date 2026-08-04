@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import math
 from collections import defaultdict
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -92,6 +93,41 @@ class Trainer:
     def best_epoch(self) -> int:
         """0-indexed epoch at which the lowest val_loss_total was observed."""
         return self._best_epoch
+
+    def evaluate_validation(self) -> dict[str, float]:
+        """Evaluate the current weights on the held-out loader without updates.
+
+        This is primarily useful before a weight warm start is fine-tuned: it
+        records the loaded checkpoint's loss on the exact validation set used
+        by the continuation, making any subsequent improvement measurable.
+        The model already lives on ``self.device`` from construction.
+        """
+        return self._run_epoch(self.val_loader, training=False)
+
+    def register_baseline(self, breakdown: dict[str, float]) -> None:
+        """Make the current weights an epoch-0 best-checkpoint candidate.
+
+        Warm-start fine-tuning uses this after :meth:`evaluate_validation` so
+        the source checkpoint is restored when no optimizer update improves
+        held-out ``loss_total``. ``best_epoch == -1`` denotes this pre-fit
+        candidate; non-negative values continue to denote training epochs.
+        """
+        if self._best_state_dict is not None or self.history.train or self.history.val:
+            raise RuntimeError("baseline must be registered exactly once before fit")
+        if "loss_total" not in breakdown:
+            raise ValueError("baseline breakdown must contain loss_total")
+        total = float(breakdown["loss_total"])
+        if not math.isfinite(total):
+            raise ValueError(f"baseline loss_total must be finite, got {total}")
+        self._best_val_loss = total
+        self._best_epoch = -1
+        self._best_state_dict = {
+            key: value.detach().clone() for key, value in self.model.state_dict().items()
+        }
+        self._no_improve = 0
+        # Prime the fresh scheduler with the same pre-fit validation point used
+        # for checkpoint selection. No optimizer or scheduler state is loaded.
+        self.scheduler.step(total)
 
     def _run_epoch(self, loader: DataLoader, *, training: bool) -> dict[str, float]:
         self.model.train(training)

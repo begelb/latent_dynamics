@@ -1,0 +1,14 @@
+Lower bounds: [-0.29016998410224915, -0.4516076445579529]
+Upper bounds: [0.26419106125831604, 0.3544515073299408]
+subdiv_init: 25
+subdiv_min: 28
+subdiv_max: 29
+subdiv_limit: 10000
+bounds_epsilon_frac: 0.01
+padding: True
+box_map_backend: auto
+compute_roa: False
+roa_max_vertices: 50000000
+collapse_roa_to_lca: True
+bounds_source: encoded_data
+duration_minutes: 20.7958

@@ -1,0 +1,95 @@
+{
+  "best_epoch": 299,
+  "best_source": "training_epoch",
+  "selected_val": {
+    "loss_reconstruction": 0.00027198820442717985,
+    "loss_prediction": 0.00020680318183149212,
+    "loss_semiconjugacy": 3.604101050877944e-05,
+    "loss_total": 0.029987672525644302
+  },
+  "initialization": {
+    "type": "warm_start_weights",
+    "checkpoint_dir": "replay_sources/leslie3d_example2/models",
+    "checkpoint_sha256": {
+      "encoder.pt": "e581773b1ab0dfdb1002ffc1542331b71398b4c7cb37e323c653f47c4fb67255",
+      "dynamics.pt": "b062ae69cd855f3ff304a46a3532b45048f9628f5990032df400831821d92d60",
+      "decoder.pt": "855a1eee3bfa6f57935cd58b9241725c70eca04ef8c1aadee267b04fbff0b57f"
+    },
+    "optimizer_state_restored": false,
+    "scheduler_state_restored": false
+  },
+  "loss_weights": [
+    100.0,
+    10.0,
+    20.0
+  ],
+  "n_epochs_run": 300,
+  "train_duration_seconds": 958.81,
+  "train_duration_minutes": 15.9802,
+  "initial_val": {
+    "loss_reconstruction": 0.0005478170310612768,
+    "loss_prediction": 0.0006725218328647315,
+    "loss_semiconjugacy": 0.00027310455499682577,
+    "loss_total": 0.06696901228427887
+  },
+  "train": {
+    "loss_reconstruction": {
+      "mean": 0.00028015352621519316,
+      "min": 0.000260697662178427,
+      "max": 0.00034145150759723036,
+      "final": 0.00026069782248232514,
+      "best_epoch_value": 0.00026069782248232514
+    },
+    "loss_prediction": {
+      "mean": 0.00021560041100019588,
+      "min": 0.00020026096275541932,
+      "max": 0.0002628969175508246,
+      "final": 0.00020026604696176946,
+      "best_epoch_value": 0.00020026604696176946
+    },
+    "loss_semiconjugacy": {
+      "mean": 4.361414980344125e-05,
+      "min": 3.5052835193346254e-05,
+      "max": 7.747075050137937e-05,
+      "final": 3.5052835193346254e-05,
+      "best_epoch_value": 3.5052835193346254e-05
+    },
+    "loss_total": {
+      "mean": 0.031043639727885524,
+      "min": 0.028773491764068602,
+      "max": 0.0383235349714756,
+      "final": 0.028773499359190463,
+      "best_epoch_value": 0.028773499359190463
+    }
+  },
+  "val": {
+    "loss_reconstruction": {
+      "mean": 0.0002898655580068104,
+      "min": 0.00027198820442717985,
+      "max": 0.00034864611835801044,
+      "final": 0.00027198820442717985,
+      "best_epoch_value": 0.00027198820442717985
+    },
+    "loss_prediction": {
+      "mean": 0.00022103139608795752,
+      "min": 0.00020678097284398974,
+      "max": 0.0002671472889953293,
+      "final": 0.00020680318183149212,
+      "best_epoch_value": 0.00020680318183149212
+    },
+    "loss_semiconjugacy": {
+      "mean": 4.4554298736882624e-05,
+      "min": 3.601532268075971e-05,
+      "max": 7.978700991516235e-05,
+      "final": 3.604101050877944e-05,
+      "best_epoch_value": 3.604101050877944e-05
+    },
+    "loss_total": {
+      "mean": 0.032087955764538295,
+      "min": 0.029987672525644302,
+      "max": 0.03908607334718108,
+      "final": 0.029987672525644302,
+      "best_epoch_value": 0.029987672525644302
+    }
+  }
+}

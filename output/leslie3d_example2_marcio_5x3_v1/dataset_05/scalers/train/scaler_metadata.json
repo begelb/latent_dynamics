@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-08-04T02:12:46.229045+00:00",
+  "train_file": "train",
+  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/train.csv",
+  "train_csv_sha256": "4a4469afac5e123f354e4de871a60ce696d27b00330ee87fa2bc3bdc1ebd3548",
+  "scaling": "minmax",
+  "high_dims": 3
+}

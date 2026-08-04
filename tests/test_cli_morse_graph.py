@@ -40,6 +40,53 @@ def _cfg(tmp_path: Path) -> ExperimentConfig:
     )
 
 
+def test_bounds_data_role_defaults_to_train_and_validation_pairs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cfg = _cfg(tmp_path)
+    cfg.paths.data_dir.mkdir(parents=True)
+    train = np.asarray([[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0]])
+    val = np.asarray([[9.0, 10.0, 11.0, 12.0]])
+    np.savetxt(cfg.paths.data_dir / "train.csv", train, delimiter=",", header="x0,x1,y0,y1")
+    np.savetxt(cfg.paths.val_csv(), val, delimiter=",", header="x0,x1,y0,y1")
+
+    class IdentityScaler:
+        def transform(self, values):
+            return np.asarray(values)
+
+    monkeypatch.setattr(morse_graph, "load_scaler", lambda _path: IdentityScaler())
+
+    observed = morse_graph._load_data_and_scale(cfg, "train")
+
+    np.testing.assert_array_equal(
+        observed,
+        np.vstack([train[:, :2], val[:, :2], train[:, 2:], val[:, 2:]]),
+    )
+
+
+def test_bounds_data_role_can_exclude_validation_pairs(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    cfg = _cfg(tmp_path)
+    cfg.paths.data_dir.mkdir(parents=True)
+    train = np.asarray([[1.0, 2.0, 3.0, 4.0], [5.0, 6.0, 7.0, 8.0]])
+    np.savetxt(cfg.paths.data_dir / "train.csv", train, delimiter=",", header="x0,x1,y0,y1")
+
+    class IdentityScaler:
+        def transform(self, values):
+            return np.asarray(values)
+
+    monkeypatch.setattr(morse_graph, "load_scaler", lambda _path: IdentityScaler())
+
+    observed = morse_graph._load_data_and_scale(
+        cfg,
+        "train",
+        bounds_data_role="train_pairs",
+    )
+
+    np.testing.assert_array_equal(observed, np.vstack([train[:, :2], train[:, 2:]]))
+
+
 def test_run_uses_any_checkpoint_loader_without_autoencoder_sidecar(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
@@ -60,7 +107,7 @@ def test_run_uses_any_checkpoint_loader_without_autoencoder_sidecar(
     monkeypatch.setattr(
         morse_graph,
         "_load_data_and_scale",
-        lambda _cfg, _train_file: np.zeros((2, _cfg.arch.high_dims)),
+        lambda _cfg, _train_file, **_kwargs: np.zeros((2, _cfg.arch.high_dims)),
     )
     monkeypatch.setattr(
         morse_graph,
@@ -132,7 +179,7 @@ def test_run_writes_exact_roa_when_enabled(
     monkeypatch.setattr(
         morse_graph,
         "_load_data_and_scale",
-        lambda _cfg, _train_file: np.zeros((2, _cfg.arch.high_dims)),
+        lambda _cfg, _train_file, **_kwargs: np.zeros((2, _cfg.arch.high_dims)),
     )
     monkeypatch.setattr(
         morse_graph,

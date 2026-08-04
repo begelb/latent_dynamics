@@ -1,0 +1,83 @@
+# Leslie3D invariant-aware v2 experiment.
+#
+# The curated CSVs are built independently by
+# scripts/build_leslie3d_invariant_aware_v2_dataset.py. In addition to all v1
+# components, each split contains audited, analytic 320-step trajectories that
+# pass from the origin neighborhood through p_star and S2 before continuing.
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 2
+  encoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  latent_map:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  decoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: sigmoid
+
+training:
+  learning_rate: 0.00005
+  batch_size: 65536
+  epochs: 4000
+  patience: 800
+  lr_patience: 200
+  loss_weights: [100, 20, 100, 20]
+  gradient_clip_norm: 1.0
+  scheduler_factor: 0.2
+  scheduler_threshold: 0.000001
+  scheduler_min_lr: 0.00000001
+  warm_start_checkpoint_dir: output/leslie3d_invariant_aware/seed_20260803/models
+
+data:
+  # Run the standalone v2 builder first, then begin the generic pipeline at
+  # train. The generic data stage must not replace these curated CSVs.
+  sampling_method: uniform
+  scaling: minmax
+  n_samples_train: 45512
+  n_samples_val: 20661
+  n_iterations: 1
+  skip: 0
+  train_seed: 20260807
+  val_seed: 20260808
+  train_files: null
+
+cmgdb:
+  subdiv_init: 20
+  subdiv_min: 24
+  subdiv_max: 26
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.02
+  lower_bounds: null
+  upper_bounds: null
+  padding: true
+  box_map_backend: adaptive_precomputed
+  max_table_points: 70000000
+  precompute_batch_points: auto
+  compute_roa: false
+  roa_max_vertices: 50000000
+  collapse_roa_to_lca: true
+
+paths:
+  data_dir: data/leslie3d_invariant_aware_v2
+  output_dir: output/leslie3d_invariant_aware_v2
+  scaler_dir_override: replay_sources/leslie3d_example2/data/scalers
+  flat_scaler: true
+  scaler_read_only: true
+  read_only: false
+
+seeds: [20260807]
+experiment_name: leslie3d_invariant_aware_v2

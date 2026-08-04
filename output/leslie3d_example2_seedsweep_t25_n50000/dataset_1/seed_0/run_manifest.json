@@ -1,0 +1,142 @@
+{
+  "created_at_utc": "2026-08-04T13:39:51.879709+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "torch": {
+    "version": "2.12.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "cmgdb_version": "1.3.3",
+  "requested_stages": [
+    "morse"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0",
+    "device": "cpu",
+    "skipped_stages": []
+  },
+  "config_hash": "c89c1e04a4e5f8f9a4e8a1853ead50e7baf9362e8e13a8812d7e627b92dc1a9e",
+  "config": {
+    "system": {
+      "name": "leslie3d",
+      "params": {
+        "th1": 28.9,
+        "th2": 29.8,
+        "th3": 22.0,
+        "survival_p1": 0.7,
+        "survival_p2": 0.7
+      }
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 3,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "sigmoid"
+      }
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "batch_size": 1024,
+      "epochs": 1000,
+      "patience": 100,
+      "lr_patience": 10,
+      "loss_weights": [
+        100.0,
+        10.0,
+        20.0
+      ],
+      "gradient_clip_norm": 1.0,
+      "scheduler_factor": 0.1,
+      "scheduler_threshold": 0.001,
+      "scheduler_min_lr": 0.0,
+      "warm_start_checkpoint_dir": null
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "minmax",
+      "n_samples_train": 40000,
+      "n_samples_val": 10000,
+      "n_iterations": 25,
+      "skip": 0,
+      "train_seed": 1,
+      "val_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 25,
+      "subdiv_min": 28,
+      "subdiv_max": 29,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.01,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": true,
+      "box_map_backend": "adaptive_precomputed",
+      "max_table_points": 1200000000,
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
+    },
+    "paths": {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_seedsweep_t25_n50000/dataset_1",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1",
+      "scaler_dir_override": null,
+      "flat_scaler": false,
+      "scaler_read_only": false,
+      "read_only": false
+    },
+    "seeds": [
+      0
+    ],
+    "experiment_name": "leslie3d_example2_seedsweep_t25_n50000_dataset_1"
+  },
+  "artifacts": {
+    "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_seedsweep_t25_n50000/dataset_1/train.csv",
+    "train_csv_sha256": "9350bd5e1276792471d507e9454bff94c1eb8b5360c2d6f0f8a4a4e9940becd2",
+    "scaler": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/scalers/train/scaler.gz",
+    "scaler_sha256": "b9603788cae3d1fb3db78d0cf1b98073d5fe3f3480f684d424c3b504d5525222",
+    "model_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0/models",
+    "morse_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0/MG",
+    "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0/metrics.json"
+  }
+}

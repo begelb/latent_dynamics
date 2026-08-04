@@ -1,0 +1,250 @@
+{
+  "plan": {
+    "architecture": {
+      "activation": "relu",
+      "decoder": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          64
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          32
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "encoder_out_activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 3,
+      "latent_map": {
+        "activation": "tanh",
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32,
+          32
+        ],
+        "num_layers": null,
+        "out_activation": "none"
+      },
+      "latent_out_activation": "tanh",
+      "low_dims": 2,
+      "num_layers": null
+    },
+    "cells": [
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+        "dataset": 1,
+        "index": 0,
+        "initial_condition_seed": 2158,
+        "model_seed": 0,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_0"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+        "dataset": 1,
+        "index": 1,
+        "initial_condition_seed": 2158,
+        "model_seed": 1,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_1"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+        "dataset": 1,
+        "index": 2,
+        "initial_condition_seed": 2158,
+        "model_seed": 2,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_2"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+        "dataset": 2,
+        "index": 3,
+        "initial_condition_seed": 4792,
+        "model_seed": 0,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_0"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+        "dataset": 2,
+        "index": 4,
+        "initial_condition_seed": 4792,
+        "model_seed": 1,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_1"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+        "dataset": 2,
+        "index": 5,
+        "initial_condition_seed": 4792,
+        "model_seed": 2,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_2"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+        "dataset": 3,
+        "index": 6,
+        "initial_condition_seed": 3174,
+        "model_seed": 0,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_0"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+        "dataset": 3,
+        "index": 7,
+        "initial_condition_seed": 3174,
+        "model_seed": 1,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_1"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+        "dataset": 3,
+        "index": 8,
+        "initial_condition_seed": 3174,
+        "model_seed": 2,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_2"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+        "dataset": 4,
+        "index": 9,
+        "initial_condition_seed": 688,
+        "model_seed": 0,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_0"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+        "dataset": 4,
+        "index": 10,
+        "initial_condition_seed": 688,
+        "model_seed": 1,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_1"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+        "dataset": 4,
+        "index": 11,
+        "initial_condition_seed": 688,
+        "model_seed": 2,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_2"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+        "dataset": 5,
+        "index": 12,
+        "initial_condition_seed": 5727,
+        "model_seed": 0,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_0"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+        "dataset": 5,
+        "index": 13,
+        "initial_condition_seed": 5727,
+        "model_seed": 1,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_1"
+      },
+      {
+        "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+        "dataset": 5,
+        "index": 14,
+        "initial_condition_seed": 5727,
+        "model_seed": 2,
+        "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_2"
+      }
+    ],
+    "cmgdb": {
+      "bounds_epsilon_frac": 0.01,
+      "box_map_backend": "adaptive_precomputed",
+      "collapse_roa_to_lca": true,
+      "compute_roa": false,
+      "lower_bounds": null,
+      "max_table_points": 1200000000,
+      "padding": true,
+      "precompute_batch_points": "auto",
+      "roa_max_vertices": 50000000,
+      "subdiv_init": 25,
+      "subdiv_limit": 10000,
+      "subdiv_max": 29,
+      "subdiv_min": 28,
+      "upper_bounds": null
+    },
+    "data": {
+      "n_iterations": 30,
+      "n_samples_train": 1000,
+      "n_samples_val": 200,
+      "sampling_method": "uniform",
+      "scaling": "minmax",
+      "skip": 0,
+      "train_files": null,
+      "train_seed": 2158,
+      "val_seed": 9999
+    },
+    "data_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1",
+    "design": {
+      "dataset_initial_condition_seeds": {
+        "dataset_01": 2158,
+        "dataset_02": 4792,
+        "dataset_03": 3174,
+        "dataset_04": 688,
+        "dataset_05": 5727
+      },
+      "model_seeds": [
+        0,
+        1,
+        2
+      ],
+      "n_datasets": 5,
+      "runs_per_dataset": 3,
+      "shared_validation_seed": 9999,
+      "total_runs": 15
+    },
+    "experiment": "leslie3d_example2_marcio_5x3",
+    "layout_version": "leslie3d_example2_marcio_5x3_v1",
+    "output_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1",
+    "schema_version": 1,
+    "stages": [
+      "data",
+      "scale",
+      "train",
+      "diagnose",
+      "morse",
+      "render",
+      "metrics"
+    ],
+    "training": {
+      "entrypoint": "latentdynamics.training.train_marcio_full_batch",
+      "epochs": 4000,
+      "full_batch_pairs": 30000,
+      "gradient_clipping": null,
+      "holdout_pairs_evaluated_after_training": 6000,
+      "learning_rate": 0.003,
+      "loss_weights_metadata": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+      "scheduler": {
+        "factor": 0.5,
+        "min_lr": 1e-06,
+        "name": "ReduceLROnPlateau",
+        "patience": 100,
+        "threshold": 0.0001
+      },
+      "validation_used_for_optimization": false
+    }
+  },
+  "plan_sha256": "9707b21b4da5c0b8c533bd3c312ccd405648376e79a51a0692e9d3acbb0ddafd",
+  "schema_version": 1
+}

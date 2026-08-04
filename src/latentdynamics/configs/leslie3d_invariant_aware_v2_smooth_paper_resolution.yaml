@@ -1,0 +1,82 @@
+# Paper-resolution CMGDB replay for the accepted invariant-aware v2 smooth map.
+#
+# The learned chart, latent map, scaler, latent rectangle, padding convention,
+# and subdivision limit are unchanged from the accepted primary-v2 audit.  The
+# CMGDB ladder is raised to the Leslie 3-Gen Example 2 values reported in the
+# paper: (subdiv_init, subdiv_min, subdiv_max) = (25, 28, 29).
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 2
+  encoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  latent_map:
+    hidden_shapes: [64, 64]
+    activation: gelu
+    out_activation: tanh
+  decoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: sigmoid
+
+training:
+  learning_rate: 0.00005
+  batch_size: 65536
+  epochs: 12000
+  patience: 2500
+  lr_patience: 400
+  loss_weights: [100, 20, 100, 20]
+  gradient_clip_norm: 1.0
+  scheduler_factor: 0.2
+  scheduler_threshold: 0.000001
+  scheduler_min_lr: 0.000000005
+  warm_start_checkpoint_dir: output/leslie3d_invariant_aware/seed_20260803/models
+
+data:
+  sampling_method: uniform
+  scaling: minmax
+  n_samples_train: 45512
+  n_samples_val: 20661
+  n_iterations: 1
+  skip: 0
+  train_seed: 20260807
+  val_seed: 20260808
+  train_files: null
+
+cmgdb:
+  subdiv_init: 25
+  subdiv_min: 28
+  subdiv_max: 29
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.02
+  lower_bounds: [-0.34096482396125793, -0.2952786684036255]
+  upper_bounds: [0.25832921266555786, 0.41028958559036255]
+  padding: true
+  box_map_backend: adaptive_precomputed
+  # (2^15 + 1)^2 = 1,073,807,361 unique corners at subdiv_max=29.
+  max_table_points: 1200000000
+  precompute_batch_points: auto
+  compute_roa: false
+  roa_max_vertices: 50000000
+  collapse_roa_to_lca: true
+
+paths:
+  data_dir: data/leslie3d_invariant_aware_v2
+  output_dir: output/notebooks/leslie3d_invariant_aware_v2_smooth_paper_resolution
+  scaler_dir_override: replay_sources/leslie3d_example2/data/scalers
+  flat_scaler: true
+  scaler_read_only: true
+  read_only: false
+
+seeds: [20260809]
+experiment_name: leslie3d_invariant_aware_v2_smooth_paper_resolution

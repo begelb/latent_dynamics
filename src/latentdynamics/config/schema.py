@@ -214,6 +214,11 @@ class TrainingConfig(BaseModel):
     scheduler_factor: float = Field(default=0.1, gt=0.0, lt=1.0)
     scheduler_threshold: float = Field(default=1e-3, ge=0.0)
     scheduler_min_lr: float = Field(default=0.0, ge=0.0)
+    # Optional model-only warm start. The trainer loads weights from this
+    # checkpoint directory but deliberately starts a fresh optimizer and LR
+    # scheduler. This supports controlled fine-tuning without mutating the
+    # source checkpoint or pretending that optimizer state was recovered.
+    warm_start_checkpoint_dir: Path | None = None
 
     @field_validator("loss_weights")
     @classmethod
@@ -361,6 +366,10 @@ class PathsConfig(BaseModel):
     output_dir: Path
     scaler_dir_override: Path | None = None
     flat_scaler: bool = False
+    # Protect an externally supplied scaler whose coordinates must remain
+    # identical to those used by a warm-start checkpoint. The scale stage
+    # refuses to write when this flag is set.
+    scaler_read_only: bool = False
     read_only: bool = False
 
     @property

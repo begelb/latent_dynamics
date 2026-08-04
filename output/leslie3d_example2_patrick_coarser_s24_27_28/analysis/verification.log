@@ -1,0 +1,42 @@
+{
+  "canonical_baseline": "replay_sources/leslie3d_example2",
+  "checkpoint_byte_identity": true,
+  "edges": [
+    [
+      2,
+      0
+    ],
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      4,
+      3
+    ]
+  ],
+  "minimal_nodes": [
+    0,
+    1
+  ],
+  "morse_set_stat_rows_verified": 5,
+  "nodes": {
+    "0": "x^4-1, 0, 0",
+    "1": "x^4-1, 0, 0",
+    "2": "0, x^4-1, 0",
+    "3": "0, x^4-1, 0",
+    "4": "0, 0, x-1"
+  },
+  "parsed_graph_exact_match": true,
+  "paper_worktree_clean": true,
+  "pdfs_one_page": 5,
+  "pngs_valid": 5,
+  "raw_morse_artifacts_nonempty": true,
+  "resolved_backend": "adaptive_precomputed",
+  "sklearn_version_warning_preserved": true,
+  "status": "PASS"
+}

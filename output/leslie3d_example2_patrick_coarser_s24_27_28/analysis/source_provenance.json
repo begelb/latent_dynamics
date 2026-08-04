@@ -1,0 +1,58 @@
+{
+  "experiment": "leslie3d_example2_patrick_coarser_s24_27_28",
+  "canonical_source": "Patrick's archived Leslie3D Example2 used in the paper's second Leslie3D section",
+  "source_root": "replay_sources/leslie3d_example2",
+  "checkpoint_copy_method": "byte-for-byte copy preserving timestamps",
+  "checkpoints": {
+    "encoder.pt": {
+      "source": "replay_sources/leslie3d_example2/models/encoder.pt",
+      "copy": "output/leslie3d_example2_patrick_coarser_s24_27_28/models/encoder.pt",
+      "size_bytes": 21847,
+      "source_sha256": "e581773b1ab0dfdb1002ffc1542331b71398b4c7cb37e323c653f47c4fb67255",
+      "copy_sha256": "e581773b1ab0dfdb1002ffc1542331b71398b4c7cb37e323c653f47c4fb67255",
+      "byte_identical": true
+    },
+    "dynamics.pt": {
+      "source": "replay_sources/leslie3d_example2/models/dynamics.pt",
+      "copy": "output/leslie3d_example2_patrick_coarser_s24_27_28/models/dynamics.pt",
+      "size_bytes": 21919,
+      "source_sha256": "b062ae69cd855f3ff304a46a3532b45048f9628f5990032df400831821d92d60",
+      "copy_sha256": "b062ae69cd855f3ff304a46a3532b45048f9628f5990032df400831821d92d60",
+      "byte_identical": true
+    },
+    "decoder.pt": {
+      "source": "replay_sources/leslie3d_example2/models/decoder.pt",
+      "copy": "output/leslie3d_example2_patrick_coarser_s24_27_28/models/decoder.pt",
+      "size_bytes": 21847,
+      "source_sha256": "855a1eee3bfa6f57935cd58b9241725c70eca04ef8c1aadee267b04fbff0b57f",
+      "copy_sha256": "855a1eee3bfa6f57935cd58b9241725c70eca04ef8c1aadee267b04fbff0b57f",
+      "byte_identical": true
+    }
+  },
+  "scaler": {
+    "path": "replay_sources/leslie3d_example2/data/scalers/scaler",
+    "sha256": "bb908b946d259fd6aa6a716cc003f789631e21bc7c9aa0a6a64c09ac629aa5e1",
+    "reused_directly": true
+  },
+  "baseline_artifacts": {
+    "morse_graph": {
+      "path": "replay_sources/leslie3d_example2/MG/morse_graph",
+      "sha256": "89f93eb77cb34d9d1ba94d317d6da1825abc56120c51fdb24e75725b43c1201d"
+    },
+    "morse_sets": {
+      "path": "replay_sources/leslie3d_example2/MG/morse_sets",
+      "sha256": "da85cafda4dc0042b25c18c1d670acceb0bbe4855e55363ad0f49a945f98e782"
+    }
+  },
+  "coarse_artifacts": {
+    "morse_graph": {
+      "path": "output/leslie3d_example2_patrick_coarser_s24_27_28/MG/morse_graph",
+      "sha256": "b9872dc5f4d65a259027467e5b7347a94751ff366b68fb4ac049263539f870c5"
+    },
+    "morse_sets": {
+      "path": "output/leslie3d_example2_patrick_coarser_s24_27_28/MG/morse_sets",
+      "sha256": "eeeb650fdd62dc2bcc07851f83c7b5d3d76b6c71a742d879d25745f4b12e2e5a"
+    }
+  },
+  "data_caveat": "Patrick's original train/validation CSVs were not archived. Fixed archived latent bounds make CSV contents irrelevant to the CMGDB graph. The trajectory render reads the current data/leslie3d_example2 CSVs with Patrick's archived scaler; the finite-sample metric instead generates Leslie-map samples from the configured parameters and transforms them with that archived scaler."
+}

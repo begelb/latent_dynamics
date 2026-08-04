@@ -1,0 +1,44 @@
+{
+  "artifacts": {
+    "checkpoint": {
+      "path": "models/autoencoder.pt",
+      "sha256": "3daeda2a0b470329533d835ae8863f94b34040574b6de4f238134978dcbaa14a",
+      "size_bytes": 30989
+    },
+    "checkpoint_metadata": {
+      "path": "models/autoencoder.json",
+      "sha256": "3378ef5c85178326397a384c8deef3458e776a18174a42a84538c0397a94b6c2",
+      "size_bytes": 877
+    },
+    "final_losses": {
+      "path": "final_losses.txt",
+      "sha256": "817078ecc246d3d1039a40b418200b1c513bf5773f5a18000fbeb8e0d96aa050",
+      "size_bytes": 412
+    },
+    "history": {
+      "path": "logs/history.json",
+      "sha256": "413a65c546200ffa1d7ae48a869beb6e6aa3055f7f4b88adf3c7b5883921f13a",
+      "size_bytes": 286476
+    },
+    "holdout_evaluation": {
+      "path": "holdout_evaluation.json",
+      "sha256": "16d3fc241bf1d92b1b176d34a2bd246c3c32bb8fe37d9ddd338b7b933b02188b",
+      "size_bytes": 1394
+    },
+    "training_contract": {
+      "path": "training_contract.json",
+      "sha256": "a6c3ddf57aa04fec4edd9f6ea7e708e3a448a635847b1a9b8d791f76e9907e75",
+      "size_bytes": 1703
+    },
+    "training_summary": {
+      "path": "training_summary.json",
+      "sha256": "8dedb73bd4e0d2a7a49ceefc31c722cfac7483642781572fb6ced9e533607837",
+      "size_bytes": 2729
+    }
+  },
+  "completed_at_utc": "2026-08-04T02:18:52.568877+00:00",
+  "dataset": 2,
+  "model_seed": 2,
+  "schema_version": 1,
+  "status": "complete"
+}

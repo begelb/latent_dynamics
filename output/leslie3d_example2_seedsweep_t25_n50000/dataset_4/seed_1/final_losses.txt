@@ -1,0 +1,6 @@
+best_epoch: 171
+best_source: training_epoch
+val_loss_reconstruction: 1.650436e-04
+val_loss_prediction: 1.157738e-04
+val_loss_semiconjugacy: 1.737151e-05
+val_loss_total: 1.800953e-02

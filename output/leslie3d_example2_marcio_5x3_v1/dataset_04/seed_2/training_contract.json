@@ -1,0 +1,74 @@
+{
+  "architecture": {
+    "activation": "relu",
+    "decoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        64
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "encoder_out_activation": "tanh",
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 3,
+    "latent_map": {
+      "activation": "tanh",
+      "hidden_shape": null,
+      "hidden_shapes": [
+        32,
+        32
+      ],
+      "num_layers": null,
+      "out_activation": "none"
+    },
+    "latent_out_activation": "tanh",
+    "low_dims": 2,
+    "num_layers": null
+  },
+  "data": {
+    "holdout_pairs": 6000,
+    "holdout_used_for_training_or_selection": false,
+    "scaling": "minmax",
+    "train_pairs": 30000
+  },
+  "dataset": 4,
+  "dataset_initial_condition_seed": 688,
+  "device": "cpu",
+  "experiment": "leslie3d_example2_marcio_5x3",
+  "model_seed": 2,
+  "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+  "schema_version": 1,
+  "training": {
+    "batch_size": 30000,
+    "best_weight_restoration": false,
+    "early_stopping": false,
+    "epochs": 4000,
+    "gradient_clip_norm": null,
+    "learning_rate": 0.003,
+    "loss_weights_metadata": [
+      1.0,
+      1.0,
+      0.0
+    ],
+    "scheduler_factor": 0.5,
+    "scheduler_min_lr": 1e-06,
+    "scheduler_patience": 100,
+    "scheduler_threshold": 0.0001
+  },
+  "training_entrypoint": "latentdynamics.training.train_marcio_full_batch"
+}

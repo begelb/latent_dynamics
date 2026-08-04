@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import random
 from pathlib import Path
 
@@ -12,7 +13,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from ..config import ExperimentConfig
 from ..models import build_autoencoder
 from ..sampling import load_scaler
-from ..training import Trainer, has_legacy_checkpoint
+from ..training import Trainer, has_legacy_checkpoint, load_any_checkpoint
 
 
 def _seed_everything(seed: int) -> torch.Generator:
@@ -60,6 +61,22 @@ def _build_loaders(
     )
 
 
+def _checkpoint_source_hashes(checkpoint_dir: Path) -> dict[str, str]:
+    """Hash every checkpoint payload used for a warm start."""
+    names = ("autoencoder.pt", "autoencoder.json", "encoder.pt", "dynamics.pt", "decoder.pt")
+    hashes: dict[str, str] = {}
+    for name in names:
+        path = checkpoint_dir / name
+        if not path.is_file():
+            continue
+        digest = hashlib.sha256()
+        with path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+        hashes[name] = digest.hexdigest()
+    return hashes
+
+
 def run(
     cfg: ExperimentConfig,
     *,
@@ -88,7 +105,37 @@ def run(
         _seed_everything(seed)
 
     train_loader, val_loader = _build_loaders(cfg, train_file, seed)
-    model = build_autoencoder(cfg.arch)
+
+    warm_start_dir = cfg.training.warm_start_checkpoint_dir
+    initialization: dict[str, object]
+    if warm_start_dir is None:
+        model = build_autoencoder(cfg.arch)
+        initialization = {"type": "fresh_random"}
+    else:
+        source_dir = Path(warm_start_dir)
+        if source_dir.resolve() == model_dir.resolve():
+            raise RuntimeError(
+                "warm-start checkpoint directory resolves to the training output model "
+                f"directory ({model_dir}); use a distinct output path"
+            )
+        model, source_arch = load_any_checkpoint(source_dir, arch=cfg.arch)
+        if source_arch.model_dump() != cfg.arch.model_dump():
+            raise ValueError(
+                f"warm-start architecture from {source_dir} does not match the experiment config"
+            )
+        source_hashes = _checkpoint_source_hashes(source_dir)
+        if not source_hashes:
+            raise FileNotFoundError(f"no checkpoint payloads found in {source_dir}")
+        initialization = {
+            "type": "warm_start_weights",
+            "checkpoint_dir": str(source_dir),
+            "checkpoint_sha256": source_hashes,
+            "optimizer_state_restored": False,
+            "scheduler_state_restored": False,
+        }
+        if verbose:
+            print(f"warm-started model weights from {source_dir}")
+            print("optimizer and scheduler start fresh")
     trainer = Trainer(
         model=model,
         train_loader=train_loader,
@@ -98,6 +145,9 @@ def run(
         device=device,
         verbose=verbose,
     )
+    initial_val = trainer.evaluate_validation() if warm_start_dir is not None else None
+    if initial_val is not None:
+        trainer.register_baseline(initial_val)
     import time as _time
 
     _t0 = _time.perf_counter()
@@ -107,24 +157,35 @@ def run(
     trainer.save(output_root)
 
     best_epoch = trainer.best_epoch
-    best_val = (
-        {k: history.val[k][best_epoch] for k in history.val}
-        if best_epoch >= 0 and history.val["loss_total"]
-        else {k: float("nan") for k in history.val}
-    )
+    if best_epoch >= 0 and history.val["loss_total"]:
+        selected_val = {key: history.val[key][best_epoch] for key in history.val}
+        best_source = "training_epoch"
+    elif best_epoch == -1 and initial_val is not None:
+        selected_val = dict(initial_val)
+        best_source = "warm_start_initial"
+    else:
+        selected_val = {key: float("nan") for key in history.val}
+        best_source = "unavailable"
     losses_path = output_root / "final_losses.txt"
-    lines = [f"best_epoch: {best_epoch}"] + [f"val_{k}: {v:.6e}" for k, v in best_val.items()]
+    lines = [f"best_epoch: {best_epoch}", f"best_source: {best_source}"] + [
+        f"val_{key}: {value:.6e}" for key, value in selected_val.items()
+    ]
     losses_path.write_text("\n".join(lines) + "\n")
 
     import json as _json
 
     summary: dict[str, object] = {
         "best_epoch": int(best_epoch),
+        "best_source": best_source,
+        "selected_val": {key: float(value) for key, value in selected_val.items()},
+        "initialization": initialization,
         "loss_weights": list(cfg.training.loss_weights),
         "n_epochs_run": len(history.train["loss_total"]),
         "train_duration_seconds": round(train_seconds, 2),
         "train_duration_minutes": round(train_seconds / 60.0, 4),
     }
+    if initial_val is not None:
+        summary["initial_val"] = {key: float(value) for key, value in initial_val.items()}
     for split_name, hist in (("train", history.train), ("val", history.val)):
         per_loss: dict[str, dict[str, float]] = {}
         for key, series in hist.items():

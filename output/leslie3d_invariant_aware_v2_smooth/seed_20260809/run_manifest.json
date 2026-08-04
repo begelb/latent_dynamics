@@ -1,0 +1,150 @@
+{
+  "created_at_utc": "2026-08-04T04:40:22.813740+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.12.13 (main, Jun 23 2026, 15:44:24) [Clang 22.1.3 ]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit",
+  "torch": {
+    "version": "2.12.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "cmgdb_version": "1.3.3",
+  "requested_stages": [
+    "morse",
+    "render"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 20260809,
+    "output_dir": "output/leslie3d_invariant_aware_v2_smooth/seed_20260809",
+    "device": "cpu",
+    "skipped_stages": []
+  },
+  "config_hash": "9e772336ff2062858a3ff0d9b389a7194430ef62b6a4b895689e957490ef0db5",
+  "config": {
+    "system": {
+      "name": "leslie3d",
+      "params": {
+        "th1": 28.9,
+        "th2": 29.8,
+        "th3": 22.0,
+        "survival_p1": 0.7,
+        "survival_p2": 0.7
+      }
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 3,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "gelu",
+        "out_activation": "tanh"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "sigmoid"
+      }
+    },
+    "training": {
+      "learning_rate": 5e-05,
+      "batch_size": 65536,
+      "epochs": 12000,
+      "patience": 2500,
+      "lr_patience": 400,
+      "loss_weights": [
+        100.0,
+        20.0,
+        100.0,
+        20.0
+      ],
+      "gradient_clip_norm": 1.0,
+      "scheduler_factor": 0.2,
+      "scheduler_threshold": 1e-06,
+      "scheduler_min_lr": 5e-09,
+      "warm_start_checkpoint_dir": "output/leslie3d_invariant_aware/seed_20260803/models"
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "minmax",
+      "n_samples_train": 45512,
+      "n_samples_val": 20661,
+      "n_iterations": 1,
+      "skip": 0,
+      "train_seed": 20260807,
+      "val_seed": 20260808,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 20,
+      "subdiv_min": 24,
+      "subdiv_max": 26,
+      "subdiv_limit": 10000,
+      "bounds_epsilon_frac": 0.02,
+      "lower_bounds": [
+        -0.34096482396125793,
+        -0.2952786684036255
+      ],
+      "upper_bounds": [
+        0.25832921266555786,
+        0.41028958559036255
+      ],
+      "padding": true,
+      "box_map_backend": "adaptive_precomputed",
+      "max_table_points": 70000000,
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
+    },
+    "paths": {
+      "data_dir": "data/leslie3d_invariant_aware_v2",
+      "output_dir": "output/leslie3d_invariant_aware_v2_smooth",
+      "scaler_dir_override": "replay_sources/leslie3d_example2/data/scalers",
+      "flat_scaler": true,
+      "scaler_read_only": true,
+      "read_only": false
+    },
+    "seeds": [
+      20260809
+    ],
+    "experiment_name": "leslie3d_invariant_aware_v2_smooth"
+  },
+  "artifacts": {
+    "train_csv": "data/leslie3d_invariant_aware_v2/train.csv",
+    "train_csv_sha256": "ec5e7f2c20dba870ac7dfc14cb81082f3f6d4d1ed3f1577c5c1c5e0ccac3ff75",
+    "scaler": "replay_sources/leslie3d_example2/data/scalers/scaler",
+    "scaler_sha256": "bb908b946d259fd6aa6a716cc003f789631e21bc7c9aa0a6a64c09ac629aa5e1",
+    "model_dir": "output/leslie3d_invariant_aware_v2_smooth/seed_20260809/models",
+    "morse_dir": "output/leslie3d_invariant_aware_v2_smooth/seed_20260809/MG",
+    "metrics": "output/leslie3d_invariant_aware_v2_smooth/seed_20260809/metrics.json"
+  }
+}

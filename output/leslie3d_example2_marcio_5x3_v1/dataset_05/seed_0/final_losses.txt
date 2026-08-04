@@ -1,0 +1,11 @@
+training_method: marcio_full_batch
+checkpoint_epoch: 4000
+checkpoint_selection: fixed_final_epoch
+train_loss_reconstruction: 7.951282660e-04
+train_loss_prediction: 5.340220875e-04
+train_loss_total: 1.329150354e-03
+val_loss_reconstruction: 7.692562209e-04
+val_loss_prediction: 5.074691243e-04
+val_loss_total: 1.276725345e-03
+validation_used_for_optimization: false
+validation_used_for_checkpoint_selection: false

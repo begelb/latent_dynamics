@@ -26,6 +26,8 @@ This is distinct from the \(g_1\) run documented in
 - losses:             `replay_sources/leslie3d_example2/{final_losses.txt,logs/*.pkl}`
 - scaler:             `replay_sources/leslie3d_example2/data/scalers/scaler`
 - tolerance log:      `replay_sources/leslie3d_example2/tolerance_results.txt`
+- authoritative reproduction metadata: `replay_sources/leslie3d_example2/run_manifest.json`
+- immutable May 27 render record: `replay_sources/leslie3d_example2/run_manifest.render-2026-05-27.json`
 
 ## Status
 
@@ -34,10 +36,14 @@ This is distinct from the \(g_1\) run documented in
 artifact mirror under `code/replay_sources/leslie3d_example2/`. The original
 training script and raw train/test CSVs are not archived, so the replay path
 reads the preserved checkpoint and CMGDB artifacts directly. The generated
-May 27 render manifest records the obsolete parameter inference
-`(19.6, 23.68, 23.68)` and is render provenance, not training provenance. The
-current `output/leslie3d_example2/` is a later retrain and must not be used as
-the original paper source.
+May 27 render manifest originally recorded the obsolete parameter inference
+`(19.6, 23.68, 23.68)`. Its active `config` and `config_hash` have now been
+corrected, while `provenance_corrections` preserves the original value and
+explains the post-hoc change. The unedited May 27 record is retained beside it
+under the filename above. Neither file is a recovered training log: one is
+corrected reproduction metadata and the other is immutable render provenance.
+The current `output/leslie3d_example2/` is a later retrain and must not be used
+as the original paper source.
 
 ## Reproduction commands
 
@@ -50,6 +56,38 @@ python pipeline.py --config leslie3d_example2_replay --stages render,metrics
 A fresh retrain uses a writable local copy of the YAML with
 `paths.output_dir` outside `replay_sources/` and `paths.read_only: false`
 before running `data,scale,train,diagnose,morse`.
+
+## Parameter provenance
+
+The checkpoint does **not** contain `theta`; it contains only the learned
+encoder, latent-map, and decoder weights. The corrected tuple was identified
+within the known Leslie3D experiment family by combining the checkpoint with
+Patrick's scaler and comparing one-step consistency: decode learned latent
+transitions (or encode candidate Leslie transitions), then measure their
+discrepancy for candidate parameter tuples. This check strongly distinguishes
+`(28.9, 29.8, 22.0)` from the obsolete default-based tuple. The exact decimal
+tuple is corroborated by the manuscript and the recovered data provenance.
+
+Consequently, this is an inverse-identification result under the assumed
+Leslie3D family, not a claim that the exact parameters can be read uniquely
+from neural-network weights alone.
+
+The quantitative discriminator replays the legacy loss formulas with the
+archived `E`, `G`, `D`, and scaler.  Using 2,000 uniformly sampled initial
+conditions (seed `9999`) and 20 transitions gives:
+
+| candidate / reference | decoded one-step loss `loss_ae2` | latent consistency `loss_dyn` |
+|---|---:|---:|
+| Patrick's archived final validation log | `6.668765e-4` | `2.699535e-4` |
+| `(28.9, 29.8, 22.0)` replay | `6.729696e-4` | `2.728845e-4` |
+| `(19.6, 23.68, 23.68)` replay | `1.669253e-3` | `6.936188e-4` |
+
+Thus the corrected candidate reproduces both parameter-sensitive losses to
+about 1%, whereas the obsolete tuple is roughly 2.5--2.6 times larger.  Across
+sampling seeds `1,2,3,42,9999`, mean `loss_dyn` is `2.71137e-4` for the
+corrected candidate and `6.93912e-4` for the obsolete one.  This is strong
+disambiguation between the two documented candidates; it is not a global
+identifiability proof over all possible Leslie parameters or model families.
 
 ## Expected scientific output
 
@@ -70,11 +108,11 @@ semiconjugacy and must not be described as passing.
 
 ## Hyperparameter audit
 
-| param                       | archive value           | YAML value             | severity | notes |
+| param                       | supported value         | YAML value             | severity | notes |
 |-----------------------------|-------------------------|------------------------|----------|-------|
-| system.params.th1           | 28.9                    | 28.9                   | ✓        | recovered by probing the archived checkpoint |
+| system.params.th1           | 28.9                    | 28.9                   | ✓        | inverse-identified and corroborated; not encoded in checkpoint |
 | system.params.th2           | 29.8                    | 29.8                   | ✓        | earlier default-based inference was wrong |
-| system.params.th3           | 22.0                    | 22.0                   | ✓        | generated May 27 manifest is stale |
+| system.params.th3           | 22.0                    | 22.0                   | ✓        | active manifests corrected; original value retained in correction metadata |
 | system.params.survival_p1   | 0.7                     | 0.7                    | ✓        |       |
 | system.params.survival_p2   | 0.7                     | 0.7                    | ✓        |       |
 | arch.num_layers             | 2                       | 2                      | ✓        | checkpoint has `linear_0` through `linear_2` |
@@ -105,5 +143,6 @@ python pipeline.py --config leslie3d_example2_replay --stages render,metrics
 ```
 
 The active paper graph must remain byte-identical to
-`replay/leslie3d_example2_patrick/MG/morse_graph.pdf`. Do not use the generated
-render manifest's Leslie parameters as training provenance.
+`replay/leslie3d_example2_patrick/MG/morse_graph.pdf`. Treat the corrected
+manifest parameters as recovered experiment provenance, not as fields captured
+by Patrick's original training run.

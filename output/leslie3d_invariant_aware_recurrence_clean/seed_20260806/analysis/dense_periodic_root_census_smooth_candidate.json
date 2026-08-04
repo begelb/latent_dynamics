@@ -1,0 +1,2699 @@
+{
+  "schema_version": 1,
+  "experiment": "leslie3d_invariant_aware_recurrence_clean",
+  "map_mode": {
+    "name": "latent",
+    "formula": "G(z)"
+  },
+  "checkpoint": {
+    "directory": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_invariant_aware_recurrence_clean/seed_20260806/models",
+    "basename": "smooth_candidate",
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_invariant_aware_recurrence_clean/seed_20260806/models/smooth_candidate.pt",
+    "sha256": "652b846e7b1d4971b803d55b0a375fb0530eec2f0d295aec7f0387816396e33a",
+    "architecture_sidecar": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_invariant_aware_recurrence_clean/seed_20260806/models/smooth_candidate.json",
+    "architecture_sidecar_sha256": "238363dc17364677f2226cbf6cceffd6b0d08cc5a2f7e69a1e8b74f742af64a7"
+  },
+  "status": "dense_numerical_census_lower_bound_not_a_proof_of_exhaustiveness",
+  "method": {
+    "period_equations": [
+      1,
+      2,
+      4
+    ],
+    "global_search_domain": {
+      "lower": [
+        -1.0,
+        -1.0
+      ],
+      "upper": [
+        1.0,
+        1.0
+      ],
+      "rationale": "For this terminal-tanh latent map, every periodic point lies in [-1,1]^2."
+    },
+    "initial_starts": {
+      "total_unique_starts_per_period_equation": 20961,
+      "global_tensor_grid": {
+        "points_per_axis": 81,
+        "count": 6561,
+        "lower": [
+          -1.0,
+          -1.0
+        ],
+        "upper": [
+          1.0,
+          1.0
+        ],
+        "boundary_inset": [
+          0.001,
+          0.001
+        ]
+      },
+      "global_uniform_random": {
+        "count": 8000,
+        "seed": 202608051,
+        "lower": [
+          -1.0,
+          -1.0
+        ],
+        "upper": [
+          1.0,
+          1.0
+        ]
+      },
+      "local_random": {
+        "count_per_encoded_phase_including_exact_phase": 400,
+        "encoded_phase_count": 16,
+        "count": 6400,
+        "seed": 202608051,
+        "radius_formula": "max(0.03, min(0.09, 0.8 * minimum within-object encoded phase separation)); fixed-point separation defaults to 0.05"
+      }
+    },
+    "solver": {
+      "batched_newton_step_caps": [
+        0.12,
+        0.35
+      ],
+      "batched_newton_max_iterations": 45,
+      "batched_convergence_l2": 1e-10,
+      "candidate_acceptance_l2": 1e-08,
+      "candidate_round_decimals": 6,
+      "polish": "scipy.optimize.root(hybr), then least_squares fallback",
+      "final_root_acceptance_l2": 1e-09,
+      "cyclic_orbit_deduplication_l2": 1e-06
+    },
+    "classification": {
+      "lower_period_tolerance_l2": 1e-08,
+      "multipliers": "Exact PyTorch autograd Jacobian of (G(z))^p at the polished root, using checkpoint coefficients evaluated in float64.",
+      "association_metric": "Symmetric Hausdorff L2 distance between learned and encoded phase sets; cyclic alignment is also reported when periods match.",
+      "intended_distance_threshold_l2": 0.001,
+      "cmgdb_inside_rule": "Every learned phase lies componentwise inside the diagnose.json bounds."
+    },
+    "runtime_versions": {
+      "python": "3.12.13",
+      "numpy": "2.4.6",
+      "scipy": "1.17.1",
+      "torch": "2.12.0"
+    },
+    "reproduction_script": "/Users/bdoprad/Work/Projects/latent-dynamics/code/scripts/census_leslie3d_latent_cycles.py",
+    "reproduction_checkpoint_basename": "smooth_candidate"
+  },
+  "manifest": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_invariant_aware/dataset_manifest.json",
+    "sha256": "48bd6c1471c0f3234d4acdd83a24689c10e13b7b7ffd8b4df5b99a95eaf25232"
+  },
+  "cmgdb_bounds": {
+    "lower": [
+      -0.34096482396125793,
+      -0.2952786684036255
+    ],
+    "upper": [
+      0.25832921266555786,
+      0.41028958559036255
+    ],
+    "source": "explicit config.cmgdb bounds (diagnose.json absent)",
+    "config": "leslie3d_invariant_aware_recurrence_clean"
+  },
+  "counts": {
+    "total_cycles": 27,
+    "by_least_period": {
+      "1": 11,
+      "2": 4,
+      "4": 12
+    },
+    "inside_cmgdb_bounds": 22,
+    "outside_cmgdb_bounds": 5,
+    "unclassified_cmgdb_bounds": 0,
+    "inside_cmgdb_bounds_by_least_period": {
+      "1": 6,
+      "2": 4,
+      "4": 12
+    },
+    "intended_catalogue_cycles": 6,
+    "extra_cycles_total": 21,
+    "extra_cycles_inside_cmgdb_bounds": 16,
+    "extra_cycles_outside_cmgdb_bounds": 5,
+    "extra_cycles_unclassified_cmgdb_bounds": 0
+  },
+  "cycles": [
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 2.7755575615628914e-17,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.12583051618904453,
+        0.24114956490429457
+      ],
+      "phase_points": [
+        [
+          -0.12583051618904453,
+          0.24114956490429457
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.8372203313343208,
+          -0.6128137513984425
+        ],
+        [
+          0.05770455203717709,
+          -1.126078860426322
+        ]
+      ],
+      "monodromy_trace": -0.28885852909200127,
+      "monodromy_determinant": -0.9074139736280306,
+      "multipliers": [
+        {
+          "real": 0.8190403956329433,
+          "imag": 0.0,
+          "modulus": 0.8190403956329433
+        },
+        {
+          "real": -1.1078989247249444,
+          "imag": 0.0,
+          "modulus": 1.1078989247249444
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "p_star",
+        "nearest_symmetric_hausdorff_l2": 6.542427975629233e-06,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.1968020707696172,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.07850771376115312,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.03751780157246534,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.12954959146622314,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 6.542427975629233e-06,
+            "cyclic_alignment": {
+              "max_l2": 6.542427975629233e-06,
+              "mean_l2": 6.542427975629233e-06
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.17196846204239005,
+            "cyclic_alignment": {
+              "max_l2": 0.17196846204239005,
+              "mean_l2": 0.17196846204239005
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "p_star"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C01"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 1.1102230246251565e-16,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.13405609021557718,
+        0.2408275260593732
+      ],
+      "phase_points": [
+        [
+          -0.13405609021557718,
+          0.2408275260593732
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          2.1389264439998237,
+          0.264355563184538
+        ],
+        [
+          0.0414072815596221,
+          -1.2879352494147334
+        ]
+      ],
+      "monodromy_trace": 0.8509911945850903,
+      "monodromy_determinant": -2.7657450083693162,
+      "multipliers": [
+        {
+          "real": 2.1421177198590278,
+          "imag": 0.0,
+          "modulus": 2.1421177198590278
+        },
+        {
+          "real": -1.2911265252739375,
+          "imag": 0.0,
+          "modulus": 1.2911265252739375
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "p_star",
+        "nearest_symmetric_hausdorff_l2": 0.008225467423115388,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.2047651197147994,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.08511105761093611,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.043513143006689,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.1367431869125883,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.008225467423115388,
+            "cyclic_alignment": {
+              "max_l2": 0.008225467423115388,
+              "mean_l2": 0.008225467423115388
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.16892451288885282,
+            "cyclic_alignment": {
+              "max_l2": 0.16892451288885282,
+              "mean_l2": 0.16892451288885282
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C02"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 6.206335383118183e-17,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.14551531605580206,
+        0.23527203286895612
+      ],
+      "phase_points": [
+        [
+          -0.14551531605580206,
+          0.23527203286895612
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.9657265184228425,
+          -2.8998788500059307
+        ],
+        [
+          1.1647305003503514,
+          -0.1809118060537697
+        ]
+      ],
+      "monodromy_trace": -1.1466383244766123,
+      "monodromy_determinant": 3.552288672524705,
+      "multipliers": [
+        {
+          "real": -0.573319162238306,
+          "imag": 1.7954369414532696,
+          "modulus": 1.884751620910486
+        },
+        {
+          "real": -0.573319162238306,
+          "imag": -1.7954369414532696,
+          "modulus": 1.884751620910486
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "p_star",
+        "nearest_symmetric_hausdorff_l2": 0.020537652533199908,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.21734457986994293,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.09762899087511262,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.05587558984646897,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.1494402777142352,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.020537652533199908,
+            "cyclic_alignment": {
+              "max_l2": 0.020537652533199908,
+              "mean_l2": 0.020537652533199908
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.17011388259774235,
+            "cyclic_alignment": {
+              "max_l2": 0.17011388259774235,
+              "mean_l2": 0.17011388259774235
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C03"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 0.0,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.19911266548963483,
+        0.39672529317232813
+      ],
+      "phase_points": [
+        [
+          -0.19911266548963483,
+          0.39672529317232813
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -2.022969259018748,
+          2.0356133673920227
+        ],
+        [
+          -4.386822850929747,
+          4.602533831336733
+        ]
+      ],
+      "monodromy_trace": 2.579564572317985,
+      "monodromy_determinant": -0.380909218654615,
+      "multipliers": [
+        {
+          "real": -0.14005951080462076,
+          "imag": 0.0,
+          "modulus": 0.14005951080462076
+        },
+        {
+          "real": 2.7196240831226053,
+          "imag": 0.0,
+          "modulus": 2.7196240831226053
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 5.314669065190498e-06,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.3000915262863513,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.23015453188202267,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.20624537087032258,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.26442038092250786,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.17196744725609167,
+            "cyclic_alignment": {
+              "max_l2": 0.17196744725609167,
+              "mean_l2": 0.17196744725609167
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 5.314669065190498e-06,
+            "cyclic_alignment": {
+              "max_l2": 5.314669065190498e-06,
+              "mean_l2": 5.314669065190498e-06
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "origin"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C04"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 5.551115123125783e-17,
+      "discovered_from_period_equations": [
+        1,
+        2
+      ],
+      "representative": [
+        -0.1996679324827386,
+        0.3961374363985454
+      ],
+      "phase_points": [
+        [
+          -0.1996679324827386,
+          0.3961374363985454
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -1.1410705374111167,
+          2.7128506671041057
+        ],
+        [
+          -3.613554809964607,
+          4.927979962968227
+        ]
+      ],
+      "monodromy_trace": 3.78690942555711,
+      "monodromy_determinant": 4.179861832134365,
+      "multipliers": [
+        {
+          "real": 1.8934547127785546,
+          "imag": 0.771162163744464,
+          "modulus": 2.0444710396907952
+        },
+        {
+          "real": 1.8934547127785546,
+          "imag": -0.771162163744464,
+          "modulus": 2.0444710396907952
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.0008033920189295297,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.29989732221247517,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.22998462630035293,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.2059377981097048,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.2643052447175454,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.1716738789786991,
+            "cyclic_alignment": {
+              "max_l2": 0.1716738789786991,
+              "mean_l2": 0.1716738789786991
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.0008033920189295297,
+            "cyclic_alignment": {
+              "max_l2": 0.0008033920189295297,
+              "mean_l2": 0.0008033920189295297
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C05"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 0.0,
+      "discovered_from_period_equations": [
+        1,
+        2
+      ],
+      "representative": [
+        -0.20246743190427294,
+        0.39605672166574835
+      ],
+      "phase_points": [
+        [
+          -0.20246743190427294,
+          0.39605672166574835
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          2.2745059465637127,
+          2.0799891510840296
+        ],
+        [
+          2.3974176130165645,
+          3.9257837956912707
+        ]
+      ],
+      "monodromy_trace": 6.200289742254983,
+      "monodromy_determinant": 3.9426159625310344,
+      "multipliers": [
+        {
+          "real": 0.7193294101043035,
+          "imag": 0.0,
+          "modulus": 0.7193294101043035
+        },
+        {
+          "real": 5.480960332150681,
+          "imag": 0.0,
+          "modulus": 5.480960332150681
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.0034169480598617036,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.301356016269542,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.23151989663966102,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.2070360428211821,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.2659955699448428,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.17282396959090682,
+            "cyclic_alignment": {
+              "max_l2": 0.17282396959090682,
+              "mean_l2": 0.17282396959090682
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.0034169480598617036,
+            "cyclic_alignment": {
+              "max_l2": 0.0034169480598617036,
+              "mean_l2": 0.0034169480598617036
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C06"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 1.2412670766236366e-16,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.26698471936422474,
+        0.4331628726281842
+      ],
+      "phase_points": [
+        [
+          -0.26698471936422474,
+          0.4331628726281842
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          3.3302266019288935,
+          2.090086018402423
+        ],
+        [
+          0.9980010128705503,
+          2.888353298557843
+        ]
+      ],
+      "monodromy_trace": 6.218579900486736,
+      "monodromy_determinant": 7.532963027274203,
+      "multipliers": [
+        {
+          "real": 4.570358383757077,
+          "imag": 0.0,
+          "modulus": 4.570358383757077
+        },
+        {
+          "real": 1.6482215167296586,
+          "imag": 0.0,
+          "modulus": 1.6482215167296586
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.07703393504233728,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.36930279459512505,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.300661014630421,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.2713819614134717,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.3365085574329846,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.23830943705141583,
+            "cyclic_alignment": {
+              "max_l2": 0.23830943705141583,
+              "mean_l2": 0.23830943705141583
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.07703393504233728,
+            "cyclic_alignment": {
+              "max_l2": 0.07703393504233728,
+              "mean_l2": 0.07703393504233728
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": false,
+      "cycle_id": "C07"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 1.5700924586837752e-16,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.40154696571089343,
+        0.5149111605962764
+      ],
+      "phase_points": [
+        [
+          -0.40154696571089343,
+          0.5149111605962764
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.6326392100937602,
+          -1.246582365754051
+        ],
+        [
+          0.8114809049010542,
+          2.4138734924963465
+        ]
+      ],
+      "monodromy_trace": 1.7812342824025862,
+      "monodromy_determinant": -0.5155332333633609,
+      "multipliers": [
+        {
+          "real": -0.2533811654254805,
+          "imag": 0.0,
+          "modulus": 0.2533811654254805
+        },
+        {
+          "real": 2.0346154478280667,
+          "imag": 0.0,
+          "modulus": 2.0346154478280667
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.23440855979996558,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.5198932395220541,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.453272523057658,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.4197074123033602,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.49021825128447316,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.3885367790802538,
+            "cyclic_alignment": {
+              "max_l2": 0.3885367790802538,
+              "mean_l2": 0.3885367790802538
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.23440855979996558,
+            "cyclic_alignment": {
+              "max_l2": 0.23440855979996558,
+              "mean_l2": 0.23440855979996558
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": false,
+      "cycle_id": "C08"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 5.551115123125783e-17,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.48068722313763446,
+        0.9513505201475586
+      ],
+      "phase_points": [
+        [
+          -0.48068722313763446,
+          0.9513505201475586
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.6647046326117212,
+          -0.7611774104241711
+        ],
+        [
+          0.11148146026438538,
+          0.3103597435172828
+        ]
+      ],
+      "monodromy_trace": -0.3543448890944384,
+      "monodromy_determinant": -0.12144039005777352,
+      "multipliers": [
+        {
+          "real": -0.5681078166544397,
+          "imag": 0.0,
+          "modulus": 0.5681078166544397
+        },
+        {
+          "real": 0.2137629275600013,
+          "imag": 0.0,
+          "modulus": 0.2137629275600013
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.6220100990028642,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.9210814692744642,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.8507276917850191,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.8280754258106402,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.8827311918308044,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.7939159804365309,
+            "cyclic_alignment": {
+              "max_l2": 0.7939159804365309,
+              "mean_l2": 0.7939159804365309
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.6220100990028642,
+            "cyclic_alignment": {
+              "max_l2": 0.6220100990028642,
+              "mean_l2": 0.6220100990028642
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": false,
+      "cycle_id": "C09"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 5.551115123125783e-17,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.4992874213462856,
+        0.9481302264406422
+      ],
+      "phase_points": [
+        [
+          -0.4992874213462856,
+          0.9481302264406422
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          1.5400937624756574,
+          0.22492369705286797
+        ],
+        [
+          0.12196616049132825,
+          0.33251975051308824
+        ]
+      ],
+      "monodromy_trace": 1.8726135129887456,
+      "monodromy_determinant": 0.484678513932116,
+      "multipliers": [
+        {
+          "real": 1.5623992642956535,
+          "imag": 0.0,
+          "modulus": 1.5623992642956535
+        },
+        {
+          "real": 0.3102142486930921,
+          "imag": 0.0,
+          "modulus": 0.3102142486930921
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.62781791491669,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.927387514189001,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.8570947195240144,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.8336052935852365,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.8895181448568259,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.79955324227395,
+            "cyclic_alignment": {
+              "max_l2": 0.79955324227395,
+              "mean_l2": 0.79955324227395
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.62781791491669,
+            "cyclic_alignment": {
+              "max_l2": 0.62781791491669,
+              "mean_l2": 0.62781791491669
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": false,
+      "cycle_id": "C10"
+    },
+    {
+      "least_period": 1,
+      "period_equation_residual_l2": 0.0,
+      "discovered_from_period_equations": [
+        1,
+        2,
+        4
+      ],
+      "representative": [
+        -0.6743594812013725,
+        0.9005014384951164
+      ],
+      "phase_points": [
+        [
+          -0.6743594812013725,
+          0.9005014384951164
+        ]
+      ],
+      "lower_iterate_returns_l2": {},
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.6094969053895446,
+          -0.2100960168383069
+        ],
+        [
+          0.04742340320663531,
+          0.4557646564562853
+        ]
+      ],
+      "monodromy_trace": 1.0652615618458299,
+      "monodromy_determinant": 0.2877506158146659,
+      "multipliers": [
+        {
+          "real": 0.5326307809229149,
+          "imag": 0.06367940819536304,
+          "modulus": 0.5364239142829725
+        },
+        {
+          "real": 0.5326307809229149,
+          "imag": -0.06367940819536304,
+          "modulus": 0.5364239142829725
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "origin",
+        "nearest_symmetric_hausdorff_l2": 0.6925687869209517,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.989033286923945,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.920628123892437,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.8899684334285991,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.956268195803501,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.8576831766243732,
+            "cyclic_alignment": {
+              "max_l2": 0.8576831766243732,
+              "mean_l2": 0.8576831766243732
+            }
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.6925687869209517,
+            "cyclic_alignment": {
+              "max_l2": 0.6925687869209517,
+              "mean_l2": 0.6925687869209517
+            }
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": false,
+      "cycle_id": "C11"
+    },
+    {
+      "least_period": 2,
+      "period_equation_residual_l2": 4.163336342344337e-17,
+      "discovered_from_period_equations": [
+        2,
+        4
+      ],
+      "representative": [
+        -0.11465021796820195,
+        0.20856789778428952
+      ],
+      "phase_points": [
+        [
+          -0.11465021796820195,
+          0.20856789778428952
+        ],
+        [
+          -0.10153483641472644,
+          0.269737410115547
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.0625597512154349
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.25808139687511933,
+          1.2205977343700793
+        ],
+        [
+          0.7540521832207444,
+          -0.3888438559098561
+        ]
+      ],
+      "monodromy_trace": -0.6469252527849754,
+      "monodromy_determinant": -0.8200410209365292,
+      "multipliers": [
+        {
+          "real": 0.6381345302220978,
+          "imag": 0.0,
+          "modulus": 0.6381345302220978
+        },
+        {
+          "real": -1.285059783007073,
+          "imag": 0.0,
+          "modulus": 1.285059783007073
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 6.268815812218962e-06,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.17907070029008557,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.065667196006068,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 6.268815812218962e-06,
+            "cyclic_alignment": {
+              "max_l2": 6.268815812218962e-06,
+              "mean_l2": 5.880032945387647e-06
+            }
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.12666383643327206,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03752063032944625,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.20624248438110507,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "S2"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C12"
+    },
+    {
+      "least_period": 2,
+      "period_equation_residual_l2": 5.003707553108401e-17,
+      "discovered_from_period_equations": [
+        2,
+        4
+      ],
+      "representative": [
+        -0.11307675074923884,
+        0.2102497258288944
+      ],
+      "phase_points": [
+        [
+          -0.11307675074923884,
+          0.2102497258288944
+        ],
+        [
+          -0.10040352061188869,
+          0.26819954859576345
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.059319412681058926
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.5275583875399543,
+          1.0911777250270736
+        ],
+        [
+          1.4799738340011215,
+          0.25558497486293746
+        ]
+      ],
+      "monodromy_trace": -0.27197341267701686,
+      "monodromy_determinant": -1.7497504785030709,
+      "multipliers": [
+        {
+          "real": -1.4657396393316515,
+          "imag": 0.0,
+          "modulus": 1.4657396393316515
+        },
+        {
+          "real": 1.1937662266546345,
+          "imag": 0.0,
+          "modulus": 1.1937662266546345
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 0.0023089383725812002,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.18052051025564536,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.06666900625291855,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.0023089383725812002,
+            "cyclic_alignment": {
+              "max_l2": 0.0023089383725812002,
+              "mean_l2": 0.0021117705530093733
+            }
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.12822099684973326,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03712821510104384,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.20536356033511485,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C13"
+    },
+    {
+      "least_period": 2,
+      "period_equation_residual_l2": 2.7755575615628914e-17,
+      "discovered_from_period_equations": [
+        2,
+        4
+      ],
+      "representative": [
+        -0.11914264439689413,
+        0.21061940885291985
+      ],
+      "phase_points": [
+        [
+          -0.11914264439689413,
+          0.21061940885291985
+        ],
+        [
+          -0.10750563046937918,
+          0.26528982113145755
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.05589520616165989
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.3199020145990148,
+          -1.8594888410338464
+        ],
+        [
+          -0.9216454591025159,
+          1.2437738162399277
+        ]
+      ],
+      "monodromy_trace": 1.5636758308389425,
+      "monodromy_determinant": -1.315903697069987,
+      "multipliers": [
+        {
+          "real": -0.606389091614123,
+          "imag": 0.0,
+          "modulus": 0.606389091614123
+        },
+        {
+          "real": 2.1700649224530655,
+          "imag": 0.0,
+          "modulus": 2.1700649224530655
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 0.007444530658121386,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.17444345293296504,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.05943055777822789,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.007444530658121386,
+            "cyclic_alignment": {
+              "max_l2": 0.007444530658121386,
+              "mean_l2": 0.00618957919907616
+            }
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.12251699747588751,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03125651181790503,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.20255726965964968,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C14"
+    },
+    {
+      "least_period": 2,
+      "period_equation_residual_l2": 6.206335383118183e-17,
+      "discovered_from_period_equations": [
+        2,
+        4
+      ],
+      "representative": [
+        -0.10978240569253167,
+        0.21896177854615947
+      ],
+      "phase_points": [
+        [
+          -0.10978240569253167,
+          0.21896177854615947
+        ],
+        [
+          -0.09684254252138402,
+          0.259927665425746
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.04296095840084465
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.3139114996575955,
+          0.7989181756296293
+        ],
+        [
+          0.12406125748172424,
+          0.17900926085648008
+        ]
+      ],
+      "monodromy_trace": -0.13490223880111543,
+      "monodromy_determinant": -0.15530785902167218,
+      "multipliers": [
+        {
+          "real": -0.4672729703917967,
+          "imag": 0.0,
+          "modulus": 0.4672729703917967
+        },
+        {
+          "real": 0.33237073159068126,
+          "imag": 0.0,
+          "modulus": 0.33237073159068126
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 0.011482115061652762,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.18344745308193244,
+            "cyclic_alignment": null
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.07016277572369896,
+            "cyclic_alignment": null
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.011482115061652762,
+            "cyclic_alignment": {
+              "max_l2": 0.011482115061652762,
+              "mean_l2": 0.011180773418583515
+            }
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.13439688337795516,
+            "cyclic_alignment": null
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03454350762726009,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.19894404935953194,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C15"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 4.126162952233366e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.2931975960907441,
+        0.22219552250280214
+      ],
+      "phase_points": [
+        [
+          -0.2931975960907441,
+          0.22219552250280214
+        ],
+        [
+          -0.03715656120273609,
+          0.14408553230613785
+        ],
+        [
+          0.06214853118740728,
+          0.29942620309522533
+        ],
+        [
+          -0.23507574162441044,
+          0.350234143219051
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.2676904595144271,
+        "2": 0.36364192304566456,
+        "3": 0.14061308033581052
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.07268888545055753,
+          0.044381690160140506
+        ],
+        [
+          -0.799391389654573,
+          -1.0025432236150946
+        ]
+      ],
+      "monodromy_trace": -0.9298543381645371,
+      "monodromy_determinant": -0.03739540856825689,
+      "multipliers": [
+        {
+          "real": 0.03861297938566577,
+          "imag": 0.0,
+          "modulus": 0.03861297938566577
+        },
+        {
+          "real": -0.9684673175502028,
+          "imag": 0.0,
+          "modulus": 0.9684673175502028
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "P0",
+        "nearest_symmetric_hausdorff_l2": 5.838880090382197e-06,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 5.838880090382197e-06,
+            "cyclic_alignment": {
+              "max_l2": 5.838880090382197e-06,
+              "mean_l2": 4.850959139520273e-06
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.1286230926754076,
+            "cyclic_alignment": {
+              "max_l2": 0.1286230926754076,
+              "mean_l2": 0.10819269684442548
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.1790612298953696,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.10403335307046252,
+            "cyclic_alignment": {
+              "max_l2": 0.10403335307046252,
+              "mean_l2": 0.06793660039021404
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.19681105512074315,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.3000922812470123,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "P0"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C16"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 1.1443916996305594e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.1697241173271768,
+        0.22031451628398355
+      ],
+      "phase_points": [
+        [
+          -0.1697241173271768,
+          0.22031451628398355
+        ],
+        [
+          -0.0690605657225994,
+          0.20683287674387624
+        ],
+        [
+          -0.06627390964903687,
+          0.29230437876566817
+        ],
+        [
+          -0.16691214881514774,
+          0.26356377295362116
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.10156232188334806,
+        "2": 0.1260336691871745,
+        "3": 0.043340574170041016
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.9918906634614933,
+          -0.11479927745830525
+        ],
+        [
+          2.921137328728532,
+          0.5882585731187543
+        ]
+      ],
+      "monodromy_trace": 1.5801492365802476,
+      "monodromy_determinant": 0.918832641072192,
+      "multipliers": [
+        {
+          "real": 0.7900746182901239,
+          "imag": 0.5427842468291679,
+          "modulus": 0.9585575835974551
+        },
+        {
+          "real": 0.7900746182901239,
+          "imag": -0.5427842468291679,
+          "modulus": 0.9585575835974551
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "P1",
+        "nearest_symmetric_hausdorff_l2": 4.054939004706671e-06,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.12861555089751325,
+            "cyclic_alignment": {
+              "max_l2": 0.12861555089751325,
+              "mean_l2": 0.1081911694416991
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 4.054939004706671e-06,
+            "cyclic_alignment": {
+              "max_l2": 4.054939004706671e-06,
+              "mean_l2": 3.1146818880065746e-06
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.06566472989535443,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.07137936093378858,
+            "cyclic_alignment": {
+              "max_l2": 0.07137936093378858,
+              "mean_l2": 0.054013154751998575
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.07851410204767506,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.2301560074891834,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "P1"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C17"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 1.1102230246251565e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.16995416368609415,
+        0.2189318863802061
+      ],
+      "phase_points": [
+        [
+          -0.16995416368609415,
+          0.2189318863802061
+        ],
+        [
+          -0.06773339665613168,
+          0.20653607912647742
+        ],
+        [
+          -0.06548925578694777,
+          0.29285253019640195
+        ],
+        [
+          -0.16814857196230606,
+          0.2648304938886604
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.10296961323451426,
+        "2": 0.12797335099378318,
+        "3": 0.04593410859794888
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          1.016911192837077,
+          0.04154493136285266
+        ],
+        [
+          2.841255183702592,
+          0.43855192610622673
+        ]
+      ],
+      "monodromy_trace": 1.4554631189433038,
+      "monodromy_determinant": 0.32792861070640716,
+      "multipliers": [
+        {
+          "real": 1.1768023912394647,
+          "imag": 0.0,
+          "modulus": 1.1768023912394647
+        },
+        {
+          "real": 0.2786607277038391,
+          "imag": 0.0,
+          "modulus": 0.2786607277038391
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "P1",
+        "nearest_symmetric_hausdorff_l2": 0.0017715831071927484,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.12780272682077146,
+            "cyclic_alignment": {
+              "max_l2": 0.12780272682077146,
+              "mean_l2": 0.10728317912348777
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.0017715831071927484,
+            "cyclic_alignment": {
+              "max_l2": 0.0017715831071927484,
+              "mean_l2": 0.0013750314669612146
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.06679070391984439,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.06961969609097919,
+            "cyclic_alignment": {
+              "max_l2": 0.06961969609097919,
+              "mean_l2": 0.05269693804865867
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.07946655362310064,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.2311526856021151,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C18"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 8.777083671441753e-17,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.17030286234695013,
+        0.21750609046627273
+      ],
+      "phase_points": [
+        [
+          -0.17030286234695013,
+          0.21750609046627273
+        ],
+        [
+          -0.06654933355827847,
+          0.2062309368427611
+        ],
+        [
+          -0.0646559674930902,
+          0.29334980226614704
+        ],
+        [
+          -0.16934014951181345,
+          0.2661242066556186
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.10436438006013118,
+        "2": 0.13005204731892894,
+        "3": 0.04862764684625065
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.855300985473678,
+          -0.02961887502981247
+        ],
+        [
+          2.6116274231246153,
+          0.22300136226382702
+        ]
+      ],
+      "monodromy_trace": 1.078302347737505,
+      "monodromy_determinant": 0.2680867511761831,
+      "multipliers": [
+        {
+          "real": 0.6894749481290828,
+          "imag": 0.0,
+          "modulus": 0.6894749481290828
+        },
+        {
+          "real": 0.3888273996084223,
+          "imag": 0.0,
+          "modulus": 0.3888273996084223
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "P1",
+        "nearest_symmetric_hausdorff_l2": 0.0035300609887654716,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.12694576158682616,
+            "cyclic_alignment": {
+              "max_l2": 0.12694576158682616,
+              "mean_l2": 0.1063579277187193
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.0035300609887654716,
+            "cyclic_alignment": {
+              "max_l2": 0.0035300609887654716,
+              "mean_l2": 0.002729004220538063
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.06789791566724968,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.06787826867659998,
+            "cyclic_alignment": {
+              "max_l2": 0.06787826867659998,
+              "mean_l2": 0.051385374575780976
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.08042306077349964,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.23207812436619518,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C19"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 2.7755575615628914e-17,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.1707304969544388,
+        0.22575328863980115
+      ],
+      "phase_points": [
+        [
+          -0.1707304969544388,
+          0.22575328863980115
+        ],
+        [
+          -0.07739044637144474,
+          0.20588936005135544
+        ],
+        [
+          -0.06715816468310577,
+          0.2860081779273234
+        ],
+        [
+          -0.15860248012503964,
+          0.25970368654629633
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.09543029236989038,
+        "2": 0.11982437020562627,
+        "3": 0.036051606208649584
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          1.6077081420117725,
+          1.6637727176665849
+        ],
+        [
+          3.3463192372105337,
+          3.1650946929145487
+        ]
+      ],
+      "monodromy_trace": 4.772802834926321,
+      "monodromy_determinant": -0.4789661434367718,
+      "multipliers": [
+        {
+          "real": -0.09832751517857785,
+          "imag": 0.0,
+          "modulus": 0.09832751517857785
+        },
+        {
+          "real": 4.8711303501049,
+          "imag": 0.0,
+          "modulus": 4.8711303501049
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "P1",
+        "nearest_symmetric_hausdorff_l2": 0.009161083270858954,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.1299969992337839,
+            "cyclic_alignment": {
+              "max_l2": 0.1299969992337839,
+              "mean_l2": 0.11119352129884208
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.009161083270858954,
+            "cyclic_alignment": {
+              "max_l2": 0.009161083270858954,
+              "mean_l2": 0.007356587106709619
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.058649724740500724,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.08027831963906827,
+            "cyclic_alignment": {
+              "max_l2": 0.08027831963906827,
+              "mean_l2": 0.059864419598274474
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.07386069223837514,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.22634863197631283,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C20"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 9.639819490876586e-17,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.1889276321078876,
+        0.2841710055594491
+      ],
+      "phase_points": [
+        [
+          -0.1889276321078876,
+          0.2841710055594491
+        ],
+        [
+          -0.1801151818128927,
+          0.2018385282062816
+        ],
+        [
+          -0.052266030260341795,
+          0.20119444546438808
+        ],
+        [
+          -0.0496800267649058,
+          0.30094254035290946
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.08280275422539755,
+        "2": 0.15987965144053334,
+        "3": 0.14025398380467888
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -2.625600802210293,
+          -4.726491005093599
+        ],
+        [
+          3.2228531022940876,
+          5.602265976829321
+        ]
+      ],
+      "monodromy_trace": 2.976665174619028,
+      "monodromy_determinant": 0.5234721557725093,
+      "multipliers": [
+        {
+          "real": 0.1876936156210114,
+          "imag": 0.0,
+          "modulus": 0.1876936156210114
+        },
+        {
+          "real": 2.7889715589980155,
+          "imag": 0.0,
+          "modulus": 2.7889715589980155
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "P1",
+        "nearest_symmetric_hausdorff_l2": 0.030156721464555114,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.11490455300089004,
+            "cyclic_alignment": {
+              "max_l2": 0.11490455300089004,
+              "mean_l2": 0.09159997621876483
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.030156721464555114,
+            "cyclic_alignment": {
+              "max_l2": 0.030156721464555114,
+              "mean_l2": 0.0219468073884751
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.088572279164537,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.0413251279964625,
+            "cyclic_alignment": {
+              "max_l2": 0.0413251279964625,
+              "mean_l2": 0.032286728680021984
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.09682433898354281,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.24453099374306175,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C21"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 3.1031676915590914e-17,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.11556385984690162,
+        0.2090572874731884
+      ],
+      "phase_points": [
+        [
+          -0.11556385984690162,
+          0.2090572874731884
+        ],
+        [
+          -0.10299604700403142,
+          0.26884134386064157
+        ],
+        [
+          -0.11445354953658794,
+          0.20802494739877464
+        ],
+        [
+          -0.10073119435991373,
+          0.2704345074591252
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.061090779318908606,
+        "2": 0.0015160854245158892,
+        "3": 0.0631440503820508
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          0.19553100651516891,
+          0.15676711608251187
+        ],
+        [
+          0.19286964752384442,
+          -0.10758531975482949
+        ]
+      ],
+      "monodromy_trace": 0.08794568676033943,
+      "monodromy_determinant": -0.05127188428008175,
+      "multipliers": [
+        {
+          "real": 0.2746360073986551,
+          "imag": 0.0,
+          "modulus": 0.2746360073986551
+        },
+        {
+          "real": -0.1866903206383157,
+          "imag": 0.0,
+          "modulus": 0.1866903206383157
+        }
+      ],
+      "unstable_dimension": 0,
+      "role": "sink",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 0.0017129013017872948,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.17812294524814715,
+            "cyclic_alignment": {
+              "max_l2": 0.19584033907035883,
+              "mean_l2": 0.16164078750166896
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.0641326435766716,
+            "cyclic_alignment": {
+              "max_l2": 0.08250584505162846,
+              "mean_l2": 0.060900586566226586
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.0017129013017872948,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.12555919947229635,
+            "cyclic_alignment": {
+              "max_l2": 0.14173699593312122,
+              "mean_l2": 0.11596981718403648
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03857259981295765,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.20681836160654118,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C22"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 1.2412670766236366e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.11358136361309634,
+        0.21206171173253854
+      ],
+      "phase_points": [
+        [
+          -0.11358136361309634,
+          0.21206171173253854
+        ],
+        [
+          -0.10179477591565031,
+          0.2659474412686472
+        ],
+        [
+          -0.11213717130552632,
+          0.21066952492567653
+        ],
+        [
+          -0.09863221919491132,
+          0.2679753104972324
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.05515972713119818,
+        "2": 0.002005960001207705,
+        "3": 0.05787752107385849
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -0.9313925633603172,
+          0.5502194935329081
+        ],
+        [
+          2.7760096078730316,
+          0.6043117113064332
+        ]
+      ],
+      "monodromy_trace": -0.32708085205388393,
+      "monodromy_determinant": -2.0902660343487454,
+      "multipliers": [
+        {
+          "real": -1.6185357886634755,
+          "imag": 0.0,
+          "modulus": 1.6185357886634755
+        },
+        {
+          "real": 1.291454936609592,
+          "imag": 0.0,
+          "modulus": 1.291454936609592
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "S2",
+        "nearest_symmetric_hausdorff_l2": 0.0038025541169325896,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.17990580475346907,
+            "cyclic_alignment": {
+              "max_l2": 0.19558212092749447,
+              "mean_l2": 0.16818877841722873
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.0651599637943175,
+            "cyclic_alignment": {
+              "max_l2": 0.08183218661675647,
+              "mean_l2": 0.05992376148533206
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.0038025541169325896,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.1276448395183047,
+            "cyclic_alignment": {
+              "max_l2": 0.13822529749004553,
+              "mean_l2": 0.11577693938502541
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.03820552272081226,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.20537860372270023,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C23"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 2.237726045655905e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.22196322959054124,
+        0.3090103700680454
+      ],
+      "phase_points": [
+        [
+          -0.22196322959054124,
+          0.3090103700680454
+        ],
+        [
+          -0.19980797470665695,
+          0.17636196541696803
+        ],
+        [
+          -0.03500729960833456,
+          0.18938005615343106
+        ],
+        [
+          -0.016192258725820387,
+          0.31018905042041073
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.13448588987490767,
+        "2": 0.2219547966654942,
+        "3": 0.20577434664695862
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -1.6424911530778759,
+          -3.348736178783455
+        ],
+        [
+          2.007437226801185,
+          3.8162527407144444
+        ]
+      ],
+      "monodromy_trace": 2.1737615876365686,
+      "monodromy_determinant": 0.45421630349318354,
+      "multipliers": [
+        {
+          "real": 0.2341829830565345,
+          "imag": 0.0,
+          "modulus": 0.2341829830565345
+        },
+        {
+          "real": 1.9395786045800338,
+          "imag": 0.0,
+          "modulus": 1.9395786045800338
+        }
+      ],
+      "unstable_dimension": 1,
+      "role": "saddle",
+      "association": {
+        "nearest_known_object": "S4",
+        "nearest_symmetric_hausdorff_l2": 1.8508000021086638e-05,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.10403575893744477,
+            "cyclic_alignment": {
+              "max_l2": 0.10403575893744477,
+              "mean_l2": 0.06792837679809219
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.07138783660185821,
+            "cyclic_alignment": {
+              "max_l2": 0.07138783660185821,
+              "mean_l2": 0.05402603954262288
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.12666544206410646,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 1.8508000021086638e-05,
+            "cyclic_alignment": {
+              "max_l2": 1.8508000021086638e-05,
+              "mean_l2": 1.0919380952768554e-05
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.12956954248765265,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.2644272642081884,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": true,
+        "intended_object": "S4"
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C24"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 9.020562075079397e-17,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.20735466535149563,
+        0.29772489508875205
+      ],
+      "phase_points": [
+        [
+          -0.20735466535149563,
+          0.29772489508875205
+        ],
+        [
+          -0.1901034417646655,
+          0.18801792591938815
+        ],
+        [
+          -0.04224993797506646,
+          0.19588238933236235
+        ],
+        [
+          -0.033594127993788477,
+          0.30615072118060443
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.11105504851005453,
+        "2": 0.19398831660897853,
+        "3": 0.17396470586923463
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -4.008058369507657,
+          -6.788030710015485
+        ],
+        [
+          3.291499855531182,
+          5.288420692500076
+        ]
+      ],
+      "monodromy_trace": 1.2803623229924197,
+      "monodromy_determinant": 1.1465032833047868,
+      "multipliers": [
+        {
+          "real": 0.6401811614962098,
+          "imag": 0.8582956156069713,
+          "modulus": 1.0707489357009823
+        },
+        {
+          "real": 0.6401811614962098,
+          "imag": -0.8582956156069713,
+          "modulus": 1.0707489357009823
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "S4",
+        "nearest_symmetric_hausdorff_l2": 0.018453008222490092,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.10861667122464745,
+            "cyclic_alignment": {
+              "max_l2": 0.10861667122464745,
+              "mean_l2": 0.07900410380988039
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.05294085538239922,
+            "cyclic_alignment": {
+              "max_l2": 0.05294085538239922,
+              "mean_l2": 0.03889803188791141
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.10945367544318584,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.018453008222490092,
+            "cyclic_alignment": {
+              "max_l2": 0.018453008222490092,
+              "mean_l2": 0.015295573944987144
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.11284393584383187,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.2548390879633764,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C25"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 2.633125101432526e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.1490451793969726,
+        0.236202526964417
+      ],
+      "phase_points": [
+        [
+          -0.1490451793969726,
+          0.236202526964417
+        ],
+        [
+          -0.1440786650228601,
+          0.23144215805651955
+        ],
+        [
+          -0.13586358093021123,
+          0.23733920876631232
+        ],
+        [
+          -0.140975697937021,
+          0.24445811337528983
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.00687948960080211,
+        "2": 0.013230517134929662,
+        "3": 0.011544316264719178
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -2.597459518872611,
+          33.92064672998835
+        ],
+        [
+          -1.06742790366302,
+          -3.54446186704662
+        ]
+      ],
+      "monodromy_trace": -6.141921385919231,
+      "monodromy_determinant": 45.41444104572656,
+      "multipliers": [
+        {
+          "real": -3.070960692959616,
+          "imag": 5.99863663410475,
+          "modulus": 6.739023745745861
+        },
+        {
+          "real": -3.070960692959616,
+          "imag": -5.99863663410475,
+          "modulus": 6.739023745745861
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "p_star",
+        "nearest_symmetric_hausdorff_l2": 0.02372982639741366,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.20751457048732033,
+            "cyclic_alignment": {
+              "max_l2": 0.20751457048732033,
+              "mean_l2": 0.1579990362914823
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.08867629775471132,
+            "cyclic_alignment": {
+              "max_l2": 0.08867629775471132,
+              "mean_l2": 0.05647799593331586
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.046845738287038814,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.140085905390823,
+            "cyclic_alignment": {
+              "max_l2": 0.140085905390823,
+              "mean_l2": 0.10975033359204947
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.02372982639741366,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.17420141453104127,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C26"
+    },
+    {
+      "least_period": 4,
+      "period_equation_residual_l2": 3.3766115072321297e-16,
+      "discovered_from_period_equations": [
+        4
+      ],
+      "representative": [
+        -0.15019451140934947,
+        0.2354116750371524
+      ],
+      "phase_points": [
+        [
+          -0.15019451140934947,
+          0.2354116750371524
+        ],
+        [
+          -0.13906704964123323,
+          0.23040693473895185
+        ],
+        [
+          -0.13914029011113593,
+          0.24367056871466025
+        ],
+        [
+          -0.14510325377462452,
+          0.23692677238590937
+        ]
+      ],
+      "lower_iterate_returns_l2": {
+        "1": 0.012201140555428465,
+        "2": 0.013798736655442661,
+        "3": 0.005311913429203785
+      },
+      "least_period_verified": true,
+      "monodromy_matrix": [
+        [
+          -4.091805115514454,
+          -12.745962336651761
+        ],
+        [
+          -4.821867538341172,
+          1.0532008779488038
+        ]
+      ],
+      "monodromy_trace": -3.03860423756565,
+      "monodromy_determinant": -65.76883477607554,
+      "multipliers": [
+        {
+          "real": -9.770187750290118,
+          "imag": 0.0,
+          "modulus": 9.770187750290118
+        },
+        {
+          "real": 6.7315835127244705,
+          "imag": 0.0,
+          "modulus": 6.7315835127244705
+        }
+      ],
+      "unstable_dimension": 2,
+      "role": "repeller",
+      "association": {
+        "nearest_known_object": "p_star",
+        "nearest_symmetric_hausdorff_l2": 0.025024495600455117,
+        "distances_to_known_objects": {
+          "P0": {
+            "symmetric_hausdorff_l2": 0.20886481333970977,
+            "cyclic_alignment": {
+              "max_l2": 0.20886481333970977,
+              "mean_l2": 0.15768058577697153
+            }
+          },
+          "P1": {
+            "symmetric_hausdorff_l2": 0.08760320329200487,
+            "cyclic_alignment": {
+              "max_l2": 0.08760320329200487,
+              "mean_l2": 0.05514394518314356
+            }
+          },
+          "S2": {
+            "symmetric_hausdorff_l2": 0.04575553942097012,
+            "cyclic_alignment": null
+          },
+          "S4": {
+            "symmetric_hausdorff_l2": 0.1397731309136194,
+            "cyclic_alignment": {
+              "max_l2": 0.1397731309136194,
+              "mean_l2": 0.10852608828063473
+            }
+          },
+          "p_star": {
+            "symmetric_hausdorff_l2": 0.025024495600455117,
+            "cyclic_alignment": null
+          },
+          "origin": {
+            "symmetric_hausdorff_l2": 0.1768224252647834,
+            "cyclic_alignment": null
+          }
+        },
+        "is_intended_catalogue_cycle": false,
+        "intended_object": null
+      },
+      "inside_cmgdb_bounds": true,
+      "cycle_id": "C27"
+    }
+  ]
+}

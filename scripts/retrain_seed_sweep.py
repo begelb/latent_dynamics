@@ -14,6 +14,10 @@ Two independent seed axes:
                        value is an independent training of the same dataset
                        (Marcio's ``ci_model_weights_1/2/3``).
 
+The validation seed is inherited unchanged from the packaged config. Thus the
+five training datasets share one holdout set, making validation losses directly
+comparable across both seed axes.
+
 The default grid is 5 IC seeds x 3 model seeds = 15 runs per example.
 
 Each (example, ic_seed) pair is run as one ``pipeline.run`` over an isolated tree::
@@ -31,6 +35,15 @@ Examples::
 
     # full 5x3 sweep for one example
     python scripts/retrain_seed_sweep.py --example chafee_infante
+
+    # Leslie3D Example2 trajectory-length sweep (T=40), isolated from T=20
+    python scripts/retrain_seed_sweep.py --example leslie3d_example2 \
+        --trajectory-length 40 --box-map-backend adaptive_precomputed --tag t40
+
+    # Leslie3D Example2: T=25 and N=50,000 total ICs (40,000/10,000 split)
+    python scripts/retrain_seed_sweep.py --example leslie3d_example2 \
+        --trajectory-length 25 --total-initial-conditions 50000 \
+        --box-map-backend adaptive_precomputed --tag t25_n50000
 
     # all three examples
     python scripts/retrain_seed_sweep.py --example all
@@ -74,6 +87,7 @@ ALIASES: dict[str, str] = {
 
 DEFAULT_IC_SEEDS = [1, 2, 3, 4, 5]
 DEFAULT_MODEL_SEEDS = [0, 1, 2]
+BOX_MAP_BACKENDS = ("auto", "uniform_precomputed", "adaptive_precomputed")
 
 
 def _resolve_example(name: str) -> str:
@@ -96,6 +110,67 @@ def _sweep_label(config_name: str, tag: str | None) -> str:
     return f"{config_name}_seedsweep" + (f"_{tag}" if tag else "")
 
 
+def _split_total_initial_conditions(
+    cfg: ExperimentConfig, total_initial_conditions: int
+) -> tuple[int, int]:
+    """Allocate a requested total using the packaged train/validation ratio."""
+    if total_initial_conditions < 2:
+        raise ValueError("total_initial_conditions must be at least 2")
+    if not isinstance(cfg.data.n_samples_train, int):
+        raise ValueError(
+            "total_initial_conditions requires a scalar packaged "
+            "data.n_samples_train"
+        )
+
+    packaged_train = int(cfg.data.n_samples_train)
+    packaged_validation = int(cfg.data.n_samples_val)
+    packaged_total = packaged_train + packaged_validation
+    train = round(total_initial_conditions * packaged_train / packaged_total)
+    train = min(max(train, 1), total_initial_conditions - 1)
+    return train, total_initial_conditions - train
+
+
+def _data_size_summary(
+    cfg: ExperimentConfig,
+    *,
+    requested_total_initial_conditions: int | None,
+    dataset_count: int,
+) -> dict:
+    """Describe IC and retained one-step-pair counts without reading data files."""
+    if not isinstance(cfg.data.n_samples_train, int):
+        raise ValueError("seed-sweep data-size summaries require scalar training counts")
+
+    train_initial = int(cfg.data.n_samples_train)
+    validation_initial = int(cfg.data.n_samples_val)
+    retained_steps = int(cfg.data.n_iterations) - int(cfg.data.skip)
+    train_pairs = train_initial * retained_steps
+    validation_pairs = validation_initial * retained_steps
+    return {
+        "requested_total_initial_conditions_per_dataset": requested_total_initial_conditions,
+        "effective_initial_conditions_per_dataset": {
+            "train": train_initial,
+            "validation": validation_initial,
+            "total": train_initial + validation_initial,
+        },
+        "trajectory": {
+            "generated_steps": int(cfg.data.n_iterations),
+            "discarded_steps": int(cfg.data.skip),
+            "retained_steps": retained_steps,
+        },
+        "transition_pairs_per_dataset": {
+            "train": train_pairs,
+            "validation": validation_pairs,
+            "total": train_pairs + validation_pairs,
+        },
+        "planned_dataset_count": dataset_count,
+        "transition_pairs_across_dataset_trees": {
+            "train": train_pairs * dataset_count,
+            "validation": validation_pairs * dataset_count,
+            "total": (train_pairs + validation_pairs) * dataset_count,
+        },
+    }
+
+
 def _dataset_config(
     config_name: str,
     *,
@@ -103,6 +178,9 @@ def _dataset_config(
     model_seeds: list[int],
     tag: str | None = None,
     cmgdb_subdiv: tuple[int, int, int] | None = None,
+    box_map_backend: str | None = None,
+    trajectory_length: int | None = None,
+    total_initial_conditions: int | None = None,
     full_batch: bool = False,
     hidden_shapes: list[int] | None = None,
 ) -> ExperimentConfig:
@@ -110,9 +188,13 @@ def _dataset_config(
 
     Overrides the IC seed (``data.train_seed``), the model-seed list (``seeds``),
     and the two path roots. Optional overrides: ``cmgdb_subdiv`` sets the CMGDB
-    (init, min, max) subdivision ladder; ``full_batch`` sets ``batch_size`` to the
-    full training-pair count; ``tag`` namespaces the sweep tree (so e.g. a
-    full-batch sweep does not collide with the standard one).
+    (init, min, max) subdivision ladder; ``box_map_backend`` makes the CMGDB map
+    evaluation strategy explicit; ``trajectory_length`` sets the number of
+    generated map steps; ``total_initial_conditions`` changes the combined
+    training/validation IC count while preserving the packaged split ratio;
+    ``full_batch`` sets ``batch_size`` to the full retained training-pair count;
+    ``tag`` namespaces the sweep tree (so e.g. a full-batch, data-size, or
+    trajectory-length sweep does not collide with the standard one).
     """
     cfg = load_config(config_name).model_copy(deep=True)
     label = _sweep_label(config_name, tag)
@@ -122,10 +204,30 @@ def _dataset_config(
     cfg.seeds = list(model_seeds)
     if cmgdb_subdiv is not None:
         cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max = cmgdb_subdiv
+    if box_map_backend is not None:
+        if box_map_backend not in BOX_MAP_BACKENDS:
+            raise ValueError(
+                f"unknown box_map_backend {box_map_backend!r}; choose from {BOX_MAP_BACKENDS}"
+            )
+        cfg.cmgdb.box_map_backend = box_map_backend
+    if trajectory_length is not None:
+        if trajectory_length <= cfg.data.skip:
+            raise ValueError(
+                "trajectory_length must be greater than data.skip "
+                f"({cfg.data.skip}); got {trajectory_length}"
+            )
+        cfg.data.n_iterations = trajectory_length
+    if total_initial_conditions is not None:
+        n_train, n_validation = _split_total_initial_conditions(
+            cfg, total_initial_conditions
+        )
+        cfg.data.n_samples_train = n_train
+        cfg.data.n_samples_val = n_validation
     if full_batch:
         n_train = cfg.data.n_samples_train
         n_train = n_train if isinstance(n_train, int) else max(n_train)
-        cfg.training.batch_size = int(n_train) * int(cfg.data.n_iterations)
+        retained_steps = int(cfg.data.n_iterations) - int(cfg.data.skip)
+        cfg.training.batch_size = int(n_train) * retained_steps
     cfg.experiment_name = f"{label}_{dataset_dir}"
     cfg.paths.data_dir = REPO_ROOT / "data" / label / dataset_dir
     cfg.paths.output_dir = REPO_ROOT / "output" / label / dataset_dir
@@ -199,11 +301,7 @@ def _plan(
                         "ic_seed": ic,
                         "model_seed": model,
                         "output_dir": str(
-                            REPO_ROOT
-                            / "output"
-                            / sweep_label
-                            / f"dataset_{ic}"
-                            / f"seed_{model}"
+                            REPO_ROOT / "output" / sweep_label / f"dataset_{ic}" / f"seed_{model}"
                         ),
                     }
                 )
@@ -243,6 +341,27 @@ def main(argv: list[str] | None = None) -> int:
         type=str,
         default=None,
         help="override CMGDB subdivision as 'init,min,max' (e.g. '24,25,29')",
+    )
+    parser.add_argument(
+        "--box-map-backend",
+        choices=BOX_MAP_BACKENDS,
+        default=None,
+        help="override CMGDB box-map backend (use adaptive_precomputed to pin precomputation)",
+    )
+    parser.add_argument(
+        "--trajectory-length",
+        type=int,
+        default=None,
+        help="override data.n_iterations (T); use --tag to isolate the output tree",
+    )
+    parser.add_argument(
+        "--total-initial-conditions",
+        type=int,
+        default=None,
+        help=(
+            "override total training + validation initial conditions per dataset, "
+            "preserving the packaged split ratio; use --tag to isolate outputs"
+        ),
     )
     parser.add_argument(
         "--full-batch",
@@ -308,6 +427,20 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.dry_run:
         plan = _plan(config_names, ic_seeds, effective_model_seeds, tag=tag)
+        dry_configs = {
+            name: _dataset_config(
+                name,
+                ic_seed=ic_seeds[0] if ic_seeds else load_config(name).data.train_seed,
+                model_seeds=effective_model_seeds,
+                tag=tag,
+                cmgdb_subdiv=cmgdb_subdiv,
+                box_map_backend=args.box_map_backend,
+                trajectory_length=args.trajectory_length,
+                total_initial_conditions=args.total_initial_conditions,
+                full_batch=args.full_batch,
+            )
+            for name in config_names
+        }
         print(
             json.dumps(
                 {
@@ -317,7 +450,23 @@ def main(argv: list[str] | None = None) -> int:
                     "stages": stages,
                     "tag": tag,
                     "cmgdb_subdiv": cmgdb_subdiv,
+                    "box_map_backend": args.box_map_backend,
+                    "trajectory_length": args.trajectory_length,
+                    "total_initial_conditions": args.total_initial_conditions,
                     "full_batch": args.full_batch,
+                    "shared_val_seeds": {
+                        name: cfg.data.val_seed for name, cfg in dry_configs.items()
+                    },
+                    "data_sizes": {
+                        name: _data_size_summary(
+                            cfg,
+                            requested_total_initial_conditions=(
+                                args.total_initial_conditions
+                            ),
+                            dataset_count=len(ic_seeds),
+                        )
+                        for name, cfg in dry_configs.items()
+                    },
                     "n_cells": len(plan),
                     "cells": plan,
                 },
@@ -337,6 +486,9 @@ def main(argv: list[str] | None = None) -> int:
                 model_seeds=model_seeds,
                 tag=tag,
                 cmgdb_subdiv=cmgdb_subdiv,
+                box_map_backend=args.box_map_backend,
+                trajectory_length=args.trajectory_length,
+                total_initial_conditions=args.total_initial_conditions,
                 full_batch=args.full_batch,
             )
             if verbose:
@@ -344,7 +496,10 @@ def main(argv: list[str] | None = None) -> int:
                     f"\n=== {label}  dataset_{ic} (train_seed={ic}, "
                     f"seeds={effective_model_seeds}, subdiv="
                     f"{(cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max)}, "
-                    f"batch={cfg.training.batch_size}) ===",
+                    f"backend={cfg.cmgdb.box_map_backend}, T={cfg.data.n_iterations}, "
+                    f"N={int(cfg.data.n_samples_train) + cfg.data.n_samples_val} "
+                    f"({cfg.data.n_samples_train}/{cfg.data.n_samples_val}), "
+                    f"batch={cfg.training.batch_size}, val_seed={cfg.data.val_seed}) ===",
                     flush=True,
                 )
             cell_results = pipeline.run(
@@ -361,6 +516,7 @@ def main(argv: list[str] | None = None) -> int:
                 cell_record = {
                     "example": config_name,
                     "ic_seed": ic,
+                    "val_seed": cfg.data.val_seed,
                     "model_seed": cell.get("seed"),
                     "output_dir": cell["output_dir"],
                     "n_attractors_sinks": _read_n_attractors(out_dir / "metrics.json"),
@@ -380,10 +536,21 @@ def main(argv: list[str] | None = None) -> int:
                     "example": config_name,
                     "tag": tag,
                     "cmgdb_subdiv": cmgdb_subdiv,
+                    "box_map_backend": args.box_map_backend,
+                    "trajectory_length": args.trajectory_length,
+                    "total_initial_conditions": args.total_initial_conditions,
                     "full_batch": args.full_batch,
+                    "shared_val_seed": cfg.data.val_seed,
                     "ic_seeds": ic_seeds,
                     "model_seeds": effective_model_seeds,
                     "stages": stages,
+                    "data_size": _data_size_summary(
+                        cfg,
+                        requested_total_initial_conditions=(
+                            args.total_initial_conditions
+                        ),
+                        dataset_count=len(ic_seeds),
+                    ),
                     "cells": example_records,
                 },
                 indent=2,

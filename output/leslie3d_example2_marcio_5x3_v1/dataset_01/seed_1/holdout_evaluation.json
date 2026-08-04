@@ -1,0 +1,33 @@
+{
+  "checkpoint_selection": "fixed final epoch",
+  "dataset": 1,
+  "dataset_initial_condition_seed": 2158,
+  "device": "cpu",
+  "evaluated_at_utc": "2026-08-04T02:15:13.022238+00:00",
+  "holdout": {
+    "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/val.csv",
+    "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+    "loss_prediction": 0.00023601269721984863,
+    "loss_reconstruction": 0.0008197113672892253,
+    "loss_total": 0.001055724064509074,
+    "n_pairs": 6000,
+    "sampling_seed": 9999,
+    "used_for_checkpoint_selection": false,
+    "used_for_optimization": false
+  },
+  "model_seed": 1,
+  "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+  "scaler": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/scalers/train/scaler.gz",
+    "sha256": "62d68372517fd0c18ec74a5121e5aa4eddfff4ac968a49d26d90b5070cb3f784"
+  },
+  "schema_version": 1,
+  "train": {
+    "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/train.csv",
+    "csv_sha256": "7af459e362465b8e016cdd216b0772cb2be09bd1694a59b40a21a6a10fdb1c0c",
+    "loss_prediction": 0.00025213252438439264,
+    "loss_reconstruction": 0.0008087780872980754,
+    "loss_total": 0.0010609106116824681,
+    "n_pairs": 30000
+  }
+}

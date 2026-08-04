@@ -1,0 +1,60 @@
+{
+  "example": "leslie3d_example2",
+  "tag": "t25_n50000",
+  "cmgdb_subdiv": null,
+  "box_map_backend": "adaptive_precomputed",
+  "trajectory_length": 25,
+  "total_initial_conditions": 50000,
+  "full_batch": false,
+  "shared_val_seed": 9999,
+  "ic_seeds": [
+    1
+  ],
+  "model_seeds": [
+    0
+  ],
+  "stages": [
+    "morse"
+  ],
+  "data_size": {
+    "requested_total_initial_conditions_per_dataset": 50000,
+    "effective_initial_conditions_per_dataset": {
+      "train": 40000,
+      "validation": 10000,
+      "total": 50000
+    },
+    "trajectory": {
+      "generated_steps": 25,
+      "discarded_steps": 0,
+      "retained_steps": 25
+    },
+    "transition_pairs_per_dataset": {
+      "train": 1000000,
+      "validation": 250000,
+      "total": 1250000
+    },
+    "planned_dataset_count": 1,
+    "transition_pairs_across_dataset_trees": {
+      "train": 1000000,
+      "validation": 250000,
+      "total": 1250000
+    }
+  },
+  "cells": [
+    {
+      "example": "leslie3d_example2",
+      "ic_seed": 1,
+      "val_seed": 9999,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_seedsweep_t25_n50000/dataset_1/seed_0",
+      "n_attractors_sinks": null,
+      "n_attractor_type_nodes": 3,
+      "n_sinks": 2,
+      "attractor_indices": [
+        "x^2-1",
+        "x^4-1",
+        "x^4-1"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,87 @@
+# Leslie3D Example 2, using Marcio's asymmetric tanh architecture and direct
+# full-batch two-term training protocol.  The dedicated 5x3 runner clones this
+# config into dataset_01..dataset_05 and applies the recorded IC seed for each
+# dataset; the value below is the first member of that frozen seed list.
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 2
+  encoder:
+    hidden_shapes: [64, 32]
+    activation: tanh
+    out_activation: none
+  latent_map:
+    hidden_shapes: [32, 32]
+    activation: tanh
+    out_activation: none
+  decoder:
+    hidden_shapes: [32, 64]
+    activation: tanh
+    out_activation: none
+
+# train_marcio_full_batch uses the fixed 4,000-epoch loop directly: no early
+# stopping, validation-based selection, best-weight restore, or clipping.  The
+# generic patience field is therefore inert here and is set above the epoch
+# count only to keep that fact unambiguous in config metadata.
+training:
+  learning_rate: 0.003
+  batch_size: 30000
+  epochs: 4000
+  patience: 4001
+  lr_patience: 100
+  loss_weights: [1, 1, 0]
+  gradient_clip_norm: null
+  scheduler_factor: 0.5
+  scheduler_threshold: 0.0001
+  scheduler_min_lr: 0.000001
+
+data:
+  sampling_method: uniform
+  scaling: minmax
+  n_samples_train: 1000
+  n_samples_val: 200
+  n_iterations: 30
+  skip: 0
+  train_seed: 2158
+  val_seed: 9999
+  train_files: null
+
+# Patrick's archived Leslie3D Example 2 CMGDB ladder, with latent bounds inferred
+# from the scaled training x/y pairs only and enlarged by one percent.  The fixed
+# validation set remains a strict evaluation holdout.  Exact MapGraph RoA
+# construction stays off; the requested products are the Morse graph and Morse
+# sets.
+cmgdb:
+  subdiv_init: 25
+  subdiv_min: 28
+  subdiv_max: 29
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  lower_bounds: null
+  upper_bounds: null
+  padding: true
+  box_map_backend: adaptive_precomputed
+  max_table_points: 1200000000
+  precompute_batch_points: auto
+  compute_roa: false
+  roa_max_vertices: 50000000
+  collapse_roa_to_lca: true
+
+paths:
+  data_dir: data/leslie3d_example2_marcio_5x3_v1
+  output_dir: output/leslie3d_example2_marcio_5x3_v1
+  scaler_dir_override: null
+  flat_scaler: false
+  scaler_read_only: false
+  read_only: false
+
+seeds: [0, 1, 2]
+experiment_name: leslie3d_example2_marcio_5x3

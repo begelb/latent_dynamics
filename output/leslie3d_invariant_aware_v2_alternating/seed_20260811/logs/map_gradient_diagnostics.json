@@ -1,0 +1,5998 @@
+[
+  {
+    "epoch": 0,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.15976512700773038,
+      "maximum_absolute_element": 0.02699059061706066,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020653951913118362,
+        "finite": true,
+        "total_l2": 0.16018197834045883,
+        "maximum_absolute_element": 0.027112767100334167,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.1501845443028245e-12,
+        "finite": true,
+        "total_l2": 5.5997293851910814e-05,
+        "maximum_absolute_element": 1.746429188642651e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.4358764929056633e-05,
+        "finite": true,
+        "total_l2": 0.006821565070759732,
+        "maximum_absolute_element": 0.0015377888921648264,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0
+  },
+  {
+    "epoch": 50,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.1595767065523459,
+      "maximum_absolute_element": 0.0269028227776289,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020654533058404922,
+        "finite": true,
+        "total_l2": 0.15997854038169704,
+        "maximum_absolute_element": 0.027020489796996117,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.3998628565234945e-12,
+        "finite": true,
+        "total_l2": 6.252336967014703e-05,
+        "maximum_absolute_element": 1.517396140116034e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.4177751836541574e-05,
+        "finite": true,
+        "total_l2": 0.006739917915641743,
+        "maximum_absolute_element": 0.001518698874861002,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0
+  },
+  {
+    "epoch": 100,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.5889589518683829,
+      "maximum_absolute_element": 0.1676507145166397,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020655060186982155,
+        "finite": true,
+        "total_l2": 0.15985349880887614,
+        "maximum_absolute_element": 0.02697695605456829,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.6911435319770804e-12,
+        "finite": true,
+        "total_l2": 6.260341066379244e-05,
+        "maximum_absolute_element": 1.2613491890078876e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.000647077162284404,
+        "finite": true,
+        "total_l2": 0.5849333542089625,
+        "maximum_absolute_element": 0.18668468296527863,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 7.227212108773529e-07,
+        "finite": true,
+        "total_l2": 0.014784456830483048,
+        "maximum_absolute_element": 0.004488305188715458,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3997780115460046e-05,
+        "finite": true,
+        "total_l2": 0.006658259676625391,
+        "maximum_absolute_element": 0.0014996201498433948,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0005
+  },
+  {
+    "epoch": 150,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.3433317153195428,
+      "maximum_absolute_element": 0.40112996101379395,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020656082779169083,
+        "finite": true,
+        "total_l2": 0.1602152148749714,
+        "maximum_absolute_element": 0.027007274329662323,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.1435932416196133e-12,
+        "finite": true,
+        "total_l2": 5.3655565763243316e-05,
+        "maximum_absolute_element": 7.90003286965657e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.031329452991485596,
+        "finite": true,
+        "total_l2": 28.86737565700425,
+        "maximum_absolute_element": 9.036766052246094,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.034641181515138175,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.7232432583114132e-05,
+        "finite": true,
+        "total_l2": 0.5189199412135849,
+        "maximum_absolute_element": 0.15821073949337006,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.382237587677082e-05,
+        "finite": true,
+        "total_l2": 0.006570646159396004,
+        "maximum_absolute_element": 0.0014803912490606308,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0255
+  },
+  {
+    "epoch": 200,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.317496043778292,
+      "maximum_absolute_element": 0.39487573504447937,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020656710490584373,
+        "finite": true,
+        "total_l2": 0.16045480042604487,
+        "maximum_absolute_element": 0.027038924396038055,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.809472702565042e-12,
+        "finite": true,
+        "total_l2": 8.700125217818937e-05,
+        "maximum_absolute_element": 2.422170655336231e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.05964326113462448,
+        "finite": true,
+        "total_l2": 55.62446697689164,
+        "maximum_absolute_element": 17.108449935913086,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.01797770036008466,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 7.476691735064378e-06,
+        "finite": true,
+        "total_l2": 0.4832331750963157,
+        "maximum_absolute_element": 0.14781540632247925,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3649278116645291e-05,
+        "finite": true,
+        "total_l2": 0.006484031683584176,
+        "maximum_absolute_element": 0.0014612310333177447,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0505
+  },
+  {
+    "epoch": 250,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.1041653869748398,
+      "maximum_absolute_element": 0.3089616000652313,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020657498389482498,
+        "finite": true,
+        "total_l2": 0.1608809863832422,
+        "maximum_absolute_element": 0.027065344154834747,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.0217798749343494e-12,
+        "finite": true,
+        "total_l2": 3.800781944893187e-05,
+        "maximum_absolute_element": 7.243361778819235e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.0858679860830307,
+        "finite": true,
+        "total_l2": 81.04557231311779,
+        "maximum_absolute_element": 24.481037139892578,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.012338736977962346,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 7.46009504837275e-07,
+        "finite": true,
+        "total_l2": 0.18747548331033836,
+        "maximum_absolute_element": 0.05750730261206627,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3475406376528554e-05,
+        "finite": true,
+        "total_l2": 0.006397139605633491,
+        "maximum_absolute_element": 0.001441997941583395,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.0755
+  },
+  {
+    "epoch": 300,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0061248104774179,
+      "maximum_absolute_element": 0.27814164757728577,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02065855823457241,
+        "finite": true,
+        "total_l2": 0.16146164779908248,
+        "maximum_absolute_element": 0.027117324993014336,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.7356211873840195e-12,
+        "finite": true,
+        "total_l2": 5.4852611342012626e-05,
+        "maximum_absolute_element": 8.276070730062202e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1097416952252388,
+        "finite": true,
+        "total_l2": 105.11540405060595,
+        "maximum_absolute_element": 31.129064559936523,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.009513353528266497,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.3007633192785306e-08,
+        "finite": true,
+        "total_l2": 0.028705415580720647,
+        "maximum_absolute_element": 0.008828466758131981,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3300282262207475e-05,
+        "finite": true,
+        "total_l2": 0.006309111641503489,
+        "maximum_absolute_element": 0.001422674278728664,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.1005
+  },
+  {
+    "epoch": 350,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9903176609376841,
+      "maximum_absolute_element": 0.2699725031852722,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020659606903791428,
+        "finite": true,
+        "total_l2": 0.16154883881946955,
+        "maximum_absolute_element": 0.027119766920804977,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.4847347526783516e-12,
+        "finite": true,
+        "total_l2": 5.659543023630059e-05,
+        "maximum_absolute_element": 9.34930721996352e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1316341757774353,
+        "finite": true,
+        "total_l2": 128.0207831267528,
+        "maximum_absolute_element": 37.13622283935547,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.007811231704542041,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3125343684805557e-05,
+        "finite": true,
+        "total_l2": 0.00622100971551375,
+        "maximum_absolute_element": 0.0014032598119229078,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.1255
+  },
+  {
+    "epoch": 400,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9911867369091144,
+      "maximum_absolute_element": 0.26707422733306885,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020660556852817535,
+        "finite": true,
+        "total_l2": 0.16185809643995935,
+        "maximum_absolute_element": 0.027135031297802925,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.979322947544883e-12,
+        "finite": true,
+        "total_l2": 0.00013628247471657526,
+        "maximum_absolute_element": 4.193242421024479e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1518286168575287,
+        "finite": true,
+        "total_l2": 149.8479470451677,
+        "maximum_absolute_element": 42.54005432128906,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.006673431433121802,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.2951176358910743e-05,
+        "finite": true,
+        "total_l2": 0.006133125507507155,
+        "maximum_absolute_element": 0.0013838685117661953,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.1505
+  },
+  {
+    "epoch": 450,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9919645702376021,
+      "maximum_absolute_element": 0.2719864845275879,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020661452785134315,
+        "finite": true,
+        "total_l2": 0.1620703789850236,
+        "maximum_absolute_element": 0.02714621089398861,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.7888732989644893e-12,
+        "finite": true,
+        "total_l2": 7.99240696117087e-05,
+        "maximum_absolute_element": 2.4399731046287343e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.170433908700943,
+        "finite": true,
+        "total_l2": 170.65488764001185,
+        "maximum_absolute_element": 47.36431884765625,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.005859779428699665,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.2777688425558154e-05,
+        "finite": true,
+        "total_l2": 0.006045479866156744,
+        "maximum_absolute_element": 0.0013645521830767393,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.1755
+  },
+  {
+    "epoch": 500,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9928287129260933,
+      "maximum_absolute_element": 0.2767777740955353,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02066229283809662,
+        "finite": true,
+        "total_l2": 0.16253925305029085,
+        "maximum_absolute_element": 0.027182552963495255,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.88028325148848e-12,
+        "finite": true,
+        "total_l2": 8.759886704924528e-05,
+        "maximum_absolute_element": 2.6190953576588072e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.18752412497997284,
+        "finite": true,
+        "total_l2": 190.4650977736663,
+        "maximum_absolute_element": 52.67669677734375,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.00525030576041977,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.260511180589674e-05,
+        "finite": true,
+        "total_l2": 0.0059582167985739965,
+        "maximum_absolute_element": 0.0013452263083308935,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.2005
+  },
+  {
+    "epoch": 550,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.99371751311635,
+      "maximum_absolute_element": 0.28144633769989014,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020663117989897728,
+        "finite": true,
+        "total_l2": 0.16314831859911733,
+        "maximum_absolute_element": 0.02723478525876999,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.416585157151042e-12,
+        "finite": true,
+        "total_l2": 9.753221091903457e-05,
+        "maximum_absolute_element": 2.162452437914908e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2031623125076294,
+        "finite": true,
+        "total_l2": 209.33589245596113,
+        "maximum_absolute_element": 58.875465393066406,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.004777011664210281,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.2433081792551093e-05,
+        "finite": true,
+        "total_l2": 0.005871016308067671,
+        "maximum_absolute_element": 0.001325900200754404,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.2255
+  },
+  {
+    "epoch": 600,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9945581300258494,
+      "maximum_absolute_element": 0.2859613299369812,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020663941279053688,
+        "finite": true,
+        "total_l2": 0.16359946744653955,
+        "maximum_absolute_element": 0.02727140113711357,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.0563479304763765e-12,
+        "finite": true,
+        "total_l2": 3.144893440296888e-05,
+        "maximum_absolute_element": 6.798998583690263e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.21745119988918304,
+        "finite": true,
+        "total_l2": 227.33643962264162,
+        "maximum_absolute_element": 64.96857452392578,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.004398766874593035,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.2261348274478223e-05,
+        "finite": true,
+        "total_l2": 0.005783946549733085,
+        "maximum_absolute_element": 0.0013066325336694717,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.2505
+  },
+  {
+    "epoch": 650,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9954107920169871,
+      "maximum_absolute_element": 0.2904105484485626,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206647627055645,
+        "finite": true,
+        "total_l2": 0.16387568485153295,
+        "maximum_absolute_element": 0.027278440073132515,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.838894042402675e-12,
+        "finite": true,
+        "total_l2": 5.455870375498545e-05,
+        "maximum_absolute_element": 1.2662046174227726e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2304135411977768,
+        "finite": true,
+        "total_l2": 244.45163121958407,
+        "maximum_absolute_element": 70.94876861572266,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.004090788819902469,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.2090200470993295e-05,
+        "finite": true,
+        "total_l2": 0.005697071348781961,
+        "maximum_absolute_element": 0.0012873091036453843,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.2755
+  },
+  {
+    "epoch": 700,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9961727036110725,
+      "maximum_absolute_element": 0.2947550117969513,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02066555805504322,
+        "finite": true,
+        "total_l2": 0.1639908928255014,
+        "maximum_absolute_element": 0.02727145329117775,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.3749004025446228e-12,
+        "finite": true,
+        "total_l2": 6.770111641877059e-05,
+        "maximum_absolute_element": 2.230902282462921e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.24214206635951996,
+        "finite": true,
+        "total_l2": 260.73905830490014,
+        "maximum_absolute_element": 76.81330108642578,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003835252019782273,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1919493772438727e-05,
+        "finite": true,
+        "total_l2": 0.005610293672522948,
+        "maximum_absolute_element": 0.001267972751520574,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.3005
+  },
+  {
+    "epoch": 750,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9969979347829729,
+      "maximum_absolute_element": 0.29900407791137695,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206663366407156,
+        "finite": true,
+        "total_l2": 0.16420165508603074,
+        "maximum_absolute_element": 0.02728426456451416,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.6937339118033856e-12,
+        "finite": true,
+        "total_l2": 4.0958910775373885e-05,
+        "maximum_absolute_element": 9.064837286132388e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.25268885493278503,
+        "finite": true,
+        "total_l2": 276.2075465499346,
+        "maximum_absolute_element": 82.54805755615234,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003620465886942049,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1748896213248372e-05,
+        "finite": true,
+        "total_l2": 0.005523472285710844,
+        "maximum_absolute_element": 0.0012486960040405393,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.3255
+  },
+  {
+    "epoch": 800,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9979023036297167,
+      "maximum_absolute_element": 0.3032046854496002,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020667122676968575,
+        "finite": true,
+        "total_l2": 0.1646836951612522,
+        "maximum_absolute_element": 0.027309974655508995,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.650196030852149e-12,
+        "finite": true,
+        "total_l2": 0.00014922806397768296,
+        "maximum_absolute_element": 5.133398371981457e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.26205626130104065,
+        "finite": true,
+        "total_l2": 290.83425498215024,
+        "maximum_absolute_element": 88.14313507080078,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003438384519256065,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1578877092688344e-05,
+        "finite": true,
+        "total_l2": 0.005436944163445336,
+        "maximum_absolute_element": 0.0012294279877096415,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.3505
+  },
+  {
+    "epoch": 850,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9987769994085364,
+      "maximum_absolute_element": 0.30731841921806335,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02066791243851185,
+        "finite": true,
+        "total_l2": 0.1649293609172733,
+        "maximum_absolute_element": 0.02732235938310623,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.005643039484141e-12,
+        "finite": true,
+        "total_l2": 9.002661790454628e-05,
+        "maximum_absolute_element": 2.1686948457499966e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2703111469745636,
+        "finite": true,
+        "total_l2": 304.6641301335293,
+        "maximum_absolute_element": 93.5919418334961,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003282303038305537,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1409081707824953e-05,
+        "finite": true,
+        "total_l2": 0.005350346837401326,
+        "maximum_absolute_element": 0.0012101179454475641,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.3755
+  },
+  {
+    "epoch": 900,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 0.9996577805164957,
+      "maximum_absolute_element": 0.311309278011322,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020668702200055122,
+        "finite": true,
+        "total_l2": 0.16524545620126518,
+        "maximum_absolute_element": 0.027343951165676117,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.408985550443222e-12,
+        "finite": true,
+        "total_l2": 6.921101094694542e-05,
+        "maximum_absolute_element": 1.6020690964069217e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.27742475271224976,
+        "finite": true,
+        "total_l2": 317.7100869434114,
+        "maximum_absolute_element": 98.87135314941406,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0031475236106624175,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1239345440117177e-05,
+        "finite": true,
+        "total_l2": 0.005263920059805417,
+        "maximum_absolute_element": 0.00119080173317343,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.4005
+  },
+  {
+    "epoch": 950,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0005662375575437,
+      "maximum_absolute_element": 0.3152065575122833,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020669490098953247,
+        "finite": true,
+        "total_l2": 0.1656803439519287,
+        "maximum_absolute_element": 0.027368947863578796,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.157479052523504e-12,
+        "finite": true,
+        "total_l2": 4.0764802172276546e-05,
+        "maximum_absolute_element": 5.984514245938044e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2835197448730469,
+        "finite": true,
+        "total_l2": 330.01246018225095,
+        "maximum_absolute_element": 103.99076080322266,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0030301886160532913,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.10701221274212e-05,
+        "finite": true,
+        "total_l2": 0.0051775973837730645,
+        "maximum_absolute_element": 0.0011715601431205869,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.4255
+  },
+  {
+    "epoch": 1000,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0014502281608482,
+      "maximum_absolute_element": 0.3189541697502136,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020670264959335327,
+        "finite": true,
+        "total_l2": 0.16594913284146529,
+        "maximum_absolute_element": 0.027382398024201393,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.8155516113015366e-12,
+        "finite": true,
+        "total_l2": 5.182101113414904e-05,
+        "maximum_absolute_element": 9.802628483157605e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2887043356895447,
+        "finite": true,
+        "total_l2": 341.65010594786315,
+        "maximum_absolute_element": 108.94053649902344,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002926971139744356,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.0900854249484837e-05,
+        "finite": true,
+        "total_l2": 0.005091342536225919,
+        "maximum_absolute_element": 0.001152273383922875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.4505
+  },
+  {
+    "epoch": 1050,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0022895998617731,
+      "maximum_absolute_element": 0.32255467772483826,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020671024918556213,
+        "finite": true,
+        "total_l2": 0.1663582071147285,
+        "maximum_absolute_element": 0.027448931708931923,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.2383466607989178e-12,
+        "finite": true,
+        "total_l2": 3.1052398713993984e-05,
+        "maximum_absolute_element": 5.881010110897478e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.29298636317253113,
+        "finite": true,
+        "total_l2": 352.60715055860544,
+        "maximum_absolute_element": 113.70970153808594,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002836017359307043,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.0731746442615986e-05,
+        "finite": true,
+        "total_l2": 0.005005138138614502,
+        "maximum_absolute_element": 0.001132993376813829,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.4755
+  },
+  {
+    "epoch": 1100,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0032108897683139,
+      "maximum_absolute_element": 0.3259660601615906,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020671773701906204,
+        "finite": true,
+        "total_l2": 0.16684539506534415,
+        "maximum_absolute_element": 0.027470748871564865,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.029227263652955e-12,
+        "finite": true,
+        "total_l2": 6.539293327292955e-05,
+        "maximum_absolute_element": 1.4971295968280174e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.296443372964859,
+        "finite": true,
+        "total_l2": 362.9671542808087,
+        "maximum_absolute_element": 118.29371643066406,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0027550702266198705,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.056255950970808e-05,
+        "finite": true,
+        "total_l2": 0.004919074054766297,
+        "maximum_absolute_element": 0.0011137147666886449,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.5005
+  },
+  {
+    "epoch": 1150,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0040990685691968,
+      "maximum_absolute_element": 0.3291753828525543,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020672522485256195,
+        "finite": true,
+        "total_l2": 0.1670406811138431,
+        "maximum_absolute_element": 0.027473991736769676,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.3836284508693684e-12,
+        "finite": true,
+        "total_l2": 6.331732398437054e-05,
+        "maximum_absolute_element": 1.4727648704138119e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2991495132446289,
+        "finite": true,
+        "total_l2": 372.794085026867,
+        "maximum_absolute_element": 122.69283294677734,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0026824459940879373,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.0393485354143195e-05,
+        "finite": true,
+        "total_l2": 0.004833094731512056,
+        "maximum_absolute_element": 0.0010944654932245612,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.5255
+  },
+  {
+    "epoch": 1200,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.004995872069872,
+      "maximum_absolute_element": 0.3321731388568878,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020673265680670738,
+        "finite": true,
+        "total_l2": 0.167506294949612,
+        "maximum_absolute_element": 0.027507012709975243,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.0640455450647863e-12,
+        "finite": true,
+        "total_l2": 8.121626403761134e-05,
+        "maximum_absolute_element": 1.3860822946298867e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.3011099696159363,
+        "finite": true,
+        "total_l2": 382.06250213749007,
+        "maximum_absolute_element": 126.89261627197266,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002617372797396732,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.0224497600574978e-05,
+        "finite": true,
+        "total_l2": 0.004747169754570573,
+        "maximum_absolute_element": 0.0010752062080428004,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.5505
+  },
+  {
+    "epoch": 1250,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0058019847306676,
+      "maximum_absolute_element": 0.33500194549560547,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020673999562859535,
+        "finite": true,
+        "total_l2": 0.16759713166146845,
+        "maximum_absolute_element": 0.027496404945850372,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.167291511869564e-12,
+        "finite": true,
+        "total_l2": 7.098050723717319e-05,
+        "maximum_absolute_element": 2.3884880647528917e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.3023533821105957,
+        "finite": true,
+        "total_l2": 390.7584563401828,
+        "maximum_absolute_element": 130.8903045654297,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002559125679239112,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.0055336133518722e-05,
+        "finite": true,
+        "total_l2": 0.004661402187620348,
+        "maximum_absolute_element": 0.0010559632210060954,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.5755
+  },
+  {
+    "epoch": 1300,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.006476476030583,
+      "maximum_absolute_element": 0.33763906359672546,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020674727857112885,
+        "finite": true,
+        "total_l2": 0.16708762018966403,
+        "maximum_absolute_element": 0.02747689187526703,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.5873281381955104e-12,
+        "finite": true,
+        "total_l2": 0.00010993258023758056,
+        "maximum_absolute_element": 3.54252006218303e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.30310219526290894,
+        "finite": true,
+        "total_l2": 399.00689625569925,
+        "maximum_absolute_element": 134.711669921875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0025062223469921137,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.885890904115513e-06,
+        "finite": true,
+        "total_l2": 0.004575557395110917,
+        "maximum_absolute_element": 0.0010366906644776464,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.6005
+  },
+  {
+    "epoch": 1350,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0073278048689673,
+      "maximum_absolute_element": 0.340169757604599,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020675452426075935,
+        "finite": true,
+        "total_l2": 0.16738814227002627,
+        "maximum_absolute_element": 0.027500655502080917,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.0661350154957976e-12,
+        "finite": true,
+        "total_l2": 4.2345356156318876e-05,
+        "maximum_absolute_element": 7.448943961207988e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.3031867742538452,
+        "finite": true,
+        "total_l2": 406.64599141827637,
+        "maximum_absolute_element": 138.3220672607422,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002459141418097484,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.716419299365953e-06,
+        "finite": true,
+        "total_l2": 0.0044899664471135916,
+        "maximum_absolute_element": 0.001017461414448917,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.6255
+  },
+  {
+    "epoch": 1400,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0081844050278521,
+      "maximum_absolute_element": 0.3425268828868866,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02067617140710354,
+        "finite": true,
+        "total_l2": 0.16779703982643251,
+        "maximum_absolute_element": 0.02752631902694702,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.859791834424307e-12,
+        "finite": true,
+        "total_l2": 4.5823722228626966e-05,
+        "maximum_absolute_element": 8.93335891305469e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.30266520380973816,
+        "finite": true,
+        "total_l2": 413.74959100597454,
+        "maximum_absolute_element": 141.71701049804688,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002416920818141806,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.546729415887967e-06,
+        "finite": true,
+        "total_l2": 0.004404329390730966,
+        "maximum_absolute_element": 0.0009982091141864657,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.6505
+  },
+  {
+    "epoch": 1450,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0090172331063392,
+      "maximum_absolute_element": 0.34470412135124207,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02067689038813114,
+        "finite": true,
+        "total_l2": 0.16805929271484746,
+        "maximum_absolute_element": 0.027539480477571487,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.2222865908583245e-12,
+        "finite": true,
+        "total_l2": 4.215682418329385e-05,
+        "maximum_absolute_element": 1.3128396858519409e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.30159294605255127,
+        "finite": true,
+        "total_l2": 420.3452482569461,
+        "maximum_absolute_element": 144.89520263671875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002378996798814111,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.377035894431174e-06,
+        "finite": true,
+        "total_l2": 0.0043188317500623625,
+        "maximum_absolute_element": 0.0009789676405489445,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.6755
+  },
+  {
+    "epoch": 1500,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0097985318487868,
+      "maximum_absolute_element": 0.3466567099094391,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020677609369158745,
+        "finite": true,
+        "total_l2": 0.16819752699257817,
+        "maximum_absolute_element": 0.02754415199160576,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.0400868494530044e-12,
+        "finite": true,
+        "total_l2": 2.7972930758013267e-05,
+        "maximum_absolute_element": 7.102745712472824e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.29997023940086365,
+        "finite": true,
+        "total_l2": 426.4653866295283,
+        "maximum_absolute_element": 147.84385681152344,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002344856186109895,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.207088623952586e-06,
+        "finite": true,
+        "total_l2": 0.0042333303776213365,
+        "maximum_absolute_element": 0.0009597149328328669,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.7005
+  },
+  {
+    "epoch": 1550,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0105626729092174,
+      "maximum_absolute_element": 0.34839820861816406,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020678330212831497,
+        "finite": true,
+        "total_l2": 0.16834568902387564,
+        "maximum_absolute_element": 0.027543088421225548,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 7.007832682204285e-12,
+        "finite": true,
+        "total_l2": 9.095960515507919e-05,
+        "maximum_absolute_element": 1.9055252778343856e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.297868013381958,
+        "finite": true,
+        "total_l2": 432.1033879725597,
+        "maximum_absolute_element": 150.55596923828125,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002314260956601205,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.036969458975364e-06,
+        "finite": true,
+        "total_l2": 0.00414791682597675,
+        "maximum_absolute_element": 0.0009404505253769457,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.7255
+  },
+  {
+    "epoch": 1600,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.011269214802247,
+      "maximum_absolute_element": 0.34991371631622314,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020679043605923653,
+        "finite": true,
+        "total_l2": 0.16851747879220355,
+        "maximum_absolute_element": 0.027544541284441948,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.9883461196967822e-12,
+        "finite": true,
+        "total_l2": 2.983756629161334e-05,
+        "maximum_absolute_element": 5.750646323576802e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.29524731636047363,
+        "finite": true,
+        "total_l2": 437.2376113424744,
+        "maximum_absolute_element": 153.013916015625,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022870859552307117,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.86668567545712e-06,
+        "finite": true,
+        "total_l2": 0.004062606253097649,
+        "maximum_absolute_element": 0.0009212184813804924,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.7505
+  },
+  {
+    "epoch": 1650,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0119497040467318,
+      "maximum_absolute_element": 0.3512459993362427,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020679762586951256,
+        "finite": true,
+        "total_l2": 0.16852282667503088,
+        "maximum_absolute_element": 0.02753574401140213,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.9742603779164822e-12,
+        "finite": true,
+        "total_l2": 0.00011491054497279627,
+        "maximum_absolute_element": 2.8214783014846034e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2921913266181946,
+        "finite": true,
+        "total_l2": 441.8655205317719,
+        "maximum_absolute_element": 155.2267608642578,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002263132001783094,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.696128134033643e-06,
+        "finite": true,
+        "total_l2": 0.003977307364813497,
+        "maximum_absolute_element": 0.0009019718854688108,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.7755
+  },
+  {
+    "epoch": 1700,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0126619047474967,
+      "maximum_absolute_element": 0.35239288210868835,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020680485293269157,
+        "finite": true,
+        "total_l2": 0.1689872331607599,
+        "maximum_absolute_element": 0.02756522223353386,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.0440810422648354e-12,
+        "finite": true,
+        "total_l2": 0.00013228527027250186,
+        "maximum_absolute_element": 3.205232496839017e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2886885106563568,
+        "finite": true,
+        "total_l2": 445.94235243421605,
+        "maximum_absolute_element": 157.17617797851562,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022424423124231384,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.525348675902933e-06,
+        "finite": true,
+        "total_l2": 0.0038920725670099567,
+        "maximum_absolute_element": 0.0008827339042909443,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.8005
+  },
+  {
+    "epoch": 1750,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0133133780135046,
+      "maximum_absolute_element": 0.3534125089645386,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020681194961071014,
+        "finite": true,
+        "total_l2": 0.16927402906331987,
+        "maximum_absolute_element": 0.027568276971578598,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.8173652606998676e-12,
+        "finite": true,
+        "total_l2": 6.625306453787441e-05,
+        "maximum_absolute_element": 1.795104253687896e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2847796678543091,
+        "finite": true,
+        "total_l2": 449.45377788816245,
+        "maximum_absolute_element": 158.87294006347656,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022249228935145977,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.354317287739832e-06,
+        "finite": true,
+        "total_l2": 0.003807012792478205,
+        "maximum_absolute_element": 0.0008634915575385094,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.8255
+  },
+  {
+    "epoch": 1800,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.013941258930093,
+      "maximum_absolute_element": 0.35427865386009216,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02068191207945347,
+        "finite": true,
+        "total_l2": 0.16943182501312654,
+        "maximum_absolute_element": 0.027570320293307304,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.7160170813778084e-12,
+        "finite": true,
+        "total_l2": 4.299980736159601e-05,
+        "maximum_absolute_element": 9.964383025362622e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2804296016693115,
+        "finite": true,
+        "total_l2": 452.30624382591617,
+        "maximum_absolute_element": 160.27769470214844,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022108914339570296,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.182929377653636e-06,
+        "finite": true,
+        "total_l2": 0.003721869225216754,
+        "maximum_absolute_element": 0.000844244787003845,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.8505
+  },
+  {
+    "epoch": 1850,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0145631471701566,
+      "maximum_absolute_element": 0.3550321161746979,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020682616159319878,
+        "finite": true,
+        "total_l2": 0.16955043322780874,
+        "maximum_absolute_element": 0.027558673173189163,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.243190442424714e-12,
+        "finite": true,
+        "total_l2": 9.238572102799883e-05,
+        "maximum_absolute_element": 3.309856401756406e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.27573448419570923,
+        "finite": true,
+        "total_l2": 454.540567816713,
+        "maximum_absolute_element": 161.4126434326172,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022000236520213824,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 8.011184036149643e-06,
+        "finite": true,
+        "total_l2": 0.0036367752683387202,
+        "maximum_absolute_element": 0.0008249866659753025,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.8755
+  },
+  {
+    "epoch": 1900,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0151156212431112,
+      "maximum_absolute_element": 0.35561561584472656,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02068331651389599,
+        "finite": true,
+        "total_l2": 0.16967837771751032,
+        "maximum_absolute_element": 0.02752929925918579,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.4153623939409128e-12,
+        "finite": true,
+        "total_l2": 0.00015984318104066372,
+        "maximum_absolute_element": 4.485008685151115e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.27076029777526855,
+        "finite": true,
+        "total_l2": 456.2071635383192,
+        "maximum_absolute_element": 162.27639770507812,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0021919866234542426,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.839084901206661e-06,
+        "finite": true,
+        "total_l2": 0.0035517157974596426,
+        "maximum_absolute_element": 0.0008057322120293975,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.9005
+  },
+  {
+    "epoch": 1950,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0155121710712443,
+      "maximum_absolute_element": 0.35609468817710876,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206840168684721,
+        "finite": true,
+        "total_l2": 0.16908833953798197,
+        "maximum_absolute_element": 0.027486149221658707,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.459207750632464e-12,
+        "finite": true,
+        "total_l2": 4.586290490152716e-05,
+        "maximum_absolute_element": 8.322304893226828e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.26547473669052124,
+        "finite": true,
+        "total_l2": 457.18106815536026,
+        "maximum_absolute_element": 162.8463897705078,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002187317169616865,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.6666374297929e-06,
+        "finite": true,
+        "total_l2": 0.003466793749531982,
+        "maximum_absolute_element": 0.0007864984218031168,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.9255
+  },
+  {
+    "epoch": 2000,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0159389421703355,
+      "maximum_absolute_element": 0.3564631938934326,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020684707909822464,
+        "finite": true,
+        "total_l2": 0.16898095259719967,
+        "maximum_absolute_element": 0.027431804686784744,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.2607610268278169e-12,
+        "finite": true,
+        "total_l2": 4.503463997227912e-05,
+        "maximum_absolute_element": 9.072460670722649e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2598678767681122,
+        "finite": true,
+        "total_l2": 457.4059831282308,
+        "maximum_absolute_element": 163.1014404296875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002186241625352011,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.4936519922630396e-06,
+        "finite": true,
+        "total_l2": 0.0033818632632087375,
+        "maximum_absolute_element": 0.000767272780649364,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.9505
+  },
+  {
+    "epoch": 2050,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0163990105572382,
+      "maximum_absolute_element": 0.35675597190856934,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020685404539108276,
+        "finite": true,
+        "total_l2": 0.169126923989126,
+        "maximum_absolute_element": 0.027420051395893097,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.91771294225296e-12,
+        "finite": true,
+        "total_l2": 9.364622821832432e-05,
+        "maximum_absolute_element": 2.319813756912481e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.253984659910202,
+        "finite": true,
+        "total_l2": 456.86351203470065,
+        "maximum_absolute_element": 163.04684448242188,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002188837527309565,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.320280019484926e-06,
+        "finite": true,
+        "total_l2": 0.0032969320436199586,
+        "maximum_absolute_element": 0.0007480247877538204,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 0.9755
+  },
+  {
+    "epoch": 2100,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0167158581641165,
+      "maximum_absolute_element": 0.35696008801460266,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020686106756329536,
+        "finite": true,
+        "total_l2": 0.1684394761831256,
+        "maximum_absolute_element": 0.027373306453227997,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.976422927569722e-12,
+        "finite": true,
+        "total_l2": 3.8086587823743654e-05,
+        "maximum_absolute_element": 1.1479383829282597e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.24775654077529907,
+        "finite": true,
+        "total_l2": 455.3270003481048,
+        "maximum_absolute_element": 162.5965576171875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0021962238110972594,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.146255939005641e-06,
+        "finite": true,
+        "total_l2": 0.003212129481962958,
+        "maximum_absolute_element": 0.0007287759217433631,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2150,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0171233044127859,
+      "maximum_absolute_element": 0.3570883572101593,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020686814561486244,
+        "finite": true,
+        "total_l2": 0.1686635275068594,
+        "maximum_absolute_element": 0.027386900037527084,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.821687324240264e-12,
+        "finite": true,
+        "total_l2": 0.00010387927334988378,
+        "maximum_absolute_element": 3.164016379741952e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.23557035624980927,
+        "finite": true,
+        "total_l2": 442.1776286785995,
+        "maximum_absolute_element": 157.9629364013672,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0022615345850679753,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.971784841880435e-06,
+        "finite": true,
+        "total_l2": 0.003127295959496849,
+        "maximum_absolute_element": 0.0007095381733961403,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2200,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0174095125870823,
+      "maximum_absolute_element": 0.3571595251560211,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020687513053417206,
+        "finite": true,
+        "total_l2": 0.16820811071997313,
+        "maximum_absolute_element": 0.02736791782081127,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.8030952125418507e-12,
+        "finite": true,
+        "total_l2": 5.1409047643543253e-05,
+        "maximum_absolute_element": 1.662931390455924e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.22376076877117157,
+        "finite": true,
+        "total_l2": 428.8059312438804,
+        "maximum_absolute_element": 153.22084045410156,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0023320572947748116,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.796742127335165e-06,
+        "finite": true,
+        "total_l2": 0.0030425284168003872,
+        "maximum_absolute_element": 0.0006903252797201276,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2250,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0177170606439803,
+      "maximum_absolute_element": 0.35716512799263,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020688194781541824,
+        "finite": true,
+        "total_l2": 0.16829318616016523,
+        "maximum_absolute_element": 0.027358191087841988,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.0243312194866423e-12,
+        "finite": true,
+        "total_l2": 5.059314686330014e-05,
+        "maximum_absolute_element": 1.5657811673008837e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.2123766988515854,
+        "finite": true,
+        "total_l2": 415.27082666235026,
+        "maximum_absolute_element": 148.39309692382812,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002408067063215786,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.621078227908583e-06,
+        "finite": true,
+        "total_l2": 0.0029577585661915732,
+        "maximum_absolute_element": 0.0006710843299515545,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2300,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.018009545318274,
+      "maximum_absolute_element": 0.3571230173110962,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02068888396024704,
+        "finite": true,
+        "total_l2": 0.16844822599580148,
+        "maximum_absolute_element": 0.027355963364243507,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.787475545523721e-12,
+        "finite": true,
+        "total_l2": 4.527131976118485e-05,
+        "maximum_absolute_element": 7.1100030254456215e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.20142094790935516,
+        "finite": true,
+        "total_l2": 401.55427395718243,
+        "maximum_absolute_element": 143.47984313964844,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0024903233880325406,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.444841801567236e-06,
+        "finite": true,
+        "total_l2": 0.0028730301743228647,
+        "maximum_absolute_element": 0.0006518583395518363,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2350,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0183527155640255,
+      "maximum_absolute_element": 0.3570323586463928,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02068956196308136,
+        "finite": true,
+        "total_l2": 0.16886655914201662,
+        "maximum_absolute_element": 0.02736131101846695,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.1772635737670196e-12,
+        "finite": true,
+        "total_l2": 0.000100254453687415,
+        "maximum_absolute_element": 2.959792982437648e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.19083470106124878,
+        "finite": true,
+        "total_l2": 387.56323755114676,
+        "maximum_absolute_element": 138.44949340820312,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0025802240850256787,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.26800601821742e-06,
+        "finite": true,
+        "total_l2": 0.0027883197836029877,
+        "maximum_absolute_element": 0.0006326257716864347,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2400,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0186528638793564,
+      "maximum_absolute_element": 0.3569071590900421,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020690247416496277,
+        "finite": true,
+        "total_l2": 0.16900809374930661,
+        "maximum_absolute_element": 0.027359113097190857,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.944671633267615e-12,
+        "finite": true,
+        "total_l2": 7.075971427554066e-05,
+        "maximum_absolute_element": 1.5607112800353207e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.18070578575134277,
+        "finite": true,
+        "total_l2": 373.42252840370685,
+        "maximum_absolute_element": 133.35328674316406,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0026779316295531532,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 6.090576334827347e-06,
+        "finite": true,
+        "total_l2": 0.002703659687225557,
+        "maximum_absolute_element": 0.0006134092691354454,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2450,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0189594135914113,
+      "maximum_absolute_element": 0.35673394799232483,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206909216940403,
+        "finite": true,
+        "total_l2": 0.16924684472333884,
+        "maximum_absolute_element": 0.027358662337064743,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.907585196915141e-12,
+        "finite": true,
+        "total_l2": 3.8533713258077816e-05,
+        "maximum_absolute_element": 5.278477601677878e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1709694266319275,
+        "finite": true,
+        "total_l2": 359.0475673447694,
+        "maximum_absolute_element": 128.16107177734375,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002785146289655164,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.912469987379154e-06,
+        "finite": true,
+        "total_l2": 0.0026189753685921862,
+        "maximum_absolute_element": 0.0005941821145825088,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2500,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0192355307323886,
+      "maximum_absolute_element": 0.356498122215271,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020691588521003723,
+        "finite": true,
+        "total_l2": 0.16933928662609649,
+        "maximum_absolute_element": 0.02734595537185669,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.7563160087673566e-12,
+        "finite": true,
+        "total_l2": 8.84879524285243e-05,
+        "maximum_absolute_element": 2.1999308955855668e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.16166093945503235,
+        "finite": true,
+        "total_l2": 344.4928119589906,
+        "maximum_absolute_element": 122.88842010498047,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.002902818187448973,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.733688794862246e-06,
+        "finite": true,
+        "total_l2": 0.0025343359072327884,
+        "maximum_absolute_element": 0.0005749632837250829,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2550,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0194866345983202,
+      "maximum_absolute_element": 0.35619452595710754,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020692234858870506,
+        "finite": true,
+        "total_l2": 0.16945989513282295,
+        "maximum_absolute_element": 0.027324829250574112,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.1275604975695694e-12,
+        "finite": true,
+        "total_l2": 3.864620618936853e-05,
+        "maximum_absolute_element": 1.0719295460148714e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.152754545211792,
+        "finite": true,
+        "total_l2": 329.7019117059726,
+        "maximum_absolute_element": 117.51653289794922,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.00303304277134976,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.554199560720008e-06,
+        "finite": true,
+        "total_l2": 0.0024497041050575213,
+        "maximum_absolute_element": 0.0005557644763030112,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2600,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.019794168597563,
+      "maximum_absolute_element": 0.3558363914489746,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069287933409214,
+        "finite": true,
+        "total_l2": 0.16960418855993548,
+        "maximum_absolute_element": 0.027328843250870705,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.9843887777714073e-12,
+        "finite": true,
+        "total_l2": 8.781772587535933e-05,
+        "maximum_absolute_element": 2.5633067707531154e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1442428082227707,
+        "finite": true,
+        "total_l2": 314.64959255317615,
+        "maximum_absolute_element": 112.0409164428711,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003178138550524249,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.374034572014352e-06,
+        "finite": true,
+        "total_l2": 0.002365075718359624,
+        "maximum_absolute_element": 0.0005365597899071872,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2650,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0200600639502728,
+      "maximum_absolute_element": 0.35538315773010254,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020693520084023476,
+        "finite": true,
+        "total_l2": 0.16966067761284143,
+        "maximum_absolute_element": 0.0273213442414999,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.7448085077448328e-12,
+        "finite": true,
+        "total_l2": 2.7703390500886146e-05,
+        "maximum_absolute_element": 4.954476025886834e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1361130177974701,
+        "finite": true,
+        "total_l2": 299.3125191072465,
+        "maximum_absolute_element": 106.4488525390625,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0033409895549396888,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.1930774134234525e-06,
+        "finite": true,
+        "total_l2": 0.002280456164532182,
+        "maximum_absolute_element": 0.000517359294462949,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2700,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0204060205795287,
+      "maximum_absolute_element": 0.3548535108566284,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069416642189026,
+        "finite": true,
+        "total_l2": 0.16982556734846693,
+        "maximum_absolute_element": 0.02731896936893463,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.597571897161588e-12,
+        "finite": true,
+        "total_l2": 0.00010217503062888898,
+        "maximum_absolute_element": 2.5113122319453396e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.12838435173034668,
+        "finite": true,
+        "total_l2": 283.73810024210854,
+        "maximum_absolute_element": 100.76097106933594,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003524376878349135,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.011484972783364e-06,
+        "finite": true,
+        "total_l2": 0.002195846003653638,
+        "maximum_absolute_element": 0.0004981650854460895,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2750,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0207203484042777,
+      "maximum_absolute_element": 0.3541729748249054,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206947922706604,
+        "finite": true,
+        "total_l2": 0.17006302641342283,
+        "maximum_absolute_element": 0.02732074446976185,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.0069881046951297e-12,
+        "finite": true,
+        "total_l2": 4.277782511066541e-05,
+        "maximum_absolute_element": 9.08666606846964e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.12109425663948059,
+        "finite": true,
+        "total_l2": 267.98572231366245,
+        "maximum_absolute_element": 94.9869155883789,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003731542081296225,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 4.8290103222825564e-06,
+        "finite": true,
+        "total_l2": 0.0021112645859121294,
+        "maximum_absolute_element": 0.00047897020704112947,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2800,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0210753222052669,
+      "maximum_absolute_element": 0.3533271849155426,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020695418119430542,
+        "finite": true,
+        "total_l2": 0.17016131385575503,
+        "maximum_absolute_element": 0.02731960266828537,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.3463002374324304e-12,
+        "finite": true,
+        "total_l2": 7.698481406970259e-05,
+        "maximum_absolute_element": 1.8295997506356798e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.1141979843378067,
+        "finite": true,
+        "total_l2": 251.9844912365892,
+        "maximum_absolute_element": 89.10567474365234,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.003968498200395564,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 4.645728949981276e-06,
+        "finite": true,
+        "total_l2": 0.0020266473485533922,
+        "maximum_absolute_element": 0.00045977815170772374,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2850,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0214719796556968,
+      "maximum_absolute_element": 0.3522937595844269,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020696014165878296,
+        "finite": true,
+        "total_l2": 0.17025978671646183,
+        "maximum_absolute_element": 0.02731500193476677,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.225472844202825e-12,
+        "finite": true,
+        "total_l2": 4.276497551240356e-05,
+        "maximum_absolute_element": 8.126900866045617e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.10770641267299652,
+        "finite": true,
+        "total_l2": 235.76517935496068,
+        "maximum_absolute_element": 83.12892150878906,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.004241508448092019,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 4.461630851437803e-06,
+        "finite": true,
+        "total_l2": 0.0019420758930084475,
+        "maximum_absolute_element": 0.0004405971267260611,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2900,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.021889065511823,
+      "maximum_absolute_element": 0.35101044178009033,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020696574822068214,
+        "finite": true,
+        "total_l2": 0.1700146793971411,
+        "maximum_absolute_element": 0.027296582236886024,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.667365460451432e-12,
+        "finite": true,
+        "total_l2": 6.659070825686362e-05,
+        "maximum_absolute_element": 1.1871631613757927e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.10162673145532608,
+        "finite": true,
+        "total_l2": 219.38794639449992,
+        "maximum_absolute_element": 77.07512664794922,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.00455813556047337,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 4.276619620213751e-06,
+        "finite": true,
+        "total_l2": 0.001857462912631045,
+        "maximum_absolute_element": 0.0004214202635921538,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 2950,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0224160633764774,
+      "maximum_absolute_element": 0.34940049052238464,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069709636271,
+        "finite": true,
+        "total_l2": 0.17013685233316544,
+        "maximum_absolute_element": 0.02729024738073349,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.0209480790234213e-12,
+        "finite": true,
+        "total_l2": 5.407171144634936e-05,
+        "maximum_absolute_element": 1.0657813618308865e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.09595240652561188,
+        "finite": true,
+        "total_l2": 202.86925013978419,
+        "maximum_absolute_element": 70.94741821289062,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0049292832664928725,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 4.090683432877995e-06,
+        "finite": true,
+        "total_l2": 0.0017728571838163166,
+        "maximum_absolute_element": 0.00040224092663265765,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3000,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0230788726415718,
+      "maximum_absolute_element": 0.3473266065120697,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069757506251335,
+        "finite": true,
+        "total_l2": 0.17024898157333657,
+        "maximum_absolute_element": 0.027288831770420074,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.8768094717236394e-12,
+        "finite": true,
+        "total_l2": 6.351232590891887e-05,
+        "maximum_absolute_element": 1.626089942874387e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.0906616747379303,
+        "finite": true,
+        "total_l2": 186.21907003597698,
+        "maximum_absolute_element": 64.73967742919922,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.005370019299348867,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.903687684214674e-06,
+        "finite": true,
+        "total_l2": 0.0016882418065275076,
+        "maximum_absolute_element": 0.0003830698551610112,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3050,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0238239408003527,
+      "maximum_absolute_element": 0.34464383125305176,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698009058833122,
+        "finite": true,
+        "total_l2": 0.1703262361331638,
+        "maximum_absolute_element": 0.027287695556879044,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.422983688687985e-12,
+        "finite": true,
+        "total_l2": 7.452435071681927e-05,
+        "maximum_absolute_element": 1.7238005966646597e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.08576028794050217,
+        "finite": true,
+        "total_l2": 169.52055628347222,
+        "maximum_absolute_element": 58.481170654296875,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.00589898960883419,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.7158724808250554e-06,
+        "finite": true,
+        "total_l2": 0.0016036381973300285,
+        "maximum_absolute_element": 0.0003639042843133211,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3100,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.024708589745765,
+      "maximum_absolute_element": 0.34100911021232605,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698372274637222,
+        "finite": true,
+        "total_l2": 0.17059334098335718,
+        "maximum_absolute_element": 0.027293365448713303,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.6558815950362682e-12,
+        "finite": true,
+        "total_l2": 2.7404654525280977e-05,
+        "maximum_absolute_element": 5.4240599638433196e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.08125759661197662,
+        "finite": true,
+        "total_l2": 152.86653418814586,
+        "maximum_absolute_element": 52.18219757080078,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.0065416541646009215,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.527093895172584e-06,
+        "finite": true,
+        "total_l2": 0.0015190492578501693,
+        "maximum_absolute_element": 0.00034473981941118836,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3150,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0257367702208846,
+      "maximum_absolute_element": 0.3361085057258606,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206986702978611,
+        "finite": true,
+        "total_l2": 0.17059831548889234,
+        "maximum_absolute_element": 0.027284763753414154,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.769463911672654e-12,
+        "finite": true,
+        "total_l2": 3.6107788722165336e-05,
+        "maximum_absolute_element": 9.098150258068927e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.07712731510400772,
+        "finite": true,
+        "total_l2": 136.38020703182906,
+        "maximum_absolute_element": 45.886295318603516,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.007332442307897421,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.337316229590215e-06,
+        "finite": true,
+        "total_l2": 0.0014344208497881579,
+        "maximum_absolute_element": 0.0003255760530009866,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3200,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.027066944829787,
+      "maximum_absolute_element": 0.32947081327438354,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069886215031147,
+        "finite": true,
+        "total_l2": 0.17071256147658395,
+        "maximum_absolute_element": 0.027244461700320244,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.3832809680688896e-12,
+        "finite": true,
+        "total_l2": 2.1487501102974334e-05,
+        "maximum_absolute_element": 5.128646989760455e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.07339747995138168,
+        "finite": true,
+        "total_l2": 120.49318587436441,
+        "maximum_absolute_element": 39.74251174926758,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.008299224497580051,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.146579501844826e-06,
+        "finite": true,
+        "total_l2": 0.00134981536493669,
+        "maximum_absolute_element": 0.0003064227057620883,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3250,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0285584984267835,
+      "maximum_absolute_element": 0.32005855441093445,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698929205536842,
+        "finite": true,
+        "total_l2": 0.1706911960262718,
+        "maximum_absolute_element": 0.027231333777308464,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.1392369172905665e-12,
+        "finite": true,
+        "total_l2": 8.51789768795348e-05,
+        "maximum_absolute_element": 1.7566922906553373e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.0700172632932663,
+        "finite": true,
+        "total_l2": 105.19291636614203,
+        "maximum_absolute_element": 33.70710754394531,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.00950634353095905,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 2.9549414648499805e-06,
+        "finite": true,
+        "total_l2": 0.0012652044002091972,
+        "maximum_absolute_element": 0.00028727695462293923,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3300,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.030329535045822,
+      "maximum_absolute_element": 0.3063735067844391,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698843523859978,
+        "finite": true,
+        "total_l2": 0.17055497912644887,
+        "maximum_absolute_element": 0.027223695069551468,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.73127483771496e-12,
+        "finite": true,
+        "total_l2": 9.225974818291012e-05,
+        "maximum_absolute_element": 2.5333118173875846e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.06692095100879669,
+        "finite": true,
+        "total_l2": 90.67195943568422,
+        "maximum_absolute_element": 27.81383514404297,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.011028767947926756,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 2.7622454581432976e-06,
+        "finite": true,
+        "total_l2": 0.001180617804676598,
+        "maximum_absolute_element": 0.0002681241894606501,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3350,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.032357389352864,
+      "maximum_absolute_element": 0.28660380840301514,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698556676506996,
+        "finite": true,
+        "total_l2": 0.17047664665408543,
+        "maximum_absolute_element": 0.027211099863052368,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.8344184598304576e-12,
+        "finite": true,
+        "total_l2": 6.0583613591119584e-05,
+        "maximum_absolute_element": 2.26946322072763e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.06411796063184738,
+        "finite": true,
+        "total_l2": 77.54137523465275,
+        "maximum_absolute_element": 22.25335693359375,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.012896340785468731,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 2.568605850683525e-06,
+        "finite": true,
+        "total_l2": 0.0010960258222206436,
+        "maximum_absolute_element": 0.00024898230913095176,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3400,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0347820884547398,
+      "maximum_absolute_element": 0.2629719078540802,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020698050037026405,
+        "finite": true,
+        "total_l2": 0.1707189828699421,
+        "maximum_absolute_element": 0.027208199724555016,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.729690388655892e-12,
+        "finite": true,
+        "total_l2": 4.3600548660522935e-05,
+        "maximum_absolute_element": 6.927826689206995e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.06156754121184349,
+        "finite": true,
+        "total_l2": 66.34262686651991,
+        "maximum_absolute_element": 17.23904800415039,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.01507326506699781,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 2.37397989621968e-06,
+        "finite": true,
+        "total_l2": 0.0010114444465371042,
+        "maximum_absolute_element": 0.00022983603412285447,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3450,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0370277553597342,
+      "maximum_absolute_element": 0.29204848408699036,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069728821516037,
+        "finite": true,
+        "total_l2": 0.1704919201283276,
+        "maximum_absolute_element": 0.02720237709581852,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.3427603133434625e-12,
+        "finite": true,
+        "total_l2": 8.490892949754463e-05,
+        "maximum_absolute_element": 1.7247679352294654e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.059204719960689545,
+        "finite": true,
+        "total_l2": 57.34842372151663,
+        "maximum_absolute_element": 15.32807445526123,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.017437270897905973,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 2.178373051719973e-06,
+        "finite": true,
+        "total_l2": 0.0009268768893465478,
+        "maximum_absolute_element": 0.00021069265494588763,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3500,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.038720342465116,
+      "maximum_absolute_element": 0.3162221610546112,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020696306601166725,
+        "finite": true,
+        "total_l2": 0.17027706047304522,
+        "maximum_absolute_element": 0.02718604914844036,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.3181751657164185e-12,
+        "finite": true,
+        "total_l2": 6.0210902581312866e-05,
+        "maximum_absolute_element": 7.896649549365975e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.05704834684729576,
+        "finite": true,
+        "total_l2": 50.95360344444687,
+        "maximum_absolute_element": 14.852014541625977,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.01962569734818165,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.9820515717583476e-06,
+        "finite": true,
+        "total_l2": 0.0008423391730738179,
+        "maximum_absolute_element": 0.00019155125482939184,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3550,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0398923789879806,
+      "maximum_absolute_element": 0.3336089849472046,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020695140585303307,
+        "finite": true,
+        "total_l2": 0.17005723703850698,
+        "maximum_absolute_element": 0.02717009000480175,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 3.1927379576940362e-12,
+        "finite": true,
+        "total_l2": 7.330017431761467e-05,
+        "maximum_absolute_element": 1.3256454622023739e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.055070776492357254,
+        "finite": true,
+        "total_l2": 46.518887451370084,
+        "maximum_absolute_element": 14.369769096374512,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.02149664479928413,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.7851195934781572e-06,
+        "finite": true,
+        "total_l2": 0.0007578206108737977,
+        "maximum_absolute_element": 0.0001723956665955484,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3600,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0404509842744616,
+      "maximum_absolute_element": 0.34367695450782776,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02069384604692459,
+        "finite": true,
+        "total_l2": 0.16968324395135861,
+        "maximum_absolute_element": 0.027149278670549393,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 4.264833278200264e-12,
+        "finite": true,
+        "total_l2": 9.801368499758384e-05,
+        "maximum_absolute_element": 2.2030850232113153e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.05328301340341568,
+        "finite": true,
+        "total_l2": 43.58342901121285,
+        "maximum_absolute_element": 13.904333114624023,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.022944500299476294,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.5877400301178568e-06,
+        "finite": true,
+        "total_l2": 0.0006733456680866896,
+        "maximum_absolute_element": 0.0001532372843939811,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3650,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.040474553475266,
+      "maximum_absolute_element": 0.34824323654174805,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206924881786108,
+        "finite": true,
+        "total_l2": 0.16931835170059192,
+        "maximum_absolute_element": 0.027146179229021072,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.5897320312523453e-12,
+        "finite": true,
+        "total_l2": 2.764157127947844e-05,
+        "maximum_absolute_element": 4.2519677663221955e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.051673274487257004,
+        "finite": true,
+        "total_l2": 41.606129176183806,
+        "maximum_absolute_element": 13.465605735778809,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.024034920330257406,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 2.7087246334822623e-10,
+        "finite": true,
+        "total_l2": 0.0017528078664372428,
+        "maximum_absolute_element": 0.0006042840541340411,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.3900162230129354e-06,
+        "finite": true,
+        "total_l2": 0.000588884756975516,
+        "maximum_absolute_element": 0.00013406823563855141,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3700,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0402682852504461,
+      "maximum_absolute_element": 0.3503131866455078,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020691100507974625,
+        "finite": true,
+        "total_l2": 0.1689615794825976,
+        "maximum_absolute_element": 0.027124380692839622,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.7371418933469505e-12,
+        "finite": true,
+        "total_l2": 4.577474425747919e-05,
+        "maximum_absolute_element": 1.2180311387055553e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.050184376537799835,
+        "finite": true,
+        "total_l2": 40.07223384725066,
+        "maximum_absolute_element": 13.052823066711426,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.024954935225518622,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 8.700091314040037e-09,
+        "finite": true,
+        "total_l2": 0.009937981359325523,
+        "maximum_absolute_element": 0.003429634729400277,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.1918569953195401e-06,
+        "finite": true,
+        "total_l2": 0.00050442954144997,
+        "maximum_absolute_element": 0.00011488812742754817,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3750,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0400426983020659,
+      "maximum_absolute_element": 0.3505765199661255,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.0206897109746933,
+        "finite": true,
+        "total_l2": 0.1687462050421583,
+        "maximum_absolute_element": 0.02709433063864708,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 5.156152414753645e-12,
+        "finite": true,
+        "total_l2": 0.00010109470009892029,
+        "maximum_absolute_element": 2.7323256290401332e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.04883450269699097,
+        "finite": true,
+        "total_l2": 38.868279868967925,
+        "maximum_absolute_element": 12.671760559082031,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.025727920128473834,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.1510094211075739e-08,
+        "finite": true,
+        "total_l2": 0.011432918754764041,
+        "maximum_absolute_element": 0.003949126228690147,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 9.933934279615642e-07,
+        "finite": true,
+        "total_l2": 0.0004200180916628794,
+        "maximum_absolute_element": 9.569608664605767e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3800,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.039884601528984,
+      "maximum_absolute_element": 0.35008496046066284,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020688366144895554,
+        "finite": true,
+        "total_l2": 0.168479148255765,
+        "maximum_absolute_element": 0.027079282328486443,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.4633713038152427e-12,
+        "finite": true,
+        "total_l2": 8.898025942607724e-05,
+        "maximum_absolute_element": 2.25670519284904e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.047596827149391174,
+        "finite": true,
+        "total_l2": 37.80528551438691,
+        "maximum_absolute_element": 12.307861328125,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.026451327807573907,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.4156031014067594e-08,
+        "finite": true,
+        "total_l2": 0.012680999310174336,
+        "maximum_absolute_element": 0.004383917897939682,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 7.946339906084177e-07,
+        "finite": true,
+        "total_l2": 0.00033562925211555304,
+        "maximum_absolute_element": 7.649584586033598e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3850,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0396398804497977,
+      "maximum_absolute_element": 0.34932559728622437,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020687038078904152,
+        "finite": true,
+        "total_l2": 0.1681642486086291,
+        "maximum_absolute_element": 0.02705717459321022,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.6950520808088907e-12,
+        "finite": true,
+        "total_l2": 3.3251346619991665e-05,
+        "maximum_absolute_element": 8.394284122914542e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.04645736888051033,
+        "finite": true,
+        "total_l2": 36.84606876278646,
+        "maximum_absolute_element": 11.96909236907959,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.027139937409277864,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.594540322003013e-08,
+        "finite": true,
+        "total_l2": 0.013459765735725831,
+        "maximum_absolute_element": 0.004656834993511438,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 5.955380402156152e-07,
+        "finite": true,
+        "total_l2": 0.0002512692290813875,
+        "maximum_absolute_element": 5.72895587538369e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3900,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0396440070157669,
+      "maximum_absolute_element": 0.3482397496700287,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.020685724914073944,
+        "finite": true,
+        "total_l2": 0.16855349319059473,
+        "maximum_absolute_element": 0.027034372091293335,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 1.841882332417888e-12,
+        "finite": true,
+        "total_l2": 3.629517658859709e-05,
+        "maximum_absolute_element": 6.979178579058498e-06,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.045406412333250046,
+        "finite": true,
+        "total_l2": 35.97316587314368,
+        "maximum_absolute_element": 11.643918991088867,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.027798498567693137,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.7256564177614564e-08,
+        "finite": true,
+        "total_l2": 0.014002987090812281,
+        "maximum_absolute_element": 0.004848378710448742,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 3.9608167412552575e-07,
+        "finite": true,
+        "total_l2": 0.00016693111548936215,
+        "maximum_absolute_element": 3.807172834058292e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  },
+  {
+    "epoch": 3950,
+    "stage": "topology_repair",
+    "total_before_global_clip": {
+      "finite": true,
+      "total_l2": 1.0394912107303,
+      "maximum_absolute_element": 0.3470999300479889,
+      "nonfinite_parameters": [],
+      "norm_accumulator_dtype": "float64"
+    },
+    "terms_before_per_term_clip": {
+      "replay": {
+        "loss": 0.02068442292511463,
+        "finite": true,
+        "total_l2": 0.1682790453975417,
+        "maximum_absolute_element": 0.027011364698410034,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "anchor": {
+        "loss": 2.9931016432699353e-12,
+        "finite": true,
+        "total_l2": 0.00010231612995923348,
+        "maximum_absolute_element": 3.336962981848046e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "characteristic": {
+        "loss": 0.04442613571882248,
+        "finite": true,
+        "total_l2": 35.13465895797497,
+        "maximum_absolute_element": 11.333725929260254,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 0.028461924198441336,
+        "max_norm": 1.0
+      },
+      "topology": {
+        "loss": 1.9388171068612792e-08,
+        "finite": true,
+        "total_l2": 0.014843251114137543,
+        "maximum_absolute_element": 0.005142888519912958,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "trust": {
+        "loss": 1.9624776825821755e-07,
+        "finite": true,
+        "total_l2": 8.261382460023853e-05,
+        "maximum_absolute_element": 1.8847327737603337e-05,
+        "nonfinite_parameters": [],
+        "norm_accumulator_dtype": "float64",
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      },
+      "rollout": {
+        "loss": 0.0,
+        "finite": true,
+        "total_l2": 0.0,
+        "maximum_absolute_element": 0.0,
+        "nonfinite_parameters": [],
+        "clip_coefficient": 1.0,
+        "max_norm": 1.0
+      }
+    },
+    "rollout_backprop_steps": null,
+    "rollout_training_max_horizon": null,
+    "spectral_ramp": 1.0
+  }
+]

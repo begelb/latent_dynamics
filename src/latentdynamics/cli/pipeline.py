@@ -53,6 +53,12 @@ DEFAULT_REPLAY_ROOT: Path = Path("replay")
 
 
 def _check_read_only(cfg: ExperimentConfig, plan: list[str], *, force_overwrite: bool) -> None:
+    if cfg.paths.scaler_read_only and "scale" in plan:
+        raise RuntimeError(
+            "config sets paths.scaler_read_only=true; refusing the scale stage because "
+            f"it would overwrite the protected scaler at {cfg.paths.scaler_path('train')}. "
+            "Omit 'scale' from --stages."
+        )
     if not cfg.paths.read_only or force_overwrite:
         return
     blocked = [s for s in plan if s in WRITE_STAGES]

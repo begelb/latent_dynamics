@@ -107,6 +107,11 @@ training:
   scheduler_threshold: 0.001
   scheduler_min_lr: 0.000001
 
+  # Optional model directory for a weights-only warm start. Adam and the LR
+  # scheduler are deliberately reinitialized; source checkpoint files are
+  # read but never rewritten. Leave null for random initialization.
+  warm_start_checkpoint_dir: null
+
 data:
   # Choices: uniform, sobol, adaptive.
   sampling_method: uniform
@@ -199,6 +204,10 @@ paths:
   # false: scaler path is <scaler_dir>/<train_file>/scaler.gz
   # true: scaler path is <scaler_dir>/scaler.gz
   flat_scaler: false
+
+  # Protect an existing/external scaler from the scale stage. Use this for a
+  # warm-start checkpoint that must retain its original input coordinates.
+  scaler_read_only: false
 
   # true marks a config as an artifact source. Pipeline-derived writes can be
   # redirected to replay output roots instead of modifying source artifacts.

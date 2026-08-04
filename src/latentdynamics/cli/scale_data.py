@@ -63,6 +63,12 @@ def scaler_is_current(cfg: ExperimentConfig, train_file: str) -> bool:
 
 
 def run(cfg: ExperimentConfig, train_file: str = "train", *, verbose: bool = True) -> None:
+    if cfg.paths.scaler_read_only:
+        raise RuntimeError(
+            "config sets paths.scaler_read_only=true; refusing to fit or overwrite "
+            f"the protected scaler at {cfg.paths.scaler_path(train_file)}. "
+            "Omit the scale stage and use the existing scaler."
+        )
     high_dims = cfg.arch.high_dims
     csv_path = cfg.paths.data_dir / f"{train_file}.csv"
     if not csv_path.exists():

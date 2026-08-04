@@ -1,0 +1,1043 @@
+{
+  "cells": [
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dataset_name": "dataset_01",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/train.csv",
+        "csv_sha256": "7af459e362465b8e016cdd216b0772cb2be09bd1694a59b40a21a6a10fdb1c0c",
+        "loss_prediction": 0.00031770386033587987,
+        "loss_reconstruction": 0.0006263257530000475,
+        "loss_total": 0.0009440296133359273,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0003253832393222385,
+        "loss_reconstruction": 0.0006847249137030707,
+        "loss_total": 0.0010101081530253092,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.019892293959856033,
+            "n_boxes": 1054,
+            "n_semiconjugacy_samples": 22,
+            "tau_bar": 0.00038653373485431075
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 4,
+          "n_trivial_index": 1
+        }
+      },
+      "model_seed": 0,
+      "morse": {
+        "n_morse_edges": 4,
+        "n_morse_nodes": 4,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_0",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dataset_name": "dataset_01",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/train.csv",
+        "csv_sha256": "7af459e362465b8e016cdd216b0772cb2be09bd1694a59b40a21a6a10fdb1c0c",
+        "loss_prediction": 0.00025213252438439264,
+        "loss_reconstruction": 0.0008087780872980754,
+        "loss_total": 0.0010609106116824681,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.00023601269721984863,
+        "loss_reconstruction": 0.0008197113672892253,
+        "loss_total": 0.001055724064509074,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.009403572417795658,
+            "n_boxes": 5205,
+            "n_semiconjugacy_samples": 86,
+            "tau_bar": 0.0003455963742453605
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 1,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_1",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01",
+      "dataset": 1,
+      "dataset_initial_condition_seed": 2158,
+      "dataset_name": "dataset_01",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/train.csv",
+        "csv_sha256": "7af459e362465b8e016cdd216b0772cb2be09bd1694a59b40a21a6a10fdb1c0c",
+        "loss_prediction": 0.0002456089205212063,
+        "loss_reconstruction": 0.0006785843902164035,
+        "loss_total": 0.0009241933107376099,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_01/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0002338968382941352,
+        "loss_reconstruction": 0.0007682355244954427,
+        "loss_total": 0.0010021323627895779,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 4649,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0004429600085131824
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 2,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_2",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dataset_name": "dataset_02",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/train.csv",
+        "csv_sha256": "19a7f57e028214f9e579d6bf22290dd225f625f7b91005e4596f4786e5172435",
+        "loss_prediction": 0.00028776317437489827,
+        "loss_reconstruction": 0.0006730301856994629,
+        "loss_total": 0.0009607933600743611,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0002817792097727458,
+        "loss_reconstruction": 0.0006507188479105632,
+        "loss_total": 0.000932498057683309,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0,
+          1
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.008637724444270134,
+            "n_boxes": 747,
+            "n_semiconjugacy_samples": 2,
+            "tau_bar": 0.000413040688727051
+          },
+          "1": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 2462,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.00041151851383513057
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 2,
+          "n_morse_sets": 5,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 0,
+      "morse": {
+        "n_morse_edges": 4,
+        "n_morse_nodes": 5,
+        "n_sink_nodes": 2
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_0",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dataset_name": "dataset_02",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/train.csv",
+        "csv_sha256": "19a7f57e028214f9e579d6bf22290dd225f625f7b91005e4596f4786e5172435",
+        "loss_prediction": 0.0002533998370170593,
+        "loss_reconstruction": 0.0007531529479556613,
+        "loss_total": 0.0010065527849727207,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.000238009426328871,
+        "loss_reconstruction": 0.0007666302257113987,
+        "loss_total": 0.0010046396520402697,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.025997674092650414,
+            "n_boxes": 938,
+            "n_semiconjugacy_samples": 35,
+            "tau_bar": 0.00038517257780767977
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 1,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_1",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02",
+      "dataset": 2,
+      "dataset_initial_condition_seed": 4792,
+      "dataset_name": "dataset_02",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/train.csv",
+        "csv_sha256": "19a7f57e028214f9e579d6bf22290dd225f625f7b91005e4596f4786e5172435",
+        "loss_prediction": 0.0002934786081314087,
+        "loss_reconstruction": 0.0006572128719753689,
+        "loss_total": 0.0009506914801067775,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_02/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0002772119575076633,
+        "loss_reconstruction": 0.000664653566148546,
+        "loss_total": 0.0009418655236562093,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 4873,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.00045133264211472124
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 2,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_2",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dataset_name": "dataset_03",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/train.csv",
+        "csv_sha256": "8e33c7b4d7e3599ca003a0b5ec00b25b2b1f2466b6bdf19976fcf80732d98b5d",
+        "loss_prediction": 0.0002823001888063219,
+        "loss_reconstruction": 0.0007189187447230022,
+        "loss_total": 0.001001218933529324,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0003106453153822157,
+        "loss_reconstruction": 0.0007589522467719184,
+        "loss_total": 0.001069597562154134,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.02536366879940033,
+            "n_boxes": 1950,
+            "n_semiconjugacy_samples": 58,
+            "tau_bar": 0.00036806373100262135
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 0,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_0",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dataset_name": "dataset_03",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/train.csv",
+        "csv_sha256": "8e33c7b4d7e3599ca003a0b5ec00b25b2b1f2466b6bdf19976fcf80732d98b5d",
+        "loss_prediction": 0.0002501330508126153,
+        "loss_reconstruction": 0.000773291974597507,
+        "loss_total": 0.0010234250254101223,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.00023416487375895183,
+        "loss_reconstruction": 0.0007658845053778754,
+        "loss_total": 0.0010000493791368272,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.021226003766059875,
+            "n_boxes": 2116,
+            "n_semiconjugacy_samples": 4,
+            "tau_bar": 0.00034394253452774137
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [
+            1
+          ],
+          "consistent": false,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 4,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 1,
+      "morse": {
+        "n_morse_edges": 3,
+        "n_morse_nodes": 4,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_1",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03",
+      "dataset": 3,
+      "dataset_initial_condition_seed": 3174,
+      "dataset_name": "dataset_03",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/train.csv",
+        "csv_sha256": "8e33c7b4d7e3599ca003a0b5ec00b25b2b1f2466b6bdf19976fcf80732d98b5d",
+        "loss_prediction": 0.00023414129945966932,
+        "loss_reconstruction": 0.0006994545645183987,
+        "loss_total": 0.000933595863978068,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_03/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.00022757032182481554,
+        "loss_reconstruction": 0.0007566799587673611,
+        "loss_total": 0.0009842502805921765,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 8044,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0004542786845469521
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 2,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_2",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dataset_name": "dataset_04",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/train.csv",
+        "csv_sha256": "a39265de4aeb9ba8d23b3647e043dccc81300b673c8cc4b4860b1b9bf3c1d174",
+        "loss_prediction": 0.0003010673522949219,
+        "loss_reconstruction": 0.0007105772548251682,
+        "loss_total": 0.0010116446071200902,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.00031263001759847004,
+        "loss_reconstruction": 0.0007456769943237305,
+        "loss_total": 0.0010583070119222005,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.05295536294579506,
+            "n_boxes": 2422,
+            "n_semiconjugacy_samples": 3,
+            "tau_bar": 0.00039947504410520196
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 3,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 0,
+      "morse": {
+        "n_morse_edges": 2,
+        "n_morse_nodes": 3,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_0",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dataset_name": "dataset_04",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/train.csv",
+        "csv_sha256": "a39265de4aeb9ba8d23b3647e043dccc81300b673c8cc4b4860b1b9bf3c1d174",
+        "loss_prediction": 0.000308481948905521,
+        "loss_reconstruction": 0.0008027272383371989,
+        "loss_total": 0.0011112091872427197,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.000302788946363661,
+        "loss_reconstruction": 0.0008134076330396865,
+        "loss_total": 0.0011161965794033474,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0,
+          1
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.016750836744904518,
+            "n_boxes": 2187,
+            "n_semiconjugacy_samples": 142,
+            "tau_bar": 0.00036443621502257884
+          },
+          "1": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 6744,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0003515774442348629
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 2,
+          "n_morse_sets": 5,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 1,
+      "morse": {
+        "n_morse_edges": 4,
+        "n_morse_nodes": 5,
+        "n_sink_nodes": 2
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_1",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04",
+      "dataset": 4,
+      "dataset_initial_condition_seed": 688,
+      "dataset_name": "dataset_04",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/train.csv",
+        "csv_sha256": "a39265de4aeb9ba8d23b3647e043dccc81300b673c8cc4b4860b1b9bf3c1d174",
+        "loss_prediction": 0.00026194849809010824,
+        "loss_reconstruction": 0.0008067151387532553,
+        "loss_total": 0.0010686636368433635,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_04/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.00025476527214050295,
+        "loss_reconstruction": 0.0008057176801893446,
+        "loss_total": 0.0010604829523298475,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 16896,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.00044583858107216656
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [
+            1
+          ],
+          "consistent": false,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 5,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 2,
+      "morse": {
+        "n_morse_edges": 4,
+        "n_morse_nodes": 5,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_2",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dataset_name": "dataset_05",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/train.csv",
+        "csv_sha256": "4a4469afac5e123f354e4de871a60ce696d27b00330ee87fa2bc3bdc1ebd3548",
+        "loss_prediction": 0.0005340220875210232,
+        "loss_reconstruction": 0.0007951282660166423,
+        "loss_total": 0.0013291503535376656,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0005074691242641872,
+        "loss_reconstruction": 0.0007692562209235298,
+        "loss_total": 0.001276725345187717,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0,
+          1
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.03973507881164551,
+            "n_boxes": 2140,
+            "n_semiconjugacy_samples": 45,
+            "tau_bar": 0.000459830102045089
+          },
+          "1": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 4505,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0004449554980965331
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 2,
+          "n_morse_sets": 5,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 0,
+      "morse": {
+        "n_morse_edges": 6,
+        "n_morse_nodes": 5,
+        "n_sink_nodes": 2
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_0",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dataset_name": "dataset_05",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/train.csv",
+        "csv_sha256": "4a4469afac5e123f354e4de871a60ce696d27b00330ee87fa2bc3bdc1ebd3548",
+        "loss_prediction": 0.0003441385587056478,
+        "loss_reconstruction": 0.0008352702087826199,
+        "loss_total": 0.0011794087674882677,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0003341834280225966,
+        "loss_reconstruction": 0.0008241971863640679,
+        "loss_total": 0.0011583806143866645,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0,
+          1
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": true,
+            "max_semiconjugacy_error": 0.3071313798427582,
+            "n_boxes": 701802,
+            "n_semiconjugacy_samples": 175,
+            "tau_bar": 0.00034366571344435215
+          },
+          "1": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 9830,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0003495780983939767
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 2,
+          "n_morse_sets": 4,
+          "n_trivial_index": 0
+        }
+      },
+      "model_seed": 1,
+      "morse": {
+        "n_morse_edges": 3,
+        "n_morse_nodes": 4,
+        "n_sink_nodes": 2
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_1",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    },
+    {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05",
+      "dataset": 5,
+      "dataset_initial_condition_seed": 5727,
+      "dataset_name": "dataset_05",
+      "final_train": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/train.csv",
+        "csv_sha256": "4a4469afac5e123f354e4de871a60ce696d27b00330ee87fa2bc3bdc1ebd3548",
+        "loss_prediction": 0.0002987314118279351,
+        "loss_reconstruction": 0.0007532643980450101,
+        "loss_total": 0.0010519958098729452,
+        "n_pairs": 30000
+      },
+      "fixed_holdout": {
+        "csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1/dataset_05/val.csv",
+        "csv_sha256": "47f4e212c786bc5e013ad7ca9b5e20d0987a3d4e0136bae2d280dc02bd190b2b",
+        "loss_prediction": 0.0002769209543863932,
+        "loss_reconstruction": 0.0007516395780775282,
+        "loss_total": 0.0010285605324639215,
+        "n_pairs": 6000,
+        "sampling_seed": 9999,
+        "used_for_checkpoint_selection": false,
+        "used_for_optimization": false
+      },
+      "metrics": {
+        "minimal_morse_labels": [
+          0
+        ],
+        "minimal_morse_sets": {
+          "0": {
+            "is_spurious_attractor": null,
+            "max_semiconjugacy_error": null,
+            "n_boxes": 1222454,
+            "n_semiconjugacy_samples": 0,
+            "tau_bar": 0.0004467849212232977
+          }
+        },
+        "morse_graph_consistency": {
+          "attractor_type_nonminimal": [],
+          "consistent": true,
+          "n_minimal_attractors": 1,
+          "n_morse_sets": 4,
+          "n_trivial_index": 1
+        }
+      },
+      "model_seed": 2,
+      "morse": {
+        "n_morse_edges": 3,
+        "n_morse_nodes": 4,
+        "n_sink_nodes": 1
+      },
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_2",
+      "stage_status": {
+        "data": "complete",
+        "diagnose": "complete",
+        "metrics": "complete",
+        "morse": "complete",
+        "render": "complete",
+        "scale": "complete",
+        "train": "complete"
+      },
+      "validation_seed": 9999
+    }
+  ],
+  "counts": {
+    "data": {
+      "complete": 5,
+      "expected": 5,
+      "pending": 0
+    },
+    "diagnose": {
+      "complete": 15,
+      "expected": 15,
+      "pending": 0
+    },
+    "metrics": {
+      "complete": 15,
+      "expected": 15,
+      "pending": 0
+    },
+    "morse": {
+      "complete": 15,
+      "expected": 15,
+      "pending": 0
+    },
+    "render": {
+      "complete": 15,
+      "expected": 15,
+      "pending": 0
+    },
+    "scale": {
+      "complete": 5,
+      "expected": 5,
+      "pending": 0
+    },
+    "train": {
+      "complete": 15,
+      "expected": 15,
+      "pending": 0
+    }
+  },
+  "data_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_example2_marcio_5x3_v1",
+  "design": {
+    "dataset_initial_condition_seeds": {
+      "1": 2158,
+      "2": 4792,
+      "3": 3174,
+      "4": 688,
+      "5": 5727
+    },
+    "model_seeds": [
+      0,
+      1,
+      2
+    ],
+    "total_cells": 15
+  },
+  "experiment": "leslie3d_example2_marcio_5x3",
+  "experiment_plan_sha256": "56a1c5b6526cff81c508282f1a193c88f0dc8c1fd9f376c0a2962e2bac32b4b3",
+  "generated_at_utc": "2026-08-04T07:06:12.608086+00:00",
+  "output_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1",
+  "schema_version": 1
+}

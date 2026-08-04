@@ -1,0 +1,298 @@
+{
+  "system": "LeslieModel3D",
+  "dimension": 3,
+  "dataset_kind": "invariant_aware_curated_true_transitions_v2",
+  "role": "train",
+  "n_samples": 45512,
+  "n_iterations": 1,
+  "skip_initial_steps": 0,
+  "lower_bounds": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "upper_bounds": [
+    110.0,
+    77.0,
+    54.0
+  ],
+  "model_params": {
+    "th1": 28.9,
+    "th2": 29.8,
+    "th3": 22.0,
+    "survival_p1": 0.7,
+    "survival_p2": 0.7
+  },
+  "components": [
+    {
+      "name": "exact_recurrent_phases",
+      "row_start_inclusive": 0,
+      "row_stop_exclusive": 8192,
+      "rows": 8192,
+      "unique_phases": 16,
+      "repeats_per_phase": 512
+    },
+    {
+      "name": "multiscale_recurrent_neighborhoods",
+      "row_start_inclusive": 8192,
+      "row_stop_exclusive": 12288,
+      "rows": 4096,
+      "samples_per_phase": 256,
+      "scaled_radius_range": [
+        1e-07,
+        0.035
+      ]
+    },
+    {
+      "name": "balanced_direct_morse_neighborhoods",
+      "row_start_inclusive": 12288,
+      "row_stop_exclusive": 17408,
+      "rows": 5120,
+      "samples_per_nonorigin_node": 1024,
+      "source_boxes_per_node": {
+        "0": 6687,
+        "1": 1920456,
+        "2": 9217,
+        "3": 5834,
+        "4": 13753,
+        "5": 1
+      }
+    },
+    {
+      "name": "saddle_tangent_transition_tubes",
+      "row_start_inclusive": 17408,
+      "row_stop_exclusive": 23552,
+      "rows": 6144,
+      "trajectories": 96,
+      "steps": 64
+    },
+    {
+      "name": "origin_positive_cone_transition_fan",
+      "row_start_inclusive": 23552,
+      "row_stop_exclusive": 24576,
+      "rows": 1024,
+      "trajectories": 16,
+      "steps": 64
+    },
+    {
+      "name": "sobol_background_trajectories",
+      "row_start_inclusive": 24576,
+      "row_stop_exclusive": 36864,
+      "rows": 12288,
+      "initial_conditions": 1024,
+      "steps": 12
+    },
+    {
+      "name": "absorbing_box_corners",
+      "row_start_inclusive": 36864,
+      "row_stop_exclusive": 36872,
+      "rows": 8,
+      "corners": 8
+    },
+    {
+      "name": "audited_origin_p_star_s2_transition_tubes",
+      "row_start_inclusive": 36872,
+      "row_stop_exclusive": 45512,
+      "rows": 8640,
+      "trajectories": 27,
+      "steps": 320,
+      "route": [
+        "origin",
+        "p_star",
+        "S2",
+        "onward"
+      ],
+      "successor_policy": "analytic Leslie f(x)",
+      "jitter_relative": 0.001,
+      "base_starts": [
+        [
+          1.830407331139335e-05,
+          2.0654845899705045e-05,
+          9.917609527972234e-06
+        ],
+        [
+          0.0007431093169870681,
+          0.0004065216258161918,
+          0.0003059463997896831
+        ],
+        [
+          0.0005521308537495305,
+          0.0003854965771805111,
+          0.0005920548828810364
+        ]
+      ],
+      "witness_ids": [
+        "train_b1_j0",
+        "train_b1_j1",
+        "train_b1_j2",
+        "train_b1_j3",
+        "train_b1_j4",
+        "train_b1_j5",
+        "train_b1_j6",
+        "train_b1_j7",
+        "train_b1_j8",
+        "train_b2_j0",
+        "train_b2_j1",
+        "train_b2_j2",
+        "train_b2_j3",
+        "train_b2_j4",
+        "train_b2_j5",
+        "train_b2_j6",
+        "train_b2_j7",
+        "train_b2_j8",
+        "train_b3_j0",
+        "train_b3_j1",
+        "train_b3_j2",
+        "train_b3_j3",
+        "train_b3_j4",
+        "train_b3_j5",
+        "train_b3_j6",
+        "train_b3_j7",
+        "train_b3_j8"
+      ],
+      "audit_summary": {
+        "all_start_in_origin_cell": true,
+        "all_enter_and_leave_p_star_before_S2": true,
+        "all_enter_and_leave_S2_within_horizon": true,
+        "worst_minimum_p_star_scaled_l2": 0.0026705240313927418,
+        "worst_minimum_S2_scaled_l2": 5.008789331087629e-05
+      }
+    }
+  ],
+  "seed": 20260803,
+  "saddle_transition_diagnostics": {
+    "S2": {
+      "leading_multiplier": -1.2841229727613626,
+      "scaled_unstable_direction": [
+        -31.77412514849028,
+        71.66172244107986,
+        12.124478459629268
+      ],
+      "branches": 2,
+      "epsilons": [
+        2.409386216858745e-07,
+        5.074720472404139e-07,
+        1.06885262698203e-06,
+        2.251248998676679e-06,
+        4.74164718886729e-06,
+        9.986997474250548e-06,
+        2.1034909300055555e-05,
+        4.430434776842353e-05,
+        9.331512692475602e-05,
+        0.00019654307876279046,
+        0.00041396484238514564,
+        0.0008719049880040923,
+        0.0018364320596074256,
+        0.003867947489638797,
+        0.00814678534080988,
+        0.017159000107168632
+      ],
+      "log_cell_offset": 0.25,
+      "starts": 32,
+      "steps": 64
+    },
+    "S4": {
+      "leading_multiplier": 1.9419066930487117,
+      "scaled_unstable_direction": [
+        -5.153043428663296,
+        76.01656331791071,
+        -8.222580330974143
+      ],
+      "branches": 2,
+      "epsilons": [
+        2.409386216858745e-07,
+        5.074720472404139e-07,
+        1.06885262698203e-06,
+        2.251248998676679e-06,
+        4.74164718886729e-06,
+        9.986997474250548e-06,
+        2.1034909300055555e-05,
+        4.430434776842353e-05,
+        9.331512692475602e-05,
+        0.00019654307876279046,
+        0.00041396484238514564,
+        0.0008719049880040923,
+        0.0018364320596074256,
+        0.003867947489638797,
+        0.00814678534080988,
+        0.017159000107168632
+      ],
+      "log_cell_offset": 0.25,
+      "starts": 32,
+      "steps": 64
+    },
+    "p_star": {
+      "leading_multiplier": -1.1222193384004029,
+      "scaled_unstable_direction": [
+        70.67831774989658,
+        -44.08658871932144,
+        27.499626006724615
+      ],
+      "branches": 2,
+      "epsilons": [
+        2.409386216858745e-07,
+        5.074720472404139e-07,
+        1.06885262698203e-06,
+        2.251248998676679e-06,
+        4.74164718886729e-06,
+        9.986997474250548e-06,
+        2.1034909300055555e-05,
+        4.430434776842353e-05,
+        9.331512692475602e-05,
+        0.00019654307876279046,
+        0.00041396484238514564,
+        0.0008719049880040923,
+        0.0018364320596074256,
+        0.003867947489638797,
+        0.00814678534080988,
+        0.017159000107168632
+      ],
+      "log_cell_offset": 0.25,
+      "starts": 32,
+      "steps": 64
+    }
+  },
+  "origin_transition_diagnostics": {
+    "rays": 16,
+    "steps": 64,
+    "scaled_radius_min": 1e-10,
+    "scaled_radius_max": 0.002
+  },
+  "phase_step_error_linf": {
+    "P0": 2.842170943040401e-14,
+    "P1": 2.1316282072803006e-14,
+    "S2": 2.842170943040401e-14,
+    "S4": 1.4210854715202004e-14,
+    "p_star": 2.1316282072803006e-14,
+    "origin": 0.0
+  },
+  "audited_transition_witness_summary": {
+    "role": "train",
+    "trajectory_count": 27,
+    "steps": 320,
+    "pair_rows": 8640,
+    "base_starts": [
+      [
+        1.830407331139335e-05,
+        2.0654845899705045e-05,
+        9.917609527972234e-06
+      ],
+      [
+        0.0007431093169870681,
+        0.0004065216258161918,
+        0.0003059463997896831
+      ],
+      [
+        0.0005521308537495305,
+        0.0003854965771805111,
+        0.0005920548828810364
+      ]
+    ],
+    "all_start_in_origin_cell": true,
+    "all_enter_and_leave_p_star_before_S2": true,
+    "all_enter_and_leave_S2_within_horizon": true,
+    "worst_minimum_p_star_scaled_l2": 0.0026705240313927418,
+    "worst_minimum_S2_scaled_l2": 5.008789331087629e-05
+  },
+  "dataset_version": 2
+}
