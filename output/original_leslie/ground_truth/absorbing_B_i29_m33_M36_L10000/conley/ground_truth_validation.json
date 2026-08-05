@@ -1,0 +1,632 @@
+{
+  "source": {
+    "artifact_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley",
+    "selection": "using artifact directory /Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley",
+    "manifest": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/manifest.json",
+    "morse_graph": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/morse_graph",
+    "morse_sets": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000/conley/MG/morse_sets"
+  },
+  "configuration": {
+    "system": "original 3D Leslie",
+    "theta": [
+      28.9,
+      29.8,
+      22.0
+    ],
+    "survival": [
+      0.7,
+      0.7
+    ],
+    "bounds": {
+      "lower": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "upper": [
+        110.0,
+        77.0,
+        54.0
+      ]
+    },
+    "subdivision": {
+      "init": 29,
+      "min": 33,
+      "max": 36,
+      "limit": 10000
+    },
+    "box_map": "CMGDB.BoxMap(f, rect, padding=False)",
+    "algorithm": "ComputeConleyMorseGraph",
+    "compute_seconds": 5514.816,
+    "cmgdb": {
+      "version": "1.3.3",
+      "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+      "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+      "revision": "94d360c7a45d48cbd0330d828773725544a3da05",
+      "dirty": false
+    },
+    "subdivision_diagnostics": {
+      "requested_post_min_levels": 3,
+      "nodes_guaranteed_to_exceed_limit_before_first_post_min_decomposition": [
+        "0",
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+    }
+  },
+  "containment_tolerance": 1e-09,
+  "morse_sets": {
+    "file_size_bytes": 157780349,
+    "total_boxes": 1955948,
+    "boxes_per_node": {
+      "0": 6687,
+      "1": 1920456,
+      "2": 9217,
+      "3": 5834,
+      "4": 13753,
+      "5": 1
+    }
+  },
+  "graph": {
+    "nodes": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "edges": [
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        3,
+        2
+      ],
+      [
+        4,
+        2
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "labels": {
+      "0": "0 : (x^4-1, 0, 0, 0)",
+      "1": "1 : (x^4-1, 0, 0, 0)",
+      "2": "2 : (0, x^2+1, 0, 0)",
+      "3": "3 : (0, x^4-1, 0, 0)",
+      "4": "4 : (0, x+1, 0, 0)",
+      "5": "5 : (0, 0, 0, 0)"
+    },
+    "conley_indices": {
+      "0": "(x^4-1,0,0,0)",
+      "1": "(x^4-1,0,0,0)",
+      "2": "(0,x^2+1,0,0)",
+      "3": "(0,x^4-1,0,0)",
+      "4": "(0,x+1,0,0)",
+      "5": "(0,0,0,0)"
+    },
+    "strict_reachability": {
+      "0": [],
+      "1": [],
+      "2": [
+        1
+      ],
+      "3": [
+        0,
+        1,
+        2
+      ],
+      "4": [
+        1,
+        2
+      ],
+      "5": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    }
+  },
+  "saved_artifact_consistency": {
+    "manifest_node_count_matches": true,
+    "manifest_edges_match": true,
+    "manifest_minimal_nodes_match": true,
+    "manifest_box_counts_match": true,
+    "csv_nodes_match_graph_nodes": true
+  },
+  "assignments": {
+    "P0": {
+      "description": "stable period-four orbit",
+      "state": "unique",
+      "node": 0,
+      "nodes_across_phases": [
+        0
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            0.06476966192518428,
+            71.81567937129047,
+            3.2375662571576385
+          ],
+          "nodes": [
+            0
+          ],
+          "containing_box_counts": {
+            "0": 1
+          }
+        },
+        {
+          "phase": 1,
+          "point": [
+            1.2097281778002897,
+            0.04533876334762899,
+            50.27097555990333
+          ],
+          "nodes": [
+            0
+          ],
+          "containing_box_counts": {
+            "0": 1
+          }
+        },
+        {
+          "phase": 2,
+          "point": [
+            6.607278075831916,
+            0.8468097244602028,
+            0.031737134343340294
+          ],
+          "nodes": [
+            0
+          ],
+          "containing_box_counts": {
+            "0": 1
+          }
+        },
+        {
+          "phase": 3,
+          "point": [
+            102.59382767327212,
+            4.625094653082341,
+            0.5927668071221419
+          ],
+          "nodes": [
+            0
+          ],
+          "containing_box_counts": {
+            "0": 1
+          }
+        }
+      ]
+    },
+    "P1": {
+      "description": "stable period-four orbit",
+      "state": "unique",
+      "node": 1,
+      "nodes_across_phases": [
+        1
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            3.231447513714454,
+            30.156899956353254,
+            7.0621449189907235
+          ],
+          "nodes": [
+            1
+          ],
+          "containing_box_counts": {
+            "1": 1
+          }
+        },
+        {
+          "phase": 1,
+          "point": [
+            20.09019988641001,
+            2.2620132596001175,
+            21.109829969447276
+          ],
+          "nodes": [
+            1
+          ],
+          "containing_box_counts": {
+            "1": 1
+          }
+        },
+        {
+          "phase": 2,
+          "point": [
+            14.412540651001478,
+            14.063139920487005,
+            1.5834092817200822
+          ],
+          "nodes": [
+            1
+          ],
+          "containing_box_counts": {
+            "1": 1
+          }
+        },
+        {
+          "phase": 3,
+          "point": [
+            43.08128565193322,
+            10.088778455701034,
+            9.844197944340904
+          ],
+          "nodes": [
+            1
+          ],
+          "containing_box_counts": {
+            "1": 1
+          }
+        }
+      ]
+    },
+    "S2": {
+      "description": "saddle period-two orbit",
+      "state": "unique",
+      "node": 2,
+      "nodes_across_phases": [
+        2
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            4.995002957976051,
+            25.272089741366145,
+            2.4475514494082646
+          ],
+          "nodes": [
+            2
+          ],
+          "containing_box_counts": {
+            "2": 1
+          }
+        },
+        {
+          "phase": 1,
+          "point": [
+            36.10298534480878,
+            3.4965020705832353,
+            17.6904628189563
+          ],
+          "nodes": [
+            2
+          ],
+          "containing_box_counts": {
+            "2": 1
+          }
+        }
+      ]
+    },
+    "S4": {
+      "description": "saddle period-four orbit",
+      "state": "unique",
+      "node": 3,
+      "nodes_across_phases": [
+        3
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            0.6595601552884892,
+            46.017276427535535,
+            9.204435860581222
+          ],
+          "nodes": [
+            3
+          ],
+          "containing_box_counts": {
+            "3": 1
+          }
+        },
+        {
+          "phase": 1,
+          "point": [
+            5.960579974197539,
+            0.46169210870194244,
+            32.21209349927487
+          ],
+          "nodes": [
+            3
+          ],
+          "containing_box_counts": {
+            "3": 1
+          }
+        },
+        {
+          "phase": 2,
+          "point": [
+            18.78456298077801,
+            4.172405981938277,
+            0.3231844760913597
+          ],
+          "nodes": [
+            3
+          ],
+          "containing_box_counts": {
+            "3": 1
+          }
+        },
+        {
+          "phase": 3,
+          "point": [
+            65.73896632505077,
+            13.149194086544606,
+            2.9206841873567937
+          ],
+          "nodes": [
+            3
+          ],
+          "containing_box_counts": {
+            "3": 1
+          }
+        }
+      ]
+    },
+    "p_star": {
+      "description": "positive saddle fixed point",
+      "state": "unique",
+      "node": 4,
+      "nodes_across_phases": [
+        4
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            18.73654933147751,
+            13.115584532034255,
+            9.180909172423979
+          ],
+          "nodes": [
+            4
+          ],
+          "containing_box_counts": {
+            "4": 1
+          }
+        }
+      ]
+    },
+    "origin": {
+      "description": "origin",
+      "state": "unique",
+      "node": 5,
+      "nodes_across_phases": [
+        5
+      ],
+      "phases": [
+        {
+          "phase": 0,
+          "point": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "nodes": [
+            5
+          ],
+          "containing_box_counts": {
+            "5": 1
+          }
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "core_objects_have_unique_nodes": {
+      "description": "Every phase of P0, P1, and S2 belongs to one Morse node",
+      "group": "topology",
+      "status": "pass",
+      "expected": "unique node for P0, P1, and S2",
+      "observed": {
+        "P0": 0,
+        "P1": 1,
+        "S2": 2
+      }
+    },
+    "all_known_objects_have_unique_nodes": {
+      "description": "Every phase of every known object belongs to one Morse node",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "unique node for P0, P1, S2, S4, p_star, and origin",
+      "observed": {
+        "P0": 0,
+        "P1": 1,
+        "S2": 2,
+        "S4": 3,
+        "p_star": 4,
+        "origin": 5
+      }
+    },
+    "stable_period_four_orbits_are_distinct": {
+      "description": "The two stable period-four orbits occupy different Morse nodes",
+      "group": "topology",
+      "status": "pass",
+      "expected": "P0 node != P1 node",
+      "observed": {
+        "P0": 0,
+        "P1": 1
+      }
+    },
+    "P1_and_S2_are_distinct": {
+      "description": "The stable period-four orbit P1 is separated from the saddle period-two orbit S2",
+      "group": "topology",
+      "status": "pass",
+      "expected": "P1 node != S2 node",
+      "observed": {
+        "P1": 1,
+        "S2": 2
+      }
+    },
+    "P0_is_minimal": {
+      "description": "P0 is represented by a minimal Morse node",
+      "group": "topology",
+      "status": "pass",
+      "expected": true,
+      "observed": {
+        "node": 0,
+        "minimal_nodes": [
+          0,
+          1
+        ]
+      }
+    },
+    "P1_is_minimal": {
+      "description": "P1 is represented by a minimal Morse node",
+      "group": "topology",
+      "status": "pass",
+      "expected": true,
+      "observed": {
+        "node": 1,
+        "minimal_nodes": [
+          0,
+          1
+        ]
+      }
+    },
+    "minimal_nodes_are_exactly_P0_and_P1": {
+      "description": "The two stable period-four nodes are exactly the minimal Morse nodes",
+      "group": "topology",
+      "status": "pass",
+      "expected": [
+        0,
+        1
+      ],
+      "observed": [
+        0,
+        1
+      ]
+    },
+    "S2_reaches_P1": {
+      "description": "The saddle period-two node reaches the P1 attractor node",
+      "group": "topology",
+      "status": "pass",
+      "expected": "nontrivial directed path S2 -> P1",
+      "observed": [
+        2,
+        1
+      ]
+    },
+    "S2_does_not_reach_P0": {
+      "description": "The saddle period-two node does not reach the P0 attractor node",
+      "group": "topology",
+      "status": "pass",
+      "expected": "no directed path S2 -> P0",
+      "observed": null
+    },
+    "P1_does_not_reach_S2": {
+      "description": "There is no return path from the P1 attractor node to the saddle period-two node",
+      "group": "topology",
+      "status": "pass",
+      "expected": "no directed path P1 -> S2",
+      "observed": null
+    },
+    "S4_reaches_P0": {
+      "description": "The saddle period-four node reaches the P0 attractor node",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "nontrivial directed path S4 -> P0",
+      "observed": [
+        3,
+        0
+      ]
+    },
+    "S4_reaches_P1": {
+      "description": "The saddle period-four node reaches the P1 attractor node",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "nontrivial directed path S4 -> P1",
+      "observed": [
+        3,
+        2,
+        1
+      ]
+    },
+    "P0_has_stable_period_four_index": {
+      "description": "P0 has the stable period-four Conley index",
+      "group": "conley",
+      "status": "pass",
+      "expected": "(x^4-1,0,0,0)",
+      "observed": "(x^4-1,0,0,0)"
+    },
+    "P1_has_stable_period_four_index": {
+      "description": "P1 has the stable period-four Conley index",
+      "group": "conley",
+      "status": "pass",
+      "expected": "(x^4-1,0,0,0)",
+      "observed": "(x^4-1,0,0,0)"
+    },
+    "p_star_reaches_S2": {
+      "description": "The positive saddle fixed-point node reaches the saddle period-two node",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "nontrivial directed path p_star -> S2",
+      "observed": [
+        4,
+        2
+      ]
+    },
+    "S2_has_expected_index": {
+      "description": "S2 has its numerically expected Conley index",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "(0,x^2+1,0,0)",
+      "observed": "(0,x^2+1,0,0)"
+    },
+    "S4_has_expected_index": {
+      "description": "S4 has its numerically expected Conley index",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "(0,x^4-1,0,0)",
+      "observed": "(0,x^4-1,0,0)"
+    },
+    "p_star_has_expected_index": {
+      "description": "p_star has its numerically expected Conley index",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "(0,x+1,0,0)",
+      "observed": "(0,x+1,0,0)"
+    },
+    "origin_has_expected_index": {
+      "description": "origin has its numerically expected Conley index",
+      "group": "supplemental",
+      "status": "pass",
+      "expected": "(0,0,0,0)",
+      "observed": "(0,0,0,0)"
+    }
+  },
+  "overall": {
+    "topology": "pass",
+    "full": "pass",
+    "supplemental_criteria_affect_overall": false
+  }
+}
