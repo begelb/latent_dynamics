@@ -6,7 +6,10 @@ be supplied through the Python API or CLI, so the same strict analyzer can be
 used for follow-up designs such as T=25 with 40,000/10,000 initial conditions.
 
 The training, CMGDB, and rendering artifacts are treated as immutable inputs.
-This script only writes three derived files below ``SWEEP_ROOT/analysis``:
+When a legacy sweep omitted ``metrics.json``, ``--metrics-root`` may point at a
+separate, derived metrics replay tree with the same ``dataset_N/seed_N``
+layout.  This script only writes three derived files below
+``SWEEP_ROOT/analysis`` (or ``--analysis-dir``):
 
 * ``cells.csv`` -- one flattened row per expected dataset/model-seed cell;
 * ``cells.json`` -- detailed parsed records, dataset metadata, and provenance;
@@ -43,6 +46,7 @@ EXPECTED_MODEL_SEEDS = (0, 1, 2)
 EXPECTED_T = 40
 EXPECTED_BACKEND = "adaptive_precomputed"
 TARGET_CONLEY_INDEX = ("x^4-1", "0", "0")
+PERIODIC_H0_RE = re.compile(r"^x(?:\^([1-9]\d*))?-1$")
 
 REQUIRED_CELL_FILES = {
     "morse_graph": Path("MG/morse_graph"),
@@ -71,6 +75,46 @@ SUCCESS_CRITERION = {
     "uses_graph_sinks_not_tolerance_classification": True,
 }
 
+MARCIO_STYLE_CRITERION = {
+    "name": "exactly_two_nonzero_degree0_nodes",
+    "definition": (
+        "The parsed Morse graph has exactly two nodes whose Conley-index tuple "
+        "has a nonzero homological degree-0 component. All Morse nodes are counted, "
+        "not only graph sinks; higher-degree components do not disqualify a node, so "
+        "both (x-1, x-1, 0) and (x^p-1, 0, 0) qualify as one stable-index node."
+    ),
+    "required_node_count": 2,
+    "uses_all_morse_nodes": True,
+    "uses_graph_sinks": False,
+    "uses_tolerance_classification": False,
+}
+
+MINIMAL_NODE_CRITERION = {
+    "name": "exactly_two_graph_minimal_nodes",
+    "definition": (
+        "The parsed Morse graph has exactly two minimal nodes (graph sinks, "
+        "equivalently nodes with no outgoing edge). Conley-index type and sampled "
+        "tolerance do not alter this topology-only classification."
+    ),
+    "required_node_count": 2,
+    "uses_all_morse_nodes": False,
+    "uses_graph_sinks": True,
+    "uses_tolerance_classification": False,
+}
+
+PERIODIC_BISTABILITY_CRITERION = {
+    "name": "exactly_two_periodic_index_minimal_nodes",
+    "definition": (
+        "The parsed Morse graph has exactly two minimal nodes, and each has "
+        "Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The two "
+        "periods may differ. This is the sweep's requested bistability pass."
+    ),
+    "required_node_count": 2,
+    "required_index_family": ["x^p-1", "0", "0"],
+    "uses_graph_sinks": True,
+    "uses_tolerance_classification": False,
+}
+
 CSV_FIELDS = (
     "dataset_id",
     "data_seed",
@@ -91,11 +135,18 @@ CSV_FIELDS = (
     "metrics_minimal_labels",
     "sink_conley_indices",
     "node_conley_indices",
+    "n_attractor_type_nodes",
+    "attractor_type_labels",
+    "attractor_type_conley_indices",
+    "marcio_style_success",
+    "minimal_node_success",
+    "periodic_bistability_success",
     "morse_boxes_total",
     "morse_boxes_by_label",
     "minimal_tolerance_details",
     "n_minimal_tolerance_failures",
     "all_minimal_tolerance_pass",
+    "tolerance_status",
     "exact_conley_success",
     "diagnostic",
     "encoder_collapsed",
@@ -121,9 +172,14 @@ CSV_FIELDS = (
     "subdiv_init",
     "subdiv_min",
     "subdiv_max",
+    "precompute_subdiv_role",
+    "precompute_subdiv",
     "precompute_lattice_dimension",
     "precompute_axis_depth_M",
+    "precompute_axis_depths",
+    "precompute_cells_per_axis",
     "precompute_corners_per_axis",
+    "precompute_lattice_shape",
     "precompute_table_points",
     "config_hash",
     "train_csv_sha256",
@@ -259,6 +315,16 @@ def _parse_conley_label(label: str | None) -> tuple[str, ...] | None:
     return tuple(part.strip().replace(" ", "") for part in match.group(1).split(","))
 
 
+def _is_periodic_bistability_index(index: list[str] | None) -> bool:
+    """Return whether an index belongs to ``(x^p-1, 0, 0)``, p >= 1."""
+    return bool(
+        index
+        and len(index) == 3
+        and PERIODIC_H0_RE.fullmatch(index[0])
+        and index[1:] == ["0", "0"]
+    )
+
+
 def _parse_morse_graph(path: Path) -> dict[str, Any]:
     text = path.read_text(encoding="utf-8")
     nodes: dict[int, str] = {}
@@ -293,6 +359,12 @@ def _parse_morse_graph(path: Path) -> dict[str, Any]:
                 "is_sink": node_id in sinks,
             }
         )
+    attractor_type_nodes = [
+        node
+        for node in parsed_nodes
+        if node["conley_index"]
+        and node["conley_index"][0] not in ("", "0")
+    ]
     canonical_topology = {
         "nodes": [
             {"id": node["id"], "conley_index": node["conley_index"]}
@@ -310,6 +382,9 @@ def _parse_morse_graph(path: Path) -> dict[str, Any]:
         "sinks": sinks,
         "n_nodes": len(nodes),
         "n_edges": len(edges),
+        "attractor_type_nodes": attractor_type_nodes,
+        "n_attractor_type_nodes": len(attractor_type_nodes),
+        "marcio_style_success": len(attractor_type_nodes) == 2,
         "topology_signature_sha256": signature,
         "file": _file_reference(path),
     }
@@ -689,7 +764,13 @@ def _adaptive_precompute_lattice(
     morse_sets: dict[str, Any] | None,
     max_table_points: Any,
 ) -> dict[str, Any] | None:
-    """Derive the exact whole-grid adaptive lookup size from clean inputs."""
+    """Derive the exact alternating-axis lookup lattice used by CMGDB.
+
+    A subdivision depth is global: each refinement splits one coordinate axis
+    in round-robin order.  Consequently an odd depth in two dimensions does
+    *not* produce a square ``(2^ceil(depth/2) + 1)^2`` table.  For example,
+    depth 25 produces ``(8193, 4097)``, matching the runtime precompute table.
+    """
     if (
         backend_manifest != "adaptive_precomputed"
         or backend_log != "adaptive_precomputed"
@@ -698,25 +779,48 @@ def _adaptive_precompute_lattice(
     ):
         return None
     dimension = _as_int(morse_sets.get("dimension"))
-    subdiv_max = _as_int(mg_params["parameters"].get("subdiv_max"))
-    if dimension is None or dimension <= 0 or subdiv_max is None or subdiv_max < 0:
+    parameters = mg_params["parameters"]
+    subdiv_max = _as_int(parameters.get("subdiv_max"))
+    raw_role = parameters.get("adaptive_precompute_subdiv", "max")
+    if isinstance(raw_role, str) and raw_role in {"init", "min", "max"}:
+        precompute_role = raw_role
+        precompute_subdiv = _as_int(parameters.get(f"subdiv_{raw_role}"))
+    else:
+        precompute_role = "explicit"
+        precompute_subdiv = _as_int(raw_role)
+    if (
+        dimension is None
+        or dimension <= 0
+        or subdiv_max is None
+        or subdiv_max < 0
+        or precompute_subdiv is None
+        or precompute_subdiv < 0
+    ):
         return None
-    axis_depth = (subdiv_max + dimension - 1) // dimension
-    cells_per_axis = 2**axis_depth
-    corners_per_axis = cells_per_axis + 1
-    table_points = corners_per_axis**dimension
+    axis_depths = [
+        (precompute_subdiv + dimension - 1 - axis) // dimension
+        for axis in range(dimension)
+    ]
+    cells_per_axis = [2**depth for depth in axis_depths]
+    corners_per_axis = [cells + 1 for cells in cells_per_axis]
+    table_points = math.prod(corners_per_axis)
     configured_limit = _as_int(max_table_points)
     return {
         "backend": "adaptive_precomputed",
         "dimension": dimension,
         "subdiv_max": subdiv_max,
-        "axis_depth_M": axis_depth,
-        "axis_depth_formula": "ceil(subdiv_max / dimension)",
+        "precompute_subdiv_role": precompute_role,
+        "precompute_subdiv": precompute_subdiv,
+        "axis_depth_M": max(axis_depths),
+        "axis_depths": axis_depths,
+        "axis_depth_formula": (
+            "ceil((precompute_subdiv - axis_index) / dimension)"
+        ),
         "cells_per_axis": cells_per_axis,
         "corners_per_axis": corners_per_axis,
-        "lattice_shape": [corners_per_axis] * dimension,
+        "lattice_shape": corners_per_axis,
         "table_points": table_points,
-        "table_points_formula": "(2^M + 1)^dimension",
+        "table_points_formula": "product(2^axis_depth + 1)",
         "configured_max_table_points": configured_limit,
         "within_configured_max_table_points": (
             None if configured_limit is None else table_points <= configured_limit
@@ -775,6 +879,11 @@ def _tolerance_summary(
             failed_bool = failed if isinstance(failed, bool) else None
             tau = _as_float(raw.get("tau_bar"))
             error = _as_float(raw.get("max_semiconjugacy_error"))
+            n_samples = _as_int(raw.get("n_semiconjugacy_samples"))
+            # A sampled test with no samples contains no evidence either way,
+            # even if an older metrics writer happened to serialize ``false``.
+            if n_samples == 0:
+                failed_bool = None
             ratio = None
             if tau is not None and error is not None and tau > 0:
                 ratio = error / tau
@@ -782,7 +891,7 @@ def _tolerance_summary(
                 "available": True,
                 "n_boxes": _as_int(raw.get("n_boxes")),
                 "tau_bar": tau,
-                "n_semiconjugacy_samples": _as_int(raw.get("n_semiconjugacy_samples")),
+                "n_semiconjugacy_samples": n_samples,
                 "max_semiconjugacy_error": error,
                 "max_error_to_tau_ratio": ratio,
                 "is_spurious_attractor": failed_bool,
@@ -794,11 +903,18 @@ def _tolerance_summary(
     if passes and all(isinstance(value, bool) for value in passes):
         all_pass = all(passes)
         n_failures = sum(not value for value in passes)
+    if not passes or any(value is None for value in passes):
+        status = "inconclusive"
+    elif all_pass:
+        status = "pass"
+    else:
+        status = "fail"
     return {
         "metrics_minimal_labels": metric_labels,
         "minimal_sets": details,
         "n_failures": n_failures,
         "all_pass": all_pass,
+        "status": status,
     }
 
 
@@ -827,9 +943,21 @@ def _analyze_cell(
     expected_backend: str | None,
     expected_train_initial_conditions: int | None,
     expected_validation_initial_conditions: int | None,
+    metrics_root: Path | None,
 ) -> dict[str, Any]:
     cell_dir = sweep_root / f"dataset_{dataset_id}" / f"seed_{model_seed}"
     paths = {name: cell_dir / relative for name, relative in REQUIRED_CELL_FILES.items()}
+    if metrics_root is not None:
+        flat_metrics = (
+            metrics_root / f"dataset_{dataset_id}" / f"seed_{model_seed}" / "metrics.json"
+        )
+        replay_metrics = (
+            metrics_root
+            / f"{sweep_root.name}_dataset_{dataset_id}"
+            / f"seed_{model_seed}"
+            / "metrics.json"
+        )
+        paths["metrics"] = replay_metrics if replay_metrics.is_file() else flat_metrics
     missing = [name for name, path in paths.items() if not path.is_file()]
     errors = list(dataset["errors"])
     warnings: list[dict[str, str]] = []
@@ -1028,11 +1156,19 @@ def _analyze_cell(
 
     sink_indices: list[list[str] | None] | None = None
     exact_success: bool | None = None
+    marcio_style_success: bool | None = None
+    minimal_node_success: bool | None = None
+    periodic_bistability_success: bool | None = None
     if graph is not None:
         by_id = {node["id"]: node for node in graph["nodes"]}
         sink_indices = [by_id[label]["conley_index"] for label in graph["sinks"]]
         exact_success = len(graph["sinks"]) == 2 and all(
             index == list(TARGET_CONLEY_INDEX) for index in sink_indices
+        )
+        marcio_style_success = graph["marcio_style_success"]
+        minimal_node_success = len(graph["sinks"]) == 2
+        periodic_bistability_success = minimal_node_success and all(
+            _is_periodic_bistability_index(index) for index in sink_indices
         )
 
     training = _loss_summary(training_raw)
@@ -1089,9 +1225,13 @@ def _analyze_cell(
             "minimal_tolerance": tolerance["minimal_sets"],
             "n_minimal_tolerance_failures": tolerance["n_failures"],
             "all_minimal_tolerance_pass": tolerance["all_pass"],
+            "tolerance_status": tolerance["status"],
             "morse_graph_consistency": consistency,
         },
         "sink_conley_indices": sink_indices,
+        "marcio_style_success": marcio_style_success,
+        "minimal_node_success": minimal_node_success,
+        "periodic_bistability_success": periodic_bistability_success,
         "exact_conley_success": exact_success,
         "training": training,
         "cmgdb": {
@@ -1141,6 +1281,17 @@ def _cell_csv_record(cell: dict[str, Any]) -> dict[str, Any]:
     node_indices = {
         str(node["id"]): node["conley_index"] for node in graph.get("nodes", [])
     }
+    attractor_type_nodes = graph.get("attractor_type_nodes")
+    attractor_type_labels = (
+        [node["id"] for node in attractor_type_nodes]
+        if isinstance(attractor_type_nodes, list)
+        else None
+    )
+    attractor_type_indices = (
+        [node["conley_index"] for node in attractor_type_nodes]
+        if isinstance(attractor_type_nodes, list)
+        else None
+    )
     return {
         "dataset_id": cell["dataset_id"],
         "data_seed": cell["data_seed"],
@@ -1161,11 +1312,18 @@ def _cell_csv_record(cell: dict[str, Any]) -> dict[str, Any]:
         "metrics_minimal_labels": _json_text(metrics["minimal_morse_labels"]),
         "sink_conley_indices": _json_text(cell["sink_conley_indices"]),
         "node_conley_indices": _json_text(node_indices),
+        "n_attractor_type_nodes": graph.get("n_attractor_type_nodes"),
+        "attractor_type_labels": _json_text(attractor_type_labels),
+        "attractor_type_conley_indices": _json_text(attractor_type_indices),
+        "marcio_style_success": cell["marcio_style_success"],
+        "minimal_node_success": cell["minimal_node_success"],
+        "periodic_bistability_success": cell["periodic_bistability_success"],
         "morse_boxes_total": sets.get("total_boxes"),
         "morse_boxes_by_label": _json_text(sets.get("boxes_by_label")),
         "minimal_tolerance_details": _json_text(metrics["minimal_tolerance"]),
         "n_minimal_tolerance_failures": metrics["n_minimal_tolerance_failures"],
         "all_minimal_tolerance_pass": metrics["all_minimal_tolerance_pass"],
+        "tolerance_status": metrics["tolerance_status"],
         "exact_conley_success": cell["exact_conley_success"],
         "diagnostic": cell["diagnose"].get("status"),
         "encoder_collapsed": hard_flags.get("encoder_collapsed"),
@@ -1207,9 +1365,14 @@ def _cell_csv_record(cell: dict[str, Any]) -> dict[str, Any]:
         "subdiv_init": params.get("subdiv_init"),
         "subdiv_min": params.get("subdiv_min"),
         "subdiv_max": params.get("subdiv_max"),
+        "precompute_subdiv_role": lattice.get("precompute_subdiv_role"),
+        "precompute_subdiv": lattice.get("precompute_subdiv"),
         "precompute_lattice_dimension": lattice.get("dimension"),
         "precompute_axis_depth_M": lattice.get("axis_depth_M"),
-        "precompute_corners_per_axis": lattice.get("corners_per_axis"),
+        "precompute_axis_depths": _json_text(lattice.get("axis_depths")),
+        "precompute_cells_per_axis": _json_text(lattice.get("cells_per_axis")),
+        "precompute_corners_per_axis": _json_text(lattice.get("corners_per_axis")),
+        "precompute_lattice_shape": _json_text(lattice.get("lattice_shape")),
         "precompute_table_points": lattice.get("table_points"),
         "config_hash": provenance.get("config_hash"),
         "train_csv_sha256": _deep_get(dataset_files, "train_csv", "sha256"),
@@ -1241,9 +1404,12 @@ def _numeric_summary(values: list[Any]) -> dict[str, Any]:
     }
 
 
-def _success_group(cells: list[dict[str, Any]]) -> dict[str, Any]:
-    evaluated = [cell for cell in cells if isinstance(cell["exact_conley_success"], bool)]
-    successes = sum(cell["exact_conley_success"] is True for cell in evaluated)
+def _success_group(
+    cells: list[dict[str, Any]],
+    field: str = "exact_conley_success",
+) -> dict[str, Any]:
+    evaluated = [cell for cell in cells if isinstance(cell.get(field), bool)]
+    successes = sum(cell.get(field) is True for cell in evaluated)
     return {
         "n_cells": len(cells),
         "n_evaluated": len(evaluated),
@@ -1265,6 +1431,7 @@ def _aggregate(
     expected_backend: str | None,
     expected_train_initial_conditions: int | None,
     expected_validation_initial_conditions: int | None,
+    metrics_root: Path | None,
     provisional: bool,
 ) -> dict[str, Any]:
     signature_counts = Counter(
@@ -1321,11 +1488,58 @@ def _aggregate(
         str(seed): _success_group([cell for cell in cells if cell["model_seed"] == seed])
         for seed in model_seeds
     }
+    marcio_by_dataset = {
+        str(dataset_id): _success_group(
+            [cell for cell in cells if cell["dataset_id"] == dataset_id],
+            "marcio_style_success",
+        )
+        for dataset_id in dataset_ids
+    }
+    marcio_by_model_seed = {
+        str(seed): _success_group(
+            [cell for cell in cells if cell["model_seed"] == seed],
+            "marcio_style_success",
+        )
+        for seed in model_seeds
+    }
+    minimal_by_dataset = {
+        str(dataset_id): _success_group(
+            [cell for cell in cells if cell["dataset_id"] == dataset_id],
+            "minimal_node_success",
+        )
+        for dataset_id in dataset_ids
+    }
+    minimal_by_model_seed = {
+        str(seed): _success_group(
+            [cell for cell in cells if cell["model_seed"] == seed],
+            "minimal_node_success",
+        )
+        for seed in model_seeds
+    }
+    periodic_by_dataset = {
+        str(dataset_id): _success_group(
+            [cell for cell in cells if cell["dataset_id"] == dataset_id],
+            "periodic_bistability_success",
+        )
+        for dataset_id in dataset_ids
+    }
+    periodic_by_model_seed = {
+        str(seed): _success_group(
+            [cell for cell in cells if cell["model_seed"] == seed],
+            "periodic_bistability_success",
+        )
+        for seed in model_seeds
+    }
+    tolerance_status_counts = Counter(
+        cell["metrics"].get("tolerance_status") for cell in cells
+    )
     return {
         "schema_version": 1,
         "generated_at_utc": _utc_now(),
         "provisional": provisional,
         "source_is_read_only": True,
+        "metrics_are_derived_replay": metrics_root is not None,
+        "metrics_root": None if metrics_root is None else _display_path(metrics_root),
         "sweep_root": _display_path(sweep_root),
         "data_root": _display_path(data_root),
         "analysis_script": _file_reference(Path(__file__)),
@@ -1339,6 +1553,10 @@ def _aggregate(
             "box_map_backend": expected_backend,
         },
         "success_criterion": SUCCESS_CRITERION,
+        "primary_success_criterion": MARCIO_STYLE_CRITERION,
+        "secondary_success_criterion": MINIMAL_NODE_CRITERION,
+        "topology_criteria": [MARCIO_STYLE_CRITERION, MINIMAL_NODE_CRITERION],
+        "requested_bistability_criterion": PERIODIC_BISTABILITY_CRITERION,
         "inventory": {
             "n_expected_cells": len(dataset_ids) * len(model_seeds),
             "n_records": len(cells),
@@ -1362,6 +1580,33 @@ def _aggregate(
             "by_dataset": by_dataset,
             "by_model_seed": by_model_seed,
         },
+        "marcio_style_success": {
+            **_success_group(cells, "marcio_style_success"),
+            "rate_over_expected_15_cells": (
+                sum(cell["marcio_style_success"] is True for cell in cells)
+                / (len(dataset_ids) * len(model_seeds))
+            ),
+            "by_dataset": marcio_by_dataset,
+            "by_model_seed": marcio_by_model_seed,
+        },
+        "minimal_node_success": {
+            **_success_group(cells, "minimal_node_success"),
+            "rate_over_expected_15_cells": (
+                sum(cell["minimal_node_success"] is True for cell in cells)
+                / (len(dataset_ids) * len(model_seeds))
+            ),
+            "by_dataset": minimal_by_dataset,
+            "by_model_seed": minimal_by_model_seed,
+        },
+        "periodic_bistability_success": {
+            **_success_group(cells, "periodic_bistability_success"),
+            "rate_over_expected_15_cells": (
+                sum(cell["periodic_bistability_success"] is True for cell in cells)
+                / (len(dataset_ids) * len(model_seeds))
+            ),
+            "by_dataset": periodic_by_dataset,
+            "by_model_seed": periodic_by_model_seed,
+        },
         "tolerance": {
             "n_cells_evaluated": sum(
                 isinstance(cell["metrics"]["all_minimal_tolerance_pass"], bool)
@@ -1373,6 +1618,9 @@ def _aggregate(
             "total_failed_minimal_sets": sum(
                 cell["metrics"]["n_minimal_tolerance_failures"] or 0 for cell in cells
             ),
+            "status_counts": {
+                str(key): value for key, value in sorted(tolerance_status_counts.items())
+            },
         },
         "topology": {
             "n_distinct_signatures": len(signature_counts),
@@ -1434,6 +1682,7 @@ def analyze_sweep(
     sweep_root: Path = DEFAULT_SWEEP_ROOT,
     data_root: Path = DEFAULT_DATA_ROOT,
     analysis_dir: Path | None = None,
+    metrics_root: Path | None = None,
     dataset_ids: tuple[int, ...] = EXPECTED_DATASET_IDS,
     model_seeds: tuple[int, ...] = EXPECTED_MODEL_SEEDS,
     expected_t: int = EXPECTED_T,
@@ -1452,6 +1701,7 @@ def analyze_sweep(
     sweep_root = sweep_root.resolve()
     data_root = data_root.resolve()
     analysis_dir = (analysis_dir or sweep_root / "analysis").resolve()
+    metrics_root = None if metrics_root is None else metrics_root.resolve()
     datasets = [
         _analyze_dataset(
             dataset_id,
@@ -1474,6 +1724,7 @@ def analyze_sweep(
             expected_backend=expected_backend,
             expected_train_initial_conditions=expected_train_initial_conditions,
             expected_validation_initial_conditions=expected_validation_initial_conditions,
+            metrics_root=metrics_root,
         )
         for dataset_id in dataset_ids
         for model_seed in model_seeds
@@ -1508,6 +1759,7 @@ def analyze_sweep(
         expected_backend=expected_backend,
         expected_train_initial_conditions=expected_train_initial_conditions,
         expected_validation_initial_conditions=expected_validation_initial_conditions,
+        metrics_root=metrics_root,
         provisional=provisional,
     )
     detailed = {
@@ -1515,10 +1767,16 @@ def analyze_sweep(
         "generated_at_utc": aggregate["generated_at_utc"],
         "provisional": provisional,
         "source_is_read_only": True,
+        "metrics_are_derived_replay": metrics_root is not None,
+        "metrics_root": None if metrics_root is None else _display_path(metrics_root),
         "sweep_root": _display_path(sweep_root),
         "data_root": _display_path(data_root),
         "expected_design": aggregate["expected_design"],
         "success_criterion": SUCCESS_CRITERION,
+        "primary_success_criterion": MARCIO_STYLE_CRITERION,
+        "secondary_success_criterion": MINIMAL_NODE_CRITERION,
+        "topology_criteria": [MARCIO_STYLE_CRITERION, MINIMAL_NODE_CRITERION],
+        "requested_bistability_criterion": PERIODIC_BISTABILITY_CRITERION,
         "dataset_design": dataset_design,
         "datasets": datasets,
         "cells": cells,
@@ -1556,6 +1814,15 @@ def main(argv: list[str] | None = None) -> int:
         type=Path,
         default=None,
         help="default: SWEEP_ROOT/analysis",
+    )
+    parser.add_argument(
+        "--metrics-root",
+        type=Path,
+        default=None,
+        help=(
+            "optional derived metrics replay root with dataset_N/seed_N/metrics.json; "
+            "source run directories remain untouched"
+        ),
     )
     parser.add_argument(
         "--dataset-ids",
@@ -1598,6 +1865,7 @@ def main(argv: list[str] | None = None) -> int:
             sweep_root=args.sweep_root,
             data_root=args.data_root,
             analysis_dir=args.analysis_dir,
+            metrics_root=args.metrics_root,
             dataset_ids=dataset_ids,
             model_seeds=model_seeds,
             expected_t=args.expected_t,

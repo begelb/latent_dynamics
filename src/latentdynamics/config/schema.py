@@ -288,8 +288,8 @@ class CMGDBConfig(BaseModel):
     )
     # Dense-table depth for the adaptive precomputed backend. Finer corners are
     # evaluated in batches on demand and memoized. ``init`` preserves the
-    # historical optimized behavior; ``min`` is the intended Leslie replication
-    # protocol and remains far smaller than a full ``max`` table.
+    # historical optimized behavior and is appropriate when later depths are
+    # handled by the batched on-demand cache.
     adaptive_precompute_subdiv: Literal["init", "min", "max"] = "init"
     max_table_points: int = Field(
         ge=1,

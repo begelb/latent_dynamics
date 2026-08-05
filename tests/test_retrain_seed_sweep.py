@@ -48,7 +48,7 @@ def test_leslie_example2_t40_uses_explicit_precomputation_and_isolated_paths() -
     assert str(cfg.paths.output_dir).endswith("output/leslie3d_example2_seedsweep_t40/dataset_3")
 
 
-def test_patrick_replication_pins_train_bounds_and_min_precompute() -> None:
+def test_patrick_replication_pins_train_bounds_and_init_precompute() -> None:
     cfg = SWEEP._dataset_config(
         "leslie3d_example2",
         ic_seed=1,
@@ -56,11 +56,11 @@ def test_patrick_replication_pins_train_bounds_and_min_precompute() -> None:
         tag="patrick_paper_3x5_v1",
         box_map_backend="adaptive_precomputed",
         bounds_data_role="train_pairs",
-        adaptive_precompute_subdiv="min",
+        adaptive_precompute_subdiv="init",
     )
 
     assert cfg.cmgdb.bounds_data_role == "train_pairs"
-    assert cfg.cmgdb.adaptive_precompute_subdiv == "min"
+    assert cfg.cmgdb.adaptive_precompute_subdiv == "init"
     assert cfg.cmgdb.compute_roa is False
 
 

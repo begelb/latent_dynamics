@@ -1,7 +1,7 @@
 # Leslie3D Example 2: Patrick-style paper 3x5 replication
 
 Date: 2026-08-04  
-Status: running; persistent launcher entered MPS training at 12:19 EDT  
+Status: running with `subdiv_init` precomputation; restarted at 12:23 EDT
 Scope: five independently sampled training datasets by three independent
 network initializations, for 15 cells.
 
@@ -43,8 +43,8 @@ full index tuple, and inferred period so the classification remains auditable.
 
 The inferred latent bounds use encoded training pairs only, keeping the shared
 validation holdout out of both training and Morse-domain selection. The
-adaptive lookup is precomputed through `subdiv_min=28`; any finer map values
-needed at subdivision 29 are evaluated in batches on demand.
+adaptive lookup is precomputed through `subdiv_init=25`; map values needed at
+later subdivisions are evaluated in batches on demand.
 
 ## Execution plan
 
@@ -59,7 +59,7 @@ The persistent launcher performs these phases sequentially:
    sweep summary.
 
 Regions of attraction, overlays, and unrelated extra figures are deliberately
-excluded. Each Morse process is separate so its dense level-28 lookup can be
+excluded. Each Morse process is separate so its dense level-25 lookup can be
 released before the next cell begins. The native safety ceilings are
 `40,000,000` map-graph vertices and `1,200,000,000` edges.
 

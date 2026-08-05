@@ -33,7 +33,7 @@
   ],
   "box_map_backend": "adaptive_precomputed",
   "bounds_data_role": "train_pairs",
-  "adaptive_precompute_subdiv": "min",
+  "adaptive_precompute_subdiv": "init",
   "trajectory_length": 20,
   "total_initial_conditions": 10000,
   "full_batch": false,

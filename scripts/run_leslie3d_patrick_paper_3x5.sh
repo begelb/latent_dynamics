@@ -15,7 +15,7 @@ readonly -a COMMON_ARGS=(
   --cmgdb-subdiv 25,28,29
   --box-map-backend adaptive_precomputed
   --bounds-data-role train_pairs
-  --adaptive-precompute-subdiv min
+  --adaptive-precompute-subdiv init
   --tag "${SWEEP_TAG}"
   --figures morse
 )

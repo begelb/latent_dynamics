@@ -178,6 +178,7 @@ def _write_complete_fixture(tmp_path: Path) -> tuple[Path, Path]:
                 "subdiv_init: 25\n"
                 "subdiv_min: 28\n"
                 "subdiv_max: 29\n"
+                "adaptive_precompute_subdiv: init\n"
                 "box_map_backend: adaptive_precomputed\n"
                 "duration_minutes: 1.5\n",
                 encoding="utf-8",
@@ -232,13 +233,23 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
     assert rows[0]["train_transition_pairs_observed"] == "40"
     assert rows[0]["n_graph_sinks"] == "2"
     assert rows[0]["sink_conley_indices"] == '[["x^4-1","0","0"],["x^4-1","0","0"]]'
+    assert rows[0]["n_attractor_type_nodes"] == "2"
+    assert rows[0]["attractor_type_labels"] == "[0,1]"
+    assert rows[0]["attractor_type_conley_indices"] == (
+        '[["x^4-1","0","0"],["x^4-1","0","0"]]'
+    )
+    assert rows[0]["marcio_style_success"] == "True"
+    assert rows[0]["minimal_node_success"] == "True"
     assert rows[0]["morse_boxes_by_label"] == '{"0":2,"1":1,"2":1}'
     assert rows[0]["exact_conley_success"] == "True"
     assert rows[0]["box_map_backend_is_explicit"] == "True"
     assert rows[0]["precompute_lattice_dimension"] == "2"
-    assert rows[0]["precompute_axis_depth_M"] == "15"
-    assert rows[0]["precompute_corners_per_axis"] == "32769"
-    assert rows[0]["precompute_table_points"] == "1073807361"
+    assert rows[0]["precompute_subdiv_role"] == "init"
+    assert rows[0]["precompute_subdiv"] == "25"
+    assert rows[0]["precompute_axis_depth_M"] == "13"
+    assert rows[0]["precompute_axis_depths"] == "[13,12]"
+    assert rows[0]["precompute_corners_per_axis"] == "[8193,4097]"
+    assert rows[0]["precompute_table_points"] == "33566721"
     assert rows[0]["model_sha256"]
 
     details = json.loads(outputs["cells_json"].read_text())
@@ -246,21 +257,31 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
     assert len(details["datasets"]) == 5
     assert len(details["cells"]) == 15
     first = details["cells"][0]
+    assert details["primary_success_criterion"]["name"] == (
+        "exactly_two_nonzero_degree0_nodes"
+    )
+    assert first["marcio_style_success"] is True
+    assert first["minimal_node_success"] is True
+    assert first["morse_graph"]["n_attractor_type_nodes"] == 2
     assert first["morse_graph"]["nodes"][0]["n_boxes"] == 2
     assert first["metrics"]["all_minimal_tolerance_pass"] is True
+    assert first["metrics"]["tolerance_status"] == "pass"
     assert first["durations"]["cmgdb_seconds"] == 90.0
     assert first["cmgdb"]["adaptive_precompute_lattice"] == {
-        "axis_depth_M": 15,
-        "axis_depth_formula": "ceil(subdiv_max / dimension)",
+        "axis_depth_M": 13,
+        "axis_depths": [13, 12],
+        "axis_depth_formula": "ceil((precompute_subdiv - axis_index) / dimension)",
         "backend": "adaptive_precomputed",
-        "cells_per_axis": 32768,
+        "cells_per_axis": [8192, 4096],
         "configured_max_table_points": 1_200_000_000,
-        "corners_per_axis": 32769,
+        "corners_per_axis": [8193, 4097],
         "dimension": 2,
-        "lattice_shape": [32769, 32769],
+        "lattice_shape": [8193, 4097],
+        "precompute_subdiv": 25,
+        "precompute_subdiv_role": "init",
         "subdiv_max": 29,
-        "table_points": 1_073_807_361,
-        "table_points_formula": "(2^M + 1)^dimension",
+        "table_points": 33_566_721,
+        "table_points_formula": "product(2^axis_depth + 1)",
         "within_configured_max_table_points": True,
     }
     assert first["verification_passed"] is True
@@ -269,6 +290,11 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
     assert aggregate["inventory"]["n_verified_cells"] == 15
     assert aggregate["exact_conley_success"]["n_successes"] == 15
     assert aggregate["exact_conley_success"]["rate_over_expected_15_cells"] == 1.0
+    assert aggregate["marcio_style_success"]["n_successes"] == 15
+    assert aggregate["marcio_style_success"]["rate_over_expected_15_cells"] == 1.0
+    assert aggregate["minimal_node_success"]["n_successes"] == 15
+    assert aggregate["minimal_node_success"]["rate_over_expected_15_cells"] == 1.0
+    assert aggregate["primary_success_criterion"]["uses_all_morse_nodes"] is True
     assert aggregate["topology"]["n_distinct_signatures"] == 1
     assert aggregate["losses"]["validation_total_final"]["count"] == 15
     assert aggregate["durations_seconds"]["cmgdb"]["mean"] == 90.0
@@ -281,8 +307,8 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
     lattice = aggregate["adaptive_precompute_lattice"]
     assert lattice["n_cells_recorded"] == 15
     assert lattice["n_distinct_lattices"] == 1
-    assert lattice["lattices"][0]["corners_per_axis"] == 32769
-    assert lattice["lattices"][0]["table_points"] == 1_073_807_361
+    assert lattice["lattices"][0]["corners_per_axis"] == [8193, 4097]
+    assert lattice["lattices"][0]["table_points"] == 33_566_721
     assert lattice["lattices"][0]["n_cells"] == 15
     assert aggregate["success_criterion"]["required_sink_conley_index"] == [
         "x^4-1",
@@ -315,6 +341,63 @@ def test_strict_mode_rejects_missing_cell_but_allow_incomplete_inventory_works(
     assert missing["complete"] is False
     assert missing["verification_passed"] is False
     assert {error["code"] for error in missing["errors"]} == {"missing_cell_artifact"}
+
+
+def test_strict_mode_accepts_read_only_metrics_replay_overlay(tmp_path: Path) -> None:
+    sweep_root, data_root = _write_complete_fixture(tmp_path)
+    metrics_root = tmp_path / "metrics_replay"
+    for dataset_id in range(1, 6):
+        for model_seed in range(3):
+            source = (
+                sweep_root
+                / f"dataset_{dataset_id}"
+                / f"seed_{model_seed}"
+                / "metrics.json"
+            )
+            payload = json.loads(source.read_text(encoding="utf-8"))
+            replay = (
+                metrics_root
+                / f"{sweep_root.name}_dataset_{dataset_id}"
+                / f"seed_{model_seed}"
+                / "metrics.json"
+            )
+            _write_json(replay, payload)
+            source.unlink()
+
+    outputs = ANALYZER.analyze_sweep(
+        sweep_root=sweep_root,
+        data_root=data_root,
+        metrics_root=metrics_root,
+    )
+
+    details = json.loads(outputs["cells_json"].read_text())
+    aggregate = json.loads(outputs["aggregate_summary"].read_text())
+    assert details["metrics_are_derived_replay"] is True
+    assert aggregate["metrics_are_derived_replay"] is True
+    assert aggregate["inventory"]["n_verified_cells"] == 15
+    assert not list(sweep_root.glob("dataset_*/seed_*/metrics.json"))
+
+
+def test_zero_sample_tolerance_is_inconclusive_not_pass(tmp_path: Path) -> None:
+    sweep_root, data_root = _write_complete_fixture(tmp_path)
+    metrics_path = sweep_root / "dataset_1" / "seed_0" / "metrics.json"
+    metrics = json.loads(metrics_path.read_text(encoding="utf-8"))
+    metrics["minimal_morse_sets"]["0"].update(
+        {"n_semiconjugacy_samples": 0, "is_spurious_attractor": False}
+    )
+    _write_json(metrics_path, metrics)
+
+    outputs = ANALYZER.analyze_sweep(sweep_root=sweep_root, data_root=data_root)
+
+    details = json.loads(outputs["cells_json"].read_text())
+    aggregate = json.loads(outputs["aggregate_summary"].read_text())
+    first = details["cells"][0]
+    assert first["metrics"]["tolerance_status"] == "inconclusive"
+    assert first["metrics"]["all_minimal_tolerance_pass"] is None
+    assert aggregate["tolerance"]["status_counts"] == {
+        "inconclusive": 1,
+        "pass": 14,
+    }
 
 
 def test_strict_mode_requires_five_distinct_training_csv_hashes(tmp_path: Path) -> None:
