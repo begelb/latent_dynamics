@@ -60,7 +60,6 @@ cmgdb:
   upper_bounds: null
   padding: false
   box_map_backend: auto
-  max_table_points: 300000000
 paths:
   data_dir: data/chafee_infante
   output_dir: output/chafee_infante_relu

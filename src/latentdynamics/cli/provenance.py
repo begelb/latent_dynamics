@@ -37,6 +37,25 @@ def config_hash(cfg: ExperimentConfig) -> str:
     return hash_config_dict(_canonical_config(cfg))
 
 
+#: Dotted config paths deliberately removed from the schema.
+#:
+#: Archived manifests recorded these, so the current config has no value to
+#: compare against. Declaring a path here says the removal was intentional,
+#: which keeps :func:`config_conflicts_with_manifest` strict about every key it
+#: has not been told about. Entries are never removed: a manifest stamped in
+#: 2026 outlives the field it names.
+#:
+#: - ``cmgdb.max_table_points``: a hard ceiling on precomputed lattice size.
+#:   Removed because it refused runs up front on a guess about available
+#:   memory rather than letting them attempt the allocation, and every
+#:   experiment config had to carry an override line to defeat it.
+RETIRED_CONFIG_FIELDS: frozenset[str] = frozenset(
+    {
+        "cmgdb.max_table_points",
+    }
+)
+
+
 def config_conflicts_with_manifest(
     cfg: ExperimentConfig, manifest_config: dict[str, Any]
 ) -> list[str]:
@@ -49,6 +68,12 @@ def config_conflicts_with_manifest(
     simply predates the field, and the field's default describes it. The
     alternative -- comparing full serializations -- makes every additive schema
     change break every stored manifest at once, which is what this replaces.
+
+    A key the manifest recorded that the current schema lacks is still drift,
+    because it usually means a rename or a typo rather than a decision. A field
+    removed on purpose must be declared in :data:`RETIRED_CONFIG_FIELDS`; that
+    keeps the check sharp for genuine unknowns while letting archived manifests
+    stay truthful about knobs that no longer exist.
 
     Note that a *stored* hash cannot be reproduced from the current schema for
     the same reason. Check record integrity with :func:`hash_config_dict`
@@ -63,7 +88,8 @@ def config_conflicts_with_manifest(
             for key, old_val in old.items():
                 sub = f"{path}.{key}" if path else key
                 if key not in cur:
-                    bad.append(sub)
+                    if sub not in RETIRED_CONFIG_FIELDS:
+                        bad.append(sub)
                 else:
                     bad.extend(walk(cur[key], old_val, sub))
             return bad

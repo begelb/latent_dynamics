@@ -163,20 +163,6 @@ class TestBoxMapUniformPrecomputed:
         np.testing.assert_allclose(out_pad[:2], out_nopad[:2] - box_size, atol=1e-10)
         np.testing.assert_allclose(out_pad[2:], out_nopad[2:] + box_size, atol=1e-10)
 
-    def test_memory_cap_raises(self):
-        torch.manual_seed(0)
-        m = build_autoencoder(_arch())
-        bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
-        # subdiv_k=10, d=2 -> n_per_axis=32, corners=33^2=1089.
-        with pytest.raises(ValueError) as excinfo:
-            make_box_map_uniform_precomputed(
-                m.latent_map, bounds, subdiv_k=10, max_table_points=500
-            )
-        msg = str(excinfo.value)
-        assert "1089" in msg
-        assert "500" in msg
-        assert "max_table_points" in msg
-
 
 def test_compute_morse_graph_installs_precomputed_batch_callback(monkeypatch):
     import latentdynamics.analysis.morse as morse
@@ -298,12 +284,6 @@ class TestCMGDBConfigBackendValidation:
             box_map_backend="adaptive_precomputed",
         )
         assert cfg.box_map_backend == "adaptive_precomputed"
-
-    def test_max_table_points_default_and_override(self):
-        cfg = CMGDBConfig()
-        assert cfg.max_table_points == 10_000_000
-        cfg2 = CMGDBConfig(max_table_points=1_000)
-        assert cfg2.max_table_points == 1_000
 
     def test_precompute_batch_points_default_is_auto(self):
         cfg = CMGDBConfig()
@@ -474,23 +454,24 @@ class TestBoxMapAdaptivePrecomputed:
                     err_msg=f"subdiv_max={subdiv_max}, depth={depth}, i={i.tolist()}",
                 )
 
-    def test_memory_cap_raises_with_budget_and_actual(self):
+    def test_large_table_is_built_not_refused(self):
+        """No table-size cap: a lattice is built if it fits, never pre-refused.
+
+        subdiv_max=10, d=2 -> per-axis depths [5, 5], 33^2 = 1089 corners.
+        This case used to raise under a max_table_points below 1089.
+        """
         torch.manual_seed(0)
         m = build_autoencoder(_arch())
         bounds = LatentBounds(lower=np.array([-1.0, -1.0]), upper=np.array([1.0, 1.0]))
 
         from latentdynamics.analysis.morse import make_box_map_adaptive_precomputed
 
-        # subdiv_max=10, d=2 -> M=5, n_per_axis=32, corners=33^2=1089.
-        # Cap below 1089 must raise; message must include both numbers.
-        with pytest.raises(ValueError) as excinfo:
-            make_box_map_adaptive_precomputed(
-                m.latent_map, bounds, subdiv_max=10, max_table_points=500
-            )
-        msg = str(excinfo.value)
-        assert "1089" in msg
-        assert "500" in msg
-        assert "max_table_points" in msg
+        box_map = make_box_map_adaptive_precomputed(
+            m.latent_map, bounds, subdiv_max=10
+        )
+        out = box_map([-1.0, -1.0, -0.5, -0.5])
+        assert len(out) == 4
+        assert out[0] <= out[2] and out[1] <= out[3]
 
     def test_dispatched_through_compute_morse_graph_config(self):
         """End-to-end: a CMGDBConfig with backend='adaptive_precomputed' must

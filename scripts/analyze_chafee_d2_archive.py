@@ -525,7 +525,6 @@ def run_one(
             SUBDIVISION,
             padding=PADDING,
             device=device,
-            max_table_points=(GRID_SIDE + 1) ** LATENT_DIMENSION,
             precompute_batch_points="auto",
         )
         timings["precompute_corner_lattice_seconds"] = time.perf_counter() - step

@@ -15,6 +15,7 @@ import json
 import pytest
 
 from latentdynamics.cli.provenance import (
+    RETIRED_CONFIG_FIELDS,
     config_conflicts_with_manifest,
     config_hash,
     hash_config_dict,
@@ -58,6 +59,19 @@ def test_key_dropped_from_current_schema_is_detected(cfg):
     assert config_conflicts_with_manifest(cfg, recorded) == [
         "cmgdb.a_field_that_no_longer_exists"
     ]
+
+
+def test_declared_retired_field_is_tolerated(cfg):
+    """A removal declared in RETIRED_CONFIG_FIELDS is not drift.
+
+    Archived manifests recorded ``max_table_points`` before the precomputed
+    lattice cap was removed. They stay compatible without being edited, while
+    any *undeclared* unknown key is still reported (test above).
+    """
+    assert "cmgdb.max_table_points" in RETIRED_CONFIG_FIELDS
+    recorded = cfg.model_dump(mode="json")
+    recorded["cmgdb"]["max_table_points"] = 1_200_000_000
+    assert config_conflicts_with_manifest(cfg, recorded) == []
 
 
 def test_multiple_conflicts_are_all_reported(cfg):

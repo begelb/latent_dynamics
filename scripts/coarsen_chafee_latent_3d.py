@@ -379,15 +379,11 @@ def main() -> int:
         default=None,
         help="default: <3-D run>/MG_adaptive_coarse_marcio",
     )
-    parser.add_argument("--cmgdb-max-edges", type=int, default=1_200_000_000)
     parser.add_argument("--cmgdb-reserve-edges", type=int, default=1_200_000_000)
     args = parser.parse_args()
 
-    if args.cmgdb_max_edges <= 0 or args.cmgdb_reserve_edges <= 0:
-        raise ValueError("CMGDB edge limits must be positive")
-    if args.cmgdb_reserve_edges > args.cmgdb_max_edges:
-        raise ValueError("--cmgdb-reserve-edges cannot exceed --cmgdb-max-edges")
-    os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(args.cmgdb_max_edges)
+    if args.cmgdb_reserve_edges <= 0:
+        raise ValueError("--cmgdb-reserve-edges must be positive")
     os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(args.cmgdb_reserve_edges)
 
     paths = DimensionPaths(

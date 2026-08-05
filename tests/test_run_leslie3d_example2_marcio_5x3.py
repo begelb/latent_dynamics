@@ -72,7 +72,6 @@ def test_packaged_config_is_exact_marcio_architecture_and_patrick_cmgdb() -> Non
     assert cfg.cmgdb.lower_bounds is None
     assert cfg.cmgdb.upper_bounds is None
     assert cfg.cmgdb.box_map_backend == "adaptive_precomputed"
-    assert cfg.cmgdb.max_table_points == 1_200_000_000
     assert cfg.cmgdb.compute_roa is False
 
 

@@ -57,7 +57,6 @@ def make_adaptive_precomputed_box_map(
     *,
     subdiv_max: int,
     padding: bool,
-    max_table_points: int,
 ) -> Callable[[list[float]], list[float]]:
     """Precompute a NumPy map on every finest-grid corner used by CMGDB.
 
@@ -73,7 +72,6 @@ def make_adaptive_precomputed_box_map(
             subdiv_max=subdiv_max,
             mode="adaptive",
             padding=padding,
-            max_table_points=max_table_points,
         )
 
     lower_array = np.asarray(lower, dtype=np.float64)
@@ -83,11 +81,6 @@ def make_adaptive_precomputed_box_map(
     boxes_per_axis = 2**max_axis_depth
     corners_per_axis = boxes_per_axis + 1
     table_points = corners_per_axis**dimension
-    if table_points > max_table_points:
-        raise ValueError(
-            f"adaptive precomputed table needs {table_points} corners, exceeding "
-            f"the limit {max_table_points}"
-        )
 
     shape = (corners_per_axis,) * dimension
     step = (upper_array - lower_array) / boxes_per_axis
@@ -173,7 +166,6 @@ def _defaults(
     list[float],
     list[float],
     tuple[int, int, int],
-    int,
     LeslieContraction | None,
 ]:
     if system == "2d":
@@ -183,7 +175,6 @@ def _defaults(
             ambient.lower_bounds[:2].tolist(),
             ambient.upper_bounds[:2].tolist(),
             (27, 29, 30),
-            1_500_000_000,
             ambient,
         )
     return (
@@ -191,7 +182,6 @@ def _defaults(
         [0.0, 0.0, 0.0],
         [220.0, 154.0, 108.0],
         (20, 22, 24),
-        1_200_000_000,
         None,
     )
 
@@ -217,7 +207,7 @@ def main() -> int:
     cmgdb_module_path = require_local_cmgdb()
     print(f"using local CMGDB: {cmgdb_module_path}", flush=True)
 
-    map_function, lower, upper, default_subdiv, max_table_points, ambient = _defaults(args.system)
+    map_function, lower, upper, default_subdiv, ambient = _defaults(args.system)
     subdiv_init, subdiv_min, subdiv_max = tuple(args.subdiv or default_subdiv)
     output = args.output or (
         CODE_ROOT
@@ -244,7 +234,6 @@ def main() -> int:
             upper,
             subdiv_max=subdiv_max,
             padding=True,
-            max_table_points=max_table_points,
         )
     else:
         print(

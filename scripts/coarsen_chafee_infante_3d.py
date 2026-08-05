@@ -193,16 +193,6 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--run", type=Path, default=DEFAULT_RUN)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
-        "--cmgdb-max-vertices",
-        type=int,
-        default=2**24,
-    )
-    parser.add_argument(
-        "--cmgdb-max-edges",
-        type=int,
-        default=1_200_000_000,
-    )
-    parser.add_argument(
         "--cmgdb-reserve-edges",
         type=int,
         default=300_000_000,
@@ -238,8 +228,6 @@ def main() -> int:
             "Python reverse-graph construction."
         )
 
-    os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(args.cmgdb_max_vertices)
-    os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(args.cmgdb_max_edges)
     os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(args.cmgdb_reserve_edges)
 
     bounds = _load_bounds(bounds_path)
@@ -415,12 +403,6 @@ def main() -> int:
             "map_cells": int(map_graph.num_vertices()),
             "cached_edges": map_edge_count,
             "environment": {
-                "CMGDB_MAPGRAPH_MAX_VERTICES": os.environ[
-                    "CMGDB_MAPGRAPH_MAX_VERTICES"
-                ],
-                "CMGDB_MAPGRAPH_MAX_EDGES": os.environ[
-                    "CMGDB_MAPGRAPH_MAX_EDGES"
-                ],
                 "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ[
                     "CMGDB_MAPGRAPH_RESERVE_EDGES"
                 ],

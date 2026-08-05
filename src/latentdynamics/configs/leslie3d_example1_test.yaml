@@ -56,7 +56,6 @@ cmgdb:
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  max_table_points: 1500000000
 paths:
   data_dir: data/leslie3d_example1
   output_dir: output/leslie3d_example1_test

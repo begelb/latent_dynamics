@@ -28,8 +28,9 @@ mkdir -p "${SWEEP_ROOT}"
 cd "${CODE_ROOT}"
 
 export PYTHONPATH="${CODE_ROOT}/src${PYTHONPATH:+:${PYTHONPATH}}"
-export CMGDB_MAPGRAPH_MAX_VERTICES=40000000
-export CMGDB_MAPGRAPH_MAX_EDGES=1200000000
+# The CSR cache has no size ceiling; this only pre-allocates the edge buffer
+# once instead of growing it geometrically. It is a sizing hint, not a limit.
+export CMGDB_MAPGRAPH_RESERVE_EDGES=1200000000
 
 CURRENT_PHASE="initializing"
 

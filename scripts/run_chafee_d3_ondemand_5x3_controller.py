@@ -210,7 +210,7 @@ def validate_analysis_plan(
     output_root: Path,
     *,
     expected_device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> tuple[dict[str, Any], str]:
@@ -233,7 +233,7 @@ def validate_analysis_plan(
         "expected_cells": base.EXPECTED_CELLS,
         "expected_callback_rectangles": base.EXPECTED_CALLBACK_RECTANGLES,
         "expected_neural_corner_points": base.EXPECTED_NEURAL_CORNER_POINTS,
-        "max_edges": max_edges,
+        "reserve_edges": reserve_edges,
         "max_forward_points": max_forward_points,
         "device": expected_device,
         "trajectory_and_root_encoding_device": "cpu",
@@ -272,7 +272,7 @@ def ensure_and_validate_analysis_plan(
     output_root: Path,
     *,
     device_name: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> tuple[dict[str, Any], str]:
@@ -288,14 +288,14 @@ def ensure_and_validate_analysis_plan(
         inputs=inputs,
         runtime=runtime,
         device=str(device),
-        max_edges=max_edges,
+        reserve_edges=reserve_edges,
         max_forward_points=max_forward_points,
         rss_sample_seconds=rss_sample_seconds,
     )
     return validate_analysis_plan(
         safe_root,
         expected_device=str(device),
-        max_edges=max_edges,
+        reserve_edges=reserve_edges,
         max_forward_points=max_forward_points,
         rss_sample_seconds=rss_sample_seconds,
     )
@@ -355,7 +355,7 @@ def worker_command(
     *,
     output_root: Path,
     device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> list[str]:
@@ -369,8 +369,8 @@ def worker_command(
         str(output_root.resolve()),
         "--device",
         device,
-        "--max-edges",
-        str(max_edges),
+        "--reserve-edges",
+        str(reserve_edges),
         "--max-forward-points",
         str(max_forward_points),
         "--rss-sample-seconds",
@@ -384,7 +384,7 @@ def _launch_worker(
     invocation_root: Path,
     output_root: Path,
     device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> RunningWorker:
@@ -396,7 +396,7 @@ def _launch_worker(
         run_id,
         output_root=output_root,
         device=device,
-        max_edges=max_edges,
+        reserve_edges=reserve_edges,
         max_forward_points=max_forward_points,
         rss_sample_seconds=rss_sample_seconds,
     )
@@ -631,7 +631,7 @@ def execute_controller(
     output_root: Path,
     concurrency: int,
     device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
     poll_seconds: float,
@@ -652,7 +652,7 @@ def execute_controller(
         envelope, plan_sha256 = ensure_and_validate_analysis_plan(
             output_root,
             device_name=device,
-            max_edges=max_edges,
+            reserve_edges=reserve_edges,
             max_forward_points=max_forward_points,
             rss_sample_seconds=rss_sample_seconds,
         )
@@ -701,7 +701,7 @@ def execute_controller(
                     validate_analysis_plan(
                         output_root,
                         expected_device=device,
-                        max_edges=max_edges,
+                        reserve_edges=reserve_edges,
                         max_forward_points=max_forward_points,
                         rss_sample_seconds=rss_sample_seconds,
                     )
@@ -711,7 +711,7 @@ def execute_controller(
                         invocation_root=invocation_root,
                         output_root=output_root,
                         device=device,
-                        max_edges=max_edges,
+                        reserve_edges=reserve_edges,
                         max_forward_points=max_forward_points,
                         rss_sample_seconds=rss_sample_seconds,
                     )
@@ -885,7 +885,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--concurrency", type=int, choices=(1, 2), default=2)
     parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="mps")
-    parser.add_argument("--max-edges", type=int, default=1_200_000_000)
+    parser.add_argument("--reserve-edges", type=int, default=1_200_000_000)
     parser.add_argument("--max-forward-points", type=int, default=800_000)
     parser.add_argument("--rss-sample-seconds", type=float, default=0.1)
     parser.add_argument("--poll-seconds", type=float, default=2.0)
@@ -907,7 +907,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             output_root=args.output_root,
             concurrency=args.concurrency,
             device=args.device,
-            max_edges=args.max_edges,
+            reserve_edges=args.reserve_edges,
             max_forward_points=args.max_forward_points,
             rss_sample_seconds=args.rss_sample_seconds,
             poll_seconds=args.poll_seconds,

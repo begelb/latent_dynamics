@@ -150,7 +150,7 @@ def _analysis_plan(
             "expected_cells": 2**24,
             "expected_callback_rectangles": 33_554_432,
             "expected_neural_corner_points": 268_435_456,
-            "max_edges": 1_200_000_000,
+            "reserve_edges": 1_200_000_000,
             "max_forward_points": 800_000,
             "device": device,
             "trajectory_and_root_encoding_device": "cpu",
@@ -239,7 +239,7 @@ def test_plan_validation_detects_worker_hash_change(
     _, observed = CONTROLLER.validate_analysis_plan(
         output,
         expected_device="mps",
-        max_edges=1_200_000_000,
+        reserve_edges=1_200_000_000,
         max_forward_points=800_000,
         rss_sample_seconds=0.1,
     )
@@ -250,7 +250,7 @@ def test_plan_validation_detects_worker_hash_change(
         CONTROLLER.validate_analysis_plan(
             output,
             expected_device="mps",
-            max_edges=1_200_000_000,
+            reserve_edges=1_200_000_000,
             max_forward_points=800_000,
             rss_sample_seconds=0.1,
         )
@@ -261,7 +261,7 @@ def test_worker_command_is_an_isolated_exact_worker(tmp_path: Path) -> None:
         CONTROLLER.RUN_IDS[0],
         output_root=tmp_path,
         device="mps",
-        max_edges=1_200_000_000,
+        reserve_edges=1_200_000_000,
         max_forward_points=800_000,
         rss_sample_seconds=0.1,
     )
@@ -373,7 +373,7 @@ def test_controller_caps_two_processes_and_retains_failed_logs(
         output_root=output,
         concurrency=2,
         device="mps",
-        max_edges=1_200_000_000,
+        reserve_edges=1_200_000_000,
         max_forward_points=800_000,
         rss_sample_seconds=0.1,
         poll_seconds=0.001,

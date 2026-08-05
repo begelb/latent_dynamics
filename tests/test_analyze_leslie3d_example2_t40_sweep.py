@@ -206,7 +206,6 @@ def _write_complete_fixture(tmp_path: Path) -> tuple[Path, Path]:
                         },
                         "cmgdb": {
                             "box_map_backend": "adaptive_precomputed",
-                            "max_table_points": 1_200_000_000,
                         },
                     },
                     "artifacts": {"train_csv_sha256": _sha256(train_csv)},
@@ -273,7 +272,6 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
         "axis_depth_formula": "ceil((precompute_subdiv - axis_index) / dimension)",
         "backend": "adaptive_precomputed",
         "cells_per_axis": [8192, 4096],
-        "configured_max_table_points": 1_200_000_000,
         "corners_per_axis": [8193, 4097],
         "dimension": 2,
         "lattice_shape": [8193, 4097],
@@ -282,7 +280,6 @@ def test_complete_sweep_writes_detailed_and_aggregate_reports(tmp_path: Path) ->
         "subdiv_max": 29,
         "table_points": 33_566_721,
         "table_points_formula": "product(2^axis_depth + 1)",
-        "within_configured_max_table_points": True,
     }
     assert first["verification_passed"] is True
 

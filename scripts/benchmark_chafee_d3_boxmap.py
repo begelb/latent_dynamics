@@ -765,8 +765,6 @@ def _worker_result(spec: Mapping[str, Any]) -> dict[str, Any]:
     if subdivision > HARD_MAX_SUBDIVISION:
         raise ValueError("worker refused a subdivision above the hard pilot cap")
 
-    os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(2**HARD_MAX_SUBDIVISION)
-    os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(limits.max_edges)
     os.environ.pop("CMGDB_MAPGRAPH_RESERVE_EDGES", None)
     os.environ.pop("CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES", None)
 
@@ -1295,6 +1293,8 @@ def extrapolate_target(
         ]
         reasons = []
         if edge_estimate is not None and edge_estimate > limits.max_edges:
+            # A benchmark-harness go/no-go on its own projections, not a CMGDB
+            # limit: nothing here constrains what a real run may attempt.
             reasons.append("estimated cached edges exceed the pilot edge ceiling")
         if csr_lower_bound is not None and csr_lower_bound > limits.max_rss_mib * 1024**2:
             reasons.append("CSR lower bound alone exceeds the pilot RSS ceiling")
@@ -1503,7 +1503,7 @@ def render_readme(plan: Mapping[str, Any], result: Mapping[str, Any]) -> str:
         f"{result['trial_counts']['failed_or_stopped']}",
         f"- Wall limit per worker: {plan['limits']['timeout_seconds']} seconds",
         f"- RSS limit per worker: {plan['limits']['max_rss_mib']} MiB",
-        f"- Cached-edge limit: {plan['limits']['max_edges']:,}",
+        f"- Cached-edge projection ceiling: {plan['limits']['max_edges']:,}",
         "",
         "## Measured medians",
         "",

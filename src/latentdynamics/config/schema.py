@@ -291,19 +291,11 @@ class CMGDBConfig(BaseModel):
     # historical optimized behavior and is appropriate when later depths are
     # handled by the batched on-demand cache.
     adaptive_precompute_subdiv: Literal["init", "min", "max"] = "init"
-    max_table_points: int = Field(
-        ge=1,
-        default=10_000_000,
-        description=(
-            "Hard cap on the number of corner points in precomputed-backend "
-            "lattices. Applied to both 'uniform_precomputed' and "
-            "'adaptive_precomputed'. Raise if you hit the cap; reduce if you "
-            "want to bound memory."
-        ),
-    )
-    # Forward-pass chunk size for precomputed backends. ``max_table_points``
-    # bounds the persisted float64 table; this bounds the transient float32
-    # activation buffers when evaluating ``latent_map`` across the lattice.
+    # Forward-pass chunk size for precomputed backends. This bounds the
+    # transient float32 activation buffers when evaluating ``latent_map``
+    # across the lattice. The lattice itself is deliberately unbounded: a
+    # table that does not fit is left to fail on allocation rather than be
+    # refused up front.
     # ``"auto"`` picks a device- and architecture-aware chunk; a positive int
     # is honored as-is (clamped to the table size). Required for clusters /
     # MPS where single-allocation buffer caps are smaller than total RAM.

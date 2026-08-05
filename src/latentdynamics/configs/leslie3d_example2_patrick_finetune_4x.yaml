@@ -65,7 +65,6 @@ cmgdb:
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  max_table_points: 1200000000
   precompute_batch_points: auto
   compute_roa: false
   roa_max_vertices: 50000000

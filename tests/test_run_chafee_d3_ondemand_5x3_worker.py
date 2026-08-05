@@ -317,7 +317,7 @@ def test_analysis_plan_publish_is_atomic_under_concurrent_bootstrap(
             inputs=inputs,
             runtime={"cmgdb_native": {"sha256": "native"}},
             device="mps",
-            max_edges=1_200_000_000,
+            reserve_edges=1_200_000_000,
             max_forward_points=800_000,
             rss_sample_seconds=0.1,
         )

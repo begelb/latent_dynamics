@@ -66,7 +66,6 @@ cmgdb:
   padding: false
   box_map_backend: auto
   compute_roa: true
-  max_table_points: 300000000
 # Read-only replay of the reference trained model; the original
 # ci_model_weights.pth was converted externally to the package checkpoint format
 # under replay_sources/chafee_infante/replay/. Recompute CMGDB on this model with

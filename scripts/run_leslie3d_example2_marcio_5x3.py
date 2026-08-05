@@ -221,7 +221,6 @@ def _validate_protocol(cfg: ExperimentConfig) -> None:
             and cfg.cmgdb.lower_bounds is None
             and cfg.cmgdb.upper_bounds is None
             and cfg.cmgdb.box_map_backend == "adaptive_precomputed"
-            and cfg.cmgdb.max_table_points == 1_200_000_000
             and cfg.cmgdb.compute_roa is False
         ),
         "model_seeds": tuple(cfg.seeds) == MODEL_SEEDS,

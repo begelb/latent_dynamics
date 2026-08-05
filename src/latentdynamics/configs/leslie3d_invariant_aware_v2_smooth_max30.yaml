@@ -62,7 +62,6 @@ cmgdb:
   padding: true
   box_map_backend: adaptive_precomputed
   # max=30 has the same (2^15 + 1)^2 corner lattice as max=29.
-  max_table_points: 1200000000
   precompute_batch_points: auto
   compute_roa: false
   roa_max_vertices: 50000000

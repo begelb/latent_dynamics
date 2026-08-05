@@ -174,15 +174,12 @@ cmgdb:
   # Dense adaptive lookup-table depth; later corners are batched on demand.
   adaptive_precompute_subdiv: init
 
-  # Maximum number of corner points allowed for precomputed backend tables.
-  # Raise this for high subdivision levels after checking memory requirements.
-  max_table_points: 10000000
-
-  # Forward-pass chunk size for precomputed backends. ``max_table_points``
-  # caps the persisted float64 lookup table; this bounds the *transient*
-  # float32 activation tensors created while evaluating ``latent_map`` over
-  # the lattice. Required because a single hidden-layer activation tensor
-  # over the full lattice can exceed device single-allocation buffer caps
+  # Forward-pass chunk size for precomputed backends. The lattice itself is
+  # unbounded -- a table that does not fit fails on allocation rather than
+  # being refused up front. This bounds only the *transient* float32
+  # activation tensors created while evaluating ``latent_map`` over the
+  # lattice. Required because a single hidden-layer activation tensor over
+  # the full lattice can exceed device single-allocation buffer caps
   # (notably on Apple MPS) even when total RAM is much larger.
   #
   # Choices:

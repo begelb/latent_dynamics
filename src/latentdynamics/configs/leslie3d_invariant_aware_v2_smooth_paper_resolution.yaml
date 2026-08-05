@@ -64,7 +64,6 @@ cmgdb:
   padding: true
   box_map_backend: adaptive_precomputed
   # (2^15 + 1)^2 = 1,073,807,361 unique corners at subdiv_max=29.
-  max_table_points: 1200000000
   precompute_batch_points: auto
   compute_roa: false
   roa_max_vertices: 50000000

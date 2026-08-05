@@ -47,7 +47,7 @@ def test_plan_is_exact_s24_on_demand_only(tmp_path: Path) -> None:
         inputs,
         output_root=output,
         device="mps",
-        max_edges=1_200_000_000,
+        reserve_edges=1_200_000_000,
         max_forward_points=800_000,
         rss_sample_seconds=0.1,
     )
@@ -60,8 +60,6 @@ def test_plan_is_exact_s24_on_demand_only(tmp_path: Path) -> None:
     ) == (24, 24, 24)
     assert graph["expected_cells"] == 2**24
     assert graph["cells_per_axis"] == 256
-    assert graph["CMGDB_MAPGRAPH_MAX_VERTICES"] == 2**24
-    assert graph["CMGDB_MAPGRAPH_MAX_EDGES"] == 1_200_000_000
     assert graph["CMGDB_MAPGRAPH_RESERVE_EDGES"] == 1_200_000_000
     assert graph["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] == 2**24
     assert graph["backend"] == "batched_on_demand_neural"
@@ -200,7 +198,7 @@ def test_execute_is_gated_on_all_fifteen_training_runs(tmp_path: Path) -> None:
             inputs=inputs,
             output_root=output,
             device_name="cpu",
-            max_edges=100,
+            reserve_edges=100,
             max_forward_points=8,
             rss_sample_seconds=0.1,
         )

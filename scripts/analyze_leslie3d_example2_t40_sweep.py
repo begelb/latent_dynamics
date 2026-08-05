@@ -762,7 +762,6 @@ def _adaptive_precompute_lattice(
     backend_log: Any,
     mg_params: dict[str, Any] | None,
     morse_sets: dict[str, Any] | None,
-    max_table_points: Any,
 ) -> dict[str, Any] | None:
     """Derive the exact alternating-axis lookup lattice used by CMGDB.
 
@@ -804,7 +803,6 @@ def _adaptive_precompute_lattice(
     cells_per_axis = [2**depth for depth in axis_depths]
     corners_per_axis = [cells + 1 for cells in cells_per_axis]
     table_points = math.prod(corners_per_axis)
-    configured_limit = _as_int(max_table_points)
     return {
         "backend": "adaptive_precomputed",
         "dimension": dimension,
@@ -821,10 +819,6 @@ def _adaptive_precompute_lattice(
         "lattice_shape": corners_per_axis,
         "table_points": table_points,
         "table_points_formula": "product(2^axis_depth + 1)",
-        "configured_max_table_points": configured_limit,
-        "within_configured_max_table_points": (
-            None if configured_limit is None else table_points <= configured_limit
-        ),
     }
 
 
@@ -1094,7 +1088,6 @@ def _analyze_cell(
         backend_log=backend_log,
         mg_params=mg_params,
         morse_sets=morse_sets,
-        max_table_points=config_cmgdb.get("max_table_points"),
     )
 
     sinks = None if graph is None else graph["sinks"]

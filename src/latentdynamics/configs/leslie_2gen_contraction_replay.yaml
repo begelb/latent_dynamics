@@ -58,7 +58,6 @@ cmgdb:
   upper_bounds: null
   padding: true
   box_map_backend: auto
-  max_table_points: 1500000000
 
 paths:
   data_dir: data/leslie_2gen_contraction

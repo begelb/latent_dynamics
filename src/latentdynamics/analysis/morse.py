@@ -391,7 +391,6 @@ def make_box_map_uniform_precomputed(
     *,
     padding: bool = True,
     device: torch.device | None = None,
-    max_table_points: int = 10_000_000,
     precompute_batch_points: int | Literal["auto"] = "auto",
 ) -> Callable[[Any], Any]:
     """Whole-grid pre-evaluation for uniform CMGDB grids.
@@ -417,15 +416,6 @@ def make_box_map_uniform_precomputed(
 
     n_per_axis = 2 ** (subdiv_k // d)
     corners_per_axis = n_per_axis + 1
-    table_points = corners_per_axis**d
-    if table_points > max_table_points:
-        raise ValueError(
-            f"uniform_precomputed table size ({table_points} corners) exceeds "
-            f"max_table_points ({max_table_points}). For d={d}, subdiv_k="
-            f"{subdiv_k} -> (2^{subdiv_k // d}+1)^{d} corners. "
-            f"Lower subdiv_k or raise max_table_points."
-        )
-
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
     box_side = (U - L) / n_per_axis
@@ -538,7 +528,6 @@ def make_box_map_adaptive_precomputed(
     *,
     padding: bool = True,
     device: torch.device | None = None,
-    max_table_points: int = 10_000_000,
     precompute_batch_points: int | Literal["auto"] = "auto",
     dense_subdiv: int | None = None,
 ) -> Callable[[Any], Any]:
@@ -589,17 +578,6 @@ def make_box_map_adaptive_precomputed(
     # power of two per axis, which is what makes the two point computations
     # agree bitwise.
     stride = (2 ** (axis_depths - table_axis_depths)).astype(np.int64)
-
-    table_points = int(np.prod(corners_per_axis.astype(object)))
-    if table_points > max_table_points:
-        shape_str = " x ".join(str(int(c)) for c in corners_per_axis)
-        raise ValueError(
-            f"adaptive_precomputed table size ({table_points} corners) exceeds "
-            f"max_table_points ({max_table_points}). For d={d}, table depth="
-            f"{table_subdiv}, per-axis depths {table_axis_depths.tolist()} -> "
-            f"{shape_str} corners. "
-            f"Lower subdiv_max or raise max_table_points."
-        )
 
     L = np.asarray(bounds.lower, dtype=np.float64)
     U = np.asarray(bounds.upper, dtype=np.float64)
@@ -734,7 +712,6 @@ def _build_box_map(
             cmgdb_cfg.subdiv_max,
             padding=cmgdb_cfg.padding,
             device=device,
-            max_table_points=cmgdb_cfg.max_table_points,
             precompute_batch_points=cmgdb_cfg.precompute_batch_points,
         )
     if backend == "adaptive_precomputed":
@@ -749,7 +726,6 @@ def _build_box_map(
             cmgdb_cfg.subdiv_max,
             padding=cmgdb_cfg.padding,
             device=device,
-            max_table_points=cmgdb_cfg.max_table_points,
             precompute_batch_points=cmgdb_cfg.precompute_batch_points,
             dense_subdiv=dense_subdiv,
         )

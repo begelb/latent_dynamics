@@ -339,7 +339,7 @@ def _mg_summary(parameters: dict[str, Any]) -> tuple[dict[str, Any], list[dict[s
     settings = {
         key: parameters.get(key) for key in (
             "subdiv_init", "subdiv_min", "subdiv_max", "subdiv_limit",
-            "padding", "box_map_backend", "max_table_points", "bounds_epsilon_frac",
+            "padding", "box_map_backend", "bounds_epsilon_frac",
         ) if key in parameters
     }
     for key in ("subdiv_init", "subdiv_min", "subdiv_max"):

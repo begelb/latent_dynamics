@@ -117,7 +117,7 @@ def _ensure_analysis_plan(
     inputs: dict[str, Any],
     runtime: dict[str, Any],
     device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> tuple[Path, str]:
@@ -148,7 +148,7 @@ def _ensure_analysis_plan(
             "expected_cells": base.EXPECTED_CELLS,
             "expected_callback_rectangles": base.EXPECTED_CALLBACK_RECTANGLES,
             "expected_neural_corner_points": base.EXPECTED_NEURAL_CORNER_POINTS,
-            "max_edges": max_edges,
+            "reserve_edges": reserve_edges,
             "max_forward_points": max_forward_points,
             "device": device,
             "trajectory_and_root_encoding_device": "cpu",
@@ -406,7 +406,7 @@ def run_worker(
     run_id: str,
     output_root: Path,
     device_name: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> dict[str, Any]:
@@ -419,7 +419,7 @@ def run_worker(
         inputs=inputs,
         runtime=runtime,
         device=str(device),
-        max_edges=max_edges,
+        reserve_edges=reserve_edges,
         max_forward_points=max_forward_points,
         rss_sample_seconds=rss_sample_seconds,
     )
@@ -449,7 +449,7 @@ def run_worker(
         "padding": True,
         "device": device_name,
         "trajectory_and_root_encoding_device": "cpu",
-        "max_edges": max_edges,
+        "reserve_edges": reserve_edges,
         "max_forward_points": max_forward_points,
         "runtime": runtime,
         "analysis_plan": base._file_record(analysis_plan_path),
@@ -548,9 +548,7 @@ def run_worker(
             max_forward_points=max_forward_points,
             padding=True,
         )
-        os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(base.EXPECTED_CELLS)
-        os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(max_edges)
-        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(max_edges)
+        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(reserve_edges)
         os.environ["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] = str(base.EXPECTED_CELLS)
 
         base._write_json_atomic(
@@ -970,7 +968,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="mps")
-    parser.add_argument("--max-edges", type=int, default=1_200_000_000)
+    parser.add_argument("--reserve-edges", type=int, default=1_200_000_000)
     parser.add_argument("--max-forward-points", type=int, default=800_000)
     parser.add_argument("--rss-sample-seconds", type=float, default=0.1)
     return parser
@@ -983,7 +981,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             run_id=args.run_id,
             output_root=args.output_root,
             device_name=args.device,
-            max_edges=args.max_edges,
+            reserve_edges=args.reserve_edges,
             max_forward_points=args.max_forward_points,
             rss_sample_seconds=args.rss_sample_seconds,
         )

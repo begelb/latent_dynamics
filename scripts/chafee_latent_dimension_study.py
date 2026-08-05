@@ -50,11 +50,12 @@ Run selected 3-D stages::
 
     python scripts/chafee_latent_dimension_study.py --dimensions 3 \
         --stages precompute-coarse uniform precompute-fine adaptive stats render \
-        --cmgdb-max-edges 1200000000 --cmgdb-reserve-edges 1200000000
+        --cmgdb-reserve-edges 1200000000
 
 The 3-D uniform graph has exactly 2^24 cells.  A locally built CMGDB with the
-batched MapGraph cache is required; ``CMGDB_MAPGRAPH_MAX_EDGES`` can be raised
-with ``--cmgdb-max-edges`` after budgeting approximately eight bytes per edge.
+batched MapGraph cache is required.  ``--cmgdb-reserve-edges`` pre-allocates
+the CSR edge buffer at roughly eight bytes per edge; it is a sizing hint, not
+a ceiling, and the cache grows past it when the graph is larger.
 """
 
 from __future__ import annotations
@@ -1539,8 +1540,9 @@ def _map_graph_cache_metadata(map_graph: Any) -> dict[str, Any]:
         "map_cells": int(map_graph.num_vertices()),
         "has_batch_cache": bool(has_cache()) if callable(has_cache) else None,
         "cached_edges": int(edge_count()) if callable(edge_count) else None,
-        "CMGDB_MAPGRAPH_MAX_VERTICES": os.environ.get("CMGDB_MAPGRAPH_MAX_VERTICES"),
-        "CMGDB_MAPGRAPH_MAX_EDGES": os.environ.get("CMGDB_MAPGRAPH_MAX_EDGES"),
+        "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
+            "CMGDB_MAPGRAPH_RESERVE_EDGES"
+        ),
     }
 
 
@@ -2255,8 +2257,6 @@ def _study_config(
                     else "attempt_conley_with_topology_only_error_fallback"
                 ),
             },
-            "CMGDB_MAPGRAPH_MAX_VERTICES": os.environ.get("CMGDB_MAPGRAPH_MAX_VERTICES"),
-            "CMGDB_MAPGRAPH_MAX_EDGES": os.environ.get("CMGDB_MAPGRAPH_MAX_EDGES"),
             "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
                 "CMGDB_MAPGRAPH_RESERVE_EDGES"
             ),
@@ -2420,18 +2420,6 @@ def _parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
-        "--cmgdb-max-vertices",
-        type=_positive_int,
-        default=2**24,
-        help="sets CMGDB_MAPGRAPH_MAX_VERTICES (inclusive)",
-    )
-    parser.add_argument(
-        "--cmgdb-max-edges",
-        type=_positive_int,
-        default=None,
-        help="optionally sets CMGDB_MAPGRAPH_MAX_EDGES after an explicit memory budget",
-    )
-    parser.add_argument(
         "--cmgdb-reserve-edges",
         type=_positive_int,
         default=None,
@@ -2463,9 +2451,6 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not stages:
         return 0
 
-    os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(args.cmgdb_max_vertices)
-    if args.cmgdb_max_edges is not None:
-        os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(args.cmgdb_max_edges)
     if args.cmgdb_reserve_edges is not None:
         os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(args.cmgdb_reserve_edges)
     device = _resolve_device(args.device)

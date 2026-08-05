@@ -81,7 +81,7 @@ EXPECTED_TARGET_UPPER = np.asarray(
     (3.6786651611328125, 2.518048048019409, 3.3541271686553955),
     dtype=np.float64,
 )
-DEFAULT_MAX_EDGES = 1_200_000_000
+DEFAULT_RESERVE_EDGES = 1_200_000_000
 DEFAULT_MAX_FORWARD_POINTS = 800_000
 DEFAULT_RSS_SAMPLE_SECONDS = 0.1
 EXPECTED_TRAINING_RUNS = 15
@@ -841,7 +841,7 @@ def build_plan(
     *,
     output_root: Path,
     device: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> dict[str, Any]:
@@ -874,9 +874,7 @@ def build_plan(
             "bounds_device": "cpu",
             "neural_device_requested": device,
             "max_forward_points": max_forward_points,
-            "CMGDB_MAPGRAPH_MAX_VERTICES": EXPECTED_CELLS,
-            "CMGDB_MAPGRAPH_MAX_EDGES": max_edges,
-            "CMGDB_MAPGRAPH_RESERVE_EDGES": max_edges,
+            "CMGDB_MAPGRAPH_RESERVE_EDGES": reserve_edges,
             "CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES": EXPECTED_CELLS,
             "conley_indices": False,
         },
@@ -919,7 +917,7 @@ def run_exact_s24(
     inputs: TargetInputs,
     output_root: Path,
     device_name: str,
-    max_edges: int,
+    reserve_edges: int,
     max_forward_points: int,
     rss_sample_seconds: float,
 ) -> dict[str, Any]:
@@ -935,8 +933,8 @@ def run_exact_s24(
             "all 15 matched D3 trainings must complete before s24; still "
             f"missing {inputs.matrix_status['incomplete_run_ids']}"
         )
-    if max_edges < 1:
-        raise ValueError("max_edges must be positive")
+    if reserve_edges < 1:
+        raise ValueError("reserve_edges must be positive")
     if max_forward_points < 2**DIMENSION:
         raise ValueError("max_forward_points is too small")
 
@@ -946,7 +944,7 @@ def run_exact_s24(
         inputs,
         output_root=output,
         device=device_name,
-        max_edges=max_edges,
+        reserve_edges=reserve_edges,
         max_forward_points=max_forward_points,
         rss_sample_seconds=rss_sample_seconds,
     )
@@ -1038,12 +1036,11 @@ def run_exact_s24(
             padding=PADDING,
         )
 
-        os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(EXPECTED_CELLS)
-        os.environ["CMGDB_MAPGRAPH_MAX_EDGES"] = str(max_edges)
         # Match the established precomputed s24 run exactly: allocating the
         # final capacities up front avoids realloc/copy growth and keeps both
-        # timing and peak-memory comparisons apples-to-apples.
-        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(max_edges)
+        # timing and peak-memory comparisons apples-to-apples. This is a
+        # sizing hint only -- exceeding it grows the buffer, it does not fail.
+        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(reserve_edges)
         os.environ["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] = str(EXPECTED_CELLS)
         runtime = _runtime_provenance(device)
         provenance = {
@@ -1054,12 +1051,6 @@ def run_exact_s24(
             "sources": inputs.source_records,
             "runtime": runtime,
             "environment": {
-                "CMGDB_MAPGRAPH_MAX_VERTICES": os.environ.get(
-                    "CMGDB_MAPGRAPH_MAX_VERTICES"
-                ),
-                "CMGDB_MAPGRAPH_MAX_EDGES": os.environ.get(
-                    "CMGDB_MAPGRAPH_MAX_EDGES"
-                ),
                 "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
                     "CMGDB_MAPGRAPH_RESERVE_EDGES"
                 ),
@@ -1308,10 +1299,13 @@ def _parser() -> argparse.ArgumentParser:
         help="device for on-demand latent-map evaluation; bounds stay on CPU",
     )
     parser.add_argument(
-        "--max-edges",
+        "--reserve-edges",
         type=int,
-        default=DEFAULT_MAX_EDGES,
-        help="native CMGDB cached-edge ceiling",
+        default=DEFAULT_RESERVE_EDGES,
+        help=(
+            "edge-buffer capacity to allocate up front; a sizing hint, not a "
+            "ceiling -- the cache grows past it if the graph is larger"
+        ),
     )
     parser.add_argument(
         "--max-forward-points",
@@ -1341,7 +1335,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             inputs,
             output_root=args.output_root,
             device=args.device,
-            max_edges=args.max_edges,
+            reserve_edges=args.reserve_edges,
             max_forward_points=args.max_forward_points,
             rss_sample_seconds=args.rss_sample_seconds,
         )
@@ -1359,7 +1353,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             inputs=inputs,
             output_root=args.output_root,
             device_name=args.device,
-            max_edges=args.max_edges,
+            reserve_edges=args.reserve_edges,
             max_forward_points=args.max_forward_points,
             rss_sample_seconds=args.rss_sample_seconds,
         )

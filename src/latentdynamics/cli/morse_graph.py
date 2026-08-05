@@ -58,7 +58,6 @@ def write_mg_params_log(
                 f"box_map_backend: {cmgdb_cfg.box_map_backend}",
                 f"bounds_data_role: {bounds_data_role or cmgdb_cfg.bounds_data_role}",
                 f"adaptive_precompute_subdiv: {cmgdb_cfg.adaptive_precompute_subdiv}",
-                f"max_table_points: {cmgdb_cfg.max_table_points}",
                 f"precompute_batch_points: {cmgdb_cfg.precompute_batch_points}",
                 f"compute_roa: {cmgdb_cfg.compute_roa}",
                 f"roa_max_vertices: {cmgdb_cfg.roa_max_vertices}",
