@@ -164,7 +164,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -321,6 +320,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -343,6 +343,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -388,8 +389,10 @@
             "n_morse_sets": 4,
             "n_trivial_index": 1
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 0,
       "morse_graph": {
         "edges": [
@@ -504,6 +507,7 @@
         "total_boxes": 8341
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_0/metrics.json",
@@ -664,6 +668,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -701,6 +712,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0003181522770319134,
@@ -981,7 +1040,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -1138,6 +1196,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -1160,6 +1219,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -1205,8 +1265,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 1,
       "morse_graph": {
         "edges": [
@@ -1296,6 +1358,7 @@
         "total_boxes": 488029
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_1/metrics.json",
@@ -1454,6 +1517,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -1491,6 +1561,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.000251047924393788,
@@ -1771,7 +1889,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -1928,6 +2045,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -1950,6 +2068,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": null,
         "minimal_morse_labels": [
@@ -1995,8 +2114,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "inconclusive"
       },
+      "minimal_node_success": false,
       "model_seed": 2,
       "morse_graph": {
         "edges": [
@@ -2086,6 +2207,7 @@
         "total_boxes": 6222
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_01/seed_2/metrics.json",
@@ -2244,6 +2366,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -2281,6 +2410,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.00023606076138094068,
@@ -2561,7 +2738,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -2718,6 +2894,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": true,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -2740,6 +2917,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -2811,8 +2989,10 @@
             "n_morse_sets": 5,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": true,
       "model_seed": 0,
       "morse_graph": {
         "edges": [
@@ -2945,6 +3125,7 @@
         "total_boxes": 7465
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_0/metrics.json",
@@ -3108,6 +3289,18 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ],
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1",
         "x^4-1"
@@ -3161,6 +3354,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002845481794793159,
@@ -3441,7 +3682,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -3598,6 +3838,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -3620,6 +3861,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -3665,8 +3907,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 1,
       "morse_graph": {
         "edges": [
@@ -3756,6 +4000,7 @@
         "total_boxes": 145772
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_1/metrics.json",
@@ -3914,6 +4159,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -3951,6 +4203,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.00025378717691637576,
@@ -4231,7 +4531,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -4388,6 +4687,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -4410,6 +4710,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": null,
         "minimal_morse_labels": [
@@ -4455,8 +4756,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "inconclusive"
       },
+      "minimal_node_success": false,
       "model_seed": 2,
       "morse_graph": {
         "edges": [
@@ -4546,6 +4849,7 @@
         "total_boxes": 137903
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_02/seed_2/metrics.json",
@@ -4704,6 +5008,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -4741,6 +5052,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002728760300669819,
@@ -5021,7 +5380,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -5178,6 +5536,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -5200,6 +5559,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -5245,8 +5605,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 0,
       "morse_graph": {
         "edges": [
@@ -5336,6 +5698,7 @@
         "total_boxes": 3202
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_0/metrics.json",
@@ -5494,6 +5857,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -5531,6 +5901,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002873105986509472,
@@ -5811,7 +6229,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -5968,6 +6385,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -5990,6 +6408,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -6037,8 +6456,10 @@
             "n_morse_sets": 4,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 1,
       "morse_graph": {
         "edges": [
@@ -6149,6 +6570,7 @@
         "total_boxes": 144215
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_1/metrics.json",
@@ -6307,6 +6729,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -6359,6 +6788,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002460766991134733,
@@ -6639,7 +7116,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -6796,6 +7272,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -6818,6 +7295,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": null,
         "minimal_morse_labels": [
@@ -6863,8 +7341,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "inconclusive"
       },
+      "minimal_node_success": false,
       "model_seed": 2,
       "morse_graph": {
         "edges": [
@@ -6954,6 +7434,7 @@
         "total_boxes": 406659
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_03/seed_2/metrics.json",
@@ -7112,6 +7593,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -7149,6 +7637,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002395970659563318,
@@ -7429,7 +7965,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -7586,6 +8121,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -7608,6 +8144,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -7653,8 +8190,10 @@
             "n_morse_sets": 3,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": false,
       "model_seed": 0,
       "morse_graph": {
         "edges": [
@@ -7744,6 +8283,7 @@
         "total_boxes": 3115
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_0/metrics.json",
@@ -7902,6 +8442,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -7939,6 +8486,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0003008681524079293,
@@ -8219,7 +8814,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -8376,6 +8970,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": true,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -8398,6 +8993,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -8469,8 +9065,10 @@
             "n_morse_sets": 5,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": true,
       "model_seed": 1,
       "morse_graph": {
         "edges": [
@@ -8603,6 +9201,7 @@
         "total_boxes": 11650
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_1/metrics.json",
@@ -8766,6 +9365,18 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ],
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1",
         "x^4-1"
@@ -8819,6 +9430,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.00030923180747777224,
@@ -9099,7 +9758,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -9256,6 +9914,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -9278,6 +9937,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": null,
         "minimal_morse_labels": [
@@ -9325,8 +9985,10 @@
             "n_morse_sets": 5,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "inconclusive"
       },
+      "minimal_node_success": false,
       "model_seed": 2,
       "morse_graph": {
         "edges": [
@@ -9458,6 +10120,7 @@
         "total_boxes": 1183391
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_04/seed_2/metrics.json",
@@ -9616,6 +10279,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -9668,6 +10338,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0002412792237009853,
@@ -9948,7 +10666,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -10105,6 +10822,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": true,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -10127,6 +10845,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -10198,8 +10917,10 @@
             "n_morse_sets": 5,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": true,
       "model_seed": 0,
       "morse_graph": {
         "edges": [
@@ -10340,6 +11061,7 @@
         "total_boxes": 9538
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_0/metrics.json",
@@ -10503,6 +11225,18 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ],
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1",
         "x^4-1"
@@ -10556,6 +11290,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0005577767151407897,
@@ -10836,7 +11618,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -10993,6 +11774,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -11015,6 +11797,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": true,
       "metrics": {
         "all_minimal_tolerance_pass": false,
         "minimal_morse_labels": [
@@ -11086,8 +11869,10 @@
             "n_morse_sets": 4,
             "n_trivial_index": 0
           }
-        }
+        },
+        "tolerance_status": "fail"
       },
+      "minimal_node_success": true,
       "model_seed": 1,
       "morse_graph": {
         "edges": [
@@ -11199,6 +11984,7 @@
         "total_boxes": 712825
       },
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_1/metrics.json",
@@ -11362,6 +12148,18 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x-1",
+          "x-1",
+          "0"
+        ],
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x-1",
         "x^4-1"
@@ -11415,6 +12213,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.00034321378916502,
@@ -11695,7 +12541,6 @@
         "settings": {
           "bounds_epsilon_frac": 0.01,
           "box_map_backend": "adaptive_precomputed",
-          "max_table_points": 1200000000,
           "padding": true,
           "subdiv_init": 25,
           "subdiv_limit": 10000,
@@ -11852,6 +12697,7 @@
         "training_seconds": null
       },
       "errors": [],
+      "exact_conley_success": false,
       "failure_evidence": null,
       "final_losses": {
         "file": {
@@ -11874,6 +12720,7 @@
           "validation_used_for_optimization": "false"
         }
       },
+      "marcio_style_success": false,
       "metrics": {
         "all_minimal_tolerance_pass": null,
         "minimal_morse_labels": [
@@ -11919,8 +12766,10 @@
             "n_morse_sets": 4,
             "n_trivial_index": 1
           }
-        }
+        },
+        "tolerance_status": "inconclusive"
       },
+      "minimal_node_success": false,
       "model_seed": 2,
       "morse_graph": {
         "edges": [
@@ -12031,6 +12880,7 @@
         "total_boxes": 1326863
       },
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "run_manifest": {
         "artifacts": {
           "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_marcio_5x3_v1/dataset_05/seed_2/metrics.json",
@@ -12189,6 +13039,13 @@
           "0"
         ]
       ],
+      "sink_conley_indices_normalized": [
+        [
+          "x^4-1",
+          "0",
+          "0"
+        ]
+      ],
       "sink_degree0_normalized": [
         "x^4-1"
       ],
@@ -12226,6 +13083,54 @@
         ],
         "tolerance_affects_classification": false
       },
+      "topology_criteria": [
+        {
+          "conley_index_affects_classification": true,
+          "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+          "expected_conley_index_components": 3,
+          "graph_edges_affect_classification": false,
+          "graph_minimality_affects_classification": false,
+          "name": "bistability_exactly_two_stable_conley_index_nodes",
+          "required_stable_conley_index_node_count": 2,
+          "stable_conley_index_pattern": [
+            "nonzero",
+            "any",
+            "any"
+          ],
+          "tolerance_affects_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+          "name": "exactly_two_graph_minimal_nodes",
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+          "name": "exactly_two_periodic_index_minimal_nodes",
+          "required_index_family": [
+            "x^p-1",
+            "0",
+            "0"
+          ],
+          "required_node_count": 2,
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        },
+        {
+          "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+          "name": "exact_two_period4_sink_indices",
+          "required_node_count": 2,
+          "required_sink_conley_index": [
+            "x^4-1",
+            "0",
+            "0"
+          ],
+          "uses_graph_sinks": true,
+          "uses_tolerance_classification": false
+        }
+      ],
       "training_history_endpoint": {
         "learning_rate": 0.003,
         "loss_prediction": 0.0003275161434430629,
@@ -12861,9 +13766,55 @@
       "warnings": []
     }
   ],
-  "generated_at_utc": "2026-08-05T12:55:21.493018+00:00",
+  "exact_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+    "name": "exact_two_period4_sink_indices",
+    "required_node_count": 2,
+    "required_sink_conley_index": [
+      "x^4-1",
+      "0",
+      "0"
+    ],
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
+  "generated_at_utc": "2026-08-05T16:50:11.009807+00:00",
+  "primary_success_criterion": {
+    "conley_index_affects_classification": true,
+    "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+    "expected_conley_index_components": 3,
+    "graph_edges_affect_classification": false,
+    "graph_minimality_affects_classification": false,
+    "name": "bistability_exactly_two_stable_conley_index_nodes",
+    "required_stable_conley_index_node_count": 2,
+    "stable_conley_index_pattern": [
+      "nonzero",
+      "any",
+      "any"
+    ],
+    "tolerance_affects_classification": false
+  },
   "provisional": false,
-  "schema_version": 3,
+  "requested_bistability_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+    "name": "exactly_two_periodic_index_minimal_nodes",
+    "required_index_family": [
+      "x^p-1",
+      "0",
+      "0"
+    ],
+    "required_node_count": 2,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
+  "schema_version": 4,
+  "secondary_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+    "name": "exactly_two_graph_minimal_nodes",
+    "required_node_count": 2,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
   "success_criterion": {
     "conley_index_affects_classification": true,
     "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
@@ -12880,6 +13831,54 @@
     "tolerance_affects_classification": false
   },
   "sweep_root": "output/leslie3d_example2_marcio_5x3_v1",
+  "topology_criteria": [
+    {
+      "conley_index_affects_classification": true,
+      "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+      "expected_conley_index_components": 3,
+      "graph_edges_affect_classification": false,
+      "graph_minimality_affects_classification": false,
+      "name": "bistability_exactly_two_stable_conley_index_nodes",
+      "required_stable_conley_index_node_count": 2,
+      "stable_conley_index_pattern": [
+        "nonzero",
+        "any",
+        "any"
+      ],
+      "tolerance_affects_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+      "name": "exactly_two_graph_minimal_nodes",
+      "required_node_count": 2,
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+      "name": "exactly_two_periodic_index_minimal_nodes",
+      "required_index_family": [
+        "x^p-1",
+        "0",
+        "0"
+      ],
+      "required_node_count": 2,
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+      "name": "exact_two_period4_sink_indices",
+      "required_node_count": 2,
+      "required_sink_conley_index": [
+        "x^4-1",
+        "0",
+        "0"
+      ],
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    }
+  ],
   "visualization": {
     "summary_morse_sets": {
       "box_scale": "auto",

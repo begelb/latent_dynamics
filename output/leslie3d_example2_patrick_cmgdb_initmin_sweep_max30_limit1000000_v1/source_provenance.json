@@ -1,0 +1,31 @@
+{
+  "allocation_environment": {
+    "CMGDB_MAPGRAPH_CACHE": null,
+    "CMGDB_MAPGRAPH_MAX_EDGES": null,
+    "CMGDB_MAPGRAPH_MAX_VERTICES": null,
+    "CMGDB_MAPGRAPH_RESERVE_EDGES": null
+  },
+  "cmgdb_module": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+  "cpu_count": 14,
+  "created_utc": "2026-08-05T19:30:47.407089+00:00",
+  "machine": "arm64",
+  "numpy": "2.4.4",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "python": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "repositories": {
+    "cmgdb": {
+      "commit": "03567e240b2b6402510191433471345d745e75e8",
+      "dirty": false,
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+      "status_line_count": 0
+    },
+    "code": {
+      "commit": "7f695f7272eac169163564dee92cac08e0dda74d",
+      "dirty": true,
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code",
+      "status_line_count": 10
+    }
+  },
+  "system_memory_bytes": 51539607552,
+  "torch": "2.11.0"
+}

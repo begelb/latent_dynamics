@@ -1,0 +1,1119 @@
+{
+  "adaptive_precompute_lattice": {
+    "all_recorded_cells_same_lattice": false,
+    "lattices": [],
+    "n_cells_recorded": 0,
+    "n_distinct_lattices": 0
+  },
+  "analysis_script": {
+    "path": "scripts/analyze_leslie3d_example2_t40_sweep.py",
+    "sha256": "a2e96cf42db5ca8015d66c632f3198cf59922651382146985806dde2e685d2a0",
+    "size_bytes": 75046
+  },
+  "data_root": "data/leslie3d_example2_seedsweep_strict",
+  "dataset_design": {
+    "errors": [],
+    "expected_dataset_count": 5,
+    "training": {
+      "all_training_csvs_distinct": true,
+      "csv_sha256_by_dataset": {
+        "1": "66ee2b7dd3a9fbb7a53ed8106bfc8890e6fc57c51f66bcba4c22eaefb7b56c7e",
+        "2": "7232d7b8c2d1e45dcc2489caa9c2becd7f418a14d75b0f50076a2d995709e72f",
+        "3": "c3fa72eb53c908e371446fa1feb204e93a6302c7068886fec7b16951f9ceda46",
+        "4": "9ae69a3c8443113800118110bc4f3974c325af5a6bb9149f1262787198944802",
+        "5": "672febd547d92cf8454d4ab79fe9bd4c441c1e1949eb4ce15eae330e40a4e87d"
+      },
+      "distinct_csv_sha256": [
+        "66ee2b7dd3a9fbb7a53ed8106bfc8890e6fc57c51f66bcba4c22eaefb7b56c7e",
+        "672febd547d92cf8454d4ab79fe9bd4c441c1e1949eb4ce15eae330e40a4e87d",
+        "7232d7b8c2d1e45dcc2489caa9c2becd7f418a14d75b0f50076a2d995709e72f",
+        "9ae69a3c8443113800118110bc4f3974c325af5a6bb9149f1262787198944802",
+        "c3fa72eb53c908e371446fa1feb204e93a6302c7068886fec7b16951f9ceda46"
+      ],
+      "n_distinct_csv_sha256": 5,
+      "n_hashes_present": 5
+    },
+    "validation": {
+      "csv_sha256_by_dataset": {
+        "1": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+        "2": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+        "3": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+        "4": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+        "5": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442"
+      },
+      "distinct_csv_sha256": [
+        "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442"
+      ],
+      "distinct_hash_seed_pairs": [
+        {
+          "csv_sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "seed": 9999
+        }
+      ],
+      "distinct_seeds": [
+        9999
+      ],
+      "n_distinct_csv_sha256": 1,
+      "n_distinct_seeds": 1,
+      "n_hashes_present": 5,
+      "n_seeds_present": 5,
+      "seed_by_dataset": {
+        "1": 9999,
+        "2": 9999,
+        "3": 9999,
+        "4": 9999,
+        "5": 9999
+      },
+      "shared_csv_sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+      "shared_hash_and_seed": true,
+      "shared_seed": 9999
+    },
+    "verification_passed": true
+  },
+  "dataset_provenance": [
+    {
+      "complete": true,
+      "dataset_id": 1,
+      "directory": "data/leslie3d_example2_seedsweep_strict/dataset_1",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_1/train.csv",
+          "sha256": "66ee2b7dd3a9fbb7a53ed8106bfc8890e6fc57c51f66bcba4c22eaefb7b56c7e",
+          "size_bytes": 10980076
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_1/train_metadata.json",
+          "sha256": "1632ee6573c7bccca82e0a29208a80bd39e449d6377dbfa2c26b25dcd80bbe7d",
+          "size_bytes": 524
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_1/val.csv",
+          "sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "size_bytes": 2744402
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_1/val_metadata.json",
+          "sha256": "5055a3ab01004957d6136130f404320d48f40db799defb3179132957cba518f1",
+          "size_bytes": 523
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 8000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 8000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 1,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 1,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 160000,
+        "transition_pairs_observed": 160000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 2000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 2000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 40000,
+        "transition_pairs_observed": 40000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 2,
+      "directory": "data/leslie3d_example2_seedsweep_strict/dataset_2",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_2/train.csv",
+          "sha256": "7232d7b8c2d1e45dcc2489caa9c2becd7f418a14d75b0f50076a2d995709e72f",
+          "size_bytes": 10979489
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_2/train_metadata.json",
+          "sha256": "b1b56ec0d106f6361803b6e13aed886db23a5ed1b0763fc536b9f1e614d5a1de",
+          "size_bytes": 524
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_2/val.csv",
+          "sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "size_bytes": 2744402
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_2/val_metadata.json",
+          "sha256": "5055a3ab01004957d6136130f404320d48f40db799defb3179132957cba518f1",
+          "size_bytes": 523
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 8000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 8000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 2,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 2,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 160000,
+        "transition_pairs_observed": 160000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 2000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 2000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 40000,
+        "transition_pairs_observed": 40000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 3,
+      "directory": "data/leslie3d_example2_seedsweep_strict/dataset_3",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_3/train.csv",
+          "sha256": "c3fa72eb53c908e371446fa1feb204e93a6302c7068886fec7b16951f9ceda46",
+          "size_bytes": 10979855
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_3/train_metadata.json",
+          "sha256": "7b1fde3c1092f9c983ae9a52a1f29b2a49aa78c89403e8551e90d1a5dfaaf566",
+          "size_bytes": 524
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_3/val.csv",
+          "sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "size_bytes": 2744402
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_3/val_metadata.json",
+          "sha256": "5055a3ab01004957d6136130f404320d48f40db799defb3179132957cba518f1",
+          "size_bytes": 523
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 8000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 8000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 3,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 3,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 160000,
+        "transition_pairs_observed": 160000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 2000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 2000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 40000,
+        "transition_pairs_observed": 40000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 4,
+      "directory": "data/leslie3d_example2_seedsweep_strict/dataset_4",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_4/train.csv",
+          "sha256": "9ae69a3c8443113800118110bc4f3974c325af5a6bb9149f1262787198944802",
+          "size_bytes": 10979092
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_4/train_metadata.json",
+          "sha256": "ef088ea1d94e07f3e79742eafd181c9cfca2cc6783db4f453332813198629f5e",
+          "size_bytes": 524
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_4/val.csv",
+          "sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "size_bytes": 2744402
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_4/val_metadata.json",
+          "sha256": "5055a3ab01004957d6136130f404320d48f40db799defb3179132957cba518f1",
+          "size_bytes": 523
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 8000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 8000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 4,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 4,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 160000,
+        "transition_pairs_observed": 160000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 2000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 2000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 40000,
+        "transition_pairs_observed": 40000
+      },
+      "verification_passed": true
+    },
+    {
+      "complete": true,
+      "dataset_id": 5,
+      "directory": "data/leslie3d_example2_seedsweep_strict/dataset_5",
+      "errors": [],
+      "files": {
+        "train_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_5/train.csv",
+          "sha256": "672febd547d92cf8454d4ab79fe9bd4c441c1e1949eb4ce15eae330e40a4e87d",
+          "size_bytes": 10979140
+        },
+        "train_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_5/train_metadata.json",
+          "sha256": "d7c5a290d582c8a558284fdb4a5eaa2c984848afda191239bf4cf8c8cc09a6bf",
+          "size_bytes": 524
+        },
+        "validation_csv": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_5/val.csv",
+          "sha256": "cfb556854a0ba6b8c482fd68bfe259ae013cecbebef6ba89c6c857309a6aa442",
+          "size_bytes": 2744402
+        },
+        "validation_metadata": {
+          "path": "data/leslie3d_example2_seedsweep_strict/dataset_5/val_metadata.json",
+          "sha256": "5055a3ab01004957d6136130f404320d48f40db799defb3179132957cba518f1",
+          "size_bytes": 523
+        }
+      },
+      "train": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 8000,
+        "metadata": {
+          "dataset_name": "train",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 8000,
+          "role": "train",
+          "sampling_method": "uniform",
+          "sampling_seed": 5,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 5,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 160000,
+        "transition_pairs_observed": 160000
+      },
+      "validation": {
+        "csv_header": [
+          "x0",
+          "x1",
+          "x2",
+          "y0",
+          "y1",
+          "y2"
+        ],
+        "discarded_steps_T0": 0,
+        "initial_conditions": 2000,
+        "metadata": {
+          "dataset_name": "val",
+          "dimension": 3,
+          "lower_bounds": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "model_params": {
+            "survival_p1": 0.7,
+            "survival_p2": 0.7,
+            "th1": 28.9,
+            "th2": 29.8,
+            "th3": 22.0
+          },
+          "n_iterations": 20,
+          "n_samples": 2000,
+          "role": "val",
+          "sampling_method": "uniform",
+          "sampling_seed": 9999,
+          "skip_initial_steps": 0,
+          "system": "LeslieModel3D",
+          "upper_bounds": [
+            220.0,
+            154.0,
+            108.0
+          ]
+        },
+        "sampling_seed": 9999,
+        "trajectory_length_T": 20,
+        "transition_pairs_expected": 40000,
+        "transition_pairs_observed": 40000
+      },
+      "verification_passed": true
+    }
+  ],
+  "durations_seconds": {
+    "cmgdb": {
+      "count": 15,
+      "max": 477.21,
+      "mean": 459.4908,
+      "min": 451.848,
+      "population_std": 5.6765903287096515
+    },
+    "combined_training_cmgdb": {
+      "count": 15,
+      "max": 1601.462,
+      "mean": 982.4274666666666,
+      "min": 697.738,
+      "population_std": 317.407931022497
+    },
+    "sum_cmgdb": 6892.362,
+    "sum_training": 7844.05,
+    "training": {
+      "count": 15,
+      "max": 1141.45,
+      "mean": 522.9366666666667,
+      "min": 239.58,
+      "population_std": 316.6017319949817
+    }
+  },
+  "exact_conley_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.4
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_successes": 2,
+    "rate_over_expected_15_cells": 0.13333333333333333,
+    "success_rate_among_evaluated": 0.13333333333333333
+  },
+  "expected_design": {
+    "box_map_backend": "auto",
+    "dataset_ids": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "model_seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_cells": 15,
+    "train_initial_conditions": 8000,
+    "trajectory_length_T": 20,
+    "validation_initial_conditions": 2000
+  },
+  "generated_at_utc": "2026-08-05T16:12:24.822726+00:00",
+  "inventory": {
+    "error_counts_by_code": {},
+    "n_cells_with_errors": 0,
+    "n_complete_cells": 15,
+    "n_complete_datasets": 5,
+    "n_expected_cells": 15,
+    "n_incomplete_cells": 0,
+    "n_records": 15,
+    "n_sweep_design_errors": 0,
+    "n_verified_cells": 15,
+    "n_verified_datasets": 5,
+    "warning_counts_by_code": {}
+  },
+  "losses": {
+    "train_prediction_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "train_reconstruction_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "train_semiconjugacy_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "train_total_final": {
+      "count": 15,
+      "max": 0.06510997335314751,
+      "mean": 0.04086863316953182,
+      "min": 0.03276207137107849,
+      "population_std": 0.008238898277136761
+    },
+    "validation_prediction_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "validation_reconstruction_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "validation_semiconjugacy_final": {
+      "count": 0,
+      "max": null,
+      "mean": null,
+      "min": null,
+      "population_std": null
+    },
+    "validation_total_final": {
+      "count": 15,
+      "max": 0.0697732182458043,
+      "mean": 0.04459541637480259,
+      "min": 0.03557175666242838,
+      "population_std": 0.008500426854341697
+    }
+  },
+  "marcio_style_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_successes": 12,
+    "rate_over_expected_15_cells": 0.8,
+    "success_rate_among_evaluated": 0.8
+  },
+  "metrics_are_derived_replay": false,
+  "metrics_root": null,
+  "minimal_node_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 0.6
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_successes": 11,
+    "rate_over_expected_15_cells": 0.7333333333333333,
+    "success_rate_among_evaluated": 0.7333333333333333
+  },
+  "periodic_bistability_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 1,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 2,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 1.0
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 0.6
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 3,
+        "success_rate_among_evaluated": 0.6
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_successes": 4,
+        "success_rate_among_evaluated": 0.8
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_successes": 10,
+    "rate_over_expected_15_cells": 0.6666666666666666,
+    "success_rate_among_evaluated": 0.6666666666666666
+  },
+  "primary_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two nodes whose Conley-index tuple has a nonzero homological degree-0 component. All Morse nodes are counted, not only graph sinks; higher-degree components do not disqualify a node, so both (x-1, x-1, 0) and (x^p-1, 0, 0) qualify as one stable-index node.",
+    "name": "exactly_two_nonzero_degree0_nodes",
+    "required_node_count": 2,
+    "uses_all_morse_nodes": true,
+    "uses_graph_sinks": false,
+    "uses_tolerance_classification": false
+  },
+  "provisional": false,
+  "requested_bistability_criterion": {
+    "definition": "The parsed Morse graph has exactly two minimal nodes, and each has Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The two periods may differ. This is the sweep's requested bistability pass.",
+    "name": "exactly_two_periodic_index_minimal_nodes",
+    "required_index_family": [
+      "x^p-1",
+      "0",
+      "0"
+    ],
+    "required_node_count": 2,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
+  "schema_version": 1,
+  "secondary_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+    "name": "exactly_two_graph_minimal_nodes",
+    "required_node_count": 2,
+    "uses_all_morse_nodes": false,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
+  "source_is_read_only": true,
+  "success_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and the Conley-index tuple on each sink is exactly (x^4-1, 0, 0): x^4-1 in homological degree 0 and zero in the other saved degrees.",
+    "name": "exact_two_period4_sink_indices",
+    "required_sink_conley_index": [
+      "x^4-1",
+      "0",
+      "0"
+    ],
+    "sink_count": 2,
+    "uses_graph_sinks_not_tolerance_classification": true
+  },
+  "sweep_root": "output/leslie3d_example2_seedsweep_strict",
+  "tolerance": {
+    "n_cells_all_minimal_pass": 0,
+    "n_cells_evaluated": 14,
+    "status_counts": {
+      "fail": 14,
+      "inconclusive": 1
+    },
+    "total_failed_minimal_sets": 27
+  },
+  "topology": {
+    "n_distinct_signatures": 14,
+    "signature_counts": {
+      "038841c5df8d2592e5dd7c331eea9cf7418210c7648ad15a0ea3ae1a6c4e64e5": 1,
+      "0bedcb0a7a6e07ebdd961fa4fff4730d99a2125d2ade744844d9955155ac0117": 1,
+      "0cf45a64aef17732ccac6ea6a43405fcbdf29e0e9405c4721fefa9e1a6dbdef0": 1,
+      "347fb2f78f38093e65027dd3a515e623990bf9698d0dffa5f48b0062b4fa3d09": 2,
+      "452db008245b74900efd5cfac50b513acd7a3cb8384eaaa54b1d3bf0df853f83": 1,
+      "5958ed7947fa34a813fee969bc6c0c141063f8cd77b378fbaa1c2a313c6dabbf": 1,
+      "631ece71356eb2dc35f006b4d56418d61b4b0dfa2a0ae09093fed8e3f1d21893": 1,
+      "7002d617e8897fa5e8df513437f6ee6fa4e19c179af6c3b9172dc8d25a0b9755": 1,
+      "74603aefe20b422a2a2647fa616cb3a73ca913d22160bb9d10926c54cfba84c7": 1,
+      "7f56616c23fe226dfa925cb5e7093740014e6b2474aa7da10b8c023368c3ebc5": 1,
+      "804b8f7089f4538bdbdfa24628a8f5db6ddd0db2a328e8b9537c66185442270e": 1,
+      "85e0becdb8147ef4869bb2d4faaf4b88dc32e0e8314dfc79ea439757f352acd4": 1,
+      "9629c267611317ba6b344e46e1aa11419934e81def809d11663326862f860a05": 1,
+      "d83ab6fcf55f9299d943019457acab93f5f7bbc948c94bea66025f93b64f43e8": 1
+    },
+    "sink_conley_index_multiset_counts": {
+      "[[\"x-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"]]": 5,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"]]": 2,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"x-1\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^3-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"],[\"x-1\",\"0\",\"0\"]]": 1,
+      "[[\"x^4-1\",\"0\",\"0\"],[\"x^4-1\",\"0\",\"0\"]]": 2,
+      "[[\"x^4-1\",\"0\",\"0\"]]": 2
+    },
+    "sink_count_distribution": {
+      "1": 2,
+      "2": 11,
+      "3": 1,
+      "4": 1
+    }
+  },
+  "topology_criteria": [
+    {
+      "definition": "The parsed Morse graph has exactly two nodes whose Conley-index tuple has a nonzero homological degree-0 component. All Morse nodes are counted, not only graph sinks; higher-degree components do not disqualify a node, so both (x-1, x-1, 0) and (x^p-1, 0, 0) qualify as one stable-index node.",
+      "name": "exactly_two_nonzero_degree0_nodes",
+      "required_node_count": 2,
+      "uses_all_morse_nodes": true,
+      "uses_graph_sinks": false,
+      "uses_tolerance_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+      "name": "exactly_two_graph_minimal_nodes",
+      "required_node_count": 2,
+      "uses_all_morse_nodes": false,
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    }
+  ]
+}

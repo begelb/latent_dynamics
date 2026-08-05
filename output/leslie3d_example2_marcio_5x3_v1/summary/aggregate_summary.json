@@ -2,26 +2,73 @@
   "bistability": {
     "by_dataset": {
       "1": {
+        "n_cells": 3,
         "n_evaluated": 3,
-        "n_successes": 0
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
       },
       "2": {
+        "n_cells": 3,
         "n_evaluated": 3,
-        "n_successes": 1
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
       },
       "3": {
+        "n_cells": 3,
         "n_evaluated": 3,
-        "n_successes": 1
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
       },
       "4": {
+        "n_cells": 3,
         "n_evaluated": 3,
-        "n_successes": 2
+        "n_failures": 1,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.6666666666666666,
+        "success_rate_among_evaluated": 0.6666666666666666
       },
       "5": {
+        "n_cells": 3,
         "n_evaluated": 3,
-        "n_successes": 2
+        "n_failures": 1,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.6666666666666666,
+        "success_rate_among_evaluated": 0.6666666666666666
       }
     },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 2,
+        "n_successes": 3,
+        "rate_among_evaluated": 0.6,
+        "success_rate_among_evaluated": 0.6
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 4,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.2,
+        "success_rate_among_evaluated": 0.2
+      }
+    },
+    "n_cells": 15,
     "n_evaluated": 15,
     "n_failures": 9,
     "n_successes": 6,
@@ -30,228 +77,304 @@
     "stable_conley_index_node_count_distribution": {
       "1": 9,
       "2": 6
-    }
+    },
+    "success_rate_among_evaluated": 0.4
   },
   "cell_outcomes": [
     {
       "bistability_pass": false,
       "dataset_id": 1,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 0,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 1,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 1,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 1,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 2,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "inconclusive"
     },
     {
       "bistability_pass": true,
       "dataset_id": 2,
       "error_codes": [],
+      "exact_conley_success": true,
       "graph_sink_labels": [
         0,
         1
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": true,
       "model_seed": 0,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 2,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 1,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 2,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 2,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "inconclusive"
     },
     {
       "bistability_pass": false,
       "dataset_id": 3,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 0,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": true,
       "dataset_id": 3,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": false,
       "model_seed": 1,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 3,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 2,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "inconclusive"
     },
     {
       "bistability_pass": false,
       "dataset_id": 4,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 0,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": true,
       "dataset_id": 4,
       "error_codes": [],
+      "exact_conley_success": true,
       "graph_sink_labels": [
         0,
         1
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": true,
       "model_seed": 1,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": true,
       "dataset_id": 4,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": false,
       "model_seed": 2,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "inconclusive"
     },
     {
       "bistability_pass": true,
       "dataset_id": 5,
       "error_codes": [],
+      "exact_conley_success": true,
       "graph_sink_labels": [
         0,
         1
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": true,
       "model_seed": 0,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": true,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": true,
       "dataset_id": 5,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0,
         1
       ],
+      "marcio_style_success": true,
+      "minimal_node_success": true,
       "model_seed": 1,
       "n_stable_conley_index_nodes": 2,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0,
         1
       ],
-      "status": "verified_success"
+      "status": "verified_success",
+      "tolerance_status": "fail"
     },
     {
       "bistability_pass": false,
       "dataset_id": 5,
       "error_codes": [],
+      "exact_conley_success": false,
       "graph_sink_labels": [
         0
       ],
+      "marcio_style_success": false,
+      "minimal_node_success": false,
       "model_seed": 2,
       "n_stable_conley_index_nodes": 1,
+      "periodic_bistability_success": false,
       "stable_index_labels": [
         0
       ],
-      "status": "verified_criterion_failure"
+      "status": "verified_criterion_failure",
+      "tolerance_status": "inconclusive"
     }
   ],
   "cmgdb_setting_profiles": [
@@ -260,7 +383,6 @@
       "settings": {
         "bounds_epsilon_frac": 0.01,
         "box_map_backend": "adaptive_precomputed",
-        "max_table_points": 1200000000,
         "padding": true,
         "subdiv_init": 25,
         "subdiv_limit": 10000,
@@ -805,6 +927,9 @@
       "min": null,
       "population_std": null
     },
+    "sum_cmgdb": 15775.332,
+    "sum_combined": null,
+    "sum_training": null,
     "training": {
       "count": 0,
       "max": null,
@@ -812,6 +937,95 @@
       "min": null,
       "population_std": null
     }
+  },
+  "exact_conley_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 4,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.2,
+        "success_rate_among_evaluated": 0.2
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 5,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_failures": 12,
+    "n_successes": 3,
+    "rate_among_evaluated": 0.2,
+    "rate_over_expected_15_cells": 0.2,
+    "success_rate_among_evaluated": 0.2
+  },
+  "exact_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+    "name": "exact_two_period4_sink_indices",
+    "required_node_count": 2,
+    "required_sink_conley_index": [
+      "x^4-1",
+      "0",
+      "0"
+    ],
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
   },
   "expected_design": {
     "dataset_ids": [
@@ -828,7 +1042,7 @@
     ],
     "n_cells": 15
   },
-  "generated_at_utc": "2026-08-05T12:55:21.493018+00:00",
+  "generated_at_utc": "2026-08-05T16:50:11.009807+00:00",
   "inventory": {
     "error_counts_by_code": {},
     "global_errors": [],
@@ -840,7 +1054,269 @@
     "n_verified_cells": 15,
     "warning_counts_by_code": {}
   },
+  "marcio_style_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 1,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.6666666666666666,
+        "success_rate_among_evaluated": 0.6666666666666666
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 1,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.6666666666666666,
+        "success_rate_among_evaluated": 0.6666666666666666
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 2,
+        "n_successes": 3,
+        "rate_among_evaluated": 0.6,
+        "success_rate_among_evaluated": 0.6
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 4,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.2,
+        "success_rate_among_evaluated": 0.2
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_failures": 9,
+    "n_successes": 6,
+    "rate_among_evaluated": 0.4,
+    "rate_over_expected_15_cells": 0.4,
+    "stable_conley_index_node_count_distribution": {
+      "1": 9,
+      "2": 6
+    },
+    "success_rate_among_evaluated": 0.4
+  },
+  "minimal_node_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 1,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.6666666666666666,
+        "success_rate_among_evaluated": 0.6666666666666666
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 5,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_failures": 11,
+    "n_successes": 4,
+    "rate_among_evaluated": 0.26666666666666666,
+    "rate_over_expected_15_cells": 0.26666666666666666,
+    "success_rate_among_evaluated": 0.26666666666666666
+  },
+  "periodic_bistability_success": {
+    "by_dataset": {
+      "1": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "2": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "3": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 3,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      },
+      "4": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      },
+      "5": {
+        "n_cells": 3,
+        "n_evaluated": 3,
+        "n_failures": 2,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.3333333333333333,
+        "success_rate_among_evaluated": 0.3333333333333333
+      }
+    },
+    "by_model_seed": {
+      "0": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 3,
+        "n_successes": 2,
+        "rate_among_evaluated": 0.4,
+        "success_rate_among_evaluated": 0.4
+      },
+      "1": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 4,
+        "n_successes": 1,
+        "rate_among_evaluated": 0.2,
+        "success_rate_among_evaluated": 0.2
+      },
+      "2": {
+        "n_cells": 5,
+        "n_evaluated": 5,
+        "n_failures": 5,
+        "n_successes": 0,
+        "rate_among_evaluated": 0.0,
+        "success_rate_among_evaluated": 0.0
+      }
+    },
+    "n_cells": 15,
+    "n_evaluated": 15,
+    "n_failures": 12,
+    "n_successes": 3,
+    "rate_among_evaluated": 0.2,
+    "rate_over_expected_15_cells": 0.2,
+    "success_rate_among_evaluated": 0.2
+  },
+  "primary_success_criterion": {
+    "conley_index_affects_classification": true,
+    "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+    "expected_conley_index_components": 3,
+    "graph_edges_affect_classification": false,
+    "graph_minimality_affects_classification": false,
+    "name": "bistability_exactly_two_stable_conley_index_nodes",
+    "required_stable_conley_index_node_count": 2,
+    "stable_conley_index_pattern": [
+      "nonzero",
+      "any",
+      "any"
+    ],
+    "tolerance_affects_classification": false
+  },
   "provisional": false,
+  "requested_bistability_criterion": {
+    "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+    "name": "exactly_two_periodic_index_minimal_nodes",
+    "required_index_family": [
+      "x^p-1",
+      "0",
+      "0"
+    ],
+    "required_node_count": 2,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
   "runner_sweep_summary": {
     "available": true,
     "file": {
@@ -1892,7 +2368,14 @@
       "schema_version": 1
     }
   },
-  "schema_version": 3,
+  "schema_version": 4,
+  "secondary_success_criterion": {
+    "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+    "name": "exactly_two_graph_minimal_nodes",
+    "required_node_count": 2,
+    "uses_graph_sinks": true,
+    "uses_tolerance_classification": false
+  },
   "source_is_read_only": true,
   "success_criterion": {
     "conley_index_affects_classification": true,
@@ -1913,6 +2396,12 @@
   "tolerance": {
     "n_cells_all_minimal_pass": 0,
     "n_cells_evaluated": 10,
+    "n_cells_failed": 10,
+    "n_cells_inconclusive": 5,
+    "status_counts": {
+      "fail": 10,
+      "inconclusive": 5
+    },
     "total_failed_minimal_sets": 10
   },
   "topology": {
@@ -1933,13 +2422,69 @@
       "2": 4
     }
   },
+  "topology_criteria": [
+    {
+      "conley_index_affects_classification": true,
+      "definition": "A cell passes the bistability criterion when exactly two Morse nodes have a stable Conley-index signature, identified by a nonzero degree-0 component. Higher-degree components may be nonzero; for example, both (x^4-1, 0, 0) and (x-1, x-1, 0) qualify. Graph edges/minimality and sampled tolerance metrics are diagnostics and do not affect this classification.",
+      "expected_conley_index_components": 3,
+      "graph_edges_affect_classification": false,
+      "graph_minimality_affects_classification": false,
+      "name": "bistability_exactly_two_stable_conley_index_nodes",
+      "required_stable_conley_index_node_count": 2,
+      "stable_conley_index_pattern": [
+        "nonzero",
+        "any",
+        "any"
+      ],
+      "tolerance_affects_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two minimal nodes (graph sinks, equivalently nodes with no outgoing edge). Conley-index type and sampled tolerance do not alter this topology-only classification.",
+      "name": "exactly_two_graph_minimal_nodes",
+      "required_node_count": 2,
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two graph sinks, and each has normalized Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ.",
+      "name": "exactly_two_periodic_index_minimal_nodes",
+      "required_index_family": [
+        "x^p-1",
+        "0",
+        "0"
+      ],
+      "required_node_count": 2,
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    },
+    {
+      "definition": "The parsed Morse graph has exactly two graph sinks, and both have normalized Conley-index tuple (x^4-1, 0, 0).",
+      "name": "exact_two_period4_sink_indices",
+      "required_node_count": 2,
+      "required_sink_conley_index": [
+        "x^4-1",
+        "0",
+        "0"
+      ],
+      "uses_graph_sinks": true,
+      "uses_tolerance_classification": false
+    }
+  ],
   "training": {
+    "checkpoint_selection": "fixed_final_epoch",
     "epochs_completed": {
       "count": 15,
       "max": 4000.0,
       "mean": 4000.0,
       "min": 4000.0,
       "population_std": 0.0
+    },
+    "evaluated_final_checkpoint_train_total": {
+      "count": 15,
+      "max": 0.001329150354,
+      "mean": 0.0010371655564133332,
+      "min": 0.0009241933107,
+      "population_std": 0.00010369513633974688
     },
     "final_epoch_train": {
       "loss_prediction": {
@@ -1964,8 +2509,25 @@
         "population_std": 0.00012629228972189978
       }
     },
+    "fixed_holdout_total": {
+      "count": 15,
+      "max": 0.001276725345,
+      "mean": 0.001046634538,
+      "min": 0.0009324980577,
+      "population_std": 8.433121341247639e-05
+    },
+    "full_batch_cells": 15,
+    "holdout_used_for_checkpoint_selection": false,
+    "holdout_used_for_optimization": false,
     "methods": {
       "marcio_full_batch": 15
+    },
+    "n_training_pairs": {
+      "count": 15,
+      "max": 30000.0,
+      "mean": 30000.0,
+      "min": 30000.0,
+      "population_std": 0.0
     }
   },
   "visualization": {

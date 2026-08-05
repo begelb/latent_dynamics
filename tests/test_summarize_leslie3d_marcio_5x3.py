@@ -39,6 +39,24 @@ def test_stable_conley_index_uses_nonzero_h0_only(index, expected: bool) -> None
     assert REPORT._is_stable_conley_index(index) is expected
 
 
+@pytest.mark.parametrize(
+    ("index", "expected"),
+    [
+        (["x-1", "0", "0"], True),
+        (["x^4-1", "0", "0"], True),
+        (["x^12-1", "0", "0"], True),
+        (["x^0-1", "0", "0"], False),
+        (["x^4-1", "x-1", "0"], False),
+        (["x^4-1", "0"], False),
+        (None, False),
+    ],
+)
+def test_periodic_bistability_index_requires_pure_positive_period(
+    index, expected: bool
+) -> None:
+    assert REPORT._is_periodic_bistability_index(index) is expected
+
+
 def _write_json(path: Path, payload: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, indent=2) + "\n", encoding="utf-8")
@@ -213,6 +231,11 @@ def test_complete_report_writes_all_outputs_and_six_page_pdf(tmp_path: Path) -> 
         rows = list(csv.DictReader(handle))
     assert len(rows) == 15
     assert rows[0]["bistability_pass"] == "True"
+    assert rows[0]["marcio_style_success"] == "True"
+    assert rows[0]["minimal_node_success"] == "True"
+    assert rows[0]["periodic_bistability_success"] == "True"
+    assert rows[0]["exact_conley_success"] == "True"
+    assert rows[0]["tolerance_status"] == "pass"
     assert rows[0]["n_stable_conley_index_nodes"] == "2"
     assert rows[0]["stable_index_labels"] == "[0,1]"
     assert rows[0]["stable_conley_indices"] == (
@@ -223,10 +246,14 @@ def test_complete_report_writes_all_outputs_and_six_page_pdf(tmp_path: Path) -> 
     assert rows[0]["morse_graph_sha256"]
     assert rows[0]["morse_sets_sha256"]
     aggregate = json.loads(outputs["aggregate_summary"].read_text())
-    assert aggregate["schema_version"] == 3
+    assert aggregate["schema_version"] == 4
     assert aggregate["provisional"] is False
     assert aggregate["inventory"]["n_verified_cells"] == 15
     assert aggregate["bistability"]["n_successes"] == 15
+    assert aggregate["marcio_style_success"]["n_successes"] == 15
+    assert aggregate["minimal_node_success"]["n_successes"] == 15
+    assert aggregate["periodic_bistability_success"]["n_successes"] == 15
+    assert aggregate["exact_conley_success"]["n_successes"] == 15
     assert aggregate["success_criterion"] == {
         "conley_index_affects_classification": True,
         "definition": REPORT.SUCCESS_CRITERION["definition"],
@@ -241,8 +268,12 @@ def test_complete_report_writes_all_outputs_and_six_page_pdf(tmp_path: Path) -> 
     assert aggregate["bistability"]["stable_conley_index_node_count_distribution"] == {
         "2": 15,
     }
+    assert aggregate["tolerance"]["status_counts"] == {"pass": 15}
     assert aggregate["training"]["methods"] == {"marcio_full_batch": 15}
     assert aggregate["durations_seconds"]["cmgdb"]["mean"] == 90.0
+    assert aggregate["durations_seconds"]["sum_cmgdb"] == 1350.0
+    assert aggregate["durations_seconds"]["sum_training"] is None
+    assert aggregate["durations_seconds"]["sum_combined"] is None
     assert aggregate["visualization"]["summary_morse_sets"] == {
         "box_scale": "auto",
         "changes_scientific_artifacts": False,
@@ -250,9 +281,12 @@ def test_complete_report_writes_all_outputs_and_six_page_pdf(tmp_path: Path) -> 
         "min_box_side_frac": 0.0075,
         "source": "raw MG/morse_sets CSV",
     }
-    assert "display-only minimum box side of 0.75%" in outputs[
-        "summary_markdown"
-    ].read_text(encoding="utf-8")
+    markdown = outputs["summary_markdown"].read_text(encoding="utf-8")
+    assert "display-only minimum box side of 0.75%" in markdown
+    assert "## Topology criteria" in markdown
+    assert "## Main findings" in markdown
+    assert "## Run profile and timing" in markdown
+    assert "| 2 H0 | 2 min | Periodic | Exact |" in markdown
     assert _pdf_page_count(outputs["summary_pdf"]) == 6
     assert not list((sweep / "summary").glob(".morse_sets_summary_*"))
 
@@ -274,6 +308,10 @@ def test_any_nonzero_h0_conley_index_can_satisfy_bistability(tmp_path: Path) -> 
     target = next(cell for cell in details["cells"] if cell["dataset_id"] == 2 and cell["model_seed"] == 1)
     assert target["verification_passed"] is True
     assert target["bistability_pass"] is True
+    assert target["marcio_style_success"] is True
+    assert target["minimal_node_success"] is True
+    assert target["periodic_bistability_success"] is False
+    assert target["exact_conley_success"] is False
     assert target["stable_conley_index_nodes"][1]["conley_index_normalized"] == [
         "x-1",
         "x-1",
@@ -283,6 +321,10 @@ def test_any_nonzero_h0_conley_index_can_satisfy_bistability(tmp_path: Path) -> 
     aggregate = json.loads(outputs["aggregate_summary"].read_text())
     assert aggregate["provisional"] is False
     assert aggregate["bistability"]["n_successes"] == 15
+    assert aggregate["marcio_style_success"]["n_successes"] == 15
+    assert aggregate["minimal_node_success"]["n_successes"] == 15
+    assert aggregate["periodic_bistability_success"]["n_successes"] == 14
+    assert aggregate["exact_conley_success"]["n_successes"] == 14
 
 
 def test_adaptive_grid_edge_does_not_change_index_bistability(tmp_path: Path) -> None:
@@ -311,9 +353,16 @@ def test_adaptive_grid_edge_does_not_change_index_bistability(tmp_path: Path) ->
     assert target["n_stable_conley_index_nodes"] == 2
     assert target["stable_index_labels"] == [0, 1]
     assert target["morse_graph"]["sinks"] == [0]
+    assert target["marcio_style_success"] is True
+    assert target["minimal_node_success"] is False
+    assert target["periodic_bistability_success"] is False
+    assert target["exact_conley_success"] is False
     assert target["cell_status"] == "verified_success"
     aggregate = json.loads(outputs["aggregate_summary"].read_text())
     assert aggregate["bistability"]["n_successes"] == 15
+    assert aggregate["minimal_node_success"]["n_successes"] == 14
+    assert aggregate["periodic_bistability_success"]["n_successes"] == 14
+    assert aggregate["exact_conley_success"]["n_successes"] == 14
 
 
 def test_only_one_nonzero_h0_node_fails_bistability_without_invalidating_cell(
@@ -338,11 +387,18 @@ def test_only_one_nonzero_h0_node_fails_bistability_without_invalidating_cell(
     )
     assert target["verification_passed"] is True
     assert target["bistability_pass"] is False
+    assert target["marcio_style_success"] is False
+    assert target["minimal_node_success"] is True
+    assert target["periodic_bistability_success"] is False
+    assert target["exact_conley_success"] is False
     assert target["n_stable_conley_index_nodes"] == 1
     assert target["stable_index_labels"] == [0]
     assert target["cell_status"] == "verified_criterion_failure"
     aggregate = json.loads(outputs["aggregate_summary"].read_text())
     assert aggregate["bistability"]["n_successes"] == 14
+    assert aggregate["minimal_node_success"]["n_successes"] == 15
+    assert aggregate["periodic_bistability_success"]["n_successes"] == 14
+    assert aggregate["exact_conley_success"]["n_successes"] == 14
 
 
 def test_three_nonzero_h0_nodes_fail_exact_bistability(tmp_path: Path) -> None:
@@ -367,6 +423,10 @@ def test_three_nonzero_h0_nodes_fail_exact_bistability(tmp_path: Path) -> None:
     assert target["n_stable_conley_index_nodes"] == 3
     assert target["stable_index_labels"] == [0, 1, 2]
     assert target["bistability_pass"] is False
+    assert target["marcio_style_success"] is False
+    assert target["minimal_node_success"] is True
+    assert target["periodic_bistability_success"] is True
+    assert target["exact_conley_success"] is True
 
 
 def test_tolerance_failure_does_not_change_bistability_pass(tmp_path: Path) -> None:
@@ -386,7 +446,9 @@ def test_tolerance_failure_does_not_change_bistability_pass(tmp_path: Path) -> N
         if item["dataset_id"] == 3 and item["model_seed"] == 2
     )
     assert target["metrics"]["all_minimal_tolerance_pass"] is False
+    assert target["metrics"]["tolerance_status"] == "fail"
     assert target["bistability_pass"] is True
+    assert target["periodic_bistability_success"] is True
     assert target["cell_status"] == "verified_success"
 
 
@@ -463,7 +525,34 @@ def test_known_tolerance_failure_dominates_an_unknown_sink() -> None:
     assert summary["minimal_sets"]["0"]["tolerance_pass"] is False
     assert summary["minimal_sets"]["1"]["tolerance_pass"] is None
     assert summary["all_minimal_tolerance_pass"] is False
+    assert summary["tolerance_status"] == "fail"
     assert summary["n_minimal_tolerance_failures"] == 1
+
+
+def test_zero_sample_metric_is_inconclusive_even_with_stale_boolean() -> None:
+    summary, errors = REPORT._metrics_summary(
+        {
+            "minimal_morse_labels": [0],
+            "minimal_morse_sets": {
+                "0": {
+                    "n_boxes": 2,
+                    "tau_bar": 0.01,
+                    "n_semiconjugacy_samples": 0,
+                    "max_semiconjugacy_error": 0.0,
+                    "is_spurious_attractor": False,
+                    "tolerance_pass": True,
+                },
+            },
+        },
+        [0],
+        {"0": 2},
+    )
+
+    assert errors == []
+    assert summary["minimal_sets"]["0"]["is_spurious_attractor"] is None
+    assert summary["minimal_sets"]["0"]["tolerance_pass"] is None
+    assert summary["all_minimal_tolerance_pass"] is None
+    assert summary["tolerance_status"] == "inconclusive"
 
 
 def test_summary_morse_sets_use_display_only_minimum_box_side(

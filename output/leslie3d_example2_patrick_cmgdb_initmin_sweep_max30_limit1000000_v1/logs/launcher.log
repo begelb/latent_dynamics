@@ -1,0 +1,35 @@
+2026-08-05 15:30:47,986 | INFO | frozen plan sha256=35d4442ba4254cbe605bfc664afd5171277c7f7d563e083761d08b2ecf888756
+2026-08-05 15:30:47,986 | INFO | output root: /Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_patrick_cmgdb_initmin_sweep_max30_limit1000000_v1
+2026-08-05 15:30:47,991 | INFO | building one shared level-30 corner table (1,073,807,361 points, 16.00 GiB table)
+2026-08-05 15:31:34,439 | INFO | shared precompute complete in 46.44 s; sampled peak RSS 8.72 GiB
+2026-08-05 15:31:34,483 | INFO | starting run_00_init16_min18_max30: init=16 min=18 max=30 limit=1000000
+2026-08-05 15:31:38,210 | INFO | completed run_00_init16_min18_max30 in 3.55 s: 1 nodes, 0 edges, 11821 boxes; peak RSS 3.89 GiB
+2026-08-05 15:31:38,268 | INFO | starting run_01_init18_min20_max30: init=18 min=20 max=30 limit=1000000
+2026-08-05 15:31:43,184 | INFO | completed run_01_init18_min20_max30 in 4.62 s: 2 nodes, 1 edges, 21945 boxes; peak RSS 3.93 GiB
+2026-08-05 15:31:43,239 | INFO | starting run_02_init20_min22_max30: init=20 min=22 max=30 limit=1000000
+2026-08-05 15:31:50,283 | INFO | completed run_02_init20_min22_max30 in 6.63 s: 4 nodes, 3 edges, 31880 boxes; peak RSS 3.93 GiB
+2026-08-05 15:31:50,336 | INFO | starting run_03_init22_min24_max30: init=22 min=24 max=30 limit=1000000
+2026-08-05 15:32:07,546 | INFO | completed run_03_init22_min24_max30 in 16.67 s: 5 nodes, 4 edges, 44583 boxes; peak RSS 3.68 GiB
+2026-08-05 15:32:07,735 | INFO | starting run_04_init24_min26_max30: init=24 min=26 max=30 limit=1000000
+2026-08-05 15:33:03,187 | INFO | completed run_04_init24_min26_max30 in 54.89 s: 5 nodes, 4 edges, 45109 boxes; peak RSS 9.02 GiB
+2026-08-05 15:33:03,244 | INFO | starting run_05_init26_min28_max30: init=26 min=28 max=30 limit=1000000
+2026-08-05 15:36:43,681 | INFO | completed run_05_init26_min28_max30 in 219.69 s: 5 nodes, 4 edges, 62173 boxes; peak RSS 10.23 GiB
+2026-08-05 15:36:43,794 | INFO | all six CMGDB runs completed successfully
+2026-08-05 16:15:59,400 | INFO | frozen plan sha256=35d4442ba4254cbe605bfc664afd5171277c7f7d563e083761d08b2ecf888756
+2026-08-05 16:15:59,400 | INFO | output root: /Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_patrick_cmgdb_initmin_sweep_max30_limit1000000_v1
+2026-08-05 16:15:59,425 | INFO | verified completed run; skipping run_00_init16_min18_max30
+2026-08-05 16:15:59,438 | INFO | verified completed run; skipping run_01_init18_min20_max30
+2026-08-05 16:15:59,454 | INFO | verified completed run; skipping run_02_init20_min22_max30
+2026-08-05 16:15:59,466 | INFO | verified completed run; skipping run_03_init22_min24_max30
+2026-08-05 16:15:59,478 | INFO | verified completed run; skipping run_04_init24_min26_max30
+2026-08-05 16:15:59,490 | INFO | verified completed run; skipping run_05_init26_min28_max30
+2026-08-05 16:15:59,505 | INFO | all six runs are already complete
+2026-08-05 16:19:20,331 | INFO | frozen plan sha256=35d4442ba4254cbe605bfc664afd5171277c7f7d563e083761d08b2ecf888756
+2026-08-05 16:19:20,331 | INFO | output root: /Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_example2_patrick_cmgdb_initmin_sweep_max30_limit1000000_v1
+2026-08-05 16:19:20,334 | INFO | verified completed run; skipping run_00_init16_min18_max30
+2026-08-05 16:19:20,339 | INFO | verified completed run; skipping run_01_init18_min20_max30
+2026-08-05 16:19:20,342 | INFO | verified completed run; skipping run_02_init20_min22_max30
+2026-08-05 16:19:20,347 | INFO | verified completed run; skipping run_03_init22_min24_max30
+2026-08-05 16:19:20,351 | INFO | verified completed run; skipping run_04_init24_min26_max30
+2026-08-05 16:19:20,360 | INFO | verified completed run; skipping run_05_init26_min28_max30
+2026-08-05 16:19:20,382 | INFO | all six runs are already complete

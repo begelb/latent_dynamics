@@ -191,7 +191,7 @@ wheels = [
 
 [[package]]
 name = "cmgdb"
-version = "1.3.3+fork.2"
+version = "1.3.3+fork.3"
 source = { editable = "../archive/CMGDB" }
 dependencies = [
     { name = "graphviz" },

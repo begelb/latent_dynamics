@@ -32,8 +32,10 @@ MODEL_SEEDS = (0, 1, 2)
 MARCIO_OBJECTIVE = "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)"
 EXPECTED_CMGDB_BOUNDS_SOURCE = "encoded_train_pairs"
 SUMMARY_MIN_BOX_SIDE_FRAC = 0.0075
-SUMMARY_SCHEMA_VERSION = 3
+SUMMARY_SCHEMA_VERSION = 4
 EXPECTED_CONLEY_COMPONENTS = 3
+TARGET_CONLEY_INDEX = ("x^4-1", "0", "0")
+PERIODIC_H0_RE = re.compile(r"^x(?:\^([1-9]\d*))?-1$")
 
 REQUIRED_FILES = {
     "checkpoint": Path("models/autoencoder.pt"),
@@ -71,9 +73,55 @@ SUCCESS_CRITERION = {
     "tolerance_affects_classification": False,
 }
 
+# Keep the original broad H0-count criterion and ``bistability_pass`` field for
+# compatibility with existing consumers, while reporting the three increasingly
+# strict graph-minimal criteria alongside it.
+MARCIO_STYLE_CRITERION = SUCCESS_CRITERION
+MINIMAL_NODE_CRITERION = {
+    "name": "exactly_two_graph_minimal_nodes",
+    "definition": (
+        "The parsed Morse graph has exactly two minimal nodes (graph sinks, "
+        "equivalently nodes with no outgoing edge). Conley-index type and sampled "
+        "tolerance do not alter this topology-only classification."
+    ),
+    "required_node_count": 2,
+    "uses_graph_sinks": True,
+    "uses_tolerance_classification": False,
+}
+PERIODIC_BISTABILITY_CRITERION = {
+    "name": "exactly_two_periodic_index_minimal_nodes",
+    "definition": (
+        "The parsed Morse graph has exactly two graph sinks, and each has normalized "
+        "Conley-index tuple (x^p-1, 0, 0) for an integer p >= 1. The periods may differ."
+    ),
+    "required_node_count": 2,
+    "required_index_family": ["x^p-1", "0", "0"],
+    "uses_graph_sinks": True,
+    "uses_tolerance_classification": False,
+}
+EXACT_CONLEY_CRITERION = {
+    "name": "exact_two_period4_sink_indices",
+    "definition": (
+        "The parsed Morse graph has exactly two graph sinks, and both have normalized "
+        "Conley-index tuple (x^4-1, 0, 0)."
+    ),
+    "required_node_count": 2,
+    "required_sink_conley_index": list(TARGET_CONLEY_INDEX),
+    "uses_graph_sinks": True,
+    "uses_tolerance_classification": False,
+}
+TOPOLOGY_CRITERIA = [
+    MARCIO_STYLE_CRITERION,
+    MINIMAL_NODE_CRITERION,
+    PERIODIC_BISTABILITY_CRITERION,
+    EXACT_CONLEY_CRITERION,
+]
+
 CSV_FIELDS = (
     "dataset_id", "model_seed", "cell_status", "complete", "verification_passed",
-    "bistability_pass", "n_stable_conley_index_nodes", "stable_index_labels",
+    "bistability_pass", "marcio_style_success", "minimal_node_success",
+    "periodic_bistability_success", "exact_conley_success",
+    "n_stable_conley_index_nodes", "stable_index_labels",
     "stable_conley_indices", "training_method", "training_seed",
     "data_train_seed", "data_validation_seed", "train_csv_sha256", "validation_csv_sha256",
     "epochs_completed", "n_training_pairs", "loss_reconstruction_final",
@@ -83,8 +131,10 @@ CSV_FIELDS = (
     "subdiv_init", "subdiv_min", "subdiv_max", "box_map_backend",
     "lower_bounds", "upper_bounds", "bounds_source", "n_morse_nodes",
     "n_morse_edges", "n_graph_sinks", "sink_labels", "sink_conley_indices",
+    "sink_conley_indices_normalized",
     "sink_degree0_normalized", "node_conley_indices", "morse_boxes_total",
     "morse_boxes_by_label", "minimal_tolerance", "all_minimal_tolerance_pass",
+    "tolerance_status",
     "n_minimal_tolerance_failures", "checkpoint_sha256", "morse_graph_sha256",
     "morse_sets_sha256", "config_hash", "error_count", "warning_count",
     "errors", "warnings", "cell_directory",
@@ -212,6 +262,27 @@ def _is_stable_conley_index(index: Any) -> bool:
         and isinstance(index[0], str)
         and index[0] not in ("", "0")
     )
+
+
+def _is_periodic_bistability_index(index: Any) -> bool:
+    """Return whether a normalized index is ``(x^p-1, 0, 0)``, p >= 1."""
+    return bool(
+        isinstance(index, list)
+        and len(index) == EXPECTED_CONLEY_COMPONENTS
+        and isinstance(index[0], str)
+        and PERIODIC_H0_RE.fullmatch(index[0])
+        and index[1:] == ["0", "0"]
+    )
+
+
+def _tolerance_status(metrics: dict[str, Any] | None) -> str:
+    """Return the three-state cell tolerance result used by every report format."""
+    value = _deep_get(metrics, "all_minimal_tolerance_pass")
+    if value is True:
+        return "pass"
+    if value is False:
+        return "fail"
+    return "inconclusive"
 
 
 def _parse_dot(path: Path) -> dict[str, Any]:
@@ -506,35 +577,48 @@ def _metrics_summary(raw: dict[str, Any], sinks: list[int] | None, boxes: dict[s
             continue
         tau = _as_float(item.get("tau_bar"))
         residual = _as_float(item.get("max_semiconjugacy_error"))
+        n_samples = _as_int(item.get("n_semiconjugacy_samples"))
         passed = item.get("tolerance_pass") if isinstance(item.get("tolerance_pass"), bool) else None
         if passed is None and isinstance(item.get("is_spurious_attractor"), bool):
             passed = not item["is_spurious_attractor"]
         if passed is None and tau is not None and residual is not None:
             passed = residual <= tau
+        # A sampled check with no samples contains no evidence either way,
+        # regardless of booleans emitted by older metrics writers.
+        if n_samples == 0:
+            passed = None
         reported_boxes = _as_int(item.get("n_boxes"))
         observed_boxes = None if boxes is None else boxes.get(str(label), 0)
         if reported_boxes is not None and observed_boxes is not None and reported_boxes != observed_boxes:
             errors.append(_issue("minimal_box_count_mismatch", f"metrics sink {label} has {reported_boxes} boxes; file has {observed_boxes}"))
         details[str(label)] = {
             "available": True, "n_boxes": reported_boxes, "tau_bar": tau,
-            "n_semiconjugacy_samples": _as_int(item.get("n_semiconjugacy_samples")),
+            "n_semiconjugacy_samples": n_samples,
             "max_semiconjugacy_error": residual,
             "max_error_to_tau_ratio": (residual / tau if tau and residual is not None else None),
-            "is_spurious_attractor": item.get("is_spurious_attractor") if isinstance(item.get("is_spurious_attractor"), bool) else None,
+            "is_spurious_attractor": (
+                item.get("is_spurious_attractor")
+                if n_samples != 0 and isinstance(item.get("is_spurious_attractor"), bool)
+                else None
+            ),
             "tolerance_pass": passed, "raw": item,
         }
     passes = [item["tolerance_pass"] for item in details.values()]
-    # A known failure dominates unknown/unsampled sets.  Report ``None`` only
-    # when no set failed and at least one set still lacks a boolean result.
     if any(value is False for value in passes):
         all_pass = False
     elif passes and all(value is True for value in passes):
         all_pass = True
     else:
         all_pass = None
+    tolerance_status = (
+        "pass" if all_pass is True
+        else "fail" if all_pass is False
+        else "inconclusive"
+    )
     return {
         "minimal_morse_labels": labels_int, "minimal_sets": details,
         "all_minimal_tolerance_pass": all_pass,
+        "tolerance_status": tolerance_status,
         "n_minimal_tolerance_failures": sum(value is False for value in passes),
         "raw": raw,
     }, errors
@@ -665,15 +749,22 @@ def _analyze_cell(dataset: dict[str, Any], model_seed: int) -> dict[str, Any]:
         )
         errors.extend(metric_errors)
     sink_indices = None
+    sink_indices_normalized = None
     sink_h0 = None
     stable_index_nodes = None
-    bistability_pass = None
+    marcio_style_success = None
+    minimal_node_success = None
+    periodic_bistability_success = None
+    exact_conley_success = None
     if graph is not None:
         by_id = {node["id"]: node for node in graph["nodes"]}
         sink_indices = [by_id[label]["conley_index"] for label in graph["sinks"]]
+        sink_indices_normalized = [
+            by_id[label]["conley_index_normalized"] for label in graph["sinks"]
+        ]
         sink_h0 = [
             (normalized[0] if normalized else None)
-            for normalized in (by_id[label]["conley_index_normalized"] for label in graph["sinks"])
+            for normalized in sink_indices_normalized
         ]
         stable_index_nodes = [
             {
@@ -685,9 +776,18 @@ def _analyze_cell(dataset: dict[str, Any], model_seed: int) -> dict[str, Any]:
             for node in graph["nodes"]
             if _is_stable_conley_index(node["conley_index_normalized"])
         ]
-        bistability_pass = (
+        marcio_style_success = (
             len(stable_index_nodes)
             == SUCCESS_CRITERION["required_stable_conley_index_node_count"]
+        )
+        minimal_node_success = len(graph["sinks"]) == 2
+        periodic_bistability_success = minimal_node_success and all(
+            _is_periodic_bistability_index(index)
+            for index in sink_indices_normalized
+        )
+        exact_conley_success = minimal_node_success and all(
+            index == list(TARGET_CONLEY_INDEX)
+            for index in sink_indices_normalized
         )
     complete = cell_dir.is_dir() and not missing
     verified = complete and not errors
@@ -695,14 +795,24 @@ def _analyze_cell(dataset: dict[str, Any], model_seed: int) -> dict[str, Any]:
     if complete and errors:
         status = "invalid"
     elif verified:
-        status = "verified_success" if bistability_pass else "verified_criterion_failure"
+        status = (
+            "verified_success"
+            if marcio_style_success
+            else "verified_criterion_failure"
+        )
     train_seconds = _as_float(training.get("train_duration_seconds")) if training else None
     cmgdb_seconds = _deep_get(mg, "timing", "duration_seconds")
     return {
         "dataset_id": dataset_id, "model_seed": model_seed,
         "cell_directory": _display(cell_dir), "resolved_cell_path": cell_dir,
         "cell_status": status, "complete": complete, "verification_passed": verified,
-        "bistability_pass": bistability_pass, "success_criterion": SUCCESS_CRITERION,
+        "bistability_pass": marcio_style_success,
+        "marcio_style_success": marcio_style_success,
+        "minimal_node_success": minimal_node_success,
+        "periodic_bistability_success": periodic_bistability_success,
+        "exact_conley_success": exact_conley_success,
+        "success_criterion": SUCCESS_CRITERION,
+        "topology_criteria": TOPOLOGY_CRITERIA,
         "seeds": {"training": _as_int(training.get("seed")) if training else None,
                   "data_train": train_seed, "data_validation": validation_seed},
         "dataset_provenance": {"files": dataset["files"], "metadata": dataset["metadata"]},
@@ -712,7 +822,9 @@ def _analyze_cell(dataset: dict[str, Any], model_seed: int) -> dict[str, Any]:
         ),
         "final_losses": final_losses, "diagnose": payloads.get("diagnose"),
         "cmgdb": mg, "morse_graph": graph, "morse_sets": sets, "metrics": metrics,
-        "sink_conley_indices": sink_indices, "sink_degree0_normalized": sink_h0,
+        "sink_conley_indices": sink_indices,
+        "sink_conley_indices_normalized": sink_indices_normalized,
+        "sink_degree0_normalized": sink_h0,
         "stable_conley_index_nodes": stable_index_nodes,
         "stable_index_labels": (
             [node["id"] for node in stable_index_nodes]
@@ -750,6 +862,10 @@ def _csv_row(cell: dict[str, Any]) -> dict[str, Any]:
         "cell_status": cell["cell_status"], "complete": cell["complete"],
         "verification_passed": cell["verification_passed"],
         "bistability_pass": cell["bistability_pass"],
+        "marcio_style_success": cell["marcio_style_success"],
+        "minimal_node_success": cell["minimal_node_success"],
+        "periodic_bistability_success": cell["periodic_bistability_success"],
+        "exact_conley_success": cell["exact_conley_success"],
         "n_stable_conley_index_nodes": cell["n_stable_conley_index_nodes"],
         "stable_index_labels": _json_text(cell["stable_index_labels"]),
         "stable_conley_indices": _json_text([
@@ -773,10 +889,14 @@ def _csv_row(cell: dict[str, Any]) -> dict[str, Any]:
         "n_morse_nodes": graph.get("n_nodes"), "n_morse_edges": graph.get("n_edges"),
         "n_graph_sinks": len(graph["sinks"]) if "sinks" in graph else None,
         "sink_labels": _json_text(graph.get("sinks")), "sink_conley_indices": _json_text(cell["sink_conley_indices"]),
+        "sink_conley_indices_normalized": _json_text(
+            cell["sink_conley_indices_normalized"]
+        ),
         "sink_degree0_normalized": _json_text(cell["sink_degree0_normalized"]), "node_conley_indices": _json_text(node_indices),
         "morse_boxes_total": sets.get("total_boxes"), "morse_boxes_by_label": _json_text(sets.get("boxes_by_label")),
         "minimal_tolerance": _json_text(metrics.get("minimal_sets")),
         "all_minimal_tolerance_pass": metrics.get("all_minimal_tolerance_pass"),
+        "tolerance_status": _tolerance_status(cell.get("metrics")),
         "n_minimal_tolerance_failures": metrics.get("n_minimal_tolerance_failures"),
         "checkpoint_sha256": _deep_get(refs, "checkpoint", "sha256"),
         "morse_graph_sha256": _deep_get(refs, "morse_graph", "sha256"),
@@ -797,6 +917,11 @@ def _numeric_summary(values: list[Any]) -> dict[str, Any]:
     }
 
 
+def _numeric_sum(values: list[Any]) -> float | None:
+    clean = [float(value) for value in values if _as_float(value) is not None]
+    return sum(clean) if clean else None
+
+
 def _load_sweep_summary(sweep_root: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
     path = sweep_root / "sweep_summary.json"
     if not path.is_file():
@@ -806,6 +931,20 @@ def _load_sweep_summary(sweep_root: Path) -> tuple[dict[str, Any], list[dict[str
         return {"available": True, "file": reference, "payload": payload}, []
     except ValueError as exc:
         return {"available": True, "file": _display(path), "parse_error": str(exc)}, [_issue("invalid_sweep_summary", str(exc), path)]
+
+
+def _success_group(cells: list[dict[str, Any]], field: str) -> dict[str, Any]:
+    evaluated = [cell for cell in cells if isinstance(cell.get(field), bool)]
+    successes = sum(cell.get(field) is True for cell in evaluated)
+    rate = successes / len(evaluated) if evaluated else None
+    return {
+        "n_cells": len(cells),
+        "n_evaluated": len(evaluated),
+        "n_successes": successes,
+        "n_failures": len(evaluated) - successes,
+        "rate_among_evaluated": rate,
+        "success_rate_among_evaluated": rate,
+    }
 
 
 def _aggregate(cells: list[dict[str, Any]], datasets: list[dict[str, Any]], sweep_root: Path,
@@ -821,22 +960,74 @@ def _aggregate(cells: list[dict[str, Any]], datasets: list[dict[str, Any]], swee
     errors = Counter(error["code"] for cell in cells for error in cell["errors"])
     errors.update(error["code"] for error in global_errors)
     warnings = Counter(warning["code"] for cell in cells for warning in cell["warnings"])
-    successes = sum(cell["bistability_pass"] is True for cell in cells)
-    evaluated = sum(isinstance(cell["bistability_pass"], bool) for cell in cells)
+
     def final_loss(key: str) -> list[Any]:
         return [
             _deep_get(cell, "training_summary", "final_epoch_train", key)
             for cell in cells
         ]
+
+    def evaluated_train_total(cell: dict[str, Any]) -> Any:
+        values = _deep_get(cell, "final_losses", "values")
+        if not isinstance(values, dict):
+            return None
+        return values.get("train_loss_total", values.get("loss_total"))
+
+    def fixed_holdout_total(cell: dict[str, Any]) -> Any:
+        return _deep_get(cell, "final_losses", "values", "val_loss_total")
+
+    expected_cells = len(DATASET_IDS) * len(MODEL_SEEDS)
+
+    def success_summary(field: str) -> dict[str, Any]:
+        summary = _success_group(cells, field)
+        summary["rate_over_expected_15_cells"] = (
+            sum(cell.get(field) is True for cell in cells) / expected_cells
+        )
+        summary["by_dataset"] = {
+            str(dataset_id): _success_group(
+                [cell for cell in cells if cell["dataset_id"] == dataset_id], field
+            )
+            for dataset_id in DATASET_IDS
+        }
+        summary["by_model_seed"] = {
+            str(seed): _success_group(
+                [cell for cell in cells if cell["model_seed"] == seed], field
+            )
+            for seed in MODEL_SEEDS
+        }
+        return summary
+
+    marcio_success = success_summary("marcio_style_success")
+    marcio_success["stable_conley_index_node_count_distribution"] = {
+        str(key): value for key, value in sorted(stable_index_counts.items())
+    }
+    minimal_success = success_summary("minimal_node_success")
+    periodic_success = success_summary("periodic_bistability_success")
+    exact_success = success_summary("exact_conley_success")
+    tolerance_status_counts = Counter(
+        _tolerance_status(cell.get("metrics")) for cell in cells
+    )
     setting_profiles = Counter(_json_text(_deep_get(cell, "cmgdb", "settings")) for cell in cells if cell["cmgdb"])
+    training_durations = [
+        _deep_get(cell, "durations", "training_seconds") for cell in cells
+    ]
+    cmgdb_durations = [_deep_get(cell, "durations", "cmgdb_seconds") for cell in cells]
+    combined_durations = [
+        _deep_get(cell, "durations", "combined_seconds") for cell in cells
+    ]
     return {
         "schema_version": SUMMARY_SCHEMA_VERSION,
         "generated_at_utc": _utc_now(), "provisional": provisional,
         "source_is_read_only": True, "sweep_root": _display(sweep_root), "data_root": _display(data_root),
-        "expected_design": {"dataset_ids": list(DATASET_IDS), "model_seeds": list(MODEL_SEEDS), "n_cells": 15},
+        "expected_design": {"dataset_ids": list(DATASET_IDS), "model_seeds": list(MODEL_SEEDS), "n_cells": expected_cells},
         "success_criterion": SUCCESS_CRITERION,
+        "primary_success_criterion": MARCIO_STYLE_CRITERION,
+        "secondary_success_criterion": MINIMAL_NODE_CRITERION,
+        "requested_bistability_criterion": PERIODIC_BISTABILITY_CRITERION,
+        "exact_success_criterion": EXACT_CONLEY_CRITERION,
+        "topology_criteria": TOPOLOGY_CRITERIA,
         "inventory": {
-            "n_expected_cells": 15, "n_records": len(cells),
+            "n_expected_cells": expected_cells, "n_records": len(cells),
             "n_complete_cells": sum(cell["complete"] for cell in cells),
             "n_verified_cells": sum(cell["verification_passed"] for cell in cells),
             "n_incomplete_cells": sum(not cell["complete"] for cell in cells),
@@ -845,25 +1036,11 @@ def _aggregate(cells: list[dict[str, Any]], datasets: list[dict[str, Any]], swee
             "warning_counts_by_code": dict(sorted(warnings.items())),
             "global_errors": global_errors,
         },
-        "bistability": {
-            "n_evaluated": evaluated, "n_successes": successes,
-            "n_failures": evaluated - successes,
-            "rate_among_evaluated": successes / evaluated if evaluated else None,
-            "rate_over_expected_15_cells": successes / 15,
-            "stable_conley_index_node_count_distribution": {
-                str(key): value for key, value in sorted(stable_index_counts.items())
-            },
-            "by_dataset": {str(dataset_id): {
-                "n_successes": sum(
-                    cell["bistability_pass"] is True
-                    for cell in cells if cell["dataset_id"] == dataset_id
-                ),
-                "n_evaluated": sum(
-                    isinstance(cell["bistability_pass"], bool)
-                    for cell in cells if cell["dataset_id"] == dataset_id
-                ),
-            } for dataset_id in DATASET_IDS},
-        },
+        "bistability": marcio_success,
+        "marcio_style_success": marcio_success,
+        "minimal_node_success": minimal_success,
+        "periodic_bistability_success": periodic_success,
+        "exact_conley_success": exact_success,
         "training": {
             "methods": dict(Counter(_deep_get(cell, "training_summary", "training_method") for cell in cells if cell["training_summary"])),
             "final_epoch_train": {
@@ -872,24 +1049,51 @@ def _aggregate(cells: list[dict[str, Any]], datasets: list[dict[str, Any]], swee
                 "loss_total": _numeric_summary(final_loss("loss_total")),
             },
             "epochs_completed": _numeric_summary([_deep_get(cell, "training_summary", "epochs_completed") for cell in cells]),
+            "n_training_pairs": _numeric_summary([
+                _deep_get(cell, "training_summary", "data", "n_pairs") for cell in cells
+            ]),
+            "evaluated_final_checkpoint_train_total": _numeric_summary([
+                evaluated_train_total(cell) for cell in cells
+            ]),
+            "fixed_holdout_total": _numeric_summary([
+                fixed_holdout_total(cell) for cell in cells
+            ]),
+            "full_batch_cells": sum(
+                _deep_get(cell, "training_summary", "data", "full_batch") is True
+                for cell in cells
+            ),
+            "holdout_used_for_optimization": False,
+            "holdout_used_for_checkpoint_selection": False,
+            "checkpoint_selection": "fixed_final_epoch",
         },
         "diagnosis": dict(Counter(_deep_get(cell, "diagnose", "diagnostic") for cell in cells if cell["diagnose"])),
         "topology": {"n_distinct_signatures": len(topology), "signature_counts": dict(topology),
                      "sink_count_distribution": {str(key): value for key, value in sorted(sink_counts.items())}},
         "tolerance": {
-            "n_cells_evaluated": sum(isinstance(_deep_get(cell, "metrics", "all_minimal_tolerance_pass"), bool) for cell in cells),
-            "n_cells_all_minimal_pass": sum(_deep_get(cell, "metrics", "all_minimal_tolerance_pass") is True for cell in cells),
+            "n_cells_evaluated": tolerance_status_counts["pass"] + tolerance_status_counts["fail"],
+            "n_cells_all_minimal_pass": tolerance_status_counts["pass"],
+            "n_cells_failed": tolerance_status_counts["fail"],
+            "n_cells_inconclusive": tolerance_status_counts["inconclusive"],
+            "status_counts": dict(sorted(tolerance_status_counts.items())),
             "total_failed_minimal_sets": sum(_deep_get(cell, "metrics", "n_minimal_tolerance_failures") or 0 for cell in cells),
         },
         "durations_seconds": {
-            "training": _numeric_summary([_deep_get(cell, "durations", "training_seconds") for cell in cells]),
-            "cmgdb": _numeric_summary([_deep_get(cell, "durations", "cmgdb_seconds") for cell in cells]),
-            "combined": _numeric_summary([_deep_get(cell, "durations", "combined_seconds") for cell in cells]),
+            "training": _numeric_summary(training_durations),
+            "cmgdb": _numeric_summary(cmgdb_durations),
+            "combined": _numeric_summary(combined_durations),
+            "sum_training": _numeric_sum(training_durations),
+            "sum_cmgdb": _numeric_sum(cmgdb_durations),
+            "sum_combined": _numeric_sum(combined_durations),
         },
         "cmgdb_setting_profiles": [{"settings": json.loads(profile), "n_cells": count} for profile, count in sorted(setting_profiles.items())],
         "cell_outcomes": [{"dataset_id": cell["dataset_id"], "model_seed": cell["model_seed"],
                            "status": cell["cell_status"],
                            "bistability_pass": cell["bistability_pass"],
+                           "marcio_style_success": cell["marcio_style_success"],
+                           "minimal_node_success": cell["minimal_node_success"],
+                           "periodic_bistability_success": cell["periodic_bistability_success"],
+                           "exact_conley_success": cell["exact_conley_success"],
+                           "tolerance_status": _tolerance_status(cell.get("metrics")),
                            "n_stable_conley_index_nodes": cell["n_stable_conley_index_nodes"],
                            "stable_index_labels": cell["stable_index_labels"],
                            "graph_sink_labels": (
@@ -906,60 +1110,322 @@ def _format_number(value: Any, digits: int = 3) -> str:
     return "-" if number is None else f"{number:.{digits}g}"
 
 
+def _final_loss_value(cell: dict[str, Any], key: str) -> Any:
+    return _deep_get(cell, "final_losses", "values", key)
+
+
+def _flag_text(value: Any) -> str:
+    return "yes" if value is True else "no" if value is False else "-"
+
+
+def _cell_name(cell: dict[str, Any]) -> str:
+    return f"dataset_{cell['dataset_id']:02d}/seed_{cell['model_seed']}"
+
+
 def _markdown(cells: list[dict[str, Any]], aggregate: dict[str, Any]) -> str:
     inv = aggregate["inventory"]
-    success = aggregate["bistability"]
     state = "PROVISIONAL / INCOMPLETE" if aggregate["provisional"] else "COMPLETE AND VERIFIED"
+    criteria = [
+        ("Marcio-style H0 count", "marcio_style_success", "exactly two H0-type Morse nodes"),
+        ("Two minimal nodes", "minimal_node_success", "exactly two graph sinks"),
+        ("Periodic bistability", "periodic_bistability_success", "two pure `(x^p-1, 0, 0)` sinks"),
+        ("Exact Example 2 target", "exact_conley_success", "two `(x^4-1, 0, 0)` sinks"),
+    ]
     lines = [
-        "# Leslie3D Example 2 - Marcio-style 5x3 summary", "", f"**Report status:** {state}", "",
+        "# Leslie3D Example 2 - Marcio-style 5x3 summary", "",
+        f"**Report status:** {state}", "",
         f"All 15 expected cells are represented. {inv['n_complete_cells']}/15 are complete, "
-        f"{inv['n_verified_cells']}/15 passed artifact verification, and {success['n_successes']}/15 "
-        "meet the bistability criterion.", "", "## Bistability criterion", "",
-        SUCCESS_CRITERION["definition"], "",
-        "Graph sink/minimal status and sampled tolerance are shown separately; neither changes the index-based pass.", "",
-        f"**Visualization note:** Morse-set panels apply a display-only minimum box side of "
-        f"{100 * aggregate['visualization']['summary_morse_sets']['min_box_side_frac']:g}% "
-        "of each plotted axis span. The saved CMGDB boxes and all reported topology are unchanged.", "",
-        "## Cells", "",
-        "| Dataset | Model seed | Status | Final train total | Nodes/edges/sinks | Stable-index nodes (labels: H0) | Tolerance | Diagnosis | CMGDB min |",
-        "|---:|---:|---|---:|---|---|---|---|---:|",
+        f"and {inv['n_verified_cells']}/15 passed strict artifact and provenance verification.", "",
+        "## Topology criteria", "",
+        "This report keeps four related results separate:", "",
+    ]
+    for label, field, definition in criteria:
+        result = aggregate[field]
+        lines.append(
+            f"- **{label}:** {definition}. Result: **{result['n_successes']}/15 "
+            f"({100 * result['rate_over_expected_15_cells']:.1f}%)**."
+        )
+    lines += [
+        "", "The PDF's green/red dataset frames use periodic bistability. Sampled "
+        "tolerance is separate from topology: a zero-sample result is inconclusive, "
+        "while a known failure still makes the tolerance status fail.", "",
+        "## Main findings", "",
+    ]
+
+    exact_cells = [cell for cell in cells if cell["exact_conley_success"] is True]
+    exact_names = ", ".join(f"`{_cell_name(cell)}`" for cell in exact_cells) or "none"
+    lines.append(f"- Exact-target cells: {exact_names}.")
+    nonminimal_h0 = [
+        cell for cell in cells
+        if cell["marcio_style_success"] is True
+        and cell["minimal_node_success"] is False
+    ]
+    if nonminimal_h0:
+        lines.append(
+            "- H0 count and graph minimality diverge at "
+            + ", ".join(f"`{_cell_name(cell)}`" for cell in nonminimal_h0)
+            + ": each has two H0-type nodes but only one sink."
+        )
+    impure = [
+        cell for cell in cells
+        if cell["minimal_node_success"] is True
+        and cell["periodic_bistability_success"] is False
+    ]
+    if impure:
+        impure_details = []
+        for cell in impure:
+            indices = ", ".join(
+                f"({', '.join(index)})"
+                for index in (cell["sink_conley_indices_normalized"] or [])
+                if isinstance(index, list)
+            )
+            impure_details.append(
+                f"`{_cell_name(cell)}` ({indices or 'indices unavailable'})"
+            )
+        lines.append(
+            "- Two-sink cells failing the pure periodic-index criterion because a "
+            "sink has nonzero higher homology: "
+            + ", ".join(impure_details)
+            + "."
+        )
+    periodic_cells = [
+        cell for cell in cells if cell["periodic_bistability_success"] is True
+    ]
+    if periodic_cells and {
+        _cell_name(cell) for cell in periodic_cells
+    } == {_cell_name(cell) for cell in exact_cells}:
+        lines.append(
+            "- Every periodic-bistable cell is also an exact period-four success in "
+            "this sweep."
+        )
+    holdout_cells = [
+        cell for cell in cells
+        if _as_float(_final_loss_value(cell, "val_loss_total")) is not None
+    ]
+    if holdout_cells:
+        ordered = sorted(
+            holdout_cells,
+            key=lambda cell: float(_final_loss_value(cell, "val_loss_total")),
+        )
+        best = ordered[0]
+        worst = ordered[-1]
+        train_cells = [
+            cell for cell in cells
+            if _as_float(
+                _deep_get(cell, "training_summary", "final_epoch_train", "loss_total")
+            ) is not None
+        ]
+        lines.append(
+            f"- Loss and topology ranking are not aligned. The lowest fixed-holdout total is "
+            f"`{_format_number(_final_loss_value(best, 'val_loss_total'), 6)}` at "
+            f"`{_cell_name(best)}`; the highest is "
+            f"`{_format_number(_final_loss_value(worst, 'val_loss_total'), 6)}` at "
+            f"`{_cell_name(worst)}`."
+        )
+        if train_cells:
+            best_train = min(
+                train_cells,
+                key=lambda cell: float(
+                    _deep_get(
+                        cell,
+                        "training_summary",
+                        "final_epoch_train",
+                        "loss_total",
+                    )
+                ),
+            )
+            sink_count = len((best_train["morse_graph"] or {}).get("sinks", []))
+            lines.append(
+                f"- The lowest final-epoch train total belongs to "
+                f"`{_cell_name(best_train)}`, which has {sink_count} graph sink"
+                f"{'s' if sink_count != 1 else ''}."
+            )
+    broad_seed_counts = aggregate["marcio_style_success"]["by_model_seed"]
+    seed_counts = aggregate["exact_conley_success"]["by_model_seed"]
+    lines.append(
+        "- Broad H0 successes by model seed: "
+        + ", ".join(
+            f"seed {seed}={broad_seed_counts[str(seed)]['n_successes']}/5"
+            for seed in MODEL_SEEDS
+        )
+        + ". Exact successes: "
+        + ", ".join(
+            f"seed {seed}={seed_counts[str(seed)]['n_successes']}/5"
+            for seed in MODEL_SEEDS
+        )
+        + "."
+    )
+    tolerance = aggregate["tolerance"]["status_counts"]
+    lines.append(
+        f"- Sampled tolerance: {tolerance.get('pass', 0)} pass, "
+        f"{tolerance.get('fail', 0)} fail, and "
+        f"{tolerance.get('inconclusive', 0)} inconclusive cells."
+    )
+    inconclusive_seeds = [
+        seed
+        for seed in MODEL_SEEDS
+        if all(
+            _tolerance_status(cell.get("metrics")) == "inconclusive"
+            for cell in cells
+            if cell["model_seed"] == seed
+        )
+    ]
+    if inconclusive_seeds:
+        lines.append(
+            "- Every cell at model seed "
+            + ", ".join(map(str, inconclusive_seeds))
+            + " is tolerance-inconclusive because its minimal-set checks have zero "
+            "semiconjugacy samples."
+        )
+    diagnosis_text = ", ".join(
+        f"{name}={count}" for name, count in sorted(aggregate["diagnosis"].items())
+    ) or "none recorded"
+    lines.append(
+        f"- Diagnosis counts: {diagnosis_text}; the sweep contains "
+        f"{aggregate['topology']['n_distinct_signatures']} distinct full topology "
+        "signatures."
+    )
+
+    lines += [
+        "", "## Cells", "",
+        "`min` means graph-minimal Morse nodes (graph sinks).", "",
+        "| Dataset | Model seed | Epochs | Final-epoch train total | Post-run holdout total | Nodes/edges/min | H0 nodes (labels: H0) | 2 H0 | 2 min | Periodic | Exact | Tolerance | CMGDB min |",
+        "|---:|---:|---:|---:|---:|---|---|:---:|:---:|:---:|:---:|---|---:|",
     ]
     for cell in cells:
         graph = cell["morse_graph"] or {}
-        loss = _deep_get(cell, "training_summary", "final_epoch_train", "loss_total")
-        tolerance = _deep_get(cell, "metrics", "all_minimal_tolerance_pass")
-        tolerance_text = "pass" if tolerance is True else "fail" if tolerance is False else "unknown"
-        diagnosis = _deep_get(cell, "diagnose", "diagnostic") or "-"
         seconds = _deep_get(cell, "durations", "cmgdb_seconds")
-        topology = f"{graph.get('n_nodes', '-')}/{graph.get('n_edges', '-')}/{len(graph['sinks']) if 'sinks' in graph else '-'}"
+        topology = (
+            f"{graph.get('n_nodes', '-')}/{graph.get('n_edges', '-')}/"
+            f"{len(graph['sinks']) if 'sinks' in graph else '-'}"
+        )
         stable_labels = ",".join(map(str, cell["stable_index_labels"] or [])) or "-"
-        stable_h0 = ",".join(
+        stable_h0 = ", ".join(
             str(node["conley_index_normalized"][0])
             for node in (cell["stable_conley_index_nodes"] or [])
         ) or "-"
         stable = f"{cell['n_stable_conley_index_nodes']} [{stable_labels}]: {stable_h0}"
-        lines.append(f"| {cell['dataset_id']:02d} | {cell['model_seed']} | {cell['cell_status']} | {_format_number(loss)} | {topology} | {stable} | {tolerance_text} | {diagnosis} | {_format_number(seconds / 60 if seconds is not None else None)} |")
-    operational = [cell for cell in cells if not cell["verification_passed"]]
-    criterion_failures = [
-        cell for cell in cells
-        if cell["verification_passed"] and cell["bistability_pass"] is False
+        lines.append(
+            f"| {cell['dataset_id']:02d} | {cell['model_seed']} | "
+            f"{_deep_get(cell, 'training_summary', 'epochs_completed') or '-'} | "
+            f"{_format_number(_deep_get(cell, 'training_summary', 'final_epoch_train', 'loss_total'), 6)} | "
+            f"{_format_number(_final_loss_value(cell, 'val_loss_total'), 6)} | {topology} | "
+            f"{stable} | {_flag_text(cell['marcio_style_success'])} | "
+            f"{_flag_text(cell['minimal_node_success'])} | "
+            f"{_flag_text(cell['periodic_bistability_success'])} | "
+            f"{_flag_text(cell['exact_conley_success'])} | "
+            f"{_tolerance_status(cell.get('metrics'))} | "
+            f"{_format_number(seconds / 60 if seconds is not None else None)} |"
+        )
+
+    training = aggregate["training"]
+    epochs = training["epochs_completed"]
+    pairs = training["n_training_pairs"]
+    durations = aggregate["durations_seconds"]
+    epoch_text = (
+        f"{int(epochs['min']):,}"
+        if epochs["count"] and epochs["min"] == epochs["max"]
+        else f"{_format_number(epochs['min'])}-{_format_number(epochs['max'])}"
+    )
+    pair_text = (
+        f"{int(pairs['min']):,}"
+        if pairs["count"] and pairs["min"] == pairs["max"]
+        else f"{_format_number(pairs['min'])}-{_format_number(pairs['max'])}"
+    )
+    train_timing = (
+        "Training timing was not recorded in the source artifacts."
+        if durations["training"]["count"] == 0
+        else f"Recorded training time totals {durations['sum_training'] / 60:.2f} minutes."
+    )
+    cmgdb_timing = (
+        "CMGDB timing was not recorded."
+        if durations["sum_cmgdb"] is None
+        else f"CMGDB totals {durations['sum_cmgdb'] / 60:.2f} minutes "
+        f"({durations['sum_cmgdb'] / 3600:.2f} hours)."
+    )
+    data_seeds = [
+        dataset.get("seeds", {}).get("train")
+        for dataset in aggregate["dataset_provenance"]
     ]
-    lines += ["", "## Operationally incomplete or invalid cells", ""]
+    train_loss = training["final_epoch_train"]["loss_total"]
+    holdout_loss = training["fixed_holdout_total"]
+    first_dataset = aggregate["dataset_provenance"][0]
+    train_metadata = _deep_get(first_dataset, "metadata", "train") or {}
+    holdout_metadata = _deep_get(first_dataset, "metadata", "validation") or {}
+    holdout_pairs = _deep_get(
+        first_dataset, "files", "validation_csv", "transition_pairs"
+    )
+    first_cell = cells[0]
+    architecture = _deep_get(first_cell, "training_summary", "arch") or {}
+    encoder_widths = _deep_get(architecture, "encoder", "hidden_shapes")
+    latent_widths = _deep_get(architecture, "latent_map", "hidden_shapes")
+    decoder_widths = _deep_get(architecture, "decoder", "hidden_shapes")
+    learning_rate = _deep_get(first_cell, "training_summary", "optimizer", "learning_rate")
+    objective = _deep_get(first_cell, "training_summary", "objective")
+    settings_profiles = aggregate["cmgdb_setting_profiles"]
+    cmgdb_profile = settings_profiles[0]["settings"] if len(settings_profiles) == 1 else {}
+    cmgdb_margin = _as_float(cmgdb_profile.get("bounds_epsilon_frac"))
+    padding = cmgdb_profile.get("padding")
+    padding_text = str(padding).lower() if isinstance(padding, bool) else str(padding or "-")
+    compute_roa = _deep_get(first_cell, "cmgdb", "parameters", "compute_roa")
+    roa_text = (
+        "disabled" if compute_roa is False
+        else "enabled" if compute_roa is True
+        else "unavailable"
+    )
+    cmgdb_duration = durations["cmgdb"]
+    lines += [
+        "", "## Run profile and timing", "",
+        f"The five training-data seeds are {', '.join(map(str, data_seeds))}. Each "
+        f"training dataset contains {train_metadata.get('n_samples', '-')} initial "
+        f"conditions followed for {train_metadata.get('n_iterations', '-')} iterations, "
+        f"producing {pair_text} transition pairs. The shared fixed holdout uses seed "
+        f"{holdout_metadata.get('sampling_seed', '-')} and "
+        f"{holdout_metadata.get('n_samples', '-')} initial conditions, producing "
+        f"{holdout_pairs if holdout_pairs is not None else '-'} transition pairs.", "",
+        f"The model maps {architecture.get('high_dims', '-')} state dimensions to a "
+        f"{architecture.get('low_dims', '-')}-dimensional latent space, with encoder "
+        f"widths `{encoder_widths}`, latent-map widths `{latent_widths}`, and decoder "
+        f"widths `{decoder_widths}`. Training is full batch for a fixed {epoch_text} "
+        f"epochs with Adam at learning rate `{_format_number(learning_rate, 6)}` and "
+        f"objective `{objective}`. There is no early stopping or validation-based "
+        "checkpoint selection; checkpoints are the final epoch and the holdout is used "
+        "only for post-training evaluation.", "",
+        f"Mean final-epoch training total is `{_format_number(train_loss['mean'], 6)}` "
+        f"(range `{_format_number(train_loss['min'], 6)}-{_format_number(train_loss['max'], 6)}`); "
+        f"mean fixed-holdout total is `{_format_number(holdout_loss['mean'], 6)}` "
+        f"(range `{_format_number(holdout_loss['min'], 6)}-{_format_number(holdout_loss['max'], 6)}`).", "",
+        f"{train_timing} {cmgdb_timing} Mean CMGDB time is "
+        f"{_format_number(cmgdb_duration['mean'] / 60 if cmgdb_duration['mean'] is not None else None)} "
+        f"minutes (range "
+        f"{_format_number(cmgdb_duration['min'] / 60 if cmgdb_duration['min'] is not None else None)}-"
+        f"{_format_number(cmgdb_duration['max'] / 60 if cmgdb_duration['max'] is not None else None)}). "
+        f"CMGDB uses subdivision `{cmgdb_profile.get('subdiv_init', '-')}/"
+        f"{cmgdb_profile.get('subdiv_min', '-')}/{cmgdb_profile.get('subdiv_max', '-')}`, "
+        f"the `{cmgdb_profile.get('box_map_backend', '-')}` backend, encoded-training-pair "
+        f"bounds plus {_format_number(100 * cmgdb_margin if cmgdb_margin is not None else None)}%, "
+        f"padding={padding_text}, and exact region-of-attraction computation {roa_text}.", "",
+        f"**Visualization note:** Morse-set panels apply a display-only minimum box side "
+        f"of {100 * aggregate['visualization']['summary_morse_sets']['min_box_side_frac']:g}% "
+        "of each plotted axis span. The saved CMGDB boxes and topology are unchanged.", "",
+        "## Operationally incomplete or invalid cells", "",
+    ]
+    operational = [cell for cell in cells if not cell["verification_passed"]]
     if not operational:
         lines.append("None.")
     for cell in operational:
-        codes = ", ".join(dict.fromkeys(error["code"] for error in cell["errors"])) or "unknown"
-        lines.append(f"- `dataset_{cell['dataset_id']:02d}/seed_{cell['model_seed']}`: {cell['cell_status']} ({codes})")
-    lines += ["", "## Verified cells that fail the bistability criterion", ""]
-    if not criterion_failures:
-        lines.append("None.")
-    for cell in criterion_failures:
-        lines.append(
-            f"- `dataset_{cell['dataset_id']:02d}/seed_{cell['model_seed']}`: "
-            f"stable-index nodes={cell['n_stable_conley_index_nodes']} "
-            f"{cell['stable_index_labels']}; graph sinks={cell['morse_graph']['sinks']}"
-        )
-    lines += ["", "## Derived artifacts", "", "- `cells.csv` - flat cell inventory", "- `cells.json` - exact parsed per-cell records", "- `aggregate_summary.json` - aggregate counts and distributions", "- `summary.pdf` - six-page visual report", ""]
+        codes = ", ".join(
+            dict.fromkeys(error["code"] for error in cell["errors"])
+        ) or "unknown"
+        lines.append(f"- `{_cell_name(cell)}`: {cell['cell_status']} ({codes})")
+    lines += [
+        "", "## Derived artifacts", "",
+        "- `summary.pdf` - six-page visual report; green frames indicate periodic bistability.",
+        "- `cells.csv` - strict flat inventory with all four topology flags.",
+        "- `cells.json` - strict per-cell records and provenance.",
+        "- `aggregate_summary.json` - strict topology, tolerance, loss, and timing aggregates.",
+        "",
+    ]
     return "\n".join(lines)
 
 
@@ -1030,50 +1496,101 @@ def _render_pdf(
         )
     else:
         morse_set_note = "Morse-set panels preserve the raw CMGDB box dimensions."
+    training = aggregate["training"]
+    epoch_summary = training["epochs_completed"]
+    pair_summary = training["n_training_pairs"]
+    if not epoch_summary["count"]:
+        epoch_text = "unavailable"
+    elif epoch_summary["min"] == epoch_summary["max"]:
+        epoch_text = f"{int(epoch_summary['min']):,}"
+    else:
+        epoch_text = (
+            f"{_format_number(epoch_summary['min'])}-"
+            f"{_format_number(epoch_summary['max'])}"
+        )
+    if not pair_summary["count"]:
+        pair_text = "unavailable"
+    elif pair_summary["min"] == pair_summary["max"]:
+        pair_text = f"{int(pair_summary['min']):,}"
+    else:
+        pair_text = (
+            f"{_format_number(pair_summary['min'])}-"
+            f"{_format_number(pair_summary['max'])}"
+        )
+    duration_summary = aggregate["durations_seconds"]
+    if duration_summary["training"]["count"]:
+        training_timing_text = (
+            f"recorded training time={duration_summary['sum_training'] / 60:.1f} min"
+        )
+    else:
+        training_timing_text = "training timing unrecorded"
     temporary = path.with_name(f".{path.name}.tmp")
     try:
         with PdfPages(temporary) as pdf:
             fig = plt.figure(figsize=(11, 8.5))
             fig.text(0.5, 0.955, "Leslie3D Example 2 - Marcio-style 5x3 run", ha="center", va="top", fontsize=16, weight="bold")
             inv = aggregate["inventory"]
-            fig.text(0.5, 0.91, f"{inv['n_verified_cells']}/15 verified | {aggregate['bistability']['n_successes']}/15 bistable | report {'PROVISIONAL' if aggregate['provisional'] else 'COMPLETE'}", ha="center", fontsize=10, color=red if aggregate["provisional"] else green)
+            fig.text(
+                0.5,
+                0.91,
+                f"{inv['n_verified_cells']}/15 verified | "
+                f"H0 {aggregate['marcio_style_success']['n_successes']}/15 | "
+                f"2 sinks {aggregate['minimal_node_success']['n_successes']}/15 | "
+                f"periodic {aggregate['periodic_bistability_success']['n_successes']}/15 | "
+                f"exact {aggregate['exact_conley_success']['n_successes']}/15",
+                ha="center",
+                fontsize=9.5,
+                color=red if aggregate["provisional"] else green,
+            )
             fig.text(
                 0.055,
                 0.865,
-                "Bistability: exactly 2 Morse nodes with nonzero H0 Conley component; "
-                "higher components may be nonzero.\n"
-                "Graph edges/minimality and sampled tolerance are diagnostics only.\n"
-                "Training: exact Marcio full-batch two-term objective.\n"
+                "Flags: H0 = exactly 2 nonzero-H0 nodes; 2S = exactly 2 graph sinks; "
+                "Per = 2 pure periodic-index sinks; X4 = 2 exact x^4 sinks.\n"
+                f"Training: fixed-final checkpoints after {epoch_text} epochs, "
+                f"{pair_text}-pair full batch; fixed holdout unused for optimization/"
+                f"checkpoint selection; {training_timing_text}.\n"
+                "Tolerance is separate: zero-sample-only is inconclusive; known failure dominates.\n"
                 + morse_set_note,
                 va="top",
                 fontsize=8.5,
             )
-            headers = ["data", "seed", "state", "train total", "nodes", "edges", "sinks", "stable idx", "tol", "CMGDB min"]
+            headers = [
+                "data", "seed", "H0", "2S", "Per", "X4", "train total",
+                "holdout", "N/E/S", "tol", "CMGDB min",
+            ]
             table_rows, colors = [], []
             for cell in cells:
                 graph = cell["morse_graph"] or {}
-                tol = _deep_get(cell, "metrics", "all_minimal_tolerance_pass")
                 seconds = _deep_get(cell, "durations", "cmgdb_seconds")
-                state = "PASS" if cell["verification_passed"] and cell["bistability_pass"] else "FAIL" if cell["verification_passed"] else "INVALID"
-                table_rows.append([f"{cell['dataset_id']:02d}", str(cell["model_seed"]), state,
-                                   _format_number(_deep_get(cell, "training_summary", "final_epoch_train", "loss_total")),
-                                   str(graph.get("n_nodes", "-")), str(graph.get("n_edges", "-")),
-                                   str(len(graph["sinks"])) if "sinks" in graph else "-",
-                                   (
-                                       f"{cell['n_stable_conley_index_nodes']} | "
-                                       + ",".join(
-                                           str(node["conley_index_normalized"][0])
-                                           for node in (cell["stable_conley_index_nodes"] or [])
-                                       )
-                                   ),
-                                   "pass" if tol is True else "fail" if tol is False else "?",
-                                   _format_number(seconds / 60 if seconds is not None else None)])
-                color = green if state == "PASS" else red if state == "FAIL" else gray
-                colors.append(["white", "white", color, "white", "white", "white", "white", "white", "white", "white"])
+                flags = [
+                    cell["marcio_style_success"],
+                    cell["minimal_node_success"],
+                    cell["periodic_bistability_success"],
+                    cell["exact_conley_success"],
+                ]
+                table_rows.append([
+                    f"{cell['dataset_id']:02d}", str(cell["model_seed"]),
+                    *[_flag_text(value).upper() for value in flags],
+                    _format_number(_deep_get(cell, "training_summary", "final_epoch_train", "loss_total")),
+                    _format_number(_final_loss_value(cell, "val_loss_total")),
+                    f"{graph.get('n_nodes', '-')}/{graph.get('n_edges', '-')}/"
+                    f"{len(graph['sinks']) if 'sinks' in graph else '-'}",
+                    _tolerance_status(cell.get("metrics")),
+                    _format_number(seconds / 60 if seconds is not None else None),
+                ])
+                flag_colors = [
+                    green if value is True else red if value is False else gray
+                    for value in flags
+                ]
+                colors.append([
+                    "white", "white", *flag_colors, "white", "white", "white", "white", "white",
+                ])
             ax = fig.add_axes([0.035, 0.08, 0.93, 0.69])
             ax.axis("off")
             table = ax.table(cellText=table_rows, colLabels=headers, cellColours=colors, loc="center", cellLoc="center",
-                             colWidths=[0.055, 0.055, 0.08, 0.1, 0.06, 0.06, 0.06, 0.25, 0.06, 0.09])
+                             colWidths=[0.055, 0.055, 0.055, 0.055, 0.055, 0.055,
+                                        0.105, 0.105, 0.09, 0.09, 0.095])
             table.auto_set_font_size(False)
             table.set_fontsize(7.2)
             table.scale(1, 1.36)
@@ -1099,32 +1616,51 @@ def _render_pdf(
                     cell = next((item for item in ds_cells if item["model_seed"] == seed), None)
                     left, width = 0.045 + col * 0.32, 0.29
                     verified = bool(cell and cell["verification_passed"])
-                    successful = bool(cell and cell["bistability_pass"])
+                    successful = bool(cell and cell["periodic_bistability_success"])
                     border = green if verified and successful else red if verified else gray
                     graph = cell["morse_graph"] if cell else None
-                    tol = _deep_get(cell, "metrics", "all_minimal_tolerance_pass") if cell else None
-                    state = "BISTABLE PASS" if verified and successful else "BISTABILITY FAIL" if verified else "INCOMPLETE / INVALID"
-                    detail = f"{graph['n_nodes']} nodes / {graph['n_edges']} edges / {len(graph['sinks'])} sinks" if graph else "graph unavailable"
+                    tolerance = _tolerance_status(cell.get("metrics") if cell else None)
+                    state = "PERIODIC PASS" if verified and successful else "PERIODIC FAIL" if verified else "INCOMPLETE / INVALID"
+                    detail = (
+                        f"N/E/S={graph['n_nodes']}/{graph['n_edges']}/"
+                        f"{len(graph['sinks'])}"
+                        if graph else "N/E/S unavailable"
+                    )
                     stable_detail = (
-                        f"stable H0={cell['n_stable_conley_index_nodes']} "
+                        f"H0={cell['n_stable_conley_index_nodes']} "
                         "["
-                        + ",".join(
+                        + ", ".join(
                             str(node["conley_index_normalized"][0])
                             for node in (cell["stable_conley_index_nodes"] or [])
                         )
                         + "]"
-                        if cell else "stable H0 unavailable"
+                        if cell else "H0 unavailable"
+                    )
+                    flag_detail = (
+                        "H0/2S/Per/X4="
+                        + "/".join(
+                            "Y" if cell[field] is True else "N" if cell[field] is False else "-"
+                            for field in (
+                                "marcio_style_success",
+                                "minimal_node_success",
+                                "periodic_bistability_success",
+                                "exact_conley_success",
+                            )
+                        )
+                        if cell else "flags unavailable"
                     )
                     fig.text(
                         left + width / 2,
-                        0.88,
-                        f"seed {seed} - {state} | {stable_detail}\n{detail} | "
-                        f"tolerance {'pass' if tol is True else 'fail' if tol is False else 'unknown'}",
+                        0.892,
+                        f"seed {seed} - {state}\n"
+                        f"{detail} | {stable_detail}\n"
+                        f"{flag_detail} | tol={tolerance}",
                         ha="center",
                         va="top",
-                        fontsize=8.1,
+                        fontsize=7.1,
                         color=border,
                         weight="bold",
+                        linespacing=1.12,
                     )
                     for row, artifact_key in enumerate(("morse_graph_png", "morse_sets_png")):
                         bottom = 0.49 if row == 0 else 0.09
@@ -1219,6 +1755,11 @@ def build_summary(*, sweep_root: Path = DEFAULT_SWEEP_ROOT, data_root: Path = DE
         "generated_at_utc": aggregate["generated_at_utc"],
         "provisional": provisional, "sweep_root": _display(sweep_root), "data_root": _display(data_root),
         "success_criterion": SUCCESS_CRITERION,
+        "primary_success_criterion": MARCIO_STYLE_CRITERION,
+        "secondary_success_criterion": MINIMAL_NODE_CRITERION,
+        "requested_bistability_criterion": PERIODIC_BISTABILITY_CRITERION,
+        "exact_success_criterion": EXACT_CONLEY_CRITERION,
+        "topology_criteria": TOPOLOGY_CRITERIA,
         "visualization": aggregate["visualization"],
         "datasets": [{key: value for key, value in dataset.items() if key != "resolved_output_path"} for dataset in datasets],
         "cells": [{key: value for key, value in cell.items() if key not in ("resolved_cell_path",)} for cell in cells],

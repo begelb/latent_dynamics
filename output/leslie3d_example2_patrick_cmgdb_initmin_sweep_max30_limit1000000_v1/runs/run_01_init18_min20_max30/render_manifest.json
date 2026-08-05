@@ -1,0 +1,48 @@
+{
+  "artifacts": {
+    "morse_graph.pdf": {
+      "path": "MG/morse_graph.pdf",
+      "sha256": "c68c3432dc7886c2ccd7b7a20a66d73713723bf01ce11a5aafe647b918eedafc",
+      "size_bytes": 12451
+    },
+    "morse_graph.png": {
+      "path": "MG/morse_graph.png",
+      "sha256": "ac668c342508f046cc6407b1dc31140e63ccb2b755af8d799524c3fd1ce0a1fa",
+      "size_bytes": 12079
+    },
+    "morse_sets.pdf": {
+      "path": "MG/morse_sets.pdf",
+      "sha256": "8253b2b0799fed715ba7862fbf9a7068d41966f3446d3ebf3147a9a9d44b1233",
+      "size_bytes": 23721
+    },
+    "morse_sets.png": {
+      "path": "MG/morse_sets.png",
+      "sha256": "e961be8007117fe3135c6742d2a9c6dc0a06c28a5fa575de8dec6143830c57b8",
+      "size_bytes": 34470
+    }
+  },
+  "morse_set_render": {
+    "bounds_lower": [
+      -0.37490714,
+      -0.4695556
+    ],
+    "bounds_upper": [
+      0.3535685,
+      0.455769
+    ],
+    "box_scale": 1.0,
+    "floor_basis": "adaptive_occupied_view",
+    "min_box_side_frac": 0.004,
+    "palette": [
+      "#FFB000",
+      "#DC267F",
+      "#648FFF",
+      "#FE6100",
+      "#785EF0",
+      "#008080",
+      "#FCC2E8"
+    ]
+  },
+  "run_id": "run_01_init18_min20_max30",
+  "schema_version": 1
+}

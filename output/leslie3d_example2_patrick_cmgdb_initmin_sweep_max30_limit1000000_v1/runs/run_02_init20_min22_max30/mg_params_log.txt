@@ -1,0 +1,12 @@
+--- CMGDB Computation Parameters ---
+Lower bounds: [-0.37490714, -0.4695556]
+Upper bounds: [0.3535685, 0.455769]
+Box map: shared level-30 adaptive precomputed corner table
+Padding: True
+Device: cpu
+Subdivision init: 20
+Subdivision min: 22
+Subdivision max: 30
+Subdivision limit: 1000000
+Shared precompute duration seconds: 46.444836
+Graph computation duration seconds: 6.629470

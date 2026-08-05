@@ -1,0 +1,28 @@
+{
+  "axis_depths": [
+    15,
+    15
+  ],
+  "batch_points": 262144,
+  "completed_utc": "2026-08-05T19:31:34.436386+00:00",
+  "corner_lattice_shape": [
+    32769,
+    32769
+  ],
+  "corner_point_count": 1073807361,
+  "device": "cpu",
+  "duration_seconds": 46.44483579197549,
+  "estimated_table_bytes": 17180917776,
+  "eval_mode": "corners",
+  "factory": "CMGDB.make_precomputed_box_map",
+  "input_dtype": "torch.float32",
+  "mode": "adaptive",
+  "output_dimension": 2,
+  "padding": true,
+  "peak_rss_bytes": 9368158208,
+  "shared_across_all_runs": true,
+  "started_utc": "2026-08-05T19:30:47.991170+00:00",
+  "status": "complete",
+  "stored_table_dtype": "numpy.float64",
+  "subdiv_max": 30
+}
