@@ -247,10 +247,10 @@ def test_complete_report_writes_all_outputs_and_six_page_pdf(tmp_path: Path) -> 
         "box_scale": "auto",
         "changes_scientific_artifacts": False,
         "display_only": True,
-        "min_box_side_frac": 0.0025,
+        "min_box_side_frac": 0.0075,
         "source": "raw MG/morse_sets CSV",
     }
-    assert "display-only minimum box side of 0.25%" in outputs[
+    assert "display-only minimum box side of 0.75%" in outputs[
         "summary_markdown"
     ].read_text(encoding="utf-8")
     assert _pdf_page_count(outputs["summary_pdf"]) == 6

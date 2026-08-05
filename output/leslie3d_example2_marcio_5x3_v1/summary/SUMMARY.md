@@ -10,7 +10,7 @@ A cell passes the bistability criterion when exactly two Morse nodes have a stab
 
 Graph sink/minimal status and sampled tolerance are shown separately; neither changes the index-based pass.
 
-**Visualization note:** Morse-set panels apply a display-only minimum box side of 0.25% of each plotted axis span. The saved CMGDB boxes and all reported topology are unchanged.
+**Visualization note:** Morse-set panels apply a display-only minimum box side of 0.75% of each plotted axis span. The saved CMGDB boxes and all reported topology are unchanged.
 
 ## Cells
 

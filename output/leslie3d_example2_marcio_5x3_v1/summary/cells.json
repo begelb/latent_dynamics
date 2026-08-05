@@ -12861,7 +12861,7 @@
       "warnings": []
     }
   ],
-  "generated_at_utc": "2026-08-04T13:12:19.437221+00:00",
+  "generated_at_utc": "2026-08-05T12:55:21.493018+00:00",
   "provisional": false,
   "schema_version": 3,
   "success_criterion": {
@@ -12885,7 +12885,7 @@
       "box_scale": "auto",
       "changes_scientific_artifacts": false,
       "display_only": true,
-      "min_box_side_frac": 0.0025,
+      "min_box_side_frac": 0.0075,
       "source": "raw MG/morse_sets CSV"
     }
   }
