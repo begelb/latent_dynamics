@@ -17,27 +17,34 @@ followed by the package and its dependencies, so nothing is compiled.
 
 ## The three modes
 
-Notebooks 01–05 share one **parameters cell** near the top. Edit it, then *Run
-All*. The `MODE` switch selects what happens:
+Notebooks 01–05 run in sections, following the order of the method: the system,
+the autoencoder, the data, training, CMGDB, figures. Each section defines its
+own parameters as plain variables, seeded with the paper's values, so exploring
+means editing a number where it is explained rather than assembling an override
+dict. Whatever you change is checked against the paper's configuration, and any
+difference is reported.
+
+The **parameters cell** near the top holds only what spans sections:
 
 | `MODE` | what it does | typical cost |
 |--------|--------------|--------------|
 | `"replay"` | re-render the paper's saved Morse graph and Morse sets | seconds |
 | `"morse"` | recompute the Morse graph of the *saved* model at your `SUBDIV` | seconds–minutes |
-| `"retrain"` | run the whole pipeline from scratch with your `OVERRIDES` | minutes–hours (GPU recommended) |
+| `"retrain"` | train a fresh model, then compute its Morse graph at your `SUBDIV` | minutes–hours (GPU recommended) |
 
-Other knobs in the same cell:
-
-- `SUBDIV` — the CMGDB subdivision triple `(init, min, max)` for `morse` mode.
-  A toy value like `(10, 14, 20)` is a fast qualitative preview; the paper value
-  for the example is noted in a comment. **Coarse grids can merge nearby
-  recurrent sets and change the Morse graph**, so they are previews, not
-  paper-quality results.
-- `OVERRIDES` — a nested dict of config overrides for `retrain` mode, e.g.
-  `{"training": {"epochs": 300}, "cmgdb": {"subdiv_max": 20}}`. Validated by the
-  same schema as the YAML configs, so typos and out-of-range values fail loudly.
+- `SUBDIV` — the CMGDB subdivision triple `(init, min, max)`, used by both
+  recomputing modes. A toy value like `(10, 14, 20)` is a fast qualitative
+  preview; the paper value for the example is noted in a comment. **Coarse
+  grids can merge nearby recurrent sets and change the Morse graph**, so they
+  are previews, not paper-quality results.
 - `BOX_SCALE` — how much to inflate Morse-set boxes so tiny attractor sets stay
   visible at paper figure size: `"auto"`, a float, or a `{label: factor}` dict.
+  Drawing only; it never changes what was computed.
+- `SEED`, and for coral `TRAIN_FILE`, select which run to load or train.
+
+Chafee-Infante adds `COMPUTE_ROA` in its regions-of-attraction section: exact
+basins come from the map graph CMGDB returns, at the cost of a second pass over
+the phase space.
 
 ## Where output goes
 
