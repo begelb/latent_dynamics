@@ -1,0 +1,22 @@
+{
+  "artifact_sha256": {
+    "MG/morse_graph": "09cd7b180cb3f7c3c6bab98e1808ff72c8e66d1a6c2df6d9ab528498cf222ad9",
+    "MG/morse_sets": "179c6a0c49b4c0a492ba20627be2295978bab8a216fa91c6a41c1c1a4f86f885",
+    "execution_config.json": "2606fb8d03c069b7cd0ed7e99ca1e3d047629315cb349bc82c14f4ae1ca18f13",
+    "mg_params_log.txt": "97b32ca0c35b12397f15504e395cd6acf576c1b04f9d9dc929c6346a292a9c52",
+    "models/autoencoder.json": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+    "models/autoencoder.pt": "cb064299e885101be8b0f2d2bed3f6865975ab8b14f71a46217c3e3819a629c5",
+    "replay_manifest.json": "10cd071e2024ac209db59f80d4d10e777e00412e5edbad4064610698abbf5a45",
+    "started.json": "7c47d7e34488670aff31583576349d0d54074c141965bc96ae96f6f989d23c16"
+  },
+  "atomic_finalize_target": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_688/seed_0/strict_cmgdb_limit_sensitivity_1000000/s_20",
+  "cell": {
+    "dataset_seed": 688,
+    "model_seed": 0
+  },
+  "completed_at_utc": "2026-08-06T16:02:25.936552+00:00",
+  "plan_sha256": "46ef20860d681f7d252b4b9e90cce728160776796a5fc2c58d92cf096e41385d",
+  "s": 20,
+  "status": "complete",
+  "subdiv_limit": 1000000
+}

@@ -1,0 +1,23 @@
+{
+  "headline_metrics": {
+    "fine_level": 33,
+    "fine_morse_boxes": 3087070,
+    "refined_level": 30,
+    "refined_morse_boxes": 787719
+  },
+  "output": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/pdf/ives_myvatn_3d_ground_truth_summary.pdf",
+    "sha256": "ea25c5df758d3fa3e91b9d2ffd5bfdd37c63e49ff7a32f9bf9d1e94d22297540",
+    "size_bytes": 724287
+  },
+  "schema_version": 1,
+  "sources": {
+    "alternate_image": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d_alternate.png",
+    "fine_manifest": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/manifest.json",
+    "primary_image": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d.png",
+    "refined_comparison": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/comparison_refined_r1_levels27_30/comparison.json",
+    "refined_manifest": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_refined_r1_i18_m30_M36_L10000000_morse/manifest.json",
+    "stability": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/invariant_stability/stability.json",
+    "unrefined_comparison": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/comparison_levels27_30_33/comparison.json"
+  }
+}

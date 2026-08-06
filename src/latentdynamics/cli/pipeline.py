@@ -20,6 +20,7 @@ it reads the saved DOT / CSV / state_dict files only.
 from __future__ import annotations
 
 import ast
+import json
 import math
 from collections.abc import Iterable
 from dataclasses import asdict, dataclass
@@ -338,6 +339,38 @@ def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) ->
         logged_bounds_role != cfg.cmgdb.bounds_data_role
     ):
         return False
+    logged_grid_resolution = _log_int(params, "bounds_grid_resolution")
+    if logged_grid_resolution is not None and (
+        logged_grid_resolution != cfg.cmgdb.bounds_grid_resolution
+    ):
+        return False
+    logged_include_image = _log_bool(params, "bounds_include_latent_image")
+    if logged_include_image is not None and (
+        logged_include_image != cfg.cmgdb.bounds_include_latent_image
+    ):
+        return False
+    # Missing keys in archived logs describe the historical defaults.  A new
+    # run that opts into latent-image bounds must record that choice before it
+    # can be treated as current, regardless of the ambient bound source.
+    if cfg.cmgdb.bounds_include_latent_image and logged_include_image is not True:
+        return False
+    logged_clip_lower = _log_float_list(params, "bounds_clip_lower")
+    logged_clip_upper = _log_float_list(params, "bounds_clip_upper")
+    if cfg.cmgdb.bounds_clip_lower is None:
+        if logged_clip_lower is not None or logged_clip_upper is not None:
+            return False
+    elif (
+        logged_clip_lower is None
+        or logged_clip_upper is None
+        or not _float_lists_close(logged_clip_lower, cfg.cmgdb.bounds_clip_lower)
+        or not _float_lists_close(logged_clip_upper, cfg.cmgdb.bounds_clip_upper or [])
+    ):
+        return False
+    if cfg.cmgdb.bounds_data_role == "system_grid":
+        if logged_grid_resolution != cfg.cmgdb.bounds_grid_resolution:
+            return False
+        if logged_include_image != cfg.cmgdb.bounds_include_latent_image:
+            return False
     logged_precompute_subdiv = params.get("adaptive_precompute_subdiv")
     if (
         logged_precompute_subdiv is not None
@@ -369,9 +402,16 @@ def _morse_params_log_matches_config(cfg: ExperimentConfig, output_dir: Path) ->
             and _float_lists_close(upper, [float(v) for v in cfg.cmgdb.upper_bounds])
         )
 
-    expected_bounds_source = (
-        "encoded_train_pairs" if cfg.cmgdb.bounds_data_role == "train_pairs" else "encoded_data"
-    )
+    if cfg.cmgdb.bounds_data_role == "train_pairs":
+        expected_bounds_source = "encoded_train_pairs"
+    elif cfg.cmgdb.bounds_data_role == "system_grid":
+        expected_bounds_source = (
+            "encoded_system_grid_and_latent_image"
+            if cfg.cmgdb.bounds_include_latent_image
+            else "encoded_system_grid"
+        )
+    else:
+        expected_bounds_source = "encoded_data"
     if bounds_source != expected_bounds_source:
         return False
     logged_epsilon = _log_float(params, "bounds_epsilon_frac")
@@ -392,6 +432,111 @@ def _data_complete(cfg: ExperimentConfig) -> bool:
     return _nonempty_file(cfg.paths.data_dir / "val.csv") and _nonempty_file(
         cfg.paths.data_dir / "val_metadata.json"
     )
+
+
+def _curriculum_training_complete(cfg: ExperimentConfig, output_dir: Path) -> bool:
+    """Require the final report and every declared curriculum snapshot."""
+
+    summary_path = output_dir / "training_summary.json"
+    required = (
+        summary_path,
+        output_dir / "logs" / "history.json",
+        output_dir / "final_losses.txt",
+    )
+    if not all(_nonempty_file(path) for path in required):
+        return False
+    try:
+        payload = json.loads(summary_path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return False
+    if not isinstance(payload, dict):
+        return False
+    if payload.get("training_method") != "curriculum_full_batch":
+        return False
+    if payload.get("n_epochs_run") != cfg.training.epochs:
+        return False
+    expected_selection = (
+        "final_lbfgs_float32_endpoint"
+        if cfg.training.curriculum_polish is not None
+        else "final_epoch"
+    )
+    if payload.get("checkpoint_selection") != expected_selection:
+        return False
+    if cfg.training.curriculum_polish is not None:
+        if payload.get("checkpoint_epoch") is not None:
+            return False
+        artifacts = payload.get("artifacts")
+        if not isinstance(artifacts, dict):
+            return False
+        for key in ("adamw_checkpoint", "adamw_checkpoint_metadata"):
+            raw = artifacts.get(key)
+            if not isinstance(raw, str) or not raw:
+                return False
+            artifact_path = Path(raw)
+            if not artifact_path.is_absolute():
+                artifact_path = output_dir / artifact_path
+            if not _nonempty_file(artifact_path):
+                return False
+    records = payload.get("curriculum")
+    if not isinstance(records, list) or len(records) != len(cfg.training.curriculum or []):
+        return False
+    for record in records:
+        if not isinstance(record, dict):
+            return False
+        for key in ("checkpoint", "checkpoint_metadata"):
+            raw = record.get(key)
+            if not isinstance(raw, str) or not raw:
+                return False
+            path = Path(raw)
+            if not path.is_absolute():
+                path = output_dir / path
+            if not _nonempty_file(path):
+                return False
+    return True
+
+
+def _generic_training_complete(cfg: ExperimentConfig, output_dir: Path) -> bool:
+    """Require the checkpoint *and* the generic trainer's final reports.
+
+    A state dict can be written before the history and summary are durable.
+    Treating that checkpoint alone as resumable completion caused interrupted
+    cells to be silently accepted by seed sweeps, so the completion contract
+    is intentionally stricter than checkpoint loadability.
+    """
+
+    required = (
+        output_dir / "models" / "autoencoder.pt",
+        output_dir / "models" / "autoencoder.json",
+        output_dir / "logs" / "history.json",
+        output_dir / "training_summary.json",
+        output_dir / "final_losses.txt",
+    )
+    if not all(_nonempty_file(path) for path in required):
+        return False
+    try:
+        summary = json.loads((output_dir / "training_summary.json").read_text())
+        history = json.loads((output_dir / "logs" / "history.json").read_text())
+    except (OSError, json.JSONDecodeError):
+        return False
+    if not isinstance(summary, dict) or not isinstance(history, dict):
+        return False
+    epochs_run = summary.get("n_epochs_run")
+    if (
+        isinstance(epochs_run, bool)
+        or not isinstance(epochs_run, int)
+        or not 1 <= epochs_run <= cfg.training.epochs
+    ):
+        return False
+    if summary.get("loss_weights") != list(cfg.training.loss_weights):
+        return False
+    for split in ("train", "val"):
+        split_history = history.get(split)
+        if not isinstance(split_history, dict):
+            return False
+        totals = split_history.get("loss_total")
+        if not isinstance(totals, list) or len(totals) != epochs_run:
+            return False
+    return True
 
 
 def _stage_complete(
@@ -418,9 +563,19 @@ def _stage_complete(
 
         return scaler_is_current(cfg, train_file)
     if stage == "train":
-        return has_new_checkpoint(seed_cfg.paths.model_dir) or has_legacy_checkpoint(
+        checkpoint_complete = has_new_checkpoint(seed_cfg.paths.model_dir) or has_legacy_checkpoint(
             seed_cfg.paths.model_dir
         )
+        if not checkpoint_complete:
+            return False
+        if cfg.training.curriculum is not None:
+            return _curriculum_training_complete(cfg, seed_cfg.paths.output_dir)
+        # Modern generic checkpoints always have a sidecar. Legacy three-file
+        # replays predate the reporting contract and remain loadable, but a
+        # fresh/resumable experiment must prove that its final reports landed.
+        if has_new_checkpoint(seed_cfg.paths.model_dir):
+            return _generic_training_complete(cfg, seed_cfg.paths.output_dir)
+        return True
     if stage == "diagnose":
         return _nonempty_file(derived / "diagnose.json")
     if stage == "morse":

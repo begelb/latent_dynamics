@@ -13,7 +13,12 @@ from torch.utils.data import DataLoader, TensorDataset
 from ..config import ExperimentConfig
 from ..models import build_autoencoder
 from ..sampling import load_scaler
-from ..training import Trainer, has_legacy_checkpoint, load_any_checkpoint
+from ..training import (
+    Trainer,
+    has_legacy_checkpoint,
+    load_any_checkpoint,
+    train_curriculum_full_batch,
+)
 
 
 def _seed_everything(seed: int) -> torch.Generator:
@@ -61,6 +66,24 @@ def _build_loaders(
     )
 
 
+def _load_scaled_arrays(
+    cfg: ExperimentConfig,
+    train_file: str,
+) -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+    """Load the exact scaled arrays used by full-batch curriculum training."""
+
+    high = cfg.arch.high_dims
+    x_train, y_train = _load_pair(cfg.paths.data_dir / f"{train_file}.csv", high)
+    x_validation, y_validation = _load_pair(cfg.paths.val_csv(), high)
+    scaler = load_scaler(cfg.paths.scaler_path(train_file))
+    return (
+        np.ascontiguousarray(scaler.transform(x_train), dtype=np.float64),
+        np.ascontiguousarray(scaler.transform(y_train), dtype=np.float64),
+        np.ascontiguousarray(scaler.transform(x_validation), dtype=np.float64),
+        np.ascontiguousarray(scaler.transform(y_validation), dtype=np.float64),
+    )
+
+
 def _checkpoint_source_hashes(checkpoint_dir: Path) -> dict[str, str]:
     """Hash every checkpoint payload used for a warm start."""
     names = ("autoencoder.pt", "autoencoder.json", "encoder.pt", "dynamics.pt", "decoder.pt")
@@ -103,6 +126,42 @@ def run(
 
     if seed is not None:
         _seed_everything(seed)
+
+    if cfg.training.curriculum is not None:
+        if cfg.training.warm_start_checkpoint_dir is not None:
+            raise ValueError(
+                "curriculum full-batch training does not currently accept a warm start; "
+                "use a fresh isolated output tree"
+            )
+        if seed is None:
+            raise ValueError("curriculum full-batch training requires an explicit model seed")
+        x_train, y_train, x_validation, y_validation = _load_scaled_arrays(cfg, train_file)
+        if x_train.shape[0] != cfg.training.batch_size:
+            raise ValueError(
+                f"configured full batch is {cfg.training.batch_size}, "
+                f"but the scaled training data contain {x_train.shape[0]} pairs"
+            )
+        result = train_curriculum_full_batch(
+            arch=cfg.arch,
+            stages=cfg.training.curriculum,
+            x=x_train,
+            y=y_train,
+            x_validation=x_validation,
+            y_validation=y_validation,
+            seed=seed,
+            device=device,
+            output_dir=output_root,
+            first_order_optimizer=cfg.training.curriculum_optimizer,
+            polish=cfg.training.curriculum_polish,
+            verbose=verbose,
+        )
+        if verbose:
+            print(
+                f"trained curriculum for {result.summary['n_epochs_run']} full-batch "
+                f"first-order epochs in {result.summary['train_duration_minutes']:.2f} min"
+            )
+            print(f"final checkpoint and stage snapshots written to {output_root}")
+        return
 
     train_loader, val_loader = _build_loaders(cfg, train_file, seed)
 

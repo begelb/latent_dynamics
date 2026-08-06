@@ -58,7 +58,7 @@ dev = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-latentdynamics = ["configs/*.yaml"]
+latentdynamics = ["configs/*.yaml", "reference_data/*.csv"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

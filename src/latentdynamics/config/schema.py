@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
 from pathlib import Path
 from typing import Any, Literal
 
@@ -16,14 +17,16 @@ SystemName = Literal[
     "leslie4d",
     "coral",
     "chafee_infante",
+    "ives",
 ]
 SamplingMethod = Literal["uniform", "sobol", "adaptive"]
-ScalingMethod = Literal["minmax", "none"]
+ScalingMethod = Literal["minmax", "fixed_bounds", "none"]
 BoxMapBackend = Literal[
     "auto",
     "uniform_precomputed",
     "adaptive_precomputed",
 ]
+TrainableComponent = Literal["encoder", "latent_map", "decoder"]
 
 
 class SystemConfig(BaseModel):
@@ -201,6 +204,118 @@ class ArchConfig(BaseModel):
         )
 
 
+class CurriculumStageConfig(BaseModel):
+    """One fixed-length phase of full-batch curriculum training.
+
+    Curriculum stages are consumed only by the dedicated full-batch trainer.
+    They deliberately carry their own weights and learning rate so a saved
+    config completely specifies every optimizer update without an implicit
+    threshold, scheduler, or patience rule.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(min_length=1)
+    epochs: int = Field(ge=1)
+    learning_rate: float = Field(gt=0)
+    loss_weights: list[float]
+    trainable_components: list[TrainableComponent] = Field(
+        default_factory=lambda: ["encoder", "latent_map", "decoder"],
+        min_length=1,
+    )
+
+    @field_validator("loss_weights")
+    @classmethod
+    def _valid_loss_weights(cls, values: list[float]) -> list[float]:
+        if len(values) not in (3, 4):
+            raise ValueError(
+                "loss_weights must have length 3 or 4 "
+                "(reconstruction, prediction, semiconjugacy, optional cycle)"
+            )
+        if any(value < 0 for value in values):
+            raise ValueError("curriculum loss weights must be non-negative")
+        if not any(value > 0 for value in values):
+            raise ValueError("a curriculum stage must activate at least one loss")
+        return values
+
+    @field_validator("trainable_components")
+    @classmethod
+    def _unique_trainable_components(
+        cls, values: list[TrainableComponent]
+    ) -> list[TrainableComponent]:
+        if len(values) != len(set(values)):
+            raise ValueError("trainable_components must not contain duplicates")
+        return values
+
+
+class CurriculumOptimizerConfig(BaseModel):
+    """First-order optimizer used continuously across curriculum stages."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: Literal["adam", "adamw"] = "adam"
+    betas: list[float] = Field(default_factory=lambda: [0.9, 0.999], min_length=2, max_length=2)
+    eps: float = Field(default=1e-8, gt=0.0)
+    weight_decay: float = Field(default=0.0, ge=0.0)
+    amsgrad: bool = False
+    foreach: bool = False
+    fused: bool = False
+
+    @field_validator("betas")
+    @classmethod
+    def _valid_betas(cls, values: list[float]) -> list[float]:
+        if any(not 0.0 <= value < 1.0 for value in values):
+            raise ValueError("optimizer betas must lie in [0, 1)")
+        return values
+
+
+class CurriculumLBFGSPolishConfig(BaseModel):
+    """Fresh final L-BFGS polish after all first-order curriculum stages."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: Literal["lbfgs"] = "lbfgs"
+    device: Literal["cpu"] = "cpu"
+    dtype: Literal["float64"] = "float64"
+    outer_steps: int = Field(default=12, ge=1)
+    learning_rate: float = Field(default=0.25, gt=0.0)
+    max_iter: int = Field(default=10, ge=1)
+    max_eval: int = Field(default=25, ge=1)
+    history_size: int = Field(default=50, ge=1)
+    tolerance_grad: float = Field(default=1e-9, ge=0.0)
+    tolerance_change: float = Field(default=1e-12, ge=0.0)
+    line_search_fn: Literal["strong_wolfe"] = "strong_wolfe"
+    loss_weights: list[float] = Field(default_factory=lambda: [1.0, 1.0, 1.0])
+    trainable_components: list[TrainableComponent] = Field(
+        default_factory=lambda: ["encoder", "latent_map", "decoder"],
+        min_length=1,
+    )
+
+    @field_validator("loss_weights")
+    @classmethod
+    def _valid_loss_weights(cls, values: list[float]) -> list[float]:
+        if len(values) not in (3, 4):
+            raise ValueError("L-BFGS polish loss_weights must have length 3 or 4")
+        if any(value < 0.0 for value in values) or not any(value > 0.0 for value in values):
+            raise ValueError("L-BFGS polish weights must be non-negative and nonzero")
+        return values
+
+    @field_validator("trainable_components")
+    @classmethod
+    def _unique_trainable_components(
+        cls, values: list[TrainableComponent]
+    ) -> list[TrainableComponent]:
+        if len(values) != len(set(values)):
+            raise ValueError("L-BFGS trainable_components must not contain duplicates")
+        return values
+
+    @model_validator(mode="after")
+    def _evaluation_budget_covers_iterations(self) -> CurriculumLBFGSPolishConfig:
+        if self.max_eval < self.max_iter:
+            raise ValueError("L-BFGS max_eval must be at least max_iter")
+        return self
+
+
 class TrainingConfig(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -214,6 +329,16 @@ class TrainingConfig(BaseModel):
     scheduler_factor: float = Field(default=0.1, gt=0.0, lt=1.0)
     scheduler_threshold: float = Field(default=1e-3, ge=0.0)
     scheduler_min_lr: float = Field(default=0.0, ge=0.0)
+    # When present, ``latentdynamics.cli.train`` dispatches to the dedicated
+    # fixed-epoch full-batch curriculum loop. The generic Trainer intentionally
+    # remains unchanged and continues to provide its historical early-stopping
+    # and ReduceLROnPlateau semantics for ordinary configs.
+    curriculum: list[CurriculumStageConfig] | None = Field(default=None, min_length=1)
+    # These settings are consumed only by the dedicated curriculum trainer.
+    # Keeping them separate prevents optimizer-polish semantics from leaking
+    # into the generic Trainer or the archived Marcio-compatible path.
+    curriculum_optimizer: CurriculumOptimizerConfig | None = None
+    curriculum_polish: CurriculumLBFGSPolishConfig | None = None
     # Optional model-only warm start. The trainer loads weights from this
     # checkpoint directory but deliberately starts a fresh optimizer and LR
     # scheduler. This supports controlled fine-tuning without mutating the
@@ -243,6 +368,32 @@ class TrainingConfig(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def _curriculum_matches_top_level_contract(self) -> TrainingConfig:
+        if self.curriculum is None:
+            if self.curriculum_optimizer is not None or self.curriculum_polish is not None:
+                raise ValueError(
+                    "curriculum_optimizer and curriculum_polish require training.curriculum"
+                )
+            return self
+        names = [stage.name for stage in self.curriculum]
+        if len(names) != len(set(names)):
+            raise ValueError("curriculum stage names must be unique")
+        staged_epochs = sum(stage.epochs for stage in self.curriculum)
+        if staged_epochs != self.epochs:
+            raise ValueError(
+                "training.epochs must equal the sum of curriculum stage epochs "
+                f"({self.epochs} != {staged_epochs})"
+            )
+        if self.curriculum[-1].loss_weights != self.loss_weights:
+            raise ValueError("training.loss_weights must match the final curriculum stage weights")
+        if (
+            self.curriculum_polish is not None
+            and self.curriculum_polish.loss_weights != self.loss_weights
+        ):
+            raise ValueError("curriculum_polish.loss_weights must match training.loss_weights")
+        return self
+
     @field_validator("gradient_clip_norm")
     @classmethod
     def _positive_clip_norm(cls, v: float | None) -> float | None:
@@ -256,6 +407,7 @@ class DataConfig(BaseModel):
 
     sampling_method: SamplingMethod
     scaling: ScalingMethod = "minmax"
+    scaling_epsilon: float = Field(default=1e-6, ge=0.0)
     n_samples_train: int | list[int]
     n_samples_val: int = Field(ge=1)
     n_iterations: int = Field(ge=1)
@@ -283,9 +435,21 @@ class CMGDBConfig(BaseModel):
     # Which scaled ambient pairs define inferred latent CMGDB bounds. Historical
     # pipeline runs used the validation holdout as well; paper-faithful runs can
     # keep it strictly out of both fitting and bound inference.
-    bounds_data_role: Literal["train_and_validation_pairs", "train_pairs"] = (
+    bounds_data_role: Literal[
+        "train_and_validation_pairs",
+        "train_pairs",
+        "system_grid",
+    ] = (
         "train_and_validation_pairs"
     )
+    # ``system_grid`` reproduces archived examples that inferred the latent
+    # box from a deterministic tensor grid over the physical system domain,
+    # rather than from a finite trajectory sample.  Its latent image may be
+    # included before applying the usual fractional margin.
+    bounds_grid_resolution: int = Field(default=64, ge=2)
+    bounds_include_latent_image: bool = False
+    bounds_clip_lower: list[float] | None = None
+    bounds_clip_upper: list[float] | None = None
     # Dense-table depth for the adaptive precomputed backend. Finer corners are
     # evaluated in batches on demand and memoized. ``init`` preserves the
     # historical optimized behavior and is appropriate when later depths are
@@ -349,6 +513,27 @@ class CMGDBConfig(BaseModel):
                 raise ValueError("lower_bounds and upper_bounds must have the same length")
             if any(lo >= hi for lo, hi in zip(self.lower_bounds, self.upper_bounds, strict=True)):
                 raise ValueError("each lower bound must be strictly less than its upper bound")
+        if (self.bounds_clip_lower is None) != (self.bounds_clip_upper is None):
+            raise ValueError("bounds_clip_lower and bounds_clip_upper must be set together")
+        if self.bounds_clip_lower is not None and self.bounds_clip_upper is not None:
+            if len(self.bounds_clip_lower) != len(self.bounds_clip_upper):
+                raise ValueError("latent bounds clips must have the same length")
+            if not all(
+                isfinite(value)
+                for value in (*self.bounds_clip_lower, *self.bounds_clip_upper)
+            ):
+                raise ValueError("latent bounds clips must be finite")
+            if any(
+                lo >= hi
+                for lo, hi in zip(
+                    self.bounds_clip_lower,
+                    self.bounds_clip_upper,
+                    strict=True,
+                )
+            ):
+                raise ValueError(
+                    "each latent lower-bounds clip must be less than its upper-bounds clip"
+                )
         if self.box_map_backend == "uniform_precomputed":
             if not (self.subdiv_init == self.subdiv_min == self.subdiv_max):
                 raise ValueError(
@@ -448,4 +633,9 @@ class ExperimentConfig(BaseModel):
             and len(self.cmgdb.lower_bounds) != self.arch.low_dims
         ):
             raise ValueError("cmgdb fixed bounds must match arch.low_dims")
+        if (
+            self.cmgdb.bounds_clip_lower is not None
+            and len(self.cmgdb.bounds_clip_lower) != self.arch.low_dims
+        ):
+            raise ValueError("cmgdb latent bounds clips must match arch.low_dims")
         return self

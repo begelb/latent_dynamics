@@ -1,0 +1,67 @@
+{
+  "architecture_sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+  "archived_config_hash": "2b6c1be24159bba612718e981a4db554c318151d8f5c277222a841271cbdeb57",
+  "bounds": {
+    "exact_reproduction": true,
+    "lower": [
+      -0.6652097702026367,
+      -0.17305968701839447
+    ],
+    "upper": [
+      1.2135165929794312,
+      1.706246018409729
+    ]
+  },
+  "cell": {
+    "dataset_seed": 3174,
+    "model_seed": 1
+  },
+  "checkpoint_sha256": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c",
+  "created_at_utc": "2026-08-06T15:51:34.773826+00:00",
+  "input_hashes": {
+    "copied_scaler": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_3174/scalers/train/scaler.gz",
+    "scaler_sha256": "3a229e76d6d28e3bdf3dafb7269dca761ccd72d732cf873e9f3b1cdcaba18bfd",
+    "source_scaler": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/scalers/train/scaler.gz",
+    "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/train.csv",
+    "train_csv_sha256": "3382e48300fd42c00a189ec7245b574be34ce7fc9eddb3f60e535b3be2ea2c73",
+    "val_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/val.csv",
+    "val_csv_sha256": "0a65788a904fb9c725670bbe49675f3345c8cb7c2facdb417129dfba90f68cd9"
+  },
+  "residual_statistics": {
+    "definition": "r=G(E(x))-E(y); MSE=mean over pairs and two latent coordinates",
+    "holdout": {
+      "euclidean_residual_rms": 0.024285683408379555,
+      "euclidean_residual_rms_from_mse": 0.024285682261266425,
+      "latent_dimension": 2,
+      "max_absolute_coordinate_residual": 0.33966290950775146,
+      "max_euclidean_residual": 0.3397332727909088,
+      "n_pairs": 4000,
+      "per_coordinate_mse": [
+        0.0002737886388786137,
+        0.00031600569491274655
+      ],
+      "per_coordinate_rmse": 0.017172570612683336,
+      "per_entry_mse": 0.00029489718144759536,
+      "recomputed_minus_saved": 1.1641532182693481e-10,
+      "saved_match_within_1e-9": true,
+      "saved_training_summary_mse": 0.00029489706503227353
+    },
+    "train": {
+      "euclidean_residual_rms": 0.022141050547361374,
+      "euclidean_residual_rms_from_mse": 0.0221410484430792,
+      "latent_dimension": 2,
+      "max_absolute_coordinate_residual": 0.4222515821456909,
+      "max_euclidean_residual": 0.4263884127140045,
+      "n_pairs": 20000,
+      "per_coordinate_mse": [
+        0.00022714963415637612,
+        0.00026307639200240374
+      ],
+      "per_coordinate_rmse": 0.01565608549668115,
+      "per_entry_mse": 0.00024511301307938993,
+      "recomputed_minus_saved": -2.9103830456733704e-11,
+      "saved_match_within_1e-9": true,
+      "saved_training_summary_mse": 0.0002451130421832204
+    }
+  }
+}

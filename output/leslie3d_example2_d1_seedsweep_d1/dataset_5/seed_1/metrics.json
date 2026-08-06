@@ -1,0 +1,9 @@
+{
+  "morse_graph_consistency": {
+    "n_morse_sets": 1,
+    "n_minimal_attractors": 1,
+    "attractor_type_nonminimal": [],
+    "n_trivial_index": 0,
+    "consistent": true
+  }
+}

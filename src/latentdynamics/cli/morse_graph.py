@@ -21,10 +21,11 @@ from ..analysis.cmgdb_roa import compute_and_save_exact_roa
 from ..analysis.morse import LatentBounds, compute_morse_graph, infer_latent_bounds
 from ..config import ExperimentConfig
 from ..sampling import load_scaler
+from ..systems import build_system
 from ..training import load_any_checkpoint
 from ..viz import save_morse_graph_artifacts
 
-BoundsDataRole = Literal["train_and_validation_pairs", "train_pairs"]
+BoundsDataRole = Literal["train_and_validation_pairs", "train_pairs", "system_grid"]
 
 
 def write_mg_params_log(
@@ -57,6 +58,10 @@ def write_mg_params_log(
                 f"padding: {cmgdb_cfg.padding}",
                 f"box_map_backend: {cmgdb_cfg.box_map_backend}",
                 f"bounds_data_role: {bounds_data_role or cmgdb_cfg.bounds_data_role}",
+                f"bounds_grid_resolution: {cmgdb_cfg.bounds_grid_resolution}",
+                f"bounds_include_latent_image: {cmgdb_cfg.bounds_include_latent_image}",
+                f"bounds_clip_lower: {cmgdb_cfg.bounds_clip_lower}",
+                f"bounds_clip_upper: {cmgdb_cfg.bounds_clip_upper}",
                 f"adaptive_precompute_subdiv: {cmgdb_cfg.adaptive_precompute_subdiv}",
                 f"precompute_batch_points: {cmgdb_cfg.precompute_batch_points}",
                 f"compute_roa: {cmgdb_cfg.compute_roa}",
@@ -83,12 +88,44 @@ def _load_data_and_scale(
     states from both the training and validation CSVs are encoded.  Callers
     that require a strict evaluation holdout may opt into ``"train_pairs"``
     to use only current and next states from the training CSV.
+    ``"system_grid"`` instead creates a deterministic tensor grid over the
+    configured system box and never reads either trajectory CSV.
     """
 
-    if bounds_data_role not in {"train_and_validation_pairs", "train_pairs"}:
+    if bounds_data_role not in {
+        "train_and_validation_pairs",
+        "train_pairs",
+        "system_grid",
+    }:
         raise ValueError(f"unknown CMGDB bounds data role {bounds_data_role!r}")
-    train = np.loadtxt(cfg.paths.data_dir / f"{train_file}.csv", delimiter=",", skiprows=1, ndmin=2)
     scaler = load_scaler(cfg.paths.scaler_path(train_file))
+    if bounds_data_role == "system_grid":
+        system = build_system(cfg.system.name, cfg.system.params)
+        resolution = int(cfg.cmgdb.bounds_grid_resolution)
+        point_count = resolution**system.dim
+        if point_count > 2_000_000:
+            raise ValueError(
+                "system-grid CMGDB bound inference would create "
+                f"{point_count:,} points; reduce bounds_grid_resolution"
+            )
+        axes = [
+            np.linspace(lower, upper, resolution, dtype=np.float64)
+            for lower, upper in zip(
+                system.lower_bounds,
+                system.upper_bounds,
+                strict=True,
+            )
+        ]
+        mesh = np.meshgrid(*axes, indexing="ij")
+        ambient_grid = np.stack([axis.reshape(-1) for axis in mesh], axis=1)
+        return np.asarray(scaler.transform(ambient_grid), dtype=np.float64)
+
+    train = np.loadtxt(
+        cfg.paths.data_dir / f"{train_file}.csv",
+        delimiter=",",
+        skiprows=1,
+        ndmin=2,
+    )
     high = cfg.arch.high_dims
     train_current = scaler.transform(train[:, :high])
     train_next = scaler.transform(train[:, high:])
@@ -169,11 +206,24 @@ def run(
         bounds_source = "config"
     else:
         bounds = infer_latent_bounds(
-            model.encoder, all_scaled, epsilon_frac=cfg.cmgdb.bounds_epsilon_frac, device=device
+            model.encoder,
+            all_scaled,
+            epsilon_frac=cfg.cmgdb.bounds_epsilon_frac,
+            device=device,
+            latent_map=(model.latent_map if cfg.cmgdb.bounds_include_latent_image else None),
+            clip_lower=cfg.cmgdb.bounds_clip_lower,
+            clip_upper=cfg.cmgdb.bounds_clip_upper,
         )
-        bounds_source = (
-            "encoded_train_pairs" if bounds_data_role == "train_pairs" else "encoded_data"
-        )
+        if bounds_data_role == "train_pairs":
+            bounds_source = "encoded_train_pairs"
+        elif bounds_data_role == "system_grid":
+            bounds_source = (
+                "encoded_system_grid_and_latent_image"
+                if cfg.cmgdb.bounds_include_latent_image
+                else "encoded_system_grid"
+            )
+        else:
+            bounds_source = "encoded_data"
     if not (np.all(np.isfinite(bounds.lower)) and np.all(np.isfinite(bounds.upper))):
         raise ValueError(
             f"latent bounds contain NaN/Inf (lower={bounds.lower.tolist()}, "

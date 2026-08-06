@@ -1,0 +1,163 @@
+{
+  "examples": [
+    "leslie3d_groundbox_curriculum_wide"
+  ],
+  "ic_seeds": [
+    2158,
+    4792,
+    3174,
+    688,
+    5727
+  ],
+  "model_seeds": [
+    0,
+    1,
+    2
+  ],
+  "stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "figures": [
+    "morse"
+  ],
+  "tag": "3x5_v1",
+  "cmgdb_subdiv": [
+    25,
+    28,
+    29
+  ],
+  "box_map_backend": "adaptive_precomputed",
+  "bounds_data_role": "train_pairs",
+  "adaptive_precompute_subdiv": "init",
+  "trajectory_length": 20,
+  "total_initial_conditions": null,
+  "full_batch": true,
+  "shared_val_seeds": {
+    "leslie3d_groundbox_curriculum_wide": 9999
+  },
+  "data_sizes": {
+    "leslie3d_groundbox_curriculum_wide": {
+      "requested_total_initial_conditions_per_dataset": null,
+      "effective_initial_conditions_per_dataset": {
+        "train": 1000,
+        "validation": 200,
+        "total": 1200
+      },
+      "trajectory": {
+        "generated_steps": 20,
+        "discarded_steps": 0,
+        "retained_steps": 20
+      },
+      "transition_pairs_per_dataset": {
+        "train": 20000,
+        "validation": 4000,
+        "total": 24000
+      },
+      "planned_dataset_count": 5,
+      "transition_pairs_across_dataset_trees": {
+        "train": 100000,
+        "validation": 20000,
+        "total": 120000
+      }
+    }
+  },
+  "n_cells": 15,
+  "cells": [
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 2158,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_2158/seed_0"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 2158,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_2158/seed_1"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 2158,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_2158/seed_2"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 4792,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_4792/seed_0"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 4792,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_4792/seed_1"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 4792,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_4792/seed_2"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 3174,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/seed_0"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 3174,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/seed_1"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 3174,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/seed_2"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 688,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_688/seed_0"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 688,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_688/seed_1"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 688,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_688/seed_2"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 5727,
+      "model_seed": 0,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/seed_0"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 5727,
+      "model_seed": 1,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/seed_1"
+    },
+    {
+      "example": "leslie3d_groundbox_curriculum_wide",
+      "ic_seed": 5727,
+      "model_seed": 2,
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/seed_2"
+    }
+  ]
+}

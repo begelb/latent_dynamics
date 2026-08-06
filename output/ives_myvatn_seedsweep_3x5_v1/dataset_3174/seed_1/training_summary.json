@@ -1,0 +1,81 @@
+{
+  "best_epoch": 499,
+  "best_source": "training_epoch",
+  "selected_val": {
+    "loss_reconstruction": 1.3187954673412604e-06,
+    "loss_prediction": 1.0666070702427532e-06,
+    "loss_semiconjugacy": 9.594646331834156e-08,
+    "loss_total": 2.481348954461282e-06
+  },
+  "initialization": {
+    "type": "fresh_random"
+  },
+  "loss_weights": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "n_epochs_run": 500,
+  "train_duration_seconds": 87.28,
+  "train_duration_minutes": 1.4546,
+  "train": {
+    "loss_reconstruction": {
+      "mean": 0.0020505801486574945,
+      "min": 1.1139816620925557e-06,
+      "max": 0.07934394463300705,
+      "final": 1.1139816620925557e-06,
+      "best_epoch_value": 1.1139816620925557e-06
+    },
+    "loss_prediction": {
+      "mean": 0.002041024115997026,
+      "min": 8.937829371461703e-07,
+      "max": 0.07946240729093551,
+      "final": 8.937829371461703e-07,
+      "best_epoch_value": 8.937829371461703e-07
+    },
+    "loss_semiconjugacy": {
+      "mean": 0.00015747478067323401,
+      "min": 8.41422253301971e-08,
+      "max": 0.007274080625548959,
+      "final": 8.41422253301971e-08,
+      "best_epoch_value": 8.41422253301971e-08
+    },
+    "loss_total": {
+      "mean": 0.004249079042974931,
+      "min": 2.0919068552757383e-06,
+      "max": 0.16028511638641357,
+      "final": 2.0919068552757383e-06,
+      "best_epoch_value": 2.0919068552757383e-06
+    }
+  },
+  "val": {
+    "loss_reconstruction": {
+      "mean": 0.0022440927244978285,
+      "min": 1.3187954673412604e-06,
+      "max": 0.07126461160182952,
+      "final": 1.3187954673412604e-06,
+      "best_epoch_value": 1.3187954673412604e-06
+    },
+    "loss_prediction": {
+      "mean": 0.00223011754081833,
+      "min": 1.0666070702427532e-06,
+      "max": 0.07170268756151199,
+      "final": 1.0666070702427532e-06,
+      "best_epoch_value": 1.0666070702427532e-06
+    },
+    "loss_semiconjugacy": {
+      "mean": 0.0001693540378391068,
+      "min": 9.594646331834156e-08,
+      "max": 0.005567552849650383,
+      "final": 9.594646331834156e-08,
+      "best_epoch_value": 9.594646331834156e-08
+    },
+    "loss_total": {
+      "mean": 0.004643564291010604,
+      "min": 2.481348954461282e-06,
+      "max": 0.1436654521226883,
+      "final": 2.481348954461282e-06,
+      "best_epoch_value": 2.481348954461282e-06
+    }
+  }
+}

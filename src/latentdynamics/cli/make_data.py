@@ -42,6 +42,12 @@ def _expected_metadata(
     expected: dict[str, Any] = {
         "system": type(system).__name__,
         "dimension": int(system.dim),
+        # Bounds are part of the data-generating distribution.  In particular,
+        # Leslie3D experiments may use either the historical manuscript box or
+        # the smaller forward-invariant box used for the direct ground truth.
+        # Refuse to silently reuse a dataset sampled on the wrong one.
+        "lower_bounds": system.lower_bounds.tolist(),
+        "upper_bounds": system.upper_bounds.tolist(),
         "n_iterations": int(cfg.data.n_iterations),
         "skip_initial_steps": int(cfg.data.skip),
         "model_params": system.params,

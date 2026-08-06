@@ -1,0 +1,42 @@
+{
+  "cell": {
+    "dataset_seed": 5727,
+    "model_seed": 1
+  },
+  "created_at_utc": "2026-08-06T16:01:46.400681+00:00",
+  "final_directory": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_1/strict_cmgdb_limit_sensitivity_1000000/s_18",
+  "ladder": {
+    "init": 18,
+    "max": 19,
+    "min": 18
+  },
+  "model_bundle": {
+    "files": [
+      {
+        "relative_path": "autoencoder.json",
+        "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+        "size_bytes": 879
+      },
+      {
+        "relative_path": "autoencoder.pt",
+        "sha256": "440fdef1d0a788630dfa0dd13872b4ba6e80ef4e335411b1bd901428b78a95af",
+        "size_bytes": 96013
+      }
+    ],
+    "manifest_sha256": "60f8dad00320734f32792f7d8c22300d9f5729d8059a9f716ff37421dbfcdcd9",
+    "source": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_1/models"
+  },
+  "plan_sha256": "46ef20860d681f7d252b4b9e90cce728160776796a5fc2c58d92cf096e41385d",
+  "primary_limit_hits": [
+    {
+      "boxes_at_min": 7904,
+      "first_post_minimum_work_size": 15808,
+      "node": 0
+    }
+  ],
+  "primary_run": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_1/strict_cmgdb_sweep/s_18",
+  "s": 18,
+  "staging_directory": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_1/strict_cmgdb_limit_sensitivity_1000000/.partial_s_18_20260806T160146391667Z",
+  "status": "started",
+  "subdiv_limit": 1000000
+}

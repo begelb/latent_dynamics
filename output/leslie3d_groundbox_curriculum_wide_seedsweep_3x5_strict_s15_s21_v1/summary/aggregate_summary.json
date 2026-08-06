@@ -1,0 +1,654 @@
+{
+  "derived_artifacts": {
+    "cells_csv": "summary/cells.csv",
+    "markdown": "summary/SUMMARY.md"
+  },
+  "diagnostics": {
+    "n_cells_evaluated": 15,
+    "n_encoder_collapsed": 0,
+    "n_latent_map_overcontracted": 0,
+    "status_distribution": {
+      "ok": 15
+    }
+  },
+  "expected_design": {
+    "data_seeds": [
+      2158,
+      4792,
+      3174,
+      688,
+      5727
+    ],
+    "model_seeds": [
+      0,
+      1,
+      2
+    ],
+    "n_cells": 15
+  },
+  "generated_at_utc": "2026-08-06T09:47:53.011417+00:00",
+  "inventory": {
+    "issue_counts_by_code": {},
+    "issues": [],
+    "n_complete_cells": 15,
+    "n_expected_cells": 15,
+    "n_invalid_cells": 0,
+    "n_issues": 0,
+    "n_missing_cells": 0,
+    "status_counts": {
+      "complete": 15
+    }
+  },
+  "losses": {
+    "adamw_endpoint": {
+      "holdout": {
+        "l1": {
+          "count": 15,
+          "max": 0.0024746081326156855,
+          "mean": 0.0018721216979126136,
+          "median": 0.0019418009323999286,
+          "min": 0.0014089145697653294,
+          "population_std": 0.0002862152656221712
+        },
+        "l2": {
+          "count": 15,
+          "max": 0.0018438127590343356,
+          "mean": 0.001310279363921533,
+          "median": 0.0011668623192235827,
+          "min": 0.0008145765168592334,
+          "population_std": 0.00031074146084839147
+        },
+        "l3": {
+          "count": 15,
+          "max": 0.0007535076001659036,
+          "mean": 0.00043414879667883117,
+          "median": 0.0003815038362517953,
+          "min": 0.00034136499743908644,
+          "population_std": 0.00010715457810948946
+        },
+        "total": {
+          "count": 15,
+          "max": 0.004833525512367487,
+          "mean": 0.003616549881796042,
+          "median": 0.0036307356785982847,
+          "min": 0.002604994922876358,
+          "population_std": 0.0005635168520932984
+        }
+      },
+      "train": {
+        "l1": {
+          "count": 15,
+          "max": 0.0018492412054911256,
+          "mean": 0.001538107885668675,
+          "median": 0.001589390798471868,
+          "min": 0.0011510791955515742,
+          "population_std": 0.00020736823988030573
+        },
+        "l2": {
+          "count": 15,
+          "max": 0.0015238465275615454,
+          "mean": 0.0010599330804931621,
+          "median": 0.0009194356389343739,
+          "min": 0.0006668909918516874,
+          "population_std": 0.00027399925596226926
+        },
+        "l3": {
+          "count": 15,
+          "max": 0.0006746157305315137,
+          "mean": 0.0003825836368681242,
+          "median": 0.00033140426967293024,
+          "min": 0.0002698238822631538,
+          "population_std": 9.834254771176029e-05
+        },
+        "total": {
+          "count": 15,
+          "max": 0.003725468646734953,
+          "mean": 0.002980624573926131,
+          "median": 0.0030172301921993494,
+          "min": 0.002146320417523384,
+          "population_std": 0.00043863161567518616
+        }
+      }
+    },
+    "final_checkpoint": {
+      "holdout": {
+        "l1": {
+          "count": 15,
+          "max": 0.0022550278808921576,
+          "mean": 0.001793557459798952,
+          "median": 0.001834142953157425,
+          "min": 0.0012981625040993094,
+          "population_std": 0.00027191229511049796
+        },
+        "l2": {
+          "count": 15,
+          "max": 0.001709011266939342,
+          "mean": 0.0011866046465002001,
+          "median": 0.0011428699363023043,
+          "min": 0.0007526272092945874,
+          "population_std": 0.00026147684580899496
+        },
+        "l3": {
+          "count": 15,
+          "max": 0.0004457214963622391,
+          "mean": 0.0003377191528367499,
+          "median": 0.0003130304394289851,
+          "min": 0.00026842698571272194,
+          "population_std": 5.131251265992672e-05
+        },
+        "total": {
+          "count": 15,
+          "max": 0.004190812818706036,
+          "mean": 0.0033178812668969234,
+          "median": 0.0034218004439026117,
+          "min": 0.002449388150125742,
+          "population_std": 0.00045566148683151445
+        }
+      },
+      "train": {
+        "l1": {
+          "count": 15,
+          "max": 0.0017866495763882995,
+          "mean": 0.0014487957659487924,
+          "median": 0.0015311893075704575,
+          "min": 0.0011215759441256523,
+          "population_std": 0.00021355913029393986
+        },
+        "l2": {
+          "count": 15,
+          "max": 0.0014693759148940444,
+          "mean": 0.0009421181942646702,
+          "median": 0.0008639866719022393,
+          "min": 0.0006019767606630921,
+          "population_std": 0.00024007121552122759
+        },
+        "l3": {
+          "count": 15,
+          "max": 0.00039577597635798156,
+          "mean": 0.0002929057654303809,
+          "median": 0.0002774340973701328,
+          "min": 0.00024184031644836068,
+          "population_std": 4.37572181134209e-05
+        },
+        "total": {
+          "count": 15,
+          "max": 0.0031501015182584524,
+          "mean": 0.0026838197372853756,
+          "median": 0.0028879917226731777,
+          "min": 0.001968665746971965,
+          "population_std": 0.00038425348242874705
+        }
+      }
+    },
+    "lbfgs_delta_final_minus_adamw": {
+      "holdout": {
+        "l1": {
+          "count": 15,
+          "max": 4.9443915486335754e-06,
+          "mean": -7.85642381136616e-05,
+          "median": -5.2126008085906506e-05,
+          "min": -0.0003076941939070821,
+          "population_std": 8.439156245951604e-05
+        },
+        "l2": {
+          "count": 15,
+          "max": -7.084105163812637e-06,
+          "mean": -0.000123674717421333,
+          "median": -6.636220496147871e-05,
+          "min": -0.0005077393725514412,
+          "population_std": 0.00012794879626379745
+        },
+        "l3": {
+          "count": 15,
+          "max": -2.833455801010132e-05,
+          "mean": -9.642964384208123e-05,
+          "median": -7.275791722349823e-05,
+          "min": -0.00037669955054298043,
+          "population_std": 8.337008587967008e-05
+        },
+        "total": {
+          "count": 15,
+          "max": -6.10139686614275e-05,
+          "mean": -0.00029866861489911874,
+          "median": -0.00016329903155565262,
+          "min": -0.0011921331752091646,
+          "population_std": 0.00028600865405770825
+        }
+      },
+      "train": {
+        "l1": {
+          "count": 15,
+          "max": -2.8132693842053413e-05,
+          "mean": -8.931211971988281e-05,
+          "median": -5.395384505391121e-05,
+          "min": -0.00034223299007862806,
+          "population_std": 8.419405357885422e-05
+        },
+        "l2": {
+          "count": 15,
+          "max": 9.667128324508667e-07,
+          "mean": -0.00011781488622849186,
+          "median": -7.934216409921646e-05,
+          "min": -0.0004826157819479704,
+          "population_std": 0.00012173109353746668
+        },
+        "l3": {
+          "count": 15,
+          "max": -2.798356581479311e-05,
+          "mean": -8.967787143774331e-05,
+          "median": -6.277902866713703e-05,
+          "min": -0.0003508895169943571,
+          "population_std": 7.900002242859221e-05
+        },
+        "total": {
+          "count": 15,
+          "max": -6.59446232020855e-05,
+          "mean": -0.00029680483664075533,
+          "median": -0.0001911825966089964,
+          "min": -0.00117573793977499,
+          "population_std": 0.0002791448511587502
+        }
+      }
+    },
+    "stage_endpoints_post_update": {
+      "1": {
+        "holdout": {
+          "l1": {
+            "count": 15,
+            "max": 0.0014905859716236591,
+            "mean": 0.001180587390748163,
+            "median": 0.0012469352222979069,
+            "min": 0.0008685184293426573,
+            "population_std": 0.00019246631199776532
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.1452527791261673,
+            "mean": 0.0956878329316775,
+            "median": 0.09178800135850906,
+            "min": 0.07133208960294724,
+            "population_std": 0.02069486333026386
+          },
+          "l3": {
+            "count": 15,
+            "max": 2.220045328140259,
+            "mean": 1.8599427541097004,
+            "median": 1.9143173694610596,
+            "min": 0.9646008014678955,
+            "population_std": 0.29025461271774755
+          },
+          "total": {
+            "count": 15,
+            "max": 0.0014905859716236591,
+            "mean": 0.001180587390748163,
+            "median": 0.0012469352222979069,
+            "min": 0.0008685184293426573,
+            "population_std": 0.00019246631199776532
+          }
+        },
+        "train": {
+          "l1": {
+            "count": 15,
+            "max": 0.0013161635724827647,
+            "mean": 0.0010226104330892363,
+            "median": 0.0009996321750804782,
+            "min": 0.0007696186657994986,
+            "population_std": 0.00016214926232967897
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.1526857614517212,
+            "mean": 0.10339336444934209,
+            "median": 0.10019876062870026,
+            "min": 0.07640957087278366,
+            "population_std": 0.020922379574460543
+          },
+          "l3": {
+            "count": 15,
+            "max": 2.4867823123931885,
+            "mean": 2.0553414742151896,
+            "median": 2.160590171813965,
+            "min": 1.0988044738769531,
+            "population_std": 0.31690611424624904
+          },
+          "total": {
+            "count": 15,
+            "max": 0.0013161635724827647,
+            "mean": 0.0010226104330892363,
+            "median": 0.0009996321750804782,
+            "min": 0.0007696186657994986,
+            "population_std": 0.00016214926232967897
+          }
+        }
+      },
+      "2": {
+        "holdout": {
+          "l1": {
+            "count": 15,
+            "max": 0.0015109942760318518,
+            "mean": 0.00118548518512398,
+            "median": 0.0011825771071016788,
+            "min": 0.0009327344596385956,
+            "population_std": 0.000183421332072424
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.0015621378552168608,
+            "mean": 0.0009786720659273366,
+            "median": 0.00093854870647192,
+            "min": 0.0008152539376169443,
+            "population_std": 0.00017400277560065868
+          },
+          "l3": {
+            "count": 15,
+            "max": 9.33682918548584,
+            "mean": 4.0649935603141785,
+            "median": 3.724729299545288,
+            "min": 0.0686568021774292,
+            "population_std": 2.659757272206468
+          },
+          "total": {
+            "count": 15,
+            "max": 0.0030731321312487125,
+            "mean": 0.00216415727045387,
+            "median": 0.002086537890136242,
+            "min": 0.0018542332109063864,
+            "population_std": 0.00031185387477173125
+          }
+        },
+        "train": {
+          "l1": {
+            "count": 15,
+            "max": 0.0015593002317473292,
+            "mean": 0.0010010870173573494,
+            "median": 0.0009834558004513383,
+            "min": 0.0007848923560231924,
+            "population_std": 0.00018874794958897108
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.00144534173887223,
+            "mean": 0.0008246931325023373,
+            "median": 0.0007695344975218177,
+            "min": 0.0006450229557231069,
+            "population_std": 0.00018425492337480407
+          },
+          "l3": {
+            "count": 15,
+            "max": 10.347962379455566,
+            "mean": 4.435378065208594,
+            "median": 3.9594249725341797,
+            "min": 0.06690797954797745,
+            "population_std": 2.9277111652748027
+          },
+          "total": {
+            "count": 15,
+            "max": 0.0030046419706195593,
+            "mean": 0.0018257801653817295,
+            "median": 0.0017639340367168188,
+            "min": 0.001477897516451776,
+            "population_std": 0.0003506272811651545
+          }
+        }
+      },
+      "3": {
+        "holdout": {
+          "l1": {
+            "count": 15,
+            "max": 0.0024746081326156855,
+            "mean": 0.0018721216979126136,
+            "median": 0.0019418009323999286,
+            "min": 0.0014089145697653294,
+            "population_std": 0.0002862152656221712
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.0018438127590343356,
+            "mean": 0.001310279363921533,
+            "median": 0.0011668623192235827,
+            "min": 0.0008145765168592334,
+            "population_std": 0.00031074146084839147
+          },
+          "l3": {
+            "count": 15,
+            "max": 0.0007535076001659036,
+            "mean": 0.00043414879667883117,
+            "median": 0.0003815038362517953,
+            "min": 0.00034136499743908644,
+            "population_std": 0.00010715457810948946
+          },
+          "total": {
+            "count": 15,
+            "max": 0.004833525512367487,
+            "mean": 0.003616549881796042,
+            "median": 0.0036307356785982847,
+            "min": 0.002604994922876358,
+            "population_std": 0.0005635168520932984
+          }
+        },
+        "train": {
+          "l1": {
+            "count": 15,
+            "max": 0.0018492412054911256,
+            "mean": 0.001538107885668675,
+            "median": 0.001589390798471868,
+            "min": 0.0011510791955515742,
+            "population_std": 0.00020736823988030573
+          },
+          "l2": {
+            "count": 15,
+            "max": 0.0015238465275615454,
+            "mean": 0.0010599330804931621,
+            "median": 0.0009194356389343739,
+            "min": 0.0006668909918516874,
+            "population_std": 0.00027399925596226926
+          },
+          "l3": {
+            "count": 15,
+            "max": 0.0006746157305315137,
+            "mean": 0.0003825836368681242,
+            "median": 0.00033140426967293024,
+            "min": 0.0002698238822631538,
+            "population_std": 9.834254771176029e-05
+          },
+          "total": {
+            "count": 15,
+            "max": 0.003725468646734953,
+            "mean": 0.002980624573926131,
+            "median": 0.0030172301921993494,
+            "min": 0.002146320417523384,
+            "population_std": 0.00043863161567518616
+          }
+        }
+      }
+    }
+  },
+  "optimizer_accounting": {
+    "lbfgs_closure_evaluations": {
+      "count": 15,
+      "max": 135.0,
+      "mean": 134.06666666666666,
+      "median": 134.0,
+      "min": 133.0,
+      "population_std": 0.5734883511361751
+    },
+    "lbfgs_internal_iterations": {
+      "count": 15,
+      "max": 120.0,
+      "mean": 120.0,
+      "median": 120.0,
+      "min": 120.0,
+      "population_std": 0.0
+    },
+    "lbfgs_train_total_nonincrease": {
+      "n_evaluated": 15,
+      "n_pass": 15
+    }
+  },
+  "provisional": false,
+  "sampled_tolerance_diagnostic": {
+    "interpretation": "Counts only the saved sampled residual-versus-tau inequality; it is not a classifier of spuriousness or invariant-set correspondence.",
+    "n_evaluable": 23,
+    "n_minimal_components": 28,
+    "n_pass": 0
+  },
+  "schema_version": 2,
+  "source_is_read_only": true,
+  "source_sweep_summary": {
+    "box_map_backend": "adaptive_precomputed",
+    "cmgdb_subdiv": [
+      25,
+      28,
+      29
+    ],
+    "data_size": {
+      "effective_initial_conditions_per_dataset": {
+        "total": 1200,
+        "train": 1000,
+        "validation": 200
+      },
+      "planned_dataset_count": 5,
+      "requested_total_initial_conditions_per_dataset": null,
+      "trajectory": {
+        "discarded_steps": 0,
+        "generated_steps": 20,
+        "retained_steps": 20
+      },
+      "transition_pairs_across_dataset_trees": {
+        "total": 120000,
+        "train": 100000,
+        "validation": 20000
+      },
+      "transition_pairs_per_dataset": {
+        "total": 24000,
+        "train": 20000,
+        "validation": 4000
+      }
+    },
+    "example": "leslie3d_groundbox_curriculum_wide",
+    "pass_criterion": {
+      "definition": "exactly two graph sinks and each full Conley index matches (x^p-1, 0, 0) for an integer p >= 1",
+      "name": "two_periodic_attractor_sinks",
+      "periods_may_differ": true
+    },
+    "path": "output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/sweep_summary.json",
+    "sha256": "36024901ff7d5427108a39648857771cafb2626f78b86ca8e576e75dd6f3ce9b",
+    "tag": "3x5_v1"
+  },
+  "sweep_root": "output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1",
+  "topology": {
+    "bistability_pass": {
+      "n_evaluated": 15,
+      "n_fail": 5,
+      "n_pass": 10,
+      "rate_among_evaluated": 0.6666666666666666
+    },
+    "exact_period4_bistability_pass": {
+      "n_evaluated": 15,
+      "n_fail": 13,
+      "n_pass": 2
+    },
+    "minimal_node_count_distribution": {
+      "1": 3,
+      "2": 11,
+      "3": 1
+    },
+    "morse_edge_count_distribution": {
+      "1": 1,
+      "2": 5,
+      "3": 5,
+      "4": 3,
+      "5": 1
+    },
+    "morse_node_count_distribution": {
+      "2": 1,
+      "3": 5,
+      "4": 6,
+      "5": 2,
+      "6": 1
+    },
+    "n_cells_evaluated": 15,
+    "sink_conley_index_profiles": {
+      "[\"(x-1, 0, 0)\",\"(x^4-1, 0, 0)\"]": 3,
+      "[\"(x-1, 0, 0)\"]": 1,
+      "[\"(x^4-1, 0, 0)\",\"(x-1, 0, 0)\"]": 4,
+      "[\"(x^4-1, 0, 0)\",\"(x-1, x-1, 0)\"]": 1,
+      "[\"(x^4-1, 0, 0)\",\"(x^2-1, 0, 0)\"]": 1,
+      "[\"(x^4-1, 0, 0)\",\"(x^4-1, 0, 0)\",\"(x-1, 0, 0)\"]": 1,
+      "[\"(x^4-1, 0, 0)\",\"(x^4-1, 0, 0)\"]": 2,
+      "[\"(x^4-1, 0, 0)\"]": 2
+    }
+  },
+  "training_contract": {
+    "checkpoint_selection": "final_lbfgs_float32_endpoint",
+    "checkpoint_source": "lbfgs_float32_endpoint",
+    "early_stopping_used": false,
+    "first_order_epochs_total": 12000,
+    "full_batch": true,
+    "n_holdout_pairs": 4000,
+    "n_training_pairs": 20000,
+    "optimizer": {
+      "first_order": {
+        "betas": [
+          0.9,
+          0.999
+        ],
+        "eps": 1e-08,
+        "stage_learning_rates": [
+          0.003,
+          0.003,
+          0.003
+        ],
+        "state_continues_across_stages": true,
+        "weight_decay": 0.0
+      },
+      "polish": {
+        "device": "cpu",
+        "dtype": "float64",
+        "fresh_optimizer_state": true,
+        "history_size": 50,
+        "learning_rate": 0.25,
+        "line_search_fn": "strong_wolfe",
+        "max_eval_per_outer_step": 25,
+        "max_iter_per_outer_step": 10,
+        "outer_steps": 12,
+        "tolerance_change": 1e-12,
+        "tolerance_grad": 1e-09
+      },
+      "sequence": [
+        "AdamW",
+        "LBFGS"
+      ]
+    },
+    "patience_used": false,
+    "scheduler": null,
+    "scheduler_used": false,
+    "stages": [
+      {
+        "epochs": 4000,
+        "loss_weights": [
+          1.0,
+          0.0,
+          0.0
+        ]
+      },
+      {
+        "epochs": 4000,
+        "loss_weights": [
+          1.0,
+          1.0,
+          0.0
+        ]
+      },
+      {
+        "epochs": 4000,
+        "loss_weights": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    ],
+    "training_method": "curriculum_full_batch"
+  }
+}

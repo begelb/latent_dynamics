@@ -1,0 +1,324 @@
+{
+  "actual_returned_boxes": {
+    "any_potential_subdiv_limit_flag": false,
+    "depth_counts": {
+      "21": 17684,
+      "22": 0
+    },
+    "diameter_squared_over_two": 4.538437799873915e-06,
+    "labels": [
+      0,
+      1,
+      2
+    ],
+    "max_diameter": 0.0030127853557377483,
+    "max_side": 0.002854947408195585,
+    "min_diameter": 0.0030127853557377483,
+    "min_side": 0.0009623673395253718,
+    "n_boxes": 17684,
+    "per_label": [
+      {
+        "label": 0,
+        "max_diameter": 0.0030127853557377483,
+        "max_side": 0.002854947408195585,
+        "min_diameter": 0.0030127853557377483,
+        "n_boxes": 1406,
+        "potential_subdiv_limit_flag": false,
+        "width_patterns": [
+          {
+            "count": 1406,
+            "widths": [
+              0.00096236733953,
+              0.0028549474082
+            ]
+          }
+        ]
+      },
+      {
+        "label": 1,
+        "max_diameter": 0.0030127853557377483,
+        "max_side": 0.002854947408195585,
+        "min_diameter": 0.0030127853557377483,
+        "n_boxes": 9435,
+        "potential_subdiv_limit_flag": false,
+        "width_patterns": [
+          {
+            "count": 9435,
+            "widths": [
+              0.00096236733953,
+              0.0028549474082
+            ]
+          }
+        ]
+      },
+      {
+        "label": 2,
+        "max_diameter": 0.0030127853557377483,
+        "max_side": 0.002854947408195585,
+        "min_diameter": 0.0030127853557377483,
+        "n_boxes": 6843,
+        "potential_subdiv_limit_flag": false,
+        "width_patterns": [
+          {
+            "count": 6843,
+            "widths": [
+              0.00096236733953,
+              0.0028549474082
+            ]
+          }
+        ]
+      }
+    ],
+    "strict_returned_diameter_bound_pass": true,
+    "strict_returned_side_bound_pass": true,
+    "width_patterns": [
+      {
+        "count": 17684,
+        "widths": [
+          0.00096236733953,
+          0.0028549474082
+        ]
+      }
+    ]
+  },
+  "cell": {
+    "dataset_seed": 2158,
+    "model_seed": 0
+  },
+  "cmgdb_seconds": 7.0364482090226375,
+  "completed_at_utc": "2026-08-06T16:03:28.447897+00:00",
+  "domain": {
+    "lower": [
+      -1.1030964851379395,
+      -0.3916575312614441
+    ],
+    "upper": [
+      0.867831826210022,
+      2.531808614730835
+    ]
+  },
+  "graph_counts_changed": false,
+  "ladder": {
+    "init": 21,
+    "max": 22,
+    "min": 21
+  },
+  "model_bundle": {
+    "files": [
+      {
+        "relative_path": "autoencoder.json",
+        "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+        "size_bytes": 879
+      },
+      {
+        "relative_path": "autoencoder.pt",
+        "sha256": "ea385ab98462979d374015b429583e758431853cedf0123004701737d8f87d4a",
+        "size_bytes": 96013
+      }
+    ],
+    "manifest_sha256": "dfe954434c4e5e1757a7717ebaa9edc5595df4a2d58eb05d59f6bf3626c5bc2c",
+    "source": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_2158/seed_0/models"
+  },
+  "no_training_performed": true,
+  "nominal_geometry": {
+    "diameter_s": 0.0030127853557377483,
+    "diameter_s_plus_1": 0.0017215783665217841,
+    "widths_s": [
+      0.0009623673395253718,
+      0.002854947408195585
+    ],
+    "widths_s_plus_1": [
+      0.0009623673395253718,
+      0.0014274737040977925
+    ]
+  },
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_2158/seed_0/strict_cmgdb_limit_sensitivity_1000000/s_21",
+  "plan_sha256": "46ef20860d681f7d252b4b9e90cce728160776796a5fc2c58d92cf096e41385d",
+  "primary": {
+    "actual_returned_boxes": {
+      "any_potential_subdiv_limit_flag": false,
+      "depth_counts": {
+        "21": 17684,
+        "22": 0
+      },
+      "diameter_squared_over_two": 4.538437799873915e-06,
+      "labels": [
+        0,
+        1,
+        2
+      ],
+      "max_diameter": 0.0030127853557377483,
+      "max_side": 0.002854947408195585,
+      "min_diameter": 0.0030127853557377483,
+      "min_side": 0.0009623673395253718,
+      "n_boxes": 17684,
+      "per_label": [
+        {
+          "label": 0,
+          "max_diameter": 0.0030127853557377483,
+          "max_side": 0.002854947408195585,
+          "min_diameter": 0.0030127853557377483,
+          "n_boxes": 1406,
+          "potential_subdiv_limit_flag": false,
+          "width_patterns": [
+            {
+              "count": 1406,
+              "widths": [
+                0.00096236733953,
+                0.0028549474082
+              ]
+            }
+          ]
+        },
+        {
+          "label": 1,
+          "max_diameter": 0.0030127853557377483,
+          "max_side": 0.002854947408195585,
+          "min_diameter": 0.0030127853557377483,
+          "n_boxes": 9435,
+          "potential_subdiv_limit_flag": false,
+          "width_patterns": [
+            {
+              "count": 9435,
+              "widths": [
+                0.00096236733953,
+                0.0028549474082
+              ]
+            }
+          ]
+        },
+        {
+          "label": 2,
+          "max_diameter": 0.0030127853557377483,
+          "max_side": 0.002854947408195585,
+          "min_diameter": 0.0030127853557377483,
+          "n_boxes": 6843,
+          "potential_subdiv_limit_flag": false,
+          "width_patterns": [
+            {
+              "count": 6843,
+              "widths": [
+                0.00096236733953,
+                0.0028549474082
+              ]
+            }
+          ]
+        }
+      ],
+      "strict_returned_diameter_bound_pass": true,
+      "strict_returned_side_bound_pass": true,
+      "width_patterns": [
+        {
+          "count": 17684,
+          "widths": [
+            0.00096236733953,
+            0.0028549474082
+          ]
+        }
+      ]
+    },
+    "graph_sha256": "0e57cbad48e3c071175d33293c667b2b85dd54fdc14b8cf6d6ce508c4b2bd2a2",
+    "morse_sets_sha256": "779c139aa7d060407969126f4ba8564584f57bd058037d4924b3fbe13c27eebc",
+    "proven_limit_hits": [
+      {
+        "boxes_at_min": 9435,
+        "first_post_minimum_work_size": 18870,
+        "node": 1
+      },
+      {
+        "boxes_at_min": 6843,
+        "first_post_minimum_work_size": 13686,
+        "node": 2
+      }
+    ],
+    "replay_manifest_sha256": "c06e0a8de0457ea6a1eb3a07e3bdc6e8e5e5fd86db0756960253097cc631a391",
+    "run": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_2158/seed_0/strict_cmgdb_sweep/s_21",
+    "strict_graph": {
+      "edges": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "minimal_nodes": [
+        {
+          "conley_index": "(x^4-1, 0, 0)",
+          "node": 0
+        },
+        {
+          "conley_index": "(x-1, 0, 0)",
+          "node": 1
+        }
+      ],
+      "n_minimal_nodes": 2,
+      "n_morse_edges": 2,
+      "n_morse_nodes": 3,
+      "nodes": [
+        {
+          "conley_index": "(x^4-1, 0, 0)",
+          "node": 0
+        },
+        {
+          "conley_index": "(x-1, 0, 0)",
+          "node": 1
+        },
+        {
+          "conley_index": "(0, x^4-1, 0)",
+          "node": 2
+        }
+      ]
+    }
+  },
+  "s": 21,
+  "sensitivity_limit_audit": {
+    "first_post_minimum_limit_hits": [],
+    "limit_impossible_for_all_saved_components": true,
+    "reason": "max=min+1 and 2*N <= sensitivity_limit for every saved component"
+  },
+  "staging_directory_name": ".partial_s_21_20260806T160321374705Z",
+  "status": "complete",
+  "strict_graph": {
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 1
+      }
+    ],
+    "n_minimal_nodes": 2,
+    "n_morse_edges": 2,
+    "n_morse_nodes": 3,
+    "nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 1
+      },
+      {
+        "conley_index": "(0, x^4-1, 0)",
+        "node": 2
+      }
+    ]
+  },
+  "subdiv_limit": 1000000
+}

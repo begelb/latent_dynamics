@@ -96,6 +96,15 @@ class TestMakeDataRun:
         with pytest.raises(ValueError, match=r"stale existing dataset.*sampling_seed"):
             make_data.run(stale_cfg, verbose=False)
 
+    def test_existing_train_data_from_wrong_sampling_box_raises(self, tmp_path):
+        cfg = _tiny_cfg("leslie3d", tmp_path, high_dims=3, n_samples_train=4)
+        make_data.run(cfg, verbose=False)
+        stale_cfg = _tiny_cfg("leslie3d", tmp_path, high_dims=3, n_samples_train=4)
+        stale_cfg.system.params["upper_bounds"] = [110, 77, 54]
+
+        with pytest.raises(ValueError, match=r"stale existing dataset.*upper_bounds"):
+            make_data.run(stale_cfg, verbose=False)
+
     def test_partial_existing_data_refuses_overwrite(self, tmp_path):
         cfg = _tiny_cfg("coral", tmp_path, high_dims=13, n_samples_train=4)
         data_dir = tmp_path / "data"
@@ -129,6 +138,8 @@ class TestMakeDataRun:
             "role": "train",
             "system": "RedCoralModel",
             "dimension": coral.dim,
+            "lower_bounds": coral.lower_bounds.tolist(),
+            "upper_bounds": coral.upper_bounds.tolist(),
             "model_params": coral.params,
             "n_samples": 500,
             "n_iterations": 2,
@@ -140,6 +151,8 @@ class TestMakeDataRun:
             "role": "val",
             "system": "RedCoralModel",
             "dimension": coral.dim,
+            "lower_bounds": coral.lower_bounds.tolist(),
+            "upper_bounds": coral.upper_bounds.tolist(),
             "model_params": coral.params,
             "n_samples": 4,
             "n_iterations": 2,

@@ -1,0 +1,366 @@
+{
+  "schema_version": 2,
+  "training_method": "curriculum_full_batch",
+  "objective": "w1*MSE(D(E(x)),x) + w2*MSE(D(G(E(x))),y) + w3*MSE(G(E(x)),E(y))",
+  "optimizer": {
+    "sequence": [
+      "AdamW",
+      "LBFGS"
+    ],
+    "first_order": {
+      "name": "AdamW",
+      "betas": [
+        0.9,
+        0.999
+      ],
+      "eps": 1e-08,
+      "weight_decay": 0.0,
+      "amsgrad": false,
+      "foreach": false,
+      "fused": false,
+      "state_continues_across_stages": true,
+      "stage_learning_rates": [
+        0.003,
+        0.003,
+        0.003
+      ],
+      "updates_completed": 12000,
+      "device": "mps",
+      "dtype": "float32"
+    },
+    "polish": {
+      "name": "LBFGS",
+      "starts_with_fresh_optimizer_state": true,
+      "device": "cpu",
+      "dtype": "float64",
+      "outer_steps_requested": 12,
+      "outer_steps_completed": 12,
+      "learning_rate": 0.25,
+      "max_iter": 10,
+      "max_eval": 25,
+      "history_size": 50,
+      "tolerance_grad": 1e-09,
+      "tolerance_change": 1e-12,
+      "line_search_fn": "strong_wolfe",
+      "loss_weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "trainable_components": [
+        "encoder",
+        "latent_map",
+        "decoder"
+      ],
+      "closure_evaluations": 134,
+      "optimizer_function_evaluations": 134,
+      "internal_iterations": 120,
+      "duration_seconds": 6.5
+    }
+  },
+  "scheduler": null,
+  "seed": 0,
+  "device": "mps",
+  "reproducibility": {
+    "seeded_rngs": [
+      "python",
+      "numpy",
+      "torch_cpu",
+      "torch_cuda_if_available"
+    ],
+    "resolved_backend": "mps",
+    "deterministic_algorithms_enforced": false,
+    "bitwise_reproducible_across_backends_or_runtime_versions": false,
+    "runtime": {
+      "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+      "python": "3.13.14",
+      "numpy": "2.4.6",
+      "torch": "2.12.0"
+    }
+  },
+  "data": {
+    "n_training_pairs": 20000,
+    "n_validation_pairs": 4000,
+    "high_dims": 3,
+    "dtype": "float32",
+    "full_batch": true
+  },
+  "arch": {
+    "num_layers": null,
+    "hidden_shape": null,
+    "hidden_shapes": null,
+    "high_dims": 3,
+    "low_dims": 2,
+    "activation": "relu",
+    "encoder_out_activation": "tanh",
+    "latent_out_activation": "tanh",
+    "decoder_out_activation": "sigmoid",
+    "encoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        128,
+        64
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "latent_map": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        64
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    },
+    "decoder": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": [
+        64,
+        128
+      ],
+      "activation": "tanh",
+      "out_activation": "none"
+    }
+  },
+  "model_initialized_by_helper": true,
+  "curriculum": [
+    {
+      "index": 1,
+      "name": "autoencoder",
+      "start_epoch_one_based": 1,
+      "end_epoch_one_based": 4000,
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "loss_weights": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "trainable_components": [
+        "encoder",
+        "decoder"
+      ],
+      "optimizer_state_continued_from_previous_stage": false,
+      "train_endpoint_post_update": {
+        "loss_reconstruction": 0.0011212186655029655,
+        "loss_prediction": 0.1066356748342514,
+        "loss_semiconjugacy": 1.0988044738769531,
+        "loss_total": 0.0011212186655029655
+      },
+      "holdout_endpoint_post_update": {
+        "loss_reconstruction": 0.0012146070366725326,
+        "loss_prediction": 0.09719518572092056,
+        "loss_semiconjugacy": 0.9646008014678955,
+        "loss_total": 0.0012146070366725326
+      },
+      "checkpoint": "stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "checkpoint_metadata": "stage_checkpoints/01_autoencoder/models/autoencoder.json"
+    },
+    {
+      "index": 2,
+      "name": "decoded_prediction",
+      "start_epoch_one_based": 4001,
+      "end_epoch_one_based": 8000,
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "loss_weights": [
+        1.0,
+        1.0,
+        0.0
+      ],
+      "trainable_components": [
+        "encoder",
+        "latent_map",
+        "decoder"
+      ],
+      "optimizer_state_continued_from_previous_stage": true,
+      "train_endpoint_post_update": {
+        "loss_reconstruction": 0.0015593002317473292,
+        "loss_prediction": 0.00144534173887223,
+        "loss_semiconjugacy": 2.2013940811157227,
+        "loss_total": 0.0030046419706195593
+      },
+      "holdout_endpoint_post_update": {
+        "loss_reconstruction": 0.0015109942760318518,
+        "loss_prediction": 0.0015621378552168608,
+        "loss_semiconjugacy": 2.0105865001678467,
+        "loss_total": 0.0030731321312487125
+      },
+      "checkpoint": "stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "checkpoint_metadata": "stage_checkpoints/02_decoded_prediction/models/autoencoder.json"
+    },
+    {
+      "index": 3,
+      "name": "semiconjugacy",
+      "start_epoch_one_based": 8001,
+      "end_epoch_one_based": 12000,
+      "epochs": 4000,
+      "learning_rate": 0.003,
+      "loss_weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "trainable_components": [
+        "encoder",
+        "latent_map",
+        "decoder"
+      ],
+      "optimizer_state_continued_from_previous_stage": true,
+      "train_endpoint_post_update": {
+        "loss_reconstruction": 0.0017470988677814603,
+        "loss_prediction": 0.0014350451529026031,
+        "loss_semiconjugacy": 0.00045912337373010814,
+        "loss_total": 0.00364126730710268
+      },
+      "holdout_endpoint_post_update": {
+        "loss_reconstruction": 0.0024746081326156855,
+        "loss_prediction": 0.001821979065425694,
+        "loss_semiconjugacy": 0.0005369381979107857,
+        "loss_total": 0.004833525512367487
+      },
+      "checkpoint": "stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "checkpoint_metadata": "stage_checkpoints/03_semiconjugacy/models/autoencoder.json"
+    }
+  ],
+  "loss_weights": [
+    1.0,
+    1.0,
+    1.0
+  ],
+  "n_epochs_run": 12000,
+  "epochs_requested": 12000,
+  "epochs_completed": 12000,
+  "first_order_epochs_completed": 12000,
+  "checkpoint_epoch": null,
+  "best_epoch": null,
+  "best_source": "not_applicable_final_lbfgs_endpoint_selected",
+  "checkpoint_selection": "final_lbfgs_float32_endpoint",
+  "checkpoint_source": "lbfgs_float32_endpoint",
+  "validation_evaluated": true,
+  "validation_used_for_optimization": false,
+  "validation_used_for_checkpoint_selection": false,
+  "early_stopping_used": false,
+  "patience_used": false,
+  "scheduler_used": false,
+  "gradient_clipping_used": false,
+  "best_weight_restoration_used": false,
+  "train_duration_seconds": 115.18,
+  "train_duration_minutes": 1.9197,
+  "first_order_duration_seconds": 108.65,
+  "polish_duration_seconds": 6.5,
+  "adamw_endpoint_train": {
+    "loss_reconstruction": 0.0017470988677814603,
+    "loss_prediction": 0.0014350451529026031,
+    "loss_semiconjugacy": 0.00045912337373010814,
+    "loss_total": 0.00364126730710268
+  },
+  "adamw_endpoint_holdout": {
+    "loss_reconstruction": 0.0024746081326156855,
+    "loss_prediction": 0.001821979065425694,
+    "loss_semiconjugacy": 0.0005369381979107857,
+    "loss_total": 0.004833525512367487
+  },
+  "final_checkpoint_train": {
+    "loss_reconstruction": 0.001555526745505631,
+    "loss_prediction": 0.0011654470581561327,
+    "loss_semiconjugacy": 0.0003341315605212003,
+    "loss_total": 0.0030551054514944553
+  },
+  "selected_val": {
+    "loss_reconstruction": 0.0022550278808921576,
+    "loss_prediction": 0.0015291550662368536,
+    "loss_semiconjugacy": 0.0004066299879923463,
+    "loss_total": 0.004190812818706036
+  },
+  "final_holdout": {
+    "loss_reconstruction": 0.0022550278808921576,
+    "loss_prediction": 0.0015291550662368536,
+    "loss_semiconjugacy": 0.0004066299879923463,
+    "loss_total": 0.004190812818706036
+  },
+  "polish_delta_train": {
+    "loss_reconstruction": -0.00019157212227582932,
+    "loss_prediction": -0.00026959809474647045,
+    "loss_semiconjugacy": -0.00012499181320890784,
+    "loss_total": -0.0005861618556082249
+  },
+  "polish_delta_holdout": {
+    "loss_reconstruction": -0.0002195802517235279,
+    "loss_prediction": -0.0002928239991888404,
+    "loss_semiconjugacy": -0.0001303082099184394,
+    "loss_total": -0.0006427126936614513
+  },
+  "final_learning_rate": 0.003,
+  "train": {
+    "loss_reconstruction": {
+      "mean": 0.0029905040291681264,
+      "min": 0.0011161931324750185,
+      "max": 0.2366146296262741,
+      "final": 0.00171761738602072,
+      "best_epoch_value": 0.00171761738602072
+    },
+    "loss_prediction": {
+      "mean": 0.04722178751906419,
+      "min": 0.0009818803519010544,
+      "max": 0.44565078616142273,
+      "final": 0.0013842512853443623,
+      "best_epoch_value": 0.0013842512853443623
+    },
+    "loss_semiconjugacy": {
+      "mean": 1.0299989401469913,
+      "min": 0.0003418525739107281,
+      "max": 2.5467629432678223,
+      "final": 0.00042559418943710625,
+      "best_epoch_value": 0.00042559418943710625
+    },
+    "loss_total": {
+      "mean": 0.005578343678974003,
+      "min": 0.0011161931324750185,
+      "max": 2.2043986320495605,
+      "final": 0.0035274627152830362,
+      "best_epoch_value": 0.0035274627152830362
+    }
+  },
+  "val": {
+    "loss_reconstruction": {
+      "mean": 0.0031093386538947622,
+      "min": 0.0012062363093718886,
+      "max": 0.2206159234046936,
+      "final": 0.0024746081326156855,
+      "best_epoch_value": 0.0024746081326156855
+    },
+    "loss_prediction": {
+      "mean": 0.04381679885841246,
+      "min": 0.0010563854593783617,
+      "max": 0.43506956100463867,
+      "final": 0.001821979065425694,
+      "best_epoch_value": 0.001821979065425694
+    },
+    "loss_semiconjugacy": {
+      "mean": 0.924854052477424,
+      "min": 0.00041166102164424956,
+      "max": 2.3395299911499023,
+      "final": 0.0005369381979107857,
+      "best_epoch_value": 0.0005369381979107857
+    },
+    "loss_total": {
+      "mean": 0.005630993995650594,
+      "min": 0.0012062363093718886,
+      "max": 1.573236107826233,
+      "final": 0.004833525512367487,
+      "best_epoch_value": 0.004833525512367487
+    }
+  },
+  "artifacts": {
+    "checkpoint": "models/autoencoder.pt",
+    "checkpoint_metadata": "models/autoencoder.json",
+    "adamw_checkpoint": "adamw_endpoint/models/autoencoder.pt",
+    "adamw_checkpoint_metadata": "adamw_endpoint/models/autoencoder.json",
+    "history": "logs/history.json"
+  }
+}

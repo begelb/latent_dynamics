@@ -1,0 +1,551 @@
+{
+  "clone_manifest_sha256": "23ebe75fe74da3289606c7b94991c0502a1709d3a75062fa5d5dda9e8e2c07b0",
+  "created_at_utc": "2026-08-06T15:50:56.344679+00:00",
+  "driver": "/Users/bdoprad/Work/Projects/latent-dynamics/analysis_codex/leslie3d_3x5_strict_s15_s21/run_strict_sweep.py",
+  "driver_sha256": "b62d4451f341cca873ddf6b9268c682c26f473cd0dd114d49f8fa4a5e6c59157",
+  "git_head": "a3e76f55cff8a99bd0770b69f05251d0c8e06fa1",
+  "git_status_porcelain": [
+    " M pyproject.toml",
+    " M scripts/retrain_seed_sweep.py",
+    " M src/latentdynamics/analysis/morse.py",
+    " M src/latentdynamics/cli/make_data.py",
+    " M src/latentdynamics/cli/morse_graph.py",
+    " M src/latentdynamics/cli/pipeline.py",
+    " M src/latentdynamics/cli/scale_data.py",
+    " M src/latentdynamics/cli/train.py",
+    " M src/latentdynamics/config/__init__.py",
+    " M src/latentdynamics/config/schema.py",
+    " M src/latentdynamics/sampling/__init__.py",
+    " M src/latentdynamics/sampling/scaling.py",
+    " M src/latentdynamics/systems/__init__.py",
+    " M src/latentdynamics/training/__init__.py",
+    " M tests/test_make_data.py",
+    "?? data/ives_myvatn_seedsweep_3x5_v1/",
+    "?? data/leslie3d_example2_d1_seedsweep_d1/",
+    "?? data/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/",
+    "?? docs/experiments/ives_myvatn_3x5.md",
+    "?? docs/experiments/leslie3d_groundbox_curriculum_wide_3x5.md",
+    "?? output/ives_myvatn_seedsweep_3x5_v1/",
+    "?? output/leslie3d_example2_d1_seedsweep_d1/",
+    "?? output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/",
+    "?? output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/",
+    "?? output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/",
+    "?? output/leslie3d_invariant_aware_v2_smooth_adamw_lbfgs/",
+    "?? output/leslie3d_invariant_aware_v2_smooth_adamw_wd1_lbfgs/",
+    "?? scripts/audit_cmgdb_refinement_depths.py",
+    "?? scripts/build_leslie3d_s24_28_36_report.py",
+    "?? scripts/compare_leslie3d_morse_resolution_sweep.py",
+    "?? scripts/finetune_leslie3d_smooth_adamw_lbfgs.py",
+    "?? scripts/materialize_leslie3d_initmin_max36_sweep.py",
+    "?? scripts/recover_ives_myvatn_3x5.py",
+    "?? scripts/render_leslie3d_ground_truth_overlay.py",
+    "?? scripts/run_ives_myvatn_3x5.sh",
+    "?? scripts/run_leslie3d_groundbox_curriculum_wide_3x5.sh",
+    "?? scripts/summarize_ives_myvatn_3x5.py",
+    "?? scripts/summarize_leslie3d_groundbox_curriculum_3x5.py",
+    "?? src/latentdynamics/configs/ives_myvatn.yaml",
+    "?? src/latentdynamics/configs/leslie3d_example2_d1.yaml",
+    "?? src/latentdynamics/configs/leslie3d_groundbox_curriculum_wide.yaml",
+    "?? src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_adamw_lbfgs_s24_28_36_limit10m.yaml",
+    "?? src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_i20_m26_max36_limit10m.yaml",
+    "?? src/latentdynamics/reference_data/",
+    "?? src/latentdynamics/systems/ives.py",
+    "?? src/latentdynamics/training/curriculum.py",
+    "?? tests/test_curriculum_training.py",
+    "?? tests/test_finetune_leslie3d_smooth_adamw_lbfgs.py",
+    "?? tests/test_fixed_bounds_scaling.py",
+    "?? tests/test_ives.py",
+    "?? tests/test_ives_myvatn_3x5.py",
+    "?? tests/test_leslie3d_groundbox_curriculum_3x5.py",
+    "?? tests/test_recover_ives_myvatn_3x5.py",
+    "?? tests/test_render_leslie3d_ground_truth_overlay.py",
+    "?? tests/test_summarize_ives_myvatn_3x5.py",
+    "?? tests/test_summarize_leslie3d_groundbox_curriculum_3x5.py",
+    "?? tmp/"
+  ],
+  "git_worktree_dirty": true,
+  "latentdynamics_source_tree": {
+    "file_count": 93,
+    "files": [
+      {
+        "relative_path": "src/latentdynamics/__init__.py",
+        "sha256": "a5e2e80180642067e73345ca1138d4770cbf6f701e880d0250da02e129d2940e",
+        "size_bytes": 86
+      },
+      {
+        "relative_path": "src/latentdynamics/_paths.py",
+        "sha256": "efd5a912dbce1d8138933a757d1d0ae3107163b8684da08df897376c133cf44e",
+        "size_bytes": 2152
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/__init__.py",
+        "sha256": "2162e4ba1608af6b229d719d56ec07108623134356dbb1a2d0e01d6dbf8142bb",
+        "size_bytes": 2739
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/basin_statistics.py",
+        "sha256": "0f03707a7159d287ba1b32ee0f5b2f0bc47f325c16a6072eecdc7a16cfe963ac",
+        "size_bytes": 26513
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/cell_graph.py",
+        "sha256": "320e9728372faedc15da3cb70c52754d85d314df6e0ef5bec9c812d505094249",
+        "size_bytes": 13619
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/cmgdb_fork.py",
+        "sha256": "49a72620dd953e8f0c58494052260da75ad7b5c715169846d679fc03c21b9e64",
+        "size_bytes": 3064
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/cmgdb_roa.py",
+        "sha256": "18a4b8a9f055abdb1917fef51d82bd95336a596b5d4128259a5361e0ceda9b20",
+        "size_bytes": 14718
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/hierarchical_precomputed.py",
+        "sha256": "acca72dcfcea4e33016d133ec8ef65fe3a199c7fef2ec88c398647a0305cc450",
+        "size_bytes": 19502
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/morse.py",
+        "sha256": "91c708d7a4f61f1842274007dcac895ec73a3a0430f033f40187b633ca2faedf",
+        "size_bytes": 32474
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/morse_coarsening.py",
+        "sha256": "ad156bc37843c0e5b4ef8c7b9ee9986e5465c3334a281e9f35ac7072c94c5db5",
+        "size_bytes": 23076
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/morse_graph_parser.py",
+        "sha256": "6170e80c3cdd9e3254adcbec4143086def6feb63894418497f3e5e7aea5d21d5",
+        "size_bytes": 7148
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/morse_metrics.py",
+        "sha256": "537536f08537601fee1ca34bada6ce56186b4e43bbbcd1dd069b3a03d5b922bf",
+        "size_bytes": 3582
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/regions_of_attraction.py",
+        "sha256": "7d7029e73fdfdc0b15121792e8afea6ab3fb0e8a82984f24f06bd5de83c1f084",
+        "size_bytes": 3561
+      },
+      {
+        "relative_path": "src/latentdynamics/analysis/tolerance.py",
+        "sha256": "e590146c1f02f0ad4ba1ff9d4e9b100ad8b69c6206a693e72edaed333d1e9656",
+        "size_bytes": 7526
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/__init__.py",
+        "sha256": "8ac93709c403649450bbe683a0323e45f15b0387f48104ef0183f41fda3db73f",
+        "size_bytes": 546
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/diagnose.py",
+        "sha256": "df1fc6512a42d410f8d5ebe096466732e1544748472467c566e8624c0453de18",
+        "size_bytes": 15756
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/make_data.py",
+        "sha256": "de2e93185bf64fa194898ca4d1d7990b71494032ac9f137bcdc43ee525280955",
+        "size_bytes": 10660
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/metrics.py",
+        "sha256": "49cd790eea248be67976c330f5cdcf950a2e2a359d0aab9a39025747d7153098",
+        "size_bytes": 11148
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/morse_graph.py",
+        "sha256": "f13aa7e5be5cfef60718ac732307fa2c1cbc4bdb013c43ce5c96044097ebd1c5",
+        "size_bytes": 10985
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/pipeline.py",
+        "sha256": "83c8b96b375ebf99831e858b23002ad3b9aae8fb83028ade1ed53c049ab31c14",
+        "size_bytes": 34637
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/provenance.py",
+        "sha256": "5e1227ed66dab1f88de7ec683191fad10464f8d2b0538c155bb2b707902c0311",
+        "size_bytes": 6497
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/render.py",
+        "sha256": "46c1912ccd436d991323cc0ade445f99afd4e6cdd23c4e5a402fa5a16fa94290",
+        "size_bytes": 16947
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/scale_data.py",
+        "sha256": "f15f9ccdb2c348aae6bdf9c23f0408e35863b8598d68a2a9cba265f7ebe5aa67",
+        "size_bytes": 4338
+      },
+      {
+        "relative_path": "src/latentdynamics/cli/train.py",
+        "sha256": "9aea26f75937ca872e17e2f19746f1268e338b1b4f6f43963ce927397887b347",
+        "size_bytes": 10153
+      },
+      {
+        "relative_path": "src/latentdynamics/config/__init__.py",
+        "sha256": "20a374e299f26cce70c198c76c9fc4f21709872df2eba8e5729054708a792ef7",
+        "size_bytes": 691
+      },
+      {
+        "relative_path": "src/latentdynamics/config/loader.py",
+        "sha256": "4bcd61bdad01bc6349c94a98c39b27060ab422d9adc14fbb5c1782d6bccb009f",
+        "size_bytes": 3423
+      },
+      {
+        "relative_path": "src/latentdynamics/config/schema.py",
+        "sha256": "6dcea7bfefed0338b3ea8303456fbc164e04c4cfc440116854bb9f18344a0baf",
+        "size_bytes": 26554
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/CONFIG_REFERENCE.yaml",
+        "sha256": "2cc73625b7bc482b2089dc3e8cdf2ba972538a2efb0eeaf8251a4a37e28314ad",
+        "size_bytes": 7469
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/chafee_infante.yaml",
+        "sha256": "a4a1a80a2b0efe23b96e3bc2c220b70cc77116b800c5edd6b0f3fc7d36f66f55",
+        "size_bytes": 1204
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/chafee_infante_relu.yaml",
+        "sha256": "453204be16cea319976e944f3d3b3dae9e18dba6666f47197fde4568bbce4350",
+        "size_bytes": 1887
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/chafee_infante_replay.yaml",
+        "sha256": "3f63cc61b4d6825c450d49e621952f871480bc06a404647e47a7bdb501e909d9",
+        "size_bytes": 1661
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/chafee_infante_test_contraction.yaml",
+        "sha256": "fa1cdd407936ada65ec0ead5aef05e9720b612b9acabbeeeaffa27c1cd45779b",
+        "size_bytes": 1614
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/coral_adaptive.yaml",
+        "sha256": "d778e2626ec09bc5cd8ea0dc707df3f71a02b061acbeaa45129b7d7cadf57ee1",
+        "size_bytes": 1392
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/coral_basic.yaml",
+        "sha256": "6a9195400da1a1571e4c85927fdac970c17750e1c59348dab1a2a48ea5388c13",
+        "size_bytes": 1253
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/coral_data_scaling.yaml",
+        "sha256": "e0f7c840c0635601806347c77004e27d6452b9c08340b601ccf10c2745cce76d",
+        "size_bytes": 1279
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/ives_myvatn.yaml",
+        "sha256": "bb9cfa93ce37fc9379144b24810475bbc3ac79a2714e626f3d992a33718e354a",
+        "size_bytes": 2787
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d.yaml",
+        "sha256": "363c202ebc2d18a28657fd6cdf2c9e0df3379d19cd59b4939a57815b1cf08b73",
+        "size_bytes": 1221
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example1.yaml",
+        "sha256": "4c70e38c8048503f4c55c9f9001c4d93f132be2d29b2996eef20bcae330e11f3",
+        "size_bytes": 1312
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example1_replay.yaml",
+        "sha256": "34393291e5150b750c28bbd4aaa649e471f17241b8a8f5baea93b178139990ed",
+        "size_bytes": 1318
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example1_test.yaml",
+        "sha256": "e757e6f21c55e1bcaa394670df20c983fcb6878e9fdc994a1d2e1910edd560b5",
+        "size_bytes": 1496
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2.yaml",
+        "sha256": "0192aa7f1ff36b1bcd84aa704adc6b3e24e321cc98bc17d254bd31dbe04bf563",
+        "size_bytes": 1246
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_d1.yaml",
+        "sha256": "bebcbf56f74cc8a03274d082c099b0a5031e2ecea9f8f54364db8d38148fb53a",
+        "size_bytes": 1977
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_large_data_4x.yaml",
+        "sha256": "43acadb8caf7c686f0765f2a26bac8750ea7111ac72e4ae264aed1c014afc8b3",
+        "size_bytes": 1275
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_marcio_5x3.yaml",
+        "sha256": "8719468bddb88631c4fbac02102d03f95391b94cde19084655f7360e8bba9db3",
+        "size_bytes": 2350
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_patrick_coarser_s24_27_28.yaml",
+        "sha256": "39d0933111065b18f199689f3d5b379c2ba2a160425c9f00c0038a6a98542b45",
+        "size_bytes": 2051
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_patrick_finetune_4x.yaml",
+        "sha256": "87f7ceef0ef705c76a0113a66bfb5398af8c2c1f5f6a93082371bafde3407753",
+        "size_bytes": 2401
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_example2_replay.yaml",
+        "sha256": "1133667aebd078a967ebe2aab1146cd92ce33b27e20153760071b9920c7a6487",
+        "size_bytes": 1304
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_groundbox_curriculum_wide.yaml",
+        "sha256": "8faa2d625ba3aea64a36dc544b2cec3253d57bd5de254f6ecf16f6283453c459",
+        "size_bytes": 3667
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware.yaml",
+        "sha256": "be7a21979d6d890349f8497c1d525cd78575e94d3d75d23fb378ea77d4745006",
+        "size_bytes": 2686
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_recurrence_clean.yaml",
+        "sha256": "6a2675e4f2e6a402fbf7b77a04d3930e1f80efa11e67f586667cc813ead86ae2",
+        "size_bytes": 2021
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_refined.yaml",
+        "sha256": "a5ce410a572b8d541221f0b9b501abe036e2267e35860f9b0f228a8632909576",
+        "size_bytes": 1916
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_smooth.yaml",
+        "sha256": "49c75197bfbb91dc3e9bfc6a631d0a4cd9f5e4546770ad0961ea3fea2b9d59cc",
+        "size_bytes": 2105
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2.yaml",
+        "sha256": "ef3f0de1366d19b93edaaccc6a4b11f4a5815bc9f319ec330f59eef5dfe3d636",
+        "size_bytes": 2032
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_alternating.yaml",
+        "sha256": "e20c81f51a09348b555d36bb42ce082d20619101651209bd49e81baa5f63674e",
+        "size_bytes": 2059
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth.yaml",
+        "sha256": "36f35f9fe7d53e05e8b4ef3b1955399747b2062f4e6b7bb5869650681cbe9ffd",
+        "size_bytes": 2251
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_adamw_lbfgs_s24_28_36_limit10m.yaml",
+        "sha256": "6ea9c944db24715766f3dc84e7ff22d458253e97cc02a984b0c326d99c107046",
+        "size_bytes": 1991
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_fine.yaml",
+        "sha256": "c2ec8e6e4df5ad02d7b8b6ecc70d1b9b154af97a638ee96488fe85aa60d3a76b",
+        "size_bytes": 1953
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_i20_m26_max36_limit10m.yaml",
+        "sha256": "0964d2d6bc2e377282a701f4e5e35b35f8ef8c6f299d6676348b6272f5167d6e",
+        "size_bytes": 1933
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_max30.yaml",
+        "sha256": "ea6edb0d653a9aad64d8bad2251294b61547cb788fc9be3f03a0fdf5cd1a9c71",
+        "size_bytes": 1992
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_paper_resolution.yaml",
+        "sha256": "d7cae038085457063c0d032d5259045471fe09a072daff7c8bf95f7ddbaff724",
+        "size_bytes": 2146
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_rollout.yaml",
+        "sha256": "c5bd7a3579fd8db1e58caea403604bedc446fd5fb00bef1c19be99818d89b03b",
+        "size_bytes": 1892
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie3d_invariant_aware_v2_smooth_s24_28_36_limit10m.yaml",
+        "sha256": "ca32c087f1c6a052323702415a306a156ca0bca995177a96af3ae4eb725ed5b5",
+        "size_bytes": 2109
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie_2gen_contraction.yaml",
+        "sha256": "57449cbda37be045479505b26ef9eb78dcc34cfb57e6d8898331b63a75cc6a11",
+        "size_bytes": 1533
+      },
+      {
+        "relative_path": "src/latentdynamics/configs/leslie_2gen_contraction_replay.yaml",
+        "sha256": "4536fed97e3b8d5854f5a56b5ee0a24b3c7b4555e2ea911a8f756abdc193d1b9",
+        "size_bytes": 1459
+      },
+      {
+        "relative_path": "src/latentdynamics/models/__init__.py",
+        "sha256": "81d8020d0a092aeec30885361424350282bc8041cfce41025d03a14ac83da726",
+        "size_bytes": 463
+      },
+      {
+        "relative_path": "src/latentdynamics/models/activations.py",
+        "sha256": "e73a172b55011ba5f9fc10bab908ac258484bb3e5221e1f168377d99a9ef7e64",
+        "size_bytes": 1049
+      },
+      {
+        "relative_path": "src/latentdynamics/models/autoencoder.py",
+        "sha256": "1941730bf855863d4ad83efea1a9b2c4b48e97ffb69484f85e443a1a8c11c0f4",
+        "size_bytes": 4215
+      },
+      {
+        "relative_path": "src/latentdynamics/reference_data/ives_myvatn_invariant_points.csv",
+        "sha256": "70be3ee87edcd470e8bd6f393d9ff0bdb3551ccd2a999d361884d05205d2831c",
+        "size_bytes": 872
+      },
+      {
+        "relative_path": "src/latentdynamics/replay/__init__.py",
+        "sha256": "b65e6e395178c7723ee3e61819b43fdc71c7d0a4c8b27471e6526564cadc76dd",
+        "size_bytes": 27856
+      },
+      {
+        "relative_path": "src/latentdynamics/replay/fetch.py",
+        "sha256": "44c2ac27c2071e0616992caf38d9493fc8c860fa692e5273c2b1984557ffa027",
+        "size_bytes": 4223
+      },
+      {
+        "relative_path": "src/latentdynamics/sampling/__init__.py",
+        "sha256": "c4f896e2a87ec1113637268be811d8d0849642b61798891d36c7d04ffcb7f6e4",
+        "size_bytes": 755
+      },
+      {
+        "relative_path": "src/latentdynamics/sampling/scaling.py",
+        "sha256": "c1d86b008b9ea2d3e9996e4c71c8c98463d1a47f0063580fd6c418320012d343",
+        "size_bytes": 4468
+      },
+      {
+        "relative_path": "src/latentdynamics/sampling/strategies.py",
+        "sha256": "fc73337c40552236a380ee2faa3c188213f13c8aa91dda43eae86cc16bec4ef7",
+        "size_bytes": 2658
+      },
+      {
+        "relative_path": "src/latentdynamics/sampling/trajectories.py",
+        "sha256": "79743a5c438a28f30279dbd07203d2e1c92eed371bf999b5c09e7a7d9eeab923",
+        "size_bytes": 3176
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/__init__.py",
+        "sha256": "d810b465218e32748b95a0591d618b8100dfae94fa5d9eee893cc21b0839092c",
+        "size_bytes": 1348
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/base.py",
+        "sha256": "00abefefefe08d52219f98ce6bd96842f13c08ac2c7e59d2896d7036fff05fb4",
+        "size_bytes": 2381
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/chafee_infante.py",
+        "sha256": "af27f029ab72a7e552740f528c37a8172b9f9cb84fde4328a70fbe9f52938222",
+        "size_bytes": 1950
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/coral.py",
+        "sha256": "0a02989c0c83c8af343d9c4e5777900bb721494535cd4dddb56be28d92523d18",
+        "size_bytes": 3702
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/ives.py",
+        "sha256": "e49915f7277750ec78e1509d8d687585666b85a20613c209464b7e527f77e40b",
+        "size_bytes": 3371
+      },
+      {
+        "relative_path": "src/latentdynamics/systems/leslie.py",
+        "sha256": "185da1d1946270382ad86306f6557b45cbc23b421f97fec201abfb821d28636f",
+        "size_bytes": 4689
+      },
+      {
+        "relative_path": "src/latentdynamics/training/__init__.py",
+        "sha256": "aa9e890837836aeb119cb74ed197380ed78a53ceebf4de8e32b2df2117e9986e",
+        "size_bytes": 962
+      },
+      {
+        "relative_path": "src/latentdynamics/training/checkpoints.py",
+        "sha256": "6f65c79584489944064922528a0839544c7bbeac58d387eb768267b4c1e44c6e",
+        "size_bytes": 7552
+      },
+      {
+        "relative_path": "src/latentdynamics/training/curriculum.py",
+        "sha256": "69bd24fe617029ebe788a971389649cac4ab3847ad4bf21c766bc924074e02bc",
+        "size_bytes": 29191
+      },
+      {
+        "relative_path": "src/latentdynamics/training/losses.py",
+        "sha256": "4b171272f4bedf1988f737167cd4dacfeeaef9d108d0310b9472f1efc029060e",
+        "size_bytes": 4008
+      },
+      {
+        "relative_path": "src/latentdynamics/training/marcio.py",
+        "sha256": "e9d578ac8857e94ce28d150ee65a17d0a06de7dca5908d32d52beea4fe008113",
+        "size_bytes": 13305
+      },
+      {
+        "relative_path": "src/latentdynamics/training/trainer.py",
+        "sha256": "f6e528ffae699b541265f2868a2bc3e9b50b47afa5b5db028dd29a6265a3612b",
+        "size_bytes": 9045
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/__init__.py",
+        "sha256": "1b88a581cc013f98ce833a4ac3df4171903f9dc4ada200f40011cd5e75c88a3f",
+        "size_bytes": 2273
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/data_trajectories.py",
+        "sha256": "6f1200ed1392f7b2677e9a0a6706635b47cbf914b6e680bd419013d090eb89ff",
+        "size_bytes": 8085
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/histograms.py",
+        "sha256": "ed477aa4992ae9113a45b2b9408e32e33e27947494d5ee12ba680bb4a126b1dc",
+        "size_bytes": 2666
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/morse_plots.py",
+        "sha256": "1847e608620e6a174fcff00d12370065bf26424489b3c09a768d1e40782f98cf",
+        "size_bytes": 45873
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/regions_of_attraction.py",
+        "sha256": "651fd3dd5b22e947645a81018fe08f11217014b32c6f3d5ea661ae93411c3de3",
+        "size_bytes": 9941
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/style.py",
+        "sha256": "9411210da7f8697523b155dca88078cf2b674972a7ef66c18f6b7294bbd789bb",
+        "size_bytes": 6096
+      },
+      {
+        "relative_path": "src/latentdynamics/viz/trajectory_plots.py",
+        "sha256": "e944a6df4ef040d3d5c93a43468e090a70d80069a711a0f2c85a63f44ecab52e",
+        "size_bytes": 4682
+      }
+    ],
+    "manifest_sha256": "6938f123696cf8b86ccacb632b408d0d816bfb5c826b57516b0c1a7fd4588bb6"
+  },
+  "no_training_or_data_generation": true,
+  "plan_sha256": "4ff4d9b4dcbc0ee1357608924c6d49776487f03ba53dcc43bf896960d7b175cb",
+  "purpose": "105-run strict (s,s,s+1), s=15..21 Leslie3D CMGDB sweep",
+  "runtime": {
+    "cmgdb": "1.3.3+fork.3",
+    "joblib": "1.5.3",
+    "latentdynamics": "0.1.0",
+    "mps_available": true,
+    "numpy": "2.4.6",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+    "torch": "2.12.0"
+  }
+}

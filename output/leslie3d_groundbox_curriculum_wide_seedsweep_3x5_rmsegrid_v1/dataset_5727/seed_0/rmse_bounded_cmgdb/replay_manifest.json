@@ -1,0 +1,192 @@
+{
+  "actual_returned_cover_widths": {
+    "n_rows": 1004,
+    "x_max": 0.012993303593248129,
+    "x_min": 0.012993303593248129,
+    "x_unique_count": 1,
+    "y_max": 0.011236722115427256,
+    "y_min": 0.011236722115427256,
+    "y_unique_count": 1
+  },
+  "actual_width_bound_pass": true,
+  "artifact_sha256": {
+    "analysis_checkpoint": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e",
+    "baseline_graph": "eb75637cfc03a4a0c7e5cca4074e85ed58bc7f3ae7bafe9a4a2f4ce4f1da69df",
+    "baseline_sets": "97fde31f10eb9b4e4a71a4fd6601480c26242f9fbab5e4313ae7939c760a7bdc",
+    "cloned_checkpoint": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e",
+    "metrics": "81d91c0942880ab4a8087bb7cc6d75eff9c45c465329d70af605dcfcf5caa75a",
+    "rmse_grid_graph": "7c69fa752bdbe449ae9daaed202fa85dbff4d97f8448b69627f9dc4bd50f6f1e",
+    "rmse_grid_sets": "6f37e2021a5f314b9c4dd7f84a5995c3645241a0c2cd4d5547456f5f3abdc6a5",
+    "source_checkpoint": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e"
+  },
+  "baseline_graph": {
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      }
+    ],
+    "n_minimal_nodes": 2,
+    "n_morse_edges": 4,
+    "n_morse_nodes": 5,
+    "nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      },
+      {
+        "conley_index": "(0, x^4-1, 0)",
+        "node": 2
+      },
+      {
+        "conley_index": "(0, x^2+1, 0)",
+        "node": 3
+      },
+      {
+        "conley_index": "(0, x+1, 0)",
+        "node": 4
+      }
+    ]
+  },
+  "cell": {
+    "dataset_seed": 5727,
+    "model_seed": 0
+  },
+  "cloned_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0",
+  "cmgdb_seconds": 0.07444670802215114,
+  "completed_at_utc": "2026-08-06T15:23:48.764539+00:00",
+  "domain": {
+    "lower": [
+      -0.5247198939323425,
+      -0.5681346654891968
+    ],
+    "recomputed_from_saved_dataset_exact_match": true,
+    "upper": [
+      1.138422966003418,
+      0.8701657652854919
+    ]
+  },
+  "loss_scale": {
+    "holdout_rmse": 0.020165068509488043,
+    "holdout_semiconjugacy_mse": 0.0004066299879923463,
+    "target_rmse": 0.018279265863846948,
+    "train_rmse": 0.018279265863846948,
+    "train_semiconjugacy_mse": 0.0003341315605212003
+  },
+  "model_bundle": {
+    "copy": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb/models",
+    "files": [
+      {
+        "relative_path": "autoencoder.json",
+        "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+        "size_bytes": 879
+      },
+      {
+        "relative_path": "autoencoder.pt",
+        "sha256": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e",
+        "size_bytes": 96013
+      }
+    ],
+    "manifest_sha256": "6b99696dd75b49e461c041c965a070952f2dfda50ec9f1dcb2425b8f14151c25",
+    "source": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/models"
+  },
+  "no_training_performed": true,
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb",
+  "render_result": {
+    "figures": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb/MG/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb/MG/morse_graph.png",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb/MG/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_5727/seed_0/rmse_bounded_cmgdb/MG/morse_sets.png"
+    ]
+  },
+  "rmse_grid_graph": {
+    "edges": [],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ],
+    "n_minimal_nodes": 1,
+    "n_morse_edges": 0,
+    "n_morse_nodes": 1,
+    "nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ]
+  },
+  "selection": {
+    "ladder": {
+      "init": 11,
+      "max": 15,
+      "min": 14
+    },
+    "nominal_widths_at_previous_depth": [
+      0.012993303593248129,
+      0.02247344423085451
+    ],
+    "nominal_widths_at_selected_depth": [
+      0.012993303593248129,
+      0.011236722115427256
+    ],
+    "policy": "coarsest depth with both nominal side lengths <= target RMSE",
+    "previous_depth_fails": true,
+    "selected_total_depth": 14
+  },
+  "source_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/seed_0",
+  "source_manifest_config_hash": {
+    "exact_match": true,
+    "recomputed_from_archived_config": "1ed8dd05f0d898be513e08166a6daae34a427e5744760fef6ba9e4655862e06e",
+    "recorded": "1ed8dd05f0d898be513e08166a6daae34a427e5744760fef6ba9e4655862e06e"
+  },
+  "standard_metrics": {
+    "minimal_morse_labels": [
+      0
+    ],
+    "minimal_morse_sets": {
+      "0": {
+        "is_spurious_attractor": true,
+        "max_semiconjugacy_error": 0.04080897197127342,
+        "n_boxes": 1004,
+        "n_semiconjugacy_samples": 4063,
+        "tau_bar": 0.012799728196114302
+      }
+    },
+    "morse_graph_consistency": {
+      "attractor_type_nonminimal": [],
+      "consistent": true,
+      "n_minimal_attractors": 1,
+      "n_morse_sets": 1,
+      "n_trivial_index": 0
+    }
+  }
+}

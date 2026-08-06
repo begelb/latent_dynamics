@@ -1,0 +1,180 @@
+{
+  "cmgdb": {
+    "algorithm": "ComputeMorseGraphOnly",
+    "dirty": true,
+    "module_path": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "module_path_verified": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB/src/CMGDB/__init__.py",
+    "repository": "/Users/bdoprad/Work/Projects/latent-dynamics/archive/CMGDB",
+    "revision": "03567e240b2b6402510191433471345d745e75e8",
+    "subdivision": {
+      "init": 18,
+      "limit": 4000000,
+      "max": 33,
+      "min": 27
+    },
+    "version": "1.3.3+fork.3"
+  },
+  "created_at_utc": "2026-08-06T16:49:23.739711+00:00",
+  "output": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_refined_r1_i18_m27_M33_L4000000_morse",
+  "purpose": "direct original-3D Ives high-resolution CMGDB reference",
+  "rectangle_map": {
+    "batching": true,
+    "coordinates": "log10",
+    "internal_refinement": 1,
+    "internal_subboxes_per_cmgdb_rectangle": 8,
+    "name": "outward-rounded analytic monotone interval enclosure",
+    "padding": false,
+    "rounding": "8 numpy.nextafter steps toward -inf/+inf after each interval bound",
+    "scope": "direct numerical interval reference; stronger than corner sampling, not an arbitrary-precision formal proof"
+  },
+  "reference_invariant_points": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/reference_data/ives_myvatn_invariant_points.csv",
+    "sha256": "70be3ee87edcd470e8bd6f393d9ff0bdb3551ccd2a999d361884d05205d2831c",
+    "size_bytes": 872
+  },
+  "schema_version": 1,
+  "system": {
+    "archived_sampling_absorption": {
+      "final_lower_margin": [
+        0.08169962105557893,
+        0.06499999999999329,
+        0.06499999999999329
+      ],
+      "final_upper_margin": [
+        0.0008043959303942749,
+        0.00875186549871465,
+        0.008038755900826366
+      ],
+      "iterates": [
+        {
+          "lower": [
+            -3.49903958929511,
+            -6.435000000000007,
+            -6.435000000000007
+          ],
+          "step": 1,
+          "upper": [
+            1.828769494870888,
+            1.0563690183172818,
+            1.6908077505516745
+          ]
+        },
+        {
+          "lower": [
+            -5.536203635092604,
+            -6.435000000000007,
+            -6.435000000000007
+          ],
+          "step": 2,
+          "upper": [
+            1.7414493082898708,
+            1.0333299097211281,
+            1.5849792964615932
+          ]
+        },
+        {
+          "lower": [
+            -5.783656994853961,
+            -6.435000000000007,
+            -6.435000000000007
+          ],
+          "step": 3,
+          "upper": [
+            1.6887336266417112,
+            1.031423805354046,
+            1.505347863156778
+          ]
+        },
+        {
+          "lower": [
+            -5.8419442545850355,
+            -6.435000000000007,
+            -6.435000000000007
+          ],
+          "step": 4,
+          "upper": [
+            1.6626364870563801,
+            1.0312619143586128,
+            1.4535144334120285
+          ]
+        },
+        {
+          "lower": [
+            -5.8583003789444215,
+            -6.435000000000007,
+            -6.435000000000007
+          ],
+          "step": 5,
+          "upper": [
+            1.6491956040696056,
+            1.0312481345012854,
+            1.4219612440991736
+          ]
+        }
+      ],
+      "passed": true,
+      "scope": "successive outward interval enclosures from the complete archived sampling box",
+      "steps": 5,
+      "trapping_lower": [
+        -5.94,
+        -6.5,
+        -6.5
+      ],
+      "trapping_upper": [
+        1.65,
+        1.04,
+        1.43
+      ]
+    },
+    "archived_sampling_bounds": {
+      "lower": [
+        -3.0,
+        -7.5,
+        -3.0
+      ],
+      "upper": [
+        1.5,
+        1.5,
+        1.5
+      ]
+    },
+    "bounds": {
+      "interval_forward_invariant": true,
+      "interval_image_lower": [
+        -5.933098113626447,
+        -6.435000000000007,
+        -6.435000000000007
+      ],
+      "interval_image_upper": [
+        1.648330917363235,
+        1.0319852224236055,
+        1.4118549665791438
+      ],
+      "lower": [
+        -5.94,
+        -6.5,
+        -6.5
+      ],
+      "name": "trapping",
+      "outside_images": "none under the interval enclosure",
+      "upper": [
+        1.65,
+        1.04,
+        1.43
+      ]
+    },
+    "config": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/configs/ives_myvatn.yaml",
+    "config_experiment_name": "ives_myvatn",
+    "coordinate_system": "log10(midge, algae, detritus)",
+    "name": "IvesModel",
+    "parameters": {
+      "c": 3.67282300498085e-07,
+      "coordinate_mode": "log",
+      "d": 0.5517,
+      "p": 0.06659,
+      "q": 0.9026,
+      "r1": 3.873,
+      "r2": 11.746
+    }
+  }
+}

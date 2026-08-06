@@ -1,0 +1,21 @@
+Lower bounds: [-0.6652097702026367, -0.17305968701839447]
+Upper bounds: [1.2135165929794312, 1.706246018409729]
+subdiv_init: 17
+subdiv_min: 17
+subdiv_max: 18
+subdiv_limit: 10000
+bounds_epsilon_frac: 0.01
+padding: True
+box_map_backend: adaptive_precomputed
+bounds_data_role: train_pairs
+bounds_grid_resolution: 64
+bounds_include_latent_image: False
+bounds_clip_lower: None
+bounds_clip_upper: None
+adaptive_precompute_subdiv: init
+precompute_batch_points: auto
+compute_roa: False
+roa_max_vertices: 50000000
+collapse_roa_to_lca: True
+bounds_source: config
+duration_minutes: 0.0092

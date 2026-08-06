@@ -1,0 +1,1970 @@
+{
+  "clone_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1",
+  "comparison": "relative paths, sizes, and SHA-256 hashes match exactly",
+  "created_at_utc": "2026-08-06T15:50:56.286898+00:00",
+  "file_count": 392,
+  "files": [
+    {
+      "relative_path": "dataset_2158/scalers/train/scaler.gz",
+      "sha256": "234d134a625d14498dcb2b1d99793577af0b4e5c864bdf5ec8930a2b2a7065f5",
+      "size_bytes": 563
+    },
+    {
+      "relative_path": "dataset_2158/scalers/train/scaler_metadata.json",
+      "sha256": "15d40682f7f9129735de13ede451d2ff9d40b187d20d64e4e899ee33f6ba71e0",
+      "size_bytes": 363
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_graph",
+      "sha256": "d61dccbaed5675831850ef266660fc5be314f3211b3c5026ad3e4d6b781a8a8e",
+      "size_bytes": 488
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_graph.pdf",
+      "sha256": "84de8661214b1029544ebd27b9f6a9b30d55063a65d291b94bcb5d3813c5fe4c",
+      "size_bytes": 12585
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_graph.png",
+      "sha256": "6bfdf9c8a1a90efef4a2b3d06a4d62562cb51c9a231dbaa64a98c586f6bc9844",
+      "size_bytes": 21998
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_sets",
+      "sha256": "2ee4a620de9b65bebee8d6385aae28c1a07d063a14b0e25059ece38dcdc0a3eb",
+      "size_bytes": 1195089
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_sets.pdf",
+      "sha256": "239f340119f5987333c5288c954b2df2145d21f149d8b5f2fea2b026411f83c6",
+      "size_bytes": 9174
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/MG/morse_sets.png",
+      "sha256": "26f49ccd1b2406fe2abc80f7904a4bd8f1cf85554bf8fd2979d8e77d8dd9ee74",
+      "size_bytes": 15711
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "c4ef35706e25bfb927f9eb98974a77ff298e303c819a5c996c7c2fc06ff1896a",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/diagnose.json",
+      "sha256": "3d8937e7eaf66513ace1512a989e87012c0b7df20ad811f0d758317724f5bfcd",
+      "size_bytes": 947
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/figures/latent_map_one_step.png",
+      "sha256": "f29ec7f7e4a591effb8e68b734044dd7827881e2a36e3a3d92c9728e7ccd0df0",
+      "size_bytes": 114024
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/figures/latent_pointcloud.png",
+      "sha256": "c5224f0beaed52c9167af2f652aa184c2d3f70d2d3ed6cb6132027bf15b9a819",
+      "size_bytes": 79253
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/final_losses.txt",
+      "sha256": "0ae408066ee3d04574918012824e386ee4d484eea8bebe55d0085c54ae1bdfd3",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/logs/history.json",
+      "sha256": "e40f9ef5cda078c2c125b4553bf8179f64d0b4d9d3ed53ea44d95edd0805acae",
+      "size_bytes": 2491504
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/metrics.json",
+      "sha256": "ec1b386984ed3779346c76f0f7831a3f4124a8823f298de1a1031a17d04f7bff",
+      "size_bytes": 674
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/mg_params_log.txt",
+      "sha256": "ea6fea8ce296200b8dd2384abe3d9e1efe885d51dc36171bb07230f7841aa5f3",
+      "size_bytes": 479
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/models/autoencoder.pt",
+      "sha256": "ea385ab98462979d374015b429583e758431853cedf0123004701737d8f87d4a",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/run_manifest.json",
+      "sha256": "6c4d9c4f4491ca846a05807d60a08ca16147c9ac7f823b74ee79c076204d2527",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "a01de9ecd3e203160809b6f1eb48e7814156c5610b99615ecd0380645e206029",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "3c5bca601830bac7d3371f3b3d615425d53f515dd1efa51577e3b6616ee7ca36",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "c4ef35706e25bfb927f9eb98974a77ff298e303c819a5c996c7c2fc06ff1896a",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_0/training_summary.json",
+      "sha256": "10db9cf2e6bb9fda870a54477fa38eda0b512c1dda02ca1221581f510fec9c76",
+      "size_bytes": 10673
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_graph",
+      "sha256": "a81ae1f56bf38e03f865521dff42c6973b8f8bc4838ed1a5ccf7a28185a4c5bc",
+      "size_bytes": 494
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_graph.pdf",
+      "sha256": "bdc4d4791228b6043c6ce07d0c6fc8cb2d491983d37102dbc9741eee6344596a",
+      "size_bytes": 12750
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_graph.png",
+      "sha256": "1d1bc8e18e1c23e538d6e9ee32e32a370491c168b5c728ca95b04ba27dbd867e",
+      "size_bytes": 21936
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_sets",
+      "sha256": "088fc4da537ae27250fed26c76ca268c1ecd3db2448ca1b7ebbc2800589a5a72",
+      "size_bytes": 447271
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_sets.pdf",
+      "sha256": "04451df5f7689699547c1306a522847cad4a34bd01232fdd24ff3956eea91806",
+      "size_bytes": 9157
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/MG/morse_sets.png",
+      "sha256": "dfb196ebf6635175a64b865c6f83596fcbd222abf5df750028b8e4b147c40f62",
+      "size_bytes": 15701
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "30aa5a1d9d857580d684c970c9f4f112ce14c32616f98a02c89b030b2c8da5e4",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/diagnose.json",
+      "sha256": "7fdcaa5c1523149722a47725bd5ba5ac1c238c8e7cff4657da909a1ed1ceeeb3",
+      "size_bytes": 950
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/figures/latent_map_one_step.png",
+      "sha256": "2ab0dafa58a109e7aca867b43a0e3c2de0cade6b00e45487a2f50531587885a3",
+      "size_bytes": 219805
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/figures/latent_pointcloud.png",
+      "sha256": "f933e52b254b215a41449238329ea70e6eec3ce6c558bc9864bf36bcc66f1034",
+      "size_bytes": 133201
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/final_losses.txt",
+      "sha256": "37d49fd81edd725434ada2f3ea801ebd6dc45749032ac583fc646b7a09181b20",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/logs/history.json",
+      "sha256": "faa379a45d5d05a24806f9a5d2c91efc26041d36b67007f2f0fa44f7539cf4d8",
+      "size_bytes": 2493359
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/metrics.json",
+      "sha256": "cca0bf0d63cf55f84982119d17feb3847476eb0b4ed10b5418510dbb8726cddb",
+      "size_bytes": 652
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/mg_params_log.txt",
+      "sha256": "3b702a3a151f5e8dc7c98c547edcb3537cde1b5056642ef786201e9dc8bc4a98",
+      "size_bytes": 481
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/models/autoencoder.pt",
+      "sha256": "1222bbcf1ac62bb4033f5d6e6cd95a7f95f843145ecc3b80a8fe55663c745e85",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/run_manifest.json",
+      "sha256": "bf08356c7e01fef8abad7b216ae39717c68fdd9ea589c12724c2631eeef33dad",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "ffa315e7263b725e7e300b752ac7963252f541e0ed6ec5a1af9494a05bdd4a6e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "775942e603ef50a9b3d4c048d480f03feda191e07fb0df4a9049aff4734c5e07",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "30aa5a1d9d857580d684c970c9f4f112ce14c32616f98a02c89b030b2c8da5e4",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_1/training_summary.json",
+      "sha256": "6b6f370c914e7aae32397f87fc7f6e23686d84e0e0a3489d884589e2dda3e96b",
+      "size_bytes": 10675
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_graph",
+      "sha256": "2d96bd691904300587d31a149b6e9986299476ecaf51cbc6706fbb0b2a7a84d2",
+      "size_bytes": 488
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_graph.pdf",
+      "sha256": "bf907f8e7fd8ee29981272fa8b1072922090297ee63b140f9684f27db88cb12a",
+      "size_bytes": 12585
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_graph.png",
+      "sha256": "8368aba5ba08c50dfde7c2dc4f7b8220883e0cdcae3d0add4124b20bf0eb5403",
+      "size_bytes": 21869
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_sets",
+      "sha256": "7aca52ddf9a9012c7be88419128822b037785b3dd31c4c8dc554195240b13eb0",
+      "size_bytes": 92679781
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_sets.pdf",
+      "sha256": "c3b8c914435bba342f9c3842505815fb849b11827ba039f39b676d6e0b6270cf",
+      "size_bytes": 10114
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/MG/morse_sets.png",
+      "sha256": "80c36653d0ea6c8d453896cb15cf9a6e3de56ca414cb99a678ae69d1c94320e7",
+      "size_bytes": 15710
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "853ff3e44fd86307c7da7d60c6dbbddc22237445901ed66168412b38a862f226",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/diagnose.json",
+      "sha256": "857b40021d6cc6d6ec72c1cbfc1c91956802e178aca072c576e22bcfa0a6368d",
+      "size_bytes": 951
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/figures/latent_map_one_step.png",
+      "sha256": "b224df79aa46a597ea7bfb193330b65fe8c4a743bdd5929840a436d195278608",
+      "size_bytes": 210767
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/figures/latent_pointcloud.png",
+      "sha256": "5a9f77e544268baf37fa55defed9a9443d30ffdf474218682660d4cd06d33ec6",
+      "size_bytes": 140502
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/final_losses.txt",
+      "sha256": "0913ce1ccc0ab80452a4bac8e7f4067785073a50b13fcf809991b30fa50b73fa",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/logs/history.json",
+      "sha256": "a2011031c9fc31db4cefff1f0b61b05700b91180142e0f120b09fa7563bc3a72",
+      "size_bytes": 2494889
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/metrics.json",
+      "sha256": "908b5b35ab3f419b43566beb7bb644d8a328220d4171160b76b2081ad2ced457",
+      "size_bytes": 676
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/mg_params_log.txt",
+      "sha256": "0280a2f83f094f150da55c4de0112039cc1b98105c4c56d4c94cededb6d1ece2",
+      "size_bytes": 481
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/models/autoencoder.pt",
+      "sha256": "fbc4079f7c0e76eda60a2d4071cfcebde5097932a09f55b60a9c41f235f21d5e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/run_manifest.json",
+      "sha256": "a664e7bb276cef7f6ba9d9a37859f0251c9fa8dc8446890e507e8323c28422a3",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "c9873511892d41cbd18698ddc2145bfc4cffbb82a68ea03c41f3ed5a1975c1b9",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "cf6790dd99242458a21f3191809401178fcaa8d9968efde33233f16b253df3b3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "853ff3e44fd86307c7da7d60c6dbbddc22237445901ed66168412b38a862f226",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_2158/seed_2/training_summary.json",
+      "sha256": "cd3a987d0e33e91575b76a6fc3143680e6c6ce27aff73779f1cba6960334c3b3",
+      "size_bytes": 10675
+    },
+    {
+      "relative_path": "dataset_3174/scalers/train/scaler.gz",
+      "sha256": "3a229e76d6d28e3bdf3dafb7269dca761ccd72d732cf873e9f3b1cdcaba18bfd",
+      "size_bytes": 565
+    },
+    {
+      "relative_path": "dataset_3174/scalers/train/scaler_metadata.json",
+      "sha256": "77679c8dba97695940e4e494c84adf37ff876735bd67a5f7844af7427c77c8bf",
+      "size_bytes": 363
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_graph",
+      "sha256": "3b5ade77b49e9b3180110278c7f16524ff2ba9b8d416413e4fa0c54c5a0448ff",
+      "size_bytes": 722
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_graph.pdf",
+      "sha256": "62dc9bd5d20bea9459261d08f30b28e0a620f0a707bf8ed38f91e326b81e778a",
+      "size_bytes": 13480
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_graph.png",
+      "sha256": "79b0972f105747a94eb3cc628373ed45bade1006cb9c17b3e9360370b6b7ca6e",
+      "size_bytes": 39294
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_sets",
+      "sha256": "1d1b5649a9bb21c84f1dbf48c2b0a077940b809d5ee989600617a81fda3a3e6c",
+      "size_bytes": 9782404
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_sets.pdf",
+      "sha256": "239514a42cf5494bba50a6c4b3a1f98062ff1194929e541c021a501ce22887b0",
+      "size_bytes": 10480
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/MG/morse_sets.png",
+      "sha256": "1eb72bd05630ddcb5cf12cc80cdd9ab4ecf0de78ce1a72e7622918f9fbc836f1",
+      "size_bytes": 15995
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "be2c67aee015bd2e8033a55aeb15d75912a4a9dededcb1b43b75f033c0d70c42",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/diagnose.json",
+      "sha256": "0d99f71f36cc1918b30aa722c9b358cf0ad0b94c24f1bfb05e4fa955e382eaf7",
+      "size_bytes": 949
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/figures/latent_map_one_step.png",
+      "sha256": "3c1278e65c6c32874c02d74123db6f6e748d0e1e5816db8542a692e8d40d48ff",
+      "size_bytes": 91816
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/figures/latent_pointcloud.png",
+      "sha256": "204a327c03386a3cde7ebabdcd3de76275906d50202305635c70a6703100e576",
+      "size_bytes": 75172
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/final_losses.txt",
+      "sha256": "70514d0fa6d2d5cb97fb673350d17ee1ad4b8fbae7c3417a1635b505724791e1",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/logs/history.json",
+      "sha256": "098899f8e33af79df30d54208389709d02f7c43f807e7dbec383532a2c9eaab2",
+      "size_bytes": 2493707
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/metrics.json",
+      "sha256": "e0e5b7ffc2f98a9bfd2df74d61759f98abbdcfb0292a703b37797236518cb234",
+      "size_bytes": 869
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/mg_params_log.txt",
+      "sha256": "d5ff1bbf95e18ae5485a5d6227a12b06d3c3790f204bb77e2822858db1d18fa7",
+      "size_bytes": 480
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/models/autoencoder.pt",
+      "sha256": "e256f533b12f4abf236c1584bec0c98ff6cf900da7bc9c95187a0e44e0908d0b",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/run_manifest.json",
+      "sha256": "91a0dab204c97ac7dfbab88eb888d370f24da56f9f43a689595f75480d4a7b6a",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "2bc5bd822a3f4487646ea2d612e2feffbcf1f31a3712abc36abe9cde3089473c",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "1078894837e72c52f685d8fb5a8f26c772708904ad6828f2dab43004fb357761",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "be2c67aee015bd2e8033a55aeb15d75912a4a9dededcb1b43b75f033c0d70c42",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_0/training_summary.json",
+      "sha256": "b8dbae2b7334e0ba9106dd2cd252be24b0b8e975cb0df802e24462b942ead6d7",
+      "size_bytes": 10668
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_graph",
+      "sha256": "0cc548ecdb872300df54633fef824b715872376da5b991050e46b82c2cdd931e",
+      "size_bytes": 379
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_graph.pdf",
+      "sha256": "b52489463cbf15ad7367d5fe4446d237b47e59fea27281341448f6ef59e4b053",
+      "size_bytes": 12005
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_graph.png",
+      "sha256": "86a77385bb8619f1a2382a25974786c406e9be31348f10eb40d86d73a96d785e",
+      "size_bytes": 17290
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_sets",
+      "sha256": "27311254139e01917cac71aafbadda63de969f63bf503675905b4b1693f19b52",
+      "size_bytes": 4092874
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_sets.pdf",
+      "sha256": "854095f8fd5b387db8f3f520e8382b40cc5d5d7bfac7c4cb196a40175271bce6",
+      "size_bytes": 9129
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/MG/morse_sets.png",
+      "sha256": "21b619d88da0418c077233e9a53f5562b563d39fc452f4d801bf25d927269907",
+      "size_bytes": 14279
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "bd741f7572646f261af2168913ea924d2ae5ac05a8a0b474ea68e01a9bdfae7b",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/diagnose.json",
+      "sha256": "e254fe1f4ac44c9824c9ff96dc46c73a927c9678eb7a90b56649adad882275e0",
+      "size_bytes": 950
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/figures/latent_map_one_step.png",
+      "sha256": "c877aa7e5dadf611cb5eba391f69ef023a0df0446a24ea262f835035aa8cea47",
+      "size_bytes": 168609
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/figures/latent_pointcloud.png",
+      "sha256": "713afdc47d8b7a389bb290b3fc6568fcc4bfdf94d024fa5f76712119c12047e6",
+      "size_bytes": 134714
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/final_losses.txt",
+      "sha256": "298e40a2d287105ec4ec53779afa71ec6ac87e9ae9bf66ef90b43ea44c7715d2",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/logs/history.json",
+      "sha256": "b6eb4e79b34a94bbeefd77b0ff4c244973b98ba1b276ea52c1d1de963cf4442a",
+      "size_bytes": 2514445
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/metrics.json",
+      "sha256": "216839c271ce656c515e159a3c2930d70659b0b677cf7cc2dd4016d5bc992596",
+      "size_bytes": 674
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/mg_params_log.txt",
+      "sha256": "57b3418142871f6b4518462bfe14681f0e17906b79a68301d83068e077ef3b31",
+      "size_bytes": 481
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/models/autoencoder.pt",
+      "sha256": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/run_manifest.json",
+      "sha256": "f92204ef58a4a4fde3dc415cd9c503785757ccf10782a8cdf05973ca48464a0a",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "12f74ef0974d0e40ede8d1e51d01f6a11aed8856d579d638a3c6789399816472",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "bbac680c015251bfdffae536a75a01646cffeb226bf4dce3a4298fcef36c4fda",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "bd741f7572646f261af2168913ea924d2ae5ac05a8a0b474ea68e01a9bdfae7b",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_1/training_summary.json",
+      "sha256": "f2bfeeaedeb5ed8b11da20afacc83020fb49a049d455b3a33e1bf33f7090b869",
+      "size_bytes": 10675
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_graph",
+      "sha256": "0e57cbad48e3c071175d33293c667b2b85dd54fdc14b8cf6d6ce508c4b2bd2a2",
+      "size_bytes": 379
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_graph.pdf",
+      "sha256": "2fed0f9f6f1df817e63d4b76bb7a02f7d20270d8359a280c6c8f0c7d1fc23807",
+      "size_bytes": 12026
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_graph.png",
+      "sha256": "8aa681dab58e317901d65d67d96f4106eadb5519b912ab66a166aab62558fb8c",
+      "size_bytes": 17221
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_sets",
+      "sha256": "9996412ae3296c19d858755cd4a01ce309b0b264fbd807ae5aa51ebf15ad469d",
+      "size_bytes": 635808
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_sets.pdf",
+      "sha256": "440fa08d5744c4407e907d23fbeb50adbb258c2434fed1f5ebf8d5b4f6d9bcbd",
+      "size_bytes": 9469
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/MG/morse_sets.png",
+      "sha256": "3b0cb41343089969c9b9f1c58d90a3666779f608ac7fcff21228107709684496",
+      "size_bytes": 19198
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "1dbcb3c77cd36f8d408a86754fc06313d8d050f4b1e057a69cfc0a23581b3afe",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/diagnose.json",
+      "sha256": "2eec7343197e5bcf3acc17e9406716bd94b8333239396d3fdb9547b87c976371",
+      "size_bytes": 953
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/figures/latent_map_one_step.png",
+      "sha256": "7a2fabff9ea2df99fa2561b3950cb2d1fc4a51e93968656c3eeb407dbfc15376",
+      "size_bytes": 99480
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/figures/latent_pointcloud.png",
+      "sha256": "91180c60efc4b79d2fcb8d602f8b0be505a7f701465085371548d37ccf9d6097",
+      "size_bytes": 67167
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/final_losses.txt",
+      "sha256": "0fe6237b7e14752f13007bd6a618be3f47ff4c757e6baa1db74189acac57bbfd",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/logs/history.json",
+      "sha256": "15b2de733b52ca89a9b30daab40a08ac1c5c06bd089f53f0cd547cfcc27a006f",
+      "size_bytes": 2495699
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/metrics.json",
+      "sha256": "f30a80e8067410e6f3001294526eb448c54a887af9ca2d6cea4d5c08b39d32d6",
+      "size_bytes": 671
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/mg_params_log.txt",
+      "sha256": "dd84bd591dfaa790457b3aea7307387113fa2c8e8e72d3beb300bab754446f8c",
+      "size_bytes": 481
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/models/autoencoder.pt",
+      "sha256": "aebf517a831e3f729f0b24ee284dcadfa28b4cdb2f7f96cab224437e23b20a42",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/run_manifest.json",
+      "sha256": "c45f80cc90a770ddff7ce2940c1ce32bf22d4fe139de6c879575e8a7689c85fd",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "cdcd7ab75806c62e19e42c18de43f04917de944084316475f26df8c8ce14ef45",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "1e1a6633fa9cc8e651b07d64f24f01169c069e8c65d4a00c6697002234ec98f4",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "1dbcb3c77cd36f8d408a86754fc06313d8d050f4b1e057a69cfc0a23581b3afe",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_3174/seed_2/training_summary.json",
+      "sha256": "cf1a0c513feb28b3c80704d83d2e7dc120ede03c4431a3e0cefb8ab141be3584",
+      "size_bytes": 10668
+    },
+    {
+      "relative_path": "dataset_4792/scalers/train/scaler.gz",
+      "sha256": "fd86eba92df153954601bbf0e6d738db701040869c0bf5bc6b94b6dd5864902d",
+      "size_bytes": 561
+    },
+    {
+      "relative_path": "dataset_4792/scalers/train/scaler_metadata.json",
+      "sha256": "70ac1abe4430740e5b1394ad5ee594932a43cc6aa520bad8919badc4ceddc49d",
+      "size_bytes": 363
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_graph",
+      "sha256": "89f93eb77cb34d9d1ba94d317d6da1825abc56120c51fdb24e75725b43c1201d",
+      "size_bytes": 607
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_graph.pdf",
+      "sha256": "95cf5b890bd63ad4316b481d3b4d3cbb1aeb285607f8eda3db4f2b27f009362a",
+      "size_bytes": 12716
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_graph.png",
+      "sha256": "12f42fcc1b3f5693a240095a47109d407d00e77b406ce674a0eed087eec43c5d",
+      "size_bytes": 30692
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_sets",
+      "sha256": "34ef0b3c1e3a9a430df6e210622a3d17affb2f420184534bee7103de30b2101c",
+      "size_bytes": 2003957
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_sets.pdf",
+      "sha256": "89d0a1e7a07ce4ab8fe04246b01012efc8d4e6d8cf588eaecae9178098ed7a52",
+      "size_bytes": 10311
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/MG/morse_sets.png",
+      "sha256": "1f7caf83344110a97a2ae05b596660402c5d4395793f994d424ac91bb8a66163",
+      "size_bytes": 15380
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "854e17be6950fd631d738b17c30d4af265e0748d12e4af6cb6fccd7c404d2288",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/diagnose.json",
+      "sha256": "7fb72fa2ae039241b9e63d99c7f4b9df04e8f4bc0f87c009bfea1e4af21c0cf6",
+      "size_bytes": 949
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/figures/latent_map_one_step.png",
+      "sha256": "86b37b1e08acc29bdf1cf0032b988180f9090708869dd0545d0d8c9dd8a126d4",
+      "size_bytes": 188312
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/figures/latent_pointcloud.png",
+      "sha256": "12fefdf1148ce6086b4ea3dd241f3313dad6e901d5bb6044d04227a9f04120e0",
+      "size_bytes": 144170
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/final_losses.txt",
+      "sha256": "c38387ca9637daf91ccf222597b54ace5c73438415965f8373256bc1dcbfd7b8",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/logs/history.json",
+      "sha256": "9dcc031f72a179eef5eed8958b9861e8c95096a31ccfc5d38e1e00bb6c954748",
+      "size_bytes": 2492148
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/metrics.json",
+      "sha256": "ec1dbbfed76ca39930b431724845f72c394d5660303cac6205eec1fce344ad63",
+      "size_bytes": 669
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/mg_params_log.txt",
+      "sha256": "12e3f77cb5d3757f93e0ac6fb16b80568e9c92b4a15e8d041b33beffecf2f388",
+      "size_bytes": 481
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/models/autoencoder.pt",
+      "sha256": "89dbe84d1f120d87b8d22e25416dca8c6641983b0dd1ce1b02beae4e863a259b",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/run_manifest.json",
+      "sha256": "d03d01ac1eeb775b7d94b2cd15b069658d1f13b8506cea3d60f27d09807e4f03",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "ceea65b7583f1d5d6d9d7a1c8e4780cbf9a158da1cfc6dd9bdf2f62f591cf316",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "328cae644216f28dcde231191774ca05afaf21afb191f13cf029b23234c2c677",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "854e17be6950fd631d738b17c30d4af265e0748d12e4af6cb6fccd7c404d2288",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_0/training_summary.json",
+      "sha256": "9868b8286281cfd2691326a380b0c78424905c17665a7f984cecce970494decd",
+      "size_bytes": 10672
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_graph",
+      "sha256": "0cc548ecdb872300df54633fef824b715872376da5b991050e46b82c2cdd931e",
+      "size_bytes": 379
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_graph.pdf",
+      "sha256": "6e83b10e9fc181411dcf5a45701b8035a955250df85622f243b2783c8d4ecb49",
+      "size_bytes": 12005
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_graph.png",
+      "sha256": "86a77385bb8619f1a2382a25974786c406e9be31348f10eb40d86d73a96d785e",
+      "size_bytes": 17290
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_sets",
+      "sha256": "7802c46964941c23823534a6f92272793fe110e9f82ba460fb932f3d3a4d1de4",
+      "size_bytes": 3835142
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_sets.pdf",
+      "sha256": "811b78c927881cce7fa2a2d354b663b388045f4e1838771bc76171df7c01229b",
+      "size_bytes": 9765
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/MG/morse_sets.png",
+      "sha256": "58d921997606bababb593c23ea42c9e4be8fe01c980327c5e568fdf1aed07bb8",
+      "size_bytes": 15084
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "7c738a6019c8555e6cfd36cc1e524938d26839cfd1538c8871a2d1355268851f",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/diagnose.json",
+      "sha256": "822dd45fc0b39445ec7f75aad83330927b29666ea0d5519fc498e7ba25f18d7b",
+      "size_bytes": 950
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/figures/latent_map_one_step.png",
+      "sha256": "df05f0fb4be4f308f65e9b1348a788205001f04a3dd452f171ddc5272c7dc66b",
+      "size_bytes": 174682
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/figures/latent_pointcloud.png",
+      "sha256": "6530ebbb51795423c86b27e9067c2d26425587444df3f780d91e5d206a660c87",
+      "size_bytes": 147759
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/final_losses.txt",
+      "sha256": "99bb6802aec016acda373a6d17edcb8fe3d8ebfe440faa2a04efeb2c97e1bfc2",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/logs/history.json",
+      "sha256": "4534314ff55f992bd2ddfed2d5243a316ba824e09abfbdf82c9b65c9a3517672",
+      "size_bytes": 2501299
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/metrics.json",
+      "sha256": "e6caefe90631e67ced3ba0bc2008d3e61d13046c9dec78b012103191cf19007c",
+      "size_bytes": 674
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/mg_params_log.txt",
+      "sha256": "3bb2bdd05ec6d929c3de03edf0424fff9ff309978b2ea719e447472ddf32d786",
+      "size_bytes": 483
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/models/autoencoder.pt",
+      "sha256": "a1dde11b49f81fd3e55310e36ecfa2ca27c922ccd10300efa1ceb69cb22afb72",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/run_manifest.json",
+      "sha256": "11b7eebff2ccc2d72b86d34011c63c41ff7b1ff61a1eb1bea2684557e100b6e2",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "3c5c3710a2427b339a23081ec4e78730b5d4be9a8cb5652e03f06064750fdb9b",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "355447f54d237d81353fac261ef2685013cf18cc323b623a89a45877e82239d1",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "7c738a6019c8555e6cfd36cc1e524938d26839cfd1538c8871a2d1355268851f",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_1/training_summary.json",
+      "sha256": "b6b1f3b04e17a1fd07fa861d920bfe6308306b35749965c1e0390c59adb2fb96",
+      "size_bytes": 10684
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_graph",
+      "sha256": "95b679d2118c56b27e21badd19848b26eb815504175d446f237aa4b81c033154",
+      "size_bytes": 494
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_graph.pdf",
+      "sha256": "8ba554b63971c351f20d4a6a2c6d0084921c37b139f2864f7196b810eeea6b5d",
+      "size_bytes": 12579
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_graph.png",
+      "sha256": "ab68f1b9bc681c485a66256744bfde4fca29c1986941132c92cb890b30e39e9e",
+      "size_bytes": 22100
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_sets",
+      "sha256": "a0d2cf5ce28dabe7671d25b1da6cbf786981447bf5d2cbb418b6b63d41c3a3f9",
+      "size_bytes": 52151118
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_sets.pdf",
+      "sha256": "be3798df3da078188f315b0e59b90e9c20870e6f54b2190df84deed0c14e9c62",
+      "size_bytes": 12789
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/MG/morse_sets.png",
+      "sha256": "508e9d1f1159ede0dc68bddb0c328c50cbe32debb9b20554f24cd7130a0d9a09",
+      "size_bytes": 17030
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "f39a5891ed8134970775be7f7b5049ed4d3c522d5f1a51bd3db274498d19d042",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/diagnose.json",
+      "sha256": "f40ff44c08db63ceab717a1b82fa948979864b5c4906222029f6100c58aa6130",
+      "size_bytes": 945
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/figures/latent_map_one_step.png",
+      "sha256": "79bd8ae18b3d6a4cbc4b380569179a36c650155c5481c116415dbdb3b76cf149",
+      "size_bytes": 136520
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/figures/latent_pointcloud.png",
+      "sha256": "e974d95cf69181d4b0fe3221ef1d79ea11cec4c3589fc6898adffcca731ea466",
+      "size_bytes": 89929
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/final_losses.txt",
+      "sha256": "32b74c205ff5473904851925f4a1f1a4e2bdfb66019c854d654192e20f3cb56e",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/logs/history.json",
+      "sha256": "0fc573b78f8eb08d03ec603fc683ef9498082b7b1f247301f5ae8a0a7f84e581",
+      "size_bytes": 2490705
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/metrics.json",
+      "sha256": "2762bc998bb733bf76e31a9a586c2b27d39abd003eb450234dcb2c1f3ff09339",
+      "size_bytes": 659
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/mg_params_log.txt",
+      "sha256": "bba7423da3900ca64e94118413165adb27596d12ad6891b9ceaf98e8ea5a2e32",
+      "size_bytes": 480
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/models/autoencoder.pt",
+      "sha256": "cf9a4239968744bfb1021db7146afaef2d4669059d49d2924daf3ecf45d5b40a",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/run_manifest.json",
+      "sha256": "66da1d4a31b7bc7a1dffc42dfee9edcdfe06e042e2dc3d91a4d5343298daf745",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "708920ecb6b168439b179735d059828e1f06aca2a14dacaed0c7ef71c15a6778",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "9659b931b825d0a95fa59d447fea6aae378f1596278091cb064716eb2c0ebc49",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "f39a5891ed8134970775be7f7b5049ed4d3c522d5f1a51bd3db274498d19d042",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_4792/seed_2/training_summary.json",
+      "sha256": "3a2564c0d9ac9d3a2e9004acd8a934035a6f7bf2edb3e61b6df7cbd5e4c5b76d",
+      "size_bytes": 10660
+    },
+    {
+      "relative_path": "dataset_5727/scalers/train/scaler.gz",
+      "sha256": "9660c360a3ec2b6789be36d003f3cb0fdd161ebd5a177c1a4baf4138bf61892d",
+      "size_bytes": 566
+    },
+    {
+      "relative_path": "dataset_5727/scalers/train/scaler_metadata.json",
+      "sha256": "c4cca9892eea5719a003eb0aaa94d3d6a2aa873ce57495129881a345181623d3",
+      "size_bytes": 363
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_graph",
+      "sha256": "eb75637cfc03a4a0c7e5cca4074e85ed58bc7f3ae7bafe9a4a2f4ce4f1da69df",
+      "size_bytes": 607
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_graph.pdf",
+      "sha256": "5bd17338478b0ee2d59200a423b421fde8221775203bc6fbafc3d3ff9203750f",
+      "size_bytes": 12918
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_graph.png",
+      "sha256": "418ebfe4d44d27e9da69d7924cf2810d487c4bcd83c3b0ee9c62db6e0b264ab9",
+      "size_bytes": 30995
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_sets",
+      "sha256": "97fde31f10eb9b4e4a71a4fd6601480c26242f9fbab5e4313ae7939c760a7bdc",
+      "size_bytes": 948242
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_sets.pdf",
+      "sha256": "0f45618f480883efc9897a5a11cbd1583a50a28307d32beb0c6bce3ed32fa305",
+      "size_bytes": 9938
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/MG/morse_sets.png",
+      "sha256": "c94b43ac32f0f0c5e63cc64b8f967429cf3da34d9e3bd843be49017121ba6681",
+      "size_bytes": 17921
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "5dfd43057d21f285a523902eb952f0347e0744a76d9b4a7b4ae017e7790bac3d",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/diagnose.json",
+      "sha256": "6e9cfb0bb4478e097ecbf3212562b5cae1e43085d4e0a1afed32909bacc2fb37",
+      "size_bytes": 945
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/figures/latent_map_one_step.png",
+      "sha256": "63b151d39190c4f60cc71db32c543d4cfee0824c8872915a17271f0cb92e5971",
+      "size_bytes": 204491
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/figures/latent_pointcloud.png",
+      "sha256": "4144440f7ea18ae90efc2a2a072911db876f3a3f2804ed15448d8bb07ebf8e85",
+      "size_bytes": 103643
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/final_losses.txt",
+      "sha256": "98c8759fb2cf62204c1c2d1f1ad38505733dae5ed3e4c216f7820cc87d8dedda",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/logs/history.json",
+      "sha256": "40846b5e6594dfd8b4b207befae7d50b45ba81f9879f9ce23974d9f56da8bb1f",
+      "size_bytes": 2491442
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/metrics.json",
+      "sha256": "95fb5a4b55fcb707dbfe6cfadf4ee1c63aafff8fef63943579eb25e6fcc4d18d",
+      "size_bytes": 654
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/mg_params_log.txt",
+      "sha256": "33e65a284ab40d6fb7bf81f39ef03cfea82f725030fb1713c97bdb8e2a81337a",
+      "size_bytes": 480
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/models/autoencoder.pt",
+      "sha256": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/run_manifest.json",
+      "sha256": "7fced962ad27bdac97858696c4ffcf3000ecd00b626b8672736dc4f3875d9146",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "8ccf858ea1635f38cb76ccb29e4095b4a9631007f0fc79880c77b1e58db0d777",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "497af269e09ca2496a798bcf3c4f7bea0c81ecf473e39ede08c448b08e99d0e5",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "5dfd43057d21f285a523902eb952f0347e0744a76d9b4a7b4ae017e7790bac3d",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_0/training_summary.json",
+      "sha256": "79a80bc5a753a7cd9d3d9839a6bba08c93f0dd55c0ada0bfda013e7bb0d9ca34",
+      "size_bytes": 10670
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_graph",
+      "sha256": "0e57cbad48e3c071175d33293c667b2b85dd54fdc14b8cf6d6ce508c4b2bd2a2",
+      "size_bytes": 379
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_graph.pdf",
+      "sha256": "7ad6872045172e001066fabf6030650e85c2af844dc6bdc3b105196eb6bcd3d4",
+      "size_bytes": 12026
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_graph.png",
+      "sha256": "8aa681dab58e317901d65d67d96f4106eadb5519b912ab66a166aab62558fb8c",
+      "size_bytes": 17221
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_sets",
+      "sha256": "1272f7b8cfdb90cb0574a41fecd5f38fbd173148259484a1b76b2de42f8e9d55",
+      "size_bytes": 506098
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_sets.pdf",
+      "sha256": "2822e200c7c421699821c3787f195e45b701b2c35b80da5107f3b29ede5723e6",
+      "size_bytes": 9823
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/MG/morse_sets.png",
+      "sha256": "3627099a358df849bfc1b126ab57f416f96bd42e6b73f4ee66dbd95fcbc11aeb",
+      "size_bytes": 14884
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "19373584fe8d4f281ba9dbc7aeae783856c0407ad6f4e837363e555930974572",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/diagnose.json",
+      "sha256": "c4d89d527e6e04a526b4252902c19aaae1be554c8f48061129b1d9e8d3feee45",
+      "size_bytes": 949
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/figures/latent_map_one_step.png",
+      "sha256": "8e5ee4a604170e84b41c485124d7225a5d9f585bc2b566a59dbcac39474b742e",
+      "size_bytes": 138637
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/figures/latent_pointcloud.png",
+      "sha256": "182e82113ab2b04bdfa9d107e541a3ba5b768312673a3adb19ee4c0379196946",
+      "size_bytes": 100514
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/final_losses.txt",
+      "sha256": "8dadecb3b8df1ef7326eecfb22c857b1170a9de8af38e512fcba720a284f4f77",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/logs/history.json",
+      "sha256": "f0316b9d2326590ef5c05c681877a379d936404d8f11b6076fe7aab9f0206218",
+      "size_bytes": 2507201
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/metrics.json",
+      "sha256": "da600ad11fed79fb69e33f92589cd6ec8e9fc50ce54bcf7985ff32c8c3088be8",
+      "size_bytes": 672
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/mg_params_log.txt",
+      "sha256": "4e24b6539d852769a5a736ceb200c7a5018ce0d1c8c0026a5d09fcc1d8510054",
+      "size_bytes": 480
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/models/autoencoder.pt",
+      "sha256": "440fdef1d0a788630dfa0dd13872b4ba6e80ef4e335411b1bd901428b78a95af",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/run_manifest.json",
+      "sha256": "f20d80d304eac9cf4e87e6769b94e7f26d5fe77b6042085000fd090bf8d5c209",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "b1e61702ca548b8df0c622f57479a6bddc3488fad16b7066bd38b9d68b9154a3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "ed168e236b739e777124076686ddab4de9b0a3178ecee87085a267b52ee1b8bd",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "19373584fe8d4f281ba9dbc7aeae783856c0407ad6f4e837363e555930974572",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_1/training_summary.json",
+      "sha256": "577010787ab68fa5d6fd277475c8d5751f85c085e3e11fab7e1f09ae3db5d32c",
+      "size_bytes": 10672
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_graph",
+      "sha256": "0e57cbad48e3c071175d33293c667b2b85dd54fdc14b8cf6d6ce508c4b2bd2a2",
+      "size_bytes": 379
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_graph.pdf",
+      "sha256": "7ad6872045172e001066fabf6030650e85c2af844dc6bdc3b105196eb6bcd3d4",
+      "size_bytes": 12026
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_graph.png",
+      "sha256": "8aa681dab58e317901d65d67d96f4106eadb5519b912ab66a166aab62558fb8c",
+      "size_bytes": 17221
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_sets",
+      "sha256": "8ff09d0827a11b4d28c084dd9ef9c8c6997d853a96b36f0731d66d59cb75b316",
+      "size_bytes": 854117
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_sets.pdf",
+      "sha256": "fc32308af5a3f6c243c9062367f80803f104a87c6d503959585bfd868dd25220",
+      "size_bytes": 9664
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/MG/morse_sets.png",
+      "sha256": "7b9365e313d60f42b4c76068bec0ec19964ded84571966bec44938856c8f14da",
+      "size_bytes": 16183
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "0ee70c170e29875fe45dabacb0111b186a437406cd2411a8c3881665ba345b9e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/diagnose.json",
+      "sha256": "c71f890149c4fe4ea830f1c428c44b019eadb7e85f8ca61a89bc089258942d49",
+      "size_bytes": 948
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/figures/latent_map_one_step.png",
+      "sha256": "cc81f46b783adc21e81ca3e26f1cb77baac353e318f1897d6f0a69ff5d49ee3b",
+      "size_bytes": 214901
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/figures/latent_pointcloud.png",
+      "sha256": "394d814db491dbdd4e39ac309460d7a014471ebfbe0a7e2c7e2f9e0d3a776f72",
+      "size_bytes": 132249
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/final_losses.txt",
+      "sha256": "9890fa11a32c959720705e2f4d5e6250c58e58622e3d817a3412282a0e576dd1",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/logs/history.json",
+      "sha256": "3991d7d8da797d1d7d9cec79152b7ae477b2c88d274b649370f7437fc0fa0082",
+      "size_bytes": 2489723
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/metrics.json",
+      "sha256": "59d1dfce7ea9eb68266109f7b45bc30e569476f14d4879e50bc63d0cd21a9639",
+      "size_bytes": 670
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/mg_params_log.txt",
+      "sha256": "3f1dcf8917c3592dda5a374cc0de7989b73d811f8a5a9ea4d00f1747e4fe4f20",
+      "size_bytes": 482
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/models/autoencoder.pt",
+      "sha256": "26a6eea48c348f5a89b2bc9da220bf4a09027a87adb0a158a246890ebcefc28e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/run_manifest.json",
+      "sha256": "2f9f62d50af3bda61356dc93357ac87f848e2915157d2dd31c6d72b2face03d7",
+      "size_bytes": 6744
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "d3d13f4f9bdbf0ff8782edd35ad5ef92c65f0fe8e79eaf071c72d1bb47515f17",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "3c21e6d41919904ef49e9e7d92cbb267c150759afd91fc91df31ccee580e5580",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "0ee70c170e29875fe45dabacb0111b186a437406cd2411a8c3881665ba345b9e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_5727/seed_2/training_summary.json",
+      "sha256": "210b3a502df65c3f59e870e9ee7324773298a4dcf5028fa6f4b88b29840a20a8",
+      "size_bytes": 10676
+    },
+    {
+      "relative_path": "dataset_688/scalers/train/scaler.gz",
+      "sha256": "163c227a0a46bb5189b7833b7bd7c7fb1efb56c4082ad991dde19b90103a34e4",
+      "size_bytes": 565
+    },
+    {
+      "relative_path": "dataset_688/scalers/train/scaler_metadata.json",
+      "sha256": "db8661ea67fc9f815971f43d65dcc4a3d11b4025e5490c01ae18402ed83c5aa8",
+      "size_bytes": 362
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_graph",
+      "sha256": "0c886625cf4e1e350809fa256e46b04928ba3567bbf5f0eb23b384bbc28f1dbb",
+      "size_bytes": 264
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_graph.pdf",
+      "sha256": "08f3587cad9cc89914d59dedf05f500151f4132b06c8e2f181a9295da627eb9e",
+      "size_bytes": 11436
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_graph.png",
+      "sha256": "4e42f0e73325a39a74792edb20049d3a3b1a692312940cbc02a2546d73773569",
+      "size_bytes": 10131
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_sets",
+      "sha256": "3ad1556fb8b96f9df6c1c02b7eb714f24f268473b59e0f235664ca2a228e6da8",
+      "size_bytes": 111432344
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_sets.pdf",
+      "sha256": "f85b3c47c5f95e8d96cf1c838f898adb16bafc3ab5f3963875394232c2002748",
+      "size_bytes": 11400
+    },
+    {
+      "relative_path": "dataset_688/seed_0/MG/morse_sets.png",
+      "sha256": "5b9f039d4f1f23d0d3ad6ca35ddd6ddf2ccafb79f089a74e151e2f0539eb0725",
+      "size_bytes": 18001
+    },
+    {
+      "relative_path": "dataset_688/seed_0/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_0/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "a6a6e5caa35e5c074fe9021966b2066038ba5060304fc02a4fae78ad81093fc3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_0/diagnose.json",
+      "sha256": "c4e514684c4025e458abd0f8d8b1ef3fed08720939c4acbe1e5fff59b61725aa",
+      "size_bytes": 951
+    },
+    {
+      "relative_path": "dataset_688/seed_0/figures/latent_map_one_step.png",
+      "sha256": "1d11423b5017c11df506b7b797ef26f4de01427e5e4bbae7e4500fd0a89cd14a",
+      "size_bytes": 191340
+    },
+    {
+      "relative_path": "dataset_688/seed_0/figures/latent_pointcloud.png",
+      "sha256": "1db738c9b2870b1a2e6f704327834440e98ca5266d0fb53272f7f0ff10394101",
+      "size_bytes": 122512
+    },
+    {
+      "relative_path": "dataset_688/seed_0/final_losses.txt",
+      "sha256": "26cb2bf89d5ff667cfc61774784ade6f8db27861d5f8d20cb4368918d57ab0df",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_688/seed_0/logs/history.json",
+      "sha256": "34e346408edb20eacf4a8b895dc451490f9f0a46aaefdebce7e448f6f69cd374",
+      "size_bytes": 2492861
+    },
+    {
+      "relative_path": "dataset_688/seed_0/metrics.json",
+      "sha256": "602e638741217292513ae02d6fcb3e72889361dc29d6bb5af1d8e21460515fcc",
+      "size_bytes": 459
+    },
+    {
+      "relative_path": "dataset_688/seed_0/mg_params_log.txt",
+      "sha256": "cb3957625fbab267ed66c51da333505868d5255641f8878ebd4dc2818941e24c",
+      "size_bytes": 482
+    },
+    {
+      "relative_path": "dataset_688/seed_0/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_0/models/autoencoder.pt",
+      "sha256": "cb064299e885101be8b0f2d2bed3f6865975ab8b14f71a46217c3e3819a629c5",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_0/run_manifest.json",
+      "sha256": "a262f52f3da64514f0f5aa4cd2031f8fac5e2b30968fb60c0a9ba321e647afbf",
+      "size_bytes": 6734
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "18e0fc849148191cc05aabb97c6ffb70886870598410edba3d988989cd63772d",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "4dac8a0c6e1fc03498c8e8cdc6c5b70506a690302069f10210be8a4562e0ffd5",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_0/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "a6a6e5caa35e5c074fe9021966b2066038ba5060304fc02a4fae78ad81093fc3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_0/training_summary.json",
+      "sha256": "0a3bcf1f6db364ec87e3c8f352913bfb3caebd272aa31791d43547d9c95de69f",
+      "size_bytes": 10681
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_graph",
+      "sha256": "dfca6b6c3c70daad3dcc1260495de0f563b92dab634332d592c73270bd15af5f",
+      "size_bytes": 494
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_graph.pdf",
+      "sha256": "5d95cf638613b69e3ce97cb2ea1d3fa95e7f4e410154d06cee5cb9ffe09d7577",
+      "size_bytes": 12866
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_graph.png",
+      "sha256": "7e22dc2c933fe97ad730e5b467e1b0c32a52b3a6836213de9a9b755dd178419d",
+      "size_bytes": 24110
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_sets",
+      "sha256": "566964c333fea95394e54c85a49fc5d1ba43c4f805b3d426109de68a973d19a5",
+      "size_bytes": 5448551
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_sets.pdf",
+      "sha256": "8fcdb6cd5a78d9f3e4182c46c867cc581a105de820c12ab5f30b4b3cc4e71495",
+      "size_bytes": 10252
+    },
+    {
+      "relative_path": "dataset_688/seed_1/MG/morse_sets.png",
+      "sha256": "256393c96d66d580fd7ccf03ecaec67ffd3a5d13eb16b8a734ecc01e8cac71fa",
+      "size_bytes": 16314
+    },
+    {
+      "relative_path": "dataset_688/seed_1/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_1/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "f08102e93a74ba1f54581d9e24e29c063524d1c98bd7d6dbaae71365759541c3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_1/diagnose.json",
+      "sha256": "46e3aa72c498caebeb9621de433daaf5ba0cfdc31462f0453c3c617f17da91a7",
+      "size_bytes": 950
+    },
+    {
+      "relative_path": "dataset_688/seed_1/figures/latent_map_one_step.png",
+      "sha256": "5e9b25322280ef29d0b6e538eafe66bc58fb105d92b4e28c349120b077f21c81",
+      "size_bytes": 187600
+    },
+    {
+      "relative_path": "dataset_688/seed_1/figures/latent_pointcloud.png",
+      "sha256": "24f1f89a799e6cc7050e754eae8b2a6dc2cf1cd317a5647ad2f44c8f2262ee0e",
+      "size_bytes": 99550
+    },
+    {
+      "relative_path": "dataset_688/seed_1/final_losses.txt",
+      "sha256": "de9ff79d41dbbf6325bcd4834d227092c3fdec733e627d4720e809b216a3bbcd",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_688/seed_1/logs/history.json",
+      "sha256": "6561b15daf8e2d74412ff8544544bc15e51f48cb572da78bbb09b7d6e0446c25",
+      "size_bytes": 2489668
+    },
+    {
+      "relative_path": "dataset_688/seed_1/metrics.json",
+      "sha256": "1a279e5c762b6e1d88b16bcf6f87a8ab6ad3561a9fb1c5263c280dc3c1a46bfb",
+      "size_bytes": 439
+    },
+    {
+      "relative_path": "dataset_688/seed_1/mg_params_log.txt",
+      "sha256": "2c92679cefd4dd91a0727a28e200cb1ddc97b459e6b92b7916c761a1854f0497",
+      "size_bytes": 482
+    },
+    {
+      "relative_path": "dataset_688/seed_1/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_1/models/autoencoder.pt",
+      "sha256": "7ba1754d2df57e3ce381467d23c6b26dbe6e226da625b6600cced7d0b16af1dd",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_1/run_manifest.json",
+      "sha256": "afd1829d89d2c8d178207cf9344ca7cc76a8239fbdbd9a8ab74bb3706e723c1e",
+      "size_bytes": 6734
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "4b4886431c644db55e16f150562ef174f7e293b477a7c3c415a71e442ddcb1ba",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "d47d74dce7ebaf3ac4bb458e617d586618d515ba8af8edd5156ba96b694d6c0e",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_1/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "f08102e93a74ba1f54581d9e24e29c063524d1c98bd7d6dbaae71365759541c3",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_1/training_summary.json",
+      "sha256": "07e1cfb007984b3dc1079d364665831329e2b78e2ca68fb6d5e4461a2243baa3",
+      "size_bytes": 10652
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_graph",
+      "sha256": "86f07e4dccc1253349b556f6c77021e1128e9387f8f8ae4bb7f64d005498c019",
+      "size_bytes": 486
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_graph.pdf",
+      "sha256": "0ab810c60e9b8ff3199bd1e6a09ef7e2502785606f9d063662ca6e5509800f6b",
+      "size_bytes": 12702
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_graph.png",
+      "sha256": "07ed0c2b3d4e8904d2f7836caac3acde94077c3d4b310cd289b6599e6795d8d4",
+      "size_bytes": 20722
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_sets",
+      "sha256": "123fceff1aa60a70e5eaa582c110ac00d923ee99bf796c18652d2b7b892b5d11",
+      "size_bytes": 142250
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_sets.pdf",
+      "sha256": "ff23043cf563240ba172d8a4c2b761ddd23ec9cabd3d1659875bbe6adffaa236",
+      "size_bytes": 9601
+    },
+    {
+      "relative_path": "dataset_688/seed_2/MG/morse_sets.png",
+      "sha256": "2dea0b665b5b7a4e74e57c1e99e125e66196ba0f0198da7fbca66429ea556ab4",
+      "size_bytes": 16260
+    },
+    {
+      "relative_path": "dataset_688/seed_2/adamw_endpoint/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_2/adamw_endpoint/models/autoencoder.pt",
+      "sha256": "9da618fc331e3c2fa899bcd7714bbcac0871214adc54256fdba60366a13b28bd",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_2/diagnose.json",
+      "sha256": "b88005faa6ee949230d6cf144b329ef028f479f8bceef54f102da29ffa5834c4",
+      "size_bytes": 950
+    },
+    {
+      "relative_path": "dataset_688/seed_2/figures/latent_map_one_step.png",
+      "sha256": "e51201f911ee6351b6ec2d848e85aba17b52ad7ab201282b60594429d8051e9d",
+      "size_bytes": 134449
+    },
+    {
+      "relative_path": "dataset_688/seed_2/figures/latent_pointcloud.png",
+      "sha256": "5ad6ca63cf83adf2b49b069891c4c780fa85b0234f4782a1ae48d436c8a3acb0",
+      "size_bytes": 89016
+    },
+    {
+      "relative_path": "dataset_688/seed_2/final_losses.txt",
+      "sha256": "44f3eb586a7da93cc9575630c1191077fed605dc692ec8600b6637866bc01c22",
+      "size_bytes": 1047
+    },
+    {
+      "relative_path": "dataset_688/seed_2/logs/history.json",
+      "sha256": "56523ba71800ba7d594bbe00f6bacb9aa5926f36114b6176093bf140e19413d1",
+      "size_bytes": 2489420
+    },
+    {
+      "relative_path": "dataset_688/seed_2/metrics.json",
+      "sha256": "53789dde32c9c0e2c433ef71b42d0f39ad079ad4babf62a53f2d46bfbf068fc0",
+      "size_bytes": 455
+    },
+    {
+      "relative_path": "dataset_688/seed_2/mg_params_log.txt",
+      "sha256": "52c1e1a839e64f7e848c86bfb889ab153bc2cd41f62804885f47160cdb36446d",
+      "size_bytes": 482
+    },
+    {
+      "relative_path": "dataset_688/seed_2/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_2/models/autoencoder.pt",
+      "sha256": "06d3f4f154e5d88699825d04bffd11d3eb930513b4908490cec2c92c03d275ad",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_2/run_manifest.json",
+      "sha256": "767b70cdc90804a60b50bdd4c8f5575152698945acfc11d315b5cb2e96784752",
+      "size_bytes": 6734
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/01_autoencoder/models/autoencoder.pt",
+      "sha256": "c61ca03d1a6dd9cdc484a90f50257559c477a8a652ade1b3acd75d49fe26edc1",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/02_decoded_prediction/models/autoencoder.pt",
+      "sha256": "473ccce619d50a60e01cf58dfd863629e3731bdfc2e25cfe59c97bdf48713e94",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.json",
+      "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+      "size_bytes": 879
+    },
+    {
+      "relative_path": "dataset_688/seed_2/stage_checkpoints/03_semiconjugacy/models/autoencoder.pt",
+      "sha256": "9da618fc331e3c2fa899bcd7714bbcac0871214adc54256fdba60366a13b28bd",
+      "size_bytes": 96013
+    },
+    {
+      "relative_path": "dataset_688/seed_2/training_summary.json",
+      "sha256": "aac1c624c901c810e0efb10ffbef26ad4d55baf19f2f5602a6451b045a64a6f0",
+      "size_bytes": 10675
+    },
+    {
+      "relative_path": "run_plan.json",
+      "sha256": "29920aecd7c41a823b5bfdd23bf1d1ea84cb68063844abd35af5af71421dd49d",
+      "size_bytes": 5359
+    },
+    {
+      "relative_path": "run_status.txt",
+      "sha256": "d3f33663b3550ac85dd58d13219cd4cba4718452fbf3a7d8ad5923669d54e789",
+      "size_bytes": 31
+    },
+    {
+      "relative_path": "summary/SUMMARY.md",
+      "sha256": "25dc37ee13728a10dd50a3f4c616485160c7690e5db3124a1877b7210afc61f0",
+      "size_bytes": 14626
+    },
+    {
+      "relative_path": "summary/SUMMARY.pdf",
+      "sha256": "d8959af46dce84073ec2c35b9b56baac076391678f28b7b59e17938722fb1385",
+      "size_bytes": 812873
+    },
+    {
+      "relative_path": "summary/aggregate_summary.json",
+      "sha256": "ab3c293be43f50131a9a8cf97116e86f71aecca17f4d92a90b20340ce5d11f62",
+      "size_bytes": 19162
+    },
+    {
+      "relative_path": "summary/cells.csv",
+      "sha256": "4bdbb630cb3a303ad1d60af1d6b3743425e6c4ea9c11ed295a50c08f68948dbb",
+      "size_bytes": 127672
+    },
+    {
+      "relative_path": "sweep_summary.json",
+      "sha256": "36024901ff7d5427108a39648857771cafb2626f78b86ca8e576e75dd6f3ce9b",
+      "size_bytes": 19744
+    }
+  ],
+  "manifest_sha256": "23ebe75fe74da3289606c7b94991c0502a1709d3a75062fa5d5dda9e8e2c07b0",
+  "source_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1"
+}

@@ -1,0 +1,82 @@
+# Leslie3D Example 2 recipe at latent dimension 1.
+#
+# Identical to leslie3d_example2.yaml in system, data, architecture family and
+# training hyperparameters; the only deliberate changes are
+#   arch.low_dims      2 -> 1
+#   cmgdb subdivisions halved so the 1-D interval width matches the per-axis
+#                      box width of the d=2 run (2^14 intervals either way).
+#
+# Motivation: at d=2 the stable subspace of the positive fixed point p_* is a
+# single complex 2-block, so no rank-2 encoder can quotient a 1-dimensional
+# invariant subspace out of it and p_* is forced to appear as a sink.  At d=1
+# the whole block is quotiented at once and every recurrent object of the
+# Leslie map retains its stability type.  See
+# analysis_claude/diagnostics/dimension_criterion.py.
+
+system:
+  name: leslie3d
+  params:
+    th1: 28.9
+    th2: 29.8
+    th3: 22.0
+    survival_p1: 0.7
+    survival_p2: 0.7
+
+arch:
+  high_dims: 3
+  low_dims: 1
+  encoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  latent_map:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: tanh
+  decoder:
+    hidden_shapes: [64, 64]
+    activation: relu
+    out_activation: sigmoid
+
+training:
+  learning_rate: 0.001
+  batch_size: 1024
+  epochs: 1000
+  patience: 100
+  lr_patience: 10
+  loss_weights: [100, 10, 20]
+  gradient_clip_norm: 1.0
+  scheduler_factor: 0.1
+  scheduler_threshold: 0.001
+  scheduler_min_lr: 0.0
+
+data:
+  sampling_method: uniform
+  scaling: minmax
+  n_samples_train: 8000
+  n_samples_val: 2000
+  n_iterations: 20
+  skip: 0
+  train_seed: 42
+  val_seed: 9999
+  train_files: null
+
+cmgdb:
+  subdiv_init: 12
+  subdiv_min: 14
+  subdiv_max: 15
+  subdiv_limit: 10000
+  bounds_epsilon_frac: 0.01
+  lower_bounds: null
+  upper_bounds: null
+  padding: true
+  box_map_backend: auto
+
+paths:
+  data_dir: data/leslie3d_example2_d1
+  output_dir: output/leslie3d_example2_d1
+  scaler_dir_override: null
+  flat_scaler: false
+  read_only: false
+
+seeds: [0]

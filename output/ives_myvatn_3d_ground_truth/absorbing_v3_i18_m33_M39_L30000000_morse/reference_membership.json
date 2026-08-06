@@ -1,0 +1,193 @@
+{
+  "cycle_assignment_pass": false,
+  "cycle_conflicting_phase_count": 0,
+  "cycle_morse_node_ids": [
+    "1"
+  ],
+  "cycle_sink_id": null,
+  "cycle_unique_target_count": 0,
+  "distinct_sink_pass": false,
+  "fixed_morse_node_ids": [
+    "0"
+  ],
+  "fixed_point_unique_sink": true,
+  "fixed_sink_id": "0",
+  "rows": [
+    {
+      "component_id": 0,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -1.293838452429635,
+        -0.24529315028655657,
+        -1.2247337524036408
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 1,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -0.7391418014662621,
+        0.610245196339956,
+        -0.22178497469100394
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 2,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -0.16808494468638951,
+        0.9424814258082848,
+        0.6435099021134701
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 3,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        0.3916081361743547,
+        0.9116049704367021,
+        1.0456197764581165
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 4,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        0.883840354825943,
+        0.5373758827928091,
+        1.1351417203599252
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 5,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        1.0743293682798902,
+        -6.435000355325354,
+        0.9294595789186996
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 6,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        0.45135989073225247,
+        -5.545613905756633,
+        0.2701358483527488
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 7,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -0.2029787500755455,
+        -4.711642415596049,
+        -0.39684702652702963
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 8,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -0.8679922810106592,
+        -3.886005009808548,
+        -1.0663455298429216
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 9,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -1.5287064510869977,
+        -3.0609899315658335,
+        -1.7318271978552262
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 10,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -2.0040304640789306,
+        -2.214239005836957,
+        -2.2770191809494786
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 11,
+      "morse_node_memberships": [
+        "1"
+      ],
+      "point": [
+        -1.780486407096603,
+        -1.2548250985117557,
+        -2.090525475691418
+      ],
+      "sink_memberships": [],
+      "vertex": 0
+    },
+    {
+      "component_id": 0,
+      "morse_node_memberships": [
+        "0"
+      ],
+      "point": [
+        0.7920847175975643,
+        0.2096520581801601,
+        0.3770228950647514
+      ],
+      "sink_memberships": [
+        "0"
+      ],
+      "vertex": 1
+    }
+  ],
+  "source": {
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/reference_data/ives_myvatn_invariant_points.csv",
+    "sha256": "70be3ee87edcd470e8bd6f393d9ff0bdb3551ccd2a999d361884d05205d2831c",
+    "size_bytes": 872
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "analysis_root": "/Users/bdoprad/Work/Projects/latent-dynamics/analysis_codex/leslie3d_3x5_rmsegrid_replay",
+  "clone_manifest_sha256": "23ebe75fe74da3289606c7b94991c0502a1709d3a75062fa5d5dda9e8e2c07b0",
+  "clone_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1",
+  "created_at_utc": "2026-08-06T15:23:40.403121+00:00",
+  "data_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1",
+  "driver": "/Users/bdoprad/Work/Projects/latent-dynamics/analysis_codex/leslie3d_3x5_rmsegrid_replay/run_rmsegrid_cmgdb.py",
+  "driver_sha256": "f734c3d75fb4b0261cd68bf161c5e037fadf49ff104d5f342a4e82eb63e69d29",
+  "git_head": "a3e76f55cff8a99bd0770b69f05251d0c8e06fa1",
+  "ladder_rule": "(init,min,max)=(s-3,s,s+1)",
+  "no_training_or_data_generation": true,
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "policy": "both side lengths <= min(sqrt(train L3), sqrt(holdout L3))",
+  "purpose": "RMSE-bounded CMGDB replay of 15 saved Leslie3D checkpoints",
+  "python": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "source_root": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1",
+  "source_settings_held_fixed": {
+    "adaptive_precompute_subdiv": "init",
+    "bounds": "exact per-cell saved bounds, independently reproduced from copied model/scaler and saved train pairs",
+    "bounds_data_role": "train_pairs",
+    "box_map_backend": "adaptive_precomputed",
+    "compute_roa": false,
+    "device": "mps",
+    "padding": true,
+    "subdiv_limit": 10000
+  },
+  "torch": "2.12.0"
+}

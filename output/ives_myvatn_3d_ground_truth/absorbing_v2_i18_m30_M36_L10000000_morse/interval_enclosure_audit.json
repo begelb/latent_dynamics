@@ -1,0 +1,140 @@
+{
+  "boxes_per_level": 48,
+  "levels": [
+    {
+      "axis_counts": [
+        1,
+        1,
+        1
+      ],
+      "axis_splits": [
+        0,
+        0,
+        0
+      ],
+      "boxes": 48,
+      "level": 0,
+      "median_interval_width": [
+        7.581429030989673,
+        7.466985222609774,
+        7.846854966580466
+      ],
+      "points_including_endpoint_pairs": 1632
+    },
+    {
+      "axis_counts": [
+        4,
+        4,
+        4
+      ],
+      "axis_splits": [
+        2,
+        2,
+        2
+      ],
+      "boxes": 48,
+      "level": 6,
+      "median_interval_width": [
+        1.8974999403656359,
+        2.8904305138447137,
+        2.085509897050036
+      ],
+      "points_including_endpoint_pairs": 1632
+    },
+    {
+      "axis_counts": [
+        16,
+        16,
+        16
+      ],
+      "axis_splits": [
+        4,
+        4,
+        4
+      ],
+      "boxes": 48,
+      "level": 12,
+      "median_interval_width": [
+        0.47437466026194874,
+        0.5531535236384307,
+        0.496078277556551
+      ],
+      "points_including_endpoint_pairs": 1632
+    },
+    {
+      "axis_counts": [
+        64,
+        64,
+        64
+      ],
+      "axis_splits": [
+        6,
+        6,
+        6
+      ],
+      "boxes": 48,
+      "level": 18,
+      "median_interval_width": [
+        0.11860952483109588,
+        0.18883740067066185,
+        0.12960315083448143
+      ],
+      "points_including_endpoint_pairs": 1632
+    },
+    {
+      "axis_counts": [
+        256,
+        256,
+        256
+      ],
+      "axis_splits": [
+        8,
+        8,
+        8
+      ],
+      "boxes": 48,
+      "level": 24,
+      "median_interval_width": [
+        0.029648406786154435,
+        0.02986343624820953,
+        0.03089194412785312
+      ],
+      "points_including_endpoint_pairs": 1632
+    },
+    {
+      "axis_counts": [
+        1024,
+        1024,
+        1024
+      ],
+      "axis_splits": [
+        10,
+        10,
+        10
+      ],
+      "boxes": 48,
+      "level": 30,
+      "median_interval_width": [
+        0.007412117614328917,
+        0.007565969048964449,
+        0.0076991583911751316
+      ],
+      "points_including_endpoint_pairs": 1632
+    }
+  ],
+  "minimum_lower_slack_by_coordinate": [
+    9.71445146547012e-17,
+    8.881784197001252e-16,
+    8.881784197001252e-16
+  ],
+  "minimum_upper_slack_by_coordinate": [
+    8.326672684688674e-17,
+    8.881784197001252e-16,
+    8.881784197001252e-16
+  ],
+  "passed": true,
+  "random_points_per_box": 32,
+  "scope": "dense randomized containment check of the outward-rounded analytic interval extension; not an arbitrary-precision proof",
+  "seed": 20260806,
+  "total_points": 9792
+}

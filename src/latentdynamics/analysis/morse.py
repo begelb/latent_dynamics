@@ -91,17 +91,48 @@ def infer_latent_bounds(
     *,
     epsilon_frac: float = 0.01,
     device: torch.device | None = None,
+    latent_map: torch.nn.Module | None = None,
+    clip_lower: Sequence[float] | None = None,
+    clip_upper: Sequence[float] | None = None,
 ) -> LatentBounds:
-    """Encode ``all_data_scaled`` and compute axis-aligned bounds, expanded by ``epsilon_frac``."""
+    """Infer an expanded latent rectangle from encoded ambient points.
+
+    ``latent_map`` optionally adds the one-step latent images to the bound
+    cloud.  This reproduces archived examples whose CMGDB domain was inferred
+    from ``E(X)`` and ``G(E(X))`` rather than ``E(X)`` alone.  Optional clip
+    vectors make an activation range (for example tanh's ``[-1, 1]``) an
+    explicit, provenance-tracked part of the recipe.
+    """
     device = device or next(encoder.parameters()).device
     encoder.eval()
+    if latent_map is not None:
+        latent_map.eval()
     with torch.no_grad():
         z = encoder(torch.as_tensor(all_data_scaled, dtype=torch.float32, device=device))
-    z = z.cpu().numpy()
-    lower = z.min(axis=0)
-    upper = z.max(axis=0)
+        clouds = [z]
+        if latent_map is not None:
+            clouds.append(latent_map(z))
+        latent = torch.cat(clouds, dim=0).cpu().numpy()
+    lower = latent.min(axis=0)
+    upper = latent.max(axis=0)
     buffer = epsilon_frac * (upper - lower)
-    return LatentBounds(lower=lower - buffer, upper=upper + buffer)
+    lower = lower - buffer
+    upper = upper + buffer
+    if (clip_lower is None) != (clip_upper is None):
+        raise ValueError("clip_lower and clip_upper must be supplied together")
+    if clip_lower is not None and clip_upper is not None:
+        clip_lower_array = np.asarray(clip_lower, dtype=np.float64)
+        clip_upper_array = np.asarray(clip_upper, dtype=np.float64)
+        if clip_lower_array.shape != lower.shape or clip_upper_array.shape != upper.shape:
+            raise ValueError("latent-bound clip vectors must match the latent dimension")
+        lower = np.maximum(lower, clip_lower_array)
+        upper = np.minimum(upper, clip_upper_array)
+    if np.any(lower >= upper):
+        raise ValueError(
+            "inferred latent bounds are empty after expansion/clipping: "
+            f"lower={lower.tolist()} upper={upper.tolist()}"
+        )
+    return LatentBounds(lower=lower, upper=upper)
 
 
 def _extract_numpy_mlp(latent_map: torch.nn.Module) -> NumpyMLP:

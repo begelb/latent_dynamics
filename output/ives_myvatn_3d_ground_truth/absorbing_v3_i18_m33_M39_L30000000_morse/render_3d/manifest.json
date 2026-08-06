@@ -1,0 +1,109 @@
+{
+  "cover": {
+    "candidate_levels_tested": [
+      24
+    ],
+    "coarsening_factor_by_axis": [
+      8,
+      8,
+      8
+    ],
+    "cross_label_display_cell_overlaps": 0,
+    "csv": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_level24_display_cover.csv",
+      "sha256": "c22e78318ea6abac8fb04773da46fe1c5a2f84bc2c82db3ab2eed74a8c6809e4",
+      "size_bytes": 2122949
+    },
+    "display_axis_counts": [
+      256,
+      256,
+      256
+    ],
+    "display_axis_splits": [
+      8,
+      8,
+      8
+    ],
+    "display_box_widths": [
+      0.0296484375,
+      0.029453125,
+      0.0309765625
+    ],
+    "display_cell_count": 20947,
+    "display_cells_per_node": {
+      "0": 9,
+      "1": 20938
+    },
+    "display_level": 24,
+    "source_axis_splits": [
+      11,
+      11,
+      11
+    ],
+    "source_box_count": 3087070,
+    "source_boxes_per_node": {
+      "0": 575,
+      "1": 3086495
+    },
+    "source_level": 33
+  },
+  "display": {
+    "alternate_camera": {
+      "azim": -55.0,
+      "elev": 22.0
+    },
+    "fixed_point_marker": "dark star with white edge",
+    "period12_marker": "white circle with dark edge",
+    "primary_camera": {
+      "azim": -112.0,
+      "elev": 18.0
+    }
+  },
+  "outputs": {
+    "morse_sets_cubical_3d.pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d.pdf",
+      "sha256": "0d0e2e3c20f2a95caa3015c599bf27700eebde83740a133ee719db8e43f4001f",
+      "size_bytes": 343081
+    },
+    "morse_sets_cubical_3d.png": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d.png",
+      "sha256": "5b707b0468ab5d48b31159a2cff312de8034fdd2b54469f0743cd65fe27f0126",
+      "size_bytes": 420556
+    },
+    "morse_sets_cubical_3d_alternate.pdf": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d_alternate.pdf",
+      "sha256": "ce6ffefb3357ea04605129152d210048bdd9e81eafc174855d087a91428f14bd",
+      "size_bytes": 165674
+    },
+    "morse_sets_cubical_3d_alternate.png": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/render_3d/morse_sets_cubical_3d_alternate.png",
+      "sha256": "21500575b9f3a210d5c89c0ec8fb09aa537af0fb5605a801dae9d032f3a2831c",
+      "size_bytes": 268552
+    }
+  },
+  "purpose": "3-D cubical rendering of the direct analytic Ives Morse sets",
+  "render_only": true,
+  "roles": {
+    "0": "fixed-point attractor",
+    "1": "period-12 component"
+  },
+  "schema_version": 1,
+  "scientific_scope": "Each displayed cell is a level-24 parent of at least one saved level-33 Morse cell. The display cover is not a recomputed coarser Morse decomposition.",
+  "source": {
+    "morse_sets": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/MG/morse_sets",
+      "sha256": "458a83325d17ffcf627ba64c43b1dd90ab7bf34f259c1a1282dd41044307b8f3",
+      "size_bytes": 337158968
+    },
+    "reference_membership": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/reference_membership.json",
+      "sha256": "338ed874661895ee2f836807d48e85c920343ee26384903b527523f8bb0cbcec",
+      "size_bytes": 3866
+    },
+    "run_manifest": {
+      "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/absorbing_v3_i18_m33_M39_L30000000_morse/manifest.json",
+      "sha256": "e9bd9b165496133b5fe712a934768912d7e78419014dc76b4a0603b5063325c0",
+      "size_bytes": 10384
+    }
+  }
+}

@@ -81,6 +81,12 @@ ALIASES: dict[str, str] = {
     "contraction": "leslie_2gen_contraction",
     "leslie3d": "leslie3d_example2",
     "example2": "leslie3d_example2",
+    "leslie3d_groundbox_curriculum_wide": "leslie3d_groundbox_curriculum_wide",
+    "leslie3d_curriculum": "leslie3d_groundbox_curriculum_wide",
+    "groundbox_curriculum": "leslie3d_groundbox_curriculum_wide",
+    "ives_myvatn": "ives_myvatn",
+    "ives": "ives_myvatn",
+    "myvatn": "ives_myvatn",
     "chafee": "chafee_infante",
     "chafee_infante_relu": "chafee_infante",
 }
@@ -88,7 +94,7 @@ ALIASES: dict[str, str] = {
 DEFAULT_IC_SEEDS = [1, 2, 3, 4, 5]
 DEFAULT_MODEL_SEEDS = [0, 1, 2]
 BOX_MAP_BACKENDS = ("auto", "uniform_precomputed", "adaptive_precomputed")
-BOUNDS_DATA_ROLES = ("train_and_validation_pairs", "train_pairs")
+BOUNDS_DATA_ROLES = ("train_and_validation_pairs", "train_pairs", "system_grid")
 ADAPTIVE_PRECOMPUTE_SUBDIVS = ("init", "min", "max")
 RENDER_FIGURE_GROUPS = frozenset({"morse", "roa", "overlay", "extras"})
 
@@ -299,6 +305,7 @@ def _training_summary(output_dir: Path) -> dict:
         "best_epoch": None,
         "duration_minutes": None,
         "best_validation_total": None,
+        "validation_total_source": None,
     }
     if not _nonempty(path):
         return out
@@ -307,13 +314,25 @@ def _training_summary(output_dir: Path) -> dict:
     except (OSError, json.JSONDecodeError):
         return out
     val_total = payload.get("val", {}).get("loss_total", {})
+    final_holdout = payload.get("final_holdout", {})
+    final_holdout = final_holdout if isinstance(final_holdout, dict) else {}
+    selected_holdout_total = final_holdout.get("loss_total")
+    if selected_holdout_total is None:
+        selected_holdout_total = val_total.get("best_epoch_value")
+        validation_source = "historical_selected_epoch"
+    else:
+        validation_source = "selected_checkpoint_reporting_only"
     out.update(
         {
             "complete": True,
             "epochs_run": payload.get("n_epochs_run"),
             "best_epoch": payload.get("best_epoch"),
             "duration_minutes": payload.get("train_duration_minutes"),
-            "best_validation_total": val_total.get("best_epoch_value"),
+            # Retain the historical field name for sweep-summary compatibility,
+            # but use the actual selected checkpoint's reporting-only holdout
+            # value when the trainer supplies one (including L-BFGS endpoints).
+            "best_validation_total": selected_holdout_total,
+            "validation_total_source": validation_source,
         }
     )
     return out

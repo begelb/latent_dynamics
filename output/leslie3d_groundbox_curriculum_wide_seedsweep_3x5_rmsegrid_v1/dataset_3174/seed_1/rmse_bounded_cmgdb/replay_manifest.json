@@ -1,0 +1,176 @@
+{
+  "actual_returned_cover_widths": {
+    "n_rows": 1890,
+    "x_max": 0.014677549712359905,
+    "x_min": 0.014677549712359905,
+    "x_unique_count": 1,
+    "y_max": 0.014682075823657215,
+    "y_min": 0.014682075823657215,
+    "y_unique_count": 1
+  },
+  "actual_width_bound_pass": true,
+  "artifact_sha256": {
+    "analysis_checkpoint": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c",
+    "baseline_graph": "0cc548ecdb872300df54633fef824b715872376da5b991050e46b82c2cdd931e",
+    "baseline_sets": "27311254139e01917cac71aafbadda63de969f63bf503675905b4b1693f19b52",
+    "cloned_checkpoint": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c",
+    "metrics": "f175dbc4d0355a425758867ce6916679188211aff705755a2336eb4240fec1ec",
+    "rmse_grid_graph": "7c69fa752bdbe449ae9daaed202fa85dbff4d97f8448b69627f9dc4bd50f6f1e",
+    "rmse_grid_sets": "ef43092d33bc83f39cd00ceb3c8df3204b0ee2907dbb7a0581c795fdd667961e",
+    "source_checkpoint": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c"
+  },
+  "baseline_graph": {
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ]
+    ],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      }
+    ],
+    "n_minimal_nodes": 2,
+    "n_morse_edges": 2,
+    "n_morse_nodes": 3,
+    "nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      },
+      {
+        "conley_index": "(0, x^4-1, 0)",
+        "node": 2
+      }
+    ]
+  },
+  "cell": {
+    "dataset_seed": 3174,
+    "model_seed": 1
+  },
+  "cloned_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1",
+  "cmgdb_seconds": 0.11670133302686736,
+  "completed_at_utc": "2026-08-06T15:23:45.878828+00:00",
+  "domain": {
+    "lower": [
+      -0.6652097702026367,
+      -0.17305968701839447
+    ],
+    "recomputed_from_saved_dataset_exact_match": true,
+    "upper": [
+      1.2135165929794312,
+      1.706246018409729
+    ]
+  },
+  "loss_scale": {
+    "holdout_rmse": 0.017172567223111213,
+    "holdout_semiconjugacy_mse": 0.00029489706503227353,
+    "target_rmse": 0.01565608642615454,
+    "train_rmse": 0.01565608642615454,
+    "train_semiconjugacy_mse": 0.0002451130421832204
+  },
+  "model_bundle": {
+    "copy": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb/models",
+    "files": [
+      {
+        "relative_path": "autoencoder.json",
+        "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+        "size_bytes": 879
+      },
+      {
+        "relative_path": "autoencoder.pt",
+        "sha256": "96acfa4a39e1808680ef7dace6f911dbfc81ce9bf38e7d6f7e4d4e8e86f59d5c",
+        "size_bytes": 96013
+      }
+    ],
+    "manifest_sha256": "c17a08c8541ac92b09fd95516e7e10d88e52e271bc6b771e317cf58b94cb8862",
+    "source": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/models"
+  },
+  "no_training_performed": true,
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb",
+  "render_result": {
+    "figures": [
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb/MG/morse_graph.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb/MG/morse_graph.png",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb/MG/morse_sets.pdf",
+      "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_rmsegrid_v1/dataset_3174/seed_1/rmse_bounded_cmgdb/MG/morse_sets.png"
+    ]
+  },
+  "rmse_grid_graph": {
+    "edges": [],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ],
+    "n_minimal_nodes": 1,
+    "n_morse_edges": 0,
+    "n_morse_nodes": 1,
+    "nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ]
+  },
+  "selection": {
+    "ladder": {
+      "init": 11,
+      "max": 15,
+      "min": 14
+    },
+    "nominal_widths_at_previous_depth": [
+      0.014677549712359905,
+      0.02936415164731443
+    ],
+    "nominal_widths_at_selected_depth": [
+      0.014677549712359905,
+      0.014682075823657215
+    ],
+    "policy": "coarsest depth with both nominal side lengths <= target RMSE",
+    "previous_depth_fails": true,
+    "selected_total_depth": 14
+  },
+  "source_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_3174/seed_1",
+  "source_manifest_config_hash": {
+    "exact_match": true,
+    "recomputed_from_archived_config": "2b6c1be24159bba612718e981a4db554c318151d8f5c277222a841271cbdeb57",
+    "recorded": "2b6c1be24159bba612718e981a4db554c318151d8f5c277222a841271cbdeb57"
+  },
+  "standard_metrics": {
+    "minimal_morse_labels": [
+      0
+    ],
+    "minimal_morse_sets": {
+      "0": {
+        "is_spurious_attractor": true,
+        "max_semiconjugacy_error": 0.1251911073923111,
+        "n_boxes": 1890,
+        "n_semiconjugacy_samples": 4096,
+        "tau_bar": 0.00014358758926391602
+      }
+    },
+    "morse_graph_consistency": {
+      "attractor_type_nonminimal": [],
+      "consistent": true,
+      "n_minimal_attractors": 1,
+      "n_morse_sets": 1,
+      "n_trivial_index": 0
+    }
+  }
+}

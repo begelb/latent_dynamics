@@ -1,0 +1,8 @@
+{
+  "created_at_utc": "2026-08-06T08:44:01.051022+00:00",
+  "train_file": "train",
+  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/train.csv",
+  "train_csv_sha256": "e205827fafd10da031382b2646af0f8a2dcad6b3e825d6e1a3850741ed21cb3b",
+  "scaling": "minmax",
+  "high_dims": 3
+}

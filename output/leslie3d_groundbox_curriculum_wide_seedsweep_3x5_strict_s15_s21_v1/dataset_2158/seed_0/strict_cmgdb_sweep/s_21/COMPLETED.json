@@ -1,0 +1,24 @@
+{
+  "artifact_sha256": {
+    "MG/morse_graph": "0e57cbad48e3c071175d33293c667b2b85dd54fdc14b8cf6d6ce508c4b2bd2a2",
+    "MG/morse_graph.pdf": "87dcdb33a2e53a109a30493d9c083d5d9828101d225330696df0ef417befcefa",
+    "MG/morse_graph.png": "8aa681dab58e317901d65d67d96f4106eadb5519b912ab66a166aab62558fb8c",
+    "MG/morse_sets": "779c139aa7d060407969126f4ba8564584f57bd058037d4924b3fbe13c27eebc",
+    "MG/morse_sets.pdf": "17fff2573a0638aa206e792407124d223aaf26b1be99e88dfffabdd9fe134d18",
+    "MG/morse_sets.png": "a58a15ecafe09f6ce6c91c94471ef0968c74f1853101f692f63ac37583f88128",
+    "execution_config_staged.json": "c234eb9eb90a95b644f16ca863e1863d7c8dff5106849e5da523f67545372060",
+    "mg_params_log.txt": "cff0b3679959a1cab50de24a235fbd7b2dd0a0ca98edfeef9a0c686ec68675a0",
+    "models/autoencoder.json": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+    "models/autoencoder.pt": "ea385ab98462979d374015b429583e758431853cedf0123004701737d8f87d4a",
+    "replay_manifest.json": "c06e0a8de0457ea6a1eb3a07e3bdc6e8e5e5fd86db0756960253097cc631a391",
+    "started.json": "0c940d12a9526ba2ab5701da5c4b4818887c8af338fcbd3af247e41f7c5ace5c"
+  },
+  "atomic_finalize_target": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_2158/seed_0/strict_cmgdb_sweep/s_21",
+  "cell": {
+    "dataset_seed": 2158,
+    "model_seed": 0
+  },
+  "completed_at_utc": "2026-08-06T15:55:05.146225+00:00",
+  "plan_sha256": "4ff4d9b4dcbc0ee1357608924c6d49776487f03ba53dcc43bf896960d7b175cb",
+  "s": 21
+}

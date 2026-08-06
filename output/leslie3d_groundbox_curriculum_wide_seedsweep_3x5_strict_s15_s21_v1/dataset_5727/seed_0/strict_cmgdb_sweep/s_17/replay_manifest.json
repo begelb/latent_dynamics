@@ -1,0 +1,261 @@
+{
+  "actual_returned_boxes": {
+    "any_potential_subdiv_limit_flag": false,
+    "depth_counts": {
+      "17": 3178,
+      "18": 0
+    },
+    "diameter_squared_over_two": 2.1058801058238833e-05,
+    "labels": [
+      0
+    ],
+    "max_diameter": 0.0064898075561974616,
+    "max_side": 0.005618361057713628,
+    "min_diameter": 0.0064898075561974616,
+    "min_side": 0.0032483258983120322,
+    "n_boxes": 3178,
+    "per_label": [
+      {
+        "label": 0,
+        "max_diameter": 0.0064898075561974616,
+        "max_side": 0.005618361057713628,
+        "min_diameter": 0.0064898075561974616,
+        "n_boxes": 3178,
+        "potential_subdiv_limit_flag": false,
+        "width_patterns": [
+          {
+            "count": 3178,
+            "widths": [
+              0.00324832589831,
+              0.00561836105771
+            ]
+          }
+        ]
+      }
+    ],
+    "strict_returned_diameter_bound_pass": true,
+    "strict_returned_side_bound_pass": true,
+    "width_patterns": [
+      {
+        "count": 3178,
+        "widths": [
+          0.00324832589831,
+          0.00561836105771
+        ]
+      }
+    ]
+  },
+  "baseline_graph": {
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      }
+    ],
+    "n_minimal_nodes": 2,
+    "n_morse_edges": 4,
+    "n_morse_nodes": 5,
+    "nodes": [
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 0
+      },
+      {
+        "conley_index": "(x^4-1, 0, 0)",
+        "node": 1
+      },
+      {
+        "conley_index": "(0, x^4-1, 0)",
+        "node": 2
+      },
+      {
+        "conley_index": "(0, x^2+1, 0)",
+        "node": 3
+      },
+      {
+        "conley_index": "(0, x+1, 0)",
+        "node": 4
+      }
+    ]
+  },
+  "cell": {
+    "dataset_seed": 5727,
+    "model_seed": 0
+  },
+  "cloned_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_0",
+  "cmgdb_seconds": 0.5456659999908879,
+  "completed_at_utc": "2026-08-06T15:52:10.906060+00:00",
+  "domain": {
+    "lower": [
+      -0.5247198939323425,
+      -0.5681346654891968
+    ],
+    "upper": [
+      1.138422966003418,
+      0.8701657652854919
+    ]
+  },
+  "ladder": {
+    "init": 17,
+    "max": 18,
+    "min": 17
+  },
+  "model_bundle": {
+    "files": [
+      {
+        "relative_path": "autoencoder.json",
+        "sha256": "31566fd8b94b68efb6a71ca0152bce881d48a41770a172a346edf9992726313b",
+        "size_bytes": 879
+      },
+      {
+        "relative_path": "autoencoder.pt",
+        "sha256": "b2ec181c70a4ec92120170c96925c03ac1a321a8c6402b60820c7159f483a69e",
+        "size_bytes": 96013
+      }
+    ],
+    "manifest_sha256": "6b99696dd75b49e461c041c965a070952f2dfda50ec9f1dcb2425b8f14151c25",
+    "source": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_0/models"
+  },
+  "no_training_performed": true,
+  "nominal_geometry": {
+    "diameter_s": 0.0064898075561974616,
+    "diameter_s_plus_1": 0.00429454495672742,
+    "widths_s": [
+      0.0032483258983120322,
+      0.005618361057713628
+    ],
+    "widths_s_plus_1": [
+      0.0032483258983120322,
+      0.002809180528856814
+    ]
+  },
+  "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_strict_s15_s21_v1/dataset_5727/seed_0/strict_cmgdb_sweep/s_17",
+  "peak_rss_platform_note": "ru_maxrss is bytes on macOS and KiB on Linux; raw value recorded",
+  "peak_rss_raw_after": 803209216,
+  "peak_rss_raw_before": 800178176,
+  "plan_sha256": "4ff4d9b4dcbc0ee1357608924c6d49776487f03ba53dcc43bf896960d7b175cb",
+  "recomputed_residual_statistics": {
+    "definition": "r=G(E(x))-E(y); MSE=mean over pairs and two latent coordinates",
+    "holdout": {
+      "euclidean_residual_rms": 0.028517717495560646,
+      "euclidean_residual_rms_from_mse": 0.02851772051616887,
+      "latent_dimension": 2,
+      "max_absolute_coordinate_residual": 0.33256518840789795,
+      "max_euclidean_residual": 0.35214224457740784,
+      "n_pairs": 4000,
+      "per_coordinate_mse": [
+        0.0004558646760415286,
+        0.00035739559098146856
+      ],
+      "per_coordinate_rmse": 0.020165073560965738,
+      "per_entry_mse": 0.0004066301917191595,
+      "recomputed_minus_saved": 2.0372681319713593e-10,
+      "saved_match_within_1e-9": true,
+      "saved_training_summary_mse": 0.0004066299879923463
+    },
+    "train": {
+      "euclidean_residual_rms": 0.02585078775882721,
+      "euclidean_residual_rms_from_mse": 0.02585078907239358,
+      "latent_dimension": 2,
+      "max_absolute_coordinate_residual": 0.4047362804412842,
+      "max_euclidean_residual": 0.43040281534194946,
+      "n_pairs": 20000,
+      "per_coordinate_mse": [
+        0.0003559892065823078,
+        0.0003122740890830755
+      ],
+      "per_coordinate_rmse": 0.0182792682521126,
+      "per_entry_mse": 0.00033413164783269167,
+      "recomputed_minus_saved": 8.731149137020111e-11,
+      "saved_match_within_1e-9": true,
+      "saved_training_summary_mse": 0.0003341315605212003
+    }
+  },
+  "rendered_files": [
+    "MG/morse_graph.pdf",
+    "MG/morse_graph.png",
+    "MG/morse_sets.pdf",
+    "MG/morse_sets.png"
+  ],
+  "residual_scale_comparisons": {
+    "holdout": {
+      "box_diameter_squared_over_two": 2.1058801058238833e-05,
+      "box_max_diameter": 0.0064898075561974616,
+      "box_max_side": 0.005618361057713628,
+      "coordinatewise_max_side_le_rmse": true,
+      "diameter_le_euclidean_residual_rms": true,
+      "diameter_over_euclidean_residual_rms": 0.22757104841243866,
+      "diameter_squared_over_two_le_mse": true,
+      "diameter_squared_over_two_over_mse": 0.0517885820755365,
+      "max_side_over_coordinate_rmse": 0.27861842609834525,
+      "residual_euclidean_rms": 0.02851772051616887,
+      "residual_per_coordinate_rmse": 0.020165073560965738,
+      "residual_per_entry_mse": 0.0004066301917191595,
+      "unit_note": "diameter vs raw MSE is dimensionally invalid; compare D^2/2 to MSE or D to sqrt(2*MSE) for a two-dimensional mean-reduced residual"
+    },
+    "train": {
+      "box_diameter_squared_over_two": 2.1058801058238833e-05,
+      "box_max_diameter": 0.0064898075561974616,
+      "box_max_side": 0.005618361057713628,
+      "coordinatewise_max_side_le_rmse": true,
+      "diameter_le_euclidean_residual_rms": true,
+      "diameter_over_euclidean_residual_rms": 0.2510487218793649,
+      "diameter_squared_over_two_le_mse": true,
+      "diameter_squared_over_two_over_mse": 0.06302546075726272,
+      "max_side_over_coordinate_rmse": 0.3073624709820807,
+      "residual_euclidean_rms": 0.02585078907239358,
+      "residual_per_coordinate_rmse": 0.0182792682521126,
+      "residual_per_entry_mse": 0.00033413164783269167,
+      "unit_note": "diameter vs raw MSE is dimensionally invalid; compare D^2/2 to MSE or D to sqrt(2*MSE) for a two-dimensional mean-reduced residual"
+    }
+  },
+  "s": 17,
+  "source_cell": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/leslie3d_groundbox_curriculum_wide_seedsweep_3x5_v1/dataset_5727/seed_0",
+  "staging_directory_name": ".partial_s_17_20260806T155210013282Z",
+  "strict_every_query_box_depth_contract": true,
+  "strict_graph": {
+    "edges": [],
+    "minimal_nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ],
+    "n_minimal_nodes": 1,
+    "n_morse_edges": 0,
+    "n_morse_nodes": 1,
+    "nodes": [
+      {
+        "conley_index": "(x-1, 0, 0)",
+        "node": 0
+      }
+    ]
+  },
+  "subdiv_limit_interpretation": {
+    "any_potential_limit_flag": false,
+    "flag_rule": "a returned Morse label with more than 10000 boxes",
+    "limit": 10000
+  }
+}

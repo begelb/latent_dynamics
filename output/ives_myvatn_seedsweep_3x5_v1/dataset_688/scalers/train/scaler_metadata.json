@@ -1,0 +1,19 @@
+{
+  "created_at_utc": "2026-08-06T15:15:30.011742+00:00",
+  "train_file": "train",
+  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/ives_myvatn_seedsweep_3x5_v1/dataset_688/train.csv",
+  "train_csv_sha256": "601f0bbe630cb5d3de1e696b450951308429807dd53b71371986e08cd8646c39",
+  "scaling": "fixed_bounds",
+  "high_dims": 3,
+  "lower_bounds": [
+    -3.0,
+    -7.5,
+    -3.0
+  ],
+  "upper_bounds": [
+    1.5,
+    1.5,
+    1.5
+  ],
+  "scaling_epsilon": 1e-06
+}

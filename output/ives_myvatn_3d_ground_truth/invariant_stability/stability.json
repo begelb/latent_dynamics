@@ -1,0 +1,198 @@
+{
+  "finite_difference_stability": {
+    "by_epsilon": {
+      "1e-05": {
+        "fixed_point_eigenvalues": [
+          {
+            "imag": 0.47949631377003427,
+            "modulus": 0.5230178101894518,
+            "real": -0.20888014471538052
+          },
+          {
+            "imag": -0.47949631377003427,
+            "modulus": 0.5230178101894518,
+            "real": -0.20888014471538052
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.218303667396794,
+            "real": 0.218303667396794
+          }
+        ],
+        "fixed_point_spectral_radius": 0.5230178101894518,
+        "period12_multipliers": [
+          {
+            "imag": 0.0,
+            "modulus": 0.2689249110167565,
+            "real": -0.2689249110167565
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.000751287916628324,
+            "real": 0.000751287916628324
+          },
+          {
+            "imag": 0.0,
+            "modulus": 8.733630427329786e-12,
+            "real": 8.733630427329786e-12
+          }
+        ],
+        "period12_spectral_radius": 0.2689249110167565
+      },
+      "1e-06": {
+        "fixed_point_eigenvalues": [
+          {
+            "imag": 0.47949631443170665,
+            "modulus": 0.5230178106874557,
+            "real": -0.20888014444343228
+          },
+          {
+            "imag": -0.47949631443170665,
+            "modulus": 0.5230178106874557,
+            "real": -0.20888014444343228
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.21830366745935686,
+            "real": 0.21830366745935686
+          }
+        ],
+        "fixed_point_spectral_radius": 0.5230178106874556,
+        "period12_multipliers": [
+          {
+            "imag": 0.0,
+            "modulus": 0.2689249112987817,
+            "real": -0.2689249112987817
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.0007512875347921712,
+            "real": 0.0007512875347921712
+          },
+          {
+            "imag": 0.0,
+            "modulus": 1.865338828255967e-12,
+            "real": -1.865338828255967e-12
+          }
+        ],
+        "period12_spectral_radius": 0.2689249112987817
+      },
+      "3e-06": {
+        "fixed_point_eigenvalues": [
+          {
+            "imag": 0.4794963140095211,
+            "modulus": 0.5230178103237734,
+            "real": -0.20888014450195447
+          },
+          {
+            "imag": -0.4794963140095211,
+            "modulus": 0.5230178103237734,
+            "real": -0.20888014450195447
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.2183036673636086,
+            "real": 0.2183036673636086
+          }
+        ],
+        "fixed_point_spectral_radius": 0.5230178103237735,
+        "period12_multipliers": [
+          {
+            "imag": 0.0,
+            "modulus": 0.2689249112055898,
+            "real": -0.2689249112055898
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.0007512876876769484,
+            "real": 0.0007512876876769484
+          },
+          {
+            "imag": 0.0,
+            "modulus": 7.39364033341999e-12,
+            "real": -7.39364033341999e-12
+          }
+        ],
+        "period12_spectral_radius": 0.2689249112055898
+      },
+      "3e-07": {
+        "fixed_point_eigenvalues": [
+          {
+            "imag": 0.47949631462159903,
+            "modulus": 0.5230178107026643,
+            "real": -0.20888014404560462
+          },
+          {
+            "imag": -0.47949631462159903,
+            "modulus": 0.5230178107026643,
+            "real": -0.20888014404560462
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.21830366738072093,
+            "real": 0.21830366738072093
+          }
+        ],
+        "fixed_point_spectral_radius": 0.5230178107026643,
+        "period12_multipliers": [
+          {
+            "imag": 0.0,
+            "modulus": 0.268924911758958,
+            "real": -0.268924911758958
+          },
+          {
+            "imag": 0.0,
+            "modulus": 0.0007512918290773962,
+            "real": 0.0007512918290773962
+          },
+          {
+            "imag": 0.0,
+            "modulus": 1.861160657017669e-10,
+            "real": -1.861160657017669e-10
+          }
+        ],
+        "period12_spectral_radius": 0.268924911758958
+      }
+    },
+    "epsilons": [
+      1e-05,
+      3e-06,
+      1e-06,
+      3e-07
+    ],
+    "fixed_point_locally_attracting": true,
+    "fixed_point_maximum_spectral_radius": 0.5230178107026643,
+    "period12_locally_attracting": true,
+    "period12_maximum_spectral_radius": 0.268924911758958,
+    "scope": "central finite differences of F^12 at phase 0 and F at the fixed point; consistent over four perturbation scales"
+  },
+  "purpose": "direct-map invariant refinement and local stability audit",
+  "refinement": {
+    "fixed_iterations_of_F": 1,
+    "fixed_last_refinement_residual": 5.828670879282072e-16,
+    "fixed_residual": 3.885780586188048e-16,
+    "period12_closure_residual": 2.4424906541753444e-15,
+    "period12_iterations_of_F12": 5,
+    "period12_last_refinement_residual": 7.771561172376096e-15,
+    "refined_points_path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_3d_ground_truth/invariant_stability/refined_invariant_points.csv",
+    "refined_points_sha256": "d638e844c56a3ad5806fc9472434a1d72d74679bed84f1279fe9faa2c246fa42"
+  },
+  "schema_version": 1,
+  "source": {
+    "maximum_archived_to_refined_coordinate_change": 3.553253540289347e-07,
+    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/src/latentdynamics/reference_data/ives_myvatn_invariant_points.csv",
+    "sha256": "70be3ee87edcd470e8bd6f393d9ff0bdb3551ccd2a999d361884d05205d2831c"
+  },
+  "system": {
+    "name": "IvesModel",
+    "parameters": {
+      "c": 3.67282300498085e-07,
+      "coordinate_mode": "log",
+      "d": 0.5517,
+      "p": 0.06659,
+      "q": 0.9026,
+      "r1": 3.873,
+      "r2": 11.746
+    }
+  }
+}

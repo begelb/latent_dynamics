@@ -1,0 +1,182 @@
+{
+  "created_at_utc": "2026-08-06T15:42:00.866817+00:00",
+  "latentdynamics_version": "0.1.0",
+  "python": "3.13.14 (main, Jun 10 2026, 12:24:04) [Clang 21.0.0 (clang-2100.0.123.102)]",
+  "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+  "torch": {
+    "version": "2.12.0",
+    "cuda_available": false,
+    "mps_available": true
+  },
+  "cmgdb_version": "1.3.3+fork.3",
+  "requested_stages": [
+    "data",
+    "scale",
+    "train",
+    "diagnose",
+    "morse",
+    "render",
+    "metrics"
+  ],
+  "cell": {
+    "cell_index": 0,
+    "train_file": "train",
+    "seed": 0,
+    "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158/seed_0",
+    "device": "mps",
+    "skipped_stages": [
+      "train",
+      "diagnose",
+      "morse"
+    ]
+  },
+  "config_hash": "d0cdb801e53e941dc1876d32511aba9760e70ffa91a1cae0d3bfe6e52ee625f8",
+  "config": {
+    "system": {
+      "name": "ives",
+      "params": {
+        "coordinate_mode": "log",
+        "r1": 3.873,
+        "r2": 11.746,
+        "c": 3.67282300498085e-07,
+        "d": 0.5517,
+        "p": 0.06659,
+        "q": 0.9026,
+        "lower_bounds": [
+          -3.0,
+          -7.5,
+          -3.0
+        ],
+        "upper_bounds": [
+          1.5,
+          1.5,
+          1.5
+        ]
+      }
+    },
+    "arch": {
+      "num_layers": null,
+      "hidden_shape": null,
+      "hidden_shapes": null,
+      "high_dims": 3,
+      "low_dims": 2,
+      "activation": "relu",
+      "encoder_out_activation": "tanh",
+      "latent_out_activation": "tanh",
+      "decoder_out_activation": "sigmoid",
+      "encoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
+      },
+      "latent_map": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          64,
+          64,
+          64,
+          64,
+          64
+        ],
+        "activation": "relu",
+        "out_activation": "tanh"
+      },
+      "decoder": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": [
+          32
+        ],
+        "activation": "relu",
+        "out_activation": "sigmoid"
+      }
+    },
+    "training": {
+      "learning_rate": 0.001,
+      "batch_size": 1024,
+      "epochs": 500,
+      "patience": 300,
+      "lr_patience": 20,
+      "loss_weights": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "gradient_clip_norm": null,
+      "scheduler_factor": 0.5,
+      "scheduler_threshold": 0.0001,
+      "scheduler_min_lr": 1e-06,
+      "curriculum": null,
+      "curriculum_optimizer": null,
+      "curriculum_polish": null,
+      "warm_start_checkpoint_dir": null
+    },
+    "data": {
+      "sampling_method": "uniform",
+      "scaling": "fixed_bounds",
+      "scaling_epsilon": 1e-06,
+      "n_samples_train": 1000,
+      "n_samples_val": 200,
+      "n_iterations": 70,
+      "skip": 50,
+      "train_seed": 2158,
+      "val_seed": 9999,
+      "train_files": null
+    },
+    "cmgdb": {
+      "subdiv_init": 18,
+      "subdiv_min": 22,
+      "subdiv_max": 30,
+      "subdiv_limit": 100000,
+      "bounds_epsilon_frac": 0.1,
+      "lower_bounds": null,
+      "upper_bounds": null,
+      "padding": true,
+      "box_map_backend": "adaptive_precomputed",
+      "bounds_data_role": "system_grid",
+      "bounds_grid_resolution": 64,
+      "bounds_include_latent_image": true,
+      "bounds_clip_lower": [
+        -1.0,
+        -1.0
+      ],
+      "bounds_clip_upper": [
+        1.0,
+        1.0
+      ],
+      "adaptive_precompute_subdiv": "init",
+      "precompute_batch_points": "auto",
+      "compute_roa": false,
+      "roa_max_vertices": 50000000,
+      "collapse_roa_to_lca": true
+    },
+    "paths": {
+      "data_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/ives_myvatn_seedsweep_3x5_v1/dataset_2158",
+      "output_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158",
+      "scaler_dir_override": null,
+      "flat_scaler": false,
+      "scaler_read_only": false,
+      "read_only": false
+    },
+    "seeds": [
+      0,
+      1,
+      2
+    ],
+    "experiment_name": "ives_myvatn_seedsweep_3x5_v1_dataset_2158"
+  },
+  "artifacts": {
+    "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/ives_myvatn_seedsweep_3x5_v1/dataset_2158/train.csv",
+    "train_csv_sha256": "fb9170f2a1f4575a8176080f8c599ebc15ae689fd1148b06e62b6c6146397a58",
+    "scaler": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158/scalers/train/scaler.gz",
+    "scaler_sha256": "71e6a96adbdeb5b4a8f559c1070bb24a9f002482944a76ae055ff505d9568d73",
+    "model_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158/seed_0/models",
+    "morse_dir": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158/seed_0/MG",
+    "metrics": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/ives_myvatn_seedsweep_3x5_v1/dataset_2158/seed_0/metrics.json"
+  }
+}

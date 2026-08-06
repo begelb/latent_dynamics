@@ -20,6 +20,10 @@ output_old/
 config_old/
 tmp.py
 
+# Scratch tree for smoke runs and throwaway sweeps launched by hand. Holds
+# full CMGDB box lists; nothing in it is a run of record.
+/tmp/
+
 # Replay outputs from rerunning render/metrics/diagnose against a
 # read_only config. These are derived, machine-specific, and meant to be
 # regenerated on demand - do not track them.

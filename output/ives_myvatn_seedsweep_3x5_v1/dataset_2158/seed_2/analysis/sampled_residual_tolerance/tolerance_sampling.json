@@ -1,0 +1,318 @@
+{
+  "status": "complete",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "minimal_nodes": [
+    0,
+    2
+  ],
+  "nodes": {
+    "0": {
+      "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+      "sampled_minimum": 0.0008083716966211796,
+      "interpretation": "finite sampled minimum and therefore an upper estimate of the exact tolerance infimum, not a certified lower bound",
+      "witness": {
+        "value": 0.0008083716966211796,
+        "input_z": [
+          -0.7886036504911286,
+          0.2881817348832013
+        ],
+        "image_g_z": [
+          -0.6943268179893494,
+          0.004607249982655048
+        ],
+        "box_index_zero_based": 839,
+        "source": "local_differential_evolution"
+      },
+      "explicit_latent_samples": 8392813,
+      "local_search_function_evaluations": 11396,
+      "total_point_evaluations": 8404209,
+      "all_explicit_sample_images_in_interior": true,
+      "outside_or_boundary_image_count": 0,
+      "sampling": {
+        "target_points": 8388608,
+        "actual_explicit_points": 8392813,
+        "deterministic_corners_and_centers": 13585,
+        "sobol_scrambles": 2,
+        "sobol_seeds": [
+          20260725,
+          20260726
+        ],
+        "sobol_points_per_box_per_scramble": 1542,
+        "sobol_generation_power": 11,
+        "locally_searched_boxes": 12,
+        "local_search_results": [
+          {
+            "box_index_zero_based": 839,
+            "sampled_box_minimum": 0.0008083852007985115,
+            "optimized_minimum": 0.0008083716966211796,
+            "evaluations": 923,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 309,
+            "sampled_box_minimum": 0.0008108445908874273,
+            "optimized_minimum": 0.0008108445908874273,
+            "evaluations": 603,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 1495,
+            "sampled_box_minimum": 0.0008418506477028131,
+            "optimized_minimum": 0.0008418068755418062,
+            "evaluations": 843,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 344,
+            "sampled_box_minimum": 0.0008542728610336781,
+            "optimized_minimum": 0.0008542132563889027,
+            "evaluations": 803,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 911,
+            "sampled_box_minimum": 0.0008745933882892132,
+            "optimized_minimum": 0.0008745761588215828,
+            "evaluations": 843,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 583,
+            "sampled_box_minimum": 0.000891242965642422,
+            "optimized_minimum": 0.0008911101321903967,
+            "evaluations": 1083,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 467,
+            "sampled_box_minimum": 0.000891242965642422,
+            "optimized_minimum": 0.000891173065292774,
+            "evaluations": 1303,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 343,
+            "sampled_box_minimum": 0.0008947444148361683,
+            "optimized_minimum": 0.0008948040194809437,
+            "evaluations": 703,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 744,
+            "sampled_box_minimum": 0.0008966108121676949,
+            "optimized_minimum": 0.0008964921261479547,
+            "evaluations": 1323,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 749,
+            "sampled_box_minimum": 0.0008982779625384708,
+            "optimized_minimum": 0.0008981935803740598,
+            "evaluations": 903,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 38,
+            "sampled_box_minimum": 0.0009032303933054209,
+            "optimized_minimum": 0.0009032303933054209,
+            "evaluations": 803,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 310,
+            "sampled_box_minimum": 0.0009036490228027105,
+            "optimized_minimum": 0.0009036490228027105,
+            "evaluations": 1263,
+            "success": true
+          }
+        ],
+        "source_summaries": {
+          "all_box_corners_and_centers": {
+            "explicit_samples": 13585,
+            "sampled_minimum": 0.0008083852007985115
+          },
+          "boxwise_scrambled_sobol_0": {
+            "explicit_samples": 4189614,
+            "sampled_minimum": 0.0008130499627441168
+          },
+          "boxwise_scrambled_sobol_1": {
+            "explicit_samples": 4189614,
+            "sampled_minimum": 0.0008138844277709723
+          }
+        },
+        "minimum_after_each_source": [
+          {
+            "source": "all_box_corners_and_centers",
+            "cumulative_explicit_samples": 13585,
+            "sampled_minimum": 0.0008083852007985115
+          },
+          {
+            "source": "boxwise_scrambled_sobol_0",
+            "cumulative_explicit_samples": 4203199,
+            "sampled_minimum": 0.0008083852007985115
+          },
+          {
+            "source": "boxwise_scrambled_sobol_1",
+            "cumulative_explicit_samples": 8392813,
+            "sampled_minimum": 0.0008083852007985115
+          }
+        ]
+      },
+      "elapsed_seconds": 12.383907079696655
+    },
+    "2": {
+      "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+      "sampled_minimum": 0.0008111030329018831,
+      "interpretation": "finite sampled minimum and therefore an upper estimate of the exact tolerance infimum, not a certified lower bound",
+      "witness": {
+        "value": 0.0008111030329018831,
+        "input_z": [
+          0.23657489649485797,
+          0.12061335449106991
+        ],
+        "image_g_z": [
+          0.23558081686496735,
+          0.11980225145816803
+        ],
+        "box_index_zero_based": 51,
+        "source": "all_box_corners_and_centers"
+      },
+      "explicit_latent_samples": 8388692,
+      "local_search_function_evaluations": 12616,
+      "total_point_evaluations": 8401308,
+      "all_explicit_sample_images_in_interior": true,
+      "outside_or_boundary_image_count": 0,
+      "sampling": {
+        "target_points": 8388608,
+        "actual_explicit_points": 8388692,
+        "deterministic_corners_and_centers": 260,
+        "sobol_scrambles": 2,
+        "sobol_seeds": [
+          20260725,
+          20260726
+        ],
+        "sobol_points_per_box_per_scramble": 80658,
+        "sobol_generation_power": 17,
+        "locally_searched_boxes": 12,
+        "local_search_results": [
+          {
+            "box_index_zero_based": 51,
+            "sampled_box_minimum": 0.0008111030329018831,
+            "optimized_minimum": 0.0008111030329018831,
+            "evaluations": 1083,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 0,
+            "sampled_box_minimum": 0.0009390297345817089,
+            "optimized_minimum": 0.000939022284001112,
+            "evaluations": 1003,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 49,
+            "sampled_box_minimum": 0.0010018900502473116,
+            "optimized_minimum": 0.0010018975008279085,
+            "evaluations": 1163,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 1,
+            "sampled_box_minimum": 0.0011300328187644482,
+            "optimized_minimum": 0.001130040269345045,
+            "evaluations": 963,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 48,
+            "sampled_box_minimum": 0.0011458777589723468,
+            "optimized_minimum": 0.0011458926601335406,
+            "evaluations": 1183,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 45,
+            "sampled_box_minimum": 0.0012218289775773883,
+            "optimized_minimum": 0.0012218438787385821,
+            "evaluations": 843,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 50,
+            "sampled_box_minimum": 0.0012310997117310762,
+            "optimized_minimum": 0.0012311071623116732,
+            "evaluations": 1083,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 10,
+            "sampled_box_minimum": 0.0013210657052695751,
+            "optimized_minimum": 0.0013210657052695751,
+            "evaluations": 823,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 2,
+            "sampled_box_minimum": 0.0013594883494079113,
+            "optimized_minimum": 0.0013595330528914928,
+            "evaluations": 843,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 9,
+            "sampled_box_minimum": 0.0013723171846813439,
+            "optimized_minimum": 0.0013722510751106858,
+            "evaluations": 1123,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 47,
+            "sampled_box_minimum": 0.0014219239819794893,
+            "optimized_minimum": 0.0014219239819794893,
+            "evaluations": 883,
+            "success": true
+          },
+          {
+            "box_index_zero_based": 29,
+            "sampled_box_minimum": 0.0014675524689536797,
+            "optimized_minimum": 0.0014674972271748958,
+            "evaluations": 1623,
+            "success": false
+          }
+        ],
+        "source_summaries": {
+          "all_box_corners_and_centers": {
+            "explicit_samples": 260,
+            "sampled_minimum": 0.0008111030329018831
+          },
+          "boxwise_scrambled_sobol_0": {
+            "explicit_samples": 4194216,
+            "sampled_minimum": 0.0008119449485093355
+          },
+          "boxwise_scrambled_sobol_1": {
+            "explicit_samples": 4194216,
+            "sampled_minimum": 0.0008118182886391878
+          }
+        },
+        "minimum_after_each_source": [
+          {
+            "source": "all_box_corners_and_centers",
+            "cumulative_explicit_samples": 260,
+            "sampled_minimum": 0.0008111030329018831
+          },
+          {
+            "source": "boxwise_scrambled_sobol_0",
+            "cumulative_explicit_samples": 4194476,
+            "sampled_minimum": 0.0008111030329018831
+          },
+          {
+            "source": "boxwise_scrambled_sobol_1",
+            "cumulative_explicit_samples": 8388692,
+            "sampled_minimum": 0.0008111030329018831
+          }
+        ]
+      },
+      "elapsed_seconds": 4.13510799407959
+    }
+  }
+}
