@@ -1,0 +1,2469 @@
+{
+  "denominators": {
+    "completed_per_run": 10000,
+    "old_per_run": 7862
+  },
+  "method": "Rescore unchanged canonical predicted basin labels against completed truth labels",
+  "runs": [
+    {
+      "completed": {
+        "combined_correct_count": 6578,
+        "combined_correct_percentage": 65.78,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3278,
+          "correctly_classified_in_positive_basin": 3300,
+          "misclassified_in_negative_basin": 58,
+          "misclassified_in_positive_basin": 37,
+          "outside_both_basins": 3327
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.78,
+          "correctly_classified_in_positive_basin": 33.0,
+          "misclassified_in_negative_basin": 0.58,
+          "misclassified_in_positive_basin": 0.37,
+          "outside_both_basins": 33.27
+        }
+      },
+      "dataset": 1,
+      "dimension": 1,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6340,
+        "combined_correct_percentage": 80.64105825489698,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3147,
+          "correctly_classified_in_positive_basin": 3193,
+          "misclassified_in_negative_basin": 7,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 1514
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.027982701602646,
+          "correctly_classified_in_positive_basin": 40.61307555329433,
+          "misclassified_in_negative_basin": 0.08903586873569067,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 19.257186466547953
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "44b28657877f2bf4eed74264ee28dd05b29a324f5a5c4e50f5724b8b38477633",
+      "run": 1,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6696,
+        "combined_correct_percentage": 66.96000000000001,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3338,
+          "correctly_classified_in_positive_basin": 3358,
+          "misclassified_in_negative_basin": 59,
+          "misclassified_in_positive_basin": 53,
+          "outside_both_basins": 3192
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 33.38,
+          "correctly_classified_in_positive_basin": 33.58,
+          "misclassified_in_negative_basin": 0.59,
+          "misclassified_in_positive_basin": 0.53,
+          "outside_both_basins": 31.92
+        }
+      },
+      "dataset": 1,
+      "dimension": 1,
+      "negative_basin_label": 3,
+      "old": {
+        "combined_correct_count": 6386,
+        "combined_correct_percentage": 81.22615110658865,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3182,
+          "correctly_classified_in_positive_basin": 3204,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 1472
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.4731620452811,
+          "correctly_classified_in_positive_basin": 40.75298906130755,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.02543881963876876,
+          "outside_both_basins": 18.722971254133807
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "73c1a8a015f900513383ab887ce48d248432277fafb70b280357314ddf67d2d9",
+      "run": 2,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 3653,
+        "combined_correct_percentage": 36.53,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1897,
+          "correctly_classified_in_positive_basin": 1756,
+          "misclassified_in_negative_basin": 21,
+          "misclassified_in_positive_basin": 17,
+          "outside_both_basins": 6309
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 18.97,
+          "correctly_classified_in_positive_basin": 17.56,
+          "misclassified_in_negative_basin": 0.21,
+          "misclassified_in_positive_basin": 0.17,
+          "outside_both_basins": 63.09
+        }
+      },
+      "dataset": 1,
+      "dimension": 1,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 3615,
+        "combined_correct_percentage": 45.98066649707454,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1881,
+          "correctly_classified_in_positive_basin": 1734,
+          "misclassified_in_negative_basin": 9,
+          "misclassified_in_positive_basin": 9,
+          "outside_both_basins": 4229
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 23.92520987026202,
+          "correctly_classified_in_positive_basin": 22.055456626812514,
+          "misclassified_in_negative_basin": 0.11447468837445943,
+          "misclassified_in_positive_basin": 0.11447468837445943,
+          "outside_both_basins": 53.79038412617655
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "82fb09bfa27b51c6a2e2a6d313a98617a16cca97d0cf4482a3d8aa361643b997",
+      "run": 3,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_1/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4637,
+        "combined_correct_percentage": 46.370000000000005,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1348,
+          "correctly_classified_in_positive_basin": 3289,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 37,
+          "outside_both_basins": 5320
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 13.48,
+          "correctly_classified_in_positive_basin": 32.89,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.37,
+          "outside_both_basins": 53.2
+        }
+      },
+      "dataset": 2,
+      "dimension": 1,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 4552,
+        "combined_correct_percentage": 57.8987534978377,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1322,
+          "correctly_classified_in_positive_basin": 3230,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 11,
+          "outside_both_basins": 3299
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.81505978122615,
+          "correctly_classified_in_positive_basin": 41.08369371661155,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.1399135080132282,
+          "outside_both_basins": 41.961332994149075
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "57ecd8dde064bc2fa3fcf46e21965a0f43429c57bafcbcecc320941f248e94b1",
+      "run": 1,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4817,
+        "combined_correct_percentage": 48.17,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1596,
+          "correctly_classified_in_positive_basin": 3221,
+          "misclassified_in_negative_basin": 28,
+          "misclassified_in_positive_basin": 51,
+          "outside_both_basins": 5104
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 15.96,
+          "correctly_classified_in_positive_basin": 32.21,
+          "misclassified_in_negative_basin": 0.28,
+          "misclassified_in_positive_basin": 0.51,
+          "outside_both_basins": 51.04
+        }
+      },
+      "dataset": 2,
+      "dimension": 1,
+      "negative_basin_label": 3,
+      "old": {
+        "combined_correct_count": 4632,
+        "combined_correct_percentage": 58.91630628338845,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1511,
+          "correctly_classified_in_positive_basin": 3121,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 12,
+          "outside_both_basins": 3217
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 19.2190282370898,
+          "correctly_classified_in_positive_basin": 39.69727804629865,
+          "misclassified_in_negative_basin": 0.01271940981938438,
+          "misclassified_in_positive_basin": 0.15263291783261257,
+          "outside_both_basins": 40.918341388959554
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "8cbc0b7c2a3f8c5203fd4f2117c1c6a1024223554037270050d55334e0bfd8ea",
+      "run": 2,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4430,
+        "combined_correct_percentage": 44.3,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3026,
+          "correctly_classified_in_positive_basin": 1404,
+          "misclassified_in_negative_basin": 33,
+          "misclassified_in_positive_basin": 20,
+          "outside_both_basins": 5517
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.26,
+          "correctly_classified_in_positive_basin": 14.04,
+          "misclassified_in_negative_basin": 0.33,
+          "misclassified_in_positive_basin": 0.2,
+          "outside_both_basins": 55.17
+        }
+      },
+      "dataset": 2,
+      "dimension": 1,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 4302,
+        "combined_correct_percentage": 54.718901042991604,
+        "counts": {
+          "correctly_classified_in_negative_basin": 2955,
+          "correctly_classified_in_positive_basin": 1347,
+          "misclassified_in_negative_basin": 3,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 3557
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 37.58585601628084,
+          "correctly_classified_in_positive_basin": 17.13304502671076,
+          "misclassified_in_negative_basin": 0.03815822945815314,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 45.24294072755024
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "788412b452093093c554348640f1b445d5258555c8612e57181798c54a2ad818",
+      "run": 3,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_2/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4426,
+        "combined_correct_percentage": 44.260000000000005,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1017,
+          "correctly_classified_in_positive_basin": 3409,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 67,
+          "outside_both_basins": 5505
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 10.17,
+          "correctly_classified_in_positive_basin": 34.09,
+          "misclassified_in_negative_basin": 0.02,
+          "misclassified_in_positive_basin": 0.67,
+          "outside_both_basins": 55.05
+        }
+      },
+      "dataset": 3,
+      "dimension": 1,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 4286,
+        "combined_correct_percentage": 54.515390485881454,
+        "counts": {
+          "correctly_classified_in_negative_basin": 998,
+          "correctly_classified_in_positive_basin": 3288,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 6,
+          "outside_both_basins": 3570
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 12.693970999745611,
+          "correctly_classified_in_positive_basin": 41.821419486135845,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.07631645891630628,
+          "outside_both_basins": 45.408293055202236
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "f6b72d92e73f1172056b7f35b5847c353cd071e68290c802ecab0e58ca3e96eb",
+      "run": 1,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4998,
+        "combined_correct_percentage": 49.980000000000004,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3192,
+          "correctly_classified_in_positive_basin": 1806,
+          "misclassified_in_negative_basin": 70,
+          "misclassified_in_positive_basin": 41,
+          "outside_both_basins": 4891
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.92,
+          "correctly_classified_in_positive_basin": 18.06,
+          "misclassified_in_negative_basin": 0.7,
+          "misclassified_in_positive_basin": 0.41,
+          "outside_both_basins": 48.91
+        }
+      },
+      "dataset": 3,
+      "dimension": 1,
+      "negative_basin_label": 3,
+      "old": {
+        "combined_correct_count": 4735,
+        "combined_correct_percentage": 60.22640549478504,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3051,
+          "correctly_classified_in_positive_basin": 1684,
+          "misclassified_in_negative_basin": 14,
+          "misclassified_in_positive_basin": 6,
+          "outside_both_basins": 3107
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 38.80691935894175,
+          "correctly_classified_in_positive_basin": 21.419486135843297,
+          "misclassified_in_negative_basin": 0.17807173747138133,
+          "misclassified_in_positive_basin": 0.07631645891630628,
+          "outside_both_basins": 39.51920630882727
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "8a5781f2fba847ecf39d145d6567b4ce809661c35f737930482f02ba0919a446",
+      "run": 2,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4690,
+        "combined_correct_percentage": 46.9,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1336,
+          "correctly_classified_in_positive_basin": 3354,
+          "misclassified_in_negative_basin": 8,
+          "misclassified_in_positive_basin": 60,
+          "outside_both_basins": 5242
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 13.36,
+          "correctly_classified_in_positive_basin": 33.54,
+          "misclassified_in_negative_basin": 0.08,
+          "misclassified_in_positive_basin": 0.6,
+          "outside_both_basins": 52.42
+        }
+      },
+      "dataset": 3,
+      "dimension": 1,
+      "negative_basin_label": 3,
+      "old": {
+        "combined_correct_count": 4520,
+        "combined_correct_percentage": 57.4917323836174,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1289,
+          "correctly_classified_in_positive_basin": 3231,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 10,
+          "outside_both_basins": 3332
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.39531925718647,
+          "correctly_classified_in_positive_basin": 41.09641312643093,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.1271940981938438,
+          "outside_both_basins": 42.38107351818876
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "9cd0ed1b726eb40223b1a73484b0c0fccfdf61641667b7cdda3cd88ed7c635b2",
+      "run": 3,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_3/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 5281,
+        "combined_correct_percentage": 52.81,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3153,
+          "correctly_classified_in_positive_basin": 2128,
+          "misclassified_in_negative_basin": 28,
+          "misclassified_in_positive_basin": 19,
+          "outside_both_basins": 4672
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.53,
+          "correctly_classified_in_positive_basin": 21.28,
+          "misclassified_in_negative_basin": 0.28,
+          "misclassified_in_positive_basin": 0.19,
+          "outside_both_basins": 46.72
+        }
+      },
+      "dataset": 4,
+      "dimension": 1,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 5181,
+        "combined_correct_percentage": 65.89926227423048,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3094,
+          "correctly_classified_in_positive_basin": 2087,
+          "misclassified_in_negative_basin": 3,
+          "misclassified_in_positive_basin": 5,
+          "outside_both_basins": 2673
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.35385398117528,
+          "correctly_classified_in_positive_basin": 26.545408293055203,
+          "misclassified_in_negative_basin": 0.03815822945815314,
+          "misclassified_in_positive_basin": 0.0635970490969219,
+          "outside_both_basins": 33.99898244721445
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "904ede855d8ea594f8aab5d1c9e669dd659a1d4c0ac79565dd6afa495ab87a78",
+      "run": 1,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6360,
+        "combined_correct_percentage": 63.599999999999994,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3179,
+          "correctly_classified_in_positive_basin": 3181,
+          "misclassified_in_negative_basin": 45,
+          "misclassified_in_positive_basin": 35,
+          "outside_both_basins": 3560
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.79,
+          "correctly_classified_in_positive_basin": 31.81,
+          "misclassified_in_negative_basin": 0.45,
+          "misclassified_in_positive_basin": 0.35,
+          "outside_both_basins": 35.6
+        }
+      },
+      "dataset": 4,
+      "dimension": 1,
+      "negative_basin_label": 3,
+      "old": {
+        "combined_correct_count": 6165,
+        "combined_correct_percentage": 78.41516153650471,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3081,
+          "correctly_classified_in_positive_basin": 3084,
+          "misclassified_in_negative_basin": 7,
+          "misclassified_in_positive_basin": 5,
+          "outside_both_basins": 1685
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.188501653523275,
+          "correctly_classified_in_positive_basin": 39.22665988298143,
+          "misclassified_in_negative_basin": 0.08903586873569067,
+          "misclassified_in_positive_basin": 0.0635970490969219,
+          "outside_both_basins": 21.432205545662683
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "e5fe0640aed881966357a5e36dbc32ef7656b33bb5e3902d0382215d3d6802b8",
+      "run": 2,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 2624,
+        "combined_correct_percentage": 26.240000000000002,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1307,
+          "correctly_classified_in_positive_basin": 1317,
+          "misclassified_in_negative_basin": 19,
+          "misclassified_in_positive_basin": 9,
+          "outside_both_basins": 7348
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 13.07,
+          "correctly_classified_in_positive_basin": 13.17,
+          "misclassified_in_negative_basin": 0.19,
+          "misclassified_in_positive_basin": 0.09,
+          "outside_both_basins": 73.48
+        }
+      },
+      "dataset": 4,
+      "dimension": 1,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 2518,
+        "combined_correct_percentage": 32.02747392520987,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1249,
+          "correctly_classified_in_positive_basin": 1269,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 5344
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 15.88654286441109,
+          "correctly_classified_in_positive_basin": 16.140931060798778,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 67.97252607479012
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "24b69c8a9d12a3da13ca7b9d81d48dc1f60e7cf881bf6267569947995cb36eec",
+      "run": 3,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_4/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 302,
+        "combined_correct_percentage": 3.02,
+        "counts": {
+          "correctly_classified_in_negative_basin": 148,
+          "correctly_classified_in_positive_basin": 154,
+          "misclassified_in_negative_basin": 5,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 9691
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 1.48,
+          "correctly_classified_in_positive_basin": 1.54,
+          "misclassified_in_negative_basin": 0.05,
+          "misclassified_in_positive_basin": 0.02,
+          "outside_both_basins": 96.91
+        }
+      },
+      "dataset": 5,
+      "dimension": 1,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 297,
+        "combined_correct_percentage": 3.777664716357161,
+        "counts": {
+          "correctly_classified_in_negative_basin": 146,
+          "correctly_classified_in_positive_basin": 151,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 7563
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 1.8570338336301195,
+          "correctly_classified_in_positive_basin": 1.9206308827270415,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 96.19689646400407
+        }
+      },
+      "positive_basin_label": 6,
+      "prediction_sha256": "ed50087c1e906a70cf8073a389ba5873746d3b239e03befb7e58dd1e96ed00b2",
+      "run": 1,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_001_seed_00_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 3054,
+        "combined_correct_percentage": 30.54,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1600,
+          "correctly_classified_in_positive_basin": 1454,
+          "misclassified_in_negative_basin": 20,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 6924
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.0,
+          "correctly_classified_in_positive_basin": 14.54,
+          "misclassified_in_negative_basin": 0.2,
+          "misclassified_in_positive_basin": 0.02,
+          "outside_both_basins": 69.24
+        }
+      },
+      "dataset": 5,
+      "dimension": 1,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 3035,
+        "combined_correct_percentage": 38.60340880183159,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1589,
+          "correctly_classified_in_positive_basin": 1446,
+          "misclassified_in_negative_basin": 3,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 4824
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 20.21114220300178,
+          "correctly_classified_in_positive_basin": 18.392266598829814,
+          "misclassified_in_negative_basin": 0.03815822945815314,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 61.358432968710254
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "b25495440454a2da366f0bae3a0294cabea3eaff628320ae83fdcc7e9238421c",
+      "run": 2,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_002_seed_01_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 1683,
+        "combined_correct_percentage": 16.83,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1560,
+          "correctly_classified_in_positive_basin": 123,
+          "misclassified_in_negative_basin": 21,
+          "misclassified_in_positive_basin": 4,
+          "outside_both_basins": 8292
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 15.6,
+          "correctly_classified_in_positive_basin": 1.23,
+          "misclassified_in_negative_basin": 0.21,
+          "misclassified_in_positive_basin": 0.04,
+          "outside_both_basins": 82.92
+        }
+      },
+      "dataset": 5,
+      "dimension": 1,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 1677,
+        "combined_correct_percentage": 21.330450267107608,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1555,
+          "correctly_classified_in_positive_basin": 122,
+          "misclassified_in_negative_basin": 13,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 6171
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 19.778682269142713,
+          "correctly_classified_in_positive_basin": 1.5517679979648944,
+          "misclassified_in_negative_basin": 0.16535232765199695,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 78.49147799542101
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "69a82ed9cca066c856f38b2edbb2e9a80344b073b7b073c4b6f5ab611a69374f",
+      "run": 3,
+      "run_directory": "code/output/chafee_d1_matched_d2_archive_5x3_roa_v1/dataset_5/analysis_attempt_001/by_run/run_003_seed_02_lr3e3_e4000"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6516,
+        "combined_correct_percentage": 65.16,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3209,
+          "correctly_classified_in_positive_basin": 3307,
+          "misclassified_in_negative_basin": 27,
+          "misclassified_in_positive_basin": 17,
+          "outside_both_basins": 3440
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.09,
+          "correctly_classified_in_positive_basin": 33.07,
+          "misclassified_in_negative_basin": 0.27,
+          "misclassified_in_positive_basin": 0.17,
+          "outside_both_basins": 34.4
+        }
+      },
+      "dataset": 1,
+      "dimension": 2,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 6474,
+        "combined_correct_percentage": 82.34545917069448,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3187,
+          "correctly_classified_in_positive_basin": 3287,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 6,
+          "outside_both_basins": 1380
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.53675909437802,
+          "correctly_classified_in_positive_basin": 41.80870007631646,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.07631645891630628,
+          "outside_both_basins": 17.552785550750446
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "6505e1456e54be572a93ab64d03c13ad81d1877f231ce55b08233afac15fa0eb",
+      "run": 1,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_1"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 3359,
+        "combined_correct_percentage": 33.59,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3130,
+          "correctly_classified_in_positive_basin": 229,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 6635
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.3,
+          "correctly_classified_in_positive_basin": 2.29,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 66.35
+        }
+      },
+      "dataset": 1,
+      "dimension": 2,
+      "negative_basin_label": 6,
+      "old": {
+        "combined_correct_count": 3340,
+        "combined_correct_percentage": 42.48282879674383,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3111,
+          "correctly_classified_in_positive_basin": 229,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 4521
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.57008394810481,
+          "correctly_classified_in_positive_basin": 2.912744848639023,
+          "misclassified_in_negative_basin": 0.01271940981938438,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 57.504451793436786
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "e72b3b8199a1cb7779e0604b18f701307f96f1569c46bd089188decda6a34549",
+      "run": 2,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_2"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6296,
+        "combined_correct_percentage": 62.96,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3170,
+          "correctly_classified_in_positive_basin": 3126,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 3,
+          "outside_both_basins": 3695
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.7,
+          "correctly_classified_in_positive_basin": 31.26,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.03,
+          "outside_both_basins": 36.95
+        }
+      },
+      "dataset": 1,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6272,
+        "combined_correct_percentage": 79.77613838717883,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3153,
+          "correctly_classified_in_positive_basin": 3119,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 3,
+          "outside_both_basins": 1581
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.10429916051895,
+          "correctly_classified_in_positive_basin": 39.671839226659884,
+          "misclassified_in_negative_basin": 0.07631645891630628,
+          "misclassified_in_positive_basin": 0.03815822945815314,
+          "outside_both_basins": 20.109386924446707
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "c573d03caf42d5b42141f73d404fc8b809bf1569f39395f75c4edc00723fbf90",
+      "run": 3,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_1/trial_3"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6578,
+        "combined_correct_percentage": 65.78,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3248,
+          "correctly_classified_in_positive_basin": 3330,
+          "misclassified_in_negative_basin": 7,
+          "misclassified_in_positive_basin": 13,
+          "outside_both_basins": 3402
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.48,
+          "correctly_classified_in_positive_basin": 33.3,
+          "misclassified_in_negative_basin": 0.07,
+          "misclassified_in_positive_basin": 0.13,
+          "outside_both_basins": 34.02
+        }
+      },
+      "dataset": 2,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6534,
+        "combined_correct_percentage": 83.10862375985755,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3231,
+          "correctly_classified_in_positive_basin": 3303,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1328
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 41.09641312643093,
+          "correctly_classified_in_positive_basin": 42.01221063342661,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 16.891376240142456
+        }
+      },
+      "positive_basin_label": 5,
+      "prediction_sha256": "bb6beca593c7041083b9607776e422b6db37d7b01104a1527ae2d89b235b3d7a",
+      "run": 1,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_1"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6600,
+        "combined_correct_percentage": 66.0,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3293,
+          "correctly_classified_in_positive_basin": 3307,
+          "misclassified_in_negative_basin": 5,
+          "misclassified_in_positive_basin": 23,
+          "outside_both_basins": 3372
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.93,
+          "correctly_classified_in_positive_basin": 33.07,
+          "misclassified_in_negative_basin": 0.05,
+          "misclassified_in_positive_basin": 0.23,
+          "outside_both_basins": 33.72
+        }
+      },
+      "dataset": 2,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6558,
+        "combined_correct_percentage": 83.41388959552276,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3275,
+          "correctly_classified_in_positive_basin": 3283,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 1303
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 41.65606715848384,
+          "correctly_classified_in_positive_basin": 41.75782243703892,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 16.57339099465785
+        }
+      },
+      "positive_basin_label": 6,
+      "prediction_sha256": "14c50c6a7374b18bc498d7596708d982510735fd6ad93246dd9a8de036ab9c6e",
+      "run": 2,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_2"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6644,
+        "combined_correct_percentage": 66.44,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3287,
+          "correctly_classified_in_positive_basin": 3357,
+          "misclassified_in_negative_basin": 7,
+          "misclassified_in_positive_basin": 23,
+          "outside_both_basins": 3326
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.87,
+          "correctly_classified_in_positive_basin": 33.57,
+          "misclassified_in_negative_basin": 0.07,
+          "misclassified_in_positive_basin": 0.23,
+          "outside_both_basins": 33.26
+        }
+      },
+      "dataset": 2,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6601,
+        "combined_correct_percentage": 83.9608242177563,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3268,
+          "correctly_classified_in_positive_basin": 3333,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 3,
+          "outside_both_basins": 1258
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 41.56703128974816,
+          "correctly_classified_in_positive_basin": 42.39379292800814,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.03815822945815314,
+          "outside_both_basins": 16.00101755278555
+        }
+      },
+      "positive_basin_label": 7,
+      "prediction_sha256": "50020774acf9a024bad2b0be246667d1219d83bef1dc8f61086fa231b8546046",
+      "run": 3,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_2/trial_3"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 3525,
+        "combined_correct_percentage": 35.25,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1707,
+          "correctly_classified_in_positive_basin": 1818,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 4,
+          "outside_both_basins": 6471
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 17.07,
+          "correctly_classified_in_positive_basin": 18.18,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.04,
+          "outside_both_basins": 64.71
+        }
+      },
+      "dataset": 3,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 3516,
+        "combined_correct_percentage": 44.721444924955485,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1701,
+          "correctly_classified_in_positive_basin": 1815,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 4346
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 21.635716102772832,
+          "correctly_classified_in_positive_basin": 23.085728822182652,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 55.278555075044515
+        }
+      },
+      "positive_basin_label": 6,
+      "prediction_sha256": "028bae973298f2528ef29c8bd6b1bcd8934a7dc6bace5afddb00999c92fc1340",
+      "run": 1,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_1"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6575,
+        "combined_correct_percentage": 65.75,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3193,
+          "correctly_classified_in_positive_basin": 3382,
+          "misclassified_in_negative_basin": 24,
+          "misclassified_in_positive_basin": 33,
+          "outside_both_basins": 3368
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.93,
+          "correctly_classified_in_positive_basin": 33.82,
+          "misclassified_in_negative_basin": 0.24,
+          "misclassified_in_positive_basin": 0.33,
+          "outside_both_basins": 33.68
+        }
+      },
+      "dataset": 3,
+      "dimension": 2,
+      "negative_basin_label": 6,
+      "old": {
+        "combined_correct_count": 6491,
+        "combined_correct_percentage": 82.56168913762401,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3159,
+          "correctly_classified_in_positive_basin": 3332,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 1369
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.18061561943526,
+          "correctly_classified_in_positive_basin": 42.38107351818876,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.02543881963876876,
+          "outside_both_basins": 17.412872042737217
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "69c3a0fb23c036a8ad6198aa43ef098f9e7d2304f95064332cc971f52ae9b68c",
+      "run": 2,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_2"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6469,
+        "combined_correct_percentage": 64.69,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3182,
+          "correctly_classified_in_positive_basin": 3287,
+          "misclassified_in_negative_basin": 9,
+          "misclassified_in_positive_basin": 21,
+          "outside_both_basins": 3501
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.82,
+          "correctly_classified_in_positive_basin": 32.87,
+          "misclassified_in_negative_basin": 0.09,
+          "misclassified_in_positive_basin": 0.21,
+          "outside_both_basins": 35.01
+        }
+      },
+      "dataset": 3,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6424,
+        "combined_correct_percentage": 81.70948867972527,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3160,
+          "correctly_classified_in_positive_basin": 3264,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 1436
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.19333502925464,
+          "correctly_classified_in_positive_basin": 41.51615365047062,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.02543881963876876,
+          "outside_both_basins": 18.26507250063597
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "d5264d744d3990c04295641c4e5143882fe5782d7683c9fc71bf091dd4f512d9",
+      "run": 3,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_3/trial_3"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 5030,
+        "combined_correct_percentage": 50.3,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1656,
+          "correctly_classified_in_positive_basin": 3374,
+          "misclassified_in_negative_basin": 29,
+          "misclassified_in_positive_basin": 37,
+          "outside_both_basins": 4904
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.56,
+          "correctly_classified_in_positive_basin": 33.74,
+          "misclassified_in_negative_basin": 0.29,
+          "misclassified_in_positive_basin": 0.37,
+          "outside_both_basins": 49.04
+        }
+      },
+      "dataset": 4,
+      "dimension": 2,
+      "negative_basin_label": 8,
+      "old": {
+        "combined_correct_count": 4959,
+        "combined_correct_percentage": 63.07555329432715,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1628,
+          "correctly_classified_in_positive_basin": 3331,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 2901
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 20.707199185957773,
+          "correctly_classified_in_positive_basin": 42.368354108369374,
+          "misclassified_in_negative_basin": 0.01271940981938438,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 36.89900788603409
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "df821498bc1c6e7f9d6b072ecf62994e320615be7882511344911f109270edf7",
+      "run": 1,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_1"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 5000,
+        "combined_correct_percentage": 50.0,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1617,
+          "correctly_classified_in_positive_basin": 3383,
+          "misclassified_in_negative_basin": 23,
+          "misclassified_in_positive_basin": 34,
+          "outside_both_basins": 4943
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.17,
+          "correctly_classified_in_positive_basin": 33.83,
+          "misclassified_in_negative_basin": 0.23,
+          "misclassified_in_positive_basin": 0.34,
+          "outside_both_basins": 49.43
+        }
+      },
+      "dataset": 4,
+      "dimension": 2,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 4938,
+        "combined_correct_percentage": 62.808445688120074,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1594,
+          "correctly_classified_in_positive_basin": 3344,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 3,
+          "outside_both_basins": 2919
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 20.2747392520987,
+          "correctly_classified_in_positive_basin": 42.53370643602137,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.03815822945815314,
+          "outside_both_basins": 37.127957262783006
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "56a4a089a9dea2369d92cdc32581375f48be6fce9eaff3765535428b1f988daf",
+      "run": 2,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_2"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 5031,
+        "combined_correct_percentage": 50.31,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1653,
+          "correctly_classified_in_positive_basin": 3378,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 28,
+          "outside_both_basins": 4941
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.53,
+          "correctly_classified_in_positive_basin": 33.78,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.28,
+          "outside_both_basins": 49.41
+        }
+      },
+      "dataset": 4,
+      "dimension": 2,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 4985,
+        "combined_correct_percentage": 63.40625794963114,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1645,
+          "correctly_classified_in_positive_basin": 3340,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 2876
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 20.923429152887305,
+          "correctly_classified_in_positive_basin": 42.48282879674383,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 36.58102264054948
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "49f993be832665ac30fb6fcaed269cf70a706ae552a49a42f9ac72cb494880e3",
+      "run": 3,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_4/trial_3"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 4935,
+        "combined_correct_percentage": 49.35,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1692,
+          "correctly_classified_in_positive_basin": 3243,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 63,
+          "outside_both_basins": 5001
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 16.92,
+          "correctly_classified_in_positive_basin": 32.43,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.63,
+          "outside_both_basins": 50.01
+        }
+      },
+      "dataset": 5,
+      "dimension": 2,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 4886,
+        "combined_correct_percentage": 62.14703637751208,
+        "counts": {
+          "correctly_classified_in_negative_basin": 1679,
+          "correctly_classified_in_positive_basin": 3207,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 2975
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 21.355889086746377,
+          "correctly_classified_in_positive_basin": 40.79114729076571,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.01271940981938438,
+          "outside_both_basins": 37.84024421266853
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "53b49ec81c054406cb07054b2d0743caf8b3f4f4b2ae6e1707441715637e39d6",
+      "run": 1,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_1"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6428,
+        "combined_correct_percentage": 64.28,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3185,
+          "correctly_classified_in_positive_basin": 3243,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 9,
+          "outside_both_basins": 3557
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.85,
+          "correctly_classified_in_positive_basin": 32.43,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.09,
+          "outside_both_basins": 35.57
+        }
+      },
+      "dataset": 5,
+      "dimension": 2,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 6408,
+        "combined_correct_percentage": 81.50597812261512,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3174,
+          "correctly_classified_in_positive_basin": 3234,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1452
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.371406766726025,
+          "correctly_classified_in_positive_basin": 41.134571355889086,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 18.46858305774612
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "e7029b245a3ff90c4934c7195a8ea98c78218708fee5a8de0f9a4d2892f8972f",
+      "run": 2,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_2"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6402,
+        "combined_correct_percentage": 64.02,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3163,
+          "correctly_classified_in_positive_basin": 3239,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 22,
+          "outside_both_basins": 3570
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.63,
+          "correctly_classified_in_positive_basin": 32.39,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.22,
+          "outside_both_basins": 35.7
+        }
+      },
+      "dataset": 5,
+      "dimension": 2,
+      "negative_basin_label": 4,
+      "old": {
+        "combined_correct_count": 6389,
+        "combined_correct_percentage": 81.26430933604681,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3159,
+          "correctly_classified_in_positive_basin": 3230,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 7,
+          "outside_both_basins": 1464
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.18061561943526,
+          "correctly_classified_in_positive_basin": 41.08369371661155,
+          "misclassified_in_negative_basin": 0.02543881963876876,
+          "misclassified_in_positive_basin": 0.08903586873569067,
+          "outside_both_basins": 18.621215975578732
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "7bcd5c4cd686acd0460472521d9ad69046387a134ce6389e051c8e1191084b77",
+      "run": 3,
+      "run_directory": "code/output/chafee_d2_archive_5x3_roa_v1/dataset_5/trial_3"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6309,
+        "combined_correct_percentage": 63.09,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3146,
+          "correctly_classified_in_positive_basin": 3163,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 32,
+          "outside_both_basins": 3653
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.46,
+          "correctly_classified_in_positive_basin": 31.63,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.32,
+          "outside_both_basins": 36.53
+        }
+      },
+      "dataset": 1,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6293,
+        "combined_correct_percentage": 80.04324599338591,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3136,
+          "correctly_classified_in_positive_basin": 3157,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 1567
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.888069193589416,
+          "correctly_classified_in_positive_basin": 40.155176799796486,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.02543881963876876,
+          "outside_both_basins": 19.931315186975326
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "7e6a582ba47c867b0bf732b5f25594cc1342d881caa37a49aa8453469ac16009",
+      "run": 1,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_01_seed_00_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 5608,
+        "combined_correct_percentage": 56.08,
+        "counts": {
+          "correctly_classified_in_negative_basin": 2510,
+          "correctly_classified_in_positive_basin": 3098,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 15,
+          "outside_both_basins": 4377
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 25.1,
+          "correctly_classified_in_positive_basin": 30.98,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.15,
+          "outside_both_basins": 43.77
+        }
+      },
+      "dataset": 1,
+      "dimension": 3,
+      "negative_basin_label": 51,
+      "old": {
+        "combined_correct_count": 5600,
+        "combined_correct_percentage": 71.22869498855252,
+        "counts": {
+          "correctly_classified_in_negative_basin": 2510,
+          "correctly_classified_in_positive_basin": 3090,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 2262
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.925718646654794,
+          "correctly_classified_in_positive_basin": 39.30297634189773,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 28.77130501144747
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "5c8b38cfc03d23f0d15abb87021bc52e0c687c26105ae394cda766f8cbf836f8",
+      "run": 2,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_01_seed_01_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 3291,
+        "combined_correct_percentage": 32.910000000000004,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3067,
+          "correctly_classified_in_positive_basin": 224,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 6708
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.67,
+          "correctly_classified_in_positive_basin": 2.24,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 67.08
+        }
+      },
+      "dataset": 1,
+      "dimension": 3,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 3284,
+        "combined_correct_percentage": 41.77054184685831,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3060,
+          "correctly_classified_in_positive_basin": 224,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 4578
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 38.921394047316205,
+          "correctly_classified_in_positive_basin": 2.8491477995421013,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 58.22945815314169
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "92a1eb2c36476476c1e51faab6fa4c1063940b5d202c725a233706ee1edc47ef",
+      "run": 3,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_01_seed_02_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6254,
+        "combined_correct_percentage": 62.54,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3116,
+          "correctly_classified_in_positive_basin": 3138,
+          "misclassified_in_negative_basin": 7,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 3738
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.16,
+          "correctly_classified_in_positive_basin": 31.38,
+          "misclassified_in_negative_basin": 0.07,
+          "misclassified_in_positive_basin": 0.01,
+          "outside_both_basins": 37.38
+        }
+      },
+      "dataset": 2,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6232,
+        "combined_correct_percentage": 79.26736199440347,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3102,
+          "correctly_classified_in_positive_basin": 3130,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1630
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.45560925973035,
+          "correctly_classified_in_positive_basin": 39.811752734673114,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 20.73263800559654
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "807ed6313fdc6d83a75cb601beed3c649155297b59a24bc8ed3f33a1b9f3a092",
+      "run": 1,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_00_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6155,
+        "combined_correct_percentage": 61.55,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3030,
+          "correctly_classified_in_positive_basin": 3125,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 3843
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.3,
+          "correctly_classified_in_positive_basin": 31.25,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.01,
+          "outside_both_basins": 38.43
+        }
+      },
+      "dataset": 2,
+      "dimension": 3,
+      "negative_basin_label": 5,
+      "old": {
+        "combined_correct_count": 6133,
+        "combined_correct_percentage": 78.00814042228441,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3017,
+          "correctly_classified_in_positive_basin": 3116,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1729
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 38.37445942508268,
+          "correctly_classified_in_positive_basin": 39.63368099720173,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.991859577715594
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "423c265555e0f3613cd7f336914afebfb47b915a63cc138e062e4204246d2edf",
+      "run": 2,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_01_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6131,
+        "combined_correct_percentage": 61.31,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3028,
+          "correctly_classified_in_positive_basin": 3103,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 3865
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.28,
+          "correctly_classified_in_positive_basin": 31.03,
+          "misclassified_in_negative_basin": 0.02,
+          "misclassified_in_positive_basin": 0.02,
+          "outside_both_basins": 38.65
+        }
+      },
+      "dataset": 2,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6113,
+        "combined_correct_percentage": 77.75375222589672,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3018,
+          "correctly_classified_in_positive_basin": 3095,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1749
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 38.38717883490206,
+          "correctly_classified_in_positive_basin": 39.36657339099466,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 22.24624777410328
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "62585253cac1d927f3754d894ce3db9c4ceddd78ef61c4f7d38e8af9249f7edf",
+      "run": 3,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_02_seed_02_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6293,
+        "combined_correct_percentage": 62.93,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3157,
+          "correctly_classified_in_positive_basin": 3136,
+          "misclassified_in_negative_basin": 6,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 3701
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.57,
+          "correctly_classified_in_positive_basin": 31.36,
+          "misclassified_in_negative_basin": 0.06,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 37.01
+        }
+      },
+      "dataset": 3,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6273,
+        "combined_correct_percentage": 79.78885779699822,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3144,
+          "correctly_classified_in_positive_basin": 3129,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1589
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.98982447214449,
+          "correctly_classified_in_positive_basin": 39.799033324853724,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 20.21114220300178
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "203f2aa7caa0a5e5b64e8d8f8a365343a9dd5b6c05d8342ff2463c60b48d666a",
+      "run": 1,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_03_seed_00_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6175,
+        "combined_correct_percentage": 61.75,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3090,
+          "correctly_classified_in_positive_basin": 3085,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 3825
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.9,
+          "correctly_classified_in_positive_basin": 30.85,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 38.25
+        }
+      },
+      "dataset": 3,
+      "dimension": 3,
+      "negative_basin_label": 8,
+      "old": {
+        "combined_correct_count": 6163,
+        "combined_correct_percentage": 78.38972271686595,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3080,
+          "correctly_classified_in_positive_basin": 3083,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1699
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.17578224370389,
+          "correctly_classified_in_positive_basin": 39.21394047316205,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.610277283134064
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "a99d53556bf21364a3c237e448a25a4c2f731e2a6737462716d719710ddd4226",
+      "run": 2,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_03_seed_01_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6165,
+        "combined_correct_percentage": 61.65,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3066,
+          "correctly_classified_in_positive_basin": 3099,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 3835
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.66,
+          "correctly_classified_in_positive_basin": 30.99,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 38.35
+        }
+      },
+      "dataset": 3,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6152,
+        "combined_correct_percentage": 78.24980920885271,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3058,
+          "correctly_classified_in_positive_basin": 3094,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1710
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 38.89595522767743,
+          "correctly_classified_in_positive_basin": 39.35385398117528,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.75019079114729
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "b5fc1329f10f07eb3589b1af5a9b51af8746d0be0a2c7a9303f9bd7b1e9d6682",
+      "run": 3,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_03_seed_02_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6507,
+        "combined_correct_percentage": 65.07,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3220,
+          "correctly_classified_in_positive_basin": 3287,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 1,
+          "outside_both_basins": 3491
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.2,
+          "correctly_classified_in_positive_basin": 32.87,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.01,
+          "outside_both_basins": 34.91
+        }
+      },
+      "dataset": 4,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6483,
+        "combined_correct_percentage": 82.45993385906894,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3209,
+          "correctly_classified_in_positive_basin": 3274,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1379
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.81658611040448,
+          "correctly_classified_in_positive_basin": 41.64334774866446,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 17.54006614093106
+        }
+      },
+      "positive_basin_label": 4,
+      "prediction_sha256": "d444866a179360cb697be484d5335be1fed656eeebf4cc56e3320b1b7d180399",
+      "run": 1,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_04_seed_00_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6243,
+        "combined_correct_percentage": 62.43,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3098,
+          "correctly_classified_in_positive_basin": 3145,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 2,
+          "outside_both_basins": 3754
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.98,
+          "correctly_classified_in_positive_basin": 31.45,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.02,
+          "outside_both_basins": 37.54
+        }
+      },
+      "dataset": 4,
+      "dimension": 3,
+      "negative_basin_label": 12,
+      "old": {
+        "combined_correct_count": 6225,
+        "combined_correct_percentage": 79.17832612566778,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3087,
+          "correctly_classified_in_positive_basin": 3138,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1637
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.264818112439585,
+          "correctly_classified_in_positive_basin": 39.91350801322819,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 20.82167387433223
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "0f2ff809e868faee481bfd4ccde7b6764482ded9c631a0543e36e35aa2b94fb0",
+      "run": 2,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_04_seed_01_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6206,
+        "combined_correct_percentage": 62.06,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3077,
+          "correctly_classified_in_positive_basin": 3129,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 3,
+          "outside_both_basins": 3790
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 30.77,
+          "correctly_classified_in_positive_basin": 31.29,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.03,
+          "outside_both_basins": 37.9
+        }
+      },
+      "dataset": 4,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6182,
+        "combined_correct_percentage": 78.63139150343424,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3067,
+          "correctly_classified_in_positive_basin": 3115,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1680
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.0104299160519,
+          "correctly_classified_in_positive_basin": 39.62096158738235,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.36860849656576
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "3eeccbe1beb6792bcaa82a9088fa09e1a8a18ee23a5dbe091fcaea69d9c8967e",
+      "run": 3,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_04_seed_02_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6417,
+        "combined_correct_percentage": 64.16999999999999,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3201,
+          "correctly_classified_in_positive_basin": 3216,
+          "misclassified_in_negative_basin": 5,
+          "misclassified_in_positive_basin": 4,
+          "outside_both_basins": 3574
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 32.01,
+          "correctly_classified_in_positive_basin": 32.16,
+          "misclassified_in_negative_basin": 0.05,
+          "misclassified_in_positive_basin": 0.04,
+          "outside_both_basins": 35.74
+        }
+      },
+      "dataset": 5,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6394,
+        "combined_correct_percentage": 81.32790638514373,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3190,
+          "correctly_classified_in_positive_basin": 3204,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1468
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 40.574917323836175,
+          "correctly_classified_in_positive_basin": 40.75298906130755,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 18.67209361485627
+        }
+      },
+      "positive_basin_label": 3,
+      "prediction_sha256": "1dd7cd811d680f47716b728aa9d1ce8ffe89afce2c19f9dfbe26370b873de255",
+      "run": 1,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_05_seed_00_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6221,
+        "combined_correct_percentage": 62.21,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3120,
+          "correctly_classified_in_positive_basin": 3101,
+          "misclassified_in_negative_basin": 2,
+          "misclassified_in_positive_basin": 6,
+          "outside_both_basins": 3771
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.2,
+          "correctly_classified_in_positive_basin": 31.01,
+          "misclassified_in_negative_basin": 0.02,
+          "misclassified_in_positive_basin": 0.06,
+          "outside_both_basins": 37.71
+        }
+      },
+      "dataset": 5,
+      "dimension": 3,
+      "negative_basin_label": 13,
+      "old": {
+        "combined_correct_count": 6205,
+        "combined_correct_percentage": 78.92393792928007,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3109,
+          "correctly_classified_in_positive_basin": 3096,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1657
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.54464512846604,
+          "correctly_classified_in_positive_basin": 39.37929280081404,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.076062070719917
+        }
+      },
+      "positive_basin_label": 0,
+      "prediction_sha256": "cac58f8481dc6b1f35521d5d5a15d6633b4c3f223c624fdecc0758b904b3de89",
+      "run": 2,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_05_seed_01_lr3e3_e4000/attempts/attempt_001"
+    },
+    {
+      "completed": {
+        "combined_correct_count": 6189,
+        "combined_correct_percentage": 61.89,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3100,
+          "correctly_classified_in_positive_basin": 3089,
+          "misclassified_in_negative_basin": 1,
+          "misclassified_in_positive_basin": 5,
+          "outside_both_basins": 3805
+        },
+        "denominator": 10000,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 31.0,
+          "correctly_classified_in_positive_basin": 30.89,
+          "misclassified_in_negative_basin": 0.01,
+          "misclassified_in_positive_basin": 0.05,
+          "outside_both_basins": 38.05
+        }
+      },
+      "dataset": 5,
+      "dimension": 3,
+      "negative_basin_label": 0,
+      "old": {
+        "combined_correct_count": 6162,
+        "combined_correct_percentage": 78.37700330704655,
+        "counts": {
+          "correctly_classified_in_negative_basin": 3086,
+          "correctly_classified_in_positive_basin": 3076,
+          "misclassified_in_negative_basin": 0,
+          "misclassified_in_positive_basin": 0,
+          "outside_both_basins": 1700
+        },
+        "denominator": 7862,
+        "percentages": {
+          "correctly_classified_in_negative_basin": 39.252098702620195,
+          "correctly_classified_in_positive_basin": 39.124904604426355,
+          "misclassified_in_negative_basin": 0.0,
+          "misclassified_in_positive_basin": 0.0,
+          "outside_both_basins": 21.622996692953446
+        }
+      },
+      "positive_basin_label": 2,
+      "prediction_sha256": "3bedd10dac74c4354deb12c10709befe0a5160fe34fdf505b340a5d74e313118",
+      "run": 3,
+      "run_directory": "code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v2/runs/dataset_05_seed_02_lr3e3_e4000/attempts/attempt_001"
+    }
+  ],
+  "schema_version": 1,
+  "summary_by_dimension": {
+    "1": {
+      "by_dataset": [
+        {
+          "dataset": 1,
+          "descriptive": {
+            "maximum": 66.96000000000001,
+            "mean": 56.42333333333334,
+            "median": 65.78,
+            "minimum": 36.53,
+            "n": 3,
+            "sample_standard_deviation": 17.23823173452931
+          },
+          "runs": [
+            65.78,
+            66.96000000000001,
+            36.53
+          ]
+        },
+        {
+          "dataset": 2,
+          "descriptive": {
+            "maximum": 48.17,
+            "mean": 46.28,
+            "median": 46.370000000000005,
+            "minimum": 44.3,
+            "n": 3,
+            "sample_standard_deviation": 1.9365691312215036
+          },
+          "runs": [
+            46.370000000000005,
+            48.17,
+            44.3
+          ]
+        },
+        {
+          "dataset": 3,
+          "descriptive": {
+            "maximum": 49.980000000000004,
+            "mean": 47.046666666666674,
+            "median": 46.9,
+            "minimum": 44.260000000000005,
+            "n": 3,
+            "sample_standard_deviation": 2.862819123404993
+          },
+          "runs": [
+            44.260000000000005,
+            49.980000000000004,
+            46.9
+          ]
+        },
+        {
+          "dataset": 4,
+          "descriptive": {
+            "maximum": 63.599999999999994,
+            "mean": 47.550000000000004,
+            "median": 52.81,
+            "minimum": 26.240000000000002,
+            "n": 3,
+            "sample_standard_deviation": 19.22740492110154
+          },
+          "runs": [
+            52.81,
+            63.599999999999994,
+            26.240000000000002
+          ]
+        },
+        {
+          "dataset": 5,
+          "descriptive": {
+            "maximum": 30.54,
+            "mean": 16.796666666666667,
+            "median": 16.83,
+            "minimum": 3.02,
+            "n": 3,
+            "sample_standard_deviation": 13.760030280974433
+          },
+          "runs": [
+            3.02,
+            30.54,
+            16.83
+          ]
+        }
+      ],
+      "completed_combined_correct": {
+        "maximum": 66.96000000000001,
+        "mean": 42.81933333333333,
+        "median": 46.370000000000005,
+        "minimum": 3.02,
+        "n": 15,
+        "sample_standard_deviation": 17.887924285341082
+      },
+      "completed_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 20.650000000000002,
+        "correctly_classified_in_positive_basin": 22.169333333333338,
+        "misclassified_in_negative_basin": 0.282,
+        "misclassified_in_positive_basin": 0.3026666666666666,
+        "outside_both_basins": 56.596000000000004
+      },
+      "old_combined_correct": {
+        "maximum": 81.22615110658865,
+        "mean": 52.777919104553554,
+        "median": 57.4917323836174,
+        "minimum": 3.777664716357161,
+        "n": 15,
+        "sample_standard_deviation": 21.763586569525643
+      },
+      "old_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 25.48121767150004,
+        "correctly_classified_in_positive_basin": 27.296701433053506,
+        "misclassified_in_negative_basin": 0.05426948189604002,
+        "misclassified_in_positive_basin": 0.05766132451454252,
+        "outside_both_basins": 47.11015008903587
+      }
+    },
+    "2": {
+      "by_dataset": [
+        {
+          "dataset": 1,
+          "descriptive": {
+            "maximum": 65.16,
+            "mean": 53.903333333333336,
+            "median": 62.96,
+            "minimum": 33.59,
+            "n": 3,
+            "sample_standard_deviation": 17.626220052334908
+          },
+          "runs": [
+            65.16,
+            33.59,
+            62.96
+          ]
+        },
+        {
+          "dataset": 2,
+          "descriptive": {
+            "maximum": 66.44,
+            "mean": 66.07333333333334,
+            "median": 66.0,
+            "minimum": 65.78,
+            "n": 3,
+            "sample_standard_deviation": 0.33605555096342654
+          },
+          "runs": [
+            65.78,
+            66.0,
+            66.44
+          ]
+        },
+        {
+          "dataset": 3,
+          "descriptive": {
+            "maximum": 65.75,
+            "mean": 55.23,
+            "median": 64.69,
+            "minimum": 35.25,
+            "n": 3,
+            "sample_standard_deviation": 17.31130266617738
+          },
+          "runs": [
+            35.25,
+            65.75,
+            64.69
+          ]
+        },
+        {
+          "dataset": 4,
+          "descriptive": {
+            "maximum": 50.31,
+            "mean": 50.20333333333334,
+            "median": 50.3,
+            "minimum": 50.0,
+            "n": 3,
+            "sample_standard_deviation": 0.17616280348965074
+          },
+          "runs": [
+            50.3,
+            50.0,
+            50.31
+          ]
+        },
+        {
+          "dataset": 5,
+          "descriptive": {
+            "maximum": 64.28,
+            "mean": 59.21666666666666,
+            "median": 64.02,
+            "minimum": 49.35,
+            "n": 3,
+            "sample_standard_deviation": 8.54577283417558
+          },
+          "runs": [
+            49.35,
+            64.28,
+            64.02
+          ]
+        }
+      ],
+      "completed_combined_correct": {
+        "maximum": 66.44,
+        "mean": 56.925333333333334,
+        "median": 64.02,
+        "minimum": 33.59,
+        "n": 15,
+        "sample_standard_deviation": 11.356125387187472
+      },
+      "completed_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 26.92333333333334,
+        "correctly_classified_in_positive_basin": 30.002,
+        "misclassified_in_negative_basin": 0.10400000000000001,
+        "misclassified_in_positive_basin": 0.22000000000000003,
+        "outside_both_basins": 42.750666666666675
+      },
+      "old_combined_correct": {
+        "maximum": 83.9608242177563,
+        "mean": 71.88586449588739,
+        "median": 81.26430933604681,
+        "minimum": 42.48282879674383,
+        "n": 15,
+        "sample_standard_deviation": 14.383776416373639
+      },
+      "old_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 34.02357330619859,
+        "correctly_classified_in_positive_basin": 37.8622911896888,
+        "misclassified_in_negative_basin": 0.013567370474010005,
+        "misclassified_in_positive_basin": 0.025438819638768758,
+        "outside_both_basins": 28.075129313999827
+      }
+    },
+    "3": {
+      "by_dataset": [
+        {
+          "dataset": 1,
+          "descriptive": {
+            "maximum": 63.09,
+            "mean": 50.693333333333335,
+            "median": 56.08,
+            "minimum": 32.910000000000004,
+            "n": 3,
+            "sample_standard_deviation": 15.794626723456723
+          },
+          "runs": [
+            63.09,
+            56.08,
+            32.910000000000004
+          ]
+        },
+        {
+          "dataset": 2,
+          "descriptive": {
+            "maximum": 62.54,
+            "mean": 61.800000000000004,
+            "median": 61.55,
+            "minimum": 61.31,
+            "n": 3,
+            "sample_standard_deviation": 0.6519969325081207
+          },
+          "runs": [
+            62.54,
+            61.55,
+            61.31
+          ]
+        },
+        {
+          "dataset": 3,
+          "descriptive": {
+            "maximum": 62.93,
+            "mean": 62.11000000000001,
+            "median": 61.75,
+            "minimum": 61.65,
+            "n": 3,
+            "sample_standard_deviation": 0.7118988692223077
+          },
+          "runs": [
+            62.93,
+            61.75,
+            61.65
+          ]
+        },
+        {
+          "dataset": 4,
+          "descriptive": {
+            "maximum": 65.07,
+            "mean": 63.18666666666667,
+            "median": 62.43,
+            "minimum": 62.06,
+            "n": 3,
+            "sample_standard_deviation": 1.6414729158086399
+          },
+          "runs": [
+            65.07,
+            62.43,
+            62.06
+          ]
+        },
+        {
+          "dataset": 5,
+          "descriptive": {
+            "maximum": 64.16999999999999,
+            "mean": 62.75666666666666,
+            "median": 62.21,
+            "minimum": 61.89,
+            "n": 3,
+            "sample_standard_deviation": 1.2343959386409673
+          },
+          "runs": [
+            64.16999999999999,
+            62.21,
+            61.89
+          ]
+        }
+      ],
+      "completed_combined_correct": {
+        "maximum": 65.07,
+        "mean": 60.10933333333334,
+        "median": 62.06,
+        "minimum": 32.910000000000004,
+        "n": 15,
+        "sample_standard_deviation": 7.770097872767172
+      },
+      "completed_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 30.684,
+        "correctly_classified_in_positive_basin": 29.425333333333334,
+        "misclassified_in_negative_basin": 0.02266666666666667,
+        "misclassified_in_positive_basin": 0.048000000000000015,
+        "outside_both_basins": 39.82
+      },
+      "old_combined_correct": {
+        "maximum": 82.45993385906894,
+        "mean": 76.22657508691597,
+        "median": 78.63139150343424,
+        "minimum": 41.77054184685831,
+        "n": 15,
+        "sample_standard_deviation": 9.835263115480332
+      },
+      "old_mean_category_percentages": {
+        "correctly_classified_in_negative_basin": 38.89849910964131,
+        "correctly_classified_in_positive_basin": 37.32807597727466,
+        "misclassified_in_negative_basin": 0.0,
+        "misclassified_in_positive_basin": 0.0016959213092512507,
+        "outside_both_basins": 23.771728991774783
+      }
+    }
+  }
+}

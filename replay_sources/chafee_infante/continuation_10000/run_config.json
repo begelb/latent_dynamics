@@ -1,0 +1,72 @@
+{
+  "atol": 1e-12,
+  "checkpoint_horizons": [
+    6,
+    8,
+    10,
+    12,
+    16,
+    24,
+    40,
+    64,
+    100,
+    150,
+    200,
+    300,
+    500,
+    800,
+    1600,
+    3200,
+    6400
+  ],
+  "created_at_utc": "2026-08-06T21:23:24.528059+00:00",
+  "criterion": {
+    "compared_modes": 16,
+    "distance_tolerance": 1e-08,
+    "original_cutoff": 6.0
+  },
+  "max_step": 5.0,
+  "max_time": 6400.0,
+  "project_root": "/Users/bdoprad/Work/Projects/latent-dynamics",
+  "provenance": {
+    "archived_counts": {
+      "-1": 3909,
+      "0": 2138,
+      "1": 3953
+    },
+    "initial_condition_seed": 9551,
+    "initial_condition_seed_exactly_reproduced": true,
+    "input_hashes": {
+      "stable_solutions.csv": "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec1433363de0586",
+      "traj_attractors.pkl": "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145"
+    },
+    "source_hashes": {
+      "autoencoder_model.py": "420d13a61840ab8c52655d6561834da2b37d40396e3b0b73eb5b5499be6f6263",
+      "generate_attractor_basin_data.py": "abe729271bc33aaa4f360a518a0cbe832284947995e584f5da0a6b15c0278471",
+      "run_continuation.py": "35c471c1223236cc60236b28d7e700306607c3ce04f862773a5370df70909dba"
+    },
+    "stable_root_residual_norms": [
+      1.4225441192088591e-09,
+      1.4224841951768533e-09
+    ],
+    "stable_root_symmetry_norm": 1.570676160273963e-15
+  },
+  "rtol": 1e-10,
+  "runtime": {
+    "numpy": "2.4.4",
+    "platform": "macOS-26.5.2-arm64-arm-64bit-Mach-O",
+    "python": "3.13.15 (main, Aug  5 2026, 12:25:43) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "scipy": "1.17.1"
+  },
+  "schema_version": 1,
+  "solvers": [
+    "LSODA",
+    "BDF"
+  ],
+  "system": {
+    "N": 64,
+    "alpha": 28.0,
+    "tau": 0.1
+  },
+  "workers": 12
+}
