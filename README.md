@@ -1,4 +1,4 @@
-# latentdynamics
+# Latent Dynamics
 
 Companion code for
 
