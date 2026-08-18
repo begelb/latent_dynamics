@@ -8,11 +8,11 @@ Companion code for
 > B. Rivas, E. Vieira.
 > DOI / arXiv: *in preparation*.
 
-## Method in one paragraph
+## Description
 
 We take trajectory data from a dynamical system `f` on a high-dimensional space `X` and train a standard autoencoder with encoder `E`, decoder `D`, and latent map `g` so that `g ∘ E ≈ E ∘ f` on the data. We apply [CMGDB](https://github.com/marciogameiro/CMGDB) to the *latent* map `g` to compute a Conley–Morse graph: a finite poset of combinatorial Morse sets with Conley indices. This describes attractors, repellers, and connecting orbits at a chosen grid resolution. The paper's main theorem gives a quantitative condition—a residual bound against a tolerance—under which attracting blocks of the latent combinatorial model lift to attracting blocks and hence attractors of the original system `f`. The code computes latent Morse graphs, their coarsenings, regions of attraction, and *sampled* estimates of the residual and tolerance quantities. Sampled estimates are not certified bounds. Nothing this repository produces is a computer-assisted proof.
 
-## The four applications
+## Examples
 
 | Family | System | Latent dim | Section |
 |---|---|---|---|
@@ -49,7 +49,7 @@ Until the release bundles are published, the fetcher tells you where to place bu
 
 **Artifact security model.** Bundle integrity depends on the SHA-256 manifest committed in this repository. Bundles are checked before extraction. Tar members are strictly filtered—no absolute paths, traversal, links, or unexpected empty files. Extracted inputs are made read-only. Some bundle members are Python pickles (scikit-learn scalers saved with joblib, one legacy plot-data `.pkl`). They are only loaded from the checksum-verified `replay_sources/` tree. Model checkpoints are plain `state_dict` tensors loaded with `torch.load(weights_only=True)`. Loading legacy pickled modules needs an explicit environment opt-in and is not used by any shipped workflow. If you place bundles manually or point tools at files outside the repository, you are responsible for trusting those files.
 
-## Quick smoke replay
+## Quick test
 
 ```sh
 python pipeline.py --config coral_basic --stages render,metrics \
@@ -58,7 +58,7 @@ python pipeline.py --config coral_basic --stages render,metrics \
 
 This renders the red-coral Morse graph and Morse sets from the saved computation in the artifact bundle and checks the metrics (three Morse nodes; two minimal attractor nodes with fixed-point Conley index) in a few seconds.
 
-## Three tiers of reproduction
+## Reproduction
 
 1. **Replay** (seconds–minutes): Re-render figures and re-check invariants from the saved computations in the artifact bundles. This is deterministic up to font and renderer differences in PDFs.
 2. **Recompute** (minutes–hours): Rerun CMGDB and the analysis pipeline from the shipped *trained models*. Morse graphs, Conley indices, coarsenings, regions of attraction, and residual/tolerance estimates are recomputed from scratch. Results match the published invariants exactly (the box maps are deterministic). Sampled residual searches match to sampling precision.
