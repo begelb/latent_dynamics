@@ -1,10 +1,10 @@
-"""Render Marcio's attraction basins, with an optional coarse-Morse overlay.
+"""Render the archived attraction basins, with an optional coarse-Morse overlay.
 
-The basin layer reproduces the uniform 256-by-256 computation in
-``archive/marcio/scripts/compute_att_basins_statistics.py``. The foreground
+The basin layer reproduces the archived uniform 256-by-256 basin computation
+(``compute_att_basins_statistics.py`` in the reference archive). The foreground
 uses the connection-complete coarse Morse sets produced by
-``scripts/coarsen_chafee_infante.py`` from Marcio's adaptive cell graph.
-Both computations use his data-derived latent bounds.
+``scripts/coarsen_chafee_infante.py`` from the archived adaptive cell graph.
+Both computations use the archived data-derived latent bounds.
 
 Unlike the archived plotting routine, both outputs draw the uniform basin
 partition as one RGBA image. This preserves the exact cell assignment without
@@ -15,22 +15,23 @@ from __future__ import annotations
 
 import argparse
 import json
-import sys
 from collections.abc import Sequence
 from pathlib import Path
 
 import CMGDB
 import matplotlib.pyplot as plt
+import networkx as nx
 import numpy as np
 import torch
 from matplotlib.collections import PatchCollection
 from matplotlib.patches import Rectangle
 
+import coarsen_chafee_infante as coarsen
 from coarsen_chafee_infante import (
-    CODE_ROOT,
-    MARCIO_ROOT,
-    _load_marcio_model,
-    _marcio_bounds,
+    DEFAULT_REFERENCE_ROOT,
+    REPO_ROOT,
+    _load_reference_model,
+    _reference_bounds,
 )
 from latentdynamics.viz.style import (
     CHAFEE_CONNECTING_COLOR,
@@ -40,29 +41,93 @@ from latentdynamics.viz.style import (
     save_figure,
 )
 
-sys.path.insert(0, str(MARCIO_ROOT))
-from basins_attraction import attractor_basins
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
 
-DEFAULT_COARSE_SETS = (
-    CODE_ROOT / "paper_figures" / "coarsened" / "chafee_infante" / "MG" / "morse_sets"
-)
-DEFAULT_OUTPUT = (
-    CODE_ROOT
-    / "paper_figures"
-    / "coarsened"
+
+DEFAULT_COARSE_SETS = _first_existing(
+    REPO_ROOT
+    / "replay_sources"
     / "chafee_infante"
-    / "morse_roa_overlay"
+    / "coarsened"
+    / "MG"
+    / "morse_sets",
+    REPO_ROOT / "output" / "chafee_coarsened" / "MG" / "morse_sets",
 )
+DEFAULT_OUTPUT = REPO_ROOT / "output" / "chafee_coarsened" / "morse_roa_overlay"
 DEFAULT_BASIN_OUTPUT = DEFAULT_OUTPUT.with_name("attractor_basins")
 
 BASIN_ALPHA = 0.35
 ATTRACTOR_ALPHA = 1.0
 
 
+def _reachable_morse_sets(digraph_nx, morse_sets_by_idx):
+    """Map every box to the frozenset of Morse nodes reachable from it."""
+    sccs = list(nx.strongly_connected_components(digraph_nx))
+    condensation = nx.condensation(digraph_nx, sccs)
+    box_to_scc_idx = {}
+    for k, scc in enumerate(sccs):
+        for b in scc:
+            box_to_scc_idx[b] = k
+    box_to_morse_node = {}
+    for k in morse_sets_by_idx:
+        for b in morse_sets_by_idx[k]:
+            box_to_morse_node[b] = k
+    scc_node_to_morse_node = {}
+    for k, scc in enumerate(sccs):
+        for b in scc:
+            if b in box_to_morse_node:
+                scc_node_to_morse_node[k] = box_to_morse_node[b]
+                break
+    reachable = {}
+    for c in reversed(list(nx.topological_sort(condensation))):
+        reach_c = set()
+        if c in scc_node_to_morse_node:
+            reach_c.add(scc_node_to_morse_node[c])
+        for succ in condensation.successors(c):
+            reach_c |= reachable[succ]
+        reachable[c] = frozenset(reach_c)
+    return {b: reachable[box_to_scc_idx[b]] for b in digraph_nx.nodes()}
+
+
+def attractor_basins(map_graph, morse_graph, attractors=None):
+    """Boxes whose complete reachable Morse-node set is exactly one attractor.
+
+    This reproduces the archived basin semantics: a box belongs to the basin
+    of ``att`` only when every Morse node reachable from it is ``att`` itself.
+    """
+    num_boxes = map_graph.num_vertices()
+    num_morse_nodes = morse_graph.num_vertices()
+    digraph_nx = nx.DiGraph()
+    digraph_nx.add_nodes_from(range(num_boxes))
+    for u in range(num_boxes):
+        for v in map_graph.adjacencies(u):
+            digraph_nx.add_edge(u, v)
+    morse_sets_by_idx = {
+        k: frozenset(morse_graph.morse_set(k)) for k in range(num_morse_nodes)
+    }
+    if attractors is None:
+        attractors = [
+            k
+            for k in range(num_morse_nodes)
+            if len(list(morse_graph.adjacencies(k))) == 0
+        ]
+    reachable = _reachable_morse_sets(digraph_nx, morse_sets_by_idx)
+    att_basins = {}
+    for att in attractors:
+        att_basins[att] = sorted(
+            b for b, reach in reachable.items() if reach == {att}
+        )
+    return att_basins
+
+
 def _compute_uniform_basins(device: str):
-    """Reproduce Marcio's 16/16/16 padded uniform-grid basin graph."""
-    model = _load_marcio_model(device)
-    bounds = _marcio_bounds(model, device)
+    """Reproduce the archived 16/16/16 padded uniform-grid basin graph."""
+    model = _load_reference_model(device)
+    bounds = _reference_bounds(model, device)
     resolution = 2 ** (16 // 2)
     xs = np.linspace(bounds.lower[0], bounds.upper[0], resolution + 1)
     ys = np.linspace(bounds.lower[1], bounds.upper[1], resolution + 1)
@@ -107,11 +172,11 @@ def _compute_uniform_basins(device: str):
     ]
     if len(attractors) != 2:
         raise ValueError(
-            f"Marcio uniform basin graph has {len(attractors)} attractors, expected 2"
+            f"archived uniform basin graph has {len(attractors)} attractors, expected 2"
         )
     basins = attractor_basins(map_graph, morse_graph, attractors)
     stable_roots = np.loadtxt(
-        MARCIO_ROOT / "stable_solutions.csv",
+        coarsen.REFERENCE_ROOT / "stable_solutions.csv",
         delimiter=",",
         ndmin=2,
         dtype=np.float32,
@@ -333,6 +398,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("--device", default="cpu")
     parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "directory holding the archived reference inputs "
+            "(ci_model_weights.pth, train_data.csv, stable_solutions.csv)"
+        ),
+    )
+    parser.add_argument(
         "--show-ticks",
         action="store_true",
         help="show coordinate tick marks and values (hidden in the paper-ready default)",
@@ -343,6 +417,11 @@ def main(argv: Sequence[str] | None = None) -> int:
         help="show z_1 and z_2 labels (hidden in the paper-ready default)",
     )
     args = parser.parse_args(argv)
+
+    reference_root = args.reference_root.resolve()
+    coarsen.REFERENCE_ROOT = reference_root
+    coarsen.REFERENCE_WEIGHTS = reference_root / "ci_model_weights.pth"
+    coarsen.REFERENCE_DATA = reference_root / "train_data.csv"
 
     (
         morse_graph,
@@ -399,7 +478,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
 
     metadata = {
-        "source": "archive/marcio/scripts",
+        "source": str(coarsen.REFERENCE_ROOT),
         "uniform_grid_resolution": [resolution, resolution],
         "uniform_map_vertices": int(map_graph.num_vertices()),
         "uniform_morse_nodes": int(morse_graph.num_vertices()),

@@ -1,0 +1,123 @@
+{
+  "example": "leslie3d_example1",
+  "source_root": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+  "cmgdb_source": "CMGDB (project fork)",
+  "backend": "on_demand",
+  "subdivisions": [
+    23,
+    23,
+    27
+  ],
+  "subdiv_limit": 10000,
+  "bounds": {
+    "lower": [
+      -0.6983771920204163,
+      -0.8291957378387451
+    ],
+    "upper": [
+      0.9562897086143494,
+      0.7747613787651062
+    ]
+  },
+  "duration_seconds": 299.4922420840012,
+  "n_map_cells": 8388787,
+  "n_morse_nodes": 6,
+  "morse_edges": [
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      5,
+      3
+    ]
+  ],
+  "live_nodes": {
+    "0": {
+      "n_recurrent_cells": 3595,
+      "saved_geometry_overlaps": {
+        "0": 3594
+      },
+      "exact_saved_label_match": null,
+      "best_saved_match_fraction": 0.9997218358831711
+    },
+    "1": {
+      "n_recurrent_cells": 116777,
+      "saved_geometry_overlaps": {
+        "1": 116777
+      },
+      "exact_saved_label_match": null,
+      "best_saved_match_fraction": 0.9998972505972309
+    },
+    "2": {
+      "n_recurrent_cells": 1186,
+      "saved_geometry_overlaps": {
+        "2": 1186
+      },
+      "exact_saved_label_match": 2,
+      "best_saved_match_fraction": 1.0
+    },
+    "3": {
+      "n_recurrent_cells": 480,
+      "saved_geometry_overlaps": {
+        "3": 480
+      },
+      "exact_saved_label_match": 3,
+      "best_saved_match_fraction": 1.0
+    },
+    "4": {
+      "n_recurrent_cells": 174,
+      "saved_geometry_overlaps": {
+        "4": 174
+      },
+      "exact_saved_label_match": 4,
+      "best_saved_match_fraction": 1.0
+    },
+    "5": {
+      "n_recurrent_cells": 123,
+      "saved_geometry_overlaps": {
+        "5": 123
+      },
+      "exact_saved_label_match": 5,
+      "best_saved_match_fraction": 1.0
+    }
+  },
+  "minimal_blocks": {
+    "0": {
+      "live_node": 0,
+      "n_recurrent_cells": 3595,
+      "n_block_cells": 3595,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/leslie3d_example1/block_0.npz"
+    },
+    "1": {
+      "live_node": 1,
+      "n_recurrent_cells": 116777,
+      "n_block_cells": 116777,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/leslie3d_example1/block_1.npz"
+    },
+    "4": {
+      "live_node": 4,
+      "n_recurrent_cells": 174,
+      "n_block_cells": 174,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/leslie3d_example1/block_4.npz"
+    }
+  }
+}

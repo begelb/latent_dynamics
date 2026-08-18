@@ -14,7 +14,6 @@ import itertools
 import json
 import math
 import re
-import sys
 import time
 from collections import Counter
 from datetime import UTC, datetime
@@ -22,11 +21,6 @@ from pathlib import Path
 from typing import Any
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = CODE_ROOT.parent
-LOCAL_CMGDB_ROOT = (PROJECT_ROOT / "archive" / "CMGDB").resolve()
-LOCAL_CMGDB_SRC = LOCAL_CMGDB_ROOT / "src"
-if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
-    sys.path.insert(0, str(LOCAL_CMGDB_SRC))
 
 import CMGDB  # noqa: E402
 
@@ -725,7 +719,7 @@ def main() -> int:
     if len(requested_nodes) != len(args.node):
         raise ValueError("each requested node may be specified only once")
 
-    cmgdb_state = cmgdb_provenance(LOCAL_CMGDB_ROOT)
+    cmgdb_state = cmgdb_provenance()
 
     screen_dir = resolve_screen_dir(args.screen)
     manifest_path = screen_dir / "manifest.json"

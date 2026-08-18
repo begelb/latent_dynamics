@@ -1,0 +1,177 @@
+{
+  "example": "chafee_infante_d3",
+  "dimension": 3,
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R_hat(N) < tau_hat(N)",
+  "checkpoint": {
+    "path": "replay_sources/chafee_infante/latent_dimension_study/latent_3d/seed_0/models/autoencoder.pt",
+    "sha256": "bdb0f8a69fe1358ab3d7f3bb2e69f6e6883f92fe83fe61e365bed3e04e1e2bab"
+  },
+  "block_source": {
+    "path": "replay_sources/chafee_infante/latent_dimension_study/latent_3d/seed_0/MG_adaptive/morse_sets",
+    "sha256": "14979bd3f3cf526e24a7a486822e0c48328b93bfc57d374cf0709682c2370919"
+  },
+  "nodes": {
+    "0": {
+      "physical_attractor": "negative",
+      "block_geometry": {
+        "kind": "validated_complete_uniform_cell_union_hyperrectangle",
+        "dimension": 3,
+        "cell_count": 36,
+        "grid_shape": [
+          4,
+          3,
+          3
+        ],
+        "cell_width": [
+          0.031197918578982353,
+          0.02097499743103981,
+          0.02521217912435536
+        ],
+        "lower": [
+          -1.3511019069701433,
+          -0.05397605150938034,
+          -1.7734045043587685
+        ],
+        "upper": [
+          -1.226310232654214,
+          0.00894894078373909,
+          -1.6977679669857024
+        ]
+      },
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.02338654361665249,
+        "upper_bound_witness": {
+          "value": 0.02338654361665249,
+          "input": [
+            -1.3511018383553908,
+            -0.053975704622780715,
+            -1.7734044430706566
+          ],
+          "image": [
+            -1.2834841012954712,
+            -0.014437602832913399,
+            -1.735396385192871
+          ],
+          "box_index": 0,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8388612,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388612,
+          "deterministic_points": 324,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 116504,
+          "sobol_generation_power": 17,
+          "sobol_generated_then_truncated_per_scramble": 131072
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.02121656995126403,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.005846635904163122,
+        "ibp_total_evaluated_enclosures": 18432,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 18432,
+            "frozen_with_clearance_at_least_target": 18432,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 18432,
+        "ibp_uniform_refinement_rounds": 3,
+        "ibp_is_outward_rounded": false
+      }
+    },
+    "1": {
+      "physical_attractor": "positive",
+      "block_geometry": {
+        "kind": "validated_complete_uniform_cell_union_hyperrectangle",
+        "dimension": 3,
+        "cell_count": 27,
+        "grid_shape": [
+          3,
+          3,
+          3
+        ],
+        "cell_width": [
+          0.031197918578982353,
+          0.02097499743103981,
+          0.02521217912435514
+        ],
+        "lower": [
+          1.1759294979274273,
+          -0.22177603095769882,
+          1.857149289548397
+        ],
+        "upper": [
+          1.2695232536643744,
+          -0.1588510386645794,
+          1.932785826921463
+        ]
+      },
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.02355029061436653,
+        "upper_bound_witness": {
+          "value": 0.02355029061436653,
+          "input": [
+            1.1759326068726863,
+            -0.22177589978058307,
+            1.9327843655138548
+          ],
+          "image": [
+            1.2145086526870728,
+            -0.18240132927894592,
+            1.9043529033660889
+          ],
+          "box_index": 5,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8388657,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388657,
+          "deterministic_points": 243,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 155341,
+          "sobol_generation_power": 18,
+          "sobol_generated_then_truncated_per_scramble": 262144
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.021129816883418112,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.005887572653591633,
+        "ibp_total_evaluated_enclosures": 13824,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 13824,
+            "frozen_with_clearance_at_least_target": 13824,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 13824,
+        "ibp_uniform_refinement_rounds": 3,
+        "ibp_is_outward_rounded": false
+      }
+    }
+  },
+  "elapsed_seconds": 5.452843189239502
+}

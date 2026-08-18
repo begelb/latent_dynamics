@@ -10,15 +10,10 @@ from __future__ import annotations
 import argparse
 import json
 import math
-import sys
 import time
 from pathlib import Path
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
-LOCAL_CMGDB_SRC = LOCAL_CMGDB_ROOT / "src"
-if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
-    sys.path.insert(0, str(LOCAL_CMGDB_SRC))
 
 import CMGDB  # noqa: E402
 import matplotlib  # noqa: E402
@@ -160,7 +155,7 @@ def main() -> int:
             "ComputeConleyMorseGraph" if args.conley else "ComputeMorseGraph"
         ),
         "output": str(output),
-        "cmgdb": cmgdb_provenance(LOCAL_CMGDB_ROOT),
+        "cmgdb": cmgdb_provenance(),
     }
     (output / "run_config.json").write_text(
         json.dumps(resolved_config, indent=2) + "\n"

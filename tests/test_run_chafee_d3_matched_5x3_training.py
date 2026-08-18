@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from latentdynamics.config import ArchConfig
 
@@ -94,7 +95,10 @@ def test_fixed_matrix_and_architecture_are_exact() -> None:
     assert all(
         trial.training_spec.learning_rate == 0.003 for trial in trials
     )
-    arch = D3._d3_architecture()
+    try:
+        arch = D3._d3_architecture()
+    except FileNotFoundError as exc:
+        pytest.skip(f"chafee artifacts not present: {exc}")
     assert arch.high_dims == 64
     assert arch.low_dims == 3
     assert arch.encoder.hidden_shapes == [64, 32]
@@ -166,7 +170,7 @@ def test_training_is_resumable_and_preserves_one_attempt_per_completed_trial(
     def fail_if_called(**_kwargs):
         raise AssertionError("verified completed trials must not retrain")
 
-    monkeypatch.setattr(D3, "train_marcio_full_batch", fail_if_called)
+    monkeypatch.setattr(D3, "train_reference_full_batch", fail_if_called)
     second = D3.run_experiment(
         output_root=output,
         stage="train",

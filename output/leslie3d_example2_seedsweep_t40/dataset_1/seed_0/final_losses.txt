@@ -1,5 +1,0 @@
-best_epoch: 978
-val_loss_reconstruction: 2.234110e-04
-val_loss_prediction: 1.912004e-04
-val_loss_semiconjugacy: 3.786490e-05
-val_loss_total: 2.501040e-02

@@ -1,6 +1,0 @@
-best_epoch: 245
-val_loss_ae1: 2.615713e-02
-val_loss_ae2: 2.225280e-02
-val_loss_dyn: 5.182708e-04
-val_loss_cycle_pred: 4.325216e-05
-val_loss_total: 4.846176e-01

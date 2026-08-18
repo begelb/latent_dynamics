@@ -30,14 +30,21 @@ def _load_renderer_module():
 RENDERER = _load_renderer_module()
 
 
+def _default_specs_or_skip(d2_fine_dir=None):
+    try:
+        return RENDERER._build_specs(
+            d1_dir=RENDERER.DEFAULT_D1_DIR,
+            d1_bounds_path=RENDERER.DEFAULT_D1_BOUNDS,
+            d2_coarse_dir=RENDERER.DEFAULT_D2_COARSE_DIR,
+            d2_manifest_path=RENDERER.DEFAULT_D2_MANIFEST,
+            d2_fine_dir=d2_fine_dir,
+        )
+    except FileNotFoundError as exc:
+        pytest.skip(f"chafee artifacts not present: {exc}")
+
+
 def test_default_specs_use_semantic_colors_and_omit_unverified_d2_fine() -> None:
-    specs = RENDERER._build_specs(
-        d1_dir=RENDERER.DEFAULT_D1_DIR,
-        d1_bounds_path=RENDERER.DEFAULT_D1_BOUNDS,
-        d2_coarse_dir=RENDERER.DEFAULT_D2_COARSE_DIR,
-        d2_manifest_path=RENDERER.DEFAULT_D2_MANIFEST,
-        d2_fine_dir=None,
-    )
+    specs = _default_specs_or_skip()
 
     assert [spec.key for spec in specs] == ["latent_1d", "latent_2d_coarse"]
     one, coarse = specs
@@ -55,7 +62,7 @@ def test_default_specs_use_semantic_colors_and_omit_unverified_d2_fine() -> None
     RENDERER._validate_spec(coarse)
 
 
-def test_saved_replay_is_rejected_as_marcio_adaptive_fine_source() -> None:
+def test_saved_replay_is_rejected_as_reference_adaptive_fine_source() -> None:
     replay = (
         RENDERER.CODE_ROOT
         / "replay_sources"
@@ -63,13 +70,9 @@ def test_saved_replay_is_rejected_as_marcio_adaptive_fine_source() -> None:
         / "replay"
         / "MG"
     )
-    specs = RENDERER._build_specs(
-        d1_dir=RENDERER.DEFAULT_D1_DIR,
-        d1_bounds_path=RENDERER.DEFAULT_D1_BOUNDS,
-        d2_coarse_dir=RENDERER.DEFAULT_D2_COARSE_DIR,
-        d2_manifest_path=RENDERER.DEFAULT_D2_MANIFEST,
-        d2_fine_dir=replay,
-    )
+    if not replay.is_dir():
+        pytest.skip(f"chafee artifacts not present: {replay}")
+    specs = _default_specs_or_skip(d2_fine_dir=replay)
     fine = next(spec for spec in specs if spec.key == "latent_2d_fine")
 
     with pytest.raises(ValueError, match=r"edges do not match.*missing=.*extra="):
@@ -77,13 +80,7 @@ def test_saved_replay_is_rejected_as_marcio_adaptive_fine_source() -> None:
 
 
 def test_default_axis_cleanup_preserves_morse_labels() -> None:
-    spec = RENDERER._build_specs(
-        d1_dir=RENDERER.DEFAULT_D1_DIR,
-        d1_bounds_path=RENDERER.DEFAULT_D1_BOUNDS,
-        d2_coarse_dir=RENDERER.DEFAULT_D2_COARSE_DIR,
-        d2_manifest_path=RENDERER.DEFAULT_D2_MANIFEST,
-        d2_fine_dir=None,
-    )[0]
+    spec = _default_specs_or_skip()[0]
     palette = RENDERER.chafee_semantic_palette(
         3,
         negative_label=0,

@@ -1,0 +1,426 @@
+{
+  "schema_version": 1,
+  "created_at_utc": "2026-08-06T19:19:28.671625+00:00",
+  "purpose": "Bundle leslie3d_example1 uniform (22,22,22), active adaptive (23,23,27), and connection-complete 4/5 merge artifacts.",
+  "provenance": {
+    "checkpoint_origin": {
+      "description": "Author-provided 2026-05-03 legacy three-file checkpoint; the active replay model files are byte-identical to the recorded author-archive checksums.",
+      "active_path": "replay_sources/leslie3d_example1/spurious_attractor_ex/models",
+      "sha256": {
+        "encoder.pt": "211f84456707afb254da1cfa05defa41137f90813f624af420722954763d1f4c",
+        "dynamics.pt": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+        "decoder.pt": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2"
+      }
+    },
+    "active_original_morse_source": {
+      "description": "Later wide-domain paper replay on the author-provided checkpoint; not the narrower author-archive Morse cover.",
+      "path": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+      "nominal_subdivision": [
+        23,
+        23,
+        27
+      ],
+      "effective_morse_box_depth": 23,
+      "bounds": {
+        "lower": [
+          -0.6983771920204163,
+          -0.8291957378387451
+        ],
+        "upper": [
+          0.9562897086143494,
+          0.7747613787651062
+        ]
+      },
+      "padding": true,
+      "subdivision_limit": 10000
+    },
+    "author_archive_morse_source": {
+      "note": "The narrower run A cover in the coauthor's private development archive is deliberately not substituted for the active paper replay in this bundle; see provenance/g1_provenance_full.md (checksums retained)."
+    }
+  },
+  "uniform_22_22_22": {
+    "grid_sizes": [
+      2048,
+      2048
+    ],
+    "cell_count": 4194304,
+    "raw_node_count": 24,
+    "raw_minimal_nodes": [
+      0,
+      1
+    ],
+    "morse_set_rows_by_label": {
+      "0": 2714,
+      "1": 85170,
+      "2": 5,
+      "3": 7,
+      "4": 23,
+      "5": 4,
+      "6": 8,
+      "7": 4,
+      "8": 11,
+      "9": 1152,
+      "10": 2,
+      "11": 2,
+      "12": 5,
+      "13": 5,
+      "14": 2,
+      "15": 13,
+      "16": 3,
+      "17": 4,
+      "18": 2,
+      "19": 6,
+      "20": 11,
+      "21": 2,
+      "22": 3,
+      "23": 291
+    },
+    "nontrivial_morse_set_rows_by_label": {
+      "0": 2714,
+      "1": 85170,
+      "9": 1152,
+      "23": 291
+    },
+    "fixed_and_period_two_raw_node": 23,
+    "existing_component_conley_index": [
+      "0",
+      "x+1",
+      "0"
+    ],
+    "merge_operation": "identity_existing_component",
+    "added_connection_cells": 0,
+    "sampled_residual_tolerance": {
+      "metric": "Euclidean distance in stored latent coordinates",
+      "nodes": {
+        "0": {
+          "sampled_residual": 1.0681129693984985,
+          "sampled_tolerance": 0.0008005722775124013,
+          "ratio": 1334.1868053655564,
+          "residual_candidates": 6872468,
+          "accepted_residual_samples": 904399,
+          "tolerance_samples": 8388974
+        },
+        "1": {
+          "sampled_residual": 0.6969771385192871,
+          "sampled_tolerance": 0.0007924759411253035,
+          "ratio": 879.4931206739102,
+          "residual_candidates": 6872468,
+          "accepted_residual_samples": 3074979,
+          "tolerance_samples": 8431830
+        }
+      }
+    }
+  },
+  "adaptive_23_23_27": {
+    "raw_node_count": 6,
+    "morse_set_rows_by_label": {
+      "0": 3594,
+      "1": 116789,
+      "2": 1186,
+      "3": 480,
+      "4": 174,
+      "5": 123
+    },
+    "raw_graph_sha256": "fb7a57e012b76f5a02cb6e0e591cf194ccd130a80c34909f5cccb1d80233d596",
+    "raw_sets_sha256": "b9be6b28922f06898f765027980c6106fda40a349077872255db5dac321e05d6",
+    "merged_4_5": {
+      "morse_set_rows_by_label": {
+        "0": 3595,
+        "1": 116777,
+        "2": 1186,
+        "3": 480,
+        "4": 322
+      },
+      "conley_index": [
+        "0",
+        "x+1",
+        "0"
+      ],
+      "added_connection_cells": 25,
+      "total_merged_cells": 322,
+      "display_color": "#785EF0",
+      "display_color_semantic": "ground-truth period-2 saddle color"
+    }
+  },
+  "paper_ready_figures": {
+    "path": "paper_ready_no_legend",
+    "intended_latex_width": "0.5\\textwidth",
+    "minimum_box_side_fraction_full_views": 0.005,
+    "zoom_views_use_exact_box_sizes": true,
+    "legends": false,
+    "titles": false,
+    "numeric_ticks": false,
+    "merged_4_5_display_color": "#785EF0"
+  },
+  "files": {
+    "README.md": {
+      "bytes": 8102,
+      "sha256": "7363e75aa58f2f71f631c43dbda48c6f91b22044b813f70db073e68b5cc74ec9"
+    },
+    "adaptive_23_23_27/merged_4_5/REPORT.md": {
+      "bytes": 553,
+      "sha256": "2296a323b71005e61e44d872010be4e7241d837bdc696c2e563aca4efadc0aa3"
+    },
+    "adaptive_23_23_27/merged_4_5/merged_conley_index.json": {
+      "bytes": 1475,
+      "sha256": "b4cbdd47987175c02ddbf39629c21319882985a9fd3d29055024571c744ee2fd"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_graph.dot": {
+      "bytes": 461,
+      "sha256": "7c3148fbff29eea5df844346fef46b95fc69cf4b8f0f5692f5cc47698534957d"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_graph.pdf": {
+      "bytes": 13505,
+      "sha256": "363444e5494768c12dc80a68c621739776764f2bf42855afb2cef5a0f18fe29d"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_graph.png": {
+      "bytes": 28874,
+      "sha256": "128028636a52883c10797e61ec97883de037e41650f5e00842779f6b9f4557ce"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_set_4_5.pdf": {
+      "bytes": 7901,
+      "sha256": "74e73c3597efee5b237d0418b97810718defe7fdc0f09725c531007d5014174f"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_set_4_5.png": {
+      "bytes": 7168,
+      "sha256": "dabd7be1a7f792da28270b8078b8c7834d3f25aeb1432c20ac4e1faa4dceccbe"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_sets.csv": {
+      "bytes": 10255850,
+      "sha256": "1417422279f30da1025d50bb759ad9011ca5affc7bcb791c3f02d8548d142bbc"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_sets_no_legend.pdf": {
+      "bytes": 13084,
+      "sha256": "b4aab5d91fcb5019e744dd7845f504371d7418a524dad3be119f40207cc47d0f"
+    },
+    "adaptive_23_23_27/merged_4_5/morse_sets_no_legend.png": {
+      "bytes": 10329,
+      "sha256": "47e60f9b9a0271838bf2cd4eb89fd686541a0b6225b92242907f636391e90c82"
+    },
+    "adaptive_23_23_27/merged_4_5/result.json": {
+      "bytes": 9465,
+      "sha256": "f8b67daa2963f5cb0729689d1bdfeff9c9697fcaedaee87f98756acd4a522e3e"
+    },
+    "adaptive_23_23_27/raw/morse_graph.dot": {
+      "bytes": 722,
+      "sha256": "fb7a57e012b76f5a02cb6e0e591cf194ccd130a80c34909f5cccb1d80233d596"
+    },
+    "adaptive_23_23_27/raw/morse_graph.pdf": {
+      "bytes": 13480,
+      "sha256": "160ce61e0368f44b687350abd45b585f06b422a7ff1725cc5d8ec2817995500f"
+    },
+    "adaptive_23_23_27/raw/morse_graph.png": {
+      "bytes": 39294,
+      "sha256": "79b0972f105747a94eb3cc628373ed45bade1006cb9c17b3e9360370b6b7ca6e"
+    },
+    "adaptive_23_23_27/raw/morse_sets.csv": {
+      "bytes": 10377031,
+      "sha256": "b9be6b28922f06898f765027980c6106fda40a349077872255db5dac321e05d6"
+    },
+    "adaptive_23_23_27/raw/morse_sets.pdf": {
+      "bytes": 1510647,
+      "sha256": "654414d06861efd5224d0559bc93bb278a972337ac4e013bf9e2a17771b4ece6"
+    },
+    "adaptive_23_23_27/raw/morse_sets.png": {
+      "bytes": 51894,
+      "sha256": "df38287fcba0329c36a4390603ce76ed32551a344793d36f5fd3d6f1ac4c7579"
+    },
+    "adaptive_23_23_27/raw/morse_sets_no_legend.pdf": {
+      "bytes": 13109,
+      "sha256": "372d3953a797d812a1aab980dc5f67c9e4d5f197fb189653f46720674371f6ac"
+    },
+    "adaptive_23_23_27/raw/morse_sets_no_legend.png": {
+      "bytes": 10367,
+      "sha256": "649eb166b1cc1e9ced6e0ea02b1889a259d6d66d0af8cb6154f959b14750c0f5"
+    },
+    "adaptive_23_23_27/raw/morse_sets_with_separate_4_5_zoom_no_legend.pdf": {
+      "bytes": 14376,
+      "sha256": "57f74d78790775c289eaf4a947e417f781a9dfabf3cedd8c90e4f41bfc19034f"
+    },
+    "adaptive_23_23_27/raw/morse_sets_with_separate_4_5_zoom_no_legend.png": {
+      "bytes": 10708,
+      "sha256": "69d426e3cebcdb44dea9c201f2425221b173fb1ff28c4407642fc533f00ed90e"
+    },
+    "paper_ready_no_legend/README.md": {
+      "bytes": 1535,
+      "sha256": "9638f243cdacdc57411d03b17d8560d439136aa246adc3331005fb63f8b5983b"
+    },
+    "paper_ready_no_legend/adaptive_merged_4_5_morse_graph.pdf": {
+      "bytes": 13505,
+      "sha256": "363444e5494768c12dc80a68c621739776764f2bf42855afb2cef5a0f18fe29d"
+    },
+    "paper_ready_no_legend/adaptive_merged_4_5_morse_sets_no_legend.pdf": {
+      "bytes": 13084,
+      "sha256": "b4aab5d91fcb5019e744dd7845f504371d7418a524dad3be119f40207cc47d0f"
+    },
+    "paper_ready_no_legend/adaptive_merged_4_5_morse_sets_no_legend.png": {
+      "bytes": 10329,
+      "sha256": "47e60f9b9a0271838bf2cd4eb89fd686541a0b6225b92242907f636391e90c82"
+    },
+    "paper_ready_no_legend/adaptive_merged_4_5_zoom_no_legend.pdf": {
+      "bytes": 7901,
+      "sha256": "74e73c3597efee5b237d0418b97810718defe7fdc0f09725c531007d5014174f"
+    },
+    "paper_ready_no_legend/adaptive_merged_4_5_zoom_no_legend.png": {
+      "bytes": 7168,
+      "sha256": "dabd7be1a7f792da28270b8078b8c7834d3f25aeb1432c20ac4e1faa4dceccbe"
+    },
+    "paper_ready_no_legend/adaptive_original_morse_graph.pdf": {
+      "bytes": 13480,
+      "sha256": "160ce61e0368f44b687350abd45b585f06b422a7ff1725cc5d8ec2817995500f"
+    },
+    "paper_ready_no_legend/adaptive_original_morse_sets_no_legend.pdf": {
+      "bytes": 13109,
+      "sha256": "372d3953a797d812a1aab980dc5f67c9e4d5f197fb189653f46720674371f6ac"
+    },
+    "paper_ready_no_legend/adaptive_original_morse_sets_no_legend.png": {
+      "bytes": 10367,
+      "sha256": "649eb166b1cc1e9ced6e0ea02b1889a259d6d66d0af8cb6154f959b14750c0f5"
+    },
+    "paper_ready_no_legend/adaptive_original_morse_sets_with_separate_4_5_zoom_no_legend.pdf": {
+      "bytes": 14376,
+      "sha256": "57f74d78790775c289eaf4a947e417f781a9dfabf3cedd8c90e4f41bfc19034f"
+    },
+    "paper_ready_no_legend/adaptive_original_morse_sets_with_separate_4_5_zoom_no_legend.png": {
+      "bytes": 10708,
+      "sha256": "69d426e3cebcdb44dea9c201f2425221b173fb1ff28c4407642fc533f00ed90e"
+    },
+    "paper_ready_no_legend/manifest.json": {
+      "bytes": 2044,
+      "sha256": "9d51cd7c48eff21461ceec711fdbd31459bd793613784b40fcc97f3bd8d829a2"
+    },
+    "paper_ready_no_legend/uniform_22_node23_zoom_no_legend.pdf": {
+      "bytes": 8289,
+      "sha256": "f84734344b8d8b914d0a6315e3a6453d83478ffc95992d2d4974347d1f5440f5"
+    },
+    "paper_ready_no_legend/uniform_22_node23_zoom_no_legend.png": {
+      "bytes": 12270,
+      "sha256": "801775e54e50b04928999fe719cf9c912994cd95015074c60a8f2d74c1b703ef"
+    },
+    "paper_ready_no_legend/uniform_22_nontrivial_morse_graph.pdf": {
+      "bytes": 13070,
+      "sha256": "299eaea3266faebdad12b602d913baf3e5f8a886fd857ce1210d8cc7629ab5ca"
+    },
+    "paper_ready_no_legend/uniform_22_nontrivial_morse_sets_no_legend.pdf": {
+      "bytes": 13504,
+      "sha256": "390c608d2b40d3e5083ea334cab55652cf07999aa41025efc0eb64eb046bb9e8"
+    },
+    "paper_ready_no_legend/uniform_22_nontrivial_morse_sets_no_legend.png": {
+      "bytes": 10617,
+      "sha256": "777b0dec764ceb9928868654e744bab0afac75ddfeb55f2ee2c397d09d046222"
+    },
+    "paper_ready_no_legend/uniform_22_nontrivial_morse_sets_with_node23_zoom_no_legend.pdf": {
+      "bytes": 15355,
+      "sha256": "ad9068b37150f4c3b170a726aa156fb9b5122c7edb3f267ebed1c3eb6a7879fb"
+    },
+    "paper_ready_no_legend/uniform_22_nontrivial_morse_sets_with_node23_zoom_no_legend.png": {
+      "bytes": 14303,
+      "sha256": "42af4b82459f974ee7aa72733ab0b1cd5070f50a2e9d43d38017e078d60af6c8"
+    },
+    "provenance/active_mg_params_log.txt": {
+      "bytes": 365,
+      "sha256": "89658c538be2bf76cfadf925513296298ef77419246d4922a8aa48ab5da651d7"
+    },
+    "provenance/active_run_manifest.json": {
+      "bytes": 3864,
+      "sha256": "61e9a48896a0227166bf9fc8f01888c24b772d0eaaa769076d7c08ed727bb833"
+    },
+    "provenance/g1_provenance_full.md": {
+      "bytes": 33178,
+      "sha256": "f66e9c9ee859ad2addfff57bb1bfc91df17ba6cd7ae9294759217be0fbc06f7d"
+    },
+    "provenance/leslie3d_example1_replay.yaml": {
+      "bytes": 1318,
+      "sha256": "34393291e5150b750c28bbd4aaa649e471f17241b8a8f5baea93b178139990ed"
+    },
+    "uniform_22_22_22/REPORT.md": {
+      "bytes": 896,
+      "sha256": "31a19000872d2366025c27d0cd0e277a58e1b0e5890f9b4bf5e432c9aa2264de"
+    },
+    "uniform_22_22_22/nontrivial/morse_graph.dot": {
+      "bytes": 380,
+      "sha256": "951ebd32c17626f9e8a6ba728bbd34535caa819cb3b344f7fee550354ea9b7b3"
+    },
+    "uniform_22_22_22/nontrivial/morse_graph.pdf": {
+      "bytes": 13070,
+      "sha256": "299eaea3266faebdad12b602d913baf3e5f8a886fd857ce1210d8cc7629ab5ca"
+    },
+    "uniform_22_22_22/nontrivial/morse_graph.png": {
+      "bytes": 22242,
+      "sha256": "555db300687cd78829b11acc1b570250db9c02321a57695edbb521afcdb3a9c2"
+    },
+    "uniform_22_22_22/nontrivial/morse_set_23_zoom_no_legend.pdf": {
+      "bytes": 8289,
+      "sha256": "f84734344b8d8b914d0a6315e3a6453d83478ffc95992d2d4974347d1f5440f5"
+    },
+    "uniform_22_22_22/nontrivial/morse_set_23_zoom_no_legend.png": {
+      "bytes": 12270,
+      "sha256": "801775e54e50b04928999fe719cf9c912994cd95015074c60a8f2d74c1b703ef"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets.csv": {
+      "bytes": 7489392,
+      "sha256": "255f7da6e9f76a3342630a7a221d4e3e7affb3d5187d9374777c5d8585a74ff7"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets.pdf": {
+      "bytes": 15355,
+      "sha256": "ad9068b37150f4c3b170a726aa156fb9b5122c7edb3f267ebed1c3eb6a7879fb"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets.png": {
+      "bytes": 14303,
+      "sha256": "42af4b82459f974ee7aa72733ab0b1cd5070f50a2e9d43d38017e078d60af6c8"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets_full_no_legend.pdf": {
+      "bytes": 13504,
+      "sha256": "390c608d2b40d3e5083ea334cab55652cf07999aa41025efc0eb64eb046bb9e8"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets_full_no_legend.png": {
+      "bytes": 10617,
+      "sha256": "777b0dec764ceb9928868654e744bab0afac75ddfeb55f2ee2c397d09d046222"
+    },
+    "uniform_22_22_22/nontrivial/morse_sets_summary.json": {
+      "bytes": 1660,
+      "sha256": "e18b4fc8f783fb19b9aad213aaa851fb84059f54161bd341c28d94a162062da8"
+    },
+    "uniform_22_22_22/raw/morse_graph.dot": {
+      "bytes": 2113,
+      "sha256": "173345c82816a8437eb398657ccdb4b2d86f35236cdc71037a0fa5b5951f5ecc"
+    },
+    "uniform_22_22_22/raw/morse_graph.png": {
+      "bytes": 121741,
+      "sha256": "903f481e87dae7ca9b715244db9e49eb70fb89a9e36b56b8e9f8ca9b0cad3bae"
+    },
+    "uniform_22_22_22/raw/morse_sets.csv": {
+      "bytes": 7499718,
+      "sha256": "a6f9e2d1af898e6358b6a6c10714b3391c2302f133a34cb56bd276b75c759d9b"
+    },
+    "uniform_22_22_22/raw/morse_sets.pdf": {
+      "bytes": 36692,
+      "sha256": "ee3c7cbf7368e006c56d1b425373dd086745e3aebaec11547f79891e92a3d63d"
+    },
+    "uniform_22_22_22/raw/morse_sets.png": {
+      "bytes": 75561,
+      "sha256": "bf579af3e4cd5bab160ed1c5d98120baedf58e55394778d5901e1ceecd711e4e"
+    },
+    "uniform_22_22_22/residual_tolerance/SUMMARY.md": {
+      "bytes": 1054,
+      "sha256": "728b065b6070f6ceabfaf1bf6acf2b3ef22990208410e88e4bcc867f95f2b338"
+    },
+    "uniform_22_22_22/residual_tolerance/forward_closure_verification.json": {
+      "bytes": 2617,
+      "sha256": "5d7472a72b7b3c564e4e36799059ce34373112dce82076803c27ac758d774ef8"
+    },
+    "uniform_22_22_22/residual_tolerance/sampled_residual_tolerance.json": {
+      "bytes": 26293,
+      "sha256": "6bf3bec691ea82f5443cff1d1defcdc811c27f4d53c02302e6599f4a9414fa77"
+    },
+    "uniform_22_22_22/residual_tolerance/tolerance_sampling.json": {
+      "bytes": 10527,
+      "sha256": "80bb9231a872788358066f44f84826dc2ec89462e8f9590d127770099c54eaaf"
+    },
+    "uniform_22_22_22/result.json": {
+      "bytes": 17632,
+      "sha256": "5bece84bd656912ca6b689ab76a1f058654e6a798a4cb9ae987dd83f024615b9"
+    }
+  },
+  "files_note": "Rows for the original bundle's frozen private driver scripts and a macOS .DS_Store entry were removed from this shipped copy; all other rows are unchanged from the original attestation."
+}

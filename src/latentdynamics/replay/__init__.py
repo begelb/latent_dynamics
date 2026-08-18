@@ -72,7 +72,8 @@ from ..viz import (
     render_morse_from_files,
     save_morse_graph_artifacts,
 )
-from .fetch import fetch_artifacts
+from .fetch import ArtifactsNotPublishedError, FetchError, fetch_artifacts
+from .fetch import fetch_bundle as fetch_bundle
 
 # code/ -- the repo root the relative config paths are written against.
 # On pip-install, this falls back to the cache dir.
@@ -90,7 +91,9 @@ def _check_playground_dir(out_dir: Path) -> Path:
     for protected in _PROTECTED_ROOTS:
         if resolved == protected or resolved.is_relative_to(protected):
             raise ValueError(
-                f"refusing to write under {protected} (preserved paper artifacts); "
+                f"refusing to write under {protected} (preserved paper artifacts; "
+                f"fetched bundles are checksum-verified and kept read-only, so any "
+                f"write would invalidate them); "
                 f"use a directory under {DEFAULT_PLAYGROUND_ROOT} instead"
             )
     return out_dir
@@ -581,6 +584,12 @@ def load_experiment(
         except ValueError as e:
             # Unknown experiment name
             raise ValueError(f"{name}: {e}") from e
+        except ArtifactsNotPublishedError:
+            # The message already names the manual placement path.
+            raise
+        except FetchError as e:
+            # Manifest problem or a bundle that failed verification
+            raise RuntimeError(f"{name}: artifact fetch failed: {e}") from e
         except urllib.error.URLError as e:
             # Network error or download failed
             raise RuntimeError(

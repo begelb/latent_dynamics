@@ -1,0 +1,77 @@
+{
+  "example": "coral_candidate_train500_seed16",
+  "source_root": "replay_sources/coral/train_500/seed_16",
+  "cmgdb_source": "CMGDB (project fork)",
+  "backend": "on_demand",
+  "subdivisions": [
+    8,
+    8,
+    12
+  ],
+  "subdiv_limit": 10000,
+  "bounds": {
+    "lower": [
+      -1.0138611376285553
+    ],
+    "upper": [
+      0.4264032423496246
+    ]
+  },
+  "duration_seconds": 0.011614832998020574,
+  "n_map_cells": 317,
+  "n_morse_nodes": 3,
+  "morse_edges": [
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      0
+    ]
+  ],
+  "live_nodes": {
+    "0": {
+      "n_recurrent_cells": 3,
+      "saved_geometry_overlaps": {
+        "0": 3
+      },
+      "exact_saved_label_match": 0,
+      "best_saved_match_fraction": 1.0
+    },
+    "1": {
+      "n_recurrent_cells": 5,
+      "saved_geometry_overlaps": {
+        "1": 5
+      },
+      "exact_saved_label_match": 1,
+      "best_saved_match_fraction": 1.0
+    },
+    "2": {
+      "n_recurrent_cells": 2,
+      "saved_geometry_overlaps": {
+        "2": 2
+      },
+      "exact_saved_label_match": 2,
+      "best_saved_match_fraction": 1.0
+    }
+  },
+  "minimal_blocks": {
+    "0": {
+      "live_node": 0,
+      "n_recurrent_cells": 3,
+      "n_block_cells": 3,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/coral_candidate_train500_seed16/block_0.npz"
+    },
+    "1": {
+      "live_node": 1,
+      "n_recurrent_cells": 5,
+      "n_block_cells": 5,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/coral_candidate_train500_seed16/block_1.npz"
+    }
+  }
+}

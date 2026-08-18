@@ -1,6 +1,6 @@
 """Run the matched five-dataset by three-seed Chafee d=1 experiment.
 
-This exploratory driver pairs each of Marcio's five archived training datasets
+This exploratory driver pairs each of the five archived reference training datasets
 with three explicit, independent model-initialization seeds (0, 1, and 2).
 Training uses the validated direct full-batch implementation and changes only
 the latent dimension from the archived d=2 computation to d=1.
@@ -10,7 +10,7 @@ The primary analysis is deliberately the archived-comparison protocol:
 * encoder bounds from the exact dataset used to train that model;
 * a persisted 257-corner lookup for the level-8 one-dimensional box map;
 * a uniform CMGDB graph at subdivisions 8/8/8 with padding enabled; and
-* Marcio's strict ``MorseSingletonReachability`` basin classification.
+* the archived strict ``MorseSingletonReachability`` basin classification.
 
 Headline validity requires exactly two uniform minimal attractors and distinct
 unique singleton associations for the encoded negative and positive roots.
@@ -28,12 +28,12 @@ import argparse
 import csv
 import hashlib
 import importlib
+import importlib.metadata
 import json
 import math
 import platform
 import re
 import statistics
-import subprocess
 import time
 import traceback
 from collections.abc import Sequence
@@ -49,10 +49,14 @@ import chafee_latent_dimension_study as study
 import repeat_chafee_d1_full_batch as repeat
 import sweep_chafee_d1_full_batch as sweep
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CODE_ROOT = Path(__file__).resolve().parents[1]
+from latentdynamics._paths import get_repo_root
+
+REPO_ROOT = get_repo_root()
 DRIVER_IMPLEMENTATION = Path(__file__).resolve()
-DEFAULT_OUTPUT = CODE_ROOT / "output" / "chafee_d1_matched_d2_archive_5x3_roa_v1"
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
+DEFAULT_OUTPUT = REPO_ROOT / "output" / "chafee_d1_matched_d2_archive_5x3_roa_v1"
 
 TRAINING_SEEDS = (0, 1, 2)
 EPOCHS = 4_000
@@ -220,9 +224,7 @@ def _dataset_specs() -> tuple[DatasetSpec, ...]:
             dataset=dataset,
             initial_condition_seed=DATASET_INITIAL_CONDITION_SEEDS[dataset],
             train_data=(
-                PROJECT_ROOT
-                / "archive"
-                / "marcio"
+                REFERENCE_ROOT
                 / "computations"
                 / f"run_dataset_{dataset}"
                 / "train_data.csv"
@@ -245,36 +247,12 @@ def _training_specs() -> tuple[sweep.FullBatchRunSpec, ...]:
     )
 
 
-def _git_value(repository: Path, *args: str) -> str:
-    completed = subprocess.run(
-        ["git", "-C", str(repository), *args],
-        check=True,
-        capture_output=True,
-        text=True,
-    )
-    return completed.stdout.strip()
-
-
 def _cmgdb_provenance() -> dict[str, Any]:
-    repository = PROJECT_ROOT / "archive" / "CMGDB"
     native_module_name = getattr(study.CMGDB.ComputeMorseGraph, "__module__", "")
     native_module = importlib.import_module(native_module_name)
     native_binary = Path(native_module.__file__).resolve()
-    dirty_lines = tuple(
-        line
-        for line in _git_value(
-            repository,
-            "status",
-            "--porcelain",
-            "--untracked-files=all",
-        ).splitlines()
-        if line
-    )
     return {
-        "repository": str(repository.resolve()),
-        "git_commit": _git_value(repository, "rev-parse", "HEAD"),
-        "git_dirty": bool(dirty_lines),
-        "git_status_porcelain": list(dirty_lines),
+        "version": importlib.metadata.version("cmgdb"),
         "python_module": _file_record(Path(study.CMGDB.__file__)),
         "native_extension": _file_record(native_binary),
     }
@@ -291,7 +269,7 @@ def _runtime_provenance() -> dict[str, Any]:
 
 
 def _build_plan() -> dict[str, Any]:
-    canonical_inputs = study.verify_exact_inputs(study.DEFAULT_ARCHIVE_DIR)
+    canonical_inputs = study.verify_exact_inputs(REFERENCE_ROOT)
     datasets = _dataset_specs()
     implementations = {
         name: _file_record(path)
@@ -320,9 +298,9 @@ def _build_plan() -> dict[str, Any]:
             "dataset_level_dimension_comparison_is_primary": True,
         },
         "training_protocol": {
-            "entrypoint": "latentdynamics.training.train_marcio_full_batch",
+            "entrypoint": "latentdynamics.training.train_reference_full_batch",
             "device": DEVICE,
-            "architecture": study.marcio_architecture(1).model_dump(mode="json"),
+            "architecture": study.reference_architecture(1).model_dump(mode="json"),
             "epochs": EPOCHS,
             "updates_per_epoch": 1,
             "full_batch_rows": sweep.TRAINING_ROWS,
@@ -437,9 +415,9 @@ def _validate_plan_envelope(payload: dict[str, Any]) -> dict[str, Any]:
         ):
             raise ValueError(f"frozen matched-run source changed: {path}")
     current_cmgdb = _cmgdb_provenance()
-    for key in ("git_commit", "git_dirty", "git_status_porcelain"):
+    for key in ("version", "python_module", "native_extension"):
         if current_cmgdb[key] != plan["cmgdb"][key]:
-            raise ValueError(f"CMGDB repository state changed at field {key}")
+            raise ValueError(f"installed cmgdb changed at field {key}")
     return plan
 
 
@@ -1164,6 +1142,15 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(computations/run_dataset_N/train_data.csv, traj_attractors.pkl, ...)"
+        ),
+    )
+    parser.add_argument(
         "--stage",
         choices=("plan", "train", "analyze", "all"),
         default="all",
@@ -1192,6 +1179,8 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    global REFERENCE_ROOT
+    REFERENCE_ROOT = args.reference_root.resolve()
     summary = run_experiment(
         output_root=args.output_root,
         stage=args.stage,

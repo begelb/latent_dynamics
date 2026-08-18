@@ -5,9 +5,12 @@ the ground-truth comparison for the two learned latent graphs.
 
 ## Paper figures
 
-- `paper/figures/leslie3d/morse_graph_pruned.pdf`
+By published file name:
 
-The current PDF has SHA-256
+- `morse_graph_pruned.pdf`
+- `morse_sets_cubical_3d_no_legend.pdf`
+
+The current graph PDF has SHA-256
 `609679cf353739c18413cc19ddbbf8ded736ab9dcbcba9cc4d5962a4d83b9fd5`.
 
 ## Source of paper run
@@ -25,14 +28,14 @@ level-33 graph. The verified local Conley indices are recorded in
 The graph renderer is
 `scripts/plot_original_leslie3d_ground_truth_morse_graph.py`.
 
-The broad layout follows the preserved learned-map comparison at
-`replay_sources/leslie3d_example2/MG/morse_graph`: blue upper-left, purple
-upper-right, orange below purple, and the two attractors along the bottom.
+The broad layout follows the preserved learned-map comparison graph: blue
+upper-left, purple upper-right, orange below purple, and the two attractors
+along the bottom.
 
 ## Three-dimensional Morse-set display
 
-The optional cubical display is generated directly from the same saved
-`morse_sets` file by
+The cubical display (the paper's panel b) is generated directly from the same
+saved `morse_sets` file by
 `scripts/render_original_leslie3d_morse_sets_cubical.py`. The 1,955,948 exact
 level-33 cells are too dense for a useful vector rendering, so each occupied
 cell is mapped to its containing level-24 cell (a factor of eight per axis).
@@ -47,6 +50,13 @@ a stronger edge; no marker or geometric enlargement is used. Full provenance,
 checksums, counts, and camera settings are recorded in
 `output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure/cubical_3d_level24_display_cover/manifest.json`.
 
+The published `morse_sets_cubical_3d_no_legend.pdf` was a one-off no-legend
+export (2026-08-05) whose exact invocation was not persisted, and no
+byte-identical copy of it exists in any run directory (open
+item). The renderer's `--no-legend` flag regenerates the
+panel from the same display-cover data; the result is visually identical to
+the committed paper PDF but not byte-identical.
+
 ## Status
 
 **Saved-computation, render-ready.** The level-33 calculation exactly decides
@@ -57,15 +67,17 @@ continuous Leslie map.
 
 ## Reproduction commands
 
-From `code/`, render the verified saved-set graph without recomputing its
-forward closures:
+From the repository root, render the verified saved-set graph without
+recomputing its forward closures:
 
 ```bash
 python scripts/plot_original_leslie3d_ground_truth_morse_graph.py \
   --graph pruned --include-zero-index
-cp output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure/paper_figure_pruned/morse_graph.pdf \
-  ../paper/figures/leslie3d/morse_graph_pruned.pdf
 ```
+
+The generated
+`output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure/paper_figure_pruned/morse_graph.pdf`
+is the manuscript's `morse_graph_pruned.pdf`.
 
 The closure-analysis script can reproduce only the rendering layer from the
 saved manifest with:
@@ -77,7 +89,7 @@ python scripts/analyze_original_leslie3d_uniform_level33.py --reuse-output
 Render the three-dimensional display without recomputing CMGDB with:
 
 ```bash
-python scripts/render_original_leslie3d_morse_sets_cubical.py
+python scripts/render_original_leslie3d_morse_sets_cubical.py --no-legend
 ```
 
 This writes paper-style, labeled, and near-`x_1`--`x_3` PDF/PNG views under
@@ -130,12 +142,13 @@ byte-reproducible under the same Graphviz/Cairo versions.
 
 ## Verification
 
-After rendering, verify that the generated and paper PDFs are identical:
+After rendering, verify the generated PDF against the pinned checksum of the
+paper asset:
 
 ```bash
 shasum -a 256 \
-  output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure/paper_figure_pruned/morse_graph.pdf \
-  ../paper/figures/leslie3d/morse_graph_pruned.pdf
+  output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure/paper_figure_pruned/morse_graph.pdf
+# expected: 609679cf353739c18413cc19ddbbf8ded736ab9dcbcba9cc4d5962a4d83b9fd5
 ```
 
 Also inspect the raw DOT for exactly the six edges above. The manifest's

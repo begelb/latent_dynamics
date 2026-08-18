@@ -43,7 +43,7 @@ def _patch_sweep_inputs(monkeypatch, tmp_path: Path) -> None:
         "train_data",
         "canonical_checkpoint",
         "canonical_architecture_sidecar",
-        "marcio_training_implementation",
+        "reference_training_implementation",
         "sweep_runner_implementation",
     ):
         path = tmp_path / "frozen_sources" / name
@@ -54,7 +54,7 @@ def _patch_sweep_inputs(monkeypatch, tmp_path: Path) -> None:
             "sha256": ANALYZE.sweep._sha256(path),
             "size_bytes": path.stat().st_size,
         }
-    arch = ANALYZE.study.marcio_architecture(1)
+    arch = ANALYZE.study.reference_architecture(1)
     monkeypatch.setattr(
         ANALYZE.sweep,
         "_current_source_provenance",
@@ -239,9 +239,9 @@ def test_statistics_and_reference_deltas_use_conditioned_denominator() -> None:
                 ANALYZE.FULL_BATCH_10K_COMBINED_PERCENT
             )
         },
-        "marcio_archived": {
+        "reference_archived": {
             "correct_combined_percent": (
-                ANALYZE.MARCIO_ARCHIVED_COMBINED_PERCENT
+                ANALYZE.REFERENCE_ARCHIVED_COMBINED_PERCENT
             )
         },
     }
@@ -256,7 +256,7 @@ def test_statistics_and_reference_deltas_use_conditioned_denominator() -> None:
         0.0
     )
     assert row["beats_full_batch_10000"] is False
-    assert row["delta_vs_marcio_archived_percentage_points"] < -28.0
+    assert row["delta_vs_reference_archived_percentage_points"] < -28.0
 
 
 def test_failed_candidate_is_recorded_without_reraising(
@@ -269,7 +269,7 @@ def test_failed_candidate_is_recorded_without_reraising(
         name: {"correct_combined_percent": value}
         for name, value in (
             ("full_batch_10000", 50.0),
-            ("marcio_archived", 78.0),
+            ("reference_archived", 78.0),
         )
     }
     monkeypatch.setattr(
@@ -324,7 +324,7 @@ def test_final_results_preserve_plan_order_and_rank_only_post_hoc(
             "status": "complete",
             "correct_combined_percent": 60.0,
             "delta_vs_full_batch_10000_percentage_points": 10.0,
-            "delta_vs_marcio_archived_percentage_points": -18.0,
+            "delta_vs_reference_archived_percentage_points": -18.0,
         },
         {
             "plan_index": 2,
@@ -334,7 +334,7 @@ def test_final_results_preserve_plan_order_and_rank_only_post_hoc(
             "status": "complete",
             "correct_combined_percent": 70.0,
             "delta_vs_full_batch_10000_percentage_points": 20.0,
-            "delta_vs_marcio_archived_percentage_points": -8.0,
+            "delta_vs_reference_archived_percentage_points": -8.0,
         },
     ]
     payload = ANALYZE._write_results(

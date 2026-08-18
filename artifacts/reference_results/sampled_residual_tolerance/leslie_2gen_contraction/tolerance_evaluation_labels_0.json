@@ -1,0 +1,113 @@
+{
+  "example": "leslie_2gen_contraction",
+  "source_root": "replay_sources/leslie_2gen_contraction",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R(N) < tau(N)",
+  "nodes": {
+    "0": {
+      "set_kind": "saved_recurrent_morse_set_unchecked",
+      "n_boxes": 117331,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 5.1976014219690114e-05,
+        "upper_bound_witness": {
+          "value": 5.1976014219690114e-05,
+          "input": [
+            -0.04458396163136058,
+            -0.19745534469802806
+          ],
+          "image": [
+            -0.06221737340092659,
+            -0.15914852917194366
+          ],
+          "box_index": 3253,
+          "source": "box_corners_and_centers"
+        },
+        "sample_count": 586655,
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 1.963212648004031e-10,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_total_evaluated_enclosures": 1071031,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 117331,
+            "strictly_enclosed": 59576,
+            "failed": 57755
+          },
+          {
+            "adaptive_depth": 1,
+            "evaluated": 231020,
+            "strictly_enclosed": 136561,
+            "failed": 94459
+          },
+          {
+            "adaptive_depth": 2,
+            "evaluated": 377836,
+            "strictly_enclosed": 296868,
+            "failed": 80968
+          },
+          {
+            "adaptive_depth": 3,
+            "evaluated": 323872,
+            "strictly_enclosed": 318629,
+            "failed": 5243
+          },
+          {
+            "adaptive_depth": 4,
+            "evaluated": 20972,
+            "strictly_enclosed": 20972,
+            "failed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 117331,
+        "ibp_uniform_refinement_rounds": 0,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.05761278420686722,
+        "squared_value_diagnostic": 0.0033192329040670487,
+        "accepted_samples": 3715,
+        "evaluated_samples": 200000,
+        "witness": {
+          "source": "data/leslie_2gen_contraction/train.csv",
+          "row_index_zero_based": 9619,
+          "x_raw": [
+            38.52907399,
+            17.35825649,
+            24.72617917,
+            19.52287698,
+            12.01785323,
+            14.38913388,
+            14.05436028,
+            6.35901883,
+            4.63476736,
+            7.42439292
+          ],
+          "E_x": [
+            -0.051618896424770355,
+            -0.1598408818244934
+          ],
+          "g_E_x": [
+            -0.02169310487806797,
+            -0.1919715404510498
+          ],
+          "E_f_x": [
+            -0.06152261793613434,
+            -0.150344118475914
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 1108.4494467650372,
+        "conclusion": "criterion_contradicted_by_numerical_witnesses",
+        "theorem_verified": false,
+        "reason_not_verified": "strict theorem inequality is contradicted for the evaluated block"
+      }
+    }
+  }
+}

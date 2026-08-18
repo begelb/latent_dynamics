@@ -1,7 +1,0 @@
-status: strict_validation_improvement_promoted
-baseline_val_loss_total: 3.569971024990e-02
-best_accepted_source: lbfgs_rho_5000_outer_5
-best_accepted_val_loss_total: 3.568966686726e-02
-best_strict_source: lbfgs_rho_20000_outer_12
-best_strict_val_loss_total: 3.569075837731e-02
-strict_validation_improvement: True

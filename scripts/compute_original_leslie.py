@@ -34,7 +34,6 @@ from latentdynamics.systems import LeslieContraction, build_system
 from latentdynamics.viz import PALETTE, render_morse_from_files, save_morse_graph_artifacts
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-LOCAL_CMGDB_ROOT = (CODE_ROOT.parent / "archive" / "CMGDB").resolve()
 LESLIE_2D_CORRESPONDENCE_PALETTE = (
     PALETTE[1],  # direct 0: periodic attractor -> latent periodic-attractor color
     PALETTE[2],  # direct 1: (0, x^3+1, 0) -> latent node 2
@@ -328,7 +327,7 @@ def main() -> int:
             ),
         },
         "box_map_backend": args.box_map_backend,
-        "cmgdb": cmgdb_provenance(LOCAL_CMGDB_ROOT),
+        "cmgdb": cmgdb_provenance(),
         "setup_seconds": round(setup_seconds, 3),
         "compute_seconds": round(compute_seconds, 3),
         "morse_nodes": morse_graph.num_vertices(),

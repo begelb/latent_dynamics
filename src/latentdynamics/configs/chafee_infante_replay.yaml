@@ -51,6 +51,10 @@ data:
   train_seed: 7206
   val_seed: 9999
   train_files: null
+# This block replays the saved package reference computation (10, 14, 28)
+# with fixed bounds. It is NOT the production d=2 computation of paper
+# tab:cmgdb, which used subdivisions (14, 16, 22) with data-derived bounds
+# plus 10 percent per-axis padding (see chafee_infante.yaml).
 cmgdb:
   subdiv_init: 10
   subdiv_min: 14

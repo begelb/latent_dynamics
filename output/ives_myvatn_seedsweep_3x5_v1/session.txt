@@ -1,5 +1,0 @@
-started_utc=2026-08-06T15:15:22Z
-controller_pid=29852
-session=latent-ives-myvatn-3x5
-host=UTG4MPQHH7R5
-invocation=scripts/run_ives_myvatn_3x5.sh ''

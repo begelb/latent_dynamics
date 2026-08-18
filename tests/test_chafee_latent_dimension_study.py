@@ -26,7 +26,7 @@ def _exact_inputs(tmp_path):
     )
 
 
-def test_matched_resolution_and_marcio_architecture_are_exact():
+def test_matched_resolution_and_reference_architecture_are_exact():
     one = study.RESOLUTIONS[1]
     three = study.RESOLUTIONS[3]
 
@@ -37,7 +37,7 @@ def test_matched_resolution_and_marcio_architecture_are_exact():
     assert one.uniform_cells == 256
     assert three.uniform_cells == 256**3
 
-    arch = study.marcio_architecture(3)
+    arch = study.reference_architecture(3)
     assert arch.high_dims == 64
     assert arch.low_dims == 3
     assert arch.component("encoder").hidden_shapes == (64, 32)
@@ -171,7 +171,7 @@ def test_native_singleton_query_contract_and_negative_basin_priority(monkeypatch
         negative_attractor=5,
         positive_attractor=7,
     )
-    # The first point touches both basins; Marcio's archived loop tests the
+    # The first point touches both basins; the archived loop tests the
     # negative basin first.
     np.testing.assert_array_equal(labels, [5, 5, study.OUTSIDE])
 
@@ -250,7 +250,7 @@ def test_live_statistics_requires_exactly_two_uniform_attractors(
     )
 
     with pytest.raises(ValueError, match="exactly two minimal attracting Morse nodes"):
-        study._compute_live_marcio_statistics(
+        study._compute_live_reference_statistics(
             paths,
             inputs,
             device=study.torch.device("cpu"),
@@ -519,7 +519,7 @@ def test_matching_legacy_training_artifacts_are_adopted_without_retraining(tmp_p
             "threshold": 1e-4,
             "min_lr": 1e-6,
         },
-        "arch": study.marcio_architecture(1).model_dump(),
+        "arch": study.reference_architecture(1).model_dump(),
         "data": {
             "n_pairs": study.TRAINING_ROWS,
             "high_dims": study.HIGH_DIMENSION,
@@ -553,9 +553,9 @@ def test_obsolete_minimal_lca_roa_archive_is_quarantined(tmp_path):
         ).read_text()
     )
     assert manifest["status"] == "legacy_not_used_by_dimension_study"
-    assert "not Marcio's strict" in manifest["legacy_method"]
+    assert "not the strict" in manifest["legacy_method"]
     assert manifest["authoritative_replacement"].startswith(
-        "marcio_singleton_reachability_queries.npz"
+        "reference_singleton_reachability_queries.npz"
     )
 
 

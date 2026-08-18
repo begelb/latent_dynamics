@@ -1,8 +1,8 @@
 """Audit Chafee--Infante errors for the persisted 1-D, 2-D, and 3-D models.
 
 This script is deliberately render-free and computation-light.  It evaluates
-the three saved checkpoints on the same 30,000 one-step pairs used by Marcio's
-two-dimensional training run.  It does not train a model, integrate the PDE,
+the three saved checkpoints on the same 30,000 one-step pairs used by the
+archived two-dimensional training run.  It does not train a model, integrate the PDE,
 run CMGDB, or perform the dense residual search used by the paper.
 
 The common finite-data audit reports both the two-term training objective and
@@ -29,21 +29,34 @@ import torch
 from numpy.typing import NDArray
 from torch import Tensor, nn
 
+from latentdynamics._paths import get_repo_root
 from latentdynamics.training import load_checkpoint
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CODE_ROOT = Path(__file__).resolve().parents[1]
-OUTPUT_ROOT = CODE_ROOT / "output" / "chafee_latent_dimension_study"
+REPO_ROOT = get_repo_root()
+OUTPUT_ROOT = REPO_ROOT / "output" / "chafee_latent_dimension_study"
 
-TRAIN_DATA = PROJECT_ROOT / "archive" / "marcio" / "scripts" / "train_data.csv"
-STABLE_ROOTS = (
-    PROJECT_ROOT / "archive" / "marcio" / "scripts" / "stable_solutions.csv"
+
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
+
+
+DEFAULT_STUDY_ROOT = _first_existing(
+    REPO_ROOT / "replay_sources" / "chafee_infante" / "latent_dimension_study",
+    OUTPUT_ROOT,
 )
+
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+TRAIN_DATA = DEFAULT_REFERENCE_ROOT / "train_data.csv"
+STABLE_ROOTS = DEFAULT_REFERENCE_ROOT / "stable_solutions.csv"
 DENSE_D2_ROOT = (
-    PROJECT_ROOT
-    / "tmp"
-    / "tolerance-evaluation-2026-07-25"
-    / "results"
+    REPO_ROOT
+    / "artifacts"
+    / "reference_results"
+    / "sampled_residual_tolerance"
     / "chafee_infante_current"
 )
 DENSE_D2_RESULT = DENSE_D2_ROOT / "dense_sampling.json"
@@ -81,51 +94,57 @@ class DimensionSpec:
     block_sha_keys: dict[int, str]
 
 
-DIMENSION_SPECS = {
-    1: DimensionSpec(
-        dimension=1,
-        model_dir=OUTPUT_ROOT / "latent_1d" / "seed_0" / "models",
-        checkpoint_sha_key="checkpoint_d1",
-        physical_nodes={"negative": 0, "positive": 1},
-        block_kind="adaptive_morse_sets_csv",
-        block_sources={
-            0: OUTPUT_ROOT / "latent_1d" / "seed_0" / "MG_adaptive" / "morse_sets",
-            1: OUTPUT_ROOT / "latent_1d" / "seed_0" / "MG_adaptive" / "morse_sets",
-        },
-        block_sha_keys={0: "blocks_d1", 1: "blocks_d1"},
-    ),
-    2: DimensionSpec(
-        dimension=2,
-        model_dir=CODE_ROOT
-        / "replay_sources"
-        / "chafee_infante"
-        / "replay"
-        / "models",
-        checkpoint_sha_key="checkpoint_d2",
-        physical_nodes={"negative": 1, "positive": 0},
-        block_kind="dense_paper_protocol_live_block_npz",
-        block_sources={
-            0: DENSE_D2_ROOT / "block_0.npz",
-            1: DENSE_D2_ROOT / "block_1.npz",
-        },
-        block_sha_keys={
-            0: "blocks_d2_node0",
-            1: "blocks_d2_node1",
-        },
-    ),
-    3: DimensionSpec(
-        dimension=3,
-        model_dir=OUTPUT_ROOT / "latent_3d" / "seed_0" / "models",
-        checkpoint_sha_key="checkpoint_d3",
-        physical_nodes={"negative": 0, "positive": 1},
-        block_kind="adaptive_morse_sets_csv",
-        block_sources={
-            0: OUTPUT_ROOT / "latent_3d" / "seed_0" / "MG_adaptive" / "morse_sets",
-            1: OUTPUT_ROOT / "latent_3d" / "seed_0" / "MG_adaptive" / "morse_sets",
-        },
-        block_sha_keys={0: "blocks_d3", 1: "blocks_d3"},
-    ),
-}
+def _dimension_specs(study_root: Path) -> dict[int, DimensionSpec]:
+    """Persisted study inputs rooted at ``study_root`` (d=2 is the paper replay)."""
+    return {
+        1: DimensionSpec(
+            dimension=1,
+            model_dir=study_root / "latent_1d" / "seed_0" / "models",
+            checkpoint_sha_key="checkpoint_d1",
+            physical_nodes={"negative": 0, "positive": 1},
+            block_kind="adaptive_morse_sets_csv",
+            block_sources={
+                0: study_root / "latent_1d" / "seed_0" / "MG_adaptive" / "morse_sets",
+                1: study_root / "latent_1d" / "seed_0" / "MG_adaptive" / "morse_sets",
+            },
+            block_sha_keys={0: "blocks_d1", 1: "blocks_d1"},
+        ),
+        2: DimensionSpec(
+            dimension=2,
+            model_dir=REPO_ROOT
+            / "replay_sources"
+            / "chafee_infante"
+            / "replay"
+            / "models",
+            checkpoint_sha_key="checkpoint_d2",
+            physical_nodes={"negative": 1, "positive": 0},
+            block_kind="dense_paper_protocol_live_block_npz",
+            block_sources={
+                0: DENSE_D2_ROOT / "block_0.npz",
+                1: DENSE_D2_ROOT / "block_1.npz",
+            },
+            block_sha_keys={
+                0: "blocks_d2_node0",
+                1: "blocks_d2_node1",
+            },
+        ),
+        3: DimensionSpec(
+            dimension=3,
+            model_dir=study_root / "latent_3d" / "seed_0" / "models",
+            checkpoint_sha_key="checkpoint_d3",
+            physical_nodes={"negative": 0, "positive": 1},
+            block_kind="adaptive_morse_sets_csv",
+            block_sources={
+                0: study_root / "latent_3d" / "seed_0" / "MG_adaptive" / "morse_sets",
+                1: study_root / "latent_3d" / "seed_0" / "MG_adaptive" / "morse_sets",
+            },
+            block_sha_keys={0: "blocks_d3", 1: "blocks_d3"},
+        ),
+    }
+
+
+# Rebound in main() when --study-root is supplied.
+DIMENSION_SPECS = _dimension_specs(DEFAULT_STUDY_ROOT)
 
 
 @dataclass(frozen=True)
@@ -170,7 +189,7 @@ def _checked_sha256(path: Path, expected: str, *, description: str) -> str:
 def _relative_path(path: Path) -> str:
     resolved = path.resolve()
     try:
-        return str(resolved.relative_to(PROJECT_ROOT.resolve()))
+        return str(resolved.relative_to(REPO_ROOT.resolve()))
     except ValueError:
         return str(resolved)
 
@@ -494,7 +513,6 @@ def _dense_d2_reference(path: Path) -> dict[str, Any]:
             EXPECTED_SHA256["dense_d2_result"],
         ),
         "paper_reference": {
-            "path": "paper/main_KM.tex",
             "table_label": "tab:sampled_residual_tolerance",
         },
         "status_by_dimension": {
@@ -619,7 +637,7 @@ def run_audit(*, batch_size: int) -> dict[str, Any]:
         "scope": {
             "description": (
                 "Render-free audit of persisted d=1,2,3 checkpoints on the "
-                "same finite Marcio training pairs"
+                "same finite archived training pairs"
             ),
             "training_performed": False,
             "cmgdb_performed": False,
@@ -636,11 +654,11 @@ def run_audit(*, batch_size: int) -> dict[str, Any]:
                 "mean((D(g(E(x))) - f(x))^2)"
             ),
             "L1_plus_L2": (
-                "Marcio's two-term full-data training objective"
+                "the archived two-term full-data training objective"
             ),
             "L3_unconditioned_latent_semiconjugacy_mse": (
                 "mean((g(E(x)) - E(f(x)))^2); diagnostic only, "
-                "not included in Marcio's training objective"
+                "not included in the archived training objective"
             ),
             "euclidean_latent_residual": (
                 "||g(E(x)) - E(f(x))||_2 in stored latent coordinates"
@@ -655,7 +673,7 @@ def run_audit(*, batch_size: int) -> dict[str, Any]:
             "device": "cpu",
             "batch_size": batch_size,
             "split": (
-                "all training pairs; Marcio's computation had no held-out "
+                "all training pairs; the archived computation had no held-out "
                 "validation/test split"
             ),
             "block_membership": (
@@ -680,12 +698,36 @@ def run_audit(*, batch_size: int) -> dict[str, Any]:
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "directory holding the archived reference inputs "
+            "(train_data.csv, stable_solutions.csv)"
+        ),
+    )
+    parser.add_argument(
+        "--study-root",
+        type=Path,
+        default=DEFAULT_STUDY_ROOT,
+        help=(
+            "directory holding the persisted latent_1d/ and latent_3d/ runs "
+            "(default: the shipped replay_sources study, falling back to "
+            "output/chafee_latent_dimension_study)"
+        ),
+    )
     parser.add_argument("--batch-size", type=int, default=DEFAULT_BATCH_SIZE)
     return parser
 
 
 def main() -> int:
     args = _parser().parse_args()
+    global TRAIN_DATA, STABLE_ROOTS, DIMENSION_SPECS
+    reference_root = args.reference_root.resolve()
+    TRAIN_DATA = reference_root / "train_data.csv"
+    STABLE_ROOTS = reference_root / "stable_solutions.csv"
+    DIMENSION_SPECS = _dimension_specs(args.study_root.resolve())
     payload = run_audit(batch_size=args.batch_size)
     output = args.output.resolve()
     output.parent.mkdir(parents=True, exist_ok=True)

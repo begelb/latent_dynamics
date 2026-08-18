@@ -1,0 +1,114 @@
+{
+  "example": "chafee_infante_current",
+  "source_root": "replay_sources/chafee_infante/replay",
+  "cmgdb_source": "CMGDB (project fork)",
+  "backend": "on_demand",
+  "subdivisions": [
+    14,
+    16,
+    22
+  ],
+  "subdiv_limit": 10000,
+  "bounds": {
+    "lower": [
+      -4.671730041503906,
+      -4.580504894256592
+    ],
+    "upper": [
+      4.484875679016113,
+      4.22262716293335
+    ]
+  },
+  "duration_seconds": 0.7079516670055455,
+  "n_map_cells": 19373,
+  "n_morse_nodes": 7,
+  "morse_edges": [
+    [
+      2,
+      1
+    ],
+    [
+      2,
+      0
+    ],
+    [
+      3,
+      1
+    ],
+    [
+      3,
+      0
+    ],
+    [
+      4,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      5
+    ]
+  ],
+  "live_nodes": {
+    "0": {
+      "n_recurrent_cells": 9,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "1": {
+      "n_recurrent_cells": 9,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "2": {
+      "n_recurrent_cells": 648,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "3": {
+      "n_recurrent_cells": 588,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "4": {
+      "n_recurrent_cells": 210,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "5": {
+      "n_recurrent_cells": 48,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    },
+    "6": {
+      "n_recurrent_cells": 21,
+      "saved_geometry_overlaps": {},
+      "exact_saved_label_match": null
+    }
+  },
+  "minimal_blocks": {
+    "0": {
+      "live_node": 0,
+      "n_recurrent_cells": 9,
+      "n_block_cells": 9,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/chafee_infante_current/block_0.npz"
+    },
+    "1": {
+      "live_node": 1,
+      "n_recurrent_cells": 9,
+      "n_block_cells": 9,
+      "n_extra_forward_cells": 0,
+      "morse_set_equals_attracting_block": true,
+      "artifact": "artifacts/reference_results/sampled_residual_tolerance/chafee_infante_current/block_1.npz"
+    }
+  }
+}

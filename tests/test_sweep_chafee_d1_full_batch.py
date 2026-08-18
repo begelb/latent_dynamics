@@ -69,7 +69,7 @@ def _patch_external_inputs(monkeypatch, tmp_path: Path) -> None:
         "train_data",
         "canonical_checkpoint",
         "canonical_architecture_sidecar",
-        "marcio_training_implementation",
+        "reference_training_implementation",
         "sweep_runner_implementation",
     ):
         path = tmp_path / "frozen_sources" / name
@@ -128,7 +128,7 @@ def test_completed_run_is_hash_verified_and_skipped_on_resume(
     def fail_if_called(**_kwargs):
         raise AssertionError("verified completed run should not retrain")
 
-    monkeypatch.setattr(SWEEP, "train_marcio_full_batch", fail_if_called)
+    monkeypatch.setattr(SWEEP, "train_reference_full_batch", fail_if_called)
     second = SWEEP.run_sweep(output_dir=output, verbose=False)
 
     assert second["all_runs_completed"] is True
@@ -154,14 +154,14 @@ def test_one_failure_does_not_prevent_later_runs_and_resume_retries_it(
         )
         for seed in range(3)
     )
-    real_train = SWEEP.train_marcio_full_batch
+    real_train = SWEEP.train_reference_full_batch
 
     def fail_seed_one(**kwargs):
         if kwargs["seed"] == 1:
             raise RuntimeError("synthetic per-run failure")
         return real_train(**kwargs)
 
-    monkeypatch.setattr(SWEEP, "train_marcio_full_batch", fail_seed_one)
+    monkeypatch.setattr(SWEEP, "train_reference_full_batch", fail_seed_one)
     first = SWEEP.run_sweep(
         output_dir=output,
         device_name="cpu",
@@ -180,7 +180,7 @@ def test_one_failure_does_not_prevent_later_runs_and_resume_retries_it(
         "total": 3,
     }
 
-    monkeypatch.setattr(SWEEP, "train_marcio_full_batch", real_train)
+    monkeypatch.setattr(SWEEP, "train_reference_full_batch", real_train)
     second = SWEEP.run_sweep(output_dir=output, verbose=False)
     assert [row["status"] for row in second["runs"]] == [
         "already_completed",
@@ -228,7 +228,7 @@ def test_corrupted_completed_artifact_is_never_overwritten_or_retrained(
     def fail_if_called(**_kwargs):
         raise AssertionError("an invalid completed run must not be retrained")
 
-    monkeypatch.setattr(SWEEP, "train_marcio_full_batch", fail_if_called)
+    monkeypatch.setattr(SWEEP, "train_reference_full_batch", fail_if_called)
     summary = SWEEP.run_sweep(output_dir=output, verbose=False)
 
     assert summary["runs"][0]["status"] == "invalid_existing_run"

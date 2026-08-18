@@ -14,17 +14,21 @@ from .curriculum import (
     train_curriculum_full_batch,
 )
 from .losses import LossBreakdown, ReconstructionLoss
-from .marcio import MARCIO_OBJECTIVE, MarcioFullBatchResult, train_marcio_full_batch
+from .reference_recipe import (
+    REFERENCE_OBJECTIVE,
+    ReferenceFullBatchResult,
+    train_reference_full_batch,
+)
 from .trainer import LossHistory, Trainer
 
 __all__ = [
     "CURRICULUM_OBJECTIVE",
-    "MARCIO_OBJECTIVE",
+    "REFERENCE_OBJECTIVE",
     "CurriculumFullBatchResult",
     "LossBreakdown",
     "LossHistory",
-    "MarcioFullBatchResult",
     "ReconstructionLoss",
+    "ReferenceFullBatchResult",
     "Trainer",
     "has_legacy_checkpoint",
     "has_new_checkpoint",
@@ -33,5 +37,5 @@ __all__ = [
     "load_legacy_checkpoint",
     "save_checkpoint",
     "train_curriculum_full_batch",
-    "train_marcio_full_batch",
+    "train_reference_full_batch",
 ]

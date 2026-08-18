@@ -1,8 +1,0 @@
-{
-  "created_at_utc": "2026-06-01T21:27:02.596161+00:00",
-  "train_file": "train",
-  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/chafee_infante_seedsweep/dataset_1/train.csv",
-  "train_csv_sha256": "cdafc7e75017451ea7030911172666b8ed6b2cc41cd6dfcad8309130336332d1",
-  "scaling": "none",
-  "high_dims": 64
-}

@@ -101,7 +101,7 @@ class ChafeeBasinStatistics:
 
     The five table counts are conditioned on ``trajectory_labels != 0``.
     ``excluded_zero_trajectories`` records the trajectories omitted by that
-    conditioning, matching Marcio's original computation.
+    conditioning, matching the archived reference computation.
     """
 
     total_trajectories: int
@@ -634,7 +634,7 @@ def compute_chafee_basin_statistics(
     negative_basin_label: int,
     positive_basin_label: int,
 ) -> ChafeeBasinStatistics:
-    """Compute Marcio-style Chafee basin counts.
+    """Compute the reference Chafee basin counts.
 
     ``trajectory_labels`` must use ``-1`` for the negative steady state, ``1``
     for the positive steady state, and ``0`` for a trajectory excluded from the

@@ -1,0 +1,303 @@
+{
+  "status": "complete",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "sample_target_per_node": 8388608,
+  "sobol_scrambles": 2,
+  "local_boxes": 12,
+  "provenance": {
+    "checkpoint_source": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+    "model_sha256": {
+      "encoder.pt": "211f84456707afb254da1cfa05defa41137f90813f624af420722954763d1f4c",
+      "dynamics.pt": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+      "decoder.pt": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2"
+    },
+    "uniform_morse_sets": "output/leslie3d_example1_study/fixed22/morse_sets_fixed22_connection_complete.csv",
+    "uniform_morse_sets_sha256": "a6f9e2d1af898e6358b6a6c10714b3391c2302f133a34cb56bd276b75c759d9b",
+    "uniform_result_sha256": "5bece84bd656912ca6b689ab76a1f058654e6a798a4cb9ae987dd83f024615b9",
+    "subdivision": {
+      "init": 22,
+      "min": 22,
+      "max": 22,
+      "limit": 10000,
+      "sizes": [
+        2048,
+        2048
+      ],
+      "cell_count": 4194304,
+      "padding": true
+    },
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "pair_files": [
+      "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv",
+      "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv",
+      "replay_sources/leslie3d_example1/data_pairs/train.csv",
+      "replay_sources/leslie3d_example1/data_pairs/val.csv"
+    ],
+    "protocol_scripts": {
+      "tolerance": "src/latentdynamics/analysis/sampled_metrics/tolerance_protocol.py",
+      "dense_residual": "src/latentdynamics/analysis/sampled_metrics/residual_protocol.py"
+    },
+    "metric_script": "scripts/leslie3d_example1_uniform_sampled_metrics.py"
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 2714,
+      "set_kind": "saved recurrent Morse component from exact uniform (22,22,22) graph",
+      "tolerance": {
+        "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+        "sampled_minimum": 0.0008005722775124013,
+        "witness": {
+          "value": 0.0008005722775124013,
+          "input": [
+            -0.6095034815371037,
+            0.19677292561391369
+          ],
+          "image": [
+            0.2732613980770111,
+            -0.6529971361160278
+          ],
+          "box_index": 1650,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388974,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388974,
+          "deterministic_points": 13570,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1543,
+          "sobol_generation_power": 11,
+          "sobol_generated_then_truncated_per_scramble": 2048
+        },
+        "all_sample_images_in_interior": true,
+        "local_optimization": {
+          "boxes_searched": 12,
+          "selection": "boxes with the lowest boxwise sampled clearance",
+          "runs": [
+            {
+              "box_index": 1650,
+              "sampled_box_minimum": 0.0008005722775124013,
+              "optimized_value": 0.0008005722775124013,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 1678,
+              "sampled_box_minimum": 0.0008202985627576709,
+              "optimized_value": 0.0008202389581128954,
+              "evaluations": 843,
+              "success": true
+            },
+            {
+              "box_index": 2066,
+              "sampled_box_minimum": 0.0008204456244129686,
+              "optimized_value": 0.0008203264151234181,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 1915,
+              "sampled_box_minimum": 0.0008260234608314932,
+              "optimized_value": 0.0008260830654762685,
+              "evaluations": 923,
+              "success": true
+            },
+            {
+              "box_index": 1913,
+              "sampled_box_minimum": 0.0008514150395058095,
+              "optimized_value": 0.0008512958302162588,
+              "evaluations": 703,
+              "success": true
+            },
+            {
+              "box_index": 2068,
+              "sampled_box_minimum": 0.0008562680159229784,
+              "optimized_value": 0.0008561786089558155,
+              "evaluations": 863,
+              "success": true
+            },
+            {
+              "box_index": 180,
+              "sampled_box_minimum": 0.000872039410751313,
+              "optimized_value": 0.0008721288177184761,
+              "evaluations": 743,
+              "success": true
+            },
+            {
+              "box_index": 1780,
+              "sampled_box_minimum": 0.0008766874088905752,
+              "optimized_value": 0.0008766278042457999,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 2115,
+              "sampled_box_minimum": 0.0008919413958210498,
+              "optimized_value": 0.0008919413958210498,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 1217,
+              "sampled_box_minimum": 0.0008919809500646733,
+              "optimized_value": 0.0008913205906587567,
+              "evaluations": 1503,
+              "success": true
+            },
+            {
+              "box_index": 1647,
+              "sampled_box_minimum": 0.000893315833166464,
+              "optimized_value": 0.0008927206847691387,
+              "evaluations": 1683,
+              "success": false
+            },
+            {
+              "box_index": 1029,
+              "sampled_box_minimum": 0.0008971660798924086,
+              "optimized_value": 0.000896724360168144,
+              "evaluations": 923,
+              "success": true
+            }
+          ]
+        },
+        "elapsed_seconds": 13.863892078399658,
+        "interpretation": "finite sampled minimum; an upper estimate of the true infimum clearance, not a certified lower bound"
+      }
+    },
+    "1": {
+      "n_boxes": 85170,
+      "set_kind": "saved recurrent Morse component from exact uniform (22,22,22) graph",
+      "tolerance": {
+        "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+        "sampled_minimum": 0.0007924759411253035,
+        "witness": {
+          "value": 0.0007924759411253035,
+          "input": [
+            -0.20230033796690047,
+            -0.4885114877325741
+          ],
+          "image": [
+            -0.1928510218858719,
+            -0.18776023387908936
+          ],
+          "box_index": 39380,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8431830,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8431830,
+          "deterministic_points": 425850,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 47,
+          "sobol_generation_power": 6,
+          "sobol_generated_then_truncated_per_scramble": 64
+        },
+        "all_sample_images_in_interior": true,
+        "local_optimization": {
+          "boxes_searched": 12,
+          "selection": "boxes with the lowest boxwise sampled clearance",
+          "runs": [
+            {
+              "box_index": 39380,
+              "sampled_box_minimum": 0.0007925057434476912,
+              "optimized_value": 0.0007924759411253035,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 49082,
+              "sampled_box_minimum": 0.0007926588295958936,
+              "optimized_value": 0.0007926439284346998,
+              "evaluations": 783,
+              "success": true
+            },
+            {
+              "box_index": 14979,
+              "sampled_box_minimum": 0.0007954920292831957,
+              "optimized_value": 0.0007955367327667773,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 50690,
+              "sampled_box_minimum": 0.0008004639242929002,
+              "optimized_value": 0.0008004027003307652,
+              "evaluations": 783,
+              "success": true
+            },
+            {
+              "box_index": 6751,
+              "sampled_box_minimum": 0.000804245937615633,
+              "optimized_value": 0.0008042161352932453,
+              "evaluations": 883,
+              "success": true
+            },
+            {
+              "box_index": 51081,
+              "sampled_box_minimum": 0.0008087740279734135,
+              "optimized_value": 0.0008087740279734135,
+              "evaluations": 903,
+              "success": true
+            },
+            {
+              "box_index": 84794,
+              "sampled_box_minimum": 0.0008092075532220243,
+              "optimized_value": 0.0008091484796415917,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 37077,
+              "sampled_box_minimum": 0.000810384750366211,
+              "optimized_value": 0.0008103102445602417,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 75092,
+              "sampled_box_minimum": 0.000814288214314729,
+              "optimized_value": 0.0008142286096699535,
+              "evaluations": 1043,
+              "success": true
+            },
+            {
+              "box_index": 85108,
+              "sampled_box_minimum": 0.0008211974054574965,
+              "optimized_value": 0.0008211676031351091,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 75636,
+              "sampled_box_minimum": 0.000825265422463417,
+              "optimized_value": 0.0008251164108514786,
+              "evaluations": 1043,
+              "success": true
+            },
+            {
+              "box_index": 84061,
+              "sampled_box_minimum": 0.0008254609711002558,
+              "optimized_value": 0.0008254609711002558,
+              "evaluations": 863,
+              "success": true
+            }
+          ]
+        },
+        "elapsed_seconds": 62.28963780403137,
+        "interpretation": "finite sampled minimum; an upper estimate of the true infimum clearance, not a certified lower bound"
+      }
+    }
+  }
+}

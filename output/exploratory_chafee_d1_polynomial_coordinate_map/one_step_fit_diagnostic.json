@@ -1,7 +1,0 @@
-{
-  "least_squares_one_step_mse": 0.0036500251545889344,
-  "selected_mu": 0.75,
-  "selected_mu_one_step_mse": 0.02956295552622551,
-  "selection_note": "the fitted value is diagnostic only; mu=0.75 is held fixed to isolate the effect of removing the rational denominator",
-  "unconstrained_least_squares_mu": 0.15907708618644237
-}

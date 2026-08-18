@@ -6,9 +6,9 @@ order-preserving poset map. Following the manuscript notation, ``M(1)``
 represents the unstable equilibria and their connecting orbits in the target
 Morse representation.
 
-The production default reconstructs Marcio's original computation from his raw
-weights, training data, data-derived bounds, padding convention, and
-subdivisions. ``--computation reference`` retains the later package
+The production default reconstructs the archived original computation from the
+raw reference weights, training data, data-derived bounds, padding convention,
+and subdivisions. ``--computation reference`` retains the later package
 recomputation as an explicitly labelled comparison. The merged node is
 intentionally not given a Conley index, because that index cannot be inferred
 by combining the fine-node annotations.
@@ -24,6 +24,7 @@ import CMGDB
 import numpy as np
 import torch
 
+from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.morse import LatentBounds, compute_morse_graph
 from latentdynamics.analysis.morse_coarsening import (
     coarsen_morse_graph,
@@ -39,24 +40,25 @@ from latentdynamics.replay import load_experiment
 from latentdynamics.viz import plot_morse_sets_from_csv, render_morse_from_files
 from latentdynamics.viz.style import chafee_semantic_palette, save_latent_figure
 
-CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = CODE_ROOT.parent
-MARCIO_ROOT = PROJECT_ROOT / "archive" / "marcio" / "scripts"
-MARCIO_WEIGHTS = MARCIO_ROOT / "ci_model_weights.pth"
-MARCIO_DATA = MARCIO_ROOT / "train_data.csv"
-MARCIO_SUBDIVISIONS = (14, 16, 22)
-MARCIO_PALETTE = chafee_semantic_palette(
+REPO_ROOT = get_repo_root()
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
+REFERENCE_WEIGHTS = REFERENCE_ROOT / "ci_model_weights.pth"
+REFERENCE_DATA = REFERENCE_ROOT / "train_data.csv"
+REFERENCE_SUBDIVISIONS = (14, 16, 22)
+REFERENCE_PALETTE = chafee_semantic_palette(
     7,
     negative_label=1,
     positive_label=0,
 )
-MARCIO_COARSE_PALETTE = chafee_semantic_palette(
+REFERENCE_COARSE_PALETTE = chafee_semantic_palette(
     3,
     negative_label=1,
     positive_label=0,
     connecting_labels=(2,),
 )
-MARCIO_EXPECTED_EDGES = {
+REFERENCE_EXPECTED_EDGES = {
     (2, 0),
     (2, 1),
     (3, 0),
@@ -67,9 +69,9 @@ MARCIO_EXPECTED_EDGES = {
     (6, 5),
 }
 DEFAULT_REFERENCE_SOURCE = (
-    CODE_ROOT / "replay_sources" / "chafee_infante" / "replay" / "MG"
+    REPO_ROOT / "replay_sources" / "chafee_infante" / "replay" / "MG"
 )
-DEFAULT_OUTPUT = CODE_ROOT / "paper_figures" / "coarsened" / "chafee_infante"
+DEFAULT_OUTPUT = REPO_ROOT / "output" / "chafee_coarsened"
 
 
 def _parsed_graph_from_live(cmgdb_morse_graph) -> MorseGraph:
@@ -82,7 +84,7 @@ def _parsed_graph_from_live(cmgdb_morse_graph) -> MorseGraph:
         nodes=nodes,
         edges={source: sorted(targets) for source, targets in edges.items()},
         colors={
-            node: f"{MARCIO_PALETTE[node % len(MARCIO_PALETTE)]}ff"
+            node: f"{REFERENCE_PALETTE[node % len(REFERENCE_PALETTE)]}ff"
             for node in nodes
         },
         labels={
@@ -92,12 +94,12 @@ def _parsed_graph_from_live(cmgdb_morse_graph) -> MorseGraph:
     )
 
 
-def _load_marcio_model(device: str):
+def _load_reference_model(device: str):
     config = load_config(
-        CODE_ROOT / "src" / "latentdynamics" / "configs" / "chafee_infante_replay.yaml"
+        REPO_ROOT / "src" / "latentdynamics" / "configs" / "chafee_infante_replay.yaml"
     )
     model = build_autoencoder(config.arch)
-    raw = torch.load(MARCIO_WEIGHTS, map_location="cpu", weights_only=True)
+    raw = torch.load(REFERENCE_WEIGHTS, map_location="cpu", weights_only=True)
     remapped = {}
     for key, value in raw.items():
         component, rest = key.split(".", 1)
@@ -106,8 +108,8 @@ def _load_marcio_model(device: str):
     return model.to(torch.device(device)).eval()
 
 
-def _marcio_bounds(model, device: str) -> LatentBounds:
-    table = np.loadtxt(MARCIO_DATA, delimiter=",")
+def _reference_bounds(model, device: str) -> LatentBounds:
+    table = np.loadtxt(REFERENCE_DATA, delimiter=",")
     states = np.concatenate((table[:, :64], table[:, 64:]), axis=0).astype(
         np.float32,
         copy=False,
@@ -127,9 +129,9 @@ def _marcio_bounds(model, device: str) -> LatentBounds:
     )
 
 
-def _compute_marcio_graph(device: str):
-    model = _load_marcio_model(device)
-    bounds = _marcio_bounds(model, device)
+def _compute_archived_graph(device: str):
+    model = _load_reference_model(device)
+    bounds = _reference_bounds(model, device)
 
     @torch.no_grad()
     def latent_map(point):
@@ -139,7 +141,7 @@ def _compute_marcio_graph(device: str):
     def box_map(rect):
         return CMGDB.BoxMap(latent_map, rect, padding=True)
 
-    subdiv_init, subdiv_min, subdiv_max = MARCIO_SUBDIVISIONS
+    subdiv_init, subdiv_min, subdiv_max = REFERENCE_SUBDIVISIONS
     cmgdb_model = CMGDB.Model(
         subdiv_min,
         subdiv_max,
@@ -154,9 +156,9 @@ def _compute_marcio_graph(device: str):
         (int(source), int(target))
         for source, target in cmgdb_morse_graph.edges()
     }
-    if int(cmgdb_morse_graph.num_vertices()) != 7 or live_edges != MARCIO_EXPECTED_EDGES:
+    if int(cmgdb_morse_graph.num_vertices()) != 7 or live_edges != REFERENCE_EXPECTED_EDGES:
         raise ValueError(
-            "Marcio reconstruction does not match his archived seven-node graph: "
+            "reconstruction does not match the archived seven-node graph: "
             f"nodes={int(cmgdb_morse_graph.num_vertices())}, edges={sorted(live_edges)}"
         )
     return cmgdb_morse_graph, map_graph, bounds
@@ -189,9 +191,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--computation",
-        choices=("marcio", "reference"),
-        default="marcio",
-        help="cell graph to use (default: Marcio's original computation)",
+        choices=("archived", "reference"),
+        default="archived",
+        help="cell graph to use (default: the archived original computation)",
     )
     parser.add_argument(
         "--source",
@@ -200,6 +202,15 @@ def main() -> int:
         help="saved DOT/CSV source used only by the reference computation",
     )
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "directory holding the archived reference inputs "
+            "(ci_model_weights.pth, train_data.csv)"
+        ),
+    )
     parser.add_argument(
         "--collapse",
         default="2,3,4,5,6",
@@ -210,7 +221,7 @@ def main() -> int:
         action="store_true",
         help=(
             "add cells on paths between fine Morse nodes in each quotient fiber; "
-            "always enabled for the Marcio production computation"
+            "always enabled for the archived production computation"
         ),
     )
     parser.add_argument(
@@ -225,25 +236,30 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    global REFERENCE_ROOT, REFERENCE_WEIGHTS, REFERENCE_DATA
+    REFERENCE_ROOT = args.reference_root.resolve()
+    REFERENCE_WEIGHTS = REFERENCE_ROOT / "ci_model_weights.pth"
+    REFERENCE_DATA = REFERENCE_ROOT / "train_data.csv"
+
     merged = frozenset(int(value) for value in args.collapse.split(",") if value.strip())
-    connection_completion = args.with_connections or args.computation == "marcio"
-    if args.computation == "marcio":
-        live_morse_graph, map_graph, bounds = _compute_marcio_graph(args.device)
+    connection_completion = args.with_connections or args.computation == "archived"
+    if args.computation == "archived":
+        live_morse_graph, map_graph, bounds = _compute_archived_graph(args.device)
         graph = _parsed_graph_from_live(live_morse_graph)
-        source_description = "archive/marcio/scripts"
+        source_description = "replay_sources/chafee_infante/reference_inputs"
         computation_metadata = {
-            "name": "marcio_original",
-            "weights": str(MARCIO_WEIGHTS.relative_to(PROJECT_ROOT)),
-            "data": str(MARCIO_DATA.relative_to(PROJECT_ROOT)),
+            "name": "archived_original",
+            "weights": str(REFERENCE_WEIGHTS),
+            "data": str(REFERENCE_DATA),
             "bounds": {
                 "lower": bounds.lower.tolist(),
                 "upper": bounds.upper.tolist(),
                 "rule": "encoded train_data extrema plus 10 percent per-axis padding",
             },
             "subdivisions": {
-                "init": MARCIO_SUBDIVISIONS[0],
-                "min": MARCIO_SUBDIVISIONS[1],
-                "max": MARCIO_SUBDIVISIONS[2],
+                "init": REFERENCE_SUBDIVISIONS[0],
+                "min": REFERENCE_SUBDIVISIONS[1],
+                "max": REFERENCE_SUBDIVISIONS[2],
             },
             "padding": True,
         }
@@ -260,7 +276,7 @@ def main() -> int:
                 upper=np.asarray(reference_config.cmgdb.upper_bounds, dtype=np.float64),
             )
         try:
-            source_description = str(args.source.resolve().relative_to(CODE_ROOT))
+            source_description = str(args.source.resolve().relative_to(REPO_ROOT))
         except ValueError:
             source_description = str(args.source)
         computation_metadata = {
@@ -333,7 +349,7 @@ def main() -> int:
         bounds_lower=None if bounds is None else bounds.lower.tolist(),
         bounds_upper=None if bounds is None else bounds.upper.tolist(),
         out_dir=args.output,
-        palette=MARCIO_COARSE_PALETTE,
+        palette=REFERENCE_COARSE_PALETTE,
         box_scale="auto",
         min_box_side_frac=0.0025,
     )
@@ -342,7 +358,7 @@ def main() -> int:
             morse_dir / "morse_sets",
             bounds_lower=bounds.lower.tolist(),
             bounds_upper=bounds.upper.tolist(),
-            palette=MARCIO_COARSE_PALETTE,
+            palette=REFERENCE_COARSE_PALETTE,
             box_scale="auto",
             min_box_side_frac=0.0025,
         )

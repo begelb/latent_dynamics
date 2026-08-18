@@ -1,0 +1,444 @@
+{
+  "example": "leslie3d_example1",
+  "source_root": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R(N) < tau(N)",
+  "nodes": {
+    "0": {
+      "set_kind": "saved_morse_set_with_near_geometry_live_forward_invariance_check",
+      "n_boxes": 3594,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.00042457133531570435,
+        "upper_bound_witness": {
+          "value": 0.00042457133531570435,
+          "input": [
+            -0.5666825119405985,
+            -0.732864328980213
+          ],
+          "image": [
+            -0.6236218810081482,
+            0.18231751024723053
+          ],
+          "box_index": 38,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8391990,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8391990,
+          "deterministic_points": 17970,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1165,
+          "sobol_generation_power": 11,
+          "sobol_generated_then_truncated_per_scramble": 2048
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.00010621471967688088,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.00010614283382892609,
+        "ibp_total_evaluated_enclosures": 84780,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 14376,
+            "frozen_with_clearance_at_least_target": 5659,
+            "refine_low_clearance": 1206,
+            "refine_not_strictly_enclosed": 7511
+          },
+          {
+            "adaptive_depth": 1,
+            "evaluated": 34868,
+            "frozen_with_clearance_at_least_target": 26254,
+            "refine_low_clearance": 2654,
+            "refine_not_strictly_enclosed": 5960
+          },
+          {
+            "adaptive_depth": 2,
+            "evaluated": 34456,
+            "frozen_with_clearance_at_least_target": 34186,
+            "refine_low_clearance": 214,
+            "refine_not_strictly_enclosed": 56
+          },
+          {
+            "adaptive_depth": 3,
+            "evaluated": 1080,
+            "frozen_with_clearance_at_least_target": 1080,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 14376,
+        "ibp_uniform_refinement_rounds": 1,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.01290383655577898,
+        "squared_value_diagnostic": 0.00016650899785825794,
+        "accepted_samples": 150478,
+        "evaluated_samples": 372573,
+        "source_summaries": {
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv": {
+            "evaluated_samples": 64000,
+            "accepted_samples": 9230,
+            "max_euclidean_residual": 0.012800057418644428,
+            "max_squared_residual_diagnostic": 0.00016384146992059426
+          },
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv": {
+            "evaluated_samples": 16000,
+            "accepted_samples": 2207,
+            "max_euclidean_residual": 0.012604966759681702,
+            "max_squared_residual_diagnostic": 0.00015888518701268062
+          },
+          "data/leslie3d_example1/train.csv": {
+            "evaluated_samples": 80000,
+            "accepted_samples": 11426,
+            "max_euclidean_residual": 0.012794991955161095,
+            "max_squared_residual_diagnostic": 0.00016371181913263713
+          },
+          "data/leslie3d_example1/val.csv": {
+            "evaluated_samples": 100000,
+            "accepted_samples": 15042,
+            "max_euclidean_residual": 0.01290383655577898,
+            "max_squared_residual_diagnostic": 0.00016650899785825794
+          },
+          "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_plot_data_indexed.pkl": {
+            "evaluated_samples": 112573,
+            "accepted_samples": 112573,
+            "max_euclidean_residual": 0.006185836158692837,
+            "max_squared_residual_diagnostic": 3.826456898219175e-05
+          }
+        },
+        "witness": {
+          "source": "data/leslie3d_example1/val.csv",
+          "row_index_zero_based": 21494,
+          "x_raw": [
+            6.43657962,
+            0.7944004,
+            0.02900283
+          ],
+          "E_x": [
+            -0.5622482299804688,
+            -0.7321509122848511
+          ],
+          "g_E_x": [
+            -0.6193733811378479,
+            0.17540797591209412
+          ],
+          "E_f_x": [
+            -0.6190288066864014,
+            0.18830721080303192
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 30.39262305869966,
+        "conclusion": "criterion_contradicted_by_numerical_witnesses",
+        "theorem_verified": false,
+        "reason_not_verified": "strict theorem inequality is contradicted for the evaluated block"
+      }
+    },
+    "1": {
+      "set_kind": "saved_morse_set_with_near_geometry_live_forward_invariance_check",
+      "n_boxes": 116789,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.0004063080996274948,
+        "upper_bound_witness": {
+          "value": 0.0004063080996274948,
+          "input": [
+            -0.31016080427655257,
+            -0.4430869405445195
+          ],
+          "image": [
+            -0.25360700488090515,
+            -0.22385954856872559
+          ],
+          "box_index": 22381,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8525597,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8525597,
+          "deterministic_points": 583945,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 34,
+          "sobol_generation_power": 6,
+          "sobol_generated_then_truncated_per_scramble": 64
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.0001015771836132273,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.0001015770249068737,
+        "ibp_total_evaluated_enclosures": 943909,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 116789,
+            "frozen_with_clearance_at_least_target": 82504,
+            "refine_low_clearance": 699,
+            "refine_not_strictly_enclosed": 33586
+          },
+          {
+            "adaptive_depth": 1,
+            "evaluated": 137140,
+            "frozen_with_clearance_at_least_target": 71970,
+            "refine_low_clearance": 2999,
+            "refine_not_strictly_enclosed": 62171
+          },
+          {
+            "adaptive_depth": 2,
+            "evaluated": 260680,
+            "frozen_with_clearance_at_least_target": 171261,
+            "refine_low_clearance": 14699,
+            "refine_not_strictly_enclosed": 74720
+          },
+          {
+            "adaptive_depth": 3,
+            "evaluated": 357676,
+            "frozen_with_clearance_at_least_target": 340295,
+            "refine_low_clearance": 9453,
+            "refine_not_strictly_enclosed": 7928
+          },
+          {
+            "adaptive_depth": 4,
+            "evaluated": 69524,
+            "frozen_with_clearance_at_least_target": 68999,
+            "refine_low_clearance": 502,
+            "refine_not_strictly_enclosed": 23
+          },
+          {
+            "adaptive_depth": 5,
+            "evaluated": 2100,
+            "frozen_with_clearance_at_least_target": 2100,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 116789,
+        "ibp_uniform_refinement_rounds": 0,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.03106914646923542,
+        "squared_value_diagnostic": 0.0009652918623268038,
+        "accepted_samples": 79962,
+        "evaluated_samples": 293957,
+        "source_summaries": {
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv": {
+            "evaluated_samples": 64000,
+            "accepted_samples": 11850,
+            "max_euclidean_residual": 0.030970683321356773,
+            "max_squared_residual_diagnostic": 0.0009591832253917666
+          },
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv": {
+            "evaluated_samples": 16000,
+            "accepted_samples": 2823,
+            "max_euclidean_residual": 0.031063154339790344,
+            "max_squared_residual_diagnostic": 0.0009649195575376357
+          },
+          "data/leslie3d_example1/train.csv": {
+            "evaluated_samples": 80000,
+            "accepted_samples": 14113,
+            "max_euclidean_residual": 0.0310482457280159,
+            "max_squared_residual_diagnostic": 0.0009639935627872576
+          },
+          "data/leslie3d_example1/val.csv": {
+            "evaluated_samples": 100000,
+            "accepted_samples": 17219,
+            "max_euclidean_residual": 0.03106914646923542,
+            "max_squared_residual_diagnostic": 0.0009652918623268038
+          },
+          "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_plot_data_indexed.pkl": {
+            "evaluated_samples": 33957,
+            "accepted_samples": 33957,
+            "max_euclidean_residual": 0.015853773802518845,
+            "max_squared_residual_diagnostic": 0.0002513421437814328
+          }
+        },
+        "witness": {
+          "source": "data/leslie3d_example1/val.csv",
+          "row_index_zero_based": 1230,
+          "x_raw": [
+            8.56737479,
+            25.5856522,
+            6.69845342
+          ],
+          "E_x": [
+            -0.1772976964712143,
+            -0.4843212068080902
+          ],
+          "g_E_x": [
+            -0.17770005762577057,
+            -0.20446020364761353
+          ],
+          "E_f_x": [
+            -0.16422276198863983,
+            -0.23245403170585632
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 76.46696311916932,
+        "conclusion": "criterion_contradicted_by_numerical_witnesses",
+        "theorem_verified": false,
+        "reason_not_verified": "strict theorem inequality is contradicted for the evaluated block"
+      }
+    },
+    "4": {
+      "set_kind": "saved_morse_set_with_exact_live_forward_invariance_check",
+      "n_boxes": 174,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.0004622591659426689,
+        "upper_bound_witness": {
+          "value": 0.0004622591659426689,
+          "input": [
+            -0.21401553505221788,
+            -0.3350079321544126
+          ],
+          "image": [
+            -0.21759292483329773,
+            -0.34784260392189026
+          ],
+          "box_index": 170,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8388714,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388714,
+          "deterministic_points": 870,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 24103,
+          "sobol_generation_power": 15,
+          "sobol_generated_then_truncated_per_scramble": 32768
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.00011559562831187085,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.00011556479148566723,
+        "ibp_total_evaluated_enclosures": 20324,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 11136,
+            "frozen_with_clearance_at_least_target": 8866,
+            "refine_low_clearance": 1195,
+            "refine_not_strictly_enclosed": 1075
+          },
+          {
+            "adaptive_depth": 1,
+            "evaluated": 9080,
+            "frozen_with_clearance_at_least_target": 9053,
+            "refine_low_clearance": 27,
+            "refine_not_strictly_enclosed": 0
+          },
+          {
+            "adaptive_depth": 2,
+            "evaluated": 108,
+            "frozen_with_clearance_at_least_target": 108,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 11136,
+        "ibp_uniform_refinement_rounds": 3,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.057429239153862,
+        "squared_value_diagnostic": 0.003298117509791476,
+        "accepted_samples": 239,
+        "evaluated_samples": 260020,
+        "source_summaries": {
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv": {
+            "evaluated_samples": 64000,
+            "accepted_samples": 50,
+            "max_euclidean_residual": 0.057429239153862,
+            "max_squared_residual_diagnostic": 0.003298117509791476
+          },
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv": {
+            "evaluated_samples": 16000,
+            "accepted_samples": 24,
+            "max_euclidean_residual": 0.05694518983364105,
+            "max_squared_residual_diagnostic": 0.0032427546451894163
+          },
+          "data/leslie3d_example1/train.csv": {
+            "evaluated_samples": 80000,
+            "accepted_samples": 61,
+            "max_euclidean_residual": 0.055472392588853836,
+            "max_squared_residual_diagnostic": 0.003077186339531926
+          },
+          "data/leslie3d_example1/val.csv": {
+            "evaluated_samples": 100000,
+            "accepted_samples": 84,
+            "max_euclidean_residual": 0.057333722710609436,
+            "max_squared_residual_diagnostic": 0.0032871557598570522
+          },
+          "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_samples_k4_20pts.pkl": {
+            "evaluated_samples": 20,
+            "accepted_samples": 20,
+            "max_euclidean_residual": 0.02464926242828369,
+            "max_squared_residual_diagnostic": 0.000607586138258398
+          }
+        },
+        "witness": {
+          "source": "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv",
+          "row_index_zero_based": 52160,
+          "x_raw": [
+            17.70069394,
+            10.07269105,
+            8.18363889
+          ],
+          "E_x": [
+            -0.21712441742420197,
+            -0.3469057083129883
+          ],
+          "g_E_x": [
+            -0.21455726027488708,
+            -0.3406533896923065
+          ],
+          "E_f_x": [
+            -0.24526281654834747,
+            -0.29212209582328796
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 124.23602036478512,
+        "conclusion": "criterion_contradicted_by_numerical_witnesses",
+        "theorem_verified": false,
+        "reason_not_verified": "strict theorem inequality is contradicted for the evaluated block"
+      }
+    }
+  }
+}

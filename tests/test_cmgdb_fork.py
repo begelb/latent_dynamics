@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -20,15 +21,46 @@ def test_missing_fork_api_is_rejected(monkeypatch):
         cmgdb_fork.require_fork_cmgdb()
 
 
-def test_provenance_records_git_state_for_a_checkout():
+def test_provenance_records_git_state_for_a_checkout(tmp_path):
+    # A real git checkout records its revision and dirtiness.
+    repo = tmp_path / "checkout"
+    repo.mkdir()
+    subprocess.run(["git", "init", "-q"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.invalid",
+            "commit",
+            "--allow-empty",
+            "-m",
+            "init",
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+    state = cmgdb_fork._git_state(repo)
+    assert len(state["revision"]) == 40
+    assert state["dirty"] is False
+
+    # A directory that is not a git checkout (a tarball install) yields a
+    # marker instead of an exception.
+    plain = tmp_path / "plain"
+    plain.mkdir()
+    assert cmgdb_fork._git_state(plain) == {"git": "not a git checkout"}
+
+    # End to end: whichever tree the installed module lives under.
     checkout = Path(cmgdb_fork.CMGDB.__file__).resolve().parents[2]
     state = cmgdb_fork.cmgdb_provenance(checkout)
     assert state["version"]
-    if (checkout / ".git").is_dir():
-        assert state["repository"] == str(checkout)
+    assert state["repository"] == str(checkout)
+    if (checkout / ".git").exists():
         assert "revision" in state and "dirty" in state
-    else:  # an installed wheel has no git state to record
-        assert state["source"] == "installed distribution"
+    else:
+        assert state["git"] == "not a git checkout"
 
 
 def test_provenance_of_a_wheel_install_reports_no_repository(tmp_path):

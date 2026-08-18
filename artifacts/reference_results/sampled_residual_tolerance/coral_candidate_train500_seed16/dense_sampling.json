@@ -1,0 +1,655 @@
+{
+  "example": "coral_candidate_train500_seed16",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "interpretation": "Both quantities are dense sampled estimates. R_hat < tau_hat means that no sampled violation was found, not that the uniform theorem hypothesis was proved.",
+  "sampling_protocol": {
+    "stored_transitions": [
+      "replay_sources/coral/data/coral/train_500.csv",
+      "replay_sources/coral/data/coral/test.csv"
+    ],
+    "fresh_trajectories": {
+      "initial_conditions": 131072,
+      "steps_per_initial_condition": 24,
+      "candidate_transitions": 3145728,
+      "seed_base": 20260727,
+      "elapsed_seconds": 2.1461780071258545
+    },
+    "decoder_guided_preimages": {
+      "target_latent_points_per_node": 65536,
+      "noise_scales": [
+        0.0,
+        0.0001,
+        0.001,
+        0.01,
+        0.05
+      ],
+      "candidate_states": 655430,
+      "states_in_system_domain": 655430,
+      "seed": 20260827,
+      "per_node": {
+        "0": {
+          "latent_samples": 65541,
+          "latent_sampling": {
+            "target_points": 65536,
+            "actual_points": 65541,
+            "deterministic_points": 9,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 10922,
+            "sobol_generation_power": 14,
+            "sobol_generated_then_truncated_per_scramble": 16384
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        },
+        "1": {
+          "latent_samples": 65545,
+          "latent_sampling": {
+            "target_points": 65536,
+            "actual_points": 65545,
+            "deterministic_points": 15,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 6553,
+            "sobol_generation_power": 13,
+            "sobol_generated_then_truncated_per_scramble": 8192
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        }
+      },
+      "elapsed_seconds": 0.42611193656921387
+    },
+    "coral_fixed_point_clouds": {
+      "fixed_points": [
+        "a0",
+        "a1"
+      ],
+      "cloud_size_per_nonzero_scale": 8192,
+      "relative_scales": [
+        0.0,
+        1e-06,
+        1e-05,
+        0.0001,
+        0.001,
+        0.01,
+        0.05
+      ],
+      "candidate_states": 98306,
+      "seed": 20260927,
+      "elapsed_seconds": 0.061630964279174805
+    }
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 3,
+      "tolerance": {
+        "sampled_minimum": 0.007788083888590203,
+        "sample_count": 8388609,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388609,
+          "deterministic_points": 9,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1398100,
+          "sobol_generation_power": 21,
+          "sobol_generated_then_truncated_per_scramble": 2097152
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.007788083888590203,
+          "input": [
+            -0.9913570066913964
+          ],
+          "image": [
+            -0.9991450905799866
+          ],
+          "box_index": 2,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.053966641426086426,
+        "squared_value_diagnostic": 0.0029123983868117875,
+        "accepted_samples": 1940312,
+        "evaluated_samples": 4109464,
+        "source_summaries": {
+          "replay_sources/coral/data/coral/train_500.csv": {
+            "evaluated_samples": 10000,
+            "accepted_samples": 7,
+            "max_euclidean_residual": 0.0012034773826599121,
+            "max_squared_residual_diagnostic": 1.4483578105739525e-06
+          },
+          "replay_sources/coral/data/coral/test.csv": {
+            "evaluated_samples": 200000,
+            "accepted_samples": 125,
+            "max_euclidean_residual": 0.0023125410079956055,
+            "max_squared_residual_diagnostic": 5.347845913661331e-06
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 613,
+            "max_euclidean_residual": 0.0024753808975219727,
+            "max_squared_residual_diagnostic": 6.127510587816687e-06
+          },
+          "fresh_sobol_trajectories_scale_0.5": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 35270,
+            "max_euclidean_residual": 0.006892800331115723,
+            "max_squared_residual_diagnostic": 4.7510696404629016e-05
+          },
+          "fresh_sobol_trajectories_scale_0.25": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 175338,
+            "max_euclidean_residual": 0.009740114212036133,
+            "max_squared_residual_diagnostic": 9.486982486350826e-05
+          },
+          "fresh_sobol_trajectories_scale_0.125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 227389,
+            "max_euclidean_residual": 0.020194292068481445,
+            "max_squared_residual_diagnostic": 0.0004078094321471326
+          },
+          "fresh_sobol_trajectories_scale_0.0625": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 287370,
+            "max_euclidean_residual": 0.017838776111602783,
+            "max_squared_residual_diagnostic": 0.0003182219331598901
+          },
+          "fresh_sobol_trajectories_scale_0.03125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 374318,
+            "max_euclidean_residual": 0.011463940143585205,
+            "max_squared_residual_diagnostic": 0.00013142192361570437
+          },
+          "fresh_sobol_trajectories_scale_0.015625": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 393216,
+            "max_euclidean_residual": 0.002840280532836914,
+            "max_squared_residual_diagnostic": 8.067193505212344e-06
+          },
+          "fresh_sobol_trajectories_scale_0.0078125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 393216,
+            "max_euclidean_residual": 0.0005200505256652832,
+            "max_squared_residual_diagnostic": 2.704525492447374e-07
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 1,
+            "max_euclidean_residual": 0.0020728111267089844,
+            "max_squared_residual_diagnostic": 4.296545967008569e-06
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 9120,
+            "max_euclidean_residual": 0.006321072578430176,
+            "max_squared_residual_diagnostic": 3.995595854178191e-05
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 3296,
+            "max_euclidean_residual": 0.053966641426086426,
+            "max_squared_residual_diagnostic": 0.0029123983868117875
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_0": {
+            "evaluated_samples": 1,
+            "accepted_samples": 1,
+            "max_euclidean_residual": 0.0005201101303100586,
+            "max_squared_residual_diagnostic": 2.7051454765114613e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_1e-06": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0005201101303100586,
+            "max_squared_residual_diagnostic": 2.7051454765114613e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_1e-05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0005199909210205078,
+            "max_squared_residual_diagnostic": 2.70390557943756e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_0.0001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0005192756652832031,
+            "max_squared_residual_diagnostic": 2.696472165553132e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_0.001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0005113482475280762,
+            "max_squared_residual_diagnostic": 2.6147703025003466e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_0.01": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0004912018775939941,
+            "max_squared_residual_diagnostic": 2.412792845518652e-07
+          },
+          "coral_fixed_point_cloud_a0_scale_0.05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 72,
+            "max_euclidean_residual": 0.016582071781158447,
+            "max_squared_residual_diagnostic": 0.0002749651045554913
+          },
+          "coral_fixed_point_cloud_a1_scale_0": {
+            "evaluated_samples": 1,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_1e-06": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_1e-05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_0.0001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_0.001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_0.01": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_0.05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          }
+        },
+        "witness": {
+          "source": "decoder_guided_node_0_noise_0.05",
+          "row_index_zero_based": 224794,
+          "x_raw": [
+            0.15169576,
+            3.7164241685210477,
+            7.88825064737951,
+            9.318746009793653,
+            19.194202982763912,
+            0.04773247,
+            0.013699220000000002,
+            2.097859797926183,
+            0.00260481,
+            0.1054315018550883,
+            0.04164139349167914,
+            0.00065055,
+            0.002280632651440228
+          ],
+          "E_x": [
+            -0.9917002320289612
+          ],
+          "g_E_x": [
+            -0.9991514086723328
+          ],
+          "E_f_x": [
+            -0.9451847672462463
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 6.929386251880173,
+        "sampled_conclusion": "sampled_violation"
+      }
+    },
+    "1": {
+      "n_boxes": 5,
+      "tolerance": {
+        "sampled_minimum": 0.007956178160384353,
+        "sample_count": 8388615,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388615,
+          "deterministic_points": 15,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 838860,
+          "sobol_generation_power": 20,
+          "sobol_generated_then_truncated_per_scramble": 1048576
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.007956178160384353,
+          "input": [
+            0.12822350743226701
+          ],
+          "image": [
+            0.13617968559265137
+          ],
+          "box_index": 0,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.24785225093364716,
+        "squared_value_diagnostic": 0.0614307382928756,
+        "accepted_samples": 716059,
+        "evaluated_samples": 4109464,
+        "source_summaries": {
+          "replay_sources/coral/data/coral/train_500.csv": {
+            "evaluated_samples": 10000,
+            "accepted_samples": 4292,
+            "max_euclidean_residual": 0.1851913183927536,
+            "max_squared_residual_diagnostic": 0.03429582440804624
+          },
+          "replay_sources/coral/data/coral/test.csv": {
+            "evaluated_samples": 200000,
+            "accepted_samples": 85205,
+            "max_euclidean_residual": 0.24785225093364716,
+            "max_squared_residual_diagnostic": 0.0614307382928756
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 203970,
+            "max_euclidean_residual": 0.233132004737854,
+            "max_squared_residual_diagnostic": 0.05435053163309078
+          },
+          "fresh_sobol_trajectories_scale_0.5": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 51396,
+            "max_euclidean_residual": 0.04594533145427704,
+            "max_squared_residual_diagnostic": 0.002110973482443379
+          },
+          "fresh_sobol_trajectories_scale_0.25": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "fresh_sobol_trajectories_scale_0.125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "fresh_sobol_trajectories_scale_0.0625": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "fresh_sobol_trajectories_scale_0.03125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "fresh_sobol_trajectories_scale_0.015625": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "fresh_sobol_trajectories_scale_0.0078125": {
+            "evaluated_samples": 393216,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 65541,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 65545,
+            "max_euclidean_residual": 0.0686030387878418,
+            "max_squared_residual_diagnostic": 0.004706376930926126
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 65545,
+            "max_euclidean_residual": 0.0686272382736206,
+            "max_squared_residual_diagnostic": 0.004709697833064297
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 65545,
+            "max_euclidean_residual": 0.06892223656177521,
+            "max_squared_residual_diagnostic": 0.004750274692677303
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 65197,
+            "max_euclidean_residual": 0.07302938401699066,
+            "max_squared_residual_diagnostic": 0.005333290929901091
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 65545,
+            "accepted_samples": 60227,
+            "max_euclidean_residual": 0.09539879858493805,
+            "max_squared_residual_diagnostic": 0.009100930771449578
+          },
+          "coral_fixed_point_cloud_a0_scale_0": {
+            "evaluated_samples": 1,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_1e-06": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_1e-05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_0.0001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_0.001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_0.01": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a0_scale_0.05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "coral_fixed_point_cloud_a1_scale_0": {
+            "evaluated_samples": 1,
+            "accepted_samples": 1,
+            "max_euclidean_residual": 0.0010393708944320679,
+            "max_squared_residual_diagnostic": 1.0802918561925168e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_1e-06": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0010395199060440063,
+            "max_squared_residual_diagnostic": 1.0806016350617398e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_1e-05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0010412037372589111,
+            "max_squared_residual_diagnostic": 1.0841052224819236e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_0.0001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0010530650615692139,
+            "max_squared_residual_diagnostic": 1.1089460238977722e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_0.001": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0011676996946334839,
+            "max_squared_residual_diagnostic": 1.3635225768471315e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_0.01": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8192,
+            "max_euclidean_residual": 0.0024122148752212524,
+            "max_squared_residual_diagnostic": 5.8187806042386825e-06
+          },
+          "coral_fixed_point_cloud_a1_scale_0.05": {
+            "evaluated_samples": 8192,
+            "accepted_samples": 8176,
+            "max_euclidean_residual": 0.06637394428253174,
+            "max_squared_residual_diagnostic": 0.004405500479620628
+          }
+        },
+        "witness": {
+          "source": "replay_sources/coral/data/coral/test.csv",
+          "row_index_zero_based": 147025,
+          "x_raw": [
+            849.24811412,
+            498.70291916,
+            336.94521495,
+            421.20848346,
+            284.53635479,
+            78.67200558,
+            4.45921162,
+            0.14468468,
+            6.31361041,
+            4.3483761,
+            4.84985457,
+            1.46366496,
+            0.43886372
+          ],
+          "E_x": [
+            0.14463825523853302
+          ],
+          "g_E_x": [
+            0.14290453493595123
+          ],
+          "E_f_x": [
+            0.3907567858695984
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 31.152174566396805,
+        "sampled_conclusion": "sampled_violation"
+      }
+    }
+  }
+}

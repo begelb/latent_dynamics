@@ -13,6 +13,7 @@ import pytest
 
 from latentdynamics import replay
 from latentdynamics.replay import (
+    ArtifactsNotPublishedError,
     ReplayExperiment,
     available_experiments,
     load_experiment,
@@ -23,7 +24,7 @@ from latentdynamics.replay import (
 
 def test_available_experiments_lists_known_configs():
     names = available_experiments()
-    for expected in ("leslie_2gen_contraction", "leslie3d_example1", "coral_data_scaling"):
+    for expected in ("leslie_2gen_contraction", "leslie3d_example1", "coral_basic"):
         assert expected in names
 
 
@@ -57,7 +58,7 @@ def test_blocked_cell_raises_filenotfound(tmp_path):
 def _load_or_skip(name: str, **kwargs) -> ReplayExperiment:
     try:
         return load_experiment(name, **kwargs)
-    except FileNotFoundError as exc:
+    except (FileNotFoundError, ArtifactsNotPublishedError) as exc:
         pytest.skip(f"artifacts for {name} not present: {exc}")
 
 
@@ -72,15 +73,15 @@ def test_load_replay_ready_leslie3d_example1():
 
 
 def test_render_morse_produces_pngs(tmp_path):
-    # coral train_2000 is a tiny 1D Morse set, fast to render.
-    exp = _load_or_skip("coral_data_scaling", train_file="train_2000", seed=0)
+    # coral train_500/seed_16 is a tiny 1D Morse set, fast to render.
+    exp = _load_or_skip("coral_basic", train_file="train_500", seed=16)
     figs = exp.render_morse(out_dir=tmp_path)
     assert figs.morse_graph_png.exists()
     assert any(p.suffix == ".png" and p.exists() for p in figs.morse_sets_paths)
 
 
 def test_encode_advance_shapes():
-    exp = _load_or_skip("coral_data_scaling", train_file="train_2000", seed=0)
+    exp = _load_or_skip("coral_basic", train_file="train_500", seed=16)
     x = np.zeros((5, exp.arch.high_dims), dtype=np.float64)
     z = exp.encode(x)
     assert z.shape == (5, exp.arch.low_dims)

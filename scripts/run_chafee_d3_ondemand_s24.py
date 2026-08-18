@@ -37,7 +37,6 @@ import numpy as np
 from numpy.typing import NDArray
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 SCRIPT_PATH = Path(__file__).resolve()
 
 TRAINING_ROOT = (

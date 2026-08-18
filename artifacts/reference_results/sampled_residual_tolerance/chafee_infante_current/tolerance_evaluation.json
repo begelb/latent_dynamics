@@ -1,0 +1,326 @@
+{
+  "example": "chafee_infante_current",
+  "source_root": "replay_sources/chafee_infante/replay",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R(N) < tau(N)",
+  "nodes": {
+    "0": {
+      "set_kind": "forward_closure_from_live_map_graph",
+      "n_boxes": 9,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.039529092609882355,
+        "upper_bound_witness": {
+          "value": 0.039529092609882355,
+          "input": [
+            -2.5971865579485893,
+            -0.2821005694568157
+          ],
+          "image": [
+            -2.6367156505584717,
+            -0.2335389107465744
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.038793883864792544,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.009882273152470589,
+        "ibp_total_evaluated_enclosures": 9216,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 9216,
+            "frozen_with_clearance_at_least_target": 9216,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 9216,
+        "ibp_uniform_refinement_rounds": 5,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.03266727924346924,
+        "squared_value_diagnostic": 0.0010671511331707961,
+        "accepted_samples": 9128,
+        "evaluated_samples": 30000,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9128,
+            "max_euclidean_residual": 0.03266727924346924,
+            "max_squared_residual_diagnostic": 0.0010671511331707961
+          }
+        },
+        "witness": {
+          "source": "replay_sources/chafee_infante/data/train.csv",
+          "row_index_zero_based": 16980,
+          "x_raw": [
+            1.3026130640719802,
+            -0.054849487004478975,
+            0.5925558639340478,
+            0.1985486234647195,
+            -0.20874666246321802,
+            0.13509157316370574,
+            -0.08319843794406417,
+            0.050844009711748205,
+            0.03242531645930958,
+            -0.011356333275271678,
+            0.0069068446507754505,
+            -0.0043103145276806145,
+            0.0048577673458814075,
+            0.0026018170493363212,
+            -0.00023267016399097006,
+            -0.000781540032200305,
+            0.00020727229625477995,
+            -0.0002130689143808741,
+            0.00018142612815224296,
+            1.1294120626181121e-05,
+            -3.371214702484284e-05,
+            4.657315780297308e-07,
+            1.7157350386534483e-05,
+            9.166908707792591e-06,
+            3.697095875662219e-06,
+            -4.283483529586215e-06,
+            1.370035816596364e-06,
+            -1.4741489779669922e-06,
+            -2.1738177753717394e-07,
+            -4.931929059641412e-07,
+            2.7895038175983323e-07,
+            -1.763226224399368e-08,
+            -6.118842330688422e-08,
+            5.07613860459265e-08,
+            2.634218328790806e-08,
+            -1.151404621307706e-08,
+            -2.6731127239162115e-08,
+            1.710967862922206e-09,
+            -3.870441807006506e-09,
+            -2.494840834350355e-09,
+            3.374353276919105e-09,
+            2.2611113342344143e-09,
+            -1.1450865221122913e-09,
+            7.891442149667602e-10,
+            -4.8219959663406e-10,
+            -2.711617384029706e-10,
+            2.4312646388420842e-11,
+            9.05170868631198e-11,
+            1.750725146114206e-11,
+            -4.34957287618332e-12,
+            1.5934403855384966e-11,
+            -5.0390837790307135e-12,
+            5.2267618236924844e-12,
+            -1.6398060537700214e-12,
+            1.4385409384080385e-13,
+            2.227968262763914e-12,
+            1.18738412925478e-12,
+            2.0996821944371274e-13,
+            2.3578520494899e-13,
+            9.724862212139137e-14,
+            8.157533078749233e-14,
+            -1.3619520986708217e-14,
+            5.482418019085966e-14,
+            -3.1112191214397424e-15
+          ],
+          "E_x": [
+            -2.6552574634552,
+            -0.27813369035720825
+          ],
+          "g_E_x": [
+            -2.641580104827881,
+            -0.23129579424858093
+          ],
+          "E_f_x": [
+            -2.610799551010132,
+            -0.22035464644432068
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 0.8264110579483008,
+        "conclusion": "inconclusive",
+        "theorem_verified": false,
+        "reason_not_verified": "no uniform residual upper bound"
+      }
+    },
+    "1": {
+      "set_kind": "forward_closure_from_live_map_graph",
+      "n_boxes": 9,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.04251862317323685,
+        "upper_bound_witness": {
+          "value": 0.04251862317323685,
+          "input": [
+            2.4103321954607964,
+            0.06177177652716637
+          ],
+          "image": [
+            2.452850818634033,
+            0.012614111416041851
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.04166217578990017,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.010629655793309212,
+        "ibp_total_evaluated_enclosures": 9216,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 9216,
+            "frozen_with_clearance_at_least_target": 9216,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 9216,
+        "ibp_uniform_refinement_rounds": 5,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.01339709758758545,
+        "squared_value_diagnostic": 0.00017948222377128786,
+        "accepted_samples": 9847,
+        "evaluated_samples": 30000,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9847,
+            "max_euclidean_residual": 0.01339709758758545,
+            "max_squared_residual_diagnostic": 0.00017948222377128786
+          }
+        },
+        "witness": {
+          "source": "replay_sources/chafee_infante/data/train.csv",
+          "row_index_zero_based": 2823,
+          "x_raw": [
+            -1.2245418948222218,
+            -0.020188828786194924,
+            -0.3069771187067927,
+            -0.02168372185972664,
+            -0.11478115387724476,
+            -0.014331413770475872,
+            -0.04597320907689673,
+            -0.007880037584301232,
+            -0.01879665506867731,
+            -0.004005456549553032,
+            -0.007747588986244043,
+            -0.0019531748006641775,
+            -0.0032087906058415176,
+            -0.0009274559514009067,
+            -0.00133423776718017,
+            -0.00043217041278333735,
+            -0.0005568025424805784,
+            -0.00019855918855332807,
+            -0.00023315379694451146,
+            -9.024007523037479e-05,
+            -9.793888153891188e-05,
+            -4.0661714744535566e-05,
+            -4.126051237633103e-05,
+            -1.8196580186311917e-05,
+            -1.7429145870607045e-05,
+            -8.097917892613648e-06,
+            -7.380350080820991e-06,
+            -3.587325716740565e-06,
+            -3.1321208596829034e-06,
+            -1.5831559783565805e-06,
+            -1.331886493361267e-06,
+            -6.964734696232157e-07,
+            -5.673817696618674e-07,
+            -3.0558594654527056e-07,
+            -2.420925099554748e-07,
+            -1.3377922796821917e-07,
+            -1.0344477576055896e-07,
+            -5.845373378515763e-08,
+            -4.425671733340532e-08,
+            -2.549714567680262e-08,
+            -1.895308066988256e-08,
+            -1.1100117077341191e-08,
+            -8.118499060670358e-09,
+            -4.811155383518697e-09,
+            -3.4658961330900657e-09,
+            -2.044418437470517e-09,
+            -1.447185889154682e-09,
+            -7.707161788215476e-10,
+            -5.289523965112473e-10,
+            -4.095908854545087e-11,
+            -2.2760777275046566e-11,
+            7.205720105341274e-10,
+            4.25969207613745e-10,
+            2.1817520327374727e-09,
+            1.0586381165056678e-09,
+            5.732277550294177e-09,
+            2.0047961191628353e-09,
+            1.5029133860481833e-08,
+            2.6825026352852553e-09,
+            4.123080589100893e-08,
+            -9.777719947651203e-10,
+            1.336568796923037e-07,
+            -3.8720948236452394e-08,
+            -2.4725770788768933e-06
+          ],
+          "E_x": [
+            2.449505090713501,
+            -0.040777433663606644
+          ],
+          "g_E_x": [
+            2.4595425128936768,
+            0.010329514741897583
+          ],
+          "E_f_x": [
+            2.4472036361694336,
+            0.005110861733555794
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 0.3150877565578885,
+        "conclusion": "inconclusive",
+        "theorem_verified": false,
+        "reason_not_verified": "no uniform residual upper bound"
+      }
+    }
+  }
+}

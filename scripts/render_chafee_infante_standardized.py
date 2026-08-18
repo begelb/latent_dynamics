@@ -12,7 +12,7 @@ The one-dimensional computation is a fine result, so its unstable node retains
 the repository's normal third palette color.  Gray is reserved for the
 explicitly coarsened two-dimensional connecting class.
 
-Marcio's exact adaptive two-dimensional fine computation is currently
+The archived exact adaptive two-dimensional fine computation is currently
 preserved as PDFs but not as a DOT/CSV pair.  Consequently it is omitted by
 default.  ``--d2-fine-dir`` may be used once an exact persisted snapshot is
 available; strict graph, annotation, label, and cell-count checks prevent a
@@ -39,26 +39,39 @@ from latentdynamics.viz import (
 from latentdynamics.viz.style import save_latent_figure
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = CODE_ROOT.parent
 
-DEFAULT_D1_DIR = (
+
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
+
+
+DEFAULT_D1_DIR = _first_existing(
+    CODE_ROOT
+    / "replay_sources"
+    / "chafee_infante"
+    / "latent_dimension_study"
+    / "latent_1d"
+    / "seed_0"
+    / "MG_adaptive",
     CODE_ROOT
     / "output"
     / "chafee_latent_dimension_study"
     / "latent_1d"
     / "seed_0"
-    / "MG_adaptive"
+    / "MG_adaptive",
 )
 DEFAULT_D1_BOUNDS = DEFAULT_D1_DIR.parent / "bounds.json"
-DEFAULT_D2_COARSE_DIR = (
-    CODE_ROOT / "paper_figures" / "coarsened" / "chafee_infante" / "MG"
+DEFAULT_D2_COARSE_DIR = _first_existing(
+    CODE_ROOT / "replay_sources" / "chafee_infante" / "coarsened" / "MG",
+    CODE_ROOT / "output" / "chafee_coarsened" / "MG",
 )
 DEFAULT_D2_MANIFEST = DEFAULT_D2_COARSE_DIR.parent / "quotient.json"
-DEFAULT_OUTPUT = (
-    CODE_ROOT / "paper_figures" / "standardized" / "chafee_infante"
-)
+DEFAULT_OUTPUT = CODE_ROOT / "output" / "chafee_standardized"
 
-MARCIO_D2_FINE_EDGES = frozenset(
+ARCHIVED_D2_FINE_EDGES = frozenset(
     {
         (2, 0),
         (2, 1),
@@ -70,7 +83,7 @@ MARCIO_D2_FINE_EDGES = frozenset(
         (6, 5),
     }
 )
-MARCIO_D2_FINE_ANNOTATIONS = {
+ARCHIVED_D2_FINE_ANNOTATIONS = {
     0: "(x-1, 0, 0)",
     1: "(x-1, 0, 0)",
     2: "(0, x-1, 0)",
@@ -113,7 +126,7 @@ def _sha256(path: Path) -> str:
 def _repo_path(path: Path) -> str:
     resolved = path.resolve()
     try:
-        return str(resolved.relative_to(PROJECT_ROOT))
+        return str(resolved.relative_to(CODE_ROOT))
     except ValueError:
         return str(resolved)
 
@@ -375,8 +388,8 @@ def _build_specs(
                 positive_label=0,
                 connecting_labels=(),
                 expected_nodes=frozenset(range(7)),
-                expected_edges=MARCIO_D2_FINE_EDGES,
-                expected_annotations=MARCIO_D2_FINE_ANNOTATIONS,
+                expected_edges=ARCHIVED_D2_FINE_EDGES,
+                expected_annotations=ARCHIVED_D2_FINE_ANNOTATIONS,
                 expected_rows=1533,
                 expected_set_labels=frozenset(range(7)),
                 graph_basename="ci_morse_graph",
@@ -398,7 +411,7 @@ def main() -> int:
         "--d2-fine-dir",
         type=Path,
         help=(
-            "exact persisted Marcio adaptive fine DOT/CSV directory; omitted by "
+            "exact persisted archived adaptive fine DOT/CSV directory; omitted by "
             "default because no exact snapshot is currently stored"
         ),
     )
@@ -459,7 +472,7 @@ def main() -> int:
             else {
                 "status": "omitted",
                 "reason": (
-                    "Marcio's exact adaptive fine computation is preserved only "
+                    "The archived exact adaptive fine computation is preserved only "
                     "as PDFs; no exact persisted DOT/CSV snapshot is currently "
                     "available. The saved package replay is scientifically "
                     "different and is rejected by the source checks."

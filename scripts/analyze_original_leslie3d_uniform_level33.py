@@ -28,8 +28,6 @@ import hashlib
 import itertools
 import json
 import math
-import subprocess
-import sys
 import time
 from collections.abc import Iterator, Sequence
 from dataclasses import dataclass
@@ -45,9 +43,6 @@ import numpy as np
 from numpy.typing import NDArray
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = CODE_ROOT.parent
-LOCAL_CMGDB_ROOT = PROJECT_ROOT / "archive" / "CMGDB"
-LOCAL_CMGDB_SRC = LOCAL_CMGDB_ROOT / "src"
 
 DEFAULT_SOURCE = (
     CODE_ROOT
@@ -110,22 +105,6 @@ def sha256(path: Path) -> str:
         for block in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(block)
     return digest.hexdigest()
-
-
-def git_state(repository: Path) -> dict[str, object]:
-    revision = subprocess.run(
-        ["git", "-C", str(repository), "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    status = subprocess.run(
-        ["git", "-C", str(repository), "status", "--short"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout
-    return {"revision": revision, "dirty": bool(status.strip())}
 
 
 def leslie(point: Sequence[float]) -> tuple[float, float, float]:
@@ -226,9 +205,7 @@ class UniformGrid:
 
 
 def require_local_cmgdb() -> tuple[object, Path]:
-    """Import CMGDB, preferring the checkout, and confirm it is the fork."""
-    if LOCAL_CMGDB_SRC.is_dir() and str(LOCAL_CMGDB_SRC) not in sys.path:
-        sys.path.insert(0, str(LOCAL_CMGDB_SRC))
+    """Import CMGDB and confirm it is the maintained fork."""
     import CMGDB
 
     from latentdynamics.analysis.cmgdb_fork import require_fork_cmgdb
@@ -274,8 +251,6 @@ def validate_adjacencies(grid: UniformGrid, level: int) -> dict[str, object]:
         "mismatches": mismatches,
         "cmgdb_version": version("CMGDB"),
         "cmgdb_module": str(module_path),
-        "cmgdb_repository": str(LOCAL_CMGDB_ROOT),
-        **git_state(LOCAL_CMGDB_ROOT),
     }
 
 

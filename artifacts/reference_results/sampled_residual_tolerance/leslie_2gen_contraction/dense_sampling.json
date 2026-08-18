@@ -1,0 +1,389 @@
+{
+  "example": "leslie_2gen_contraction",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "interpretation": "Both quantities are dense sampled estimates. R_hat < tau_hat means that no sampled violation was found, not that the uniform theorem hypothesis was proved.",
+  "sampling_protocol": {
+    "stored_transitions": [
+      "data/leslie_2gen_contraction/train.csv",
+      "data/leslie_2gen_contraction/val.csv"
+    ],
+    "fresh_trajectories": {
+      "initial_conditions": 131072,
+      "steps_per_initial_condition": 24,
+      "candidate_transitions": 3145728,
+      "seed_base": 20260727,
+      "elapsed_seconds": 5.661778926849365
+    },
+    "decoder_guided_preimages": {
+      "target_latent_points_per_node": 65536,
+      "noise_scales": [
+        0.0,
+        0.0001,
+        0.001,
+        0.01,
+        0.05
+      ],
+      "candidate_states": 4449305,
+      "states_in_system_domain": 4449305,
+      "seed": 20260827,
+      "per_node": {
+        "0": {
+          "latent_samples": 821317,
+          "latent_sampling": {
+            "target_points": 65536,
+            "actual_points": 821317,
+            "deterministic_points": 586655,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 1,
+            "sobol_generation_power": 0,
+            "sobol_generated_then_truncated_per_scramble": 1
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        },
+        "1": {
+          "latent_samples": 68544,
+          "latent_sampling": {
+            "target_points": 65536,
+            "actual_points": 68544,
+            "deterministic_points": 48960,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 1,
+            "sobol_generation_power": 0,
+            "sobol_generated_then_truncated_per_scramble": 1
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        }
+      },
+      "elapsed_seconds": 26.174208879470825
+    },
+    "coral_fixed_point_clouds": null
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 117331,
+      "tolerance": {
+        "sampled_minimum": 5.1976014219690114e-05,
+        "sample_count": 8565163,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8565163,
+          "deterministic_points": 586655,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 34,
+          "sobol_generation_power": 6,
+          "sobol_generated_then_truncated_per_scramble": 64
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 5.1976014219690114e-05,
+          "input": [
+            -0.04458396163136058,
+            -0.19745534469802806
+          ],
+          "image": [
+            -0.06221737340092659,
+            -0.15914852917194366
+          ],
+          "box_index": 3253,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.06798265129327774,
+        "squared_value_diagnostic": 0.004621640876863398,
+        "accepted_samples": 2240516,
+        "evaluated_samples": 7795033,
+        "source_summaries": {
+          "data/leslie_2gen_contraction/train.csv": {
+            "evaluated_samples": 160000,
+            "accepted_samples": 2900,
+            "max_euclidean_residual": 0.05761278420686722,
+            "max_squared_residual_diagnostic": 0.0033192329040670487
+          },
+          "data/leslie_2gen_contraction/val.csv": {
+            "evaluated_samples": 40000,
+            "accepted_samples": 815,
+            "max_euclidean_residual": 0.04448149725794792,
+            "max_squared_residual_diagnostic": 0.0019786035983088285
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 3145728,
+            "accepted_samples": 55401,
+            "max_euclidean_residual": 0.06798265129327774,
+            "max_squared_residual_diagnostic": 0.004621640876863398
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 533458,
+            "max_euclidean_residual": 0.004519217181950808,
+            "max_squared_residual_diagnostic": 2.04233239376394e-05
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 533428,
+            "max_euclidean_residual": 0.004522383213043213,
+            "max_squared_residual_diagnostic": 2.0451949925615054e-05
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 529954,
+            "max_euclidean_residual": 0.004646542016416788,
+            "max_squared_residual_diagnostic": 2.159035271032659e-05
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 438037,
+            "max_euclidean_residual": 0.007547460030764341,
+            "max_squared_residual_diagnostic": 5.696415291598527e-05
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 146506,
+            "max_euclidean_residual": 0.04295995086431503,
+            "max_squared_residual_diagnostic": 0.001845557378264362
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 17,
+            "max_euclidean_residual": 0.004363898653537035,
+            "max_squared_residual_diagnostic": 1.9043611458342347e-05
+          }
+        },
+        "witness": {
+          "source": "fresh_sobol_trajectories_scale_1",
+          "row_index_zero_based": 3054939,
+          "x_raw": [
+            47.39810935794669,
+            16.38631517160684,
+            21.974899317137897,
+            21.02216964121908,
+            23.19237266201526,
+            15.241604181937873,
+            9.896186436526477,
+            2.7373597491532564,
+            21.380357211455703,
+            8.009764249436557
+          ],
+          "E_x": [
+            -0.061820246279239655,
+            -0.16141657531261444
+          ],
+          "g_E_x": [
+            -0.01612919755280018,
+            -0.18258289992809296
+          ],
+          "E_f_x": [
+            -0.07481463253498077,
+            -0.14826583862304688
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 1307.9619958146736,
+        "sampled_conclusion": "sampled_violation"
+      }
+    },
+    "1": {
+      "n_boxes": 9792,
+      "tolerance": {
+        "sampled_minimum": 5.4065500080469064e-05,
+        "sample_count": 8391744,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8391744,
+          "deterministic_points": 48960,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 426,
+          "sobol_generation_power": 9,
+          "sobol_generated_then_truncated_per_scramble": 512
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 5.4065500080469064e-05,
+          "input": [
+            0.006883084384948725,
+            -0.15931369881326776
+          ],
+          "image": [
+            -0.031104860827326775,
+            -0.26451829075813293
+          ],
+          "box_index": 7367,
+          "source": "local_differential_evolution"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.05311565101146698,
+        "squared_value_diagnostic": 0.002821272382371953,
+        "accepted_samples": 131462,
+        "evaluated_samples": 7795033,
+        "source_summaries": {
+          "data/leslie_2gen_contraction/train.csv": {
+            "evaluated_samples": 160000,
+            "accepted_samples": 5105,
+            "max_euclidean_residual": 0.019152497872710228,
+            "max_squared_residual_diagnostic": 0.0003668181747641698
+          },
+          "data/leslie_2gen_contraction/val.csv": {
+            "evaluated_samples": 40000,
+            "accepted_samples": 1259,
+            "max_euclidean_residual": 0.008168579079210758,
+            "max_squared_residual_diagnostic": 6.672568417331968e-05
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 3145728,
+            "accepted_samples": 108680,
+            "max_euclidean_residual": 0.01858493685722351,
+            "max_squared_residual_diagnostic": 0.0003453998779869849
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 821317,
+            "accepted_samples": 16,
+            "max_euclidean_residual": 0.05311565101146698,
+            "max_squared_residual_diagnostic": 0.002821272382371953
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 4229,
+            "max_euclidean_residual": 0.0029396777972579002,
+            "max_squared_residual_diagnostic": 8.64170555169106e-06
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 4238,
+            "max_euclidean_residual": 0.0029620034620165825,
+            "max_squared_residual_diagnostic": 8.77346450899822e-06
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 4146,
+            "max_euclidean_residual": 0.003110825549811125,
+            "max_squared_residual_diagnostic": 9.677235601357687e-06
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 3286,
+            "max_euclidean_residual": 0.016322821378707886,
+            "max_squared_residual_diagnostic": 0.0002664344977612032
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 68544,
+            "accepted_samples": 503,
+            "max_euclidean_residual": 0.044583722949028015,
+            "max_squared_residual_diagnostic": 0.0019877083519956873
+          }
+        },
+        "witness": {
+          "source": "decoder_guided_node_0_noise_0.05",
+          "row_index_zero_based": 2334411,
+          "x_raw": [
+            16.753679359590784,
+            4.291832273983923,
+            7.688858562686867,
+            0.0,
+            10.26611719647432,
+            4.117057871301329,
+            4.548123775446797,
+            0.0,
+            12.285756363054624,
+            8.252624060432819
+          ],
+          "E_x": [
+            0.01662559062242508,
+            -0.15325847268104553
+          ],
+          "g_E_x": [
+            -0.023613236844539642,
+            -0.2745681703090668
+          ],
+          "E_f_x": [
+            -0.038449496030807495,
+            -0.22356662154197693
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 982.4315123768695,
+        "sampled_conclusion": "sampled_violation"
+      }
+    }
+  }
+}

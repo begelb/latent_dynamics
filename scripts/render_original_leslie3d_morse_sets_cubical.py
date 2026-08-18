@@ -5,6 +5,10 @@ render-only utility maps each occupied cell to its containing level-24 cell and
 draws the resulting labeled outer display cover with the repository's cubical
 surface renderer.  It does not rerun CMGDB, alter the Morse graph, or claim a
 new level-24 Morse decomposition.
+
+Alongside the legend view it emits ``morse_sets_cubical_3d_no_legend``, which
+regenerates the paper's no-legend panel of the direct 3-D Leslie Morse sets
+visually (not byte-) identically.
 """
 
 from __future__ import annotations
@@ -256,6 +260,7 @@ def _render_view(
     azim: float,
     labeled: bool,
     emphasize_origin: bool,
+    show_legend: bool = True,
 ) -> list[Path]:
     plot = plot_morse_sets_3d_cubical_from_csv(
         cover_path,
@@ -272,7 +277,7 @@ def _render_view(
         minimal_frame=True,
         show_ticks=labeled,
         show_axis_labels=False,
-        show_legend=True,
+        show_legend=show_legend,
         legend_labels=LEGEND_LABELS,
     )
     if labeled:
@@ -332,6 +337,16 @@ def render(
             azim=-55.0,
             labeled=False,
             emphasize_origin=False,
+        ),
+        *_render_view(
+            cover_path,
+            output_dir,
+            basename="morse_sets_cubical_3d_no_legend",
+            elev=22.0,
+            azim=-55.0,
+            labeled=False,
+            emphasize_origin=False,
+            show_legend=False,
         ),
         *_render_view(
             cover_path,

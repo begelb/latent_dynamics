@@ -1,0 +1,701 @@
+{
+  "status": "complete",
+  "run": "leslie3d_example1 author-provided checkpoint, exact uniform (22,22,22) Morse graph",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "definitions": {
+    "sampled_residual": "max_{x in S_q} ||g(E(x)) - E(f(x))||_2",
+    "sampled_tolerance": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))"
+  },
+  "interpretation": "R_hat is a sampled lower bound on the supremum residual and tau_hat is a sampled upper estimate of the infimum clearance. R_hat >= tau_hat numerically contradicts the strict sufficient inequality for the evaluated recurrent set; it does not classify spuriousness.",
+  "provenance": {
+    "checkpoint_source": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+    "model_sha256": {
+      "encoder.pt": "211f84456707afb254da1cfa05defa41137f90813f624af420722954763d1f4c",
+      "dynamics.pt": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+      "decoder.pt": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2"
+    },
+    "uniform_morse_sets": "output/leslie3d_example1_study/fixed22/morse_sets_fixed22_connection_complete.csv",
+    "uniform_morse_sets_sha256": "a6f9e2d1af898e6358b6a6c10714b3391c2302f133a34cb56bd276b75c759d9b",
+    "uniform_result_sha256": "5bece84bd656912ca6b689ab76a1f058654e6a798a4cb9ae987dd83f024615b9",
+    "subdivision": {
+      "init": 22,
+      "min": 22,
+      "max": 22,
+      "limit": 10000,
+      "sizes": [
+        2048,
+        2048
+      ],
+      "cell_count": 4194304,
+      "padding": true
+    },
+    "minimal_nodes": [
+      0,
+      1
+    ],
+    "pair_files": [
+      "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv",
+      "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv",
+      "replay_sources/leslie3d_example1/data_pairs/train.csv",
+      "replay_sources/leslie3d_example1/data_pairs/val.csv"
+    ],
+    "protocol_scripts": {
+      "tolerance": "src/latentdynamics/analysis/sampled_metrics/tolerance_protocol.py",
+      "dense_residual": "src/latentdynamics/analysis/sampled_metrics/residual_protocol.py"
+    },
+    "metric_script": "scripts/leslie3d_example1_uniform_sampled_metrics.py",
+    "forward_closure_verification": {
+      "path": "output/leslie3d_example1_study/fixed22/residual_tolerance/forward_closure_verification.json",
+      "sha256": "b74a2f3fb574e609acea4c59f426c637c14b5a07175aeb9073c32c27558dece6",
+      "nodes": {
+        "0": {
+          "recurrent_cells": 2714,
+          "forward_closure_cells": 2714,
+          "added_cells": 0,
+          "closure_equals_recurrent_set": true,
+          "saved_live_boxes_exact": true,
+          "saved_live_max_absolute_difference": 0.0,
+          "canonical_boxes_sha256": "8b3f58caad836fdfe6fe5947a74f3cdfdd235a0765a4f85d0b48988d3e2f96d2"
+        },
+        "1": {
+          "recurrent_cells": 85170,
+          "forward_closure_cells": 85170,
+          "added_cells": 0,
+          "closure_equals_recurrent_set": true,
+          "saved_live_boxes_exact": true,
+          "saved_live_max_absolute_difference": 0.0,
+          "canonical_boxes_sha256": "2c9a5d7e3ad88a44a8086f79d721b7de4269e684bec7e238e292d1bca808f0c3"
+        },
+        "23": {
+          "recurrent_cells": 291,
+          "forward_closure_cells": 96318,
+          "added_cells": 96027,
+          "closure_equals_recurrent_set": false,
+          "saved_live_boxes_exact": true,
+          "saved_live_max_absolute_difference": 0.0,
+          "canonical_boxes_sha256": "0d63f9c905153c5f7663a36cf1391dc038462cfccf8e893be395039c852e81c6"
+        }
+      },
+      "elapsed_seconds": 22.722565957985353,
+      "cmgdb_module": "CMGDB (project fork)"
+    }
+  },
+  "sampling_protocol": {
+    "tolerance": {
+      "target_per_node": 8388608,
+      "sobol_scrambles": 2,
+      "local_boxes": 12
+    },
+    "residual": {
+      "stored_transitions": [
+        "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv",
+        "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv",
+        "replay_sources/leslie3d_example1/data_pairs/train.csv",
+        "replay_sources/leslie3d_example1/data_pairs/val.csv"
+      ],
+      "archived_preimage_samples": {
+        "path": "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_plot_data_indexed.pkl",
+        "adaptive_labels_ignored": true,
+        "classification": "fixed22 block geometry"
+      },
+      "fresh_trajectories": {
+        "initial_conditions": 131072,
+        "steps_per_initial_condition": 24,
+        "candidate_transitions": 3145728,
+        "seed_base": 20260727,
+        "elapsed_seconds": 4.835085153579712
+      },
+      "decoder_guided_preimages": {
+        "target_latent_points_per_node": 65536,
+        "noise_scales": [
+          0.0,
+          0.0001,
+          0.001,
+          0.01,
+          0.05
+        ],
+        "candidate_states": 3320200,
+        "states_in_system_domain": 3320200,
+        "seed": 20260827,
+        "per_node": {
+          "0": {
+            "latent_samples": 67850,
+            "latent_sampling": {
+              "target_points": 65536,
+              "actual_points": 67850,
+              "deterministic_points": 13570,
+              "sobol_scrambles": 2,
+              "sobol_seeds": [
+                20260725,
+                20260726
+              ],
+              "sobol_points_per_box_per_scramble": 10,
+              "sobol_generation_power": 4,
+              "sobol_generated_then_truncated_per_scramble": 16
+            },
+            "noise_scales": [
+              0.0,
+              0.0001,
+              0.001,
+              0.01,
+              0.05
+            ]
+          },
+          "1": {
+            "latent_samples": 596190,
+            "latent_sampling": {
+              "target_points": 65536,
+              "actual_points": 596190,
+              "deterministic_points": 425850,
+              "sobol_scrambles": 2,
+              "sobol_seeds": [
+                20260725,
+                20260726
+              ],
+              "sobol_points_per_box_per_scramble": 1,
+              "sobol_generation_power": 0,
+              "sobol_generated_then_truncated_per_scramble": 1
+            },
+            "noise_scales": [
+              0.0,
+              0.0001,
+              0.001,
+              0.01,
+              0.05
+            ]
+          }
+        },
+        "elapsed_seconds": 9.32710313796997
+      },
+      "seed": 20260727
+    }
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 2714,
+      "set_kind": "saved recurrent Morse component; exact map-graph forward closure equals recurrent set",
+      "conley_index": [
+        "x^4-1",
+        "0",
+        "0"
+      ],
+      "tolerance": {
+        "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+        "sampled_minimum": 0.0008005722775124013,
+        "witness": {
+          "value": 0.0008005722775124013,
+          "input": [
+            -0.6095034815371037,
+            0.19677292561391369
+          ],
+          "image": [
+            0.2732613980770111,
+            -0.6529971361160278
+          ],
+          "box_index": 1650,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388974,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388974,
+          "deterministic_points": 13570,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1543,
+          "sobol_generation_power": 11,
+          "sobol_generated_then_truncated_per_scramble": 2048
+        },
+        "all_sample_images_in_interior": true,
+        "local_optimization": {
+          "boxes_searched": 12,
+          "selection": "boxes with the lowest boxwise sampled clearance",
+          "runs": [
+            {
+              "box_index": 1650,
+              "sampled_box_minimum": 0.0008005722775124013,
+              "optimized_value": 0.0008005722775124013,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 1678,
+              "sampled_box_minimum": 0.0008202985627576709,
+              "optimized_value": 0.0008202389581128954,
+              "evaluations": 843,
+              "success": true
+            },
+            {
+              "box_index": 2066,
+              "sampled_box_minimum": 0.0008204456244129686,
+              "optimized_value": 0.0008203264151234181,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 1915,
+              "sampled_box_minimum": 0.0008260234608314932,
+              "optimized_value": 0.0008260830654762685,
+              "evaluations": 923,
+              "success": true
+            },
+            {
+              "box_index": 1913,
+              "sampled_box_minimum": 0.0008514150395058095,
+              "optimized_value": 0.0008512958302162588,
+              "evaluations": 703,
+              "success": true
+            },
+            {
+              "box_index": 2068,
+              "sampled_box_minimum": 0.0008562680159229784,
+              "optimized_value": 0.0008561786089558155,
+              "evaluations": 863,
+              "success": true
+            },
+            {
+              "box_index": 180,
+              "sampled_box_minimum": 0.000872039410751313,
+              "optimized_value": 0.0008721288177184761,
+              "evaluations": 743,
+              "success": true
+            },
+            {
+              "box_index": 1780,
+              "sampled_box_minimum": 0.0008766874088905752,
+              "optimized_value": 0.0008766278042457999,
+              "evaluations": 823,
+              "success": true
+            },
+            {
+              "box_index": 2115,
+              "sampled_box_minimum": 0.0008919413958210498,
+              "optimized_value": 0.0008919413958210498,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 1217,
+              "sampled_box_minimum": 0.0008919809500646733,
+              "optimized_value": 0.0008913205906587567,
+              "evaluations": 1503,
+              "success": true
+            },
+            {
+              "box_index": 1647,
+              "sampled_box_minimum": 0.000893315833166464,
+              "optimized_value": 0.0008927206847691387,
+              "evaluations": 1683,
+              "success": false
+            },
+            {
+              "box_index": 1029,
+              "sampled_box_minimum": 0.0008971660798924086,
+              "optimized_value": 0.000896724360168144,
+              "evaluations": 923,
+              "success": true
+            }
+          ]
+        },
+        "elapsed_seconds": 13.863892078399658,
+        "interpretation": "finite sampled minimum; an upper estimate of the true infimum clearance, not a certified lower bound"
+      },
+      "residual": {
+        "formula": "max_{x in S_q} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 1.0681129693984985,
+        "squared_value_diagnostic": 1.1408653153972779,
+        "accepted_samples": 904399,
+        "evaluated_samples": 6872468,
+        "source_summaries": {
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv": {
+            "evaluated_samples": 64000,
+            "accepted_samples": 18047,
+            "max_euclidean_residual": 0.013780144043266773,
+            "max_squared_residual_diagnostic": 0.00018989236985318073
+          },
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv": {
+            "evaluated_samples": 16000,
+            "accepted_samples": 4316,
+            "max_euclidean_residual": 0.013780099339783192,
+            "max_squared_residual_diagnostic": 0.00018989113781429316
+          },
+          "replay_sources/leslie3d_example1/data_pairs/train.csv": {
+            "evaluated_samples": 80000,
+            "accepted_samples": 22543,
+            "max_euclidean_residual": 0.013780166395008564,
+            "max_squared_residual_diagnostic": 0.00018989298587412332
+          },
+          "replay_sources/leslie3d_example1/data_pairs/val.csv": {
+            "evaluated_samples": 100000,
+            "accepted_samples": 29209,
+            "max_euclidean_residual": 0.013780106790363789,
+            "max_squared_residual_diagnostic": 0.0001898913431538302
+          },
+          "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_plot_data_indexed.pkl (adaptive labels ignored; fixed22 geometry reclassification)": {
+            "evaluated_samples": 146540,
+            "accepted_samples": 112573,
+            "max_euclidean_residual": 0.006185836158692837,
+            "max_squared_residual_diagnostic": 3.826456898219175e-05
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 3145728,
+            "accepted_samples": 548337,
+            "max_euclidean_residual": 1.0681129693984985,
+            "max_squared_residual_diagnostic": 1.1408653153972779
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 50012,
+            "max_euclidean_residual": 0.01588522270321846,
+            "max_squared_residual_diagnostic": 0.0002523403003308472
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 49919,
+            "max_euclidean_residual": 0.015991538763046265,
+            "max_squared_residual_diagnostic": 0.00025572931201001126
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 46594,
+            "max_euclidean_residual": 0.016776898875832558,
+            "max_squared_residual_diagnostic": 0.00028146433588991174
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 19130,
+            "max_euclidean_residual": 0.05592751130461693,
+            "max_squared_residual_diagnostic": 0.0031278865207280543
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 3717,
+            "max_euclidean_residual": 0.1825554221868515,
+            "max_squared_residual_diagnostic": 0.03332648216981959
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 2,
+            "max_euclidean_residual": 0.04418591409921646,
+            "max_squared_residual_diagnostic": 0.001952395004783336
+          }
+        },
+        "witness": {
+          "source": "fresh_sobol_trajectories_scale_1",
+          "row_index_zero_based": 198419,
+          "x_raw": [
+            80.83658244460821,
+            73.58717696554959,
+            9.81136329844594
+          ],
+          "E_x": [
+            0.10519294440746307,
+            -0.25203418731689453
+          ],
+          "g_E_x": [
+            -0.5640115737915039,
+            -0.7331038117408752
+          ],
+          "E_f_x": [
+            0.4687080681324005,
+            -0.4604220688343048
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 1334.1868053655564,
+        "sampled_conclusion": "sampled_violation"
+      }
+    },
+    "1": {
+      "n_boxes": 85170,
+      "set_kind": "saved recurrent Morse component; exact map-graph forward closure equals recurrent set",
+      "conley_index": [
+        "x^2-1",
+        "0",
+        "0"
+      ],
+      "tolerance": {
+        "formula": "min_{z in T_q} dist_2(g(z), Z \\ Int(N_q))",
+        "sampled_minimum": 0.0007924759411253035,
+        "witness": {
+          "value": 0.0007924759411253035,
+          "input": [
+            -0.20230033796690047,
+            -0.4885114877325741
+          ],
+          "image": [
+            -0.1928510218858719,
+            -0.18776023387908936
+          ],
+          "box_index": 39380,
+          "source": "local_differential_evolution"
+        },
+        "sample_count": 8431830,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8431830,
+          "deterministic_points": 425850,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 47,
+          "sobol_generation_power": 6,
+          "sobol_generated_then_truncated_per_scramble": 64
+        },
+        "all_sample_images_in_interior": true,
+        "local_optimization": {
+          "boxes_searched": 12,
+          "selection": "boxes with the lowest boxwise sampled clearance",
+          "runs": [
+            {
+              "box_index": 39380,
+              "sampled_box_minimum": 0.0007925057434476912,
+              "optimized_value": 0.0007924759411253035,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 49082,
+              "sampled_box_minimum": 0.0007926588295958936,
+              "optimized_value": 0.0007926439284346998,
+              "evaluations": 783,
+              "success": true
+            },
+            {
+              "box_index": 14979,
+              "sampled_box_minimum": 0.0007954920292831957,
+              "optimized_value": 0.0007955367327667773,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 50690,
+              "sampled_box_minimum": 0.0008004639242929002,
+              "optimized_value": 0.0008004027003307652,
+              "evaluations": 783,
+              "success": true
+            },
+            {
+              "box_index": 6751,
+              "sampled_box_minimum": 0.000804245937615633,
+              "optimized_value": 0.0008042161352932453,
+              "evaluations": 883,
+              "success": true
+            },
+            {
+              "box_index": 51081,
+              "sampled_box_minimum": 0.0008087740279734135,
+              "optimized_value": 0.0008087740279734135,
+              "evaluations": 903,
+              "success": true
+            },
+            {
+              "box_index": 84794,
+              "sampled_box_minimum": 0.0008092075532220243,
+              "optimized_value": 0.0008091484796415917,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 37077,
+              "sampled_box_minimum": 0.000810384750366211,
+              "optimized_value": 0.0008103102445602417,
+              "evaluations": 803,
+              "success": true
+            },
+            {
+              "box_index": 75092,
+              "sampled_box_minimum": 0.000814288214314729,
+              "optimized_value": 0.0008142286096699535,
+              "evaluations": 1043,
+              "success": true
+            },
+            {
+              "box_index": 85108,
+              "sampled_box_minimum": 0.0008211974054574965,
+              "optimized_value": 0.0008211676031351091,
+              "evaluations": 1083,
+              "success": true
+            },
+            {
+              "box_index": 75636,
+              "sampled_box_minimum": 0.000825265422463417,
+              "optimized_value": 0.0008251164108514786,
+              "evaluations": 1043,
+              "success": true
+            },
+            {
+              "box_index": 84061,
+              "sampled_box_minimum": 0.0008254609711002558,
+              "optimized_value": 0.0008254609711002558,
+              "evaluations": 863,
+              "success": true
+            }
+          ]
+        },
+        "elapsed_seconds": 62.28963780403137,
+        "interpretation": "finite sampled minimum; an upper estimate of the true infimum clearance, not a certified lower bound"
+      },
+      "residual": {
+        "formula": "max_{x in S_q} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.6969771385192871,
+        "squared_value_diagnostic": 0.48577713161853353,
+        "accepted_samples": 3074979,
+        "evaluated_samples": 6872468,
+        "source_summaries": {
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2train.csv": {
+            "evaluated_samples": 64000,
+            "accepted_samples": 14699,
+            "max_euclidean_residual": 0.030998708680272102,
+            "max_squared_residual_diagnostic": 0.000960919939844377
+          },
+          "replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0/2test.csv": {
+            "evaluated_samples": 16000,
+            "accepted_samples": 3525,
+            "max_euclidean_residual": 0.031063154339790344,
+            "max_squared_residual_diagnostic": 0.0009649195575376357
+          },
+          "replay_sources/leslie3d_example1/data_pairs/train.csv": {
+            "evaluated_samples": 80000,
+            "accepted_samples": 17702,
+            "max_euclidean_residual": 0.0310482457280159,
+            "max_squared_residual_diagnostic": 0.0009639935627872576
+          },
+          "replay_sources/leslie3d_example1/data_pairs/val.csv": {
+            "evaluated_samples": 100000,
+            "accepted_samples": 21532,
+            "max_euclidean_residual": 0.03106914646923542,
+            "max_squared_residual_diagnostic": 0.0009652918623268038
+          },
+          "replay_sources/leslie3d_example1/spurious_attractor_ex/plot_data/preimage_plot_data_indexed.pkl (adaptive labels ignored; fixed22 geometry reclassification)": {
+            "evaluated_samples": 146540,
+            "accepted_samples": 33957,
+            "max_euclidean_residual": 0.015853773802518845,
+            "max_squared_residual_diagnostic": 0.0002513421437814328
+          },
+          "fresh_sobol_trajectories_scale_1": {
+            "evaluated_samples": 3145728,
+            "accepted_samples": 452664,
+            "max_euclidean_residual": 0.6969771385192871,
+            "max_squared_residual_diagnostic": 0.48577713161853353
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 67850,
+            "accepted_samples": 76,
+            "max_euclidean_residual": 0.2284483164548874,
+            "max_squared_residual_diagnostic": 0.05218863329107237
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 570348,
+            "max_euclidean_residual": 0.03107430413365364,
+            "max_squared_residual_diagnostic": 0.0009656123773908037
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 570314,
+            "max_euclidean_residual": 0.03125716373324394,
+            "max_squared_residual_diagnostic": 0.0009770102846468204
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 569270,
+            "max_euclidean_residual": 0.034504473209381104,
+            "max_squared_residual_diagnostic": 0.0011905586714568983
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 519813,
+            "max_euclidean_residual": 0.0732930526137352,
+            "max_squared_residual_diagnostic": 0.005371871561439756
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 596190,
+            "accepted_samples": 301079,
+            "max_euclidean_residual": 0.42138367891311646,
+            "max_squared_residual_diagnostic": 0.17756420485435243
+          }
+        },
+        "witness": {
+          "source": "fresh_sobol_trajectories_scale_1",
+          "row_index_zero_based": 297539,
+          "x_raw": [
+            64.44048076868057,
+            55.69623534195125,
+            1.173513449728489
+          ],
+          "E_x": [
+            -0.09911613166332245,
+            -0.23236438632011414
+          ],
+          "g_E_x": [
+            -0.3692554831504822,
+            -0.4986444115638733
+          ],
+          "E_f_x": [
+            0.3255970776081085,
+            -0.44426628947257996
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 879.4931206739102,
+        "sampled_conclusion": "sampled_violation"
+      }
+    }
+  }
+}

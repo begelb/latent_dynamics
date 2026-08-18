@@ -11,7 +11,6 @@ from typing import Any
 from .base import ContinuousFlow, DiscreteMap, DynamicalSystem
 from .chafee_infante import ChafeeInfante
 from .coral import RedCoralModel
-from .ives import IvesModel
 from .leslie import LeslieContraction, LeslieModel3D, LeslieModel4D
 
 SYSTEM_REGISTRY: dict[str, type[DynamicalSystem]] = {
@@ -20,7 +19,6 @@ SYSTEM_REGISTRY: dict[str, type[DynamicalSystem]] = {
     "leslie4d": LeslieModel4D,
     "coral": RedCoralModel,
     "chafee_infante": ChafeeInfante,
-    "ives": IvesModel,
 }
 
 
@@ -38,7 +36,6 @@ __all__ = [
     "ContinuousFlow",
     "DiscreteMap",
     "DynamicalSystem",
-    "IvesModel",
     "LeslieContraction",
     "LeslieModel3D",
     "LeslieModel4D",

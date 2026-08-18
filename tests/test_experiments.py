@@ -150,11 +150,8 @@ class TestConfigsLoadable:
         "config_name",
         [
             "coral_basic.yaml",
-            "coral_data_scaling.yaml",
-            "coral_adaptive.yaml",
             "leslie_2gen_contraction.yaml",
             "leslie3d_example1.yaml",
-            "leslie3d_example2.yaml",
             "chafee_infante.yaml",
             "leslie3d.yaml",
         ],
@@ -172,15 +169,12 @@ class TestConfigsLoadable:
     @pytest.mark.parametrize(
         ("config_name", "output_dir"),
         [
-            ("leslie3d_example2_replay.yaml", "replay_sources/leslie3d_example2"),
             ("leslie_2gen_contraction_replay.yaml", "replay_sources/leslie_2gen_contraction"),
             (
                 "leslie3d_example1_replay.yaml",
                 "replay_sources/leslie3d_example1/spurious_attractor_ex",
             ),
             ("coral_basic.yaml", "replay_sources/coral"),
-            ("coral_data_scaling.yaml", "replay_sources/coral"),
-            ("coral_adaptive.yaml", "replay_sources/coral"),
         ],
     )
     def test_paper_replay_configs_are_read_only(self, config_name: str, output_dir: str):
@@ -199,12 +193,8 @@ class TestConfigsLoadable:
         assert cfg.cmgdb.upper_bounds == [3.0, 2.0]
         assert not cfg.cmgdb.padding
 
-    @pytest.mark.parametrize(
-        "config_name",
-        ["coral_basic.yaml", "coral_data_scaling.yaml", "coral_adaptive.yaml"],
-    )
-    def test_coral_configs_cmgdb_parameters(self, config_name: str):
-        cfg = load_config(CONFIGS_DIR / config_name)
+    def test_coral_configs_cmgdb_parameters(self):
+        cfg = load_config(CONFIGS_DIR / "coral_basic.yaml")
         assert (cfg.cmgdb.subdiv_init, cfg.cmgdb.subdiv_min, cfg.cmgdb.subdiv_max) == (
             8,
             8,
@@ -440,10 +430,23 @@ class TestReproducePaperScript:
             import importlib
 
             mod = importlib.import_module("reproduce_paper")
-            assert isinstance(mod.EXPERIMENTS, dict)
-            assert len(mod.EXPERIMENTS) >= 7
-            # EXPERIMENTS values are packaged config stems (resolved by load_config).
-            for stem in mod.EXPERIMENTS.values():
-                assert (CONFIGS_DIR / f"{stem}.yaml").exists(), stem
+            assert set(mod.EXPERIMENTS) == {
+                "leslie_2gen_contraction",
+                "leslie3d_example1",
+                "chafee_infante",
+                "coral",
+            }
+            for name, experiment in mod.EXPERIMENTS.items():
+                assert experiment["description"], name
+                assert experiment["steps"], name
+                for step in experiment["steps"]:
+                    assert step["tier"] in mod.TIERS, (name, step)
+                    assert step["runtime"], (name, step)
+                    assert ("config" in step) != ("command" in step), (name, step)
+                    if "config" in step:
+                        assert (CONFIGS_DIR / f"{step['config']}.yaml").exists(), step
+                    else:
+                        script = REPO_ROOT / step["command"][0]
+                        assert script.exists(), step
         finally:
             sys.path.pop(0)

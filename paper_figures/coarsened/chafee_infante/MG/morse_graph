@@ -1,7 +1,0 @@
-digraph {
-0 [label="M(0⁺)", shape=ellipse, style=filled, fillcolor="#1f77b4ff"];
-1 [label="M(0⁻)", shape=ellipse, style=filled, fillcolor="#e6550dff"];
-2 [label="M(1)", shape=ellipse, style=filled, fillcolor="#7f7f7fff"];
-2 -> 0;
-2 -> 1;
-}

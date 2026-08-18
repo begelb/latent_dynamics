@@ -1,2 +1,0 @@
-dataset_04_seed_01_lr3e3_e4000: launching exact on-demand s24 on mps
-dataset_04_seed_01_lr3e3_e4000: complete in 183.750s; strict correct=79.178%

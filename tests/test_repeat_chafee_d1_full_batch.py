@@ -139,7 +139,7 @@ def test_full_uniform_roa_persists_all_256_cells_and_distinct_semantics(
     monkeypatch,
 ) -> None:
     run = tmp_path / "run"
-    paths = REPEAT.single.ExactRunPaths(output_root=run, dimension=1)
+    paths = REPEAT.analyze.ExactRunPaths(output_root=run, dimension=1)
     paths.uniform.mkdir(parents=True)
     (paths.uniform / "morse_graph").write_text("digraph {}\n", encoding="utf-8")
     queried_ids = np.asarray([0, 2, 255], dtype=np.int64)
@@ -214,7 +214,7 @@ def test_full_uniform_roa_persists_all_256_cells_and_distinct_semantics(
     )
     assert strict_metadata["queried_subset_validation"]["status"] == ("validated_exact_subset")
     assert strict_metadata["not_equivalent_to_exact_blocker_lca_roa"] is True
-    assert exact_metadata["used_for_marcio_trajectory_statistics"] is False
+    assert exact_metadata["used_for_reference_trajectory_statistics"] is False
     assert exact_metadata["different_from_strict_singleton_lookup"] is True
 
 
@@ -222,7 +222,7 @@ def test_topology_inventory_does_not_require_basin_statistics(
     tmp_path: Path,
 ) -> None:
     run = tmp_path / "run"
-    paths = REPEAT.single.ExactRunPaths(output_root=run, dimension=1)
+    paths = REPEAT.analyze.ExactRunPaths(output_root=run, dimension=1)
     required = (
         paths.models / "autoencoder.pt",
         paths.uniform / "morse_graph",

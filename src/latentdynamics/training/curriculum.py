@@ -1,11 +1,14 @@
 """Fixed-epoch full-batch curriculum training without stopping or scheduling.
 
-This loop is a Marcio-inspired extension for experiments that progressively
-activate the reconstruction, decoded-prediction, and semiconjugacy losses.  It
-is intentionally separate from both :mod:`latentdynamics.training.marcio`
-(whose archived two-term scheduler semantics are preserved) and the generic
-``Trainer`` (which performs validation selection, early stopping, and learning
-rate scheduling).
+This loop extends the reference full-batch recipe for experiments that
+progressively activate the reconstruction, decoded-prediction, and
+semiconjugacy losses.  It is intentionally separate from both
+:mod:`latentdynamics.training.reference_recipe` (whose archived two-term
+scheduler semantics are preserved) and the generic ``Trainer`` (which performs
+validation selection, early stopping, and learning rate scheduling).
+
+No released configuration uses curriculum training; the loop is kept because
+the configuration schema and training CLI support it.
 """
 
 from __future__ import annotations

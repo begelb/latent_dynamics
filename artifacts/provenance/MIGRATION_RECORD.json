@@ -1,0 +1,222 @@
+{
+  "generated_by": "one-shot migration of the two shipped legacy three-file checkpoints (pickled nn.Module encoder.pt/dynamics.pt/decoder.pt) to the public state_dict format (autoencoder.pt + autoencoder.json); architecture derived from the unpickled module structure; key translation <component>.linear_i.{weight,bias} -> {encoder|latent_map|decoder}.net.{2*i}.{weight,bias}; weights copied bitwise, no retraining",
+  "checkpoint_version": 1,
+  "torch_version": "2.11.0",
+  "equivalence_protocol": "torch.manual_seed(0); x = torch.rand(256, high_dims) on cpu/float32; z = encoder(x), zn = dynamics(z), xr = decoder(z) computed with the legacy pickled modules and with the migrated checkpoint loaded via the public load_checkpoint (weights_only=True); max abs difference per stage reported below",
+  "migrated": {
+    "leslie3d_example1/spurious_attractor_ex": {
+      "original_files": {
+        "encoder.pt": {
+          "path": "replay_sources/leslie3d_example1/spurious_attractor_ex/models/encoder.pt",
+          "sha256": "211f84456707afb254da1cfa05defa41137f90813f624af420722954763d1f4c",
+          "size_bytes": 14208
+        },
+        "dynamics.pt": {
+          "path": "replay_sources/leslie3d_example1/spurious_attractor_ex/models/dynamics.pt",
+          "sha256": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+          "size_bytes": 14540
+        },
+        "decoder.pt": {
+          "path": "replay_sources/leslie3d_example1/spurious_attractor_ex/models/decoder.pt",
+          "sha256": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2",
+          "size_bytes": 14208
+        }
+      },
+      "migrated_files": {
+        "autoencoder.pt": {
+          "path": "leslie3d_example1/spurious_attractor_ex/models/autoencoder.pt",
+          "sha256": "d3d438567d0afd57eb060469c57ae53efb7d9bb73ea445723e00850ca86be426",
+          "size_bytes": 35411
+        },
+        "autoencoder.json": {
+          "path": "leslie3d_example1/spurious_attractor_ex/models/autoencoder.json",
+          "sha256": "dc0bc61564191ac41074f082cbe61e1ec7f51ef802bf831b90f8853d7b5fba62",
+          "size_bytes": 916
+        }
+      },
+      "arch": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "high_dims": 3,
+        "low_dims": 2,
+        "activation": "relu",
+        "encoder_out_activation": "tanh",
+        "latent_out_activation": "tanh",
+        "decoder_out_activation": "sigmoid",
+        "encoder": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            32,
+            32,
+            32
+          ],
+          "activation": "relu",
+          "out_activation": "tanh"
+        },
+        "latent_map": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            32,
+            32,
+            32
+          ],
+          "activation": "relu",
+          "out_activation": "tanh"
+        },
+        "decoder": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            32,
+            32,
+            32
+          ],
+          "activation": "relu",
+          "out_activation": "sigmoid"
+        }
+      },
+      "n_state_tensors": 24,
+      "key_translation": "encoder.linear_i -> encoder.net.{2i}; dynamics.linear_i -> latent_map.net.{2i}; decoder.linear_i -> decoder.net.{2i}",
+      "equivalence_max_abs_diff": {
+        "encoder": 0.0,
+        "dynamics": 0.0,
+        "decoder": 0.0
+      },
+      "bitwise_equal": {
+        "encoder": true,
+        "dynamics": true,
+        "decoder": true
+      },
+      "loads_with_weights_only_true": true
+    },
+    "coral/train_500/seed_16": {
+      "original_files": {
+        "encoder.pt": {
+          "path": "replay_sources/coral/train_500/seed_16/models/encoder.pt",
+          "sha256": "2efd30f0a6870ce4233ea223b3a41b96cab393e938d61e0e1060885675953a7f",
+          "size_bytes": 42112
+        },
+        "dynamics.pt": {
+          "path": "replay_sources/coral/train_500/seed_16/models/dynamics.pt",
+          "sha256": "31993b94702ff18619b73d343cab37ba73fb0a2d3a322ff91611a1474c2072ea",
+          "size_bytes": 39500
+        },
+        "decoder.pt": {
+          "path": "replay_sources/coral/train_500/seed_16/models/decoder.pt",
+          "sha256": "d971d8f0c8b5570c242a09dab21648a7b4ed493a3b414e749904aaf0c3985ed7",
+          "size_bytes": 42112
+        }
+      },
+      "migrated_files": {
+        "autoencoder.pt": {
+          "path": "coral/train_500/seed_16/models/autoencoder.pt",
+          "sha256": "2bd55cb925fce0bb6f245b50eeec40c73127ea9ec99ecd5ba2842a8d5b4ed731",
+          "size_bytes": 116179
+        },
+        "autoencoder.json": {
+          "path": "coral/train_500/seed_16/models/autoencoder.json",
+          "sha256": "176a2f7a5f367030ad6afa59289be5aa26237d82c0e93b3dd3aa047d2aed8d19",
+          "size_bytes": 917
+        }
+      },
+      "arch": {
+        "num_layers": null,
+        "hidden_shape": null,
+        "hidden_shapes": null,
+        "high_dims": 13,
+        "low_dims": 1,
+        "activation": "relu",
+        "encoder_out_activation": "tanh",
+        "latent_out_activation": "tanh",
+        "decoder_out_activation": "sigmoid",
+        "encoder": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            64,
+            64,
+            64
+          ],
+          "activation": "relu",
+          "out_activation": "tanh"
+        },
+        "latent_map": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            64,
+            64,
+            64
+          ],
+          "activation": "relu",
+          "out_activation": "tanh"
+        },
+        "decoder": {
+          "num_layers": null,
+          "hidden_shape": null,
+          "hidden_shapes": [
+            64,
+            64,
+            64
+          ],
+          "activation": "relu",
+          "out_activation": "sigmoid"
+        }
+      },
+      "n_state_tensors": 24,
+      "key_translation": "encoder.linear_i -> encoder.net.{2i}; dynamics.linear_i -> latent_map.net.{2i}; decoder.linear_i -> decoder.net.{2i}",
+      "equivalence_max_abs_diff": {
+        "encoder": 0.0,
+        "dynamics": 0.0,
+        "decoder": 0.0
+      },
+      "bitwise_equal": {
+        "encoder": true,
+        "dynamics": true,
+        "decoder": true
+      },
+      "loads_with_weights_only_true": true
+    }
+  },
+  "new_format_verified": {
+    "leslie_2gen_contraction": {
+      "files": {
+        "autoencoder.pt": {
+          "path": "replay_sources/leslie_2gen_contraction/models/autoencoder.pt",
+          "sha256": "557e92628bdbd703ae090f6fa74a43dcec6abcdef780546df65c65941f80d6b6",
+          "size_bytes": 168473
+        },
+        "autoencoder.json": {
+          "path": "replay_sources/leslie_2gen_contraction/models/autoencoder.json",
+          "sha256": "aae5586249b52346caf5d03c91d36c88e2ec2f267e5bc02b7e89ad17c41436ef",
+          "size_bytes": 953
+        }
+      },
+      "high_dims": 10,
+      "low_dims": 2,
+      "n_parameters": 39438,
+      "public_loader_load": "ok"
+    },
+    "chafee_infante/replay": {
+      "files": {
+        "autoencoder.pt": {
+          "path": "replay_sources/chafee_infante/replay/models/autoencoder.pt",
+          "sha256": "ba47f9ff1ce06da658e052c46ca2e38d8db9a0ffe063ffd997c9d6f547218b79",
+          "size_bytes": 62477
+        },
+        "autoencoder.json": {
+          "path": "replay_sources/chafee_infante/replay/models/autoencoder.json",
+          "sha256": "d196fe76869c46693801ca20df3bd16c6411a0328c2a0c0312054e1219c68c70",
+          "size_bytes": 878
+        }
+      },
+      "high_dims": 64,
+      "low_dims": 2,
+      "n_parameters": 13892,
+      "public_loader_load": "ok"
+    }
+  }
+}

@@ -5,6 +5,11 @@ minimal Morse sets and applies the same reference-style level colors to the
 Morse graph, cubical Morse sets, and pairwise projections.  The persisted
 Graphviz ``morse_graph`` file remains unchanged.  This utility does not load or
 evaluate a neural network and does not run CMGDB.
+
+Alongside the legend views it emits
+``ci_latent_3d_morse_sets_cubical_level_palette_no_legend``, which regenerates
+the paper's no-legend cubical d=3 Morse-set panel visually (not byte-)
+identically.
 """
 
 from __future__ import annotations
@@ -27,20 +32,32 @@ from latentdynamics.viz import (
 from latentdynamics.viz.style import save_latent_figure
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_SOURCE = (
+
+
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
+
+
+DEFAULT_SOURCE = _first_existing(
+    CODE_ROOT
+    / "replay_sources"
+    / "chafee_infante"
+    / "latent_dimension_study"
+    / "latent_3d"
+    / "seed_0"
+    / "MG_adaptive",
     CODE_ROOT
     / "output"
     / "chafee_latent_dimension_study"
     / "latent_3d"
     / "seed_0"
-    / "MG_adaptive"
+    / "MG_adaptive",
 )
 DEFAULT_OUTPUT = (
-    CODE_ROOT
-    / "paper_figures"
-    / "standardized"
-    / "chafee_infante"
-    / "latent_3d_level_palette"
+    CODE_ROOT / "output" / "chafee_standardized" / "latent_3d_level_palette"
 )
 
 ATTRACTOR_COLORS = {0: "#FFB000", 1: "#DC267F"}
@@ -324,6 +341,25 @@ def render_level_palette_variants(
         show_axis_labels=False,
         show_legend=True,
     )
+    shaded_no_legend_outputs = render_morse_sets_3d_cubical_from_csv(
+        sets_path,
+        output_dir,
+        basename="ci_latent_3d_morse_sets_cubical_level_palette_no_legend",
+        formats=("pdf", "png"),
+        palette=palette,
+        elev=22.0,
+        azim=-55.0,
+        alpha=1.0,
+        shade=True,
+        shade_strength=0.28,
+        highlight_strength=0.10,
+        edge_alpha=0.16,
+        edge_linewidth=0.065,
+        minimal_frame=True,
+        show_ticks=False,
+        show_axis_labels=False,
+        show_legend=False,
+    )
     flat_outputs = render_morse_sets_3d_cubical_from_csv(
         sets_path,
         output_dir,
@@ -351,6 +387,7 @@ def render_level_palette_variants(
     outputs = [
         *graph_outputs,
         *shaded_outputs,
+        *shaded_no_legend_outputs,
         *flat_outputs,
         *projection_outputs,
     ]
@@ -380,6 +417,10 @@ def render_level_palette_variants(
             "ticks": False,
             "latent_coordinate_labels": False,
             "legend": True,
+            "no_legend_variant": (
+                "ci_latent_3d_morse_sets_cubical_level_palette_no_legend "
+                "matches the shaded variant with the legend suppressed"
+            ),
             "camera": {"elev": 22.0, "azim": -55.0},
             "shaded_variant": {
                 "shade_strength": 0.28,

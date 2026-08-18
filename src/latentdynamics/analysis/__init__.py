@@ -10,6 +10,14 @@ from .basin_statistics import (
     compute_chafee_basin_statistics,
 )
 from .cmgdb_fork import cmgdb_provenance, require_fork_cmgdb
+from .conley_index import (
+    LocalIndexComputer,
+    UniformCoordinates,
+    component_index_labels,
+    match_nodes,
+    morse_graph_cells,
+    parsed_live_graph,
+)
 from .cmgdb_roa import (
     BOUNDARY,
     ESCAPE,
@@ -73,10 +81,12 @@ __all__ = [
     "Edge",
     "HierarchicalPrecomputedBoxMap",
     "LatentBounds",
+    "LocalIndexComputer",
     "MorseGraph",
     "MorseGraphQuotient",
     "MorseSet",
     "PointBasinClassification",
+    "UniformCoordinates",
     "attractor_cells",
     "check_unique_membership",
     "classify_points_in_cell_roa",
@@ -88,6 +98,7 @@ __all__ = [
     "compute_chafee_basin_statistics",
     "compute_connection_complete_morse_sets",
     "compute_exact_roa",
+    "component_index_labels",
     "compute_max_semiconjugacy_error",
     "compute_min_boundary_separation",
     "compute_morse_graph",
@@ -99,9 +110,12 @@ __all__ = [
     "is_in_range",
     "load_exact_roa",
     "make_box_map",
+    "match_nodes",
+    "morse_graph_cells",
     "make_box_map_numpy",
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
+    "parsed_live_graph",
     "require_fork_cmgdb",
     "save_exact_roa",
     "write_connection_complete_morse_sets",

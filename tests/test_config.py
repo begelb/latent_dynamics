@@ -226,7 +226,8 @@ class TestLoader:
         assert cfg.arch.high_dims == 13
         assert cfg.arch.low_dims == 1
         assert cfg.training.loss_weights == [10.0, 10.0, 1.0]
-        assert cfg.data.sampling_method == "uniform"
+        # Sobol sampling matches the archived train_500 run and paper tab:data.
+        assert cfg.data.sampling_method == "sobol"
         assert cfg.data.n_iterations == 20
         assert cfg.training.epochs == 1000  # from defaults
         assert cfg.data.scaling == "minmax"

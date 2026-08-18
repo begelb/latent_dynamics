@@ -8,12 +8,17 @@ Each checkpoint is a pair of files:
 The :func:`load_legacy_checkpoint` helper additionally reads the legacy
 three-file format produced by ``code/legacy/main_scripts/train.py``
 (``encoder.pt`` + ``dynamics.pt`` + ``decoder.pt``) and assembles a unified
-:class:`LatentDynamicsAutoencoder` without rewriting the files.
+:class:`LatentDynamicsAutoencoder` without rewriting the files. Because those
+files are pickled ``nn.Module`` objects, loading them can execute arbitrary
+code; the legacy path is therefore disabled unless
+``LATENTDYNAMICS_ALLOW_LEGACY_CHECKPOINTS=1`` is set. Published replay
+bundles ship migrated state_dict checkpoints and never need it.
 """
 
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -26,10 +31,26 @@ CHECKPOINT_VERSION = 1
 DEFAULT_BASENAME = "autoencoder"
 
 LEGACY_FILES = ("encoder.pt", "dynamics.pt", "decoder.pt")
+LEGACY_CHECKPOINTS_ENV = "LATENTDYNAMICS_ALLOW_LEGACY_CHECKPOINTS"
 
 
 def _nonempty_file(path: Path) -> bool:
     return path.is_file() and path.stat().st_size > 0
+
+
+def _require_legacy_opt_in(in_dir: Path) -> None:
+    """Refuse the pickled-module path unless it was explicitly enabled."""
+    if os.environ.get(LEGACY_CHECKPOINTS_ENV) == "1":
+        return
+    raise RuntimeError(
+        f"refusing to load legacy checkpoint at {in_dir}: the three-file format "
+        f"({', '.join(LEGACY_FILES)}) holds pickled nn.Module objects that "
+        f"torch.load must unpickle with weights_only=False, which can execute "
+        f"arbitrary code. Published replay bundles ship migrated state_dict "
+        f"checkpoints ({DEFAULT_BASENAME}.pt + {DEFAULT_BASENAME}.json) that "
+        f"never need this path. Set {LEGACY_CHECKPOINTS_ENV}=1 only to migrate "
+        f"trusted local archives."
+    )
 
 
 def save_checkpoint(
@@ -117,6 +138,16 @@ def load_legacy_checkpoint(
 ) -> LatentDynamicsAutoencoder:
     """Load a three-file pickled-nn.Module checkpoint into a LatentDynamicsAutoencoder.
 
+    .. warning::
+        **Security:** the legacy files are pickled ``nn.Module`` objects, so
+        this function calls ``torch.load(..., weights_only=False)``, which can
+        execute arbitrary code embedded in the files. Only use it on
+        checkpoints you produced yourself (e.g. when migrating a trusted local
+        archive to the state_dict format), and only with
+        ``LATENTDYNAMICS_ALLOW_LEGACY_CHECKPOINTS=1`` set; it raises
+        otherwise. Published replay bundles ship migrated state_dict
+        checkpoints and never require this path.
+
     The legacy files were saved with ``torch.save(obj)`` of full ``nn.Module``
     instances whose qualified class name is ``src.models.Encoder`` (etc.).
     Unpickling therefore needs ``src.models`` importable. We add the
@@ -131,6 +162,7 @@ def load_legacy_checkpoint(
             (e.g., ``code/legacy``). Must be explicitly provided; no default.
     """
     in_path = Path(in_dir)
+    _require_legacy_opt_in(in_path)
     if not has_legacy_checkpoint(in_path):
         raise FileNotFoundError(f"missing one or more legacy files {LEGACY_FILES} in {in_path}")
 
@@ -166,6 +198,14 @@ def load_any_checkpoint(
 ) -> tuple[LatentDynamicsAutoencoder, ArchConfig]:
     """Try the new format first; fall back to the legacy three-file format.
 
+    The state_dict + sidecar format is loaded with
+    ``torch.load(weights_only=True)`` and needs no opt-in. The legacy
+    three-file fallback unpickles full ``nn.Module`` objects and is disabled
+    unless ``LATENTDYNAMICS_ALLOW_LEGACY_CHECKPOINTS=1`` is set (see
+    :func:`load_legacy_checkpoint`); published replay bundles ship migrated
+    state_dict checkpoints, so the fallback should only ever fire on local,
+    trusted archives.
+
     For the legacy format an explicit ``arch`` must be supplied (since the
     sidecar JSON does not exist in old runs); typically pass ``cfg.arch``.
     If legacy checkpoints are detected, ``legacy_root`` must also be supplied
@@ -175,6 +215,7 @@ def load_any_checkpoint(
     if has_new_checkpoint(in_path, basename=basename):
         return load_checkpoint(in_path, basename=basename, map_location=map_location)
     if has_legacy_checkpoint(in_path):
+        _require_legacy_opt_in(in_path)
         if arch is None:
             raise ValueError("legacy checkpoint requires an explicit ArchConfig")
         if legacy_root is None:

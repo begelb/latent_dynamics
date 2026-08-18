@@ -1,9 +1,9 @@
-"""Post-process Marcio's archived 5-dataset x 3-model Chafee--Infante study.
+"""Post-process the archived 5-dataset x 3-model Chafee--Infante d=2 study.
 
 The archived computation retains trained 2-D checkpoints and rendered adaptive
 Morse PDFs, but not the live CMGDB graphs needed for basin queries.  This script
 does not retrain.  For each checkpoint it reproduces the separate uniform
-level-16 computation used by Marcio's ``compute_att_basins_statistics.py``:
+level-16 computation used by the archived ``compute_att_basins_statistics.py``:
 
 * model- and dataset-specific E(X)/E(Y) bounds with a 10% range margin;
 * a 256 x 256 uniform CMGDB grid, padding=True;
@@ -43,6 +43,7 @@ from matplotlib.colors import to_rgba
 from numpy.typing import NDArray
 from torch import nn
 
+from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.basin_statistics import (
     OUTSIDE,
     cmgdb_morton_cell_indices,
@@ -58,11 +59,12 @@ from latentdynamics.viz import save_morse_graph_artifacts
 plt.switch_backend("Agg")
 
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CODE_ROOT = Path(__file__).resolve().parents[1]
-SOURCE_ROOT = PROJECT_ROOT / "archive" / "marcio" / "computations"
-REFERENCE_ROOT = PROJECT_ROOT / "archive" / "marcio" / "scripts"
-DEFAULT_OUTPUT_ROOT = CODE_ROOT / "output" / "chafee_d2_archive_5x3_roa_v1"
+REPO_ROOT = get_repo_root()
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
+SOURCE_ROOT = DEFAULT_REFERENCE_ROOT / "computations"
+DEFAULT_OUTPUT_ROOT = REPO_ROOT / "output" / "chafee_d2_archive_5x3_roa_v1"
 
 HIGH_DIMENSION = 64
 LATENT_DIMENSION = 2
@@ -84,7 +86,7 @@ STABLE_ROOTS_SHA256 = "cae0222acb37ae9688e54cb2a1f42ac3777360e49b3919403ec143336
 # not conflated with latentdynamics.analysis.cmgdb_roa's sentinel values.
 NO_REACHABLE_MORSE_NODE = -1
 MULTIPLE_REACHABLE_MORSE_NODES = -2
-MARCIO_ARCHIVED_COMBINED_CORRECT_PERCENTAGE = 78.38972271686593
+ARCHIVED_COMBINED_CORRECT_PERCENTAGE = 78.38972271686593
 
 STATISTIC_COUNT_FIELDS = (
     "outside_both_basins",
@@ -633,7 +635,7 @@ def run_one(
                 "method": "CMGDB.MorseSingletonReachability",
                 "semantics": (
                     "complete reachable Morse-node set must equal exactly one "
-                    "singleton Morse node; authoritative Marcio-equivalent basin grid"
+                    "singleton Morse node; authoritative archive-equivalent basin grid"
                 ),
                 "uniform_cells": UNIFORM_CELLS,
                 "grid_shape": [GRID_SIDE, GRID_SIDE],
@@ -653,7 +655,7 @@ def run_one(
         query_ids = np.unique(
             np.concatenate((point_cells.flat_cell_ids, root_cells.flat_cell_ids))
         )
-        query_path = mg_dir / "marcio_singleton_reachability_queries.npz"
+        query_path = mg_dir / "reference_singleton_reachability_queries.npz"
         np.savez_compressed(
             query_path,
             queried_cell_ids=query_ids,
@@ -705,7 +707,7 @@ def run_one(
             "training_trial": trial,
             "training_trial_is_not_a_recorded_rng_seed": True,
             "method": (
-                "Exact Marcio singleton-all-reachable-Morse-set basin semantics "
+                "Exact archived singleton-all-reachable-Morse-set basin semantics "
                 "on a uniform level-16 CMGDB graph"
             ),
             "source": source,
@@ -1001,7 +1003,7 @@ def aggregate_payload(
         + pooled_counts.get("correctly_classified_in_positive_basin", 0)
     )
     retrospective_exceedances = sum(
-        score > MARCIO_ARCHIVED_COMBINED_CORRECT_PERCENTAGE for score in scores
+        score > ARCHIVED_COMBINED_CORRECT_PERCENTAGE for score in scores
     )
     return {
         "schema_version": 1,
@@ -1068,9 +1070,9 @@ def aggregate_payload(
             if completed
             else []
         ),
-        "retrospective_marcio_benchmark_comparison": {
-            "archived_marcio_combined_correct_percentage": (
-                MARCIO_ARCHIVED_COMBINED_CORRECT_PERCENTAGE
+        "retrospective_archived_benchmark_comparison": {
+            "archived_combined_correct_percentage": (
+                ARCHIVED_COMBINED_CORRECT_PERCENTAGE
             ),
             "runs_strictly_exceeding": retrospective_exceedances,
             "completed_runs": len(completed),
@@ -1120,7 +1122,7 @@ def write_readme(output_root: Path, aggregate: dict[str, Any]) -> None:
     lines = [
         "# Archived Chafee-Infante 2-D 5x3 basin audit",
         "",
-        "No model was retrained. Each row recomputes Marcio's separate uniform",
+        "No model was retrained. Each row recomputes the archived separate uniform",
         "level-16 strict-singleton basin analysis from one archived checkpoint.",
         "The archived adaptive PDFs are preserved by reference but are not used",
         "to infer regions of attraction.",
@@ -1145,7 +1147,7 @@ def write_readme(output_root: Path, aggregate: dict[str, Any]) -> None:
         misclassified = all_metrics["total_misclassified_percentage"]
         nodes = all_metrics["morse_nodes"]
         pooled = aggregate["pooled_conditioned_statistics"]
-        benchmark = aggregate["retrospective_marcio_benchmark_comparison"]
+        benchmark = aggregate["retrospective_archived_benchmark_comparison"]
         runtime = aggregate["runtime"]
         lines.extend(
             [
@@ -1211,8 +1213,8 @@ def write_readme(output_root: Path, aggregate: dict[str, Any]) -> None:
                 (
                     f"Retrospectively, {benchmark['runs_strictly_exceeding']}/"
                     f"{benchmark['completed_runs']} checkpoints exceed the known "
-                    f"archived Marcio score of "
-                    f"{benchmark['archived_marcio_combined_correct_percentage']:.6f}%. "
+                    f"archived reference score of "
+                    f"{benchmark['archived_combined_correct_percentage']:.6f}%. "
                     "This is a descriptive post-hoc comparison, not a prospective test."
                 ),
                 "",
@@ -1274,7 +1276,7 @@ def validate_package(output_root: Path, *, require_all: bool = True) -> dict[str
             query_path = (
                 run_dir
                 / "MG_uniform_s16"
-                / "marcio_singleton_reachability_queries.npz"
+                / "reference_singleton_reachability_queries.npz"
             )
             with np.load(strict_path) as strict, np.load(query_path) as query:
                 full = np.asarray(
@@ -1344,12 +1346,25 @@ def parse_int_selection(raw: Sequence[int] | None, allowed: set[int]) -> list[in
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(computations/run_dataset_N/, traj_attractors.pkl, stable_solutions.csv)"
+        ),
+    )
     parser.add_argument("--datasets", type=int, nargs="+")
     parser.add_argument("--trials", type=int, nargs="+")
     parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="cpu")
     parser.add_argument("--resume", action="store_true")
     parser.add_argument("--validate-only", action="store_true")
     args = parser.parse_args()
+
+    global REFERENCE_ROOT, SOURCE_ROOT
+    REFERENCE_ROOT = args.reference_root.resolve()
+    SOURCE_ROOT = REFERENCE_ROOT / "computations"
 
     output_root = args.output_root.resolve()
     if args.validate_only:

@@ -1,10 +1,10 @@
-"""Run an isolated, resumable sweep of Marcio-faithful Chafee d=1 fits.
+"""Run an isolated, resumable sweep of reference-faithful Chafee d=1 fits.
 
 This is an exploratory training driver only.  It deliberately does not run
 CMGDB or inspect any region-of-attraction statistic.  Every candidate uses the
 exact archived 30,000 unscaled pairs, the canonical d=1 architecture, and
-``train_marcio_full_batch``.  Consequently, one epoch is one direct full-batch
-Adam update with Marcio's decoded two-term objective.
+``train_reference_full_batch``.  Consequently, one epoch is one direct
+full-batch Adam update with the coauthor reference decoded two-term objective.
 
 The default first-launch matrix is a modest eight-seed replication at the
 canonical 4,000 epochs and learning rate 0.003.  A different predeclared
@@ -51,23 +51,37 @@ import torch
 from numpy.typing import NDArray
 
 from latentdynamics.config import ArchConfig
-from latentdynamics.training import load_checkpoint, train_marcio_full_batch
+from latentdynamics.training import load_checkpoint, train_reference_full_batch
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
 CODE_ROOT = Path(__file__).resolve().parents[1]
-TRAIN_DATA = PROJECT_ROOT / "archive" / "marcio" / "scripts" / "train_data.csv"
-CANONICAL_RUN = (
+DEFAULT_REFERENCE_ROOT = (
+    CODE_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+)
+TRAIN_DATA = DEFAULT_REFERENCE_ROOT / "train_data.csv"
+LATENT_1D_OUTPUT_ROOT = (
+    CODE_ROOT / "output" / "chafee_latent_dimension_study" / "latent_1d"
+)
+
+
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
+
+
+CANONICAL_RUN = _first_existing(
     CODE_ROOT
-    / "output"
-    / "chafee_latent_dimension_study"
+    / "replay_sources"
+    / "chafee_infante"
+    / "latent_dimension_study"
     / "latent_1d"
-    / "seed_0"
+    / "seed_0",
+    LATENT_1D_OUTPUT_ROOT / "seed_0",
 )
-DEFAULT_OUTPUT = (
-    CANONICAL_RUN.parent / "exploratory_full_batch_seed_sweep_v1"
-)
-MARCIO_IMPLEMENTATION = (
-    CODE_ROOT / "src" / "latentdynamics" / "training" / "marcio.py"
+DEFAULT_OUTPUT = LATENT_1D_OUTPUT_ROOT / "exploratory_full_batch_seed_sweep_v1"
+REFERENCE_IMPLEMENTATION = (
+    CODE_ROOT / "src" / "latentdynamics" / "training" / "reference_recipe.py"
 )
 RUNNER_IMPLEMENTATION = Path(__file__).resolve()
 
@@ -96,7 +110,7 @@ HISTORY_KEYS = (
 
 @dataclass(frozen=True)
 class FullBatchRunSpec:
-    """One predeclared Marcio-faithful full-batch candidate."""
+    """One predeclared reference-faithful full-batch candidate."""
 
     run_id: str
     seed: int
@@ -280,8 +294,8 @@ def _current_source_provenance(
             model_dir / "autoencoder.json",
             expected_sha256=CANONICAL_SIDECAR_SHA256,
         ),
-        "marcio_training_implementation": _checked_source(
-            MARCIO_IMPLEMENTATION,
+        "reference_training_implementation": _checked_source(
+            REFERENCE_IMPLEMENTATION,
         ),
         "sweep_runner_implementation": _checked_source(
             RUNNER_IMPLEMENTATION,
@@ -391,7 +405,7 @@ def _build_plan(
             "RoA analysis is intentionally separate"
         ),
         "training_entrypoint": (
-            "latentdynamics.training.train_marcio_full_batch"
+            "latentdynamics.training.train_reference_full_batch"
         ),
         "training_semantics": {
             "data_rows": TRAINING_ROWS,
@@ -597,8 +611,18 @@ def _validate_training_artifacts(
             raise ValueError(f"training did not produce required artifact {path}")
 
     summary = _read_json(paths["training_summary"])
+    # Summaries written before the training module was renamed carry the
+    # older "marcio_full_batch" value; both label the same recipe.
+    if summary.get("training_method") not in (
+        "reference_full_batch",
+        "marcio_full_batch",
+    ):
+        raise ValueError(
+            f"training summary field 'training_method' is "
+            f"{summary.get('training_method')!r}; expected the reference "
+            "full-batch recipe"
+        )
     expected_summary = {
-        "training_method": "marcio_full_batch",
         "seed": spec.seed,
         "epochs_requested": spec.epochs,
         "epochs_completed": spec.epochs,
@@ -637,11 +661,14 @@ def _validate_training_artifacts(
     history_payload = _read_json(paths["history"])
     history = history_payload.get("train")
     if (
-        history_payload.get("training_method") != "marcio_full_batch"
+        # Histories written before the training module was renamed carry the
+        # older "marcio_full_batch" value; both label the same recipe.
+        history_payload.get("training_method")
+        not in ("reference_full_batch", "marcio_full_batch")
         or not isinstance(history, dict)
         or set(history) != set(HISTORY_KEYS)
     ):
-        raise ValueError("malformed Marcio training history")
+        raise ValueError("malformed reference training history")
     for key in HISTORY_KEYS:
         values = np.asarray(history[key], dtype=np.float64)
         if values.shape != (spec.epochs,) or not np.all(np.isfinite(values)):
@@ -903,7 +930,7 @@ def run_sweep(
             if training_pairs is None:
                 training_pairs = _load_training_pairs(frozen_train_data)
             x, y = training_pairs
-            train_marcio_full_batch(
+            train_reference_full_batch(
                 arch=arch,
                 x=x,
                 y=y,

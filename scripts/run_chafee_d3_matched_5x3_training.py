@@ -1,6 +1,6 @@
 """Run the training-only matched Chafee d=3 five-dataset by three-seed matrix.
 
-The fifteen fixed trials use Marcio's five archived training-pair CSVs and
+The fifteen fixed trials use the five archived reference training-pair CSVs and
 explicit model-initialization seeds 0, 1, and 2.  Every trial performs exactly
 4,000 direct full-batch Adam updates on CPU with the decoded reconstruction
 plus decoded one-step prediction objective.  The architecture is the validated
@@ -35,21 +35,37 @@ import torch
 from numpy.typing import NDArray
 
 import sweep_chafee_d1_full_batch as reusable
+from latentdynamics._paths import get_repo_root
 from latentdynamics.config import ArchConfig
-from latentdynamics.training import train_marcio_full_batch
+from latentdynamics.training import train_reference_full_batch
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CODE_ROOT = Path(__file__).resolve().parents[1]
+REPO_ROOT = get_repo_root()
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
 RUNNER_IMPLEMENTATION = Path(__file__).resolve()
 DEFAULT_OUTPUT = (
-    CODE_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_training_v1"
+    REPO_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_training_v1"
 )
-EXISTING_D3_RUN = (
-    CODE_ROOT
+def _first_existing(*candidates: Path) -> Path:
+    for candidate in candidates:
+        if candidate.exists():
+            return candidate
+    return candidates[-1]
+
+
+EXISTING_D3_RUN = _first_existing(
+    REPO_ROOT
+    / "replay_sources"
+    / "chafee_infante"
+    / "latent_dimension_study"
+    / "latent_3d"
+    / "seed_0",
+    REPO_ROOT
     / "output"
     / "chafee_latent_dimension_study"
     / "latent_3d"
-    / "seed_0"
+    / "seed_0",
 )
 EXISTING_D3_SIDECAR = EXISTING_D3_RUN / "models" / "autoencoder.json"
 EXISTING_D3_SIDECAR_SHA256 = (
@@ -208,9 +224,7 @@ def _file_record(
 
 def _dataset_path(dataset: int) -> Path:
     return (
-        PROJECT_ROOT
-        / "archive"
-        / "marcio"
+        REFERENCE_ROOT
         / "computations"
         / f"run_dataset_{dataset}"
         / "train_data.csv"
@@ -292,25 +306,25 @@ def _current_sources() -> dict[str, dict[str, Any]]:
     implementation_paths = {
         "d3_runner_implementation": RUNNER_IMPLEMENTATION,
         "reusable_sweep_implementation": Path(reusable.__file__),
-        "marcio_training_implementation": (
-            CODE_ROOT / "src" / "latentdynamics" / "training" / "marcio.py"
+        "reference_training_implementation": (
+            REPO_ROOT / "src" / "latentdynamics" / "training" / "reference_recipe.py"
         ),
         "checkpoint_implementation": (
-            CODE_ROOT
+            REPO_ROOT
             / "src"
             / "latentdynamics"
             / "training"
             / "checkpoints.py"
         ),
         "autoencoder_implementation": (
-            CODE_ROOT
+            REPO_ROOT
             / "src"
             / "latentdynamics"
             / "models"
             / "autoencoder.py"
         ),
         "architecture_schema_implementation": (
-            CODE_ROOT
+            REPO_ROOT
             / "src"
             / "latentdynamics"
             / "config"
@@ -352,7 +366,7 @@ def _build_plan(
         ),
         "created_at_utc": _utc_now(),
         "training_entrypoint": (
-            "latentdynamics.training.train_marcio_full_batch"
+            "latentdynamics.training.train_reference_full_batch"
         ),
         "training_semantics": {
             "data_rows": reusable.TRAINING_ROWS,
@@ -660,7 +674,7 @@ def _run_training(
                 training_pairs = _load_training_pairs(source)
                 cached_dataset = trial.dataset
             x, y = training_pairs
-            train_marcio_full_batch(
+            train_reference_full_batch(
                 arch=arch,
                 x=x,
                 y=y,
@@ -964,6 +978,15 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(computations/run_dataset_N/train_data.csv, ...)"
+        ),
+    )
+    parser.add_argument(
         "--stage",
         choices=("plan", "train", "validate"),
         default="train",
@@ -983,7 +1006,9 @@ def _parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    global REFERENCE_ROOT
     args = _parser().parse_args(argv)
+    REFERENCE_ROOT = args.reference_root.resolve()
     summary = run_experiment(
         output_root=args.output_root,
         stage=args.stage,

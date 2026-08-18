@@ -235,7 +235,7 @@ def test_chafee_statistics_accept_point_classification_result():
     assert result.outside_both_basins == 1
 
 
-def test_chafee_percentages_reproduce_marcio_table_denominator():
+def test_chafee_percentages_reproduce_reference_table_denominator():
     result = ChafeeBasinStatistics(
         total_trajectories=10_000,
         excluded_zero_trajectories=2_138,

@@ -17,7 +17,6 @@ SystemName = Literal[
     "leslie4d",
     "coral",
     "chafee_infante",
-    "ives",
 ]
 SamplingMethod = Literal["uniform", "sobol", "adaptive"]
 ScalingMethod = Literal["minmax", "fixed_bounds", "none"]
@@ -336,7 +335,7 @@ class TrainingConfig(BaseModel):
     curriculum: list[CurriculumStageConfig] | None = Field(default=None, min_length=1)
     # These settings are consumed only by the dedicated curriculum trainer.
     # Keeping them separate prevents optimizer-polish semantics from leaking
-    # into the generic Trainer or the archived Marcio-compatible path.
+    # into the generic Trainer or the archived reference-recipe path.
     curriculum_optimizer: CurriculumOptimizerConfig | None = None
     curriculum_polish: CurriculumLBFGSPolishConfig | None = None
     # Optional model-only warm start. The trainer loads weights from this

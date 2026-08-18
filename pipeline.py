@@ -9,7 +9,7 @@ Usage::
     python pipeline.py --config coral_basic --stages render,metrics
 
     # Cap the seed sweep for laptop smoke checks:
-    python pipeline.py --config coral_data_scaling --max-seeds 3
+    python pipeline.py --config leslie_2gen_contraction --max-seeds 1
 
 Bare names (no path separator) resolve from the packaged configs directory.
 An explicit path (relative or absolute) is also accepted.

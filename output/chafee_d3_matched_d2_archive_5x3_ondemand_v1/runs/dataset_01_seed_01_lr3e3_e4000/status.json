@@ -1,9 +1,0 @@
-{
-  "failure": {
-    "path": "/Users/bdoprad/Work/Projects/latent-dynamics/code/output/chafee_d3_matched_d2_archive_5x3_ondemand_v1/runs/dataset_01_seed_01_lr3e3_e4000/failure.json",
-    "sha256": "20007bbdcf9d7132657c3815f4d6a3da1fe559eb6ebeb957689c6dbef39a06bd",
-    "size_bytes": 1032
-  },
-  "schema_version": 1,
-  "status": "failed"
-}

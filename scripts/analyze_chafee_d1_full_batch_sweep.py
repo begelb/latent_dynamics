@@ -35,7 +35,6 @@ from typing import Any
 
 import torch
 
-import analyze_chafee_d1_checkpoint as single
 import chafee_latent_dimension_study as study
 import sweep_chafee_d1_full_batch as sweep
 from latentdynamics.training import load_checkpoint
@@ -43,18 +42,33 @@ from latentdynamics.training import load_checkpoint
 CODE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SOURCE = sweep.DEFAULT_OUTPUT
 DEFAULT_ANALYSIS = DEFAULT_SOURCE.with_name(f"{DEFAULT_SOURCE.name}_roa_diagnostics")
-MARCIOS_README = study.DEFAULT_ARCHIVE_DIR / "Readme.txt"
+DEFAULT_REFERENCE_ROOT = study.DEFAULT_REFERENCE_ROOT
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
+REFERENCE_README = REFERENCE_ROOT / "Readme.txt"
+LATENT_1D_ROOT = sweep.LATENT_1D_OUTPUT_ROOT
+CANONICAL_4K = sweep.CANONICAL_RUN
+CANONICAL_10K = LATENT_1D_ROOT / "seed_0_epoch_10000"
+MINIBATCH_SOURCE = LATENT_1D_ROOT / "seed_0_minibatch_b1024_lr1e3"
+MINIBATCH_ANALYSIS = LATENT_1D_ROOT / "seed_0_minibatch_b1024_lr1e3_roa"
 
-MARCIOS_README_SHA256 = (
+REFERENCE_README_SHA256 = (
     "eac15b7db0ef7d9da2d3b29fc5aafdf19d1ca1b0fdcc3b971eda564a087b8beb"
 )
 CANONICAL_10K_STATS_SHA256 = (
-    "a2ad66ccafbea33db13a2166ba3dd4a73016eac0a8272968d50762e425f74516"
+    "6c1dc4d8b8686400e31c58948240326e9360410cbfc255da29abcc7e57be816b"
 )
 FULL_BATCH_10K_COMBINED_PERCENT = 50.01271940981938
-MARCIO_ARCHIVED_COMBINED_PERCENT = 78.38972271686593
+REFERENCE_ARCHIVED_COMBINED_PERCENT = 78.38972271686593
 CONDITIONED_TRAJECTORIES = 7_862
-STAGES = single.STAGES
+STAGES = (
+    "bounds",
+    "precompute-coarse",
+    "uniform",
+    "precompute-fine",
+    "adaptive",
+    "stats",
+)
 
 COUNT_KEYS = {
     "negative": "correctly_classified_in_negative_basin",
@@ -63,7 +77,7 @@ COUNT_KEYS = {
     "misclassified_positive": "misclassified_in_positive_basin",
     "outside": "outside_both_basins",
 }
-REFERENCE_NAMES = ("full_batch_10000", "marcio_archived")
+REFERENCE_NAMES = ("full_batch_10000", "reference_archived")
 CSV_FIELDS = (
     "plan_index",
     "run_id",
@@ -97,8 +111,8 @@ CSV_FIELDS = (
     "eligible_for_bistable_dimension_table",
     "delta_vs_full_batch_10000_percentage_points",
     "beats_full_batch_10000",
-    "delta_vs_marcio_archived_percentage_points",
-    "beats_marcio_archived",
+    "delta_vs_reference_archived_percentage_points",
+    "beats_reference_archived",
     "analysis_directory",
     "error_stage",
     "error_type",
@@ -227,6 +241,14 @@ class FrozenSweep:
         )
 
 
+class ExactRunPaths(study.DimensionPaths):
+    """Route existing 1-D stage helpers into one exact analysis directory."""
+
+    @property
+    def run(self) -> Path:
+        return self.output_root
+
+
 def _utc_now() -> str:
     return datetime.now(UTC).isoformat()
 
@@ -271,10 +293,10 @@ def _assert_safe_target(source_sweep: Path, analysis_root: Path) -> None:
         )
     protected = (
         source,
-        single.CANONICAL_4K.resolve(),
-        single.CANONICAL_10K.resolve(),
-        single.DEFAULT_SOURCE.resolve(),
-        single.DEFAULT_ANALYSIS.resolve(),
+        CANONICAL_4K.resolve(),
+        CANONICAL_10K.resolve(),
+        MINIBATCH_SOURCE.resolve(),
+        MINIBATCH_ANALYSIS.resolve(),
     )
     for root in protected:
         if (
@@ -315,12 +337,53 @@ def _file_reference(path: Path, root: Path) -> dict[str, Any]:
     }
 
 
+def _validate_statistics(path: Path) -> dict[str, Any]:
+    payload = _read_json(path)
+    statistics = payload.get("statistics", {})
+    counts = statistics.get("counts", {})
+    percentages = statistics.get("percentages", {})
+    if (
+        statistics.get("total_trajectories") != 10_000
+        or statistics.get("excluded_zero_trajectories") != 2_138
+        or statistics.get("conditioned_trajectories") != CONDITIONED_TRAJECTORIES
+    ):
+        raise ValueError("basin-statistics denominators do not match the fixed benchmark")
+    if sum(int(value) for value in counts.values()) != CONDITIONED_TRAJECTORIES:
+        raise ValueError("basin counts do not conserve the conditioned trajectories")
+    if not math.isclose(
+        sum(float(value) for value in percentages.values()),
+        100.0,
+        rel_tol=0.0,
+        abs_tol=1e-9,
+    ):
+        raise ValueError("basin percentages do not sum to 100")
+    if (
+        payload.get("uniform_is_bistable") is not True
+        or payload.get("roots_define_two_distinct_attractor_basins") is not True
+        or payload.get("eligible_for_bistable_dimension_table") is not True
+    ):
+        raise ValueError("selected checkpoint did not produce a comparable bistable graph")
+    return payload
+
+
+def _file_manifest(root: Path) -> dict[str, dict[str, Any]]:
+    manifest: dict[str, dict[str, Any]] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file() or path.name == "analysis_manifest.json":
+            continue
+        manifest[str(path.relative_to(root))] = {
+            "size_bytes": path.stat().st_size,
+            "sha256": study.sha256_file(path),
+        }
+    return manifest
+
+
 def _verify_model(checkpoint: Path, expected_arch: dict[str, Any]) -> None:
     model, arch = load_checkpoint(checkpoint.parent, map_location="cpu")
     if arch.model_dump(mode="json") != expected_arch:
         raise ValueError(f"{checkpoint} architecture differs from the sweep plan")
-    if arch != study.marcio_architecture(1):
-        raise ValueError(f"{checkpoint} is not the exact Marcio 64-to-1 architecture")
+    if arch != study.reference_architecture(1):
+        raise ValueError(f"{checkpoint} is not the exact reference 64-to-1 architecture")
     if not all(
         torch.isfinite(value).all().item()
         for value in model.state_dict().values()
@@ -340,10 +403,13 @@ def _verify_model(checkpoint: Path, expected_arch: dict[str, Any]) -> None:
 
 
 def _verify_training_semantics(plan: dict[str, Any]) -> None:
-    if plan.get("training_entrypoint") != (
-        "latentdynamics.training.train_marcio_full_batch"
+    # Plans frozen before the training module was renamed record the older
+    # "train_marcio_full_batch" entrypoint; both label the same recipe.
+    if plan.get("training_entrypoint") not in (
+        "latentdynamics.training.train_reference_full_batch",
+        "latentdynamics.training.train_marcio_full_batch",
     ):
-        raise ValueError("sweep did not use the exact Marcio training entrypoint")
+        raise ValueError("sweep did not use the exact reference training entrypoint")
     semantics = plan.get("training_semantics")
     expected = {
         "data_rows": 30_000,
@@ -365,9 +431,9 @@ def _verify_training_semantics(plan: dict[str, Any]) -> None:
     }
     if semantics != expected:
         raise ValueError("sweep training semantics differ from the fixed protocol")
-    expected_arch = study.marcio_architecture(1).model_dump(mode="json")
+    expected_arch = study.reference_architecture(1).model_dump(mode="json")
     if plan.get("architecture") != expected_arch:
-        raise ValueError("sweep architecture is not the exact Marcio d=1 model")
+        raise ValueError("sweep architecture is not the exact reference d=1 model")
 
 
 def _verify_candidate(
@@ -435,7 +501,7 @@ def _verify_candidate(
     expected_paths = sweep._validate_training_artifacts(
         attempt=attempt_root,
         spec=spec,
-        arch=study.marcio_architecture(1),
+        arch=study.reference_architecture(1),
     )
     observed_paths = {
         "checkpoint": checkpoint,
@@ -584,7 +650,7 @@ def _exact_inputs_for_training_data(
 ) -> study.ExactInputs:
     """Bind one training CSV to the fixed trajectory truth and stable roots."""
 
-    canonical = study.verify_exact_inputs(study.DEFAULT_ARCHIVE_DIR)
+    canonical = study.verify_exact_inputs(REFERENCE_ROOT)
     if train_data is None:
         return canonical
     source = train_data.resolve()
@@ -671,15 +737,15 @@ def _stats_fields(payload: dict[str, Any]) -> dict[str, Any]:
     }
 
 
-def _marcio_reference() -> dict[str, Any]:
-    if study.sha256_file(MARCIOS_README) != MARCIOS_README_SHA256:
-        raise ValueError("Marcio Readme.txt hash does not match the archive")
-    text = MARCIOS_README.read_text(encoding="utf-8")
+def _reference_archived_statistic() -> dict[str, Any]:
+    if study.sha256_file(REFERENCE_README) != REFERENCE_README_SHA256:
+        raise ValueError("reference Readme.txt hash does not match the archive")
+    text = REFERENCE_README.read_text(encoding="utf-8")
 
     def count(label: str) -> int:
         match = re.search(rf"^{re.escape(label)}:\s*(\d+)\s*$", text, re.MULTILINE)
         if match is None:
-            raise ValueError(f"missing Marcio reference count {label!r}")
+            raise ValueError(f"missing archived reference count {label!r}")
         return int(match.group(1))
 
     total = count("Total number of attractor trajectories")
@@ -705,7 +771,7 @@ def _marcio_reference() -> dict[str, Any]:
         or negative + positive + outside + misc_negative + misc_positive
         != conditioned
     ):
-        raise ValueError("Marcio reference counts do not conserve trajectories")
+        raise ValueError("archived reference counts do not conserve trajectories")
 
     def percent(value: int) -> float:
         return 100.0 * value / conditioned
@@ -713,16 +779,16 @@ def _marcio_reference() -> dict[str, Any]:
     combined = percent(negative + positive)
     if not math.isclose(
         combined,
-        MARCIO_ARCHIVED_COMBINED_PERCENT,
+        REFERENCE_ARCHIVED_COMBINED_PERCENT,
         rel_tol=0.0,
         abs_tol=1e-12,
     ):
-        raise ValueError("Marcio combined reference percentage changed")
+        raise ValueError("archived combined reference percentage changed")
     return {
-        "label": "Marcio archived d=1 statistic",
+        "label": "coauthor archived d=1 statistic",
         "source": {
-            "path": str(MARCIOS_README.resolve()),
-            "sha256": MARCIOS_README_SHA256,
+            "path": str(REFERENCE_README.resolve()),
+            "sha256": REFERENCE_README_SHA256,
         },
         "conditioned_trajectories": conditioned,
         "negative_correct_count": negative,
@@ -739,10 +805,10 @@ def _marcio_reference() -> dict[str, Any]:
 
 
 def _reference_inventory() -> dict[str, dict[str, Any]]:
-    canonical_path = single.CANONICAL_10K / "basin_statistics.json"
+    canonical_path = CANONICAL_10K / "basin_statistics.json"
     if study.sha256_file(canonical_path) != CANONICAL_10K_STATS_SHA256:
         raise ValueError("canonical 10,000-epoch basin statistics hash changed")
-    canonical_payload = single._validate_statistics(canonical_path)
+    canonical_payload = _validate_statistics(canonical_path)
     canonical = {
         "label": "fresh seed-0 full-batch 10,000-epoch run",
         "source": {
@@ -760,7 +826,7 @@ def _reference_inventory() -> dict[str, dict[str, Any]]:
         raise ValueError("canonical 10,000-epoch reference percentage changed")
     return {
         "full_batch_10000": canonical,
-        "marcio_archived": _marcio_reference(),
+        "reference_archived": _reference_archived_statistic(),
     }
 
 
@@ -855,7 +921,6 @@ def _analysis_plan(
     scripts = {
         "batch_analyzer": Path(__file__).resolve(),
         "sweep_runner": Path(sweep.__file__).resolve(),
-        "single_checkpoint_analyzer": Path(single.__file__).resolve(),
         "study_driver": Path(study.__file__).resolve(),
     }
     return {
@@ -996,7 +1061,7 @@ def _add_partial_bistability(row: dict[str, Any], run: Path) -> None:
 
 
 def _finalize_uniform_only_statistics(
-    paths: single.ExactRunPaths,
+    paths: ExactRunPaths,
 ) -> dict[str, Any]:
     payload = _read_json(paths.stats)
     attractors = {
@@ -1117,7 +1182,7 @@ def _analyze_candidate(
             candidate.training_summary_sha256,
         )
 
-        paths = single.ExactRunPaths(output_root=run, dimension=1)
+        paths = ExactRunPaths(output_root=run, dimension=1)
         uniform_runners = (
             ("bounds", lambda: study._run_bounds(paths, inputs, device=device)),
             (
@@ -1163,7 +1228,7 @@ def _analyze_candidate(
         statistics = (
             _finalize_uniform_only_statistics(paths)
             if uniform_only
-            else single._validate_statistics(paths.stats)
+            else _validate_statistics(paths.stats)
         )
         row.update(_stats_fields(statistics))
         row["status"] = "complete"
@@ -1221,7 +1286,7 @@ def _analyze_candidate(
             }
         )
     _add_reference_deltas(row, references)
-    manifest["output_files"] = single._file_manifest(run)
+    manifest["output_files"] = _file_manifest(run)
     _write_json(manifest_path, manifest)
     print(
         f"run={candidate.spec.run_id} analysis_status={row['status']}",
@@ -1276,8 +1341,8 @@ def _post_hoc_ranking(rows: Sequence[dict[str, Any]]) -> list[dict[str, Any]]:
             "delta_vs_full_batch_10000_percentage_points": row[
                 "delta_vs_full_batch_10000_percentage_points"
             ],
-            "delta_vs_marcio_archived_percentage_points": row[
-                "delta_vs_marcio_archived_percentage_points"
+            "delta_vs_reference_archived_percentage_points": row[
+                "delta_vs_reference_archived_percentage_points"
             ],
         }
         for rank, row in enumerate(ordered, start=1)
@@ -1485,6 +1550,16 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--device", default="auto")
     parser.add_argument("--batch-points", type=_batch_points, default="auto")
     parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(train_data.csv, traj_attractors.pkl, stable_solutions.csv, "
+            "Readme.txt)"
+        ),
+    )
+    parser.add_argument(
         "--train-data",
         type=Path,
         help=(
@@ -1505,6 +1580,9 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    global REFERENCE_ROOT, REFERENCE_README
+    REFERENCE_ROOT = args.reference_root.resolve()
+    REFERENCE_README = REFERENCE_ROOT / "Readme.txt"
     results = run_batch_analysis(
         source_sweep=args.source_sweep,
         analysis_root=args.analysis_root,

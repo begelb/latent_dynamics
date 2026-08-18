@@ -1,9 +1,0 @@
-{
-  "completed_at_utc": "2026-07-29T00:23:46.484206+00:00",
-  "epochs_completed": 20000,
-  "final_checkpoint_sha256": "f7140bcc6692297490cf23d426666a31c668b7aa39ba92767da01460134d6007",
-  "run_plan_sha256": "32cc24df584b797c124f426976f20f833b8078400f083be05513a9a2e1945c0f",
-  "schema_version": 1,
-  "status": "complete",
-  "training_summary_sha256": "f3e113afd6e3888253942ed99c5a819540ce8f6600c179a91a6b40f9f2a870a7"
-}

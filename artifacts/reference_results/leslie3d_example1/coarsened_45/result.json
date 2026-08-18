@@ -1,0 +1,483 @@
+{
+  "status": "complete",
+  "purpose": "connection-complete coarsening of the leslie3d_example1 latent Morse nodes 4 and 5",
+  "source_run": "replay_sources/leslie3d_example1/spurious_attractor_ex",
+  "source_hashes": {
+    "dynamics_pt": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+    "morse_graph": "fb7a57e012b76f5a02cb6e0e591cf194ccd130a80c34909f5cccb1d80233d596",
+    "morse_sets": "b9be6b28922f06898f765027980c6106fda40a349077872255db5dac321e05d6"
+  },
+  "bounds": {
+    "lower": [
+      -0.6983771920204163,
+      -0.8291957378387451
+    ],
+    "upper": [
+      0.9562897086143494,
+      0.7747613787651062
+    ]
+  },
+  "cell_graph": {
+    "subdivision": {
+      "init": 23,
+      "min": 23,
+      "max": 27,
+      "limit": 10000
+    },
+    "base_depth": 23,
+    "sizes": [
+      4096,
+      2048
+    ],
+    "cell_count": 8388787,
+    "padding": true
+  },
+  "live_graph": {
+    "node_count": 6,
+    "live_to_saved_labels": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 5
+    },
+    "mapped_reduced_edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        5,
+        3
+      ],
+      [
+        5,
+        4
+      ]
+    ],
+    "matching": {
+      "total_jaccard": 5.999619086480402,
+      "nodes": {
+        "0": {
+          "saved_label": 0,
+          "live_cells": 3595,
+          "saved_cells": 3594,
+          "intersection": 3594,
+          "jaccard": 0.9997218358831711,
+          "exact": false
+        },
+        "1": {
+          "saved_label": 1,
+          "live_cells": 116777,
+          "saved_cells": 116789,
+          "intersection": 116777,
+          "jaccard": 0.9998972505972309,
+          "exact": false
+        },
+        "2": {
+          "saved_label": 2,
+          "live_cells": 1186,
+          "saved_cells": 1186,
+          "intersection": 1186,
+          "jaccard": 1.0,
+          "exact": true
+        },
+        "3": {
+          "saved_label": 3,
+          "live_cells": 480,
+          "saved_cells": 480,
+          "intersection": 480,
+          "jaccard": 1.0,
+          "exact": true
+        },
+        "4": {
+          "saved_label": 4,
+          "live_cells": 174,
+          "saved_cells": 174,
+          "intersection": 174,
+          "jaccard": 1.0,
+          "exact": true
+        },
+        "5": {
+          "saved_label": 5,
+          "live_cells": 123,
+          "saved_cells": 123,
+          "intersection": 123,
+          "jaccard": 1.0,
+          "exact": true
+        }
+      }
+    }
+  },
+  "fine_graph": {
+    "edges": [
+      [
+        2,
+        1
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        5,
+        3
+      ]
+    ],
+    "minimal": [
+      0,
+      1,
+      4
+    ]
+  },
+  "coarse_graph": {
+    "projection": {
+      "0": 0,
+      "1": 1,
+      "2": 2,
+      "3": 3,
+      "4": 4,
+      "5": 4
+    },
+    "fibers": {
+      "0": [
+        0
+      ],
+      "1": [
+        1
+      ],
+      "2": [
+        2
+      ],
+      "3": [
+        3
+      ],
+      "4": [
+        4,
+        5
+      ]
+    },
+    "edges": [
+      [
+        2,
+        0
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        4,
+        3
+      ]
+    ],
+    "minimal": [
+      0,
+      1
+    ],
+    "labels": {
+      "0": "0 : (x^4-1, 0, 0)",
+      "1": "1 : (x^4-1, 0, 0)",
+      "2": "2 : (0, x^4-1, 0)",
+      "3": "3 : (0, x^2+1, 0)",
+      "4": "4\u222a5 : (0, x+1, 0)"
+    }
+  },
+  "connection_completion": {
+    "node4_cells": 174,
+    "node5_cells": 123,
+    "added_connection_cells": 25,
+    "merged_cells": 322,
+    "overlap_count": 0
+  },
+  "index_pairs": {
+    "fine_node_4": {
+      "name": "N4",
+      "morse_set_cells": 174,
+      "image_cells": 174,
+      "pair_cells": 174,
+      "exit_cells": 0,
+      "map_edges": 2791,
+      "checks": {
+        "S_subset_F_S": true,
+        "S_subset_F_S_missing_count": 0,
+        "F_A_intersect_X_subset_A": true,
+        "F_A_intersect_X_subset_A_violation_examples": []
+      },
+      "pair_valid": true,
+      "method": "CMGDB.ComputeConleyIndexForCells",
+      "conley_index": [
+        "x-1",
+        "0",
+        "0"
+      ],
+      "seconds": 0.005015708971768618
+    },
+    "fine_node_5": {
+      "name": "N5",
+      "morse_set_cells": 123,
+      "image_cells": 232,
+      "pair_cells": 232,
+      "exit_cells": 109,
+      "map_edges": 3141,
+      "checks": {
+        "S_subset_F_S": true,
+        "S_subset_F_S_missing_count": 0,
+        "F_A_intersect_X_subset_A": true,
+        "F_A_intersect_X_subset_A_violation_examples": []
+      },
+      "pair_valid": true,
+      "method": "CMGDB.ComputeConleyIndexForCells",
+      "conley_index": [
+        "0",
+        "x^2-1",
+        "0"
+      ],
+      "seconds": 0.012477374984882772
+    },
+    "literal_union_without_connections": {
+      "name": "N4_union_N5_without_connections",
+      "morse_set_cells": 297,
+      "image_cells": 372,
+      "pair_cells": 372,
+      "exit_cells": 75,
+      "map_edges": 5788,
+      "checks": {
+        "S_subset_F_S": true,
+        "S_subset_F_S_missing_count": 0,
+        "F_A_intersect_X_subset_A": false,
+        "F_A_intersect_X_subset_A_violation_examples": [
+          [
+            1601371,
+            1600677
+          ],
+          [
+            1601371,
+            1600678
+          ],
+          [
+            1601371,
+            1600699
+          ],
+          [
+            1601371,
+            1600700
+          ],
+          [
+            1601371,
+            1600701
+          ],
+          [
+            1601371,
+            1600702
+          ],
+          [
+            1601371,
+            1600723
+          ],
+          [
+            1601371,
+            1600724
+          ],
+          [
+            1601371,
+            1600745
+          ],
+          [
+            1601371,
+            1600746
+          ],
+          [
+            1601371,
+            1600747
+          ],
+          [
+            1601371,
+            1600748
+          ],
+          [
+            1601375,
+            1600677
+          ],
+          [
+            1601375,
+            1600678
+          ],
+          [
+            1601375,
+            1600696
+          ],
+          [
+            1601375,
+            1600698
+          ],
+          [
+            1601375,
+            1600699
+          ],
+          [
+            1601375,
+            1600700
+          ],
+          [
+            1601375,
+            1600701
+          ],
+          [
+            1601375,
+            1600702
+          ],
+          [
+            1600670,
+            1601239
+          ],
+          [
+            1600672,
+            1601232
+          ],
+          [
+            1600673,
+            1601261
+          ],
+          [
+            1600674,
+            1601262
+          ],
+          [
+            1600675,
+            1601264
+          ],
+          [
+            1600676,
+            1601262
+          ],
+          [
+            1600719,
+            1601264
+          ],
+          [
+            1600720,
+            1601262
+          ],
+          [
+            1600721,
+            1601264
+          ],
+          [
+            1600722,
+            1601262
+          ],
+          [
+            1600727,
+            1601251
+          ],
+          [
+            1600728,
+            1601240
+          ],
+          [
+            1601273,
+            1600677
+          ],
+          [
+            1601260,
+            1600678
+          ],
+          [
+            1601263,
+            1600700
+          ],
+          [
+            1601269,
+            1600678
+          ],
+          [
+            1601271,
+            1600678
+          ],
+          [
+            1601272,
+            1600678
+          ],
+          [
+            1601274,
+            1600677
+          ],
+          [
+            1601285,
+            1600677
+          ],
+          [
+            1601286,
+            1600677
+          ],
+          [
+            1601289,
+            1600696
+          ],
+          [
+            1601372,
+            1600677
+          ]
+        ]
+      },
+      "pair_valid": false,
+      "method": "CMGDB.ComputeConleyIndexForCells",
+      "conley_index": null,
+      "seconds": 0.0004540419904515147
+    },
+    "merged_45": {
+      "name": "M45_connection_complete",
+      "morse_set_cells": 322,
+      "image_cells": 372,
+      "pair_cells": 372,
+      "exit_cells": 50,
+      "map_edges": 5788,
+      "checks": {
+        "S_subset_F_S": true,
+        "S_subset_F_S_missing_count": 0,
+        "F_A_intersect_X_subset_A": true,
+        "F_A_intersect_X_subset_A_violation_examples": []
+      },
+      "pair_valid": true,
+      "method": "CMGDB.ComputeConleyIndexForCells",
+      "conley_index": [
+        "0",
+        "x+1",
+        "0"
+      ],
+      "seconds": 0.04819962498731911
+    }
+  },
+  "artifacts": {
+    "coarse_graph_dot": "output/leslie3d_example1_study/coarsened_45/morse_graph_coarse.dot",
+    "coarse_graph_png": "output/leslie3d_example1_study/coarsened_45/morse_graph_coarse.png",
+    "connection_complete_sets_csv": "output/leslie3d_example1_study/coarsened_45/morse_sets_connection_complete.csv",
+    "merged_set_png": "output/leslie3d_example1_study/coarsened_45/morse_set_45_connection_complete.png"
+  },
+  "timings_seconds": {
+    "adaptive_graph_and_map": 46.399193416000344,
+    "total": 57.96762791601941
+  }
+}

@@ -1,8 +1,0 @@
-{
-  "created_at_utc": "2026-06-03T00:03:10.055460+00:00",
-  "train_file": "train",
-  "train_csv": "/Users/bdoprad/Work/Projects/latent-dynamics/code/data/leslie_2gen_contraction_seedsweep_fullbatch/dataset_2/train.csv",
-  "train_csv_sha256": "9e66000791c8a987eced53938c7d01d7819492cfac86d5affbb019b8ed368107",
-  "scaling": "minmax",
-  "high_dims": 10
-}

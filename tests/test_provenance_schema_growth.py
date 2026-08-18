@@ -25,7 +25,7 @@ from latentdynamics.config import load_config
 
 @pytest.fixture(scope="module")
 def cfg():
-    return load_config("leslie3d_example2_replay")
+    return load_config("leslie3d_example1_replay")
 
 
 def test_identical_config_has_no_conflicts(cfg):

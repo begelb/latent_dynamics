@@ -1,7 +1,7 @@
 """Reproduce the Chafee--Infante latent-dimension study.
 
-This driver deliberately follows the archived computation in
-``archive/marcio/scripts``:
+This driver deliberately follows the archived reference computation whose
+inputs ship under ``replay_sources/chafee_infante/reference_inputs``:
 
 * the exact 30,000 one-step pairs are used without scaling;
 * the architecture and fixed 4,000-epoch full-batch objective are unchanged;
@@ -88,10 +88,11 @@ from latentdynamics.analysis.basin_statistics import (
 from latentdynamics.analysis.hierarchical_precomputed import (
     HierarchicalPrecomputedBoxMap,
 )
+from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.morse import LatentBounds, infer_latent_bounds
 from latentdynamics.analysis.morse_graph_parser import MorseGraph
 from latentdynamics.config import ArchConfig
-from latentdynamics.training import load_checkpoint, train_marcio_full_batch
+from latentdynamics.training import load_checkpoint, train_reference_full_batch
 from latentdynamics.viz import (
     render_morse_graph_from_dot,
     render_morse_set_projections_from_csv,
@@ -100,10 +101,9 @@ from latentdynamics.viz import (
     save_morse_graph_artifacts,
 )
 
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
-CODE_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_ARCHIVE_DIR = PROJECT_ROOT / "archive" / "marcio" / "scripts"
-DEFAULT_OUTPUT_ROOT = CODE_ROOT / "output" / "chafee_latent_dimension_study"
+REPO_ROOT = get_repo_root()
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+DEFAULT_OUTPUT_ROOT = REPO_ROOT / "output" / "chafee_latent_dimension_study"
 
 TRAIN_DATA_SHA256 = "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
 TRAJECTORY_LABELS_SHA256 = (
@@ -347,7 +347,7 @@ def verify_exact_inputs(archive_dir: Path) -> ExactInputs:
     )
 
 
-def marcio_architecture(latent_dimension: int) -> ArchConfig:
+def reference_architecture(latent_dimension: int) -> ArchConfig:
     if latent_dimension not in RESOLUTIONS:
         raise ValueError(f"supported latent dimensions are {sorted(RESOLUTIONS)}")
     return ArchConfig(
@@ -430,10 +430,10 @@ def _load_model(
     device: torch.device,
 ) -> tuple[Any, ArchConfig]:
     model, arch = load_checkpoint(paths.models, map_location=device)
-    expected = marcio_architecture(paths.dimension)
+    expected = reference_architecture(paths.dimension)
     if arch != expected:
         raise ValueError(
-            f"checkpoint architecture in {paths.models} is not the Marcio-faithful "
+            f"checkpoint architecture in {paths.models} is not the reference-faithful "
             f"{paths.dimension}-D architecture"
         )
     model = model.to(device)
@@ -592,7 +592,7 @@ def _stage_output_paths(paths: DimensionPaths, stage: str) -> dict[str, Path]:
             "morse_graph": paths.uniform / "morse_graph",
             "morse_sets": paths.uniform / "morse_sets",
         }
-        query_artifact = paths.uniform / "marcio_singleton_reachability_queries.npz"
+        query_artifact = paths.uniform / "reference_singleton_reachability_queries.npz"
         if query_artifact.is_file():
             result["strict_singleton_reachability_queries"] = query_artifact
         return result
@@ -763,7 +763,7 @@ def _stage_direct_inputs(
 
     if stage == "train":
         configuration: dict[str, Any] = {
-            "architecture": marcio_architecture(paths.dimension).model_dump(),
+            "architecture": reference_architecture(paths.dimension).model_dump(),
             "epochs": EPOCHS,
             "learning_rate": LEARNING_RATE,
             "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
@@ -807,7 +807,7 @@ def _stage_direct_inputs(
             "basin_semantics": "complete reachable Morse set equals one singleton",
             "closed_boundary_priority": "negative then positive",
             "authoritative_reachability_artifact": (
-                "marcio_singleton_reachability_queries.npz"
+                "reference_singleton_reachability_queries.npz"
             ),
             "legacy_minimal_lca_roa_artifacts_are_not_consumed": True,
             "encoding_device": str(device),
@@ -987,7 +987,9 @@ def _legacy_training_matches(
     data = summary.get("data", {})
     scheduler = summary.get("scheduler", {})
     return bool(
-        summary.get("training_method") == "marcio_full_batch"
+        # Summaries written before the training module was renamed carry the
+        # older "marcio_full_batch" value; both label the same recipe.
+        summary.get("training_method") in ("reference_full_batch", "marcio_full_batch")
         and int(summary.get("seed", -1)) == SEED
         and str(summary.get("device")) == str(device)
         and int(summary.get("epochs_completed", -1)) == EPOCHS
@@ -1001,7 +1003,7 @@ def _legacy_training_matches(
         and int(scheduler.get("patience", -1)) == 100
         and float(scheduler.get("threshold", -1.0)) == 1e-4
         and float(scheduler.get("min_lr", -1.0)) == 1e-6
-        and summary.get("arch") == marcio_architecture(paths.dimension).model_dump()
+        and summary.get("arch") == reference_architecture(paths.dimension).model_dump()
         and int(data.get("n_pairs", -1)) == TRAINING_ROWS
         and int(data.get("high_dims", -1)) == HIGH_DIMENSION
         and data.get("dtype") == "float32"
@@ -1321,11 +1323,11 @@ def _quarantine_legacy_roa_artifact(paths: DimensionPaths) -> Path | None:
             "artifact": target.name,
             "sha256": source_digest,
             "legacy_method": (
-                "minimal-attractor/LCA labels; not Marcio's strict complete-"
+                "minimal-attractor/LCA labels; not the strict complete-"
                 "reachable-Morse-set singleton semantics"
             ),
             "authoritative_replacement": (
-                "marcio_singleton_reachability_queries.npz generated by the "
+                "reference_singleton_reachability_queries.npz generated by the "
                 "uniform stage"
             ),
         },
@@ -1350,8 +1352,8 @@ def _run_training(
 ) -> None:
     x, y = _load_training_pairs(inputs.train_data)
     started = time.perf_counter()
-    result = train_marcio_full_batch(
-        arch=marcio_architecture(paths.dimension),
+    result = train_reference_full_batch(
+        arch=reference_architecture(paths.dimension),
         x=x,
         y=y,
         epochs=EPOCHS,
@@ -1488,8 +1490,8 @@ def _run_lookup_cmgdb(
     )
     if not hasattr(model, "set_batch_map"):
         raise RuntimeError(
-            "this study requires CMGDB.Model.set_batch_map; rebuild the bundled "
-            "archive/CMGDB before running the large lookup-only computation"
+            "this study requires CMGDB.Model.set_batch_map; install the pinned "
+            "cmgdb fork wheel before running the large lookup-only computation"
         )
     model.set_batch_map(box_map.batch)
     started = time.perf_counter()
@@ -1571,7 +1573,7 @@ def _uniform_point_cells(
     """Return every closed uniform cell containing each point.
 
     Interior points have one candidate. A point exactly on an internal grid
-    face has candidates on both sides, matching Marcio's closed-box membership
+    face has candidates on both sides, matching the archived closed-box membership
     checks. Points outside the CMGDB domain have no candidates.
     """
 
@@ -1636,7 +1638,7 @@ def _native_singleton_reachability(
     if not callable(native):
         raise RuntimeError(
             "this study requires CMGDB.MorseSingletonReachability; rebuild the "
-            "bundled archive/CMGDB before computing Marcio-equivalent basins"
+            "pinned cmgdb fork wheel before computing archive-equivalent basins"
         )
     result = native(map_graph, morse_graph, query)
     if (
@@ -1661,7 +1663,7 @@ def _point_basin_labels(
     negative_attractor: int,
     positive_attractor: int,
 ) -> NDArray[np.int32]:
-    """Apply Marcio's negative-basin-first closed-box classification."""
+    """Apply the archived negative-basin-first closed-box classification."""
 
     labels = np.full(cells.n_points, OUTSIDE, dtype=np.int32)
     for point_index in range(cells.n_points):
@@ -1724,19 +1726,19 @@ def _morse_attractors(morse_graph: Any) -> list[int]:
 
 
 def _require_exactly_two_minimal_attractors(morse_graph: Any) -> list[int]:
-    """Enforce Marcio's bistable uniform-graph precondition."""
+    """Enforce the archived bistable uniform-graph precondition."""
 
     attractors = _morse_attractors(morse_graph)
     if len(attractors) != 2:
         raise ValueError(
-            "Marcio-equivalent basin statistics require exactly two minimal "
+            "Archive-equivalent basin statistics require exactly two minimal "
             f"attracting Morse nodes; the uniform graph has {len(attractors)}: "
             f"{attractors}"
         )
     return attractors
 
 
-def _compute_live_marcio_statistics(
+def _compute_live_reference_statistics(
     paths: DimensionPaths,
     inputs: ExactInputs,
     *,
@@ -1747,7 +1749,7 @@ def _compute_live_marcio_statistics(
     morse_graph: Any,
     attractors: Sequence[int] | None = None,
 ) -> tuple[dict[str, Any], float]:
-    """Query only archived points while preserving Marcio's exact basin rule."""
+    """Query only archived points while preserving the archived exact basin rule."""
 
     if attractors is None:
         attractors = _require_exactly_two_minimal_attractors(morse_graph)
@@ -1755,7 +1757,7 @@ def _compute_live_marcio_statistics(
         attractors = [int(node) for node in attractors]
         if len(attractors) != 2:
             raise ValueError(
-                "Marcio-equivalent basin statistics require exactly two minimal "
+                "Archive-equivalent basin statistics require exactly two minimal "
                 f"attracting Morse nodes; got {attractors}"
             )
 
@@ -1810,7 +1812,7 @@ def _compute_live_marcio_statistics(
         negative_basin_label=negative_attractor,
         positive_basin_label=positive_attractor,
     )
-    query_path = paths.uniform / "marcio_singleton_reachability_queries.npz"
+    query_path = paths.uniform / "reference_singleton_reachability_queries.npz"
     np.savez_compressed(
         query_path,
         queried_cell_ids=unique_cell_ids,
@@ -1835,7 +1837,7 @@ def _compute_live_marcio_statistics(
         "dimension": paths.dimension,
         "seed": SEED,
         "method": (
-            "Exact Marcio singleton-all-reachable-Morse-set basin semantics "
+            "Exact archived singleton-all-reachable-Morse-set basin semantics "
             "on uniform CMGDB graph"
         ),
         "trajectory_data": {
@@ -1925,7 +1927,7 @@ def _run_uniform(
         )
     attractors = _require_exactly_two_minimal_attractors(morse_graph)
     dot_path, csv_path = save_morse_graph_artifacts(morse_graph, paths.uniform)
-    statistics_payload, query_duration = _compute_live_marcio_statistics(
+    statistics_payload, query_duration = _compute_live_reference_statistics(
         paths,
         inputs,
         device=device,
@@ -1937,7 +1939,7 @@ def _run_uniform(
     )
     payload = {
         "duration_seconds": duration,
-        "marcio_reachability_query_seconds": query_duration,
+        "reference_reachability_query_seconds": query_duration,
         "subdiv_init": resolution.uniform_init,
         "subdiv_min": resolution.uniform_min,
         "subdiv_max": resolution.uniform_max,
@@ -2105,7 +2107,7 @@ def _run_statistics(paths: DimensionPaths) -> None:
     method = str(payload.get("method", ""))
     if "singleton-all-reachable-Morse-set" not in method:
         raise ValueError(
-            f"{paths.stats} was not computed with Marcio's strict "
+            f"{paths.stats} was not computed with the archived strict "
             "singleton-all-reachable-Morse-set semantics"
         )
     adaptive_summary = _morse_summary(paths.adaptive / "morse_graph")
@@ -2227,9 +2229,9 @@ def _study_config(
         "schema_version": STAGE_PROVENANCE_SCHEMA_VERSION,
         "dimension": paths.dimension,
         "seed": SEED,
-        "architecture": marcio_architecture(paths.dimension).model_dump(),
+        "architecture": reference_architecture(paths.dimension).model_dump(),
         "training": {
-            "method": "Marcio-faithful fixed full batch",
+            "method": "reference-faithful fixed full batch",
             "epochs": EPOCHS,
             "learning_rate": LEARNING_RATE,
             "scheduler": {
@@ -2405,7 +2407,16 @@ def _parser() -> argparse.ArgumentParser:
         default=["all"],
         help=f"space- or comma-separated stages; choices: {', '.join(sorted(VALID_STAGES))}",
     )
-    parser.add_argument("--archive-dir", type=Path, default=DEFAULT_ARCHIVE_DIR)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "directory holding the archived reference inputs "
+            "(train_data.csv, ci_model_weights.pth, stable_solutions.csv, "
+            "traj_attractors.pkl)"
+        ),
+    )
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--device", default="auto")
     parser.add_argument("--batch-points", type=_batch_points, default="auto")
@@ -2439,7 +2450,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.projection_min_box_side_frac < 0:
         raise ValueError("--projection-min-box-side-frac must be nonnegative")
     stages = _parse_stages(args.stages)
-    inputs = verify_exact_inputs(args.archive_dir)
+    inputs = verify_exact_inputs(args.reference_root)
     args.output_root.mkdir(parents=True, exist_ok=True)
     _write_json(args.output_root / "input_provenance.json", inputs.provenance())
     print(

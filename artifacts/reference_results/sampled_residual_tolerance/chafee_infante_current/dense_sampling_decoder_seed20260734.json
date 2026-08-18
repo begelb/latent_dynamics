@@ -1,0 +1,472 @@
+{
+  "example": "chafee_infante_current",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "interpretation": "Both quantities are dense sampled estimates. R_hat < tau_hat means that no sampled violation was found, not that the uniform theorem hypothesis was proved.",
+  "sampling_protocol": {
+    "stored_transitions": [
+      "replay_sources/chafee_infante/data/train.csv"
+    ],
+    "fresh_trajectories": {
+      "initial_conditions": 0,
+      "steps_per_initial_condition": 0,
+      "candidate_transitions": 0,
+      "seed_base": 20260734,
+      "elapsed_seconds": 0.0
+    },
+    "decoder_guided_preimages": {
+      "target_latent_points_per_node": 2048,
+      "noise_scales": [
+        0.0,
+        0.0001,
+        0.001,
+        0.01,
+        0.05
+      ],
+      "candidate_states": 20610,
+      "states_in_system_domain": 20610,
+      "seed": 20260834,
+      "per_node": {
+        "0": {
+          "latent_samples": 2061,
+          "latent_sampling": {
+            "target_points": 2048,
+            "actual_points": 2061,
+            "deterministic_points": 45,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 112,
+            "sobol_generation_power": 7,
+            "sobol_generated_then_truncated_per_scramble": 128
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        },
+        "1": {
+          "latent_samples": 2061,
+          "latent_sampling": {
+            "target_points": 2048,
+            "actual_points": 2061,
+            "deterministic_points": 45,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 112,
+            "sobol_generation_power": 7,
+            "sobol_generated_then_truncated_per_scramble": 128
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        }
+      },
+      "elapsed_seconds": 203.3244469165802
+    },
+    "coral_fixed_point_clouds": null
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 9,
+      "tolerance": {
+        "sampled_minimum": 0.039529092609882355,
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.039529092609882355,
+          "input": [
+            -2.5971865579485893,
+            -0.2821005694568157
+          ],
+          "image": [
+            -2.6367156505584717,
+            -0.2335389107465744
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.034375157207250595,
+        "squared_value_diagnostic": 0.0011816514330231925,
+        "accepted_samples": 12559,
+        "evaluated_samples": 50610,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9128,
+            "max_euclidean_residual": 0.03266727924346924,
+            "max_squared_residual_diagnostic": 0.0010671511331707961
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029794607311487198,
+            "max_squared_residual_diagnostic": 0.0008877186248457264
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 868,
+            "max_euclidean_residual": 0.029783781617879868,
+            "max_squared_residual_diagnostic": 0.0008870736474615587
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 861,
+            "max_euclidean_residual": 0.030606532469391823,
+            "max_squared_residual_diagnostic": 0.0009367598297999359
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 745,
+            "max_euclidean_residual": 0.034375157207250595,
+            "max_squared_residual_diagnostic": 0.0011816514330231925
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 87,
+            "max_euclidean_residual": 0.03434081748127937,
+            "max_squared_residual_diagnostic": 0.001179291745282543
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          }
+        },
+        "witness": {
+          "source": "decoder_guided_node_0_noise_0.01",
+          "row_index_zero_based": 5392,
+          "x_raw": [
+            1.2952753200155553,
+            0.0327137108001002,
+            0.35084002377971596,
+            -0.02166363381292058,
+            0.14589887068084342,
+            -0.02066978786228854,
+            0.0567637267327139,
+            -0.0036660350442338234,
+            0.021883480412158374,
+            -0.0007326989742735103,
+            0.013475893998170934,
+            -0.0009171507266444004,
+            -0.0005499674739154565,
+            0.0022518866399143314,
+            0.0005081672802344398,
+            0.0011061687402956673,
+            0.0006709252558050237,
+            -0.00026496179716330675,
+            0.00010523491480129906,
+            -0.0001497036597754012,
+            -9.079985952496971e-05,
+            -5.5072898699494316e-05,
+            -3.340340158049132e-05,
+            -2.026018719726142e-05,
+            1.228842470665642e-05,
+            7.453306344157342e-06,
+            4.5206588139621085e-06,
+            2.741918172768169e-06,
+            1.6630574382071358e-06,
+            -1.008695325135776e-06,
+            6.118046410036516e-07,
+            -3.7107827252319567e-07,
+            2.2507034943851823e-07,
+            1.365120675266974e-07,
+            8.279875437570334e-08,
+            -5.021998311487964e-08,
+            -3.045995948942526e-08,
+            1.847489932394119e-08,
+            -1.1205592875074536e-08,
+            -6.796535638990142e-09,
+            -4.122307244877116e-09,
+            2.500305732773485e-09,
+            -1.5165120855823813e-09,
+            9.198110757304633e-10,
+            -5.578936185737849e-10,
+            3.383795845230261e-10,
+            2.052375926340378e-10,
+            -1.2448289245815565e-10,
+            -7.550269088558195e-11,
+            -4.579469691291106e-11,
+            2.7775887729928042e-11,
+            -1.6846927508937294e-11,
+            -1.021817805612665e-11,
+            6.197638277443651e-12,
+            -3.7590576330781665e-12,
+            -2.2799837060887107e-12,
+            1.3828800213880406e-12,
+            -8.387591316759089e-13,
+            -5.087331294753846e-13,
+            -3.0856224063837755e-13,
+            -1.871524593768035e-13,
+            -1.1351370465265445e-13,
+            6.884954216939954e-14,
+            4.175935823291867e-14
+          ],
+          "E_x": [
+            -2.7037432193756104,
+            -0.1993810087442398
+          ],
+          "g_E_x": [
+            -2.645331859588623,
+            -0.22713354229927063
+          ],
+          "E_f_x": [
+            -2.610992193222046,
+            -0.22557193040847778
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 0.8696166528916663,
+        "sampled_conclusion": "no_sampled_violation_found"
+      }
+    },
+    "1": {
+      "n_boxes": 9,
+      "tolerance": {
+        "sampled_minimum": 0.04251862317323685,
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.04251862317323685,
+          "input": [
+            2.4103321954607964,
+            0.06177177652716637
+          ],
+          "image": [
+            2.452850818634033,
+            0.012614111416041851
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.016002139076590538,
+        "squared_value_diagnostic": 0.0002560684550265459,
+        "accepted_samples": 16564,
+        "evaluated_samples": 50610,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9847,
+            "max_euclidean_residual": 0.01339709758758545,
+            "max_squared_residual_diagnostic": 0.00017948222377128786
+          },
+          "decoder_guided_node_0_noise_0": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014790506102144718,
+            "max_squared_residual_diagnostic": 0.00021875907075758014
+          },
+          "decoder_guided_node_1_noise_0.0001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014742895029485226,
+            "max_squared_residual_diagnostic": 0.00021735295385042017
+          },
+          "decoder_guided_node_1_noise_0.001": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1859,
+            "max_euclidean_residual": 0.01499482337385416,
+            "max_squared_residual_diagnostic": 0.00022484472801308306
+          },
+          "decoder_guided_node_1_noise_0.01": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1041,
+            "max_euclidean_residual": 0.016002139076590538,
+            "max_squared_residual_diagnostic": 0.0002560684550265459
+          },
+          "decoder_guided_node_1_noise_0.05": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 75,
+            "max_euclidean_residual": 0.015507114119827747,
+            "max_squared_residual_diagnostic": 0.0002404705883253611
+          }
+        },
+        "witness": {
+          "source": "decoder_guided_node_1_noise_0.01",
+          "row_index_zero_based": 5068,
+          "x_raw": [
+            -1.274893406046258,
+            -0.0454348080742204,
+            -0.3441187409523673,
+            0.038334313157332336,
+            -0.136073665168098,
+            0.01438177291136607,
+            -0.05878038061835883,
+            0.004193259318438082,
+            -0.01798779945312808,
+            -0.0023801937797058026,
+            -0.013475893998170934,
+            0.000186421713610996,
+            0.0005688375751640891,
+            -0.001866287037177553,
+            -0.0006418710315668533,
+            -0.0011061687402956673,
+            -0.0006709252558050237,
+            -0.00022986065309764413,
+            0.0002468196081733591,
+            0.0001497036597754012,
+            9.079985952496971e-05,
+            -5.5072898699494316e-05,
+            -3.340340158049132e-05,
+            2.026018719726142e-05,
+            -1.228842470665642e-05,
+            -7.453306344157342e-06,
+            -4.5206588139621085e-06,
+            -2.741918172768169e-06,
+            -1.6630574382071358e-06,
+            1.008695325135776e-06,
+            -6.118046410036516e-07,
+            3.7107827252319567e-07,
+            -2.2507034943851823e-07,
+            -1.365120675266974e-07,
+            -8.279875437570334e-08,
+            5.021998311487964e-08,
+            3.045995948942526e-08,
+            -1.847489932394119e-08,
+            1.1205592875074536e-08,
+            6.796535638990142e-09,
+            4.122307244877116e-09,
+            -2.500305732773485e-09,
+            1.5165120855823813e-09,
+            9.198110757304633e-10,
+            5.578936185737849e-10,
+            -3.383795845230261e-10,
+            -2.052375926340378e-10,
+            1.2448289245815565e-10,
+            7.550269088558195e-11,
+            4.579469691291106e-11,
+            -2.7775887729928042e-11,
+            1.6846927508937294e-11,
+            1.021817805612665e-11,
+            -6.197638277443651e-12,
+            3.7590576330781665e-12,
+            2.2799837060887107e-12,
+            -1.3828800213880406e-12,
+            8.387591316759089e-13,
+            5.087331294753846e-13,
+            3.0856224063837755e-13,
+            1.871524593768035e-13,
+            1.1351370465265445e-13,
+            -6.884954216939954e-14,
+            -4.175935823291867e-14
+          ],
+          "E_x": [
+            2.516733169555664,
+            -0.040128644555807114
+          ],
+          "g_E_x": [
+            2.4630746841430664,
+            0.004453130066394806
+          ],
+          "E_f_x": [
+            2.447139024734497,
+            0.005910266190767288
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 0.37635600314224216,
+        "sampled_conclusion": "no_sampled_violation_found"
+      }
+    }
+  }
+}

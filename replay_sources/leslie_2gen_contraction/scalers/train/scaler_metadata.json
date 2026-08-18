@@ -1,8 +1,0 @@
-{
-  "created_at_utc": "2026-05-26T23:48:03.489631+00:00",
-  "train_file": "train",
-  "train_csv": "data/leslie_contraction/train.csv",
-  "train_csv_sha256": "367eab0de3060ea50a6f43c7d97c2938c778df29b927c84a68fe19ae6e20954f",
-  "scaling": "minmax",
-  "high_dims": 10
-}

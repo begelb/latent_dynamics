@@ -1,0 +1,239 @@
+{
+  "version": 1,
+  "release_url_base": "PENDING",
+  "default_redistribution_license": "MIT",
+  "artifacts": {
+    "leslie_2gen_contraction": {
+      "filename": "replay_leslie_2gen_contraction.tar.gz",
+      "sha256": "6118bb90d7d707f0fc6db3f85f5360d1b7a48faeb937afacfa150223ae4eb634",
+      "size_bytes": 16135287,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/replay_sources/leslie_2gen_contraction (code repo @ 1e1c6d5)",
+            "code/data/leslie_2gen_contraction (code repo @ 1e1c6d5)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Extended 2D-in-10D Leslie family (leslie_2gen_contraction): latent Morse graph, Morse sets, regions of attraction, replay model + scaler, training data pairs.",
+        "notes": [
+          "Excluded MG/morse_sets_overlay_{A_only1,B_1_2_3,C_1_3}.{pdf,png} (6 deck styling variants) and .DS_Store.",
+          "data_pairs/ holds code/data/leslie_2gen_contraction/{train,val}.csv plus their {train,val}_metadata.json (trajectories.png quicklook not shipped).",
+          "models/ is the native new-format state_dict checkpoint (no migration needed); verified loading via the public load_checkpoint (artifacts/provenance/MIGRATION_RECORD.json, new_format_verified)."
+        ]
+      }
+    },
+    "leslie3d_example1": {
+      "filename": "replay_leslie3d_example1.tar.gz",
+      "sha256": "74f033fedf9e55395953c296c43cc44103be66c1a13f41ebeef9fc449e5fc2b3",
+      "size_bytes": 19732676,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/replay_sources/leslie3d_example1 (code repo @ 1e1c6d5)",
+            "code/data/leslie3d_example1 (code repo @ 1e1c6d5)",
+            "output/leslie3d_spurious_attractor_fixed22_vs_adaptive (workspace output tree, uncommitted)",
+            "output/leslie3d_spurious_attractor_coarsened_45 (workspace output tree, uncommitted)",
+            "output/leslie3d_spurious_attractor_fixed22 (workspace output tree, uncommitted)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "3D Leslie family (leslie3d_example1 / spurious-attractor example): replay run, migrated checkpoint, training data pairs, and the fixed-depth-22 vs adaptive / coarsened-4-5 spurious-attractor studies.",
+        "notes": [
+          "Excluded superseded-run artifacts spurious_attractor_ex/MG/{morse_graph2,morse_graph2.pdf,morse_graph2.png,morse_sets2,morse_graph_new_colors.pdf}; additionally excluded morse_sets2.{pdf,png} (renders of the same superseded run; extension of the mandated list).",
+          "Excluded all .DS_Store.",
+          "study/fixed22_vs_adaptive/ excludes scripts/, provenance/, every README.md, and .DS_Store (author names / private paths; public equivalents live in the repo's artifacts/reference_results); additionally excludes SHA256SUMS and bundle_manifest.json, which reference the author-named script files and archive paths (SHA256SUMS would also be stale after those exclusions).",
+          "Provenance text in 14 study files (REPORT.md, result.json, residual_tolerance/*.json) uses neutral wording in place of author names, placeholder strings in place of private absolute paths ('CMGDB (project fork)'), and cites scripts/leslie3d_example1_uniform_sampled_metrics.py as the public driver; every measured value, sha256 field, seed and count is unchanged from the source computation.",
+          "spurious_attractor_ex/models legacy pickled triplet (encoder.pt/dynamics.pt/decoder.pt) replaced by the migrated state_dict checkpoint; original legacy sha256s recorded under migrated_checkpoint.",
+          "spurious_attractor_ex/run_manifest.json carries a neutral experiment_name."
+        ],
+        "migrated_checkpoint": {
+          "replaced_dir": "leslie3d_example1/spurious_attractor_ex/models/",
+          "original_legacy_files_sha256": {
+            "encoder.pt": "211f84456707afb254da1cfa05defa41137f90813f624af420722954763d1f4c",
+            "dynamics.pt": "5d175395081ba8983ac863841fac83e9eab26e82de31121be572a2575b8ed955",
+            "decoder.pt": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2"
+          },
+          "shipped_files_sha256": {
+            "autoencoder.pt": "d3d438567d0afd57eb060469c57ae53efb7d9bb73ea445723e00850ca86be426",
+            "autoencoder.json": "dc0bc61564191ac41074f082cbe61e1ec7f51ef802bf831b90f8853d7b5fba62"
+          },
+          "equivalence": "weights copied bitwise from the legacy pickled modules; encoder/dynamics/decoder outputs bitwise-equal on the migration test batch; loads via the public load_checkpoint with weights_only=True (see artifacts/provenance/MIGRATION_RECORD.json)"
+        }
+      }
+    },
+    "chafee_infante": {
+      "filename": "replay_chafee_infante.tar.gz",
+      "sha256": "db2db555282f6947e044ea64b0d45081caa3728c4cfcc87406da1ae13d9e58c9",
+      "size_bytes": 88094304,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": [
+          "chafee_infante/runs45/chafee_d3_matched_d2_archive_5x3_ondemand_v2/controller_runs/*.stderr.log"
+        ]
+      },
+      "duplicates": {
+        "data/test.csv": "byte-identical mirror of data/train.csv, omitted"
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/replay_sources/chafee_infante (code repo @ 1e1c6d5)",
+            "code/output/chafee_latent_dimension_study (code repo workspace output)",
+            "code/paper_figures/coarsened/chafee_infante + code/paper_figures/standardized/chafee_infante/{exact_paper_recolors,latent_3d_level_palette} (code repo @ 1e1c6d5)",
+            "code/output/{chafee_d1_matched_d2_archive_5x3_roa_v1, chafee_d2_archive_5x3_roa_v1, chafee_d3_matched_d2_archive_5x3_training_v1, chafee_d3_matched_d2_archive_5x3_ondemand_v2} (code repo workspace output)",
+            "output/csv (workspace output tree, uncommitted)",
+            "the coauthor reference archive (workspace tree, uncommitted; shipped under reference_inputs/)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Chafee-Infante family: replay run, training data, 10k-horizon continuation statistics, latent-dimension study (1D/3D), coarsened + standardized paper figure masters, the 45-run classification statistics, the four 5x3 run trees behind them, and the coauthor reference inputs (weights, stable solutions, Morse graph/sets PDFs).",
+        "notes": [
+          "data/test.csv omitted: verified byte-identical to data/train.csv (sha256 55722ac9d41baf5fdc6858fd5186a01cc7ac62cd9261f8babb4518ae27916891 for both); see the duplicates field.",
+          "Provenance strings in six files (replay/run_manifest.json, replay/pipeline_summary.json, continuation_10000/run_config.json, continuation_10000/run_continuation.py, latent_dimension_study/input_provenance.json, latent_dimension_study/residual_audit.json) use neutral replay/reference locations, '<repo-root>' in place of an absolute project root, and 'reference implementation/computation' wording; every measured value, sha256 field, seed and count is unchanged from the source computation. Two archived .py sources referenced by run_continuation.py's provenance block (autoencoder_model.py, generate_attractor_basin_data.py) are not shipped (no archive .py policy); their recorded hashes remain in the script.",
+          "latent_dimension_study/latent_3d/seed_0 excludes precomputed_level24_to33/ (920 MB precomputed grid cache); latent_1d/seed_0 is complete (incl. precomputed_level8_to11).",
+          "latent_dimension_study/latent_1d/seed_0_epoch_10000/ included complete (2.0 MB): the d=1 5x3 driver's analysis stage sha-pins its basin_statistics.json as the canonical 10k-epoch reference; without it the d=1 statistics regeneration path cannot run.",
+          "The archived singleton-reachability member ships as reference_singleton_reachability_queries.npz in every occurrence. Public consumers prefer this neutral basename and retain a legacy-alias fallback for private archives.",
+          "runs45/chafee_d3_matched_d2_archive_5x3_ondemand_v2 contains exactly 11 zero-byte controller stderr logs under controller_runs/invocation_0001/ (empty stderr of successful training invocations; each cell has .stdout.log/.stderr.log/.process_result.json). They are placeholder logs required by the run layout and are allowlisted in members.zero_byte_ok.",
+          "statistics/ci_completed_10k_raw_classifications_45_runs.csv sha256 verified: 51ac54913cc5dad768d8f1fc4879b5c9d2a750f937a202fc5692c65f7d8baa9d.",
+          "reference_inputs/: from the coauthor reference archive: top-level {train_data.csv (sha256 verified 890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329), ci_model_weights.pth, stable_solutions.csv, traj_attractors.pkl, ci_morse_graph.pdf, ci_morse_sets.pdf, Readme.txt} and computations/run_dataset_{1..5} {ci_model_weights_{1..3}.pth, ci_morse_graph_{1..3}.pdf, ci_morse_sets_{1..3}.pdf, Readme.txt}. No archived .py files are shipped; the large per-dataset train_data.csv files ship separately in the optional chafee_training_datasets bundle.",
+          "replay/models is the native new-format checkpoint (verified via the public load_checkpoint; artifacts/provenance/MIGRATION_RECORD.json, new_format_verified).",
+          "Provenance strings in 369 further text members (runs45 run/launch/artifact manifests, summaries, results, controller files; latent_dimension_study run metadata; coarsened/figure_masters manifests) use placeholder path prefixes (<repo>/, <workspace>/, <private>/), reference_inputs/ paths in place of external-archive paths, neutral reference_* identifier keys, and neutral prose. A small set of historical training/comparison identifiers remains inside archived machine records and is read via documented aliases.",
+          "Two archive members ship under neutral basenames: reference_singleton_reachability_queries.npz (byte content unchanged; consumers try the reference_ basename first) and runs45/.../source_snapshot/references/reference_archived.txt (content references rewritten; no public-code consumer).",
+          "Excluded: one ~28-file alternate latent-dimension-study coarsening directory; no public script or source module consumes it and it is not used in the paper.",
+          "scripts/analyze_chafee_d1_full_batch_sweep.py pins CANONICAL_10K_STATS_SHA256 = 6c1dc4d8... (covers latent_1d/seed_0_epoch_10000/basin_statistics.json and its five byte-identical source_snapshot/references/full_batch_10000.json copies)."
+        ]
+      }
+    },
+    "coral": {
+      "filename": "replay_coral.tar.gz",
+      "sha256": "d4443ad65c9280d585a756490a6fb9ae25020540e601337a23891986437fea2e",
+      "size_bytes": 17438366,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/replay_sources/coral (code repo @ 1e1c6d5; subtrees train_500/seed_16, data/coral/{train_500.csv,train_500_metadata.json,test.csv}, data/scalers/train_500, README.txt)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Red coral family: the featured train_500/seed_16 replay cell (Section 5.4 1D Morse set plot and Morse graph), its training/test data and scaler.",
+        "notes": [
+          "All other coral trees (train_100/train_200/.../train_5000, adaptive variants, histograms) excluded: they contain hundreds of zero-byte placeholder files.",
+          "Excluded five zero-byte files inside train_500/seed_16: logs/{train_losses,test_losses}.pkl (legitimately empty logs) and MG/{morse_graph.pdf,morse_graph.png,morse_sets2.png} (zero-byte placeholder renders). MG/morse_graph (DOT, 348 B) and MG/morse_sets (423 B) are the real artifacts. zero_byte_ok allowlist intentionally empty.",
+          "README.txt is included.",
+          "train_500/seed_16/models legacy pickled triplet replaced by the migrated state_dict checkpoint; original legacy sha256s recorded under migrated_checkpoint."
+        ],
+        "migrated_checkpoint": {
+          "replaced_dir": "coral/train_500/seed_16/models/",
+          "original_legacy_files_sha256": {
+            "encoder.pt": "2efd30f0a6870ce4233ea223b3a41b96cab393e938d61e0e1060885675953a7f",
+            "dynamics.pt": "31993b94702ff18619b73d343cab37ba73fb0a2d3a322ff91611a1474c2072ea",
+            "decoder.pt": "d971d8f0c8b5570c242a09dab21648a7b4ed493a3b414e749904aaf0c3985ed7"
+          },
+          "shipped_files_sha256": {
+            "autoencoder.pt": "2bd55cb925fce0bb6f245b50eeec40c73127ea9ec99ecd5ba2842a8d5b4ed731",
+            "autoencoder.json": "176a2f7a5f367030ad6afa59289be5aa26237d82c0e93b3dd3aa047d2aed8d19"
+          },
+          "equivalence": "weights copied bitwise from the legacy pickled modules; encoder/dynamics/decoder outputs bitwise-equal on the migration test batch; loads via the public load_checkpoint with weights_only=True (see artifacts/provenance/MIGRATION_RECORD.json)"
+        }
+      }
+    },
+    "original_leslie_2d_reference": {
+      "filename": "replay_original_leslie_2d_reference.tar.gz",
+      "sha256": "5c3923393b5fb1bf9f48720ef7bff293d34867e0beabb299814e9d489879c709",
+      "size_bytes": 13958693,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/output/original_leslie/leslie_2d_exact_restriction_s26_30_40_on_demand (code repo workspace output)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Reference computations: exact 2D Leslie restriction of the 10D map (on-demand, subdiv 26/30/40) - ground-truth Morse graph/sets the extended 2D-in-10D Leslie latent results are compared against.",
+        "notes": [
+          "Included: MG/{morse_graph,morse_sets}, paper_full/ (complete, incl. manifest.json), top-level manifest.json.",
+          "run_s26_30_40_on_demand.log (outside this run directory, in its parent output tree) inspected and EXCLUDED: contains private absolute local paths (local CMGDB checkout).",
+          "Top-level rendered morse_graph/morse_sets pdf+png and paper_filtered/ are not part of the specified reference set; omitted.",
+          "manifest.json and paper_full/manifest.json use placeholder strings in place of private absolute path prefixes."
+        ]
+      }
+    },
+    "original_leslie3d_reference": {
+      "filename": "replay_original_leslie3d_reference.tar.gz",
+      "sha256": "ea26f90b2ed093bf3bf09841975f297aefa8fe869ad7af74d70054a724513af9",
+      "size_bytes": 13509237,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "code/output/original_leslie/ground_truth/absorbing_B_i29_m33_M36_L10000 (code repo workspace output; screen/ + saved_set_conley/ only)",
+            "code/output/original_leslie/ground_truth/absorbing_B_uniform_level33_recurrent_closure (code repo workspace output; complete)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Reference computations: 3D Leslie ground truth on the absorbing box (screen run incl. 158 MB Morse sets, per-node saved-set Conley data, and the uniform level-33 recurrent-closure reachability analysis).",
+        "notes": [
+          "absorbing_B_i29_m33_M36_L10000: included screen/ (complete) and saved_set_conley/; EXCLUDED conley/ (154 MB independent re-run) and conley_interrupted_before_restart_2026-07-25/; paper_figure/ and paper_figure_with_zero_index/ are not part of the specified reference set and are omitted.",
+          "absorbing_B_uniform_level33_recurrent_closure included complete.",
+          "Nine text members (screen/{manifest,run_config,ground_truth_validation.json/.txt}, saved_set_conley/{run_config,summary.json/.txt}, uniform_level33 manifests) use placeholder strings in place of private absolute path prefixes."
+        ]
+      }
+    },
+    "chafee_training_datasets": {
+      "filename": "replay_chafee_training_datasets.tar.gz",
+      "sha256": "4f097c2f37ecd198696b22a2e6f185bc9ece137dbd38dfe3a678f82535a8405d",
+      "size_bytes": 110386630,
+      "extract_to": "replay_sources/",
+      "redistribution_license": "MIT",
+      "members": {
+        "zero_byte_ok": []
+      },
+      "optional": true,
+      "provenance": {
+        "source": {
+          "code_repo_commit": "1e1c6d5616e77c3ce0239caf34d83470d45dc22e",
+          "trees": [
+            "the coauthor reference archive (workspace tree, uncommitted; per-dataset training CSVs, shipped only in this bundle)"
+          ],
+          "export_date": "2026-08-17"
+        },
+        "paper_items": "Optional retraining data: the five per-dataset Chafee-Infante train_data.csv files (~490 MB raw) needed only to re-run the 45-run training study from scratch.",
+        "notes": [
+          "OPTIONAL bundle: not required by any replay notebook; fetch only for full retraining.",
+          "Layout run_dataset_N/train_data.csv, N = 1..5; per-member sha256 listing published alongside the release assets (chafee_training_datasets.sha256)."
+        ]
+      }
+    }
+  }
+}

@@ -46,6 +46,9 @@ data:
   val_seed: 9999
   train_files: null
 
+# The production d=2 computation (paper tab:cmgdb) used subdivisions
+# (14, 16, 22) with data-derived bounds plus 10 percent per-axis padding,
+# matching this block.
 cmgdb:
   subdiv_init: 14
   subdiv_min: 16

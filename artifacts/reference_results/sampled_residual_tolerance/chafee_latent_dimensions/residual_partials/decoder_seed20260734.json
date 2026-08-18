@@ -1,0 +1,688 @@
+{
+  "kind": "domain_clipped_decoder_search",
+  "metadata": {
+    "seed": 20260734,
+    "noise_seed": 20260834,
+    "target_latent_points_per_node": 2048,
+    "noise_scales": [
+      0.0,
+      0.0001,
+      0.001,
+      0.01,
+      0.05
+    ],
+    "candidate_states_by_dimension": {
+      "1": 20505,
+      "3": 20655
+    },
+    "per_dimension_node_sampling": {
+      "1": {
+        "0": {
+          "target_points": 2048,
+          "actual_points": 2052,
+          "deterministic_points": 12,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 255,
+          "sobol_generation_power": 8,
+          "sobol_generated_then_truncated_per_scramble": 256
+        },
+        "1": {
+          "target_points": 2048,
+          "actual_points": 2049,
+          "deterministic_points": 9,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 340,
+          "sobol_generation_power": 9,
+          "sobol_generated_then_truncated_per_scramble": 512
+        }
+      },
+      "3": {
+        "0": {
+          "target_points": 2048,
+          "actual_points": 2052,
+          "deterministic_points": 324,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 24,
+          "sobol_generation_power": 5,
+          "sobol_generated_then_truncated_per_scramble": 32
+        },
+        "1": {
+          "target_points": 2048,
+          "actual_points": 2079,
+          "deterministic_points": 243,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 34,
+          "sobol_generation_power": 6,
+          "sobol_generated_then_truncated_per_scramble": 64
+        }
+      }
+    },
+    "elapsed_seconds": 465.07560300827026
+  },
+  "dimensions": {
+    "1": {
+      "nodes": {
+        "0": {
+          "evaluated_samples": 20505,
+          "accepted_samples": 8462,
+          "max_euclidean_residual": 0.013051509857177734,
+          "max_squared_residual_diagnostic": 0.00017034190955200756,
+          "witness": {
+            "source": "decoder_guided_dim_1_node_0_noise_0.05_seed_20260734",
+            "row_index_zero_based": 1752,
+            "x_raw": [
+              -1.3952116753836972,
+              0.07471938668612899,
+              -0.31380770716631434,
+              -0.01293179100415904,
+              -0.15091350417142246,
+              -0.03525947303278961,
+              -0.06212491595239665,
+              -0.008289589419227908,
+              -0.023784485961981162,
+              0.0008646559331874234,
+              -0.011796034464514086,
+              -0.001701384297644229,
+              -0.004349394948662431,
+              -0.0005016899515887639,
+              -0.0018237639311090325,
+              0.0005821384116309319,
+              -0.0006709252558050237,
+              0.00028131831707171396,
+              -0.000131802619580386,
+              0.0001497036597754012,
+              -9.079985952496971e-05,
+              -5.5072898699494316e-05,
+              3.340340158049132e-05,
+              2.026018719726142e-05,
+              1.228842470665642e-05,
+              -7.453306344157342e-06,
+              4.5206588139621085e-06,
+              2.741918172768169e-06,
+              1.6630574382071358e-06,
+              -1.008695325135776e-06,
+              6.118046410036516e-07,
+              -3.7107827252319567e-07,
+              2.2507034943851823e-07,
+              -1.365120675266974e-07,
+              -8.279875437570334e-08,
+              -5.021998311487964e-08,
+              3.045995948942526e-08,
+              1.847489932394119e-08,
+              -1.1205592875074536e-08,
+              6.796535638990142e-09,
+              -4.122307244877116e-09,
+              2.500305732773485e-09,
+              1.5165120855823813e-09,
+              -9.198110757304633e-10,
+              5.578936185737849e-10,
+              -3.383795845230261e-10,
+              -2.052375926340378e-10,
+              -1.2448289245815565e-10,
+              7.550269088558195e-11,
+              4.579469691291106e-11,
+              -2.7775887729928042e-11,
+              1.6846927508937294e-11,
+              -1.021817805612665e-11,
+              -6.197638277443651e-12,
+              -3.7590576330781665e-12,
+              2.2799837060887107e-12,
+              1.3828800213880406e-12,
+              -8.387591316759089e-13,
+              -5.087331294753846e-13,
+              -3.0856224063837755e-13,
+              -1.871524593768035e-13,
+              1.1351370465265445e-13,
+              6.884954216939954e-14,
+              -4.175935823291867e-14
+            ],
+            "E_x": [
+              -5.230447292327881
+            ],
+            "g_E_x": [
+              -5.337591171264648
+            ],
+            "E_f_x": [
+              -5.350642681121826
+            ]
+          },
+          "source_summaries": {
+            "decoder_guided_dim_1_node_0_noise_0_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 2052,
+              "max_euclidean_residual": 0.006646633148193359,
+              "max_squared_residual_diagnostic": 4.417773220666277e-05
+            },
+            "decoder_guided_dim_1_node_0_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 2052,
+              "max_euclidean_residual": 0.006702899932861328,
+              "max_squared_residual_diagnostic": 4.49288675099524e-05
+            },
+            "decoder_guided_dim_1_node_0_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 2052,
+              "max_euclidean_residual": 0.007806301116943359,
+              "max_squared_residual_diagnostic": 6.093833712839114e-05
+            },
+            "decoder_guided_dim_1_node_0_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 1737,
+              "max_euclidean_residual": 0.011652469635009766,
+              "max_squared_residual_diagnostic": 0.00013578004859482462
+            },
+            "decoder_guided_dim_1_node_0_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 569,
+              "max_euclidean_residual": 0.013051509857177734,
+              "max_squared_residual_diagnostic": 0.00017034190955200756
+            },
+            "decoder_guided_dim_1_node_1_noise_0_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_1_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_1_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_1_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_1_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            }
+          }
+        },
+        "1": {
+          "evaluated_samples": 20505,
+          "accepted_samples": 8316,
+          "max_euclidean_residual": 0.018399715423583984,
+          "max_squared_residual_diagnostic": 0.00033854952766887436,
+          "witness": {
+            "source": "decoder_guided_dim_1_node_1_noise_0.05_seed_20260734",
+            "row_index_zero_based": 1201,
+            "x_raw": [
+              0.9084793957446451,
+              0.04410156131113304,
+              0.24340596504044737,
+              0.050427249153925886,
+              0.1428068891800501,
+              -0.062489784256095984,
+              0.058177278108170145,
+              0.0017993692887656844,
+              0.024936948955757342,
+              -0.00017837713802244847,
+              0.009066832158661867,
+              0.0024688464017484013,
+              0.004178736535715989,
+              0.00030151168027673644,
+              0.0018237639311090325,
+              -0.00019168959226748935,
+              0.0006709252558050237,
+              -0.00023176374544089582,
+              0.0002468196081733591,
+              -0.0001497036597754012,
+              9.079985952496971e-05,
+              -3.4285867816312004e-05,
+              -3.340340158049132e-05,
+              2.026018719726142e-05,
+              -1.228842470665642e-05,
+              7.453306344157342e-06,
+              -4.5206588139621085e-06,
+              -2.741918172768169e-06,
+              1.6630574382071358e-06,
+              1.008695325135776e-06,
+              -6.118046410036516e-07,
+              3.7107827252319567e-07,
+              2.2507034943851823e-07,
+              1.365120675266974e-07,
+              8.279875437570334e-08,
+              5.021998311487964e-08,
+              -3.045995948942526e-08,
+              -1.847489932394119e-08,
+              1.1205592875074536e-08,
+              -6.796535638990142e-09,
+              4.122307244877116e-09,
+              -2.500305732773485e-09,
+              -1.5165120855823813e-09,
+              9.198110757304633e-10,
+              -5.578936185737849e-10,
+              3.383795845230261e-10,
+              -2.052375926340378e-10,
+              1.2448289245815565e-10,
+              -7.550269088558195e-11,
+              -4.579469691291106e-11,
+              2.7775887729928042e-11,
+              -1.6846927508937294e-11,
+              1.021817805612665e-11,
+              6.197638277443651e-12,
+              -3.7590576330781665e-12,
+              -2.2799837060887107e-12,
+              1.3828800213880406e-12,
+              8.387591316759089e-13,
+              5.087331294753846e-13,
+              3.0856224063837755e-13,
+              1.871524593768035e-13,
+              -1.1351370465265445e-13,
+              -6.884954216939954e-14,
+              4.175935823291867e-14
+            ],
+            "E_x": [
+              5.346743106842041
+            ],
+            "g_E_x": [
+              5.262451171875
+            ],
+            "E_f_x": [
+              5.244051456451416
+            ]
+          },
+          "source_summaries": {
+            "decoder_guided_dim_1_node_0_noise_0_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_0_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_0_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_0_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_0_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_1_node_1_noise_0_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 2049,
+              "max_euclidean_residual": 0.012065410614013672,
+              "max_squared_residual_diagnostic": 0.00014557413328475377
+            },
+            "decoder_guided_dim_1_node_1_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 2049,
+              "max_euclidean_residual": 0.012127399444580078,
+              "max_squared_residual_diagnostic": 0.0001470738172884012
+            },
+            "decoder_guided_dim_1_node_1_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 2049,
+              "max_euclidean_residual": 0.013713359832763672,
+              "max_squared_residual_diagnostic": 0.00018805623790285608
+            },
+            "decoder_guided_dim_1_node_1_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 1678,
+              "max_euclidean_residual": 0.015247344970703125,
+              "max_squared_residual_diagnostic": 0.00023248152865562588
+            },
+            "decoder_guided_dim_1_node_1_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2049,
+              "accepted_samples": 491,
+              "max_euclidean_residual": 0.018399715423583984,
+              "max_squared_residual_diagnostic": 0.00033854952766887436
+            }
+          }
+        }
+      }
+    },
+    "3": {
+      "nodes": {
+        "0": {
+          "evaluated_samples": 20655,
+          "accepted_samples": 5293,
+          "max_euclidean_residual": 0.004291612189263105,
+          "max_squared_residual_diagnostic": 1.8417935183031664e-05,
+          "witness": {
+            "source": "decoder_guided_dim_3_node_0_noise_0.01_seed_20260734",
+            "row_index_zero_based": 1338,
+            "x_raw": [
+              -1.274694426024722,
+              -0.025321673397030446,
+              -0.3256820375940008,
+              -0.006222598967696677,
+              -0.14255048881982071,
+              0.0008545254321915842,
+              -0.05513113506596114,
+              -0.0005019405586724913,
+              -0.02313879473107675,
+              0.00033721244472179035,
+              -0.0104998155312647,
+              4.742261255759114e-05,
+              -0.004573014845735452,
+              -0.00029508382214601595,
+              -0.0018237639311090325,
+              2.5486293973196656e-05,
+              -0.0006709252558050237,
+              -1.2938924640423952e-05,
+              -0.0002468196081733591,
+              -1.2977168853699082e-05,
+              -6.994724368761264e-05,
+              -5.5072898699494316e-05,
+              -3.340340158049132e-05,
+              -2.026018719726142e-05,
+              9.790429592427118e-06,
+              7.453306344157342e-06,
+              4.5206588139621085e-06,
+              2.741918172768169e-06,
+              -1.6630574382071358e-06,
+              -1.008695325135776e-06,
+              -6.118046410036516e-07,
+              3.7107827252319567e-07,
+              -2.2507034943851823e-07,
+              -1.365120675266974e-07,
+              8.279875437570334e-08,
+              -5.021998311487964e-08,
+              -3.045995948942526e-08,
+              -1.847489932394119e-08,
+              -1.1205592875074536e-08,
+              6.796535638990142e-09,
+              -4.122307244877116e-09,
+              2.500305732773485e-09,
+              1.5165120855823813e-09,
+              -9.198110757304633e-10,
+              -5.578936185737849e-10,
+              3.383795845230261e-10,
+              -2.052375926340378e-10,
+              -1.2448289245815565e-10,
+              -7.550269088558195e-11,
+              4.579469691291106e-11,
+              2.7775887729928042e-11,
+              -1.6846927508937294e-11,
+              -1.021817805612665e-11,
+              -6.197638277443651e-12,
+              -3.7590576330781665e-12,
+              -2.2799837060887107e-12,
+              1.3828800213880406e-12,
+              -8.387591316759089e-13,
+              -5.087331294753846e-13,
+              3.0856224063837755e-13,
+              -1.871524593768035e-13,
+              -1.1351370465265445e-13,
+              -6.884954216939954e-14,
+              -4.175935823291867e-14
+            ],
+            "E_x": [
+              -1.3496166467666626,
+              -0.0509415939450264,
+              -1.7725168466567993
+            ],
+            "g_E_x": [
+              -1.2835501432418823,
+              -0.014537209644913673,
+              -1.7354087829589844
+            ],
+            "E_f_x": [
+              -1.286897897720337,
+              -0.01652749627828598,
+              -1.7372113466262817
+            ]
+          },
+          "source_summaries": {
+            "decoder_guided_dim_3_node_0_noise_0_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 1604,
+              "max_euclidean_residual": 0.004225696437060833,
+              "max_squared_residual_diagnostic": 1.785651037818862e-05
+            },
+            "decoder_guided_dim_3_node_0_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 1607,
+              "max_euclidean_residual": 0.004233121871948242,
+              "max_squared_residual_diagnostic": 1.791932078276659e-05
+            },
+            "decoder_guided_dim_3_node_0_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 1582,
+              "max_euclidean_residual": 0.004208292346447706,
+              "max_squared_residual_diagnostic": 1.770972447317034e-05
+            },
+            "decoder_guided_dim_3_node_0_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 489,
+              "max_euclidean_residual": 0.004291612189263105,
+              "max_squared_residual_diagnostic": 1.8417935183031664e-05
+            },
+            "decoder_guided_dim_3_node_0_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 11,
+              "max_euclidean_residual": 0.003083815798163414,
+              "max_squared_residual_diagnostic": 9.509919877002254e-06
+            },
+            "decoder_guided_dim_3_node_1_noise_0_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_1_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_1_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_1_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_1_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            }
+          }
+        },
+        "1": {
+          "evaluated_samples": 20655,
+          "accepted_samples": 5304,
+          "max_euclidean_residual": 0.004614593461155891,
+          "max_squared_residual_diagnostic": 2.129447281174271e-05,
+          "witness": {
+            "source": "decoder_guided_dim_3_node_1_noise_0.01_seed_20260734",
+            "row_index_zero_based": 1791,
+            "x_raw": [
+              1.2698014840100178,
+              0.015398454629690563,
+              0.31782180983344827,
+              -0.0016727388136372739,
+              0.13380171565308038,
+              0.002035846591770129,
+              0.052415635646617366,
+              -0.002201078190306378,
+              0.023109240923069735,
+              0.0007548035844574896,
+              0.010983335476038199,
+              -0.00039605522599310084,
+              0.004362411271586966,
+              0.00011950919881012365,
+              0.0018237639311090325,
+              5.1218857832056206e-05,
+              0.0006709252558050237,
+              -9.74879505279792e-05,
+              0.0002382662473478522,
+              0.0001497036597754012,
+              7.243143029420077e-05,
+              -8.721204648040125e-06,
+              3.340340158049132e-05,
+              -2.026018719726142e-05,
+              1.228842470665642e-05,
+              -7.453306344157342e-06,
+              4.5206588139621085e-06,
+              2.741918172768169e-06,
+              -1.6630574382071358e-06,
+              -1.008695325135776e-06,
+              -6.118046410036516e-07,
+              3.7107827252319567e-07,
+              -2.2507034943851823e-07,
+              -1.365120675266974e-07,
+              8.279875437570334e-08,
+              -5.021998311487964e-08,
+              3.045995948942526e-08,
+              1.847489932394119e-08,
+              1.1205592875074536e-08,
+              -6.796535638990142e-09,
+              4.122307244877116e-09,
+              -2.500305732773485e-09,
+              -1.5165120855823813e-09,
+              9.198110757304633e-10,
+              5.578936185737849e-10,
+              -3.383795845230261e-10,
+              -2.052375926340378e-10,
+              -1.2448289245815565e-10,
+              7.550269088558195e-11,
+              -4.579469691291106e-11,
+              2.7775887729928042e-11,
+              1.6846927508937294e-11,
+              1.021817805612665e-11,
+              6.197638277443651e-12,
+              -3.7590576330781665e-12,
+              2.2799837060887107e-12,
+              1.3828800213880406e-12,
+              -8.387591316759089e-13,
+              5.087331294753846e-13,
+              3.0856224063837755e-13,
+              1.871524593768035e-13,
+              1.1351370465265445e-13,
+              6.884954216939954e-14,
+              4.175935823291867e-14
+            ],
+            "E_x": [
+              1.2694664001464844,
+              -0.16750213503837585,
+              1.9206804037094116
+            ],
+            "g_E_x": [
+              1.2099535465240479,
+              -0.18472369015216827,
+              1.8982949256896973
+            ],
+            "E_f_x": [
+              1.2132402658462524,
+              -0.18378272652626038,
+              1.9013943672180176
+            ]
+          },
+          "source_summaries": {
+            "decoder_guided_dim_3_node_0_noise_0_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_0_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_0_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_0_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_0_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2052,
+              "accepted_samples": 0,
+              "max_euclidean_residual": null,
+              "max_squared_residual_diagnostic": null
+            },
+            "decoder_guided_dim_3_node_1_noise_0_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 1626,
+              "max_euclidean_residual": 0.004556241445243359,
+              "max_squared_residual_diagnostic": 2.075933610735329e-05
+            },
+            "decoder_guided_dim_3_node_1_noise_0.0001_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 1631,
+              "max_euclidean_residual": 0.004582120105624199,
+              "max_squared_residual_diagnostic": 2.099582466236552e-05
+            },
+            "decoder_guided_dim_3_node_1_noise_0.001_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 1600,
+              "max_euclidean_residual": 0.004587650299072266,
+              "max_squared_residual_diagnostic": 2.1046535266577848e-05
+            },
+            "decoder_guided_dim_3_node_1_noise_0.01_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 442,
+              "max_euclidean_residual": 0.004614593461155891,
+              "max_squared_residual_diagnostic": 2.129447281174271e-05
+            },
+            "decoder_guided_dim_3_node_1_noise_0.05_seed_20260734": {
+              "evaluated_samples": 2079,
+              "accepted_samples": 5,
+              "max_euclidean_residual": 0.0033459963742643595,
+              "max_squared_residual_diagnostic": 1.119569173659024e-05
+            }
+          }
+        }
+      }
+    }
+  }
+}

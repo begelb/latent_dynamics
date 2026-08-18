@@ -1,0 +1,149 @@
+{
+  "status": "complete",
+  "purpose": "verify exact fixed-22 minimal recurrent sets are forward-invariant cell blocks",
+  "checkpoint": "author-provided leslie3d_example1 replay checkpoint",
+  "subdivision": [
+    22,
+    22,
+    22
+  ],
+  "padding": true,
+  "subdivision_limit": 10000,
+  "cmgdb_module": "CMGDB (project fork)",
+  "elapsed_seconds": 22.67022879101569,
+  "morse_node_count": 24,
+  "map_cell_count": 4194304,
+  "edges": [
+    [
+      2,
+      1
+    ],
+    [
+      3,
+      2
+    ],
+    [
+      4,
+      3
+    ],
+    [
+      5,
+      4
+    ],
+    [
+      6,
+      5
+    ],
+    [
+      7,
+      6
+    ],
+    [
+      8,
+      7
+    ],
+    [
+      9,
+      0
+    ],
+    [
+      9,
+      8
+    ],
+    [
+      10,
+      1
+    ],
+    [
+      11,
+      10
+    ],
+    [
+      12,
+      11
+    ],
+    [
+      13,
+      12
+    ],
+    [
+      14,
+      13
+    ],
+    [
+      15,
+      14
+    ],
+    [
+      16,
+      15
+    ],
+    [
+      17,
+      16
+    ],
+    [
+      18,
+      17
+    ],
+    [
+      19,
+      18
+    ],
+    [
+      20,
+      19
+    ],
+    [
+      21,
+      20
+    ],
+    [
+      22,
+      21
+    ],
+    [
+      23,
+      22
+    ]
+  ],
+  "nodes": {
+    "0": {
+      "recurrent_cells": 2714,
+      "forward_closure_cells": 2714,
+      "added_cells": 0,
+      "closure_equals_recurrent_set": true,
+      "saved_live_boxes_exact": true,
+      "saved_live_max_absolute_difference": 0.0,
+      "canonical_boxes_sha256": "8b3f58caad836fdfe6fe5947a74f3cdfdd235a0765a4f85d0b48988d3e2f96d2"
+    },
+    "1": {
+      "recurrent_cells": 85170,
+      "forward_closure_cells": 85170,
+      "added_cells": 0,
+      "closure_equals_recurrent_set": true,
+      "saved_live_boxes_exact": true,
+      "saved_live_max_absolute_difference": 0.0,
+      "canonical_boxes_sha256": "2c9a5d7e3ad88a44a8086f79d721b7de4269e684bec7e238e292d1bca808f0c3"
+    },
+    "23": {
+      "recurrent_cells": 291,
+      "forward_closure_cells": 96318,
+      "added_cells": 96027,
+      "closure_equals_recurrent_set": false,
+      "saved_live_boxes_exact": true,
+      "saved_live_max_absolute_difference": 0.0,
+      "canonical_boxes_sha256": "0d63f9c905153c5f7663a36cf1391dc038462cfccf8e893be395039c852e81c6"
+    }
+  },
+  "source_hashes": {
+    "morse_sets_csv": "a6f9e2d1af898e6358b6a6c10714b3391c2302f133a34cb56bd276b75c759d9b",
+    "fixed_result_json": "5bece84bd656912ca6b689ab76a1f058654e6a798a4cb9ae987dd83f024615b9"
+  },
+  "interpretation": {
+    "minimal_nodes": "nodes [0, 1] each equal their full forward closure",
+    "additional_checked_nodes": [
+      23
+    ]
+  }
+}

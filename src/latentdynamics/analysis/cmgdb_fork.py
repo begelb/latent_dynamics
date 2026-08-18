@@ -39,7 +39,7 @@ def require_fork_cmgdb() -> Path:
         raise RuntimeError(
             f"CMGDB {_version()} at {Path(CMGDB.__file__).resolve()} is missing "
             f"{', '.join(missing)}, so it is not the maintained fork. Install the "
-            "fork with `uv sync --all-extras` from code/, or from its prebuilt "
+            "fork with `uv sync` from the repository root, or from its prebuilt "
             "wheels: https://github.com/bernardorivas/CMGDB/releases"
         )
     return Path(CMGDB.__file__).resolve()
@@ -73,16 +73,26 @@ def _version() -> str:
 
 
 def _git_state(repository: Path) -> dict[str, Any]:
-    revision = subprocess.run(
-        ["git", "-C", str(repository), "rev-parse", "HEAD"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout.strip()
-    status = subprocess.run(
-        ["git", "-C", str(repository), "status", "--short"],
-        check=True,
-        capture_output=True,
-        text=True,
-    ).stdout
+    """Git revision and dirtiness, or a marker for a non-git source tree.
+
+    A tarball or wheel-adjacent tree has no ``.git``; that is a valid
+    installation, not an error, so it is recorded rather than raised.
+    """
+    if not (repository / ".git").exists():
+        return {"git": "not a git checkout"}
+    try:
+        revision = subprocess.run(
+            ["git", "-C", str(repository), "rev-parse", "HEAD"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout.strip()
+        status = subprocess.run(
+            ["git", "-C", str(repository), "status", "--short"],
+            check=True,
+            capture_output=True,
+            text=True,
+        ).stdout
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        return {"git": "not a git checkout"}
     return {"revision": revision, "dirty": bool(status.strip())}

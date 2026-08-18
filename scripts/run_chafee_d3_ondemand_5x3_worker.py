@@ -25,6 +25,7 @@ import torch
 
 import chafee_latent_dimension_study as study
 import run_chafee_d3_ondemand_s24 as base
+from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.basin_statistics import (
     compute_chafee_basin_statistics,
 )
@@ -32,17 +33,18 @@ from latentdynamics.analysis.morse import LatentBounds
 from latentdynamics.training import load_checkpoint
 from latentdynamics.viz import save_morse_graph_artifacts
 
-CODE_ROOT = Path(__file__).resolve().parents[1]
-PROJECT_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = get_repo_root()
 SCRIPT_PATH = Path(__file__).resolve()
 TRAINING_ROOT = (
-    CODE_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_training_v1"
+    REPO_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_training_v1"
 )
 DEFAULT_OUTPUT_ROOT = (
-    CODE_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_ondemand_v2"
+    REPO_ROOT / "output" / "chafee_d3_matched_d2_archive_5x3_ondemand_v2"
 )
-TRAJECTORIES = PROJECT_ROOT / "archive" / "marcio" / "scripts" / "traj_attractors.pkl"
-STABLE_ROOTS = PROJECT_ROOT / "archive" / "marcio" / "scripts" / "stable_solutions.csv"
+DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
+# Rebound in main() when --reference-root is supplied.
+TRAJECTORIES = DEFAULT_REFERENCE_ROOT / "traj_attractors.pkl"
+STABLE_ROOTS = DEFAULT_REFERENCE_ROOT / "stable_solutions.csv"
 TRAJECTORIES_SHA256 = (
     "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145"
 )
@@ -63,7 +65,7 @@ def _assert_safe_output_root(output_root: Path, inputs: dict[str, Any]) -> Path:
     if raw.is_symlink():
         raise ValueError("analysis output root must not be a symlink")
     output = raw.resolve()
-    broad_roots = (CODE_ROOT.resolve(), (CODE_ROOT / "output").resolve())
+    broad_roots = (REPO_ROOT.resolve(), (REPO_ROOT / "output").resolve())
     if output in broad_roots:
         raise ValueError("analysis output must be a dedicated subdirectory")
     protected = (
@@ -353,10 +355,10 @@ def _resolve_inputs(run_id: str) -> dict[str, Any]:
         "ondemand_backend": base._file_record(Path(base.__file__)),
         "study_helpers": base._file_record(Path(study.__file__)),
         "basin_statistics_implementation": base._file_record(
-            CODE_ROOT / "src" / "latentdynamics" / "analysis" / "basin_statistics.py"
+            REPO_ROOT / "src" / "latentdynamics" / "analysis" / "basin_statistics.py"
         ),
         "morse_implementation": base._file_record(
-            CODE_ROOT / "src" / "latentdynamics" / "analysis" / "morse.py"
+            REPO_ROOT / "src" / "latentdynamics" / "analysis" / "morse.py"
         ),
     }
     return {
@@ -696,7 +698,7 @@ def run_worker(
             positive_attractor=positive_attractor,
         )
 
-        query_path = graph_dir / "marcio_singleton_reachability_queries.npz"
+        query_path = graph_dir / "reference_singleton_reachability_queries.npz"
         np.savez_compressed(
             query_path,
             queried_cell_ids=unique_cell_ids,
@@ -720,7 +722,7 @@ def run_worker(
             "dataset": inputs["dataset"],
             "training_seed": inputs["training_seed"],
             "method": (
-                "Exact Marcio singleton-all-reachable-Morse-set basin semantics "
+                "Exact archived singleton-all-reachable-Morse-set basin semantics "
                 "on uniform CMGDB graph"
             ),
             "stable_roots": {
@@ -966,6 +968,15 @@ def run_worker(
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(traj_attractors.pkl, stable_solutions.csv)"
+        ),
+    )
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT_ROOT)
     parser.add_argument("--device", choices=("cpu", "mps", "cuda"), default="mps")
     parser.add_argument("--reserve-edges", type=int, default=1_200_000_000)
@@ -976,6 +987,10 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    global TRAJECTORIES, STABLE_ROOTS
+    reference_root = args.reference_root.resolve()
+    TRAJECTORIES = reference_root / "traj_attractors.pkl"
+    STABLE_ROOTS = reference_root / "stable_solutions.csv"
     try:
         run_worker(
             run_id=args.run_id,

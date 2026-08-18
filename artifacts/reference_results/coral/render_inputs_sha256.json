@@ -1,0 +1,8 @@
+{
+  "replay_sources/coral/data/scalers/train_500/scaler.gz": "0a8b748157dd332ec03d60ae3c986a4e18b3f142be98a5cb3923ea73c40fda75",
+  "replay_sources/coral/train_500/seed_16/MG/morse_sets": "a25918988cb65c105114568919892c25f25193a26fccafbb477219e9e82cc42b",
+  "replay_sources/coral/train_500/seed_16/models/autoencoder.pt": "2bd55cb925fce0bb6f245b50eeec40c73127ea9ec99ecd5ba2842a8d5b4ed731",
+  "legacy_original": {
+    "replay_sources/coral/train_500/seed_16/models/encoder.pt": "2efd30f0a6870ce4233ea223b3a41b96cab393e938d61e0e1060885675953a7f"
+  }
+}

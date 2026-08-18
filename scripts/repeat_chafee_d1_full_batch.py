@@ -6,7 +6,7 @@ canonical full-batch candidates (seeds 0 through 4), analyzes every completed
 checkpoint, and then augments every available uniform topology with:
 
 * the complete 256-cell CMGDB ``MorseSingletonReachability`` lookup used by
-  Marcio's strict basin rule; and
+  the coauthor reference strict basin rule; and
 * the distinct blocker/LCA exact-RoA representation.
 
 The augmentation also recovers and persists uniform and adaptive Morse
@@ -40,7 +40,6 @@ from typing import Any
 import numpy as np
 import torch
 
-import analyze_chafee_d1_checkpoint as single
 import analyze_chafee_d1_full_batch_sweep as analyze
 import chafee_latent_dimension_study as study
 import sweep_chafee_d1_full_batch as sweep
@@ -48,13 +47,18 @@ from latentdynamics.analysis.cmgdb_roa import compute_exact_roa, save_exact_roa
 from latentdynamics.analysis.morse_graph_parser import MorseGraph
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_OUTPUT = sweep.CANONICAL_RUN.parent / "exploratory_full_batch_literal_repeats_v1"
+DEFAULT_REFERENCE_ROOT = study.DEFAULT_REFERENCE_ROOT
+# Rebound in main() when --reference-root is supplied.
+REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
+DEFAULT_OUTPUT = (
+    sweep.LATENT_1D_OUTPUT_ROOT / "exploratory_full_batch_literal_repeats_v1"
+)
 DEFAULT_EXISTING_OUTPUT = (
-    sweep.CANONICAL_RUN.parent
+    sweep.LATENT_1D_OUTPUT_ROOT
     / "exploratory_full_batch_repeatability_5seed_analysis_package_v1"
 )
 DEFAULT_EXISTING_SOURCES = tuple(
-    sweep.CANONICAL_RUN.parent
+    sweep.LATENT_1D_OUTPUT_ROOT
     / f"exploratory_full_batch_repeatability_5seed_rerun_{index:02d}"
     for index in (1, 2, 3)
 )
@@ -167,8 +171,8 @@ def _assert_fresh_outer(output_root: Path) -> Path:
         sweep.CANONICAL_RUN.resolve(),
         sweep.DEFAULT_OUTPUT.resolve(),
         analyze.DEFAULT_ANALYSIS.resolve(),
-        single.CANONICAL_4K.resolve(),
-        single.CANONICAL_10K.resolve(),
+        analyze.CANONICAL_4K.resolve(),
+        analyze.CANONICAL_10K.resolve(),
     )
     for root in protected:
         if target == root or _is_within(target, root) or _is_within(root, target):
@@ -220,7 +224,6 @@ def _implementation_inventory() -> dict[str, dict[str, Any]]:
         "repeat_driver": DRIVER_IMPLEMENTATION,
         "training_sweep": Path(sweep.__file__).resolve(),
         "batch_analyzer": Path(analyze.__file__).resolve(),
-        "single_checkpoint_analyzer": Path(single.__file__).resolve(),
         "dimension_study": Path(study.__file__).resolve(),
     }
     return {name: _file_reference(path) for name, path in paths.items()}
@@ -299,7 +302,7 @@ def _outer_plan(inputs: study.ExactInputs) -> dict[str, Any]:
                 "threshold": 1e-4,
                 "min_lr": 1e-6,
             },
-            "objective": ("Marcio decoded reconstruction plus decoded one-step prediction"),
+            "objective": ("reference decoded reconstruction plus decoded one-step prediction"),
             "training_rows": sweep.TRAINING_ROWS,
             "trajectory_truth_or_roa_used_for_training": False,
             "early_stopping": False,
@@ -496,7 +499,7 @@ def _label_counts(values: np.ndarray) -> dict[str, int]:
 
 def _verify_persisted_uniform_topology(
     *,
-    paths: single.ExactRunPaths,
+    paths: analyze.ExactRunPaths,
     recovered_morse_graph: Any,
 ) -> dict[str, Any]:
     """Require persisted node ids, edges, and labelled boxes to match recovery."""
@@ -568,7 +571,7 @@ def _verify_persisted_uniform_topology(
 
 def _save_full_roa_artifacts(
     *,
-    paths: single.ExactRunPaths,
+    paths: analyze.ExactRunPaths,
     bounds: Any,
     morse_graph: Any,
     map_graph: Any,
@@ -598,7 +601,16 @@ def _save_full_roa_artifacts(
         dtype=np.int32,
     )
 
-    query_path = uniform / "marcio_singleton_reachability_queries.npz"
+    # Analyses persisted before the artifact rename carry the older
+    # "marcio_..." basename; both hold the same query payload.
+    query_candidates = (
+        uniform / "reference_singleton_reachability_queries.npz",
+        uniform / "marcio_singleton_reachability_queries.npz",
+    )
+    query_path = next(
+        (path for path in query_candidates if path.is_file()),
+        query_candidates[0],
+    )
     query_validation: dict[str, Any]
     if query_path.is_file():
         with np.load(query_path) as query:
@@ -666,7 +678,7 @@ def _save_full_roa_artifacts(
             "status": "unavailable",
             "reason": (
                 "root/trajectory query artifact was not produced because "
-                "Marcio basin association/statistics were unavailable"
+                "reference basin association/statistics were unavailable"
             ),
         }
 
@@ -688,7 +700,7 @@ def _save_full_roa_artifacts(
         "semantics": (
             "complete reachable Morse-node set must equal exactly one singleton "
             "Morse node; this is the authoritative full-grid lookup for "
-            "Marcio-equivalent strict basin classification"
+            "reference-equivalent strict basin classification"
         ),
         "uniform_cells": n_cells,
         "cell_ids_complete_zero_based_range": True,
@@ -743,7 +755,7 @@ def _save_full_roa_artifacts(
             else np.asarray(exact.minimal_order, dtype=np.int32).tolist()
         ),
         "reach_mask_persisted": exact.reach_mask is not None,
-        "used_for_marcio_trajectory_statistics": False,
+        "used_for_reference_trajectory_statistics": False,
         "different_from_strict_singleton_lookup": True,
         "negative_sentinels": {
             "-1": "BOUNDARY",
@@ -763,11 +775,11 @@ def _save_full_roa_artifacts(
     }
 
 
-def _uniform_topology_available(paths: single.ExactRunPaths) -> bool:
+def _uniform_topology_available(paths: analyze.ExactRunPaths) -> bool:
     return all((paths.uniform / name).is_file() for name in ("morse_graph", "morse_sets"))
 
 
-def _adaptive_topology_available(paths: single.ExactRunPaths) -> bool:
+def _adaptive_topology_available(paths: analyze.ExactRunPaths) -> bool:
     return all((paths.adaptive / name).is_file() for name in ("morse_graph", "morse_sets"))
 
 
@@ -779,7 +791,7 @@ def _recover_topology_and_roa(
 ) -> dict[str, Any]:
     """Recover topology independently of two-root statistical validity."""
 
-    paths = single.ExactRunPaths(output_root=run, dimension=1)
+    paths = analyze.ExactRunPaths(output_root=run, dimension=1)
     manifest_path = run / "topology_roa_augmentation.json"
     if manifest_path.exists():
         raise FileExistsError(manifest_path)
@@ -991,7 +1003,7 @@ def _trial_artifact_inventory(
     run: Path,
     augmentation: dict[str, Any] | None,
 ) -> dict[str, Any]:
-    paths = single.ExactRunPaths(output_root=run, dimension=1)
+    paths = analyze.ExactRunPaths(output_root=run, dimension=1)
     named = {
         "checkpoint": paths.models / "autoencoder.pt",
         "uniform_morse_graph": paths.uniform / "morse_graph",
@@ -1004,7 +1016,19 @@ def _trial_artifact_inventory(
         ),
         "exact_blocker_lca": paths.uniform / "regions_of_attraction_exact.npz",
         "exact_blocker_lca_metadata": (paths.uniform / "regions_of_attraction_exact.json"),
-        "strict_singleton_queries": (paths.uniform / "marcio_singleton_reachability_queries.npz"),
+        # Analyses persisted before the artifact rename carry the older
+        # "marcio_..." basename; both hold the same query payload.
+        "strict_singleton_queries": next(
+            (
+                path
+                for path in (
+                    paths.uniform / "reference_singleton_reachability_queries.npz",
+                    paths.uniform / "marcio_singleton_reachability_queries.npz",
+                )
+                if path.is_file()
+            ),
+            paths.uniform / "reference_singleton_reachability_queries.npz",
+        ),
         "trajectory_basin_labels": run / "trajectory_basin_labels.npy",
         "encoded_stable_roots": run / "encoded_stable_roots.npy",
         "basin_statistics": paths.stats,
@@ -1104,7 +1128,7 @@ def _run_replicate(
     _require_canonical_backend()
     replicate_root.mkdir(parents=True, exist_ok=False)
     trials = repeat_trials(repeat_index)
-    inputs = study.verify_exact_inputs(study.DEFAULT_ARCHIVE_DIR)
+    inputs = study.verify_exact_inputs(REFERENCE_ROOT)
     references = _copy_reference_inputs(inputs, replicate_root / "reference_inputs")
     manifest_path = replicate_root / "replicate_manifest.json"
     manifest: dict[str, Any] = {
@@ -1364,6 +1388,8 @@ def _replicate_command(
         str(repeat_index),
         "--_replicate-root",
         str(replicate_root),
+        "--reference-root",
+        str(REFERENCE_ROOT),
     ]
     if source_sweep is not None:
         command.extend(("--_source-sweep", str(source_sweep.resolve())))
@@ -1518,7 +1544,7 @@ def run_all_repeats(
 ) -> dict[str, Any]:
     target = _assert_fresh_outer(output_root)
     _require_canonical_backend()
-    inputs = study.verify_exact_inputs(study.DEFAULT_ARCHIVE_DIR)
+    inputs = study.verify_exact_inputs(REFERENCE_ROOT)
     plan = _outer_plan(inputs)
     target.mkdir(parents=True, exist_ok=False)
     plan_path = _write_json_exclusive(target / "repeat_plan.json", plan)
@@ -1576,7 +1602,7 @@ def run_existing_sweeps(
             raise ValueError(
                 f"package target {target} overlaps source sweep {source.root}"
             )
-    inputs = study.verify_exact_inputs(study.DEFAULT_ARCHIVE_DIR)
+    inputs = study.verify_exact_inputs(REFERENCE_ROOT)
     plan = _existing_analysis_plan(frozen_sweeps=frozen, inputs=inputs)
     target.mkdir(parents=True, exist_ok=False)
     plan_path = _write_json_exclusive(target / "repeat_plan.json", plan)
@@ -1621,6 +1647,15 @@ def run_existing_sweeps(
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", type=Path)
+    parser.add_argument(
+        "--reference-root",
+        type=Path,
+        default=DEFAULT_REFERENCE_ROOT,
+        help=(
+            "root of the archived reference inputs "
+            "(train_data.csv, traj_attractors.pkl, stable_solutions.csv)"
+        ),
+    )
     parser.add_argument("--quiet", action="store_true")
     parser.add_argument(
         "--source-sweep",
@@ -1668,6 +1703,8 @@ def _parser() -> argparse.ArgumentParser:
 
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
+    global REFERENCE_ROOT
+    REFERENCE_ROOT = args.reference_root.resolve()
     internal = args._replicate_index is not None or args._replicate_root is not None
     if internal:
         if args._replicate_index is None or args._replicate_root is None:

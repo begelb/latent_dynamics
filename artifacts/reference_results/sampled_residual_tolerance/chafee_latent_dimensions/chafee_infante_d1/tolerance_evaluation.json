@@ -1,0 +1,153 @@
+{
+  "example": "chafee_infante_d1",
+  "dimension": 1,
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R_hat(N) < tau_hat(N)",
+  "checkpoint": {
+    "path": "replay_sources/chafee_infante/latent_dimension_study/latent_1d/seed_0/models/autoencoder.pt",
+    "sha256": "f2d1ad7dcc094e4565f25446e613d4b528261012810bb493ef70d1a3977c0f91"
+  },
+  "block_source": {
+    "path": "replay_sources/chafee_infante/latent_dimension_study/latent_1d/seed_0/MG_adaptive/morse_sets",
+    "sha256": "ff7b5b704974153e5d2c082c09407d437a488df7f3d5639e5df93816f34e6154"
+  },
+  "nodes": {
+    "0": {
+      "physical_attractor": "negative",
+      "block_geometry": {
+        "kind": "validated_complete_uniform_cell_union_hyperrectangle",
+        "dimension": 1,
+        "cell_count": 4,
+        "grid_shape": [
+          4
+        ],
+        "cell_width": [
+          0.060459637641907094
+        ],
+        "lower": [
+          -5.464407682418824
+        ],
+        "upper": [
+          -5.222569131851197
+        ]
+      },
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.103884458541871,
+        "upper_bound_witness": {
+          "value": 0.103884458541871,
+          "input": [
+            -5.464407682418824
+          ],
+          "image": [
+            -5.360523223876953
+          ],
+          "box_index": 0,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388612,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388612,
+          "deterministic_points": 12,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1048575,
+          "sobol_generation_power": 20,
+          "sobol_generated_then_truncated_per_scramble": 1048576
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.10384944452247424,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.02597111463546775,
+        "ibp_total_evaluated_enclosures": 256,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 256,
+            "frozen_with_clearance_at_least_target": 256,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 256,
+        "ibp_uniform_refinement_rounds": 6,
+        "ibp_is_outward_rounded": false
+      }
+    },
+    "1": {
+      "physical_attractor": "positive",
+      "block_geometry": {
+        "kind": "validated_complete_uniform_cell_union_hyperrectangle",
+        "dimension": 1,
+        "cell_count": 3,
+        "grid_shape": [
+          3
+        ],
+        "cell_width": [
+          0.060459637641906205
+        ],
+        "lower": [
+          5.176488542556763
+        ],
+        "upper": [
+          5.357867455482483
+        ]
+      },
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.06583485603332484,
+        "upper_bound_witness": {
+          "value": 0.06583485603332484,
+          "input": [
+            5.176488542556763
+          ],
+          "image": [
+            5.242323398590088
+          ],
+          "box_index": 0,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388609,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388609,
+          "deterministic_points": 9,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1398100,
+          "sobol_generation_power": 21,
+          "sobol_generated_then_truncated_per_scramble": 2097152
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.06580386635222268,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.01645871400833121,
+        "ibp_total_evaluated_enclosures": 192,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 192,
+            "frozen_with_clearance_at_least_target": 192,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 192,
+        "ibp_uniform_refinement_rounds": 6,
+        "ibp_is_outward_rounded": false
+      }
+    }
+  },
+  "elapsed_seconds": 2.995553731918335
+}

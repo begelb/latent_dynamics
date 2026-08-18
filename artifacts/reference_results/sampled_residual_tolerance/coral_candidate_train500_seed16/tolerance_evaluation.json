@@ -1,0 +1,226 @@
+{
+  "example": "coral_candidate_train500_seed16",
+  "source_root": "replay_sources/coral/train_500/seed_16",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "criterion": "R(N) < tau(N)",
+  "nodes": {
+    "0": {
+      "set_kind": "saved_morse_set_with_exact_live_forward_invariance_check",
+      "n_boxes": 3,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.007788083888590203,
+        "upper_bound_witness": {
+          "value": 0.007788083888590203,
+          "input": [
+            -0.9913570066913964
+          ],
+          "image": [
+            -0.9991450905799866
+          ],
+          "box_index": 2,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388609,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388609,
+          "deterministic_points": 9,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 1398100,
+          "sobol_generation_power": 21,
+          "sobol_generated_then_truncated_per_scramble": 2097152
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.00778637989273312,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.0019470209721475507,
+        "ibp_total_evaluated_enclosures": 192,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 192,
+            "frozen_with_clearance_at_least_target": 192,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 192,
+        "ibp_uniform_refinement_rounds": 6,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.0023125410079956055,
+        "squared_value_diagnostic": 5.347845913661331e-06,
+        "accepted_samples": 132,
+        "evaluated_samples": 210000,
+        "source_summaries": {
+          "replay_sources/coral/data/coral/train_500.csv": {
+            "evaluated_samples": 10000,
+            "accepted_samples": 7,
+            "max_euclidean_residual": 0.0012034773826599121,
+            "max_squared_residual_diagnostic": 1.4483578105739525e-06
+          },
+          "replay_sources/coral/data/coral/test.csv": {
+            "evaluated_samples": 200000,
+            "accepted_samples": 125,
+            "max_euclidean_residual": 0.0023125410079956055,
+            "max_squared_residual_diagnostic": 5.347845913661331e-06
+          }
+        },
+        "witness": {
+          "source": "replay_sources/coral/data/coral/test.csv",
+          "row_index_zero_based": 8115,
+          "x_raw": [
+            1.94657415,
+            2.29050453,
+            2.15901536,
+            1.89760443,
+            1.51129858,
+            0.83650542,
+            0.3325738,
+            0.27781664,
+            0.11437173,
+            0.14400626,
+            0.18391154,
+            0.09236898,
+            0.10508948
+          ],
+          "E_x": [
+            -0.9916545152664185
+          ],
+          "g_E_x": [
+            -0.9991505742073059
+          ],
+          "E_f_x": [
+            -0.9968380331993103
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 0.29693324328254267,
+        "conclusion": "inconclusive",
+        "theorem_verified": false,
+        "reason_not_verified": "no uniform residual upper bound"
+      }
+    },
+    "1": {
+      "set_kind": "saved_morse_set_with_exact_live_forward_invariance_check",
+      "n_boxes": 5,
+      "tolerance": {
+        "formula": "inf_{z in N} dist_2(g(z), Z \\\\ Int(N))",
+        "upper_bound": 0.007956178160384353,
+        "upper_bound_witness": {
+          "value": 0.007956178160384353,
+          "input": [
+            0.12822350743226701
+          ],
+          "image": [
+            0.13617968559265137
+          ],
+          "box_index": 0,
+          "source": "box_corners_centers_and_sobol"
+        },
+        "sample_count": 8388615,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388615,
+          "deterministic_points": 15,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 838860,
+          "sobol_generation_power": 20,
+          "sobol_generated_then_truncated_per_scramble": 1048576
+        },
+        "all_sample_images_in_interior": true,
+        "numerical_ibp_lower_bound": 0.007906185078650069,
+        "ibp_complete": true,
+        "ibp_remaining_failed_enclosures": 0,
+        "ibp_remaining_low_clearance_enclosures": 0,
+        "ibp_refinement_target": 0.0019890445400960882,
+        "ibp_total_evaluated_enclosures": 320,
+        "ibp_adaptive_depth_counts": [
+          {
+            "adaptive_depth": 0,
+            "evaluated": 320,
+            "frozen_with_clearance_at_least_target": 320,
+            "refine_low_clearance": 0,
+            "refine_not_strictly_enclosed": 0
+          }
+        ],
+        "ibp_initial_enclosures": 320,
+        "ibp_uniform_refinement_rounds": 6,
+        "ibp_is_outward_rounded": false
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "lower_bound": 0.24785225093364716,
+        "squared_value_diagnostic": 0.0614307382928756,
+        "accepted_samples": 89497,
+        "evaluated_samples": 210000,
+        "source_summaries": {
+          "replay_sources/coral/data/coral/train_500.csv": {
+            "evaluated_samples": 10000,
+            "accepted_samples": 4292,
+            "max_euclidean_residual": 0.1851913183927536,
+            "max_squared_residual_diagnostic": 0.03429582440804624
+          },
+          "replay_sources/coral/data/coral/test.csv": {
+            "evaluated_samples": 200000,
+            "accepted_samples": 85205,
+            "max_euclidean_residual": 0.24785225093364716,
+            "max_squared_residual_diagnostic": 0.0614307382928756
+          }
+        },
+        "witness": {
+          "source": "replay_sources/coral/data/coral/test.csv",
+          "row_index_zero_based": 147025,
+          "x_raw": [
+            849.24811412,
+            498.70291916,
+            336.94521495,
+            421.20848346,
+            284.53635479,
+            78.67200558,
+            4.45921162,
+            0.14468468,
+            6.31361041,
+            4.3483761,
+            4.84985457,
+            1.46366496,
+            0.43886372
+          ],
+          "E_x": [
+            0.14463825523853302
+          ],
+          "g_E_x": [
+            0.14290453493595123
+          ],
+          "E_f_x": [
+            0.3907567858695984
+          ]
+        },
+        "upper_bound": null,
+        "note": "finite samples give only a lower bound on the uniform residual"
+      },
+      "comparison": {
+        "residual_lower_over_tolerance_upper": 31.152174566396805,
+        "conclusion": "criterion_contradicted_by_numerical_witnesses",
+        "theorem_verified": false,
+        "reason_not_verified": "strict theorem inequality is contradicted for the evaluated block"
+      }
+    }
+  }
+}

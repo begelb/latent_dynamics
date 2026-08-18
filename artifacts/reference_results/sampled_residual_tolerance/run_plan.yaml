@@ -1,0 +1,67 @@
+created: 2026-07-25
+mode: completed_dense_sampling
+result_root: artifacts/reference_results/sampled_residual_tolerance
+
+metric:
+  primary: euclidean
+  coordinates: stored_latent_coordinates
+  use_same_metric_for_tolerance_and_residual: true
+
+cmgdb:
+  source: CMGDB (project fork)
+  graph_only_api: CMGDB.ComputeMorseGraph
+  conley_recomputation: false
+
+decision_rules:
+  criterion_contradicted: residual_lower > tolerance_upper
+  criterion_verified: residual_upper < tolerance_lower
+  otherwise: inconclusive
+
+examples:
+  - id: coral_candidate_train500_seed16
+    order: 1
+    latent_dimension: 1
+    replay_root: replay_sources/coral/train_500/seed_16
+    provenance: retained_illustrative_seed_identified_by_archived_plotting_script
+    preferred_block_path: verify_saved_morse_set_first
+    residual_source: saved_pairs_then_fresh_sobol
+
+  - id: chafee_infante_current
+    order: 2
+    latent_dimension: 2
+    replay_root: replay_sources/chafee_infante/replay
+    pair_data:
+      - replay_sources/chafee_infante/data/train.csv
+    subdivisions: [14, 16, 22]
+    padding: true
+    preferred_block_path: current_graph_reconstructed_from_archived_reference_script
+    note: test_csv_is_a_mirror_of_train_and_is_not_counted_twice
+
+  - id: leslie3d_example1
+    order: 3
+    latent_dimension: 2
+    replay_root: replay_sources/leslie3d_example1/spurious_attractor_ex
+    scaler: replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers/scaler.gz
+    pair_data:
+      - replay_sources/leslie3d_example1/data_pairs/train.csv
+      - replay_sources/leslie3d_example1/data_pairs/val.csv
+    subdivisions: [23, 23, 27]
+    preferred_block_path: verify_saved_morse_set_then_graph_only_replay
+    node_matching: geometry_dag_and_conley_label
+
+  - id: leslie_2gen_contraction
+    order: 4
+    latent_dimension: 2
+    replay_root: replay_sources/leslie_2gen_contraction
+    scaler: replay_sources/leslie_2gen_contraction/scalers/train/scaler.gz
+    pair_data:
+      - replay_sources/leslie_2gen_contraction/data_pairs/train.csv
+      - replay_sources/leslie_2gen_contraction/data_pairs/val.csv
+    subdivisions: [27, 29, 30]
+    preferred_block_path: verify_saved_morse_set_then_graph_only_replay
+
+per_node_outputs:
+  - tolerance_evaluation.json
+  - dense_sampling.json
+  - numerical_witnesses
+  - sampling_counts

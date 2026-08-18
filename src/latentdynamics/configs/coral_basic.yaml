@@ -31,7 +31,9 @@ training:
   scheduler_min_lr: 0.0
 
 data:
-  sampling_method: uniform
+  # The archived paper-data metadata records scrambled Sobol sampling
+  # (scramble seed = train_seed); an earlier copy of this file said uniform.
+  sampling_method: sobol
   scaling: minmax
   n_samples_train: [500]
   n_samples_val: 10000

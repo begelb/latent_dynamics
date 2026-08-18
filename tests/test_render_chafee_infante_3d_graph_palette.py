@@ -20,6 +20,14 @@ MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
 
 
+def _persisted_source_or_skip() -> Path:
+    """Return the saved d=3 run when its release bundle has been fetched."""
+    source = MODULE.DEFAULT_SOURCE
+    if not all((source / name).is_file() for name in ("morse_graph", "morse_sets")):
+        pytest.skip("Chafee d=3 replay artifacts have not been fetched")
+    return source
+
+
 def test_graph_palette_is_read_by_exact_node_label(tmp_path: Path) -> None:
     dot = tmp_path / "morse_graph"
     dot.write_text(
@@ -78,7 +86,7 @@ def test_load_bounds_requires_three_dimensions(tmp_path: Path) -> None:
 
 
 def test_persisted_fine_three_dimensional_palette_matches_saved_graph() -> None:
-    source = MODULE.DEFAULT_SOURCE
+    source = _persisted_source_or_skip()
     labels, rows = MODULE._validate_morse_sets(source / "morse_sets")
     palette = MODULE.graph_palette_from_dot(
         source / "morse_graph",
@@ -103,7 +111,8 @@ def test_persisted_fine_three_dimensional_palette_matches_saved_graph() -> None:
 
 
 def test_persisted_fine_three_dimensional_heights_match_reference() -> None:
-    heights = MODULE.morse_heights_from_dot(MODULE.DEFAULT_SOURCE / "morse_graph")
+    source = _persisted_source_or_skip()
+    heights = MODULE.morse_heights_from_dot(source / "morse_graph")
 
     assert {
         height: frozenset(
@@ -116,7 +125,7 @@ def test_persisted_fine_three_dimensional_heights_match_reference() -> None:
 
 
 def test_persisted_fine_three_dimensional_level_palette_matches_reference() -> None:
-    source = MODULE.DEFAULT_SOURCE
+    source = _persisted_source_or_skip()
     labels, _ = MODULE._validate_morse_sets(source / "morse_sets")
 
     palette = MODULE.chafee_level_palette_from_dot(

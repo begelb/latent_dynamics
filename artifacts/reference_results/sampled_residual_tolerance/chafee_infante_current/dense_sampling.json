@@ -1,0 +1,1523 @@
+{
+  "example": "chafee_infante_current",
+  "metric": "Euclidean distance in stored latent coordinates",
+  "interpretation": "Both quantities are dense sampled estimates. R_hat < tau_hat means that no sampled violation was found, not that the uniform theorem hypothesis was proved.",
+  "sampling_protocol": {
+    "stored_transitions": [
+      "replay_sources/chafee_infante/data/train.csv"
+    ],
+    "fresh_trajectories": {
+      "initial_conditions": 1024,
+      "steps_per_initial_condition": 30,
+      "candidate_transitions": 30720,
+      "seed_base": 20260727,
+      "elapsed_seconds": 306.3224959373474
+    },
+    "decoder_guided_preimages": {
+      "target_latent_points_per_node": 2048,
+      "noise_scales": [
+        0.0,
+        0.0001,
+        0.001,
+        0.01,
+        0.05
+      ],
+      "candidate_states": 20610,
+      "states_in_system_domain": 0,
+      "seed": 20260827,
+      "per_node": {
+        "0": {
+          "latent_samples": 2061,
+          "latent_sampling": {
+            "target_points": 2048,
+            "actual_points": 2061,
+            "deterministic_points": 45,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 112,
+            "sobol_generation_power": 7,
+            "sobol_generated_then_truncated_per_scramble": 128
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        },
+        "1": {
+          "latent_samples": 2061,
+          "latent_sampling": {
+            "target_points": 2048,
+            "actual_points": 2061,
+            "deterministic_points": 45,
+            "sobol_scrambles": 2,
+            "sobol_seeds": [
+              20260725,
+              20260726
+            ],
+            "sobol_points_per_box_per_scramble": 112,
+            "sobol_generation_power": 7,
+            "sobol_generated_then_truncated_per_scramble": 128
+          },
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ]
+        }
+      },
+      "elapsed_seconds": 0.013346195220947266
+    },
+    "coral_fixed_point_clouds": null,
+    "fresh_trajectory_ensemble": [
+      {
+        "initial_conditions": 1024,
+        "steps_per_initial_condition": 30,
+        "candidate_transitions": 30720,
+        "seed_base": 20260727,
+        "elapsed_seconds": 306.3224959373474
+      },
+      {
+        "initial_conditions": 2048,
+        "steps_per_initial_condition": 30,
+        "candidate_transitions": 61440,
+        "seed_base": 20260728,
+        "elapsed_seconds": 625.7945449352264
+      },
+      {
+        "initial_conditions": 2048,
+        "steps_per_initial_condition": 30,
+        "candidate_transitions": 61440,
+        "seed_base": 20260729,
+        "elapsed_seconds": 623.0624558925629
+      },
+      {
+        "initial_conditions": 2048,
+        "steps_per_initial_condition": 30,
+        "candidate_transitions": 61440,
+        "seed_base": 20260730,
+        "elapsed_seconds": 626.317745923996
+      },
+      {
+        "initial_conditions": 2048,
+        "steps_per_initial_condition": 30,
+        "candidate_transitions": 61440,
+        "seed_base": 20260731,
+        "elapsed_seconds": 626.2722568511963
+      }
+    ],
+    "supplemental_runs": [
+      {
+        "suffix": "seed20260728",
+        "seed": 20260728,
+        "fresh_trajectories": {
+          "initial_conditions": 2048,
+          "steps_per_initial_condition": 30,
+          "candidate_transitions": 61440,
+          "seed_base": 20260728,
+          "elapsed_seconds": 625.7945449352264
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 0,
+          "seed": 20260828,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 0.0142059326171875
+        }
+      },
+      {
+        "suffix": "seed20260729",
+        "seed": 20260729,
+        "fresh_trajectories": {
+          "initial_conditions": 2048,
+          "steps_per_initial_condition": 30,
+          "candidate_transitions": 61440,
+          "seed_base": 20260729,
+          "elapsed_seconds": 623.0624558925629
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 0,
+          "seed": 20260829,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 0.014084815979003906
+        }
+      },
+      {
+        "suffix": "seed20260730",
+        "seed": 20260730,
+        "fresh_trajectories": {
+          "initial_conditions": 2048,
+          "steps_per_initial_condition": 30,
+          "candidate_transitions": 61440,
+          "seed_base": 20260730,
+          "elapsed_seconds": 626.317745923996
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 0,
+          "seed": 20260830,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 0.013219118118286133
+        }
+      },
+      {
+        "suffix": "seed20260731",
+        "seed": 20260731,
+        "fresh_trajectories": {
+          "initial_conditions": 2048,
+          "steps_per_initial_condition": 30,
+          "candidate_transitions": 61440,
+          "seed_base": 20260731,
+          "elapsed_seconds": 626.2722568511963
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 0,
+          "seed": 20260831,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 0.014223814010620117
+        }
+      },
+      {
+        "suffix": "decoder_seed20260732",
+        "seed": 20260732,
+        "fresh_trajectories": {
+          "initial_conditions": 0,
+          "steps_per_initial_condition": 0,
+          "candidate_transitions": 0,
+          "seed_base": 20260732,
+          "elapsed_seconds": 0.0
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 20610,
+          "seed": 20260832,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 202.85166478157043
+        }
+      },
+      {
+        "suffix": "decoder_seed20260733",
+        "seed": 20260733,
+        "fresh_trajectories": {
+          "initial_conditions": 0,
+          "steps_per_initial_condition": 0,
+          "candidate_transitions": 0,
+          "seed_base": 20260733,
+          "elapsed_seconds": 0.0
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 20610,
+          "seed": 20260833,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 203.3181619644165
+        }
+      },
+      {
+        "suffix": "decoder_seed20260734",
+        "seed": 20260734,
+        "fresh_trajectories": {
+          "initial_conditions": 0,
+          "steps_per_initial_condition": 0,
+          "candidate_transitions": 0,
+          "seed_base": 20260734,
+          "elapsed_seconds": 0.0
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 20610,
+          "seed": 20260834,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 203.3244469165802
+        }
+      },
+      {
+        "suffix": "decoder_seed20260735",
+        "seed": 20260735,
+        "fresh_trajectories": {
+          "initial_conditions": 0,
+          "steps_per_initial_condition": 0,
+          "candidate_transitions": 0,
+          "seed_base": 20260735,
+          "elapsed_seconds": 0.0
+        },
+        "decoder_guided_preimages": {
+          "target_latent_points_per_node": 2048,
+          "noise_scales": [
+            0.0,
+            0.0001,
+            0.001,
+            0.01,
+            0.05
+          ],
+          "candidate_states": 20610,
+          "states_in_system_domain": 20610,
+          "seed": 20260835,
+          "per_node": {
+            "0": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            },
+            "1": {
+              "latent_samples": 2061,
+              "latent_sampling": {
+                "target_points": 2048,
+                "actual_points": 2061,
+                "deterministic_points": 45,
+                "sobol_scrambles": 2,
+                "sobol_seeds": [
+                  20260725,
+                  20260726
+                ],
+                "sobol_points_per_box_per_scramble": 112,
+                "sobol_generation_power": 7,
+                "sobol_generated_then_truncated_per_scramble": 128
+              },
+              "noise_scales": [
+                0.0,
+                0.0001,
+                0.001,
+                0.01,
+                0.05
+              ]
+            }
+          },
+          "elapsed_seconds": 204.44002604484558
+        }
+      }
+    ],
+    "fresh_trajectory_ensemble_seeds": [
+      20260727,
+      20260728,
+      20260729,
+      20260730,
+      20260731
+    ],
+    "fresh_trajectory_ensemble_candidate_transitions": 276480
+  },
+  "nodes": {
+    "0": {
+      "n_boxes": 9,
+      "tolerance": {
+        "sampled_minimum": 0.039529092609882355,
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.039529092609882355,
+          "input": [
+            -2.5971865579485893,
+            -0.2821005694568157
+          ],
+          "image": [
+            -2.6367156505584717,
+            -0.2335389107465744
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.03520679101347923,
+        "squared_value_diagnostic": 0.001239518133466802,
+        "accepted_samples": 111015,
+        "evaluated_samples": 388920,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9128,
+            "max_euclidean_residual": 0.03266727924346924,
+            "max_squared_residual_diagnostic": 0.0010671511331707961
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260727": {
+            "evaluated_samples": 30720,
+            "accepted_samples": 9851,
+            "max_euclidean_residual": 0.034779272973537445,
+            "max_squared_residual_diagnostic": 0.0012095978285678322
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260728": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19600,
+            "max_euclidean_residual": 0.028164193034172058,
+            "max_squared_residual_diagnostic": 0.0007932217692661059
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260729": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19612,
+            "max_euclidean_residual": 0.03261231631040573,
+            "max_squared_residual_diagnostic": 0.0010635631751299557
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260730": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19491,
+            "max_euclidean_residual": 0.03520679101347923,
+            "max_squared_residual_diagnostic": 0.001239518133466802
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260731": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19655,
+            "max_euclidean_residual": 0.0339076891541481,
+            "max_squared_residual_diagnostic": 0.0011497313837743328
+          },
+          "decoder_guided_node_0_noise_0_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029794607311487198,
+            "max_squared_residual_diagnostic": 0.0008877186248457264
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029804179444909096,
+            "max_squared_residual_diagnostic": 0.0008882891123843419
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 872,
+            "max_euclidean_residual": 0.030346758663654327,
+            "max_squared_residual_diagnostic": 0.000920925761390079
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 747,
+            "max_euclidean_residual": 0.03435886651277542,
+            "max_squared_residual_diagnostic": 0.0011805317080427202
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 76,
+            "max_euclidean_residual": 0.03441286459565163,
+            "max_squared_residual_diagnostic": 0.0011842452496786532
+          },
+          "decoder_guided_node_1_noise_0_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029794607311487198,
+            "max_squared_residual_diagnostic": 0.0008877186248457264
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 873,
+            "max_euclidean_residual": 0.029803944751620293,
+            "max_squared_residual_diagnostic": 0.0008882751227576348
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 873,
+            "max_euclidean_residual": 0.0306094940751791,
+            "max_squared_residual_diagnostic": 0.0009369411275384244
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 716,
+            "max_euclidean_residual": 0.03429799899458885,
+            "max_squared_residual_diagnostic": 0.001176352735032818
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 83,
+            "max_euclidean_residual": 0.03434954583644867,
+            "max_squared_residual_diagnostic": 0.0011798912991702881
+          },
+          "decoder_guided_node_1_noise_0_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029794607311487198,
+            "max_squared_residual_diagnostic": 0.0008877186248457264
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 868,
+            "max_euclidean_residual": 0.029783781617879868,
+            "max_squared_residual_diagnostic": 0.0008870736474615587
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 861,
+            "max_euclidean_residual": 0.030606532469391823,
+            "max_squared_residual_diagnostic": 0.0009367598297999359
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 745,
+            "max_euclidean_residual": 0.034375157207250595,
+            "max_squared_residual_diagnostic": 0.0011816514330231925
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 87,
+            "max_euclidean_residual": 0.03434081748127937,
+            "max_squared_residual_diagnostic": 0.001179291745282543
+          },
+          "decoder_guided_node_1_noise_0_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 870,
+            "max_euclidean_residual": 0.029794607311487198,
+            "max_squared_residual_diagnostic": 0.0008877186248457264
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 874,
+            "max_euclidean_residual": 0.02982359565794468,
+            "max_squared_residual_diagnostic": 0.0008894468579685767
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 871,
+            "max_euclidean_residual": 0.030778413638472557,
+            "max_squared_residual_diagnostic": 0.0009473107461009135
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 714,
+            "max_euclidean_residual": 0.034418027848005295,
+            "max_squared_residual_diagnostic": 0.001184600640946068
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 68,
+            "max_euclidean_residual": 0.03470081090927124,
+            "max_squared_residual_diagnostic": 0.001204146277760998
+          },
+          "decoder_guided_node_1_noise_0_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          }
+        },
+        "witness": {
+          "source": "fresh_sobol_trajectories_scale_1_seed_20260730",
+          "row_index_zero_based": 29769,
+          "x_raw": [
+            1.2823980636894703,
+            -0.017888119747894615,
+            0.6402407973939332,
+            0.18724086594578876,
+            -0.04029338985250874,
+            0.0885867876233595,
+            0.009601392977503967,
+            0.04245112365408556,
+            -0.005295723119839793,
+            -0.020944814887275204,
+            0.009092110420148881,
+            -0.004970187756987542,
+            0.003918883266421402,
+            0.0011930371223027843,
+            -0.0002724965792614026,
+            -0.0010454628955234003,
+            -7.719428909187494e-05,
+            0.00012500509373270468,
+            -2.426742015796459e-05,
+            -0.00010092183123789566,
+            -7.908680561654943e-05,
+            4.557570685576519e-05,
+            1.5678285070646736e-05,
+            1.4203190947441228e-05,
+            -1.1639897402124055e-05,
+            -3.067479905479581e-06,
+            -4.277099684280152e-06,
+            1.0332642374954733e-06,
+            -3.8476009562320077e-07,
+            -5.869402665648793e-07,
+            -5.368378786201636e-07,
+            -3.7720377896975427e-08,
+            1.718199422245262e-07,
+            3.8440861009220766e-08,
+            5.0169702711548435e-08,
+            -2.277936558297395e-08,
+            2.6104116995780334e-08,
+            -1.740010633992028e-08,
+            -2.4342179650867946e-09,
+            4.837595680291842e-09,
+            2.546901896481505e-09,
+            -2.095183192224323e-09,
+            -1.2586859190645937e-09,
+            6.991192108348879e-10,
+            2.0510523812592267e-10,
+            -1.3754174495813405e-10,
+            -7.405192192332088e-11,
+            -8.42734318254679e-11,
+            8.050457399999017e-12,
+            3.130727064951082e-11,
+            5.041330942265406e-12,
+            -1.2797764518864334e-11,
+            6.246507978300595e-13,
+            9.390211696033009e-13,
+            -1.5428175372660132e-12,
+            -1.5973270227310716e-12,
+            1.02139911036099e-12,
+            -1.154921024439714e-13,
+            1.114663170915547e-13,
+            1.5792958401032495e-13,
+            -1.3568084397841677e-13,
+            -4.7866313896605134e-14,
+            4.1565173225254433e-14,
+            1.1964379688052491e-14
+          ],
+          "E_x": [
+            -2.7025184631347656,
+            -0.27639055252075195
+          ],
+          "g_E_x": [
+            -2.6449830532073975,
+            -0.22962814569473267
+          ],
+          "E_f_x": [
+            -2.610304355621338,
+            -0.2235531061887741
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 0.8906551779708058,
+        "sampled_conclusion": "no_sampled_violation_found"
+      }
+    },
+    "1": {
+      "n_boxes": 9,
+      "tolerance": {
+        "sampled_minimum": 0.04251862317323685,
+        "sample_count": 8388621,
+        "sampling": {
+          "target_points": 8388608,
+          "actual_points": 8388621,
+          "deterministic_points": 45,
+          "sobol_scrambles": 2,
+          "sobol_seeds": [
+            20260725,
+            20260726
+          ],
+          "sobol_points_per_box_per_scramble": 466032,
+          "sobol_generation_power": 19,
+          "sobol_generated_then_truncated_per_scramble": 524288
+        },
+        "all_sample_images_in_interior": true,
+        "witness": {
+          "value": 0.04251862317323685,
+          "input": [
+            2.4103321954607964,
+            0.06177177652716637
+          ],
+          "image": [
+            2.452850818634033,
+            0.012614111416041851
+          ],
+          "box_index": 4,
+          "source": "box_corners_centers_and_sobol"
+        }
+      },
+      "residual": {
+        "formula": "sup_{x in E^{-1}(N)} ||g(E(x)) - E(f(x))||_2",
+        "sampled_maximum": 0.016002139076590538,
+        "squared_value_diagnostic": 0.0002560684550265459,
+        "accepted_samples": 125123,
+        "evaluated_samples": 388920,
+        "source_summaries": {
+          "replay_sources/chafee_infante/data/train.csv": {
+            "evaluated_samples": 30000,
+            "accepted_samples": 9847,
+            "max_euclidean_residual": 0.01339709758758545,
+            "max_squared_residual_diagnostic": 0.00017948222377128786
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260727": {
+            "evaluated_samples": 30720,
+            "accepted_samples": 9926,
+            "max_euclidean_residual": 0.013371153734624386,
+            "max_squared_residual_diagnostic": 0.00017878775219495966
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260728": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19622,
+            "max_euclidean_residual": 0.01591319590806961,
+            "max_squared_residual_diagnostic": 0.0002532298040086034
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260729": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19621,
+            "max_euclidean_residual": 0.013416888192296028,
+            "max_squared_residual_diagnostic": 0.00018001288876457258
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260730": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19708,
+            "max_euclidean_residual": 0.013402113690972328,
+            "max_squared_residual_diagnostic": 0.00017961665138574792
+          },
+          "fresh_sobol_trajectories_scale_1_seed_20260731": {
+            "evaluated_samples": 61440,
+            "accepted_samples": 19592,
+            "max_euclidean_residual": 0.013411624357104301,
+            "max_squared_residual_diagnostic": 0.00017987166789607337
+          },
+          "decoder_guided_node_0_noise_0_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014790506102144718,
+            "max_squared_residual_diagnostic": 0.00021875907075758014
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1873,
+            "max_euclidean_residual": 0.01480834186077118,
+            "max_squared_residual_diagnostic": 0.00021928698866546803
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1853,
+            "max_euclidean_residual": 0.015101361088454723,
+            "max_squared_residual_diagnostic": 0.00022805110672389443
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1012,
+            "max_euclidean_residual": 0.015997521579265594,
+            "max_squared_residual_diagnostic": 0.00025592069667906836
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260732": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 87,
+            "max_euclidean_residual": 0.01532194297760725,
+            "max_squared_residual_diagnostic": 0.00023476193660904813
+          },
+          "decoder_guided_node_0_noise_0_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014790506102144718,
+            "max_squared_residual_diagnostic": 0.00021875907075758014
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1872,
+            "max_euclidean_residual": 0.014780908823013306,
+            "max_squared_residual_diagnostic": 0.00021847526563423258
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1845,
+            "max_euclidean_residual": 0.01479143463075161,
+            "max_squared_residual_diagnostic": 0.000218786538435798
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1060,
+            "max_euclidean_residual": 0.01598254032433033,
+            "max_squared_residual_diagnostic": 0.00025544159521884505
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260733": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 82,
+            "max_euclidean_residual": 0.015142910182476044,
+            "max_squared_residual_diagnostic": 0.00022930772879453665
+          },
+          "decoder_guided_node_0_noise_0_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014790506102144718,
+            "max_squared_residual_diagnostic": 0.00021875907075758014
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014742895029485226,
+            "max_squared_residual_diagnostic": 0.00021735295385042017
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1859,
+            "max_euclidean_residual": 0.01499482337385416,
+            "max_squared_residual_diagnostic": 0.00022484472801308306
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1041,
+            "max_euclidean_residual": 0.016002139076590538,
+            "max_squared_residual_diagnostic": 0.0002560684550265459
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260734": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 75,
+            "max_euclidean_residual": 0.015507114119827747,
+            "max_squared_residual_diagnostic": 0.0002404705883253611
+          },
+          "decoder_guided_node_0_noise_0_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.0001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.01_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_0_noise_0.05_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 0,
+            "max_euclidean_residual": null,
+            "max_squared_residual_diagnostic": null
+          },
+          "decoder_guided_node_1_noise_0_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1871,
+            "max_euclidean_residual": 0.014790506102144718,
+            "max_squared_residual_diagnostic": 0.00021875907075758014
+          },
+          "decoder_guided_node_1_noise_0.0001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1874,
+            "max_euclidean_residual": 0.01480436697602272,
+            "max_squared_residual_diagnostic": 0.0002191692815607521
+          },
+          "decoder_guided_node_1_noise_0.001_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 1855,
+            "max_euclidean_residual": 0.015126435086131096,
+            "max_squared_residual_diagnostic": 0.00022880903841493785
+          },
+          "decoder_guided_node_1_noise_0.01_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 970,
+            "max_euclidean_residual": 0.01577926054596901,
+            "max_squared_residual_diagnostic": 0.0002489850633775742
+          },
+          "decoder_guided_node_1_noise_0.05_seed_20260735": {
+            "evaluated_samples": 2061,
+            "accepted_samples": 94,
+            "max_euclidean_residual": 0.015602955594658852,
+            "max_squared_residual_diagnostic": 0.00024345222328889596
+          }
+        },
+        "witness": {
+          "source": "decoder_guided_node_1_noise_0.01_seed_20260734",
+          "row_index_zero_based": 5068,
+          "x_raw": [
+            -1.274893406046258,
+            -0.0454348080742204,
+            -0.3441187409523673,
+            0.038334313157332336,
+            -0.136073665168098,
+            0.01438177291136607,
+            -0.05878038061835883,
+            0.004193259318438082,
+            -0.01798779945312808,
+            -0.0023801937797058026,
+            -0.013475893998170934,
+            0.000186421713610996,
+            0.0005688375751640891,
+            -0.001866287037177553,
+            -0.0006418710315668533,
+            -0.0011061687402956673,
+            -0.0006709252558050237,
+            -0.00022986065309764413,
+            0.0002468196081733591,
+            0.0001497036597754012,
+            9.079985952496971e-05,
+            -5.5072898699494316e-05,
+            -3.340340158049132e-05,
+            2.026018719726142e-05,
+            -1.228842470665642e-05,
+            -7.453306344157342e-06,
+            -4.5206588139621085e-06,
+            -2.741918172768169e-06,
+            -1.6630574382071358e-06,
+            1.008695325135776e-06,
+            -6.118046410036516e-07,
+            3.7107827252319567e-07,
+            -2.2507034943851823e-07,
+            -1.365120675266974e-07,
+            -8.279875437570334e-08,
+            5.021998311487964e-08,
+            3.045995948942526e-08,
+            -1.847489932394119e-08,
+            1.1205592875074536e-08,
+            6.796535638990142e-09,
+            4.122307244877116e-09,
+            -2.500305732773485e-09,
+            1.5165120855823813e-09,
+            9.198110757304633e-10,
+            5.578936185737849e-10,
+            -3.383795845230261e-10,
+            -2.052375926340378e-10,
+            1.2448289245815565e-10,
+            7.550269088558195e-11,
+            4.579469691291106e-11,
+            -2.7775887729928042e-11,
+            1.6846927508937294e-11,
+            1.021817805612665e-11,
+            -6.197638277443651e-12,
+            3.7590576330781665e-12,
+            2.2799837060887107e-12,
+            -1.3828800213880406e-12,
+            8.387591316759089e-13,
+            5.087331294753846e-13,
+            3.0856224063837755e-13,
+            1.871524593768035e-13,
+            1.1351370465265445e-13,
+            -6.884954216939954e-14,
+            -4.175935823291867e-14
+          ],
+          "E_x": [
+            2.516733169555664,
+            -0.040128644555807114
+          ],
+          "g_E_x": [
+            2.4630746841430664,
+            0.004453130066394806
+          ],
+          "E_f_x": [
+            2.447139024734497,
+            0.005910266190767288
+          ]
+        }
+      },
+      "comparison": {
+        "sampled_residual_over_sampled_tolerance": 0.37635600314224216,
+        "sampled_conclusion": "no_sampled_violation_found"
+      }
+    }
+  }
+}
