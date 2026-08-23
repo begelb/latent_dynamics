@@ -21,12 +21,32 @@ authors = [
 ]
 
 dependencies = [
-    "torch>=2.11",
-    "numpy>=2.0",
+    # Floors below are the oldest release carrying an API this package uses,
+    # not a snapshot of any one development machine. No module compares a
+    # runtime version; torch.__version__ and scipy.__version__ are recorded
+    # into run provenance only.
+    #   torch  2.0  -- torch.load(weights_only=...) (1.13) and the torch.mps
+    #                  namespace (1.12) are the newest APIs used.
+    #   numpy  1.26 -- the code uses no numpy-2-only API and no name numpy 2
+    #                  removed, so it runs on both 1.26.x and 2.x. Keeping the
+    #                  floor below 2.0 matters on macOS x86_64, where the last
+    #                  available torch (2.2.2) is built against the numpy 1 ABI
+    #                  and aborts under numpy 2.
+    "torch>=2.0",
+    "numpy>=1.26",
+    # macOS x86_64 has no torch wheel past 2.2.2, and that build predates
+    # numpy 2.0 -- under numpy 2 it aborts with "Failed to initialize NumPy:
+    # _ARRAY_API not found" and every .numpy()/from_numpy call raises. torch
+    # declares no numpy constraint of its own, so the resolver would otherwise
+    # happily pick torch 2.2.2 alongside numpy 2.x. Other platforms are
+    # unaffected and resolve to current numpy.
+    "numpy<2; platform_system == 'Darwin' and platform_machine == 'x86_64'",
     "pandas>=2.0",
-    "matplotlib>=3.10",
-    "scikit-learn>=1.8",
-    "scipy>=1.17",
+    "matplotlib>=3.8",
+    # Only sklearn.preprocessing.MinMaxScaler and long-stable scipy submodules
+    # (integrate, optimize, sparse.csgraph, spatial, stats) are used.
+    "scikit-learn>=1.3",
+    "scipy>=1.11",
     "pyyaml>=6.0",
     "tqdm>=4.67",
     "joblib>=1.5",
@@ -38,6 +58,10 @@ dependencies = [
     "shapely>=2.0",
     # Geometry-preserving PDF recoloring (scripts/recolor_chafee_pdf.py).
     "pypdf>=4.0",
+    # Memory headroom checks in the Chafee d=3 on-demand controller
+    # (scripts/run_chafee_d3_ondemand_5x3_controller.py). Imported at module
+    # scope, so test collection fails without it.
+    "psutil>=5.9",
     # The maintained CMGDB fork is not on PyPI. uv resolves the pin through
     # the flat 'cmgdb-wheels' index below; with plain pip, install the
     # prebuilt wheel first:

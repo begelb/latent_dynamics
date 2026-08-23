@@ -83,8 +83,20 @@ panels without recomputing them (~54 min / ~97 min). CMGDB
 | Basins + Morse/RoA overlay (fig. panels) | `python scripts/plot_chafee_coarse_morse_roa_overlay.py` | min |
 | Classification statistics tables (45 runs) | `python scripts/chafee_basin_table.py` (validated to reproduce every printed value from the shipped per-IC record) | sec |
 | Per-run 45-computation regeneration | d=2: `python scripts/analyze_chafee_d2_archive.py`; d=1: `python scripts/run_chafee_d1_matched_5x3.py`; d=3: `python scripts/run_chafee_d3_matched_5x3_training.py` + `run_chafee_d3_ondemand_5x3_controller.py` (training stochastic) | long |
-| Residual/tolerance rows d=2 | `python scripts/compute_sampled_residual_tolerance.py chafee_infante_current` | ~2 h |
+| Residual/tolerance rows d=2 | `python scripts/compute_sampled_residual_tolerance.py chafee_infante_current` (base seed; see note below) | ~30 min |
 | Residual/tolerance rows d=1, d=3 | `python scripts/compute_sampled_residual_tolerance.py chafee_latent_dimensions --dimension 1 --stage tolerance` then `--stage stored`, the `--stage fresh`/`--stage decoder` batches, and `--stage merge` (same for `--dimension 3`) | ~15 min wall |
+
+The d=2 command above runs the **base seed only**. The shipped
+`artifacts/reference_results/sampled_residual_tolerance/chafee_infante_current/dense_sampling.json`
+is a nine-seed ensemble: fresh-trajectory seeds 20260727-20260731 (the first
+with 1024 initial conditions, the rest with 2048) plus decoder-guided seeds
+20260732-20260735, folded together with `--stage merge`. Its
+`fresh_trajectory_ensemble_seeds` and `supplemental_runs` fields record the
+whole set. To reproduce that number rather than a single-seed lower bound, run
+the supplemental seeds with `--stage residual --seed <S> --output-suffix
+seed<S>`, then `--stage merge --merge-suffixes ...`. A single seed agrees with
+its published counterpart to ~1e-5 but samples one of nine point sets, so its
+maximum is a weaker lower bound.
 
 ## 5. Checking results
 

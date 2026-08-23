@@ -53,7 +53,13 @@ WRITE_STAGES: frozenset[str] = frozenset({"data", "scale", "train", "morse"})
 DEFAULT_REPLAY_ROOT: Path = Path("replay")
 
 
-def _check_read_only(cfg: ExperimentConfig, plan: list[str], *, force_overwrite: bool) -> None:
+def _check_read_only(
+    cfg: ExperimentConfig,
+    plan: list[str],
+    *,
+    force_overwrite: bool,
+    replay_root: Path | None = None,
+) -> None:
     if cfg.paths.scaler_read_only and "scale" in plan:
         raise RuntimeError(
             "config sets paths.scaler_read_only=true; refusing the scale stage because "
@@ -63,6 +69,11 @@ def _check_read_only(cfg: ExperimentConfig, plan: list[str], *, force_overwrite:
     if not cfg.paths.read_only or force_overwrite:
         return
     blocked = [s for s in plan if s in WRITE_STAGES]
+    if replay_root is not None:
+        # Under replay routing the morse stage reads the preserved checkpoint
+        # but writes CMGDB output into the derived tree, so it no longer
+        # threatens the source artifacts the block exists to protect.
+        blocked = [s for s in blocked if s != "morse"]
     if blocked:
         raise RuntimeError(
             f"config sets paths.read_only=true; refusing to run write-stages "
@@ -118,6 +129,21 @@ def _derived_output_dir(
     rel = seed_cfg.paths.output_dir.relative_to(cfg.paths.output_dir)
     name = cfg.experiment_name or "unnamed"
     return Path(replay_root) / name / rel
+
+
+def _effective_morse_dir(seed_cfg: ExperimentConfig, derived_dir: Path | None) -> Path:
+    """Morse artifacts the derived stages should consume.
+
+    When the morse stage has just written into the derived tree, render and
+    metrics must read *that* graph rather than the preserved one they would
+    otherwise re-render. Falls back to the source tree, which is the replay
+    case where no recomputation happened.
+    """
+    if derived_dir is not None:
+        candidate = Path(derived_dir) / "MG"
+        if (candidate / "morse_graph").exists() and (candidate / "morse_sets").exists():
+            return candidate
+    return seed_cfg.paths.morse_dir
 
 
 @dataclass(frozen=True)
@@ -652,13 +678,15 @@ def run_one(
     ``force_overwrite`` is passed.
     """
     plan = _normalize_stages(stages)
-    _check_read_only(cfg, plan, force_overwrite=force_overwrite)
-    seed_cfg = _config_for_seed(cfg, train_file=train_file, seed=seed)
     resolved_replay_root = _resolve_replay_root(
         cfg,
         replay_root,
         force_overwrite=force_overwrite,
     )
+    _check_read_only(
+        cfg, plan, force_overwrite=force_overwrite, replay_root=resolved_replay_root
+    )
+    seed_cfg = _config_for_seed(cfg, train_file=train_file, seed=seed)
     derived_dir = _derived_output_dir(cfg, seed_cfg, replay_root=resolved_replay_root)
     dev = _resolve_device(device)
 
@@ -736,6 +764,7 @@ def run_one(
             device=dev,
             verbose=verbose,
             force_overwrite=force_overwrite,
+            out_dir=derived_dir if resolved_replay_root is not None else None,
         )
     elif "morse" in plan:
         skipped.append("morse")
@@ -757,6 +786,7 @@ def run_one(
             verbose=verbose,
             out_dir=derived_dir,
             figures=figures,
+            morse_dir=_effective_morse_dir(seed_cfg, derived_dir),
         )
     elif "render" in plan:
         skipped.append("render")
@@ -777,6 +807,7 @@ def run_one(
             train_file=train_file,
             verbose=verbose,
             out_dir=derived_dir,
+            morse_dir=_effective_morse_dir(seed_cfg, derived_dir),
         )
     elif "metrics" in plan:
         skipped.append("metrics")
@@ -818,17 +849,19 @@ def run(
     See :func:`run_one` for replay-routing semantics under read-only configs.
     """
     plan = _normalize_stages(stages)
-    _check_read_only(cfg, plan, force_overwrite=force_overwrite)
+    resolved_replay_root = _resolve_replay_root(
+        cfg,
+        replay_root,
+        force_overwrite=force_overwrite,
+    )
+    _check_read_only(
+        cfg, plan, force_overwrite=force_overwrite, replay_root=resolved_replay_root
+    )
     cells = _select_cells(
         cfg,
         max_seeds=max_seeds,
         cell_index=cell_index,
         expected_cells=expected_cells,
-    )
-    resolved_replay_root = _resolve_replay_root(
-        cfg,
-        replay_root,
-        force_overwrite=force_overwrite,
     )
     dev = _resolve_device(device)
     results: list[dict] = []
@@ -924,6 +957,7 @@ def run(
                 device=dev,
                 verbose=verbose,
                 force_overwrite=force_overwrite,
+                out_dir=derived_dir if resolved_replay_root is not None else None,
             )
         elif "morse" in plan:
             skipped.append("morse")
@@ -945,6 +979,7 @@ def run(
                 verbose=verbose,
                 out_dir=derived_dir,
                 figures=figures,
+                morse_dir=_effective_morse_dir(seed_cfg, derived_dir),
             )
         elif "render" in plan:
             skipped.append("render")
@@ -965,6 +1000,7 @@ def run(
                 train_file=train_file,
                 verbose=verbose,
                 out_dir=derived_dir,
+                morse_dir=_effective_morse_dir(seed_cfg, derived_dir),
             )
         elif "metrics" in plan:
             skipped.append("metrics")

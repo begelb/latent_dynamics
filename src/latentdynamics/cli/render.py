@@ -28,22 +28,9 @@ def _morse_dir_for(cfg: ExperimentConfig) -> Path:
 
 
 def _bounds_from_log(log_path: Path) -> tuple[list[float] | None, list[float] | None]:
-    if not log_path.exists():
-        return None, None
-    lower: list[float] | None = None
-    upper: list[float] | None = None
-    for line in log_path.read_text().splitlines():
-        if line.lower().startswith("lower bounds:"):
-            lower = _parse_bounds(line)
-        elif line.lower().startswith("upper bounds:"):
-            upper = _parse_bounds(line)
-    return lower, upper
+    from .morse_graph import read_recorded_bounds
 
-
-def _parse_bounds(line: str) -> list[float]:
-    payload = line.split(":", 1)[1].strip()
-    payload = payload.strip("[]() ")
-    return [float(x.strip()) for x in payload.split(",") if x.strip()]
+    return read_recorded_bounds(log_path)
 
 
 def render_stage(
@@ -54,6 +41,7 @@ def render_stage(
     verbose: bool = True,
     out_dir: Path | None = None,
     figures: set[str] | None = None,
+    morse_dir: Path | None = None,
 ) -> dict[str, list[str]]:
     """Re-render Morse plots from saved DOT/CSV plus any system-specific figures.
 
@@ -62,8 +50,9 @@ def render_stage(
     is expensive (it walks the latent map); the rest just read saved artifacts,
     so an overlay tweak can pass ``figures={"overlay"}`` to regenerate in ~a second.
 
-    Reads source artifacts from ``cfg.paths.morse_dir`` and
-    ``cfg.paths.output_dir``. When ``out_dir`` is provided, all rendered
+    Reads Morse artifacts from ``morse_dir`` when given -- which is how a
+    freshly recomputed Morse graph gets rendered instead of the saved one --
+    and from ``cfg.paths.morse_dir`` otherwise. When ``out_dir`` is provided, all rendered
     figures (Morse PDFs/PNGs and system-specific extras) are written under
     ``out_dir`` (``out_dir/MG/...`` and ``out_dir/figures/...``); when it is
     ``None``, output defaults to ``cfg.paths.output_dir``, matching the
@@ -72,7 +61,7 @@ def render_stage(
     Returns ``{"skipped": <reason>}`` when the saved Morse artifacts are missing
     or empty (e.g. partial uploads), so a multi-seed sweep can keep going.
     """
-    morse_dir = _morse_dir_for(cfg)
+    morse_dir = Path(morse_dir) if morse_dir is not None else _morse_dir_for(cfg)
     dot_path = morse_dir / "morse_graph"
     csv_path = morse_dir / "morse_sets"
     if not dot_path.exists() or not csv_path.exists():
@@ -84,7 +73,10 @@ def render_stage(
             print(f"render: skipped {morse_dir} (empty morse_graph or morse_sets)")
         return {"skipped": f"empty morse_graph or morse_sets in {morse_dir}"}
 
-    bounds_lower, bounds_upper = _bounds_from_log(cfg.paths.output_dir / "mg_params_log.txt")
+    params_log = morse_dir.parent / "mg_params_log.txt"
+    if not params_log.exists():
+        params_log = cfg.paths.output_dir / "mg_params_log.txt"
+    bounds_lower, bounds_upper = _bounds_from_log(params_log)
 
     write_root = Path(out_dir) if out_dir is not None else cfg.paths.output_dir
     want = set(figures) if figures is not None else {"morse", "roa", "overlay", "extras"}
@@ -138,6 +130,7 @@ def render_stage(
             device=render_device,
             verbose=verbose,
             out_dir=write_root,
+            morse_dir=morse_dir,
         )
         rendered.extend(extras)
 
@@ -365,6 +358,7 @@ def render_extras(
     device: torch.device | str | None = None,
     verbose: bool = True,
     out_dir: Path | None = None,
+    morse_dir: Path | None = None,
 ) -> list[str]:
     """System-specific render hooks; safe no-op for systems without extras."""
     render_device = _resolve_render_device(device)
@@ -375,6 +369,7 @@ def render_extras(
             train_file=train_file,
             device=render_device,
             verbose=verbose,
+            morse_dir=morse_dir,
             out_dir=out_dir,
         )
     return []
@@ -422,11 +417,12 @@ def _render_leslie3d_extras(
     device: torch.device,
     verbose: bool,
     out_dir: Path | None = None,
+    morse_dir: Path | None = None,
 ) -> list[str]:
     """Render the latent-trajectory overlay (paper Fig. 1.214) from saved artifacts."""
     from ..viz import plot_latent_trajectory
 
-    morse_dir = _morse_dir_for(cfg)
+    morse_dir = Path(morse_dir) if morse_dir is not None else _morse_dir_for(cfg)
     morse_sets_path = morse_dir / "morse_sets"
     if not morse_sets_path.exists():
         return []

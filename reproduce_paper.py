@@ -6,11 +6,18 @@ steps. A step is either a packaged pipeline config (resolved by
 :func:`latentdynamics.cli.pipeline.run`) or a script invocation under
 ``scripts/``. Every step carries a tier:
 
-* ``replay``    -- re-render figures / recompute metrics from saved artifacts;
-                   seconds to minutes, runs by default.
+* ``replay``    -- rerun CMGDB and everything downstream of it on the saved
+                   trained models, then render and re-derive metrics. The
+                   networks, scalers and datasets are reused; the box map,
+                   Morse graph, Conley indices, coarsenings, regions of
+                   attraction and residual/tolerance estimates are recomputed.
+                   Runs by default.
 * ``recompute`` -- rerun a CMGDB or analysis computation from saved inputs
                    (checkpoints, datasets); no training. Minutes to hours.
 * ``retrain``   -- retrain models before analysis. Longest tier.
+* ``blocked``   -- inputs were not preserved, so the step cannot run at all.
+                   Never selected by ``--tiers all``; listed so the gap is
+                   visible rather than surfacing as a late failure.
 
 Default behavior runs only the ``replay`` tier. Pass ``--tiers
 replay,recompute`` (or ``all``) to escalate. Runtime notes are honest
@@ -36,7 +43,7 @@ from latentdynamics.config import load_config
 
 REPO_ROOT = Path(__file__).resolve().parent
 
-TIERS = ("replay", "recompute", "retrain")
+TIERS = ("replay", "recompute", "retrain", "blocked")
 
 # Each step: name, tier, runtime note, and either a packaged config stem
 # ("config") or a scripts/ argv ("command", relative to the repo root).
@@ -48,10 +55,23 @@ EXPERIMENTS: dict[str, dict] = {
         ),
         "steps": [
             {
-                "name": "latent_replay",
+                "name": "latent_cmgdb",
                 "tier": "replay",
                 "config": "leslie_2gen_contraction_replay",
-                "runtime": "seconds-minutes (render+metrics from saved Morse artifacts)",
+                "stages": "morse,render,metrics",
+                # float32 box-map evaluation differs by device: on a machine
+                # where MPS is available the adaptive grid resolves a handful
+                # of boundary cells differently. The published runs were CPU,
+                # and pinning it reproduces their Morse sets exactly.
+                "device": "cpu",
+                "runtime": "~1 h (CMGDB rerun on the saved model, then render+metrics)",
+            },
+            {
+                "name": "residual_tolerance",
+                "tier": "replay",
+                "command": ["scripts/compute_sampled_residual_tolerance.py",
+                            "leslie_2gen_contraction"],
+                "runtime": "~40 min (sampled residual/tolerance rows)",
             },
             {
                 "name": "latent_morse_sets_render",
@@ -72,7 +92,7 @@ EXPERIMENTS: dict[str, dict] = {
             },
             {
                 "name": "direct_2d_reference_figures",
-                "tier": "replay",
+                "tier": "recompute",
                 "command": ["scripts/render_original_leslie2d_full_paper_figures.py"],
                 "runtime": "seconds-minutes (render-only; needs direct_2d_reference outputs)",
             },
@@ -86,40 +106,59 @@ EXPERIMENTS: dict[str, dict] = {
         ),
         "steps": [
             {
-                "name": "latent_fine_replay",
+                "name": "latent_cmgdb",
                 "tier": "replay",
                 "config": "leslie3d_example1_replay",
-                "runtime": "seconds-minutes (render+metrics from saved artifacts)",
-            },
-            {
-                "name": "paper_figures_render",
-                "tier": "replay",
-                "command": ["scripts/render_leslie3d_example1_figures.py"],
-                "runtime": "seconds-minutes (display-only rerender of saved Morse data)",
+                "stages": "morse,render,metrics",
+                # float32 box-map evaluation differs by device: on a machine
+                # where MPS is available the adaptive grid resolves a handful
+                # of boundary cells differently. The published runs were CPU,
+                # and pinning it reproduces their Morse sets exactly.
+                "device": "cpu",
+                "runtime": "minutes (adaptive 23/23/27 CMGDB rerun on the saved model)",
             },
             {
                 "name": "coarsen_morse_graph",
-                "tier": "recompute",
+                "tier": "replay",
                 "command": ["scripts/leslie3d_example1_coarsen_morse_graph.py"],
                 "runtime": "~6 min (rebuilds the 23/23/27 adaptive cell graph, then merges nodes 4,5)",
             },
             {
                 "name": "uniform_grid_22",
-                "tier": "recompute",
+                "tier": "replay",
                 "command": ["scripts/leslie3d_example1_uniform_grid.py", "--depth", "22"],
                 "runtime": "minutes (fixed-depth 22 CMGDB recompute; wall clock unrecorded in the audit)",
             },
             {
                 "name": "uniform_sampled_metrics",
-                "tier": "recompute",
+                "tier": "replay",
                 "command": ["scripts/leslie3d_example1_uniform_sampled_metrics.py", "--depth", "22"],
                 "runtime": "minutes-hours (dense residual/tolerance sampling)",
             },
             {
                 "name": "verify_closures",
-                "tier": "recompute",
+                "tier": "replay",
                 "command": ["scripts/leslie3d_example1_verify_closures.py"],
                 "runtime": "minutes",
+            },
+            {
+                # Assembles the uniform-22 / adaptive / coarsened-4-5 outputs
+                # into the fixed22_vs_adaptive bundle layout and then invokes
+                # render_leslie3d_example1_figures.py itself. Running that
+                # renderer directly cannot work: it reads the bundle layout,
+                # which only this step produces.
+                "name": "package_bundle_and_figures",
+                "tier": "replay",
+                "command": ["scripts/leslie3d_example1_package_bundle.py"],
+                "runtime": "minutes (consistency gates, manifest, checksums, "
+                           "then panels a-d and coarse a,b)",
+            },
+            {
+                "name": "residual_tolerance",
+                "tier": "replay",
+                "command": ["scripts/compute_sampled_residual_tolerance.py",
+                            "leslie3d_example1"],
+                "runtime": "~1 h (sampled residual/tolerance, fine rows)",
             },
             {
                 "name": "direct_3d_reference_screen",
@@ -145,13 +184,13 @@ EXPERIMENTS: dict[str, dict] = {
             },
             {
                 "name": "direct_3d_reference_graph_figure",
-                "tier": "replay",
+                "tier": "recompute",
                 "command": ["scripts/plot_original_leslie3d_ground_truth_morse_graph.py"],
                 "runtime": "seconds (DOT render; needs the reference outputs)",
             },
             {
                 "name": "direct_3d_reference_cubical_figure",
-                "tier": "replay",
+                "tier": "recompute",
                 "command": ["scripts/render_original_leslie3d_morse_sets_cubical.py"],
                 "runtime": "minutes (154 MB cell CSV parse, render-only)",
             },
@@ -165,37 +204,63 @@ EXPERIMENTS: dict[str, dict] = {
         ),
         "steps": [
             {
+                "name": "latent_cmgdb_d2",
+                "tier": "replay",
+                "config": "chafee_infante_replay",
+                "stages": "morse,render,metrics",
+                # float32 box-map evaluation differs by device: on a machine
+                # where MPS is available the adaptive grid resolves a handful
+                # of boundary cells differently. The published runs were CPU,
+                # and pinning it reproduces their Morse sets exactly.
+                "device": "cpu",
+                "runtime": "minutes-hours (d=2 CMGDB rerun on the saved model)",
+            },
+            {
+                # Single-seed. The published row is a nine-seed ensemble --
+                # fresh seeds 20260727-31 plus decoder seeds 20260732-35, folded
+                # together by --stage merge (see fresh_trajectory_ensemble_seeds
+                # in the reference dense_sampling.json). This runs the base seed
+                # only, which reproduces its counterpart to ~6e-6 but samples
+                # 1 of 9 point sets, so the residual maximum is a weaker lower
+                # bound than the published one. R < tau still holds.
+                "name": "residual_tolerance_d2",
+                "tier": "replay",
+                "command": ["scripts/compute_sampled_residual_tolerance.py",
+                            "chafee_infante_current"],
+                "runtime": "~30 min (base seed only; the published row merges 9 seeds)",
+            },
+            {
                 "name": "latent_dimension_study",
                 "tier": "recompute",
                 "command": ["scripts/chafee_latent_dimension_study.py"],
                 "runtime": (
-                    "minutes (d=1,2) to hours (d=3 adaptive level-33); adopts the "
-                    "saved d=1/d=3 checkpoints when present, otherwise retrains them"
+                    "hours; the saved d=1/d=3 checkpoints no longer exist, so this "
+                    "retrains them and results will not match the published models"
                 ),
             },
             {
                 "name": "coarsen_d2",
-                "tier": "recompute",
+                "tier": "blocked",
                 "command": ["scripts/coarsen_chafee_infante.py"],
-                "runtime": "minutes (2D CMGDB at subdiv 14/16/22 from the archived inputs)",
+                "runtime": "BLOCKED: needs replay_sources/chafee_infante/reference_inputs/{ci_model_weights.pth,train_data.csv}, which came from the coauthor archive and was never committed",
             },
             {
                 "name": "roa_overlay",
-                "tier": "recompute",
+                "tier": "blocked",
                 "command": ["scripts/plot_chafee_coarse_morse_roa_overlay.py"],
-                "runtime": "minutes (uniform 16/16/16 basin graph plus render)",
+                "runtime": "BLOCKED: consumes the coarsen_d2 outputs above",
             },
             {
                 "name": "standardized_render",
-                "tier": "replay",
+                "tier": "blocked",
                 "command": ["scripts/render_chafee_infante_standardized.py"],
-                "runtime": "seconds-minutes (render-only; needs study outputs)",
+                "runtime": "BLOCKED: d=1 panels; the chafee_latent_dimension_study checkpoints were stripped by the output/**/*.pt ignore rule",
             },
             {
                 "name": "d3_graph_palette_render",
-                "tier": "replay",
+                "tier": "blocked",
                 "command": ["scripts/render_chafee_infante_3d_graph_palette.py"],
-                "runtime": "seconds (render-only)",
+                "runtime": "BLOCKED: d=3 panels; same missing checkpoints as the d=1 render",
             },
             {
                 "name": "basin_stats_d2_archive",
@@ -223,9 +288,9 @@ EXPERIMENTS: dict[str, dict] = {
             },
             {
                 "name": "basin_table",
-                "tier": "replay",
+                "tier": "blocked",
                 "command": ["scripts/chafee_basin_table.py"],
-                "runtime": "seconds (derives the printed table from the shipped per-IC CSV)",
+                "runtime": "BLOCKED: needs replay_sources/chafee_infante/statistics/ci_completed_10k_raw_classifications_45_runs.csv, never committed",
             },
             {
                 "name": "residual_audit",
@@ -242,10 +307,24 @@ EXPERIMENTS: dict[str, dict] = {
         ),
         "steps": [
             {
-                "name": "latent_replay",
+                "name": "latent_cmgdb",
                 "tier": "replay",
                 "config": "coral_basic",
-                "runtime": "seconds-minutes (render+metrics from saved artifacts)",
+                "stages": "morse,render,metrics",
+                # float32 box-map evaluation differs by device: on a machine
+                # where MPS is available the adaptive grid resolves a handful
+                # of boundary cells differently. The published runs were CPU,
+                # and pinning it reproduces their Morse sets exactly.
+                "device": "cpu",
+                "cell_index": 16,
+                "runtime": "seconds (CMGDB rerun on the saved seed-16 model)",
+            },
+            {
+                "name": "residual_tolerance",
+                "tier": "replay",
+                "command": ["scripts/compute_sampled_residual_tolerance.py",
+                            "coral_candidate_train500_seed16"],
+                "runtime": "minutes (sampled residual/tolerance rows)",
             },
             {
                 "name": "morse_sets_render",
@@ -290,6 +369,11 @@ def _run_pipeline_step(
         cfg = load_config(step["config"])
     except FileNotFoundError:
         return f"missing config: {step['config']}"
+    # A step may pin its own stages (recomputing CMGDB rather than re-rendering
+    # it) and its own cell (the one seed a paper figure was drawn from).
+    step_stages = step.get("stages")
+    if step_stages is not None:
+        stages = [s.strip() for s in step_stages.split(",") if s.strip()]
     if not cfg.paths.output_dir.exists() and "data" not in stages:
         return (
             f"no on-disk artifacts at {cfg.paths.output_dir}; fetch the replay "
@@ -301,6 +385,8 @@ def _run_pipeline_step(
         max_seeds=max_seeds,
         verbose=verbose,
         replay_root=replay_root,
+        cell_index=step.get("cell_index"),
+        device=step.get("device"),
     )
     return _summarise_results(results)
 
@@ -361,7 +447,10 @@ def main(argv: list[str] | None = None) -> int:
         _print_plan()
         return 0
 
-    tiers = set(TIERS) if args.tiers == "all" else {t for t in args.tiers.split(",") if t}
+    # 'all' means everything runnable; blocked steps must be asked for by name.
+    tiers = set(TIERS) - {"blocked"} if args.tiers == "all" else {
+        t for t in args.tiers.split(",") if t
+    }
     unknown = tiers - set(TIERS)
     if unknown:
         parser.error(f"unknown tiers: {sorted(unknown)}; valid: {TIERS}")

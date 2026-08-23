@@ -12,6 +12,7 @@ plus ``mg_params_log.txt`` recording the latent bounds used by CMGDB.
 from __future__ import annotations
 
 import time
+from pathlib import Path
 from typing import Literal
 
 import numpy as np
@@ -153,6 +154,34 @@ def _morse_artifacts_present(morse_dir) -> bool:
     return False
 
 
+
+def read_recorded_bounds(
+    log_path: Path,
+) -> tuple[list[float] | None, list[float] | None]:
+    """Latent bounds recorded by a previous run, or ``(None, None)``.
+
+    Reads the ``Lower bounds:``/``Upper bounds:`` lines that
+    :func:`write_mg_params_log` emits. The legacy MORALS-era logs preserved in
+    the replay tree use the same two labels, so both formats parse here.
+    """
+    if not log_path.is_file():
+        return None, None
+    lower: list[float] | None = None
+    upper: list[float] | None = None
+    for line in log_path.read_text().splitlines():
+        lowered = line.lower()
+        if lowered.startswith("lower bounds:"):
+            lower = _parse_bounds_line(line)
+        elif lowered.startswith("upper bounds:"):
+            upper = _parse_bounds_line(line)
+    return lower, upper
+
+
+def _parse_bounds_line(line: str) -> list[float]:
+    payload = line.split(":", 1)[1].strip().strip("[]() ")
+    return [float(x.strip()) for x in payload.split(",") if x.strip()]
+
+
 def run(
     cfg: ExperimentConfig,
     *,
@@ -162,22 +191,46 @@ def run(
     device: torch.device | str | None = None,
     verbose: bool = True,
     force_overwrite: bool = False,
+    out_dir: Path | None = None,
 ) -> None:
-    """Run the full Morse-graph pipeline for one trained model."""
-    output_root = cfg.paths.output_dir
+    """Run the full Morse-graph pipeline for one trained model.
+
+    Inputs (checkpoint, data, scaler) are always read from ``cfg.paths``.
+    ``out_dir`` separates *where CMGDB output is written* from where the model
+    was read, so a preserved read-only run can be recomputed into a derived
+    tree without touching it. When ``out_dir`` is ``None`` the two coincide,
+    which is the original behavior.
+
+    The refuse-to-overwrite guard protects the *source* tree, where an
+    expensive CMGDB run may already be stored. A derived tree is regenerable by
+    construction, so writing into an explicit ``out_dir`` replaces it and says
+    so rather than raising.
+    """
+    source_root = cfg.paths.output_dir
     if output_subdir is not None:
-        output_root = output_root / output_subdir
+        source_root = source_root / output_subdir
 
-    morse_dir = output_root / "MG"
+    if out_dir is None:
+        write_root = source_root
+    else:
+        write_root = Path(out_dir)
+        if output_subdir is not None:
+            write_root = write_root / output_subdir
+
+    morse_dir = write_root / "MG"
     if _morse_artifacts_present(morse_dir) and not force_overwrite:
-        raise RuntimeError(
-            f"prior Morse artifacts present at {morse_dir} "
-            f"(morse_graph DOT or morse_sets CSV is non-empty). Refusing to "
-            f"overwrite a potentially expensive CMGDB run. "
-            f"Pass --force-overwrite to proceed."
-        )
+        if write_root != source_root:
+            if verbose:
+                print(f"morse: replacing derived artifacts at {morse_dir}")
+        else:
+            raise RuntimeError(
+                f"prior Morse artifacts present at {morse_dir} "
+                f"(morse_graph DOT or morse_sets CSV is non-empty). Refusing to "
+                f"overwrite a potentially expensive CMGDB run. "
+                f"Pass --force-overwrite to proceed."
+            )
 
-    model, _arch = load_any_checkpoint(output_root / "models", arch=cfg.arch)
+    model, _arch = load_any_checkpoint(source_root / "models", arch=cfg.arch)
     if device is None:
         device = (
             torch.device("mps")
@@ -193,18 +246,36 @@ def run(
     if bounds_data_role is None:
         bounds_data_role = cfg.cmgdb.bounds_data_role
 
-    all_scaled = _load_data_and_scale(
-        cfg,
-        train_file,
-        bounds_data_role=bounds_data_role,
-    )
+    # Loaded only when bounds must be inferred from it. Pinned bounds make the
+    # training data irrelevant to this stage, and for runs whose dataset was not
+    # preserved that is the difference between recomputing and not.
     if cfg.cmgdb.lower_bounds is not None and cfg.cmgdb.upper_bounds is not None:
         bounds = LatentBounds(
             lower=np.asarray(cfg.cmgdb.lower_bounds, dtype=np.float64),
             upper=np.asarray(cfg.cmgdb.upper_bounds, dtype=np.float64),
         )
         bounds_source = "config"
+    elif cfg.cmgdb.bounds_from_run_log:
+        params_log = source_root / "mg_params_log.txt"
+        recorded_lower, recorded_upper = read_recorded_bounds(params_log)
+        if recorded_lower is None or recorded_upper is None:
+            raise FileNotFoundError(
+                f"cmgdb.bounds_from_run_log is set but {params_log} has no "
+                f"recorded latent bounds. Either point the config at a run that "
+                f"logged them, set cmgdb.lower_bounds/upper_bounds explicitly, "
+                f"or clear the flag to infer bounds from the training data."
+            )
+        bounds = LatentBounds(
+            lower=np.asarray(recorded_lower, dtype=np.float64),
+            upper=np.asarray(recorded_upper, dtype=np.float64),
+        )
+        bounds_source = "recorded_run_log"
     else:
+        all_scaled = _load_data_and_scale(
+            cfg,
+            train_file,
+            bounds_data_role=bounds_data_role,
+        )
         bounds = infer_latent_bounds(
             model.encoder,
             all_scaled,
@@ -228,7 +299,7 @@ def run(
         raise ValueError(
             f"latent bounds contain NaN/Inf (lower={bounds.lower.tolist()}, "
             f"upper={bounds.upper.tolist()}); training likely diverged - "
-            f"check {output_root / 'final_losses.txt'}"
+            f"check {source_root / 'final_losses.txt'}"
         )
     if verbose:
         print(
@@ -278,7 +349,7 @@ def run(
         print(f"computation took {duration_s / 60.0:.2f} min")
 
     write_mg_params_log(
-        output_root,
+        write_root,
         bounds=bounds,
         cmgdb_cfg=cfg.cmgdb,
         bounds_source=bounds_source,

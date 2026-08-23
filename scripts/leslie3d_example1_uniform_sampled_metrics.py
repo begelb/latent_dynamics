@@ -36,6 +36,7 @@ from latentdynamics.analysis.sampled_metrics import residual_protocol
 from latentdynamics.analysis.sampled_metrics import tolerance_protocol
 from latentdynamics.analysis.sampled_metrics.residual_protocol import BASE_SEED
 from latentdynamics.analysis.sampled_metrics.tolerance_protocol import (
+    split_pair_files,
     DEFAULT_LOCAL_BOXES,
     DEFAULT_SAMPLE_TARGET,
     DEFAULT_SOBOL_SCRAMBLES,
@@ -246,7 +247,8 @@ def provenance(spec, source_root: Path) -> dict[str, Any]:
         "uniform_result_sha256": sha256(FIXED_RESULT),
         "subdivision": fixed["subdivision"],
         "minimal_nodes": fixed["fixed_graph"]["minimal"],
-        "pair_files": list(spec.pair_files),
+        "pair_files": split_pair_files(spec.pair_files)[0],
+        "pair_files_missing": split_pair_files(spec.pair_files)[1],
         "protocol_scripts": {
             "tolerance": "src/latentdynamics/analysis/sampled_metrics/tolerance_protocol.py",
             "dense_residual": "src/latentdynamics/analysis/sampled_metrics/residual_protocol.py",
@@ -410,7 +412,8 @@ def compute_residuals(
         seed_base=seed,
     )
     protocol = {
-        "stored_transitions": list(spec.pair_files),
+        "stored_transitions": split_pair_files(spec.pair_files)[0],
+        "stored_transitions_missing": split_pair_files(spec.pair_files)[1],
         "archived_preimage_samples": {
             "path": recorded_path(indexed_path),
             "adaptive_labels_ignored": True,

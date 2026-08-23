@@ -62,10 +62,12 @@ cmgdb:
   bounds_epsilon_frac: 0.01
   lower_bounds: null
   upper_bounds: null
+  # Recompute on the domain the published run used; see CMGDBConfig.
+  bounds_from_run_log: true
   padding: true
   box_map_backend: auto
 paths:
-  data_dir: data/leslie3d_example1
+  data_dir: replay_sources/leslie3d_example1/data/Leslie_3D_larger_domain_tail_only/28.9_29.8_22.0
   output_dir: replay_sources/leslie3d_example1/spurious_attractor_ex
   scaler_dir_override: replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers
   flat_scaler: true

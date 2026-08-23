@@ -75,21 +75,28 @@ def metrics_stage(
     train_file: str = "train",
     verbose: bool = True,
     out_dir: Path | None = None,
+    morse_dir: Path | None = None,
 ) -> dict:
     """Dispatch to a system-specific metric; persist the result.
 
-    Reads model checkpoint, scaler, and Morse artifacts from the source paths
-    in ``seed_cfg``/``cfg``. ``metrics.json`` is written to ``out_dir`` when
-    provided (replay-routing) or to ``seed_cfg.paths.output_dir`` otherwise.
+    Reads the model checkpoint and scaler from the source paths in
+    ``seed_cfg``/``cfg``. Morse artifacts come from ``morse_dir`` when given --
+    which is how metrics are derived from a freshly recomputed Morse graph
+    rather than the saved one -- and from ``seed_cfg.paths.morse_dir``
+    otherwise. ``metrics.json`` is written to ``out_dir`` when provided
+    (replay-routing) or to ``seed_cfg.paths.output_dir`` otherwise.
     """
+    morse_dir = Path(morse_dir) if morse_dir is not None else seed_cfg.paths.morse_dir
     name = seed_cfg.system.name
     if name == "coral":
-        result = _coral_metrics(seed_cfg, cfg, train_file=train_file)
+        result = _coral_metrics(seed_cfg, cfg, train_file=train_file, morse_dir=morse_dir)
     else:
         # Generic 2D-latent path: tau_bar + max-semiconjugacy-error per minimal
         # Morse set. Subsumes the old hardcoded leslie3d target_label=0 logic.
         if seed_cfg.arch.low_dims == 2:
-            result = _per_minimal_tolerance_metrics(seed_cfg, cfg, train_file=train_file)
+            result = _per_minimal_tolerance_metrics(
+                seed_cfg, cfg, train_file=train_file, morse_dir=morse_dir
+            )
         else:
             result = {}
 
@@ -98,7 +105,7 @@ def metrics_stage(
     # subdivision (spurious outgoing edges) -- an unfaithful Morse graph.
     if isinstance(result, dict):
         result["morse_graph_consistency"] = _morse_graph_consistency(
-            seed_cfg.paths.morse_dir / "morse_graph"
+            morse_dir / "morse_graph"
         )
 
     write_root = Path(out_dir) if out_dir is not None else seed_cfg.paths.output_dir
@@ -114,9 +121,16 @@ def _model_dir(seed_cfg: ExperimentConfig) -> Path:
     return seed_cfg.paths.output_dir / "models"
 
 
-def _coral_metrics(seed_cfg: ExperimentConfig, cfg: ExperimentConfig, *, train_file: str) -> dict:
-    morse_sets_path = seed_cfg.paths.morse_dir / "morse_sets"
-    morse_graph_path = seed_cfg.paths.morse_dir / "morse_graph"
+def _coral_metrics(
+    seed_cfg: ExperimentConfig,
+    cfg: ExperimentConfig,
+    *,
+    train_file: str,
+    morse_dir: Path | None = None,
+) -> dict:
+    morse_dir = Path(morse_dir) if morse_dir is not None else seed_cfg.paths.morse_dir
+    morse_sets_path = morse_dir / "morse_sets"
+    morse_graph_path = morse_dir / "morse_graph"
     if not morse_sets_path.exists() or not morse_graph_path.exists():
         return {"error": "missing morse_sets or morse_graph file"}
     if morse_sets_path.stat().st_size == 0 or morse_graph_path.stat().st_size == 0:
@@ -188,6 +202,7 @@ def _per_minimal_tolerance_metrics(
     cfg: ExperimentConfig,
     *,
     train_file: str,
+    morse_dir: Path | None = None,
 ) -> dict:
     """Compute tau_bar and max-semiconjugacy-error for every minimal Morse set.
 
@@ -197,8 +212,9 @@ def _per_minimal_tolerance_metrics(
     and ``max_semiconjugacy_error`` is the sup over sampled high-dim points
     that encode into the block of ``||E(f(x)) - G(E(x))||``.
     """
-    morse_sets_path = seed_cfg.paths.morse_dir / "morse_sets"
-    morse_graph_path = seed_cfg.paths.morse_dir / "morse_graph"
+    morse_dir = Path(morse_dir) if morse_dir is not None else seed_cfg.paths.morse_dir
+    morse_sets_path = morse_dir / "morse_sets"
+    morse_graph_path = morse_dir / "morse_graph"
     if not morse_sets_path.exists():
         return {"error": "missing morse_sets file"}
     if morse_sets_path.stat().st_size == 0:

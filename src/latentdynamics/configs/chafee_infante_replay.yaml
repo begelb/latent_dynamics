@@ -77,7 +77,7 @@ cmgdb:
 # here). The training block above documents the recipe but is not run for the
 # replay.
 paths:
-  data_dir: data/chafee_infante
+  data_dir: replay_sources/chafee_infante/data
   output_dir: replay_sources/chafee_infante/replay
   scaler_dir_override: null
   flat_scaler: false

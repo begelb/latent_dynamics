@@ -51,6 +51,8 @@ cmgdb:
   bounds_epsilon_frac: 0.01
   lower_bounds: null
   upper_bounds: null
+  # Recompute on the domain the published run used; see CMGDBConfig.
+  bounds_from_run_log: true
   padding: true
   box_map_backend: auto
 

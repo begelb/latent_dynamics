@@ -211,7 +211,11 @@ def compute_exact_roa(
             f"compute_exact_roa: {len(minimal_sorted)} minimal Morse nodes "
             f"exceeds the 64-bit reach-mask width"
         )
-    bit_of = {m: np.uint64(1) << i for i, m in enumerate(minimal_sorted)}
+    # Shift by a uint64, not a Python int: under NumPy 2's NEP 50 the int is a
+    # weak scalar that adopts uint64, but under NumPy 1.x uint64 and the int's
+    # int64 promote to float64, for which left_shift has no loop. Explicit
+    # uint64 on both sides behaves identically on either.
+    bit_of = {m: np.uint64(1) << np.uint64(i) for i, m in enumerate(minimal_sorted)}
     reach_mask = np.zeros(n_vertices, dtype=np.uint64)
     for minimal in minimal_sorted:
         targets = morse_cells.get(minimal, np.empty(0, dtype=np.int64))

@@ -35,6 +35,7 @@ from .tolerance_protocol import (
     reference_results_root,
     residual_lower_bound,
     scale,
+    split_pair_files,
 )
 
 DISCRETE_TRAJECTORY_INITIALS = {
@@ -488,6 +489,8 @@ def run_dense_sampling(
             seed_base=seed,
         )
 
+    stored_present, stored_missing = split_pair_files(spec.pair_files)
+
     output: dict[str, object] = {
         "example": example,
         "metric": "Euclidean distance in stored latent coordinates",
@@ -497,7 +500,8 @@ def run_dense_sampling(
             "the uniform theorem hypothesis was proved."
         ),
         "sampling_protocol": {
-            "stored_transitions": list(spec.pair_files),
+            "stored_transitions": stored_present,
+            "stored_transitions_missing": stored_missing,
             "fresh_trajectories": fresh,
             "decoder_guided_preimages": decoder,
             "coral_fixed_point_clouds": coral_clouds,

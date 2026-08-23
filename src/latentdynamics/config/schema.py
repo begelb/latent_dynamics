@@ -429,6 +429,14 @@ class CMGDBConfig(BaseModel):
     bounds_epsilon_frac: float = Field(ge=0.0, default=0.01)
     lower_bounds: list[float] | None = None
     upper_bounds: list[float] | None = None
+    # Reuse the latent rectangle the original run recorded in its
+    # ``mg_params_log.txt`` instead of re-deriving one from the data cloud.
+    # Recomputing CMGDB on a preserved model is only comparable to the
+    # published result if it runs on the published domain, and for runs whose
+    # dataset was not preserved the recorded bounds are the only ones
+    # obtainable. Explicit ``lower_bounds``/``upper_bounds`` still win; without
+    # either, bounds are inferred as before.
+    bounds_from_run_log: bool = False
     padding: bool = True
     box_map_backend: BoxMapBackend = "auto"
     # Which scaled ambient pairs define inferred latent CMGDB bounds. Historical

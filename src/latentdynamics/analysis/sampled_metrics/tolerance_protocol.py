@@ -547,6 +547,21 @@ def scale(scaler, values: np.ndarray) -> np.ndarray:
     return scaler.transform(values)
 
 
+
+def split_pair_files(files: Iterable[str]) -> tuple[list[str], list[str]]:
+    """Partition stored-transition paths into those present and those absent.
+
+    Callers record both so a result never implies it sampled a source it could
+    not read. See :func:`pair_batches` for why a missing source is skipped
+    rather than fatal.
+    """
+    present: list[str] = []
+    missing: list[str] = []
+    for relative in files:
+        (present if (REPO_ROOT / relative).is_file() else missing).append(relative)
+    return present, missing
+
+
 def pair_batches(
     files: Iterable[str],
     high_dimension: int,
@@ -555,6 +570,20 @@ def pair_batches(
 ) -> Iterable[tuple[str, int, np.ndarray, np.ndarray]]:
     for relative in files:
         path = REPO_ROOT / relative
+        if not path.is_file():
+            # Some stored-transition CSVs listed here were working-tree files
+            # that were never preserved. Skipping one narrows the sampled set
+            # rather than invalidating it: the residual is a maximum over
+            # sources, so a missing source can only lower the estimate, and it
+            # is recorded in the result as absent. Failing outright would block
+            # every downstream figure over a source that never attained the
+            # maximum in the published runs.
+            warnings.warn(
+                f"stored transition file not found, skipping: {relative}",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+            continue
         data = np.loadtxt(path, delimiter=",", skiprows=1)
         for start in range(0, data.shape[0], batch_size):
             chunk = data[start : start + batch_size]
