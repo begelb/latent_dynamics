@@ -36,6 +36,7 @@ regardless of the current working directory.
 from __future__ import annotations
 
 import json
+import shutil
 import time
 import urllib.error
 import warnings
@@ -73,6 +74,7 @@ from ..viz import (
     save_morse_graph_artifacts,
 )
 from .fetch import ArtifactsNotPublishedError, FetchError, fetch_artifacts
+from .fetch import _normalize_experiment_name
 from .fetch import fetch_bundle as fetch_bundle
 
 # code/ -- the repo root the relative config paths are written against.
@@ -519,6 +521,32 @@ class ReplayExperiment:
         )
 
 
+def _seed_reference_models(name: str) -> bool:
+    """Copy the tracked minimal checkpoint tree for *name* into replay_sources.
+
+    ``artifacts/reference_models/<key>/`` mirrors the ``replay_sources/``
+    layout and holds just the network weights, arch sidecar, and scaler --
+    a few hundred kilobytes that ship with the repository so ``quick`` and
+    ``morse`` recomputation works from a bare clone (Colab included) without
+    the released artifact bundles. Existing files are never overwritten.
+    Returns True if the experiment has a staged tree (whether or not any file
+    needed copying).
+    """
+    root = get_repo_root()
+    staged = root / "artifacts" / "reference_models" / _normalize_experiment_name(name)
+    if not staged.is_dir():
+        return False
+    for source in staged.rglob("*"):
+        if not source.is_file():
+            continue
+        target = root / "replay_sources" / source.relative_to(staged)
+        if target.exists():
+            continue
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(source, target)
+    return True
+
+
 def load_experiment(
     config: str | Path,
     *,
@@ -577,7 +605,12 @@ def load_experiment(
 
     model_dir = _abs(seed_cfg.paths.model_dir)
 
-    # If model directory doesn't exist, try fetching artifacts for this experiment
+    # If model directory doesn't exist, first materialize the minimal in-repo
+    # checkpoints (weights + scaler, tracked under artifacts/reference_models/),
+    # which are all quick/morse recomputation needs; fall back to the full
+    # bundle fetch only if the experiment has no staged reference model.
+    if not model_dir.exists() and _seed_reference_models(name):
+        pass
     if not model_dir.exists():
         try:
             fetch_artifacts(name)

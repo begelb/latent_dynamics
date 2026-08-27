@@ -27,7 +27,7 @@ import CMGDB
 import numpy as np
 from numpy.typing import NDArray
 
-from latentdynamics.analysis.cmgdb_fork import cmgdb_provenance, require_fork_cmgdb
+from latentdynamics.analysis.cmgdb_features import cmgdb_capabilities, cmgdb_provenance
 from latentdynamics.analysis.morse_metrics import get_minimal_labels
 from latentdynamics.config import load_config
 from latentdynamics.systems import LeslieContraction, build_system
@@ -45,8 +45,13 @@ LESLIE_2D_CORRESPONDENCE_PALETTE = (
 
 
 def require_local_cmgdb() -> Path:
-    """Fail before a long run unless CMGDB is the maintained fork."""
-    return require_fork_cmgdb()
+    """Report which CMGDB will run this computation.
+
+    Nothing here needs a specific build: the corner lattice comes from
+    :func:`make_adaptive_precomputed_box_map`, which falls back before it
+    would need a feature the installed CMGDB lacks.
+    """
+    return Path(CMGDB.__file__).resolve()
 
 
 def make_adaptive_precomputed_box_map(
@@ -59,17 +64,25 @@ def make_adaptive_precomputed_box_map(
 ) -> Callable[[list[float]], list[float]]:
     """Precompute a NumPy map on every finest-grid corner used by CMGDB.
 
-    Recent CMGDB versions expose this as ``make_precomputed_box_map``.  The
-    local implementation keeps this paper computation runnable with the
-    declared CMGDB 1.3.2 dependency as well.
+    Two sources, in order of preference:
+
+    1. ``CMGDB.PrecomputedBoxMap`` -- adaptive natively: every box of the
+       subdivision tree up to ``subdiv_max`` has its corners on the
+       precomputed lattice. Its ``mode`` selects the *sampling rule*, so
+       corner sampling is ``mode="corners"``. It also carries a ``batch``
+       method, which the local fallback below does not.
+    2. A local corner table, for a CMGDB predating it.
     """
-    if hasattr(CMGDB, "make_precomputed_box_map"):
-        return CMGDB.make_precomputed_box_map(
+    # Not ``hasattr``: the attribute can resolve to the submodule of the same
+    # name rather than the class. See
+    # cmgdb_features._has_lattice_box_map_class.
+    if cmgdb_capabilities()["precomputed_box_map_class"]:
+        return CMGDB.PrecomputedBoxMap(
             map_function,
             lower,
             upper,
-            subdiv_max=subdiv_max,
-            mode="adaptive",
+            subdiv_max,
+            mode="corners",
             padding=padding,
         )
 

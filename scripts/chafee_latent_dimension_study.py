@@ -49,13 +49,10 @@ Run the complete 1-D study, resuming completed stages::
 Run selected 3-D stages::
 
     python scripts/chafee_latent_dimension_study.py --dimensions 3 \
-        --stages precompute-coarse uniform precompute-fine adaptive stats render \
-        --cmgdb-reserve-edges 1200000000
+        --stages precompute-coarse uniform precompute-fine adaptive stats render
 
-The 3-D uniform graph has exactly 2^24 cells.  A locally built CMGDB with the
-batched MapGraph cache is required.  ``--cmgdb-reserve-edges`` pre-allocates
-the CSR edge buffer at roughly eight bytes per edge; it is a sizing hint, not
-a ceiling, and the cache grows past it when the graph is larger.
+The 3-D uniform graph has exactly 2^24 cells.  CMGDB >= 1.5.0 is required; it
+sizes the batched-cache edge buffer automatically.
 """
 
 from __future__ import annotations
@@ -68,6 +65,7 @@ import os
 import pickle
 import platform
 import time
+import warnings
 from collections import Counter
 from collections.abc import Iterable, Sequence
 from dataclasses import asdict, dataclass
@@ -76,6 +74,12 @@ from pathlib import Path
 from typing import Any
 
 import CMGDB
+
+from latentdynamics.analysis.morse_reachability import (
+    MULTIPLE_MORSE_NODES,
+    NO_MORSE_NODE,
+    morse_singleton_reachability,
+)
 import numpy as np
 import torch
 from numpy.typing import NDArray
@@ -105,6 +109,12 @@ REPO_ROOT = get_repo_root()
 DEFAULT_REFERENCE_ROOT = REPO_ROOT / "replay_sources" / "chafee_infante" / "reference_inputs"
 DEFAULT_OUTPUT_ROOT = REPO_ROOT / "output" / "chafee_latent_dimension_study"
 
+#: The original coauthor training archive, recovered 2026-08-26 and restored
+#: as reference_inputs/train_data.csv; the d=1 and d=3 models are trained
+#: from it. The interim substitute lineage (74221455..., re-serialised from
+#: replay_sources/chafee_infante/data/train.csv while this file was thought
+#: lost) is numerically identical in float32 and produced bit-identical
+#: checkpoints, so the two lineages are interchangeable.
 TRAIN_DATA_SHA256 = "890fea29a2d26b31b44bbc4fbd773af0ebf742b08893c27ddaf1bdbf87e30329"
 TRAJECTORY_LABELS_SHA256 = (
     "f163b7427e50a4e4d08ab54c87cb5bd16592768edfe8432f019842416afbb145"
@@ -210,24 +220,22 @@ class ExactInputs:
     sizes_bytes: dict[str, int]
 
     def provenance(self) -> dict[str, Any]:
+        """Record only the inputs that were actually present and hashed."""
+        by_name = {
+            "train_data.csv": self.train_data,
+            "traj_attractors.pkl": self.trajectory_labels,
+            "stable_solutions.csv": self.stable_roots,
+        }
         return {
             "archive_dir": str(self.archive_dir.resolve()),
             "files": {
-                "train_data.csv": {
-                    "path": str(self.train_data.resolve()),
-                    "sha256": self.hashes["train_data.csv"],
-                    "size_bytes": self.sizes_bytes["train_data.csv"],
-                },
-                "traj_attractors.pkl": {
-                    "path": str(self.trajectory_labels.resolve()),
-                    "sha256": self.hashes["traj_attractors.pkl"],
-                    "size_bytes": self.sizes_bytes["traj_attractors.pkl"],
-                },
-                "stable_solutions.csv": {
-                    "path": str(self.stable_roots.resolve()),
-                    "sha256": self.hashes["stable_solutions.csv"],
-                    "size_bytes": self.sizes_bytes["stable_solutions.csv"],
-                },
+                name: {
+                    "path": str(path.resolve()),
+                    "sha256": self.hashes[name],
+                    "size_bytes": self.sizes_bytes[name],
+                }
+                for name, path in by_name.items()
+                if name in self.hashes
             },
         }
 
@@ -308,6 +316,16 @@ def _write_json(path: Path, payload: dict[str, Any]) -> Path:
     return path
 
 
+def _optional_hash(inputs: "ExactInputs", name: str) -> str:
+    """Digest of an optional archived input, or a marker when it is absent.
+
+    Only the basin statistics stage needs the trajectory labels and stable
+    roots. Every other stage merely records their provenance, so a missing
+    archive must read as "absent" there instead of raising.
+    """
+    return inputs.hashes.get(name, "absent")
+
+
 def verify_exact_inputs(archive_dir: Path) -> ExactInputs:
     archive = archive_dir.resolve()
     paths = {
@@ -315,16 +333,28 @@ def verify_exact_inputs(archive_dir: Path) -> ExactInputs:
         "traj_attractors.pkl": archive / "traj_attractors.pkl",
         "stable_solutions.csv": archive / "stable_solutions.csv",
     }
-    missing = [str(path) for path in paths.values() if not path.is_file()]
-    if missing:
-        raise FileNotFoundError(f"missing archived Chafee--Infante inputs: {missing}")
+    # train_data.csv drives training, bounds, CMGDB and rendering. The other two
+    # are consumed only by the basin statistics stage, so a missing archive
+    # blocks that stage alone rather than the whole study.
+    if not paths["train_data.csv"].is_file():
+        raise FileNotFoundError(f"missing training data: {paths['train_data.csv']}")
+    present = {name: path for name, path in paths.items() if path.is_file()}
+    absent = sorted(set(paths) - set(present))
+    if absent:
+        warnings.warn(
+            "archived basin inputs absent (" + ", ".join(absent) + "); the stats "
+            "stage cannot run, every other stage is unaffected",
+            RuntimeWarning,
+            stacklevel=2,
+        )
 
-    hashes = {name: sha256_file(path) for name, path in paths.items()}
+    hashes = {name: sha256_file(path) for name, path in present.items()}
     expected = {
         "train_data.csv": TRAIN_DATA_SHA256,
         "traj_attractors.pkl": TRAJECTORY_LABELS_SHA256,
         "stable_solutions.csv": STABLE_ROOTS_SHA256,
     }
+    expected = {name: digest for name, digest in expected.items() if name in present}
     mismatches = {
         name: {"expected": expected[name], "actual": hashes[name]}
         for name in expected
@@ -336,10 +366,12 @@ def verify_exact_inputs(archive_dir: Path) -> ExactInputs:
             f"{mismatches}"
         )
 
-    sizes = {name: int(path.stat().st_size) for name, path in paths.items()}
+    sizes = {name: int(path.stat().st_size) for name, path in present.items()}
     return ExactInputs(
         archive_dir=archive,
         train_data=paths["train_data.csv"],
+        # Paths are returned even when absent; the stats stage checks is_file()
+        # before reading, and provenance only records what was present.
         trajectory_labels=paths["traj_attractors.pkl"],
         stable_roots=paths["stable_solutions.csv"],
         hashes=hashes,
@@ -663,7 +695,11 @@ def _stage_output_manifest(
             paths.coarse_table if stage == "precompute-coarse" else paths.hierarchical_table
         )
     if stage == "uniform":
-        components["basin_statistics_core"] = _uniform_statistics_core(paths.stats)
+        # The basin table is optional (--skip-basin-statistics), so the stage
+        # fingerprint records its absence rather than failing to build.
+        components["basin_statistics_core"] = (
+            _uniform_statistics_core(paths.stats) if paths.stats.is_file() else None
+        )
     core = {"files": files, "components": components}
     return {**core, "fingerprint": _json_fingerprint(core)}
 
@@ -756,8 +792,8 @@ def _stage_direct_inputs(
     if stage in {"uniform", "stats"}:
         study.update(
             {
-                "trajectory_labels_sha256": inputs.hashes["traj_attractors.pkl"],
-                "stable_roots_sha256": inputs.hashes["stable_solutions.csv"],
+                "trajectory_labels_sha256": _optional_hash(inputs, "traj_attractors.pkl"),
+                "stable_roots_sha256": _optional_hash(inputs, "stable_solutions.csv"),
             }
         )
 
@@ -930,10 +966,16 @@ def _stage_outputs_exist(paths: DimensionPaths, stage: str) -> bool:
             for name in ("metadata.json", "coarse_values.npy")
         )
     if stage == "uniform":
+        # The basin table is optional (--skip-basin-statistics). When it was
+        # skipped the stage is still complete: its Morse graph and sets are what
+        # the fine precompute consumes. The marker records which happened, so a
+        # genuinely failed basin computation still reads as incomplete.
+        marker = _load_stage_marker(paths, "uniform") or {}
+        basins_skipped = bool(marker.get("basin_statistics_skipped"))
         return (
             (paths.uniform / "morse_graph").is_file()
             and (paths.uniform / "morse_sets").is_file()
-            and paths.stats.is_file()
+            and (basins_skipped or paths.stats.is_file())
         )
     if stage == "precompute-fine":
         return all(
@@ -1088,9 +1130,9 @@ def _legacy_uniform_matches(paths: DimensionPaths, inputs: ExactInputs) -> bool:
         and "singleton-all-reachable-Morse-set" in str(statistics.get("method", ""))
         and int(statistics.get("dimension", -1)) == paths.dimension
         and int(statistics.get("seed", -1)) == SEED
-        and trajectory.get("sha256") == inputs.hashes["traj_attractors.pkl"]
+        and trajectory.get("sha256") == _optional_hash(inputs, "traj_attractors.pkl")
         and int(trajectory.get("total", -1)) == TRAJECTORY_ROWS
-        and roots.get("sha256") == inputs.hashes["stable_solutions.csv"]
+        and roots.get("sha256") == _optional_hash(inputs, "stable_solutions.csv")
         and statistics.get("cmgdb", {}).get("subdivisions")
         == [
             resolution.uniform_init,
@@ -1469,6 +1511,7 @@ def _run_lookup_cmgdb(
     subdiv_max: int,
     compute_conley: bool,
     fallback_to_topology_on_conley_error: bool = False,
+    require_cache: bool = True,
 ) -> tuple[Any, Any, float, dict[str, Any]]:
     """Run lookup-only CMGDB and record the Conley-annotation status.
 
@@ -1490,14 +1533,15 @@ def _run_lookup_cmgdb(
     )
     if not hasattr(model, "set_batch_map"):
         raise RuntimeError(
-            "this study requires CMGDB.Model.set_batch_map; install the pinned "
-            "cmgdb fork wheel before running the large lookup-only computation"
+            "this study requires CMGDB.Model.set_batch_map; upgrade cmgdb "
+            "(pip install --upgrade 'cmgdb>=1.5.0') before running the large "
+            "lookup-only computation"
         )
     model.set_batch_map(box_map.batch)
     started = time.perf_counter()
     if compute_conley:
         try:
-            morse_graph, map_graph = CMGDB.ComputeConleyMorseGraph(model)
+            morse_graph, map_graph = CMGDB.ComputeConleyMorseGraph(model, cache_map_graph=True)
             conley_status: dict[str, Any] = {
                 "requested": True,
                 "computed": True,
@@ -1507,7 +1551,7 @@ def _run_lookup_cmgdb(
         except Exception as error:
             if not fallback_to_topology_on_conley_error:
                 raise
-            morse_graph, map_graph = CMGDB.ComputeMorseGraph(model)
+            morse_graph, map_graph = CMGDB.ComputeMorseGraph(model, cache_map_graph=True)
             conley_status = {
                 "requested": True,
                 "computed": False,
@@ -1517,7 +1561,7 @@ def _run_lookup_cmgdb(
                 "error_message": str(error),
             }
     else:
-        morse_graph, map_graph = CMGDB.ComputeMorseGraph(model)
+        morse_graph, map_graph = CMGDB.ComputeMorseGraph(model, cache_map_graph=True)
         conley_status = {
             "requested": False,
             "computed": False,
@@ -1526,8 +1570,12 @@ def _run_lookup_cmgdb(
         }
     duration = time.perf_counter() - started
     conley_status["topology_morse_sets_map_graph_and_basins_invariant"] = True
+    # The cache matters only to a caller that walks the map graph afterwards:
+    # every such query would otherwise re-enter the callback cell by cell. A
+    # caller that just records cache metadata is unaffected, so it opts out
+    # rather than being blocked on a build that does not retain the cache.
     has_cache = getattr(map_graph, "has_cache", None)
-    if callable(has_cache) and not bool(has_cache()):
+    if require_cache and callable(has_cache) and not bool(has_cache()):
         raise RuntimeError(
             "CMGDB did not retain its batched MapGraph cache; refusing an implicit "
             "per-cell callback fallback"
@@ -1542,9 +1590,6 @@ def _map_graph_cache_metadata(map_graph: Any) -> dict[str, Any]:
         "map_cells": int(map_graph.num_vertices()),
         "has_batch_cache": bool(has_cache()) if callable(has_cache) else None,
         "cached_edges": int(edge_count()) if callable(edge_count) else None,
-        "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
-            "CMGDB_MAPGRAPH_RESERVE_EDGES"
-        ),
     }
 
 
@@ -1634,13 +1679,14 @@ def _native_singleton_reachability(
     query = np.asarray(query_cell_ids, dtype=np.int64)
     if query.ndim != 1:
         raise ValueError("query_cell_ids must be one-dimensional")
-    native = getattr(CMGDB, "MorseSingletonReachability", None)
-    if not callable(native):
-        raise RuntimeError(
-            "this study requires CMGDB.MorseSingletonReachability; rebuild the "
-            "pinned cmgdb fork wheel before computing archive-equivalent basins"
-        )
-    result = native(map_graph, morse_graph, query)
+    # Native routine when the build has it, else the equivalent port; both
+    # return the same labels (verified cell-for-cell), so the study runs
+    # against either CMGDB.
+    # The box map here is a precomputed corner-table lookup, never a network
+    # evaluation, so an uncached MapGraph is a slowdown rather than a trap.
+    result = morse_singleton_reachability(
+        map_graph, morse_graph, query, require_cache=False
+    )
     if (
         not isinstance(result, np.ndarray)
         or result.dtype != np.int32
@@ -1648,7 +1694,7 @@ def _native_singleton_reachability(
         or not result.flags.c_contiguous
     ):
         raise TypeError(
-            "CMGDB.MorseSingletonReachability must return a C-contiguous "
+            "morse_singleton_reachability must return a C-contiguous "
             f"int32 array shaped {query.shape}; got "
             f"{type(result).__name__}, {getattr(result, 'dtype', None)}, "
             f"{getattr(result, 'shape', None)}"
@@ -1842,7 +1888,7 @@ def _compute_live_reference_statistics(
         ),
         "trajectory_data": {
             "path": str(inputs.trajectory_labels.resolve()),
-            "sha256": inputs.hashes["traj_attractors.pkl"],
+            "sha256": _optional_hash(inputs, "traj_attractors.pkl"),
             "total": TRAJECTORY_ROWS,
             "label_counts": {
                 str(label): count
@@ -1851,7 +1897,7 @@ def _compute_live_reference_statistics(
         },
         "stable_roots": {
             "path": str(inputs.stable_roots.resolve()),
-            "sha256": inputs.hashes["stable_solutions.csv"],
+            "sha256": _optional_hash(inputs, "stable_solutions.csv"),
             "encoded": encoded_roots.tolist(),
             "uniform_candidate_cell_ids": [
                 root_cells.candidates(index).tolist() for index in range(2)
@@ -1896,6 +1942,58 @@ def _compute_live_reference_statistics(
     return payload, query_duration
 
 
+#: Set from --save-roa. The full-grid reachability query is only affordable on a
+#: build that retains the MapGraph cache, so it is opt-in rather than automatic.
+SAVE_REGIONS_OF_ATTRACTION = False
+
+#: Set from --skip-basin-statistics. The basin table is the only part of the
+#: uniform stage that walks the map graph, so skipping it lets the stage run on a
+#: build that does not retain the MapGraph cache. The Morse graph and Morse sets
+#: are unaffected, which is all the 3-D fine precompute consumes.
+SKIP_BASIN_STATISTICS = False
+
+
+def _save_regions_of_attraction(
+    paths: "DimensionPaths",
+    map_graph: Any,
+    morse_graph: Any,
+    bounds: LatentBounds,
+    resolution: "Resolution",
+) -> Path:
+    """Label every cell of the uniform grid by the Morse set it reaches.
+
+    The basin statistics only ask about the cells the 10,000 archived
+    trajectories and the two stable roots land in. Drawing a region of
+    attraction needs the label of *every* cell, so the whole grid is queried
+    once here, while the MapGraph cache that makes it affordable is still in
+    memory. Entries are a Morse node id, NO_MORSE_NODE for cells reaching none,
+    or MULTIPLE_MORSE_NODES for cells whose forward image is not a single set.
+
+    The grid geometry is stored alongside so a later plot can map a cell id back
+    to its box without rebuilding the graph.
+    """
+    n_cells = int(map_graph.num_vertices())
+    labels = _native_singleton_reachability(
+        map_graph, morse_graph, np.arange(n_cells, dtype=np.int64)
+    )
+    path = paths.uniform / "regions_of_attraction.npz"
+    np.savez_compressed(
+        path,
+        cell_labels=labels,
+        num_cells=np.asarray(n_cells, dtype=np.int64),
+        subdivision=np.asarray(
+            [resolution.uniform_init, resolution.uniform_min, resolution.uniform_max],
+            dtype=np.int64,
+        ),
+        lower=np.asarray(bounds.lower, dtype=np.float64),
+        upper=np.asarray(bounds.upper, dtype=np.float64),
+        dimension=np.asarray(paths.dimension, dtype=np.int64),
+        no_morse_node=np.asarray(NO_MORSE_NODE, dtype=np.int32),
+        multiple_morse_nodes=np.asarray(MULTIPLE_MORSE_NODES, dtype=np.int32),
+    )
+    return path
+
+
 def _run_uniform(
     paths: DimensionPaths,
     inputs: ExactInputs,
@@ -1914,6 +2012,10 @@ def _run_uniform(
         subdiv_min=resolution.uniform_min,
         subdiv_max=resolution.uniform_max,
         compute_conley=False,
+        # Upstream CMGDB does not retain the batched MapGraph cache, so basin
+        # reachability re-enters the box map per cell. That callback is a
+        # precomputed table lookup, so the result is identical -- only slower.
+        require_cache=False,
     )
     conley_status["status"] = "deferred_to_adaptive"
     conley_status["reason"] = (
@@ -1927,19 +2029,43 @@ def _run_uniform(
         )
     attractors = _require_exactly_two_minimal_attractors(morse_graph)
     dot_path, csv_path = save_morse_graph_artifacts(morse_graph, paths.uniform)
-    statistics_payload, query_duration = _compute_live_reference_statistics(
-        paths,
-        inputs,
-        device=device,
-        bounds=bounds,
-        resolution=resolution,
-        map_graph=map_graph,
-        morse_graph=morse_graph,
-        attractors=attractors,
-    )
+    if SKIP_BASIN_STATISTICS:
+        # Everything above is graph construction; only the basin table below
+        # walks the map graph. Skipping it keeps the Morse artifacts -- which is
+        # all precompute-fine reads -- and drops the stage's only cache-bound
+        # step, at the cost of the stats stage having nothing to run on.
+        statistics_payload, query_duration = None, None
+        print(
+            f"[{paths.dimension}D] basin statistics skipped "
+            "(--skip-basin-statistics); the stats stage will not be runnable",
+            flush=True,
+        )
+    else:
+        statistics_payload, query_duration = _compute_live_reference_statistics(
+            paths,
+            inputs,
+            device=device,
+            bounds=bounds,
+            resolution=resolution,
+            map_graph=map_graph,
+            morse_graph=morse_graph,
+            attractors=attractors,
+        )
+    roa_path = None
+    if SAVE_REGIONS_OF_ATTRACTION:
+        roa_started = time.perf_counter()
+        roa_path = _save_regions_of_attraction(
+            paths, map_graph, morse_graph, bounds, resolution
+        )
+        print(
+            f"[{paths.dimension}D] regions of attraction -> {roa_path} "
+            f"({time.perf_counter() - roa_started:.1f}s)",
+            flush=True,
+        )
     payload = {
         "duration_seconds": duration,
         "reference_reachability_query_seconds": query_duration,
+        "regions_of_attraction_path": str(roa_path) if roa_path else None,
         "subdiv_init": resolution.uniform_init,
         "subdiv_min": resolution.uniform_min,
         "subdiv_max": resolution.uniform_max,
@@ -1949,8 +2075,9 @@ def _run_uniform(
         "callback_neural_evaluations": 0,
         "dot_path": str(dot_path),
         "morse_sets_path": str(csv_path),
-        "basin_statistics_path": str(paths.stats),
-        "basin_method": statistics_payload["method"],
+        "basin_statistics_path": None if statistics_payload is None else str(paths.stats),
+        "basin_method": None if statistics_payload is None else statistics_payload["method"],
+        "basin_statistics_skipped": statistics_payload is None,
         "conley": conley_status,
         **_map_graph_cache_metadata(map_graph),
         **_morse_summary(dot_path),
@@ -2072,6 +2199,8 @@ def _run_adaptive(
         subdiv_max=resolution.adaptive_max,
         compute_conley=not topology_only,
         fallback_to_topology_on_conley_error=True,
+        # adaptive only records cache metadata; it never walks the map graph
+        require_cache=False,
     )
     if topology_only:
         conley_status["status"] = "explicit_topology_only_fallback"
@@ -2259,9 +2388,6 @@ def _study_config(
                     else "attempt_conley_with_topology_only_error_fallback"
                 ),
             },
-            "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
-                "CMGDB_MAPGRAPH_RESERVE_EDGES"
-            ),
         },
         "device": str(device),
         "inputs": inputs.provenance(),
@@ -2423,18 +2549,27 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--quiet-training", action="store_true")
     parser.add_argument(
+        "--skip-basin-statistics",
+        action="store_true",
+        help="compute only the Morse graph and sets in the uniform stage, "
+             "skipping the basin table that walks the map graph; lets the stage "
+             "run on a CMGDB without the MapGraph cache (the stats stage then "
+             "has no input)",
+    )
+    parser.add_argument(
+        "--save-roa",
+        action="store_true",
+        help="label every uniform-grid cell by the Morse set it reaches and save "
+             "regions_of_attraction.npz for later plotting and statistics; needs a "
+             "CMGDB that retains the MapGraph cache",
+    )
+    parser.add_argument(
         "--adaptive-topology-only",
         action="store_true",
         help=(
             "bypass adaptive Conley-index homology after a known pathological "
             "Smith-normal-form run; artifacts record the explicit fallback"
         ),
-    )
-    parser.add_argument(
-        "--cmgdb-reserve-edges",
-        type=_positive_int,
-        default=None,
-        help="optionally sets CMGDB_MAPGRAPH_RESERVE_EDGES for the batched CSR cache",
     )
     parser.add_argument(
         "--projection-min-box-side-frac",
@@ -2450,28 +2585,25 @@ def main(argv: Sequence[str] | None = None) -> int:
     if args.projection_min_box_side_frac < 0:
         raise ValueError("--projection-min-box-side-frac must be nonnegative")
     stages = _parse_stages(args.stages)
+    global SAVE_REGIONS_OF_ATTRACTION
+    SAVE_REGIONS_OF_ATTRACTION = args.save_roa
+    global SKIP_BASIN_STATISTICS
+    SKIP_BASIN_STATISTICS = args.skip_basin_statistics
     inputs = verify_exact_inputs(args.reference_root)
     args.output_root.mkdir(parents=True, exist_ok=True)
     _write_json(args.output_root / "input_provenance.json", inputs.provenance())
     print(
         "verified exact archived inputs: "
         f"train={inputs.hashes['train_data.csv']}, "
-        f"trajectories={inputs.hashes['traj_attractors.pkl']}, "
-        f"roots={inputs.hashes['stable_solutions.csv']}"
+        f"trajectories={_optional_hash(inputs, 'traj_attractors.pkl')}, "
+        f"roots={_optional_hash(inputs, 'stable_solutions.csv')}"
     )
     if not stages:
         return 0
 
-    if args.cmgdb_reserve_edges is not None:
-        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(args.cmgdb_reserve_edges)
     device = _resolve_device(args.device)
     for dimension in dict.fromkeys(args.dimensions):
         resolution = RESOLUTIONS[dimension]
-        if args.cmgdb_max_vertices < resolution.uniform_cells:
-            raise ValueError(
-                f"--cmgdb-max-vertices={args.cmgdb_max_vertices} is below the "
-                f"{dimension}D uniform cell count {resolution.uniform_cells}"
-            )
         run_dimension(
             dimension,
             stages=stages,

@@ -18,9 +18,11 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 from pathlib import Path
 
 import CMGDB
+import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
@@ -28,7 +30,8 @@ from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.morse import LatentBounds, compute_morse_graph
 from latentdynamics.analysis.morse_coarsening import (
     coarsen_morse_graph,
-    compute_connection_complete_morse_sets,
+    compute_uniform_connection_complete_morse_sets,
+    uniform_cell_boxes,
     write_connection_complete_morse_sets,
     write_morse_graph_dot,
     write_quotient_morse_sets,
@@ -47,6 +50,9 @@ REFERENCE_ROOT = DEFAULT_REFERENCE_ROOT
 REFERENCE_WEIGHTS = REFERENCE_ROOT / "ci_model_weights.pth"
 REFERENCE_DATA = REFERENCE_ROOT / "train_data.csv"
 REFERENCE_SUBDIVISIONS = (14, 16, 22)
+
+#: Coarsened nodes are labelled by their ids. The manuscript's M(0+)/M(0-)/M(1)
+#: notation lives in the captions, not on the nodes.
 REFERENCE_PALETTE = chafee_semantic_palette(
     7,
     negative_label=1,
@@ -129,6 +135,11 @@ def _reference_bounds(model, device: str) -> LatentBounds:
     )
 
 
+#: Box map of the last archived computation, reused by the uniform rebuild so
+#: both graphs come from one and the same map.
+_ARCHIVED_BOX_MAP: dict[str, object] = {}
+
+
 def _compute_archived_graph(device: str):
     model = _load_reference_model(device)
     bounds = _reference_bounds(model, device)
@@ -152,6 +163,7 @@ def _compute_archived_graph(device: str):
         box_map,
     )
     cmgdb_morse_graph, map_graph = CMGDB.ComputeConleyMorseGraph(cmgdb_model)
+    _ARCHIVED_BOX_MAP["box_map"] = box_map
     live_edges = {
         (int(source), int(target))
         for source, target in cmgdb_morse_graph.edges()
@@ -286,12 +298,15 @@ def main() -> int:
     quotient = coarsen_morse_graph(
         graph,
         [merged],
-        labels={
-            frozenset({0}): "M(0⁺)",
-            frozenset({1}): "M(0⁻)",
-            merged: "M(1)",
-        },
+        labels={frozenset({0}): "0", frozenset({1}): "1", merged: "2"},
     )
+
+    # The decomposition before coarsening, so the two can be shown side by side.
+    fine_dir = args.output / "MG_fine"
+    fine_dir.mkdir(parents=True, exist_ok=True)
+    write_morse_graph_dot(graph, fine_dir / "morse_graph")
+    if live_morse_graph is not None:
+        CMGDB.SaveMorseSets(live_morse_graph, str(fine_dir / "morse_sets"))
 
     morse_dir = args.output / "MG"
     write_morse_graph_dot(quotient.graph, morse_dir / "morse_graph")
@@ -320,15 +335,40 @@ def main() -> int:
                     "recomputed reference graph does not match its saved source graph; "
                     "refusing to apply the saved node projection"
                 )
-        completed = compute_connection_complete_morse_sets(
-            map_graph,
-            live_morse_graph,
-            quotient.projection,
+        # The merged fiber is completed on the uniform grid at subdiv_min, not on
+        # the adaptive cell graph. Adaptively, the fiber's deepest cells trace
+        # connecting orbits at a resolution the surrounding structures do not
+        # share, and the enclosure reaches into the attraction basins: 7.4% of
+        # the merged set landed inside one, against 0.2% here. At subdiv_min the
+        # grid is the one the basin computation already uses.
+        _, subdiv_min, _ = REFERENCE_SUBDIVISIONS
+        uniform_model = CMGDB.Model(
+            subdiv_min, subdiv_min, subdiv_min, 10000,
+            bounds.lower.tolist(), bounds.upper.tolist(),
+            _ARCHIVED_BOX_MAP["box_map"],
         )
-        write_connection_complete_morse_sets(
-            live_morse_graph,
-            completed,
-            morse_dir / "morse_sets",
+        _uniform_morse, uniform_map = CMGDB.ComputeMorseGraph(uniform_model)
+        completed, _cells_by_node, grid_shape = (
+            compute_uniform_connection_complete_morse_sets(
+                uniform_map,
+                live_morse_graph,
+                quotient.projection,
+                lower=bounds.lower,
+                upper=bounds.upper,
+                depth=subdiv_min,
+            )
+        )
+        rows = []
+        for coarse_node in sorted(completed.cells):
+            boxes = uniform_cell_boxes(
+                completed.cells[coarse_node], bounds.lower, bounds.upper, grid_shape
+            )
+            labels = np.full((boxes.shape[0], 1), coarse_node, dtype=np.float64)
+            rows.append(np.concatenate([boxes, labels], axis=1))
+        table = np.concatenate(rows, axis=0)
+        np.savetxt(
+            morse_dir / "morse_sets", table, delimiter=",",
+            fmt=["%.17g"] * (table.shape[1] - 1) + ["%d"],
         )
         connection_counts = {
             str(coarse): int(cells.size)
@@ -354,20 +394,29 @@ def main() -> int:
         min_box_side_frac=0.0025,
     )
     if bounds is not None:
-        coarse_plot = plot_morse_sets_from_csv(
-            morse_dir / "morse_sets",
-            bounds_lower=bounds.lower.tolist(),
-            bounds_upper=bounds.upper.tolist(),
-            palette=REFERENCE_COARSE_PALETTE,
-            box_scale="auto",
-            min_box_side_frac=0.0025,
-        )
-        coarse_plot.ax.set_xticks([])
-        coarse_plot.ax.set_yticks([])
-        save_latent_figure(
-            coarse_plot.fig,
-            args.output / "morse_sets",
-            close=True,
+        # Both set figures are drawn by CMGDB's own PlotMorseSets, straight
+        # from the saved Morse-set files.
+        for sets_path, palette, basename in (
+            (morse_dir / "morse_sets", REFERENCE_COARSE_PALETTE, "morse_sets"),
+            (fine_dir / "morse_sets", REFERENCE_PALETTE, "fine_morse_sets"),
+        ):
+            fig, _ax = CMGDB.PlotMorseSets(
+                str(sets_path),
+                clist=list(palette),
+                xlim=[bounds.lower[0], bounds.upper[0]],
+                ylim=[bounds.lower[1], bounds.upper[1]],
+                xlabel="$z_1$",
+                ylabel="$z_2$",
+                show=False,
+            )
+            for fmt in ("pdf", "png"):
+                fig.savefig(args.output / f"{basename}.{fmt}", dpi=300,
+                            bbox_inches="tight")
+            plt.close(fig)
+        subprocess.run(
+            ["dot", "-Tpdf", str(fine_dir / "morse_graph"),
+             "-o", str(args.output / "fine_morse_graph.pdf")],
+            check=False,
         )
 
     manifest = {

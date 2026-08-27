@@ -1465,46 +1465,38 @@ def run_batch_analysis(
     }
     _write_json(target / "batch_manifest.json", batch_manifest)
 
-    previous_max_vertices = os.environ.get("CMGDB_MAPGRAPH_MAX_VERTICES")
-    os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = str(2**24)
     rows: list[dict[str, Any]] = []
     started = time.perf_counter()
-    try:
-        for item in source.inventory:
-            if item.candidate is None:
-                row = _source_issue_row(item)
-                _add_reference_deltas(row, references)
-            else:
-                row = _analyze_candidate(
-                    target=target,
-                    snapshot_root=snapshot_root,
-                    candidate=item.candidate,
-                    analysis_plan_sha256=plan_hash,
-                    inputs=inputs,
-                    device=device,
-                    batch_points=batch_points,
-                    references=references,
-                    uniform_only=uniform_only,
-                )
-            rows.append(row)
-            _write_results(
-                target,
-                analysis_plan_sha256=plan_hash,
-                references=references,
-                rows=rows,
-                expected_runs=len(source.inventory),
-                final=False,
-            )
-            batch_manifest["rows_processed"] = len(rows)
-            batch_manifest["analysis_failed"] = sum(
-                current["status"] == "failed" for current in rows
-            )
-            _write_json(target / "batch_manifest.json", batch_manifest)
-    finally:
-        if previous_max_vertices is None:
-            os.environ.pop("CMGDB_MAPGRAPH_MAX_VERTICES", None)
+    for item in source.inventory:
+        if item.candidate is None:
+            row = _source_issue_row(item)
+            _add_reference_deltas(row, references)
         else:
-            os.environ["CMGDB_MAPGRAPH_MAX_VERTICES"] = previous_max_vertices
+            row = _analyze_candidate(
+                target=target,
+                snapshot_root=snapshot_root,
+                candidate=item.candidate,
+                analysis_plan_sha256=plan_hash,
+                inputs=inputs,
+                device=device,
+                batch_points=batch_points,
+                references=references,
+                uniform_only=uniform_only,
+            )
+        rows.append(row)
+        _write_results(
+            target,
+            analysis_plan_sha256=plan_hash,
+            references=references,
+            rows=rows,
+            expected_runs=len(source.inventory),
+            final=False,
+        )
+        batch_manifest["rows_processed"] = len(rows)
+        batch_manifest["analysis_failed"] = sum(
+            current["status"] == "failed" for current in rows
+        )
+        _write_json(target / "batch_manifest.json", batch_manifest)
 
     results = _write_results(
         target,

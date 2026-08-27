@@ -5,7 +5,7 @@ The computation intentionally matches the manuscript protocol
 (:mod:`latentdynamics.analysis.sampled_metrics`) while changing only the
 recurrent Morse boxes: blocks are the minimal components of a fixed-depth
 uniform graph computed by ``scripts/leslie3d_example1_uniform_grid.py``.  By
-default it reproduces the exact uniform (22,22,22) calculation; ``--depth``
+default it reads the paper's coarse (22,22,24) calculation; ``--depth``
 selects another saved fixed-depth graph under the same study root.  The
 quantities are finite-sample estimates, not uniform or rigorous bounds.
 

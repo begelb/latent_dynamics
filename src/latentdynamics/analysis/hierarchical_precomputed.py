@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from CMGDB.PrecomputedBoxMap import (
+from .precomputed_box_map import (
     as_batched_evaluator,
     precompute_corner_grid,
     resolve_batch_points,
@@ -232,6 +232,64 @@ class HierarchicalPrecomputedBoxMap:
         self.fine_block_values = values_arr
         self._block_lookup = lookup
 
+    def enable_lazy_fine_blocks(
+        self,
+        latent_map: Any,
+        *,
+        device: Any = "auto",
+        max_points_per_eval: int = 1_000_000,
+    ) -> None:
+        """Fill fine blocks on demand instead of failing on unprepared cells.
+
+        Opt-in: without this call the class keeps its strict lookup-only
+        contract and raises on a fine query outside the prepared blocks. With
+        it, the first query into an unprepared coarse cell evaluates that
+        cell's complete fine corner block (batched, cached in the block
+        store), so a single adaptive CMGDB run needs no preliminary pass to
+        identify the recurrent cells. ``lazy_fill_stats`` records the work.
+        """
+        self._lazy_evaluator = as_batched_evaluator(latent_map, device=device)
+        self._lazy_max_points = int(max_points_per_eval)
+        self.lazy_fill_stats = {"blocks": 0, "points": 0, "seconds": 0.0}
+        if self.active_coarse_indices is None:
+            local_corners = self.fine_cells_per_coarse_axis + 1
+            self._set_fine_tables(
+                np.zeros((0, self.dim), dtype=np.int64),
+                np.zeros((0,) + (local_corners,) * self.dim + (self.dim,), dtype=np.float64),
+            )
+
+    def _fill_fine_blocks(self, missing: NDArray[np.int64]) -> None:
+        """Evaluate and append the fine blocks of the given coarse cells."""
+        import time as _time
+
+        started = _time.perf_counter()
+        refinement = self.fine_cells_per_coarse_axis
+        local_corners = refinement + 1
+        local_shape = (local_corners,) * self.dim
+        points_per_block = local_corners**self.dim
+        local_indices = np.stack(
+            np.unravel_index(np.arange(points_per_block), local_shape), axis=-1
+        ).astype(np.int64)
+        fine_indices = (
+            missing[:, None, :] * refinement + local_indices[None, :, :]
+        ).reshape(-1, self.dim)
+        points = self.lower + fine_indices * self.fine_side
+        values = np.empty((points.shape[0], self.dim), dtype=np.float64)
+        step = max(points_per_block, self._lazy_max_points)
+        for start in range(0, points.shape[0], step):
+            values[start : start + step] = self._lazy_evaluator(points[start : start + step])
+        blocks = values.reshape((missing.shape[0], *local_shape, self.dim))
+
+        first_new = self.active_coarse_indices.shape[0]
+        self.active_coarse_indices = np.concatenate([self.active_coarse_indices, missing])
+        self.fine_block_values = np.concatenate([self.fine_block_values, blocks])
+        self._block_lookup[tuple(missing[:, axis] for axis in range(self.dim))] = np.arange(
+            first_new, first_new + missing.shape[0], dtype=np.int32
+        )
+        self.lazy_fill_stats["blocks"] += int(missing.shape[0])
+        self.lazy_fill_stats["points"] += int(points.shape[0])
+        self.lazy_fill_stats["seconds"] += _time.perf_counter() - started
+
     def __call__(self, rect: Any) -> list[float]:
         """Map one rectangle using precomputed corner values only."""
 
@@ -360,6 +418,17 @@ class HierarchicalPrecomputedBoxMap:
                 chosen_coarse[selected] = candidate[selected]
 
         if np.any(block_ids < 0):
+            if getattr(self, "_lazy_evaluator", None) is not None:
+                unresolved = indices[block_ids < 0]
+                missing_cells = np.unique(
+                    np.minimum(
+                        unresolved // refinement,
+                        self.coarse_cells_per_axis - 1,
+                    ),
+                    axis=0,
+                )
+                self._fill_fine_blocks(missing_cells)
+                return self._fine_corner_values(indices)
             missing = np.unique(indices[block_ids < 0], axis=0)
             raise KeyError(
                 "unprepared coarse cell for fine corner (including every "

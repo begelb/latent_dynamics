@@ -1,0 +1,50 @@
+{
+  "purpose": "Published d=1 and d=3 Chafee-Infante latent models. The originals were lost to the /output/ ignore rule; these are the retrained replacements and are the models the paper's d=1 and d=3 results come from.",
+  "trained": "2026-08-24",
+  "training_data": {
+    "path": "replay_sources/chafee_infante/reference_inputs/train_data.csv",
+    "derived_from": "replay_sources/chafee_infante/data/train.csv (header stripped)",
+    "sha256": "74221455bd7c3e2e3f9395e7a1e7af62425cd0b61359c566b07a0161c4318edd",
+    "shape": [
+      30000,
+      128
+    ]
+  },
+  "recipe": {
+    "driver": "scripts/chafee_latent_dimension_study.py --dimensions 1 3 --stages train --device mps",
+    "method": "reference_full_batch",
+    "epochs": 4000,
+    "seed": 0,
+    "device": "mps",
+    "optimizer": "Adam lr=3e-3",
+    "scheduler": "ReduceLROnPlateau factor=0.5 patience=100",
+    "objective": "MSE(D(E(x)), x) + MSE(D(G(E(x))), y)",
+    "note": "MPS float32 with a fixed seed does not promise bitwise reproducibility across PyTorch versions or hardware; these weights are the record."
+  },
+  "models": {
+    "latent_1d/seed_0": {
+      "autoencoder.pt": {
+        "sha256": "6d60f8f2894a47bfaad6ffba10667c19f460de4164f1b0674b939ab779d943a0",
+        "size_bytes": 61496
+      },
+      "autoencoder.json": {
+        "sha256": "da59bea7227de80b8ee94a09c695b5447e472e69c72038693fa63e6720e97798",
+        "size_bytes": 878
+      },
+      "final_total_loss": 0.000774,
+      "restore_to": "output/chafee_latent_dimension_study/latent_1d/seed_0/models/"
+    },
+    "latent_3d/seed_0": {
+      "autoencoder.pt": {
+        "sha256": "564a9bb470d9c89e6461efb2e69fd4f460f972fb859a7ccd5a571bfe5e783e19",
+        "size_bytes": 62520
+      },
+      "autoencoder.json": {
+        "sha256": "54ebb8b172b3a23de981ce2495de6bab6a605c3ccad285188ad433d5b73197d1",
+        "size_bytes": 878
+      },
+      "final_total_loss": 0.000102,
+      "restore_to": "output/chafee_latent_dimension_study/latent_3d/seed_0/models/"
+    }
+  }
+}

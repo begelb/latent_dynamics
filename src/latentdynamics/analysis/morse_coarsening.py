@@ -18,6 +18,9 @@ __all__ = [
     "MorseGraphQuotient",
     "coarsen_morse_graph",
     "compute_connection_complete_morse_sets",
+    "compute_uniform_connection_complete_morse_sets",
+    "uniform_cell_boxes",
+    "uniform_grid_shape",
     "write_connection_complete_morse_sets",
     "write_morse_graph_dot",
     "write_quotient_morse_sets",
@@ -30,6 +33,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
+from numpy.typing import NDArray
 
 from .morse_graph_parser import MorseGraph
 
@@ -505,6 +509,132 @@ def compute_connection_complete_morse_sets(
         },
     )
 
+
+
+def uniform_grid_shape(depth: int, dim: int) -> NDArray[np.int64]:
+    """Per-axis bin counts of a uniform CMGDB tree of the given total depth.
+
+    CMGDB bisects axis ``depth % dim``, so the axes receive the splits in turn.
+    """
+    shape = np.ones(dim, dtype=np.int64)
+    for level in range(int(depth)):
+        shape[level % dim] *= 2
+    return shape
+
+
+def boxes_to_uniform_cells(
+    boxes: NDArray[np.float64],
+    lower: NDArray[np.float64],
+    upper: NDArray[np.float64],
+    shape: NDArray[np.int64],
+) -> NDArray[np.int64]:
+    """Uniform cell ids met by a set of boxes.
+
+    A box claims every uniform cell it touches, so a box smaller than a cell
+    still claims the cell containing it. The result is the smallest union of
+    uniform cells containing the given boxes.
+    """
+    from .basin_statistics import cmgdb_morton_cell_indices
+
+    lower = np.asarray(lower, dtype=np.float64)
+    upper = np.asarray(upper, dtype=np.float64)
+    shape = np.asarray(shape, dtype=np.int64)
+    dim = lower.size
+    span = upper - lower
+    ids: set[int] = set()
+    for row in np.asarray(boxes, dtype=np.float64):
+        lo = (row[:dim] - lower) / span * shape
+        hi = (row[dim:] - lower) / span * shape
+        lo_bin = np.clip(np.floor(lo).astype(np.int64), 0, shape - 1)
+        hi_bin = np.clip(np.ceil(hi).astype(np.int64) - 1, 0, shape - 1)
+        hi_bin = np.maximum(hi_bin, lo_bin)
+        axes = [np.arange(a, b + 1, dtype=np.int64) for a, b in zip(lo_bin, hi_bin)]
+        mesh = np.stack(np.meshgrid(*axes, indexing="ij"), axis=-1).reshape(-1, dim)
+        ids.update(int(v) for v in cmgdb_morton_cell_indices(mesh, shape))
+    return np.array(sorted(ids), dtype=np.int64)
+
+
+def uniform_cell_boxes(
+    cells: NDArray[np.int64],
+    lower: NDArray[np.float64],
+    upper: NDArray[np.float64],
+    shape: NDArray[np.int64],
+) -> NDArray[np.float64]:
+    """Geometry of uniform cells, laid out as CMGDB writes Morse-set rows."""
+    from .basin_statistics import cmgdb_morton_cell_indices
+
+    lower = np.asarray(lower, dtype=np.float64)
+    upper = np.asarray(upper, dtype=np.float64)
+    shape = np.asarray(shape, dtype=np.int64)
+    dim = lower.size
+    width = (upper - lower) / shape
+    total = int(np.prod(shape))
+    all_bins = np.stack(
+        np.meshgrid(*[np.arange(n) for n in shape], indexing="ij"), axis=-1
+    ).reshape(-1, dim)
+    order = np.empty(total, dtype=np.int64)
+    order[cmgdb_morton_cell_indices(all_bins, shape)] = np.arange(total)
+    origin = lower + all_bins[order[np.asarray(cells, dtype=np.int64)]] * width
+    return np.concatenate([origin, origin + width], axis=1)
+
+
+class _CellSetsAsMorseGraph:
+    """Present explicit per-node cell ids the way a CMGDB Morse graph does."""
+
+    def __init__(self, cells_by_node: Mapping[int, NDArray[np.int64]]) -> None:
+        self._cells = {int(k): np.asarray(v, dtype=np.int64) for k, v in cells_by_node.items()}
+
+    def morse_set(self, node: int) -> NDArray[np.int64]:
+        return self._cells[int(node)]
+
+
+def compute_uniform_connection_complete_morse_sets(
+    uniform_map_graph,
+    fine_morse_graph,
+    projection: Mapping[int, int],
+    *,
+    lower: NDArray[np.float64],
+    upper: NDArray[np.float64],
+    depth: int,
+) -> tuple[ConnectionCompleteMorseSets, dict[int, NDArray[np.int64]], NDArray[np.int64]]:
+    """Connection-complete the quotient on a uniform grid of the given depth.
+
+    Completing a merged fiber on the *adaptive* cell graph lets its deepest
+    cells trace connecting orbits at a resolution the coarser structures around
+    it do not share, so the enclosure reaches into regions those structures have
+    already claimed. Rebuilding the cell graph uniformly -- at ``subdiv_min``,
+    the depth every recurrent cell was carried to -- expresses the fine sets,
+    their connections, and anything else computed on that grid in one common
+    decomposition.
+
+    The fine Morse sets come from the adaptive computation and are carried over
+    by geometry; only the connecting orbits are recomputed here. Returns the
+    completed sets, the per-fine-node uniform cells, and the grid shape.
+    """
+    lower = np.asarray(lower, dtype=np.float64)
+    upper = np.asarray(upper, dtype=np.float64)
+    shape = uniform_grid_shape(depth, lower.size)
+    n_cells = int(uniform_map_graph.num_vertices())
+
+    cells_by_node: dict[int, NDArray[np.int64]] = {}
+    for node in sorted(int(n) for n in projection):
+        boxes = np.asarray(fine_morse_graph.morse_set_boxes(node), dtype=np.float64)
+        cells_by_node[node] = boxes_to_uniform_cells(boxes, lower, upper, shape)
+
+    # Two fine sets can claim one cell once carried to this depth; give it to the
+    # lowest-numbered claimant so the assignment stays a partition, which is what
+    # the connection completion requires.
+    owner = np.full(n_cells, -1, dtype=np.int64)
+    for node in sorted(cells_by_node):
+        cells = cells_by_node[node]
+        free = cells[owner[cells] == -1]
+        owner[free] = node
+        cells_by_node[node] = free
+
+    completed = compute_connection_complete_morse_sets(
+        uniform_map_graph, _CellSetsAsMorseGraph(cells_by_node), projection
+    )
+    return completed, cells_by_node, shape
 
 def write_morse_graph_dot(morse_graph: MorseGraph, path: str | Path) -> Path:
     """Write a parsed or quotient Morse graph in CMGDB-compatible DOT form."""

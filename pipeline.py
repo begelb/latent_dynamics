@@ -27,6 +27,28 @@ from latentdynamics.cli import pipeline
 from latentdynamics.config import load_config
 
 
+
+def _parse_overrides(assignments: list[str]) -> dict | None:
+    """Turn ``--set a.b=value`` pairs into the nested mapping load_config takes."""
+    if not assignments:
+        return None
+    import yaml
+
+    overrides: dict = {}
+    for assignment in assignments:
+        if "=" not in assignment:
+            raise SystemExit(f"--set expects KEY=VALUE, got {assignment!r}")
+        dotted, raw = assignment.split("=", 1)
+        keys = [k for k in dotted.split(".") if k]
+        if not keys:
+            raise SystemExit(f"--set has an empty key: {assignment!r}")
+        cursor = overrides
+        for key in keys[:-1]:
+            cursor = cursor.setdefault(key, {})
+        cursor[keys[-1]] = yaml.safe_load(raw)
+    return overrides
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -90,10 +112,21 @@ def main(argv: list[str] | None = None) -> int:
         "(default: all); e.g. '--figures overlay' regenerates only the orbit overlay and "
         "skips the regions-of-attraction recompute (the one expensive figure)",
     )
+    parser.add_argument(
+        "--set",
+        dest="overrides",
+        action="append",
+        default=[],
+        metavar="KEY=VALUE",
+        help="override one config field, dotted (e.g. --set cmgdb.padding=true); "
+             "repeatable. Values parse as YAML, so true/false/numbers/lists work. "
+             "Overrides are merged before validation, so an invalid key or value "
+             "fails exactly as it would in the YAML.",
+    )
     parser.add_argument("--quiet", action="store_true")
     args = parser.parse_args(argv)
 
-    cfg = load_config(args.config)
+    cfg = load_config(args.config, overrides=_parse_overrides(args.overrides))
     stages = (
         list(pipeline.ALL_STAGES)
         if args.stages == "all"

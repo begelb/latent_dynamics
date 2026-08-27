@@ -72,19 +72,30 @@ def test_basin_image_uses_physical_colors_and_opaque_attractors():
     np.testing.assert_allclose(image[1, 1], (*positive[:3], roa_plot.BASIN_ALPHA))
 
 
-def test_paper_axes_hide_ticks_labels_and_existing_grid():
+def test_paper_axes_show_labeled_ticks_by_default_and_can_hide_them():
     fig, ax = plt.subplots()
     ax.grid(True)
 
     roa_plot._style_axes(ax)
     fig.canvas.draw()
 
+    assert ax.get_xlabel() == "$z_1$"
+    assert ax.get_ylabel() == "$z_2$"
+    assert ax.get_xticks().size > 0
+    assert not any(line.get_visible() for line in ax.get_xgridlines())
+    assert not any(line.get_visible() for line in ax.get_ygridlines())
+    plt.close(fig)
+
+    fig, ax = plt.subplots()
+    ax.grid(True)
+
+    roa_plot._style_axes(ax, show_ticks=False, show_axis_labels=False)
+    fig.canvas.draw()
+
     assert ax.get_xlabel() == ""
     assert ax.get_ylabel() == ""
     assert ax.get_xticks().size == 0
     assert ax.get_yticks().size == 0
-    assert not any(line.get_visible() for line in ax.get_xgridlines())
-    assert not any(line.get_visible() for line in ax.get_ygridlines())
     plt.close(fig)
 
 
@@ -126,7 +137,6 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
         fig.canvas.draw()
         captured[Path(output).name] = {
             "images": len(ax.images),
-            "image": np.asarray(ax.images[0].get_array()).copy(),
             "collections": len(ax.collections),
             "xlabel": ax.get_xlabel(),
             "ylabel": ax.get_ylabel(),
@@ -159,19 +169,39 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
     assert result == 0
     basin_render = captured["attractor_basins"]
     overlay_render = captured["morse_roa_overlay"]
-    assert basin_render["images"] == overlay_render["images"] == 1
-    np.testing.assert_array_equal(basin_render["image"], overlay_render["image"])
-    assert basin_render["collections"] == 0
-    assert overlay_render["collections"] == 3
+    # The basin layer is vector rectangles now: no raster image, and one
+    # PatchCollection per distinct basin colour (each physical state at the
+    # attractor alpha and at BASIN_ALPHA).
+    assert basin_render["images"] == overlay_render["images"] == 0
+    assert basin_render["collections"] == 4
+    assert overlay_render["collections"] == 7
     for render in (basin_render, overlay_render):
-        assert render["xlabel"] == ""
-        assert render["ylabel"] == ""
-        assert np.asarray(render["xticks"]).size == 0
-        assert np.asarray(render["yticks"]).size == 0
+        assert render["xlabel"] == "$z_1$"
+        assert render["ylabel"] == "$z_2$"
+        assert np.asarray(render["xticks"]).size > 0
+        assert np.asarray(render["yticks"]).size > 0
         assert not any(render["xgrid"])
         assert not any(render["ygrid"])
 
-    connecting, positive, negative = overlay_render["collection_colors"]
+    def composited(color, alpha):
+        # Mirror _draw_basin_vector: 8-bit quantisation, then the alpha is
+        # composited against white into an opaque colour.
+        rgba = np.round(np.asarray(to_rgba((*to_rgba(color)[:3], alpha))) * 255.0) / 255.0
+        return tuple(np.round(rgba[3] * rgba[:3] + (1.0 - rgba[3]), 6)) + (1.0,)
+
+    expected_basin = {
+        composited(color, alpha)
+        for color in (roa_plot.CHAFEE_NEGATIVE_COLOR, roa_plot.CHAFEE_POSITIVE_COLOR)
+        for alpha in (1.0, roa_plot.BASIN_ALPHA)
+    }
+    for render in (basin_render, overlay_render):
+        actual = {
+            tuple(np.round(np.asarray(c, dtype=float), 6))
+            for c in render["collection_colors"][:4]
+        }
+        assert actual == expected_basin
+
+    connecting, positive, negative = overlay_render["collection_colors"][-3:]
     np.testing.assert_allclose(connecting, to_rgba(roa_plot.CHAFEE_CONNECTING_COLOR))
     np.testing.assert_allclose(positive, to_rgba(roa_plot.CHAFEE_POSITIVE_COLOR))
     np.testing.assert_allclose(negative, to_rgba(roa_plot.CHAFEE_NEGATIVE_COLOR))
@@ -183,14 +213,14 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
         "positive": 7,
     }
     assert metadata["rendering"] == {
-        "basin_layer": "single RGBA image via imshow",
+        "basin_layer": "per-cell vector rectangles, edge in face colour",
         "per_cell_scatter": False,
         "basin_alpha": 0.35,
         "attractor_set_alpha": 1.0,
     }
     assert metadata["axis_visibility"] == {
-        "ticks": False,
-        "latent_coordinate_labels": False,
+        "ticks": True,
+        "latent_coordinate_labels": True,
         "grid": False,
     }
     assert metadata["physical_colors"] == {

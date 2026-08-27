@@ -28,6 +28,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+import CMGDB
+import matplotlib.pyplot as plt
 import numpy as np
 
 from latentdynamics.analysis.morse_graph_parser import MorseGraph
@@ -263,23 +265,38 @@ def _render_spec(
         formats=("pdf", "png"),
         palette=palette,
     )
-    plot = plot_morse_sets_from_csv(
-        spec.source_dir / "morse_sets",
-        bounds_lower=spec.bounds_lower,
-        bounds_upper=spec.bounds_upper,
-        palette=palette,
-        paper_style=True,
-        box_scale=1.0,
-        min_box_side_frac=0.0,
-    )
-    if not show_axis_annotations:
-        _hide_axis_annotations(plot)
-    set_outputs = save_latent_figure(
-        plot.fig,
-        output_dir / spec.sets_basename,
-        formats=("pdf", "png"),
-        close=True,
-    )
+    # Sets drawn by CMGDB's own plotting, straight from the saved file.
+    if spec.dimension == 1:
+        fig, ax = CMGDB.PlotMorseSets1D(
+            str(spec.source_dir / "morse_sets"),
+            clist=list(palette),
+            xlim=[spec.bounds_lower[0], spec.bounds_upper[0]],
+            xlabel="$z_1$",
+            show=False,
+        )
+    else:
+        fig, ax = CMGDB.PlotMorseSets(
+            str(spec.source_dir / "morse_sets"),
+            clist=list(palette),
+            xlim=[spec.bounds_lower[0], spec.bounds_upper[0]],
+            ylim=[spec.bounds_lower[1], spec.bounds_upper[1]],
+            xlabel="$z_1$",
+            ylabel="$z_2$",
+            show=False,
+        )
+    # The 1-D panel always keeps its annotated axis: the axis line, arrow,
+    # tick marks, and $z_1$ label are the phase space, not decoration.
+    if not show_axis_annotations and spec.dimension != 1:
+        ax.set_xlabel("")
+        ax.set_ylabel("")
+        ax.set_xticks([])
+        ax.set_yticks([])
+    set_outputs = []
+    for fmt in ("pdf", "png"):
+        out_path = output_dir / f"{spec.sets_basename}.{fmt}"
+        fig.savefig(out_path, dpi=300, bbox_inches="tight")
+        set_outputs.append(out_path)
+    plt.close(fig)
 
     outputs = [*graph_outputs, *set_outputs]
     return {
@@ -348,7 +365,7 @@ def _build_specs(
                 1: "(x-1, 0)",
                 2: "(0, x-1)",
             },
-            expected_rows=85,
+            expected_rows=87,
             expected_set_labels=frozenset({0, 1, 2}),
             graph_basename="ci_latent_1d_morse_graph",
             sets_basename="ci_latent_1d_morse_sets",
@@ -364,12 +381,17 @@ def _build_specs(
             connecting_labels=(2,),
             expected_nodes=frozenset({0, 1, 2}),
             expected_edges=frozenset({(2, 0), (2, 1)}),
+            # Coarsened nodes are labelled by their ids; the manuscript's
+            # M(0+)/M(0-)/M(1) notation lives in the captions, not on the
+            # nodes (see coarsen_chafee_infante.py).
             expected_annotations={
-                0: "M(0⁺)",
-                1: "M(0⁻)",
-                2: "M(1)",
+                0: "0",
+                1: "1",
+                2: "2",
             },
-            expected_rows=4235,
+            # Padded box images (the replay default): larger Morse sets than
+            # the unpadded published run's 4235 rows.
+            expected_rows=7119,
             expected_set_labels=frozenset({0, 1, 2}),
             graph_basename="ci_coarse_morse_graph",
             sets_basename="ci_coarse_morse_sets",

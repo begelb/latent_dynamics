@@ -18,9 +18,8 @@ CODE_ROOT = Path(__file__).resolve().parents[1]
 import CMGDB  # noqa: E402
 import matplotlib  # noqa: E402
 
-from latentdynamics.analysis.cmgdb_fork import (  # noqa: E402
+from latentdynamics.analysis.cmgdb_features import (  # noqa: E402
     cmgdb_provenance,
-    require_fork_cmgdb,
 )
 
 WIDE_CUBE_LOWER = [-0.01, -0.01, -0.01]
@@ -78,7 +77,6 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    require_fork_cmgdb()
     if not 1 <= args.initial <= args.subdiv_min <= args.subdiv_max:
         raise ValueError(
             "subdivision levels must satisfy "

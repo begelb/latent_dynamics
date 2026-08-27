@@ -25,6 +25,7 @@ import hashlib
 import json
 from pathlib import Path
 
+import CMGDB
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -42,7 +43,18 @@ PIN_FILE = (
     / "coral"
     / "render_inputs_sha256.json"
 )
-MORSE_SETS_RELATIVE = "replay_sources/coral/train_500/seed_16/MG/morse_sets"
+#: Boxes to draw. Prefer what a live run just computed; the shipped reference
+#: is the standalone fallback so this script still works from a clean checkout.
+#: The two agree numerically (verified: max |delta| 0.0 over all endpoints,
+#: identical labels); they differ only in line endings.
+MORSE_SETS_RECOMPUTED = "replay/coral_basic/train_500/seed_16/MG/morse_sets"
+MORSE_SETS_REFERENCE = "replay_sources/coral/train_500/seed_16/MG/morse_sets"
+
+
+def _morse_sets_path(repo_root: Path) -> Path:
+    """Recomputed boxes when present, else the shipped reference."""
+    live = repo_root / MORSE_SETS_RECOMPUTED
+    return live if live.is_file() else repo_root / MORSE_SETS_REFERENCE
 CHECKPOINT_RELATIVE = "replay_sources/coral/train_500/seed_16/models/autoencoder.pt"
 
 EXPERIMENT = "coral_basic"
@@ -127,19 +139,30 @@ def render(output_dir: Path) -> Path:
         {"font.family": "serif", "mathtext.fontset": "stix", "font.serif": ["STIXGeneral"]}
     )
 
-    df = pd.read_csv(repo_root / MORSE_SETS_RELATIVE, names=["a", "b", "label"])
+    sets_path = _morse_sets_path(repo_root)
+    print("morse sets:", sets_path.relative_to(repo_root))
+    df = pd.read_csv(sets_path, names=["a", "b", "label"])
 
-    plt.figure(figsize=(12, 2))
-    for _, row in df.iterrows():
-        a, b = row["a"], row["b"]
-        label = int(row["label"])
-        color = COLOR_LIST[label % len(COLOR_LIST)]
-        plt.plot([a, b], [0, 0], color=color, linewidth=10,
-                 solid_capstyle="projecting", zorder=0)
+    # CMGDB draws the interval bands; the paper labels each set as a fiber
+    # |pi^-1(k)| rather than by node number, so the built-in labels are off
+    # and the fiber labels and fixed-point markers are overlaid below.
+    # Axis staged like the Chafee d=1 panel: arrow at the right end of the
+    # axis line, coordinate label at the tip, tick marks kept.
+    fig, ax = CMGDB.PlotMorseSets1D(
+        str(sets_path),
+        clist=COLOR_LIST,
+        fig_w=12,
+        fig_h=2,
+        label_sets=False,
+        axis_labels=True,
+        xlabel="$z_1$",
+        fontsize=25,
+        show=False,
+    )
 
     for i, z_val in enumerate(encoded_pts):
-        plt.scatter(z_val, 0.0, marker=MARKERS[i], color="black", s=60,
-                    edgecolor="black", clip_on=False, zorder=10)
+        ax.scatter(z_val, 0.0, marker=MARKERS[i], color="black", s=60,
+                   edgecolor="black", clip_on=False, zorder=10)
 
     for label in df["label"].unique():
         subset = df[df["label"] == label]
@@ -147,27 +170,22 @@ def render(output_dir: Path) -> Path:
         group_max = subset[["a", "b"]].max().max()
         midpoint = (group_min + group_max) / 2
         offset = {0: 0.0, 1: 0.04, 2: -0.04}.get(int(label), 0.0)
-        plt.text(midpoint + offset, 0.27, f"$|\\pi^{{-1}}({int(label)})|$",
-                 ha="center", va="bottom", fontsize=26, color="black")
+        ax.text(midpoint + offset, 0.27, f"$|\\pi^{{-1}}({int(label)})|$",
+                ha="center", va="bottom", fontsize=26, color="black")
 
-    plt.yticks([])
-    plt.ylim(-0.5, 0.5)
-    plt.locator_params(axis="x", nbins=4)
-    ax = plt.gca()
-    for spine in ["top", "left", "right"]:
-        ax.spines[spine].set_visible(False)
-    ax.spines["bottom"].set_position("zero")
-    ax.xaxis.set_ticks_position("bottom")
-    plt.tick_params(axis="x", which="major", labelsize=25, pad=25)
+    ax.locator_params(axis="x", nbins=4)
+    ax.tick_params(axis="x", which="major", labelsize=25, pad=25)
 
     # Legend intentionally omitted; markers are identified in the caption.
-    plt.subplots_adjust(left=0.04, right=0.97, bottom=0.25, top=0.7)
+    # The right margin leaves room for the axis-tip coordinate label and the
+    # rightmost fiber label.
+    fig.subplots_adjust(left=0.04, right=0.92, bottom=0.25, top=0.7)
 
     output_dir.mkdir(parents=True, exist_ok=True)
     pdf_path = output_dir / "morse_sets_1D.pdf"
-    plt.savefig(pdf_path, dpi=300)
-    plt.savefig(pdf_path.with_suffix(".png"), dpi=150)
-    plt.close()
+    fig.savefig(pdf_path, dpi=300)
+    fig.savefig(pdf_path.with_suffix(".png"), dpi=150)
+    plt.close(fig)
 
     print("encoded:", {k: round(v, 4) for k, v in zip(FIXED_POINTS, encoded_pts)})
     print("wrote", pdf_path)

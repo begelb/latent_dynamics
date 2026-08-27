@@ -20,11 +20,12 @@ import os
 from pathlib import Path
 from typing import Any
 
+import CMGDB
+import matplotlib.patches as mpatches
 import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from numpy.typing import NDArray
 
-from latentdynamics.viz import plot_morse_sets_3d_cubical_from_csv
 from latentdynamics.viz.style import save_figure
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
@@ -221,8 +222,8 @@ def _build_display_cover(
     return cover, diagnostics
 
 
-def _emphasize_origin_cube(plot: Any) -> None:
-    origin_rows = plot.data[plot.data[:, 6].astype(np.int64) == 5]
+def _emphasize_origin_cube(ax: Any, cover: NDArray[np.float64]) -> None:
+    origin_rows = cover[cover[:, 6].astype(np.int64) == 5]
     if origin_rows.shape[0] != 1:
         raise ValueError("expected one level-24 origin display cell")
     x0, y0, z0, x1, y1, z1 = origin_rows[0, :6]
@@ -237,7 +238,7 @@ def _emphasize_origin_cube(plot: Any) -> None:
         ],
         dtype=np.float64,
     )
-    plot.ax.add_collection3d(
+    ax.add_collection3d(
         Poly3DCollection(
             faces,
             facecolors=PALETTE[5],
@@ -253,6 +254,7 @@ def _emphasize_origin_cube(plot: Any) -> None:
 
 def _render_view(
     cover_path: Path,
+    cover: NDArray[np.float64],
     output_dir: Path,
     *,
     basename: str,
@@ -262,42 +264,40 @@ def _render_view(
     emphasize_origin: bool,
     show_legend: bool = True,
 ) -> list[Path]:
-    plot = plot_morse_sets_3d_cubical_from_csv(
-        cover_path,
-        palette=PALETTE,
-        paper_style=True,
+    # CMGDB's cubical surface renderer draws the display cover; the labeled
+    # view keeps the axis labels (the z one as an unclipped 2-D annotation),
+    # the plain views drop labels and ticks entirely.
+    fig, ax = CMGDB.PlotMorseSets3D(
+        str(cover_path),
+        clist=list(PALETTE),
         elev=elev,
         azim=azim,
-        alpha=1.0,
-        shade=True,
         shade_strength=0.28,
-        highlight_strength=0.10,
-        edge_alpha=0.16,
-        edge_linewidth=0.065,
-        minimal_frame=True,
-        show_ticks=labeled,
-        show_axis_labels=False,
-        show_legend=show_legend,
-        legend_labels=LEGEND_LABELS,
+        axis_labels=labeled,
+        xlabel="$x_1$",
+        ylabel="$x_2$",
+        zlabel="$x_3$",
+        show=False,
     )
-    if labeled:
-        plot.ax.set_xlabel("$x_1$", labelpad=5)
-        plot.ax.set_ylabel("$x_2$", labelpad=5)
-        plot.ax.text2D(
-            0.95,
-            0.60,
-            "$x_3$",
-            transform=plot.ax.transAxes,
-            rotation=90,
-            rotation_mode="anchor",
-            ha="center",
-            va="center",
-            clip_on=False,
-        )
+    if not labeled:
+        for axis in (ax.xaxis, ax.yaxis, ax.zaxis):
+            axis.set_ticks([])
+    if show_legend:
+        unique_labels = sorted(np.unique(cover[:, 6].astype(np.int64)).tolist())
+        handles = [
+            mpatches.Patch(
+                facecolor=PALETTE[label % len(PALETTE)],
+                edgecolor=(0.08, 0.08, 0.08, 0.25),
+                label=LEGEND_LABELS.get(label, f"$M_{{{label}}}$"),
+            )
+            for label in unique_labels
+        ]
+        ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.01),
+                  ncol=6, frameon=False, handlelength=1.0, columnspacing=0.9)
     if emphasize_origin:
-        _emphasize_origin_cube(plot)
+        _emphasize_origin_cube(ax, cover)
     return save_figure(
-        plot.fig,
+        fig,
         output_dir / basename,
         formats=("pdf", "png"),
         close=True,
@@ -331,6 +331,7 @@ def render(
     outputs = [
         *_render_view(
             cover_path,
+            cover,
             output_dir,
             basename="morse_sets_cubical_3d",
             elev=22.0,
@@ -340,6 +341,7 @@ def render(
         ),
         *_render_view(
             cover_path,
+            cover,
             output_dir,
             basename="morse_sets_cubical_3d_no_legend",
             elev=22.0,
@@ -350,6 +352,7 @@ def render(
         ),
         *_render_view(
             cover_path,
+            cover,
             output_dir,
             basename="morse_sets_cubical_3d_labeled",
             elev=22.0,
@@ -359,6 +362,7 @@ def render(
         ),
         *_render_view(
             cover_path,
+            cover,
             output_dir,
             basename="morse_sets_cubical_3d_x1_x3_view",
             elev=18.0,

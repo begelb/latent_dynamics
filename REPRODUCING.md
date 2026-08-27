@@ -29,8 +29,7 @@ python -c "from latentdynamics.replay import fetch_bundle as f; \
 
 The reference bundles are only needed to re-render the direct-computation
 panels without recomputing them (~54 min / ~97 min). CMGDB
-`v1.3.3+fork.3` is published with CPython 3.11–3.13 wheels; install per
-`README.md`. Replay outputs of `pipeline.py` land under
+`>=1.5.0` is installed from PyPI; see `README.md`. Replay outputs of `pipeline.py` land under
 `<repo>/replay/<config>/`; everything else goes under `output/`.
 
 ## 1. Extended two-dimensional Leslie model (10-D)
@@ -55,10 +54,9 @@ panels without recomputing them (~54 min / ~97 min). CMGDB
 | Reference full recompute | `python scripts/screen_original_leslie3d_initial.py 29 --domain absorbing` then `compute_original_leslie3d_conley_from_saved_sets.py`, `analyze_original_leslie3d_uniform_level33.py` | ~97 min + min |
 | Latent fine Morse graph replay (subdiv 23,23,27) | `python pipeline.py --config leslie3d_example1_replay --stages render,metrics` or notebook `02_leslie3d_example1.ipynb` | sec |
 | Morse-graph coarsening: merge nodes 4,5 | `python scripts/leslie3d_example1_coarsen_morse_graph.py` | ~1 min |
-| Uniform (22,22,22) grid recompute | `python scripts/leslie3d_example1_uniform_grid.py --depth 22` | ~30 s |
+| Coarse (22,22,24) grid recompute | `python scripts/leslie3d_example1_uniform_grid.py --depth 22` | ~45 s |
 | Verify minimal components = forward closures | `python scripts/leslie3d_example1_verify_closures.py` | ~1 min |
-| Paper figure panels (a–d + coarse a,b) | `python scripts/render_leslie3d_example1_figures.py` | sec |
-| Bundle consistency gates + packaging | `python scripts/leslie3d_example1_package_bundle.py` | min |
+| Paper figure panels (a–d + coarse a,b) | `python scripts/render_paper_figures.py --only leslie3d_example1` | min |
 | Residual/tolerance, fine rows | `python scripts/compute_sampled_residual_tolerance.py leslie3d_example1` | ~1 h |
 | Residual/tolerance, coarse rows | `python scripts/leslie3d_example1_uniform_sampled_metrics.py --depth 22 --stage all` | ~3 min |
 
@@ -106,7 +104,7 @@ Every published number has a frozen, checksummed record under
 - `sampled_residual_tolerance/` — the 15 rows of the residual/tolerance
   table (per-experiment `dense_sampling.json`).
 - `leslie3d_example1/` — coarsening result (merged Conley index, 322-cell
-  count), uniform-22 result, coarse-row metrics, forward-closure
+  count), coarse (22,22,24) result, coarse-row metrics, forward-closure
   verification.
 - `chafee_infante/` — `updated_paper_statistics.{csv,json}` (both appendix
   tables) and the undetermined split.

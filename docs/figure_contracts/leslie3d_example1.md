@@ -14,9 +14,9 @@ The manuscript's six panels, by published file name:
 - `adaptive_original_morse_sets_with_separate_4_5_zoom_no_legend.pdf` — fine
   Morse sets with the marker-free separation-zoom inset
 - `adaptive_merged_4_5_morse_sets_no_legend.pdf` — merged-region Morse sets
-- `uniform_22_nontrivial_morse_graph.pdf` — uniform (22,22,22) graph,
+- `morse_graph_coarse22.pdf` — coarse (22,22,24) graph,
   trivial-index nodes omitted
-- `uniform_22_nontrivial_morse_sets_no_legend.pdf` — uniform (22,22,22)
+- `morse_sets_coarse22.pdf` — coarse (22,22,24)
   Morse sets
 
 An earlier single-figure layout (`morse_graph.pdf`,
@@ -99,7 +99,7 @@ recomputation. Three drivers plus one renderer:
    (291 cells) contains the extra fixed point and a period-2 orbit with
    index `(0, x+1, 0)`. Box widths `(8.079e-4, 7.832e-4)`. Recorded graph
    build 27 s.
-3. **Paper renders** — `scripts/render_leslie3d_example1_figures.py`
+3. **Paper renders** — `scripts/render_paper_figures.py --only leslie3d_example1`
    re-renders all six panels display-only (0.5% visibility floor in full
    views, exact box sizes in the zoom, no legends/titles/ticks). The zoom
    inset separates node 4 (purple), node 5 (teal), and the 25 connection
@@ -107,7 +107,7 @@ recomputation. Three drivers plus one renderer:
    174/123/25/322.
 
 Frozen results (merged-run `result.json` with the merged Conley index and
-live-match record, uniform-22 `result.json` and nontrivial summaries) ship
+live-match record, coarse (22,22,24) `result.json` and nontrivial summaries) ship
 under `artifacts/reference_results/leslie3d_example1/`.
 
 ## Expected scientific output
@@ -203,5 +203,5 @@ The fine graph must remain byte-identical to
 Verify the six graph nodes and the five edges listed above. Treat
 `metrics.json` only as a sampled diagnostic for its recorded target node; it
 must not be used to label node 4 spurious. For the derived panels, the render
-script's own count gates (174/123/25/322; uniform-22 nontrivial rows
+script's own count gates (174/123/25/322; coarse nontrivial rows
 2714/85170/1152/291) are the verification.

@@ -205,12 +205,15 @@ class UniformGrid:
 
 
 def require_local_cmgdb() -> tuple[object, Path]:
-    """Import CMGDB and confirm it is the maintained fork."""
+    """Import CMGDB and report where it came from.
+
+    Every routine this module calls (BoxMap, Model, ComputeMorseGraph,
+    PlotMorseGraph, PlotMorseSets) exists in every CMGDB release this project
+    supports, so there is nothing to require here.
+    """
     import CMGDB
 
-    from latentdynamics.analysis.cmgdb_fork import require_fork_cmgdb
-
-    return CMGDB, require_fork_cmgdb()
+    return CMGDB, Path(CMGDB.__file__).resolve()
 
 
 def validate_adjacencies(grid: UniformGrid, level: int) -> dict[str, object]:

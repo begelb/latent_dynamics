@@ -21,6 +21,7 @@ artifacts).  Outputs go to ``--output`` (default
 from __future__ import annotations
 
 import argparse
+import warnings
 import csv
 import hashlib
 import json
@@ -62,6 +63,10 @@ from latentdynamics.replay import load_experiment
 
 REPO_ROOT = get_repo_root()
 RUN = REPO_ROOT / "replay_sources" / "leslie3d_example1" / "spurious_attractor_ex"
+#: Morse graph/sets to coarsen. Overridable so the paper figures show what a
+#: live CMGDB run produced; the model checkpoint still comes from RUN, since
+#: replay reuses the saved network by design.
+MORSE_DIR = RUN / "MG"
 DEFAULT_OUTPUT = REPO_ROOT / "output" / "leslie3d_example1_study" / "coarsened_45"
 DEPTH = 23
 EXPECTED = {
@@ -97,7 +102,7 @@ def recorded_path(path: Path) -> str:
 
 def saved_cells(coordinates: UniformCoordinates) -> dict[int, set[tuple[int, ...]]]:
     result: dict[int, set[tuple[int, ...]]] = {}
-    with (RUN / "MG" / "morse_sets").open(newline="", encoding="utf-8") as handle:
+    with (MORSE_DIR / "morse_sets").open(newline="", encoding="utf-8") as handle:
         for row in csv.reader(handle):
             label = int(float(row[-1]))
             result.setdefault(label, set()).add(
@@ -205,7 +210,7 @@ def render_graph(dot_path: Path, output_stem: Path) -> Path | None:
         return None
 
 
-def main(output: Path) -> None:
+def main(output: Path, *, allow_placeholder_index: bool = False) -> None:
     output.mkdir(parents=True, exist_ok=True)
     started = time.perf_counter()
     experiment = load_experiment("leslie3d_example1_replay", device="cpu")
@@ -254,7 +259,7 @@ def main(output: Path) -> None:
     saved_to_live = {label: node for node, label in live_to_saved.items()}
     print(f"live-to-saved labels: {live_to_saved}", flush=True)
 
-    saved_graph = MorseGraph.from_dot(RUN / "MG" / "morse_graph")
+    saved_graph = MorseGraph.from_dot(MORSE_DIR / "morse_graph")
     quotient = coarsen_morse_graph(saved_graph, [{4, 5}])
     live_projection = {
         live_node: quotient.projection[saved_label]
@@ -294,16 +299,46 @@ def main(output: Path) -> None:
     )
     print(f"merged M45 index: {merged['conley_index']}", flush=True)
 
-    for label, result in ((4, fine4), (5, fine5)):
-        if normalize_index(result["conley_index"] or []) != EXPECTED[label]:
-            raise RuntimeError(
-                f"fine-node calibration failed for saved node {label}: "
-                f"got {result['conley_index']}, expected {EXPECTED[label]}"
-            )
-    if not merged["pair_valid"] or not merged["conley_index"]:
+    # Calibration: the local index computer must reproduce the two fine-node
+    # indices CMGDB itself reports before its answer on the merged set is
+    # trusted. It cannot on a build without ComputeConleyIndexForCells -- the
+    # index pairs here span subdivision depths 23-24, which the single-grid
+    # substitute cannot express -- and it then returns a trivial index rather
+    # than admitting one, so a mismatch is not always flagged as a placeholder.
+    # Under --allow-placeholder-index any disagreement is therefore treated the
+    # same way: the Morse sets are still exact, because connection completion
+    # is graph reachability and needs no homology, so continue and mark every
+    # index unavailable rather than printing one that was not computed.
+    miscalibrated = [
+        label for label, result in ((4, fine4), (5, fine5))
+        if normalize_index(result["conley_index"] or []) != EXPECTED[label]
+    ]
+    if miscalibrated and not allow_placeholder_index:
+        label = miscalibrated[0]
+        result = fine4 if label == 4 else fine5
+        raise RuntimeError(
+            f"fine-node calibration failed for saved node {label}: "
+            f"got {result['conley_index']}, expected {EXPECTED[label]}"
+        )
+    for label in miscalibrated:
+        warnings.warn(
+            f"node {label}: Conley index unavailable on this CMGDB; the "
+            f"Morse sets are still exact, the index is not",
+            RuntimeWarning,
+            stacklevel=2,
+        )
+    placeholder_indices = bool(miscalibrated) or any(
+        result.get("conley_index_is_trivial_placeholder", False)
+        for result in (fine4, fine5, merged)
+    )
+    if not placeholder_indices and (not merged["pair_valid"] or not merged["conley_index"]):
         raise RuntimeError(f"merged index pair did not validate: {merged}")
 
-    merged_label = f"[4,5] : ({', '.join(merged['conley_index'])})"
+    if placeholder_indices or merged.get("conley_index_is_trivial_placeholder"):
+        # Never print a placeholder as if it were the index.
+        merged_label = "[4,5] : (Conley index unavailable)"
+    else:
+        merged_label = f"[4,5] : ({', '.join(merged['conley_index'])})"
     quotient = coarsen_morse_graph(
         saved_graph,
         [{4, 5}],
@@ -335,14 +370,18 @@ def main(output: Path) -> None:
     )
     checkpoint_file, checkpoint_sha256 = checkpoint_hash(RUN / "models")
     summary: dict[str, Any] = {
-        "status": "complete",
+        "status": "complete_without_conley_index" if placeholder_indices else "complete",
+        # The Morse sets below are exact regardless; only the indices are
+        # affected when this is true.
+        "conley_index_unavailable": placeholder_indices,
         "purpose": "connection-complete coarsening of the leslie3d_example1 latent Morse nodes 4 and 5",
         "source_run": recorded_path(RUN),
+        "morse_dir": recorded_path(MORSE_DIR),
         "source_hashes": {
             "checkpoint_file": f"models/{checkpoint_file}",
             "checkpoint_sha256": checkpoint_sha256,
-            "morse_graph": sha256(RUN / "MG" / "morse_graph"),
-            "morse_sets": sha256(RUN / "MG" / "morse_sets"),
+            "morse_graph": sha256(MORSE_DIR / "morse_graph"),
+            "morse_sets": sha256(MORSE_DIR / "morse_sets"),
         },
         "bounds": {"lower": lower.tolist(), "upper": upper.tolist()},
         "cell_graph": {
@@ -427,5 +466,26 @@ if __name__ == "__main__":
         default=DEFAULT_OUTPUT,
         help="output directory (default: output/leslie3d_example1_study/coarsened_45)",
     )
+    parser.add_argument(
+        "--morse-dir",
+        type=Path,
+        default=None,
+        help="directory holding the morse_graph/morse_sets to coarsen "
+             "(default: the shipped run's MG; pass a live replay MG to coarsen "
+             "what was just computed)",
+    )
+    parser.add_argument(
+        "--allow-placeholder-index",
+        action="store_true",
+        help="continue when the Conley index is unavailable on this CMGDB "
+             "(an index pair spanning subdivision depths needs "
+             "ComputeConleyIndexForCells). The coarsened Morse sets are exact "
+             "either way -- connection completion is graph reachability -- so "
+             "this still writes them; the index is marked unavailable wherever "
+             "it appears.",
+    )
     arguments = parser.parse_args()
-    main(arguments.output)
+    if arguments.morse_dir is not None:
+        MORSE_DIR = arguments.morse_dir.resolve()
+        print(f"coarsening {MORSE_DIR}", flush=True)
+    main(arguments.output, allow_placeholder_index=arguments.allow_placeholder_index)

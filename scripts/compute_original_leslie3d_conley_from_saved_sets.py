@@ -24,7 +24,7 @@ CODE_ROOT = Path(__file__).resolve().parents[1]
 
 import CMGDB  # noqa: E402
 
-from latentdynamics.analysis.cmgdb_fork import cmgdb_provenance  # noqa: E402
+from latentdynamics.analysis.cmgdb_features import cmgdb_provenance  # noqa: E402
 
 INT_PHASE_WIDTH = 1 << 60
 TRUNCATION_ERROR = 1 << 10

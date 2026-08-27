@@ -240,7 +240,9 @@ class TestLoader:
         assert cfg.arch.component("decoder").hidden_shapes == (32, 64)
         assert cfg.arch.component("latent_map").out_activation == "none"
         assert cfg.cmgdb.lower_bounds == [-3.0, -2.0]
-        assert cfg.cmgdb.padding is False
+        # The replay uses padded box images: a more conservative
+        # over-approximation than the published run (see the yaml comment).
+        assert cfg.cmgdb.padding is True
 
     def test_leslie3d_yaml_loads(self):
         cfg = load_config(CONFIGS_DIR / "leslie3d.yaml")

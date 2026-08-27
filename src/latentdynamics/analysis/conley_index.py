@@ -9,7 +9,7 @@ dyadic grid:
   to saved Morse-set labels by maximum-Jaccard assignment;
 * :class:`LocalIndexComputer` builds the one-step image index pair of a cell
   set, checks its validity, and evaluates the Conley index with the CMGDB
-  fork's ``ComputeConleyIndexForCells``;
+  native ``ComputeConleyIndexForCells``;
 * :func:`component_index_labels` and :func:`parsed_live_graph` annotate every
   recurrent component of a live Morse graph with its Conley index.
 
@@ -22,8 +22,10 @@ from __future__ import annotations
 
 import itertools
 import math
+import os
 import time
-from collections.abc import Iterable
+import warnings
+from collections.abc import Callable, Iterable, Mapping
 from typing import Any
 
 import numpy as np
@@ -174,13 +176,100 @@ def match_nodes(
     return mapping, diagnostics
 
 
+
+_BACKEND_ENV = "LATENTDYNAMICS_CONLEY_BACKEND"
+
+
+def conley_backend() -> str:
+    """Which CMGDB routine computes Conley indices of a cell subset.
+
+    ``for_cells`` uses the native ``ComputeConleyIndexForCells``, which derives
+    the index pair internally from a Morse set. ``index_pair`` uses upstream's
+    ``ComputeConleyIndex``, which takes the pair explicitly -- the pair this
+    module already assembles and validates. ``auto`` prefers the native routine
+    when the installed build has it.
+
+    Set ``LATENTDYNAMICS_CONLEY_BACKEND`` to compare the two on a build that
+    exposes both; they are expected to agree, and the pinned reference results
+    are the arbiter.
+    """
+    requested = os.environ.get(_BACKEND_ENV, "auto").strip().lower()
+    if requested not in {"auto", "for_cells", "index_pair"}:
+        raise ValueError(
+            f"{_BACKEND_ENV} must be auto, for_cells or index_pair; got {requested!r}"
+        )
+    if requested != "auto":
+        return requested
+    return "for_cells" if hasattr(CMGDB, "ComputeConleyIndexForCells") else "index_pair"
+
+
+def conley_index_of_index_pair(
+    x_cells: Iterable[int],
+    a_cells: Iterable[int],
+    edges: Mapping[int, Iterable[int]],
+    sizes: Iterable[int],
+) -> list[str]:
+    """Conley index of an explicit combinatorial index pair ``(X, A)``.
+
+    ``x_cells``, ``a_cells`` and ``edges`` are in flat row-major indices of the
+    uniform grid whose shape is ``sizes`` -- the representation
+    ``CMGDB.ComputeConleyIndex`` consumes and the one
+    :class:`UniformCoordinates` produces. The phase space is non-periodic in
+    every axis, matching how the grids in this project are built.
+    """
+    shape = [int(size) for size in sizes]
+    return list(
+        CMGDB.ComputeConleyIndex(
+            sorted(int(cell) for cell in x_cells),
+            sorted(int(cell) for cell in a_cells),
+            shape,
+            [False] * len(shape),
+            {int(k): [int(v) for v in vs] for k, vs in edges.items()},
+            True,
+        )
+    )
+
+
+
+def trivial_conley_index(dimension: int) -> list[str]:
+    """The zero index: one ``"0"`` per homology degree 0..dimension."""
+    return ["0"] * (int(dimension) + 1)
+
+
+def flat_index_pair(
+    flat: "Callable[[int], int]",
+    pair: Iterable[int],
+    exit_set: Iterable[int],
+    edges: Mapping[int, Iterable[int]],
+) -> tuple[list[int], list[int], dict[int, list[int]]] | None:
+    """Translate an index pair to flat uniform-grid indices, or ``None``.
+
+    ``None`` means the pair is not expressible on one uniform grid: CMGDB's
+    adaptive subdivision refines cells unequally, so a Morse set at the base
+    depth can have an image containing deeper cells, and ``flat`` rejects any
+    box that is not aligned to the grid it was built for.
+    ``CMGDB.ComputeConleyIndex`` takes a single ``sizes`` shape and cannot
+    represent that.
+    """
+    try:
+        x_cells = [flat(cell) for cell in pair]
+        a_cells = [flat(cell) for cell in exit_set]
+        mapped = {
+            flat(source): [flat(target) for target in targets]
+            for source, targets in edges.items()
+        }
+    except ValueError:
+        return None
+    return x_cells, a_cells, mapped
+
+
 class LocalIndexComputer:
     """Index pairs and Conley indices for cell sets of one live cell graph.
 
     For a cell set ``S`` the candidate pair is ``(F(S), F(S) \\ S)``.  The
     pair is valid when ``S`` is contained in its one-step image and no exit
     cell maps back into ``S`` inside the pair.  Valid pairs are evaluated with
-    the CMGDB fork's ``ComputeConleyIndexForCells``.
+    the CMGDB native ``ComputeConleyIndexForCells``.
     """
 
     def __init__(
@@ -257,33 +346,94 @@ class LocalIndexComputer:
                 ],
             },
             "pair_valid": pair_valid,
-            "method": "CMGDB.ComputeConleyIndexForCells",
+            "method": None,
             "conley_index": None,
         }
+        backend = conley_backend()
+        result["method"] = (
+            "CMGDB.ComputeConleyIndexForCells"
+            if backend == "for_cells"
+            else "CMGDB.ComputeConleyIndex"
+        )
         if pair_valid:
-            result["conley_index"] = list(
-                CMGDB.ComputeConleyIndexForCells(
-                    self.model,
-                    self.morse_graph,
-                    sorted(recurrent),
+            if backend == "for_cells":
+                result["conley_index"] = list(
+                    CMGDB.ComputeConleyIndexForCells(
+                        self.model,
+                        self.morse_graph,
+                        sorted(recurrent),
+                    )
                 )
-            )
+            else:
+                dimension = len(self.coordinates.sizes)
+                flattened = flat_index_pair(
+                    self.flat, pair, exit_set, local_native
+                )
+                if flattened is None:
+                    message = (
+                        f"{name}: the index pair spans more than one subdivision "
+                        f"depth, so it cannot be expressed on the single uniform "
+                        f"grid CMGDB.ComputeConleyIndex requires. Reporting the "
+                        f"trivial index; this is NOT the Conley index of the set. "
+                        f"Use a CMGDB exposing ComputeConleyIndexForCells, which "
+                        f"handles the adaptive grid, to compute it."
+                    )
+                    warnings.warn(message, RuntimeWarning, stacklevel=2)
+                    result["conley_index"] = trivial_conley_index(dimension)
+                    result["conley_index_unavailable"] = message
+                    result["conley_index_is_trivial_placeholder"] = True
+                else:
+                    x_cells, a_cells, mapped = flattened
+                    result["conley_index"] = conley_index_of_index_pair(
+                        x_cells, a_cells, mapped, self.coordinates.sizes
+                    )
         result["seconds"] = time.perf_counter() - started
         return result
 
 
-def component_index_labels(model: Any, morse_graph: Any) -> dict[int, list[str]]:
-    """Conley index of every recurrent component of a live CMGDB Morse graph."""
+def component_index_labels(
+    model: Any,
+    morse_graph: Any,
+    *,
+    map_graph: Any = None,
+    coordinates: "UniformCoordinates | None" = None,
+) -> dict[int, list[str]]:
+    """Conley index of every recurrent component of a live CMGDB Morse graph.
+
+    ``map_graph`` and ``coordinates`` are needed only by the ``index_pair``
+    backend, which must be handed the pair explicitly rather than deriving it
+    from a Morse set the way the native routine does. Pass them whenever they are
+    in scope so the function works against either CMGDB build.
+    """
+    backend = conley_backend()
+    if backend == "for_cells":
+        return {
+            int(node): list(
+                CMGDB.ComputeConleyIndexForCells(
+                    model, morse_graph, morse_graph.morse_set(int(node))
+                )
+            )
+            for node in morse_graph.vertices()
+        }
+    if map_graph is None or coordinates is None:
+        raise RuntimeError(
+            "the index_pair Conley backend needs map_graph and coordinates: "
+            "CMGDB.ComputeConleyIndex takes the index pair explicitly, unlike "
+            "CMGDB's ComputeConleyIndexForCells which derives it from a "
+            "Morse set. Pass both, or install a CMGDB exposing "
+            "ComputeConleyIndexForCells."
+        )
+    computer = LocalIndexComputer(model, map_graph, morse_graph, coordinates)
     result: dict[int, list[str]] = {}
     for node in morse_graph.vertices():
         node = int(node)
-        result[node] = list(
-            CMGDB.ComputeConleyIndexForCells(
-                model,
-                morse_graph,
-                morse_graph.morse_set(node),
+        computed = computer.compute(f"node_{node}", morse_graph.morse_set(node))
+        if not computed["pair_valid"]:
+            raise RuntimeError(
+                f"node {node}: (F(S), F(S)\\S) is not a valid index pair, so its "
+                f"Conley index cannot be computed from the pair: {computed['checks']}"
             )
-        )
+        result[node] = computed["conley_index"]
     return result
 
 

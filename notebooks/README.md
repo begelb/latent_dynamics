@@ -1,50 +1,62 @@
 # Paper notebooks
 
-The notebook set is deliberately small: one CMGDB primer and one replay tour
-for each of the four application families in the manuscript. The application
-notebooks explain the scientific comparison, load checksummed release
-artifacts, display the saved panels, and print only a few headline invariants.
-They do not duplicate the training or CMGDB pipelines.
+One notebook per paper example, a CMGDB primer, and the direct Leslie
+baselines. Each notebook is a thin driver over the `latentdynamics` package
+and runs end-to-end on a fresh Google Colab kernel: the install cell installs
+CMGDB from PyPI, clones this repository, and installs the package, so the
+released checkpoints and configs are available.
 
-| Notebook | Paper example | Colab |
-|---|---|---|
-| [00_cmgdb_intro.ipynb](00_cmgdb_intro.ipynb) | Short CMGDB primer using a planar Leslie map | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/00_cmgdb_intro.ipynb) |
-| [01_leslie_2d_contraction.ipynb](01_leslie_2d_contraction.ipynb) | Extended 2-D Leslie model embedded in 10 dimensions | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/01_leslie_2d_contraction.ipynb) |
-| [02_leslie3d_example1.ipynb](02_leslie3d_example1.ipynb) | 3-D Leslie: direct, fine latent, coarsened, and lower-resolution views | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/02_leslie3d_example1.ipynb) |
-| [03_coral.ipynb](03_coral.ipynb) | 13-D red-coral model with a 1-D latent model | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/03_coral.ipynb) |
-| [04_chafee_infante.ipynb](04_chafee_infante.ipynb) | Chafee–Infante latent dimensions 1, 2, and 3, coarsening, RoA, and statistics | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/04_chafee_infante.ipynb) |
+| Notebook | Paper section | System | Colab |
+|---|---|---|---|
+| [00_cmgdb_intro.ipynb](00_cmgdb_intro.ipynb) | -- | CMGDB primer (planar Leslie, no autoencoder) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/00_cmgdb_intro.ipynb) |
+| [01_leslie_baselines.ipynb](01_leslie_baselines.ipynb) | 5.1, 5.2 | Direct 2-D and 3-D Leslie references | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/01_leslie_baselines.ipynb) |
+| [02_leslie_2d_contraction.ipynb](02_leslie_2d_contraction.ipynb) | 5.1 | 2-D Leslie + contraction (10-D embedding) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/02_leslie_2d_contraction.ipynb) |
+| [03_leslie3d_example1.ipynb](03_leslie3d_example1.ipynb) | 5.2 | 3-D Leslie -- spurious attractor | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/03_leslie3d_example1.ipynb) |
+| [04_chafee_infante.ipynb](04_chafee_infante.ipynb) | 5.3 | Chafee-Infante PDE (64-D) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/04_chafee_infante.ipynb) |
+| [05_coral.ipynb](05_coral.ipynb) | 5.4 | Red coral (13-D) population | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/05_coral.ipynb) |
 
-## Colab behavior
+## The three modes
 
-On Colab, the setup cell clones the public repository and installs it in
-editable mode. Keeping the checkout is intentional: the artifact fetcher needs
-the repository's `artifacts/manifest.json`. It then installs the prebuilt
-CMGDB `v1.3.3+fork.3` wheel and, on first load, downloads only the checksummed
-bundles used by that notebook.
+Notebooks 02-05 run in sections, following the order of the method: the
+system, the autoencoder, the data, training, CMGDB, figures. Each section
+defines its parameters as plain variables seeded with the paper's values;
+whatever you change is checked against the paper's configuration and any
+difference is reported.
 
-The badges assume `github.com/begelb/latent_dynamics`, branch `paper`. They
-become usable once the replay bundles are published; until then the manifest
-reports `release_url_base: PENDING` and the fetcher explains where to place
-manually obtained bundles.
+| `MODE` | what it does | typical cost |
+|--------|--------------|--------------|
+| `"quick"` | recompute the Morse graph of the *saved* model on the coarse `QUICK_SUBDIV` grid | seconds |
+| `"morse"` | recompute the Morse graph of the *saved* model at your `SUBDIV` (paper value by default) | minutes |
+| `"retrain"` | train a fresh model, then compute its Morse graph at your `SUBDIV` | minutes-hours (GPU recommended) |
 
-## Scope
+The saved networks that `quick` and `morse` recompute from ship *inside the
+repository* (`artifacts/reference_models/`, a few hundred kilobytes of
+weights, scalers, and recorded latent bounds), so both modes work from a bare
+clone -- Colab included -- with no artifact download. The released replay
+bundles carry only the heavyweight saved artifacts (Morse sets, figures,
+data pairs).
 
-- The application notebooks are replay-only and finish in seconds once their
-  bundles are cached.
-- Full CMGDB recomputation and retraining commands remain in
-  [REPRODUCING.md](../REPRODUCING.md).
-- The Chafee–Infante bifurcation diagram is a static manuscript asset. Its
-  generator and source data were not preserved, so the companion code does not
-  claim to reproduce it.
-- Sampled residual and tolerance calculations are numerical evidence, not a
-  mathematical certification over an entire domain.
+- `QUICK_SUBDIV` / `SUBDIV` -- CMGDB subdivision triples `(init, min, max)`.
+  **Coarse grids can merge nearby recurrent sets and change the Morse
+  graph**, so `quick` runs are previews, not paper-quality results.
+- `BOX_SCALE` -- how much to inflate Morse-set boxes so tiny attractor sets
+  stay visible: `"auto"`, a float, or a `{label: factor}` dict. Drawing
+  only; it never changes what was computed.
+- `SEED`, and for coral `TRAIN_FILE`, select which run to load or train.
+- Chafee-Infante adds `COMPUTE_ROA`: exact basins from the map graph, at the
+  cost of a second pass over the phase space.
 
-## Local execution
+The baselines notebook (01) has no modes: its two direct computations take a
+subdivision triple each, defaulting to quick previews with the published
+reference values noted beside them.
 
-After installing the project and placing or fetching the replay bundles:
+## Where output goes
 
-```bash
-jupyter nbconvert --to notebook --execute notebooks/0*.ipynb
-```
+Nothing a notebook does ever touches the preserved paper trees
+(`replay_sources/`, `paper_figures/`):
 
-The Colab setup cells are guarded, so they do not replace a local environment.
+- `quick`/`morse` recomputes write to
+  `output/notebooks/<experiment>/morse_<i>-<m>-<x>/`.
+- `retrain` writes a self-contained run under
+  `output/notebooks/<experiment>/retrain_<timestamp>/`.
+- Rendered figures land beside the artifacts they were drawn from.

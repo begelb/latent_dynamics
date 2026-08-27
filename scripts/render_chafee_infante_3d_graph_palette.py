@@ -2,12 +2,12 @@
 
 This is a render-only utility.  It computes each node's height above the two
 minimal Morse sets and applies the same reference-style level colors to the
-Morse graph, cubical Morse sets, and pairwise projections.  The persisted
+Morse graph and the 3-D cubical Morse sets.  The persisted
 Graphviz ``morse_graph`` file remains unchanged.  This utility does not load or
 evaluate a neural network and does not run CMGDB.
 
 Alongside the legend views it emits
-``ci_latent_3d_morse_sets_cubical_level_palette_no_legend``, which regenerates
+``ci_latent_3d_morse_sets_3d``, which draws the paper's
 the paper's no-legend cubical d=3 Morse-set panel visually (not byte-)
 identically.
 """
@@ -20,16 +20,13 @@ import json
 from pathlib import Path
 from typing import Any
 
+import CMGDB
+import matplotlib.pyplot as plt
 import numpy as np
 import pydot
 from matplotlib.colors import to_hex, to_rgba
 
-from latentdynamics.viz import (
-    plot_morse_set_projections_from_csv,
-    render_morse_graph_from_dot,
-    render_morse_sets_3d_cubical_from_csv,
-)
-from latentdynamics.viz.style import save_latent_figure
+from latentdynamics.viz import render_morse_graph_from_dot
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
 
@@ -72,8 +69,8 @@ EXPECTED_HEIGHT_GROUPS = {
     0: frozenset({0, 1}),
     1: frozenset({2, 3}),
     2: frozenset({4, 7}),
-    3: frozenset({5, 8}),
-    4: frozenset({6, 9}),
+    3: frozenset({5, 8, 9}),
+    4: frozenset({6}),
     5: frozenset({10}),
 }
 
@@ -253,43 +250,6 @@ def _load_bounds(path: Path) -> tuple[tuple[float, ...], tuple[float, ...]]:
     return lower, upper
 
 
-def _render_tick_free_projections(
-    sets_path: Path,
-    bounds_path: Path,
-    output_dir: Path,
-    palette: tuple[str, ...],
-) -> list[Path]:
-    lower, upper = _load_bounds(bounds_path)
-    plots = plot_morse_set_projections_from_csv(
-        sets_path,
-        bounds_lower=lower,
-        bounds_upper=upper,
-        palette=palette,
-        paper_style=True,
-        min_box_side_frac=0.0025,
-    )
-    outputs: list[Path] = []
-    for (left, right), plot in plots.items():
-        plot.ax.set_xlabel("")
-        plot.ax.set_ylabel("")
-        plot.ax.set_xticks([])
-        plot.ax.set_yticks([])
-        plot.ax.grid(False)
-        outputs.extend(
-            save_latent_figure(
-                plot.fig,
-                output_dir
-                / (
-                    "ci_latent_3d_morse_sets_"
-                    f"z{left + 1}_z{right + 1}_level_palette"
-                ),
-                formats=("pdf", "png"),
-                close=True,
-            )
-        )
-    return outputs
-
-
 def render_level_palette_variants(
     source_dir: Path,
     output_dir: Path,
@@ -322,74 +282,30 @@ def render_level_palette_variants(
         formats=("pdf", "png"),
         palette=palette,
     )
-    shaded_outputs = render_morse_sets_3d_cubical_from_csv(
-        sets_path,
-        output_dir,
-        basename="ci_latent_3d_morse_sets_cubical_level_palette",
-        formats=("pdf", "png"),
-        palette=palette,
-        elev=22.0,
-        azim=-55.0,
-        alpha=1.0,
-        shade=True,
-        shade_strength=0.28,
-        highlight_strength=0.10,
-        edge_alpha=0.16,
-        edge_linewidth=0.065,
-        minimal_frame=True,
-        show_ticks=False,
-        show_axis_labels=False,
-        show_legend=True,
+    # The 3-D Morse sets, drawn by CMGDB's own PlotMorseSets3D: exposed-face
+    # culling, orientation lighting, and the z label kept visible as an
+    # unclipped annotation.
+    fig, _ax = CMGDB.PlotMorseSets3D(
+        str(sets_path),
+        clist=list(palette),
+        elev=22,
+        azim=-55,
+        grid=True,
+        xlabel="$z_1$",
+        ylabel="$z_2$",
+        zlabel="$z_3$",
+        show=False,
     )
-    shaded_no_legend_outputs = render_morse_sets_3d_cubical_from_csv(
-        sets_path,
-        output_dir,
-        basename="ci_latent_3d_morse_sets_cubical_level_palette_no_legend",
-        formats=("pdf", "png"),
-        palette=palette,
-        elev=22.0,
-        azim=-55.0,
-        alpha=1.0,
-        shade=True,
-        shade_strength=0.28,
-        highlight_strength=0.10,
-        edge_alpha=0.16,
-        edge_linewidth=0.065,
-        minimal_frame=True,
-        show_ticks=False,
-        show_axis_labels=False,
-        show_legend=False,
-    )
-    flat_outputs = render_morse_sets_3d_cubical_from_csv(
-        sets_path,
-        output_dir,
-        basename="ci_latent_3d_morse_sets_cubical_level_palette_flat",
-        formats=("pdf", "png"),
-        palette=palette,
-        elev=22.0,
-        azim=-55.0,
-        alpha=1.0,
-        shade=False,
-        edge_alpha=0.14,
-        edge_linewidth=0.055,
-        minimal_frame=True,
-        show_ticks=False,
-        show_axis_labels=False,
-        show_legend=True,
-    )
-    projection_outputs = _render_tick_free_projections(
-        sets_path,
-        source_dir.parent / "bounds.json",
-        output_dir,
-        palette,
-    )
+    sets_outputs = []
+    for fmt in ("pdf", "png"):
+        out_path = output_dir / f"ci_latent_3d_morse_sets_3d.{fmt}"
+        fig.savefig(out_path, dpi=300, bbox_inches="tight")
+        sets_outputs.append(out_path)
+    plt.close(fig)
 
     outputs = [
         *graph_outputs,
-        *shaded_outputs,
-        *shaded_no_legend_outputs,
-        *flat_outputs,
-        *projection_outputs,
+        *sets_outputs,
     ]
     manifest: dict[str, Any] = {
         "schema_version": 1,
@@ -414,22 +330,10 @@ def render_level_palette_variants(
             str(label): color for label, color in enumerate(stored_palette)
         },
         "display": {
-            "ticks": False,
-            "latent_coordinate_labels": False,
-            "legend": True,
-            "no_legend_variant": (
-                "ci_latent_3d_morse_sets_cubical_level_palette_no_legend "
-                "matches the shaded variant with the legend suppressed"
-            ),
-            "camera": {"elev": 22.0, "azim": -55.0},
-            "shaded_variant": {
-                "shade_strength": 0.28,
-                "highlight_strength": 0.10,
-            },
-            "flat_variant": {
-                "face_colors_are_literal_level_palette_colors": True,
-            },
-            "projection_minimum_display_side_fraction": 0.0025,
+            "renderer": "CMGDB.PlotMorseSets3D (exposed-face culling, "
+                        "orientation lighting, unclipped z label)",
+            "camera": {"elev": 22, "azim": -55},
+            "axis_labels": ["$z_1$", "$z_2$", "$z_3$"],
         },
         "outputs": {path.name: _output_record(path) for path in outputs},
     }

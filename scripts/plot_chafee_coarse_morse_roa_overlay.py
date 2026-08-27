@@ -323,20 +323,75 @@ def _add_coarse_sets(ax, coarse_sets: np.ndarray) -> None:
         color, alpha = styles[label]
         collection = PatchCollection(patches, match_original=False)
         collection.set_facecolor(color)
-        collection.set_edgecolor("none")
-        collection.set_linewidth(0)
-        collection.set_antialiased(False)
-        collection.set_rasterized(True)
+        collection.set_edgecolor(color)
+        collection.set_linewidth(0.5)
+        collection.set_rasterized(False)
         collection.set_alpha(alpha)
-        collection.set_zorder(3 if label in (0, 1) else 2)
+        collection.set_zorder(3 if label in (0, 1) else 0)
         ax.add_collection(collection)
+
+
+def _draw_basin_vector(ax, basin_image, bounds) -> int:
+    """Draw the basin layer as one rectangle per cell, as CMGDB draws Morse sets.
+
+    ``CMGDB.PlotMorseSets`` puts every box in a ``PatchCollection`` and gives it
+    an edge in its own face colour: that closes the antialiasing seam between
+    neighbouring boxes without outlining any of them. The same treatment here
+    keeps the layer vector and seam-free.
+
+    The layer's alpha is composited into the colour rather than set on the
+    collection. Drawn semi-transparent, the shared edge of two neighbours is
+    painted twice and reads as a darker line.
+
+    Returns the number of rectangles drawn.
+    """
+    height, width = basin_image.shape[:2]
+    lower = np.asarray(bounds.lower, dtype=np.float64)
+    upper = np.asarray(bounds.upper, dtype=np.float64)
+    cell = (upper - lower) / np.array([width, height], dtype=np.float64)
+
+    keys = np.round(basin_image * 255.0).astype(np.int64)
+    packed = (keys[..., 0] << 24) | (keys[..., 1] << 16) | (keys[..., 2] << 8) | keys[..., 3]
+    rows, cols = np.nonzero(keys[..., 3] > 0)
+
+    by_color: dict[int, list] = {}
+    for row, col in zip(rows.tolist(), cols.tolist()):
+        by_color.setdefault(int(packed[row, col]), []).append(
+            Rectangle(
+                (lower[0] + col * cell[0], lower[1] + row * cell[1]), cell[0], cell[1]
+            )
+        )
+
+    total = 0
+    for value, rects in by_color.items():
+        red, green, blue, alpha = (
+            ((value >> 24) & 0xFF) / 255.0,
+            ((value >> 16) & 0xFF) / 255.0,
+            ((value >> 8) & 0xFF) / 255.0,
+            (value & 0xFF) / 255.0,
+        )
+        rgba = (
+            alpha * red + (1.0 - alpha),
+            alpha * green + (1.0 - alpha),
+            alpha * blue + (1.0 - alpha),
+            1.0,
+        )
+        collection = PatchCollection(rects, match_original=False)
+        collection.set_facecolor(rgba)
+        collection.set_edgecolor(rgba)
+        collection.set_linewidth(0.5)
+        collection.set_rasterized(False)
+        collection.set_zorder(1)
+        ax.add_collection(collection)
+        total += len(rects)
+    return total
 
 
 def _style_axes(
     ax,
     *,
-    show_ticks: bool = False,
-    show_axis_labels: bool = False,
+    show_ticks: bool = True,
+    show_axis_labels: bool = True,
 ) -> None:
     ax.set_xlabel("$z_1$" if show_axis_labels else "")
     ax.set_ylabel("$z_2$" if show_axis_labels else "")
@@ -351,23 +406,16 @@ def _plot_basin_image(
     bounds,
     *,
     coarse_sets: np.ndarray | None = None,
-    show_ticks: bool = False,
-    show_axis_labels: bool = False,
+    show_ticks: bool = True,
+    show_axis_labels: bool = True,
 ):
     """Plot one RGBA basin image, optionally with the adaptive coarse sets."""
     fig, ax = plt.subplots(figsize=(6.6, 6.4))
-    ax.imshow(
-        basin_image,
-        origin="lower",
-        extent=(
-            bounds.lower[0],
-            bounds.upper[0],
-            bounds.lower[1],
-            bounds.upper[1],
-        ),
-        interpolation="nearest",
-        aspect="equal",
-    )
+    # Basin layer above the grey merged set, below the two attracting sets, so
+    # M(2) reads as the structure the basins are drawn over rather than a patch
+    # covering the boundary between them.
+    _draw_basin_vector(ax, basin_image, bounds)
+    ax.set_aspect("equal")
     if coarse_sets is not None:
         _add_coarse_sets(ax, coarse_sets)
     ax.set_xlim(bounds.lower[0], bounds.upper[0])
@@ -407,14 +455,14 @@ def main(argv: Sequence[str] | None = None) -> int:
         ),
     )
     parser.add_argument(
-        "--show-ticks",
+        "--hide-ticks",
         action="store_true",
-        help="show coordinate tick marks and values (hidden in the paper-ready default)",
+        help="drop the coordinate tick marks and values",
     )
     parser.add_argument(
-        "--show-axis-labels",
+        "--hide-axis-labels",
         action="store_true",
-        help="show z_1 and z_2 labels (hidden in the paper-ready default)",
+        help="drop the z_1 and z_2 labels",
     )
     args = parser.parse_args(argv)
 
@@ -452,8 +500,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     basin_fig = _plot_basin_image(
         basin_image,
         bounds,
-        show_ticks=args.show_ticks,
-        show_axis_labels=args.show_axis_labels,
+        show_ticks=not args.hide_ticks,
+        show_axis_labels=not args.hide_axis_labels,
     )
     basin_written = save_figure(
         basin_fig,
@@ -466,8 +514,8 @@ def main(argv: Sequence[str] | None = None) -> int:
         basin_image,
         bounds,
         coarse_sets=coarse_sets,
-        show_ticks=args.show_ticks,
-        show_axis_labels=args.show_axis_labels,
+        show_ticks=not args.hide_ticks,
+        show_axis_labels=not args.hide_axis_labels,
     )
     overlay_written = save_figure(
         overlay_fig,
@@ -497,14 +545,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             "coarse_unstable_connecting": CHAFEE_CONNECTING_COLOR,
         },
         "rendering": {
-            "basin_layer": "single RGBA image via imshow",
+            "basin_layer": "per-cell vector rectangles, edge in face colour",
             "per_cell_scatter": False,
             "basin_alpha": BASIN_ALPHA,
             "attractor_set_alpha": ATTRACTOR_ALPHA,
         },
         "axis_visibility": {
-            "ticks": bool(args.show_ticks),
-            "latent_coordinate_labels": bool(args.show_axis_labels),
+            "ticks": bool(not args.hide_ticks),
+            "latent_coordinate_labels": bool(not args.hide_axis_labels),
             "grid": False,
         },
         "coarse_morse_sets": str(args.coarse_sets),

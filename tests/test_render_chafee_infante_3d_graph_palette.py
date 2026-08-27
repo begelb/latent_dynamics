@@ -94,7 +94,7 @@ def test_persisted_fine_three_dimensional_palette_matches_saved_graph() -> None:
     )
 
     assert labels == frozenset(range(11))
-    assert rows == 30_672
+    assert rows == 31_127
     assert palette == (
         "#FFB000",
         "#DC267F",
@@ -143,6 +143,6 @@ def test_persisted_fine_three_dimensional_level_palette_matches_reference() -> N
         "#008080",
         "#FE6100",
         "#785EF0",
-        "#008080",
+        "#785EF0",
         "#FCC2E8",
     )

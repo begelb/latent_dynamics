@@ -9,7 +9,11 @@ containing the learned unstable period-two orbit, collapses their full order
 interval, adds every cell on connections internal to that interval, and
 recomputes the Conley index of the resulting coarse Morse set.
 
-``--depth 22`` reproduces the paper's coarse uniform (22,22,22) computation.
+``--depth 22`` is the paper's coarse example, computed as (22, 22, 24): the
+base grid is depth 22 and refinement may reach 24. The Morse sets come back on
+the depth-22 grid either way, so the fixed-depth analysis downstream is
+unaffected -- what refinement buys is the removal of 20 one-cell components of
+trivial index that a run pinned at (22, 22, 22) reports as Morse sets.
 The distinguished-point coordinates are the learned invariant objects of the
 shipped checkpoint
 (:data:`latentdynamics.analysis.conley_index.LESLIE3D_EXAMPLE1_FIXED_POINT`).
@@ -58,6 +62,11 @@ from latentdynamics.viz.style import PALETTE
 REPO_ROOT = get_repo_root()
 RUN = REPO_ROOT / "replay_sources" / "leslie3d_example1" / "spurious_attractor_ex"
 DEFAULT_OUTPUT = REPO_ROOT / "output" / "leslie3d_example1_study"
+
+#: Refinement ceiling for the coarse example. The base grid depth is chosen
+#: by --depth; refinement above it is what removes the trivial one-cell
+#: components a fully pinned grid reports.
+SUBDIV_MAX = 24
 _EXPERIMENT = None
 
 
@@ -107,11 +116,17 @@ def render_graph(dot_path: Path, output_stem: Path) -> Path | None:
 
 
 def fixed_config(experiment: Any, depth: int) -> CMGDBConfig:
+    """CMGDB settings on a depth-``depth`` base grid, refining up to SUBDIV_MAX.
+
+    Every recurrent cell is still carried down to ``depth``, so the Morse sets
+    come back on the depth-``depth`` grid and the fixed-depth analysis
+    downstream is unaffected.
+    """
     raw = experiment.seed_cfg.cmgdb.model_dump()
     raw.update(
         subdiv_init=depth,
         subdiv_min=depth,
-        subdiv_max=depth,
+        subdiv_max=SUBDIV_MAX,
         compute_roa=False,
     )
     return CMGDBConfig.model_validate(raw)
@@ -266,7 +281,7 @@ def main(depth: int, output_root: Path) -> None:
     config = fixed_config(experiment, depth)
 
     print(
-        f"building fixed {depth}/{depth}/{depth} graph on "
+        f"building fixed {depth}/{depth}/{config.subdiv_max} graph on "
         f"{coordinates.sizes.tolist()} grid",
         flush=True,
     )
@@ -296,7 +311,9 @@ def main(depth: int, output_root: Path) -> None:
         flush=True,
     )
 
-    indices = component_index_labels(model, morse_graph)
+    indices = component_index_labels(
+        model, morse_graph, map_graph=map_graph, coordinates=coordinates
+    )
     live_graph = parsed_live_graph(morse_graph, indices, PALETTE)
     live_cells = morse_graph_cells(morse_graph, coordinates)
     adaptive_cells = adaptive_parent_cells(coordinates)
@@ -434,7 +451,7 @@ def main(depth: int, output_root: Path) -> None:
         "status": "complete",
         "purpose": (
             "leslie3d_example1 fixed-depth "
-            f"subdiv_init=min=max={depth} recomputation"
+            f"subdiv_init=min={depth} max={config.subdiv_max} recomputation"
         ),
         "source_run": recorded_path(RUN),
         "source_hashes": {
@@ -447,7 +464,7 @@ def main(depth: int, output_root: Path) -> None:
         "subdivision": {
             "init": depth,
             "min": depth,
-            "max": depth,
+            "max": config.subdiv_max,
             "limit": config.subdiv_limit,
             "sizes": coordinates.sizes.tolist(),
             "cell_count": int(map_graph.num_vertices()),
@@ -548,7 +565,7 @@ def main(depth: int, output_root: Path) -> None:
     )
     report = "\n".join(
         [
-            f"# leslie3d_example1 fixed-depth {depth}/{depth}/{depth} recomputation",
+            f"# leslie3d_example1 fixed-depth {depth}/{depth}/{config.subdiv_max} recomputation",
             "",
             f"Raw fixed-depth graph: {len(live_graph.nodes)} nodes, minima {sorted(live_graph.minimal)}.",
             f"Stable fixed point: node {fixed_node}, index `{indices[fixed_node]}`.",
@@ -570,7 +587,8 @@ if __name__ == "__main__":
         "--depth",
         type=int,
         default=23,
-        help="uniform subdivision depth; 22 reproduces the paper's coarse run",
+        help=f"base grid depth; 22 is the paper's coarse run, computed as "
+             f"(22, 22, {SUBDIV_MAX})",
     )
     parser.add_argument(
         "--output",

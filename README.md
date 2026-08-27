@@ -28,13 +28,12 @@ You need Python 3.11.4–3.13 and [Graphviz](https://graphviz.org) (`dot`) to dr
 ```sh
 git clone <repository-url>
 cd <repository>
-pip install -e . --find-links \
-  https://github.com/bernardorivas/CMGDB/releases/expanded_assets/v1.3.3%2Bfork.3
+pip install -e .
 ```
 
-(`uv sync` also works and resolves the CMGDB wheel automatically.)
+(`uv sync` also works.)
 
-CMGDB is pinned to the maintained fork release `v1.3.3+fork.3` (prebuilt wheels for macOS arm64 and manylinux x86_64).
+CMGDB `>=1.5.0` is installed from PyPI (prebuilt wheels for macOS, Linux, and Windows).
 
 ## Artifacts
 
@@ -96,6 +95,6 @@ The companion software and author-contributed replay artifacts are released unde
 
 ### Attribution
 
-- CMGDB is used via the fork release `v1.3.3+fork.3` (https://github.com/bernardorivas/CMGDB).
+- CMGDB `1.5.0` (https://github.com/marciogameiro/CMGDB) computes the Morse graphs, Conley indices, and reachability queries.
 - Legacy application code was adapted from the MIT-licensed [MORALS](https://github.com/Ewerton-Vieira/MORALS) project. Its license is preserved in `licenses/MORALS-LICENSE`.
 - The replay files contain author-contributed model checkpoints, datasets, and saved computations, released under the repository's MIT License.

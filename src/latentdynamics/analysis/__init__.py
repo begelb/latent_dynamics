@@ -9,7 +9,12 @@ from .basin_statistics import (
     cmgdb_morton_cell_indices,
     compute_chafee_basin_statistics,
 )
-from .cmgdb_fork import cmgdb_provenance, require_fork_cmgdb
+from .cmgdb_features import (
+    cmgdb_capabilities,
+    cmgdb_provenance,
+    missing_cmgdb_features,
+    require_cmgdb_features,
+)
 from .conley_index import (
     LocalIndexComputer,
     UniformCoordinates,
@@ -48,6 +53,10 @@ from .morse_coarsening import (
     write_connection_complete_morse_sets,
     write_morse_graph_dot,
     write_quotient_morse_sets,
+)
+from .morse_reachability import (
+    morse_singleton_reachability,
+    morse_singleton_reachability_python,
 )
 from .morse_graph_parser import MorseGraph
 from .morse_metrics import (
@@ -91,7 +100,9 @@ __all__ = [
     "check_unique_membership",
     "classify_points_in_cell_roa",
     "cmgdb_morton_cell_indices",
+    "cmgdb_capabilities",
     "cmgdb_provenance",
+    "missing_cmgdb_features",
     "coarsen_morse_graph",
     "collapse_roa_to_lca",
     "compute_and_save_exact_roa",
@@ -116,7 +127,7 @@ __all__ = [
     "make_box_map_uniform_precomputed",
     "orthogonal_distance",
     "parsed_live_graph",
-    "require_fork_cmgdb",
+    "require_cmgdb_features",
     "save_exact_roa",
     "write_connection_complete_morse_sets",
     "write_morse_graph_dot",

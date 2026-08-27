@@ -188,10 +188,20 @@ The resulting projection is `0 -> 0`, `1 -> 1`, and `{2,3,4,5,6} -> 2`;
 the quotient Hasse edges are `2 -> 0` and `2 -> 1`. The script verifies that
 the induced quotient is acyclic, recomputes the directed CMGDB cell graph from
 the author's raw checkpoint and training data, and draws the merged set with
-the cell-graph connections between the fine components in its fiber. The
-reconstructed graph has 19,373 cells. The five fine sets contribute 1,515
-recurrent cells and path completion adds 2,702 connection cells, giving 4,217
-cells in `M(1)` with no overlap with the two singleton attracting sets.
+the cell-graph connections between the fine components in its fiber.
+
+The fine Morse sets come from the adaptive run at (14, 16, 22), but the merged
+fiber is completed on a **uniform** cell graph rebuilt at `subdiv_min = 16` --
+256x256 in the plane, which is the grid the attraction-basin computation uses.
+The five fine sets carry over to 1,594 uniform recurrent cells and path
+completion adds 5,504 connection cells, giving 7,098 cells in `M(1)`, with no
+overlap with the two singleton attracting sets.
+
+Completing the fiber on the adaptive graph instead gives 1,515 + 2,702 = 4,217
+cells, but its deepest cells trace connecting orbits at a resolution the
+surrounding structures do not share: 7.4% of that enclosure falls inside an
+attraction basin, against 0.18% for the uniform completion. That is why the
+uniform construction is the published one.
 
 The quotient has `M(1)` pointing to both attracting nodes, corresponding to
 `M(0-)` and `M(0+)`. It intentionally assigns no Conley index to the merged
@@ -271,7 +281,7 @@ distributed with this release).
 ```bash
 python scripts/coarsen_chafee_infante.py
 # Expected:
-#   7 fine Morse nodes on 19,373 map cells
-#   M(1) = 1,515 recurrent + 2,702 connection cells
+#   7 fine Morse nodes (adaptive 14,16,22)
+#   M(1) = 1,594 recurrent + 5,504 connection cells on the uniform 256x256 grid
 #   no coarse-set overlaps
 ```

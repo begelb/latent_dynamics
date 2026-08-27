@@ -550,9 +550,6 @@ def run_worker(
             max_forward_points=max_forward_points,
             padding=True,
         )
-        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(reserve_edges)
-        os.environ["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] = str(base.EXPECTED_CELLS)
-
         base._write_json_atomic(
             status_path,
             {
@@ -578,7 +575,9 @@ def run_worker(
             raise RuntimeError("CMGDB.Model.set_batch_map is required")
         cmgdb_model.set_batch_map(box_map.batch)
         graph_started = time.perf_counter()
-        morse_graph, map_graph = CMGDB.ComputeMorseGraph(cmgdb_model)
+        morse_graph, map_graph = CMGDB.ComputeMorseGraph(
+            cmgdb_model, cache_map_graph=True, reserve_edges=reserve_edges
+        )
         graph_seconds = time.perf_counter() - graph_started
 
         if (

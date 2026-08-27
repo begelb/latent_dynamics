@@ -191,7 +191,8 @@ class TestConfigsLoadable:
         )
         assert cfg.cmgdb.lower_bounds == [-3.0, -2.0]
         assert cfg.cmgdb.upper_bounds == [3.0, 2.0]
-        assert not cfg.cmgdb.padding
+        # Padded box images, per the documented choice in the replay yaml.
+        assert cfg.cmgdb.padding
 
     def test_coral_configs_cmgdb_parameters(self):
         cfg = load_config(CONFIGS_DIR / "coral_basic.yaml")

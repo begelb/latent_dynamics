@@ -36,6 +36,10 @@ from pathlib import Path
 from typing import Any
 
 import CMGDB
+
+from latentdynamics.analysis.morse_reachability import (
+    morse_singleton_reachability,
+)
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
@@ -570,7 +574,7 @@ def run_one(
 
         step = time.perf_counter()
         all_cell_ids = np.arange(UNIFORM_CELLS, dtype=np.int64)
-        singleton_by_cell = CMGDB.MorseSingletonReachability(
+        singleton_by_cell = morse_singleton_reachability(
             map_graph,
             morse_graph,
             all_cell_ids,

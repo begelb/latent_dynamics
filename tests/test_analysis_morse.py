@@ -188,8 +188,9 @@ def test_compute_morse_graph_installs_precomputed_batch_callback(monkeypatch):
     class FakeCMGDB:
         Model = FakeModel
 
-    def compute_conley_morse_graph(model):
+    def compute_conley_morse_graph(model, cache_map_graph=False):
         captured["model"] = model
+        captured["cache_map_graph"] = cache_map_graph
         return "morse", "map"
 
     FakeCMGDB.ComputeConleyMorseGraph = staticmethod(compute_conley_morse_graph)
@@ -199,6 +200,7 @@ def test_compute_morse_graph_installs_precomputed_batch_callback(monkeypatch):
     result = morse.compute_morse_graph(autoencoder, bounds, cfg, device=torch.device("cpu"))
 
     assert result == ("morse", "map")
+    assert captured["cache_map_graph"] is True
     assert captured["batch_map"].__self__ is captured["box_map"]
 
 

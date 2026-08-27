@@ -67,7 +67,11 @@ cmgdb:
   upper_bounds:
   - 3.0
   - 2.0
-  padding: false
+  # Padded box images: a more conservative over-approximation than the
+  # published run, which used padding=false and produced 30-box Morse sets.
+  # With padding the same seven Morse sets appear with the same Conley index
+  # multiset, but each is larger (826 boxes) and one connecting edge drops out.
+  padding: true
   box_map_backend: auto
   compute_roa: true
 # Read-only replay of the reference trained model; the original

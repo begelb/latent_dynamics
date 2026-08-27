@@ -150,10 +150,14 @@ def test_uniform_point_cells_include_both_sides_of_an_exact_boundary():
 
 
 def test_native_singleton_query_contract_and_negative_basin_priority(monkeypatch):
-    def fake_query(_map_graph, _morse_graph, query):
+    def fake_query(_map_graph, _morse_graph, query, **_kwargs):
         return np.asarray([5, 7, -2], dtype=np.int32)[: len(query)]
 
-    monkeypatch.setattr(study.CMGDB, "MorseSingletonReachability", fake_query)
+    # Patch the dispatcher, not CMGDB: the study reaches the reachability query
+    # through morse_singleton_reachability, which picks the native routine or
+    # the equivalent port depending on the installed build. Patching the CMGDB
+    # attribute would only exist to patch on one of the two.
+    monkeypatch.setattr(study, "morse_singleton_reachability", fake_query)
     queried = study._native_singleton_reachability(
         object(),
         object(),
@@ -315,12 +319,12 @@ def test_lookup_cmgdb_topology_only_never_calls_conley(monkeypatch):
     monkeypatch.setattr(
         study.CMGDB,
         "ComputeMorseGraph",
-        lambda _model: (calls.append("topology") or object(), FakeMapGraph()),
+        lambda _model, **_kwargs: (calls.append("topology") or object(), FakeMapGraph()),
     )
     monkeypatch.setattr(
         study.CMGDB,
         "ComputeConleyMorseGraph",
-        lambda _model: (calls.append("conley") or object(), FakeMapGraph()),
+        lambda _model, **_kwargs: (calls.append("conley") or object(), FakeMapGraph()),
     )
 
     _morse, _map, _duration, status = study._run_lookup_cmgdb(
@@ -355,7 +359,7 @@ def test_lookup_cmgdb_records_conley_error_and_falls_back(monkeypatch):
         def batch(_rectangles):
             return []
 
-    def fail_conley(_model):
+    def fail_conley(_model, **_kwargs):
         calls.append("conley")
         raise RuntimeError("smith normal form failed")
 
@@ -364,7 +368,7 @@ def test_lookup_cmgdb_records_conley_error_and_falls_back(monkeypatch):
     monkeypatch.setattr(
         study.CMGDB,
         "ComputeMorseGraph",
-        lambda _model: (calls.append("topology") or object(), FakeMapGraph()),
+        lambda _model, **_kwargs: (calls.append("topology") or object(), FakeMapGraph()),
     )
 
     _morse, _map, _duration, status = study._run_lookup_cmgdb(

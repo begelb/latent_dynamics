@@ -16,6 +16,7 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from itertools import combinations, pairwise
 from pathlib import Path
+from typing import Any
 
 import CMGDB
 import matplotlib.patches as mpatches
@@ -38,6 +39,12 @@ from .style import (
     save_latent_figure,
     style_latent_axes,
 )
+
+#: Above this many exposed faces a vector PDF stops being the smaller option,
+#: and the 3-D collection is rasterized instead. Below it, face culling has
+#: already reduced the geometry enough that vector wins on both size and
+#: fidelity.
+RASTERIZE_FACE_THRESHOLD = 200_000
 
 
 @dataclass(frozen=True)
@@ -123,6 +130,83 @@ def render_morse_sets(
             )
         rendered.append(path)
     return rendered
+
+
+
+def plot_morse_sets_2d_cmgdb(
+    morse_sets: Any,
+    out_path: str | Path,
+    *,
+    scale_factor: Sequence[float] | None = None,
+    morse_nodes: Sequence[int] | None = None,
+    zoom_nodes: Sequence[int] | None = None,
+    zoom_pos: Sequence[float] | None = None,
+    zoom_pad: float = 0.25,
+    palette: Sequence[str] = PALETTE,
+    xlabel: str = "$z_1$",
+    ylabel: str = "$z_2$",
+    fig_w: float = 8.0,
+    fig_h: float = 8.0,
+    margin: float = 0.02,
+    dpi: int = 300,
+) -> Path:
+    """Draw 2-D Morse sets with ``CMGDB.PlotMorseSets`` and save one figure.
+
+    CMGDB renders each box as a filled rectangle at its true extent, and takes
+    ``scale_factor`` as a list indexed by Morse node --
+    entry ``i`` enlarges set ``i``. That is CMGDB's own emphasis mechanism, so
+    figures produced here match what CMGDB draws elsewhere rather than
+    reproducing it through this package's rectangle renderer.
+
+    ``morse_sets`` is a saved box CSV path, a live ``MorseGraph``, or a list of
+    rows. A short ``scale_factor`` is padded with ones, since CMGDB indexes it
+    by node and would otherwise raise on a run that resolved more sets than the
+    caller listed.
+
+    ``margin`` pads the axes by that fraction of the drawn span on each side so
+    the sets clear the bounding box. ``zoom_nodes`` magnifies the region holding
+    those sets in an inset joined to its source by connector lines -- the honest
+    alternative to a large ``scale_factor`` for a set only a few boxes across,
+    since it preserves true box size. ``morse_nodes`` restricts which sets are
+    drawn at all.
+    """
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if scale_factor is not None:
+        rows = (
+            CMGDB.LoadMorseSetFile(str(morse_sets))
+            if isinstance(morse_sets, (str, Path))
+            else None
+        )
+        if rows is not None:
+            node_count = max(int(row[-1]) for row in rows) + 1
+        elif hasattr(morse_sets, "num_vertices"):
+            node_count = int(morse_sets.num_vertices())
+        else:
+            node_count = max(int(row[-1]) for row in morse_sets) + 1
+        factors = [float(v) for v in scale_factor]
+        if len(factors) < node_count:
+            factors = factors + [1.0] * (node_count - len(factors))
+        scale_factor = factors
+
+    CMGDB.PlotMorseSets(
+        str(morse_sets) if isinstance(morse_sets, Path) else morse_sets,
+        clist=list(palette),
+        scale_factor=scale_factor,
+        morse_nodes=list(morse_nodes) if morse_nodes is not None else None,
+        zoom_nodes=list(zoom_nodes) if zoom_nodes else None,
+        zoom_pos=list(zoom_pos) if zoom_pos else None,
+        zoom_pad=zoom_pad,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        fig_w=fig_w,
+        fig_h=fig_h,
+        margin=margin,
+        fig_fname=str(out_path),
+        dpi=dpi,
+    )
+    return out_path
 
 
 def save_morse_graph_artifacts(
@@ -442,8 +526,16 @@ def render_morse_set_projections_from_csv(
 
 def _exposed_cubical_faces(
     data: NDArray[np.float64],
+    scale_of: Callable[[int], float] | None = None,
 ) -> tuple[NDArray[np.float64], NDArray[np.int_]]:
-    """Return exposed quadrilateral faces of aligned three-dimensional boxes."""
+    """Return exposed quadrilateral faces of aligned three-dimensional boxes.
+
+    ``scale_of`` maps a Morse label to a display inflation factor. Culling runs
+    on the *unscaled* grid, where adjacency is what it means, and each surviving
+    face is then scaled about its own cell's centre. Scaling the cells first
+    would defeat the culling: inflated cells no longer sit on one aligned
+    lattice, which is the invariant this face test depends on.
+    """
 
     values = np.asarray(data, dtype=np.float64)
     if values.ndim != 2 or values.shape[1] != 7:
@@ -496,8 +588,14 @@ def _exposed_cubical_faces(
             (index[0], index[1], index[2] - 1),
             (index[0], index[1], index[2] + 1),
         )
+        factor = 1.0 if scale_of is None else float(scale_of(int(label)))
+        centre = ((lo + hi) / 2.0) if factor != 1.0 else None
         for face, neighbor in zip(vertices, neighbors, strict=True):
             if (int(label), *map(int, neighbor)) not in occupied:
+                if centre is not None:
+                    face = (
+                        centre + (np.asarray(face, dtype=np.float64) - centre) * factor
+                    ).tolist()
                 faces.append(face)
                 face_labels.append(int(label))
 
@@ -590,6 +688,8 @@ def plot_morse_sets_3d_cubical_from_csv(
     show_axis_labels: bool = True,
     show_legend: bool = True,
     legend_labels: Mapping[int, str] | None = None,
+    zlabel_pos: tuple[float, float] | None = None,
+    rasterized: bool | None = None,
 ) -> MorseSetsPlot:
     """Render saved three-dimensional Morse boxes as exposed cubical cell faces.
 
@@ -616,7 +716,138 @@ def plot_morse_sets_3d_cubical_from_csv(
     data, dim = _load_morse_sets(csv_path)
     if dim != 3:
         raise ValueError(f"cubical 3-D rendering requires dim=3 Morse boxes; got dim={dim}")
-    faces, face_labels = _exposed_cubical_faces(data)
+    return plot_morse_sets_3d_cubical(
+        data,
+        palette=palette,
+        paper_style=False,  # already applied above
+        elev=elev,
+        azim=azim,
+        alpha=alpha,
+        shade=shade,
+        light_azdeg=light_azdeg,
+        light_altdeg=light_altdeg,
+        shade_strength=shade_strength,
+        highlight_strength=highlight_strength,
+        edge_alpha=edge_alpha,
+        edge_linewidth=edge_linewidth,
+        light_edges_on_dark_faces=light_edges_on_dark_faces,
+        minimal_frame=minimal_frame,
+        show_ticks=show_ticks,
+        show_axis_labels=show_axis_labels,
+        show_legend=show_legend,
+        zlabel_pos=zlabel_pos,
+        rasterized=rasterized,
+        legend_labels=legend_labels,
+    )
+
+
+def morse_boxes_from_graph(morse_graph: Any) -> NDArray[np.float64]:
+    """Labelled box array ``[lo..., hi..., label]`` from a live CMGDB Morse graph.
+
+    ``morse_set_boxes(node)`` yields the same rows ``SaveMorseSets`` writes, so
+    a freshly computed decomposition can be plotted without a round trip
+    through a CSV.
+    """
+    rows: list[list[float]] = []
+    for node in morse_graph.vertices():
+        node = int(node)
+        for box in morse_graph.morse_set_boxes(node):
+            rows.append([*(float(v) for v in box), float(node)])
+    if not rows:
+        raise ValueError("the Morse graph has no boxes to plot")
+    return np.asarray(rows, dtype=np.float64)
+
+
+
+def _resolve_box_scales_3d(
+    data: NDArray[np.float64],
+    box_scale: float | dict[int, float] | str,
+    *,
+    min_frac: float,
+    max_scale: float,
+) -> Callable[[int], float] | None:
+    """``label -> display inflation`` for 3-D Morse sets, or ``None`` for none.
+
+    Mirrors the 2-D :func:`_resolve_box_scales`: a float scales every set, a
+    dict scales by label and is honoured exactly as given, and ``"auto"``
+    enlarges only sets whose extent falls below ``min_frac`` of the domain,
+    capped at ``max_scale``. Inflation is about each cell's own centre, so
+    positions and relative geometry are unchanged -- only the drawn size.
+    """
+    if isinstance(box_scale, dict):
+        per = {int(k): float(v) for k, v in box_scale.items()}
+        return (lambda label: per.get(int(label), 1.0)) if per else None
+    if isinstance(box_scale, str):
+        if box_scale != "auto":
+            raise ValueError(f"box_scale string must be 'auto', got {box_scale!r}")
+        lower, upper, labels = data[:, :3], data[:, 3:6], data[:, 6].astype(int)
+        span = max(
+            float(upper[:, axis].max() - lower[:, axis].min()) for axis in range(3)
+        )
+        target = min_frac * span
+        per = {}
+        for label in np.unique(labels):
+            mask = labels == label
+            extent = max(
+                float(upper[mask, axis].max() - lower[mask, axis].min())
+                for axis in range(3)
+            )
+            if 0.0 < extent < target:
+                per[int(label)] = min(target / extent, max_scale)
+        return (lambda label: per.get(int(label), 1.0)) if per else None
+    uniform = float(box_scale)
+    if uniform == 1.0:
+        return None
+    return lambda label: uniform
+
+
+def plot_morse_sets_3d_cubical(
+    boxes: Any,
+    *,
+    palette: Sequence[str] = PALETTE,
+    paper_style: bool = True,
+    box_scale: float | dict[int, float] | str = 1.0,
+    box_scale_min_frac: float = 0.025,
+    box_scale_max: float = 10.0,
+    elev: float = 22.0,
+    azim: float = -55.0,
+    alpha: float = 0.98,
+    shade: bool = True,
+    light_azdeg: float = 300.0,
+    light_altdeg: float = 55.0,
+    shade_strength: float = 0.32,
+    highlight_strength: float = 0.12,
+    edge_alpha: float = 0.16,
+    edge_linewidth: float = 0.065,
+    light_edges_on_dark_faces: bool = True,
+    minimal_frame: bool = True,
+    show_ticks: bool = True,
+    show_axis_labels: bool = True,
+    show_legend: bool = True,
+    legend_labels: Mapping[int, str] | None = None,
+    zlabel_pos: tuple[float, float] | None = None,
+    rasterized: bool | None = None,
+) -> MorseSetsPlot:
+    """Render three-dimensional Morse boxes as exposed cubical cell faces.
+
+    ``boxes`` is an ``(n, 7)`` array of ``[x_lo, y_lo, z_lo, x_hi, y_hi, z_hi,
+    label]`` rows -- what :func:`morse_boxes_from_graph` returns and what
+    ``SaveMorseSets`` writes. Only faces on the boundary of a labelled region
+    are drawn, so the cost scales with the surface of the Morse sets rather
+    than their volume; a solid block of cells renders as a shell.
+    """
+    data = np.asarray(boxes, dtype=np.float64)
+    if data.ndim != 2 or data.shape[1] != 7:
+        raise ValueError(
+            "cubical 3-D rendering needs (n, 7) rows [lo x3, hi x3, label]; "
+            f"got shape {data.shape}"
+        )
+    if paper_style:
+        apply_paper_style()
+    scale_of = _resolve_box_scales_3d(
+        data, box_scale, min_frac=box_scale_min_frac, max_scale=box_scale_max
+    )
+    faces, face_labels = _exposed_cubical_faces(data, scale_of)
     facecolors = [palette[int(label) % len(palette)] for label in face_labels]
     if shade:
         facecolors = _subtly_shaded_cubical_facecolors(
@@ -635,6 +866,13 @@ def plot_morse_sets_3d_cubical_from_csv(
         light_edges_on_dark_faces=light_edges_on_dark_faces,
     )
 
+    # Vector output is exact at any zoom and, once face-culling has run, is
+    # usually the smaller file too: a 28k-box set reduces to ~16k faces, giving
+    # a 313 KB vector PDF against 1.3 MB rasterized at 1200 dpi. That reverses
+    # for a set dense enough to survive culling in bulk, so the choice is made
+    # from the face count rather than fixed.
+    if rasterized is None:
+        rasterized = len(faces) > RASTERIZE_FACE_THRESHOLD
     fig = plt.figure(figsize=(6.14, 5.25), layout="constrained")
     ax = fig.add_subplot(111, projection="3d")
     collection = Poly3DCollection(
@@ -643,7 +881,10 @@ def plot_morse_sets_3d_cubical_from_csv(
         edgecolors=edgecolors,
         linewidths=edge_linewidth,
         alpha=alpha,
-        rasterized=True,
+        # Rasterizing keeps the PDF small when a Morse set has 10^5+ faces, at
+        # the cost of a resolution ceiling. Vector output is exact at any zoom
+        # but grows with the face count.
+        rasterized=rasterized,
         zsort="average",
         shade=False,
     )
@@ -669,9 +910,13 @@ def plot_morse_sets_3d_cubical_from_csv(
     # unclipped 2-D copy at a stable paper-layout position.
     ax.zaxis.label.set_visible(False)
     if show_axis_labels:
+        # Default sits inside the tick numbers; ``zlabel_pos`` places it
+        # clear of them, which matters once the z ticks carry three digits.
+        default_pos = (0.95 if show_ticks else 0.90, 0.60 if show_ticks else 0.55)
+        label_x, label_y = default_pos if zlabel_pos is None else zlabel_pos
         ax.text2D(
-            0.95 if show_ticks else 0.90,
-            0.60 if show_ticks else 0.55,
+            label_x,
+            label_y,
             "$z_3$",
             transform=ax.transAxes,
             rotation=90,
@@ -747,9 +992,16 @@ def render_morse_sets_3d_cubical_from_csv(
     show_ticks: bool = True,
     show_axis_labels: bool = True,
     show_legend: bool = True,
+    zlabel_pos: tuple[float, float] | None = None,
+    rasterized: bool | None = None,
     legend_labels: Mapping[int, str] | None = None,
 ) -> list[Path]:
-    """Write a cubical three-dimensional Morse-set view in each requested format."""
+    """Write a cubical three-dimensional Morse-set view in each requested format.
+
+    ``zlabel_pos`` places the z-axis label in axes fractions, for the cases where
+    the default sits under the tick numbers; ``None`` keeps the plotter's own
+    placement.
+    """
 
     out = Path(out_dir)
     out.mkdir(parents=True, exist_ok=True)
@@ -772,6 +1024,8 @@ def render_morse_sets_3d_cubical_from_csv(
         show_ticks=show_ticks,
         show_axis_labels=show_axis_labels,
         show_legend=show_legend,
+        zlabel_pos=zlabel_pos,
+        rasterized=rasterized,
         legend_labels=legend_labels,
     )
     return save_figure(
@@ -1035,10 +1289,20 @@ def _plot_morse_sets_2d(
         cy = 0.5 * (box_ly + box_uy)
         rects.append(mpatches.Rectangle((cx - 0.5 * width, cy - 0.5 * height), width, height))
         facecolors.append(palette[int(lbl) % len(palette)])
-    # Draw all boxes as one rasterized collection (fast and small PDF even when a
-    # Morse set has 10^5+ boxes), rather than adding each as a separate patch.
+    # One collection rather than a patch per box, and vector unless the box count
+    # would make the PDF unreasonable: a rasterized Morse-set layer cannot be
+    # zoomed, which is exactly what these figures are read for.
+    # Edge in each box's own face colour, as CMGDB.PlotMorseSets draws them:
+    # closes the antialiasing seam between neighbouring boxes without
+    # outlining any of them.
     ax.add_collection(
-        PatchCollection(rects, facecolors=facecolors, edgecolors="none", rasterized=True)
+        PatchCollection(
+            rects,
+            facecolors=facecolors,
+            edgecolors=facecolors,
+            linewidths=0.4,
+            rasterized=len(rects) > RASTERIZE_FACE_THRESHOLD,
+        )
     )
 
     ax.set_xlim(*xlim)

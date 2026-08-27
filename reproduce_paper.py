@@ -142,16 +142,14 @@ EXPERIMENTS: dict[str, dict] = {
                 "runtime": "minutes",
             },
             {
-                # Assembles the uniform-22 / adaptive / coarsened-4-5 outputs
-                # into the fixed22_vs_adaptive bundle layout and then invokes
-                # render_leslie3d_example1_figures.py itself. Running that
-                # renderer directly cannot work: it reads the bundle layout,
-                # which only this step produces.
-                "name": "package_bundle_and_figures",
+                # Paper panels straight from CMGDB: coarsened sets/graph, the
+                # fine sets with the 4/5 inset, and the coarse (22,22,24) pair.
+                # Needs no Conley index for cells, so it runs on any build.
+                "name": "paper_panels",
                 "tier": "replay",
-                "command": ["scripts/leslie3d_example1_package_bundle.py"],
-                "runtime": "minutes (consistency gates, manifest, checksums, "
-                           "then panels a-d and coarse a,b)",
+                "command": ["scripts/render_paper_figures.py",
+                            "--only", "leslie3d_example1"],
+                "runtime": "minutes (panels a-d and coarse a,b)",
             },
             {
                 "name": "residual_tolerance",

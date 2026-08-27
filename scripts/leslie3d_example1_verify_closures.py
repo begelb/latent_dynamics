@@ -30,6 +30,8 @@ from latentdynamics._paths import get_repo_root
 from latentdynamics.analysis.cmgdb_roa import attractor_cells
 from latentdynamics.analysis.morse import LatentBounds, _build_box_map
 from latentdynamics.config.schema import CMGDBConfig
+
+from leslie3d_example1_uniform_grid import SUBDIV_MAX  # noqa: E402
 from latentdynamics.replay import load_experiment
 
 
@@ -93,10 +95,12 @@ def main(depth: int, output_root: Path) -> None:
     upper = np.asarray(upper_raw, dtype=np.float64)
     bounds = LatentBounds(lower=lower, upper=upper)
     raw = experiment.seed_cfg.cmgdb.model_dump()
+    # Imported from the grid step so the two can never drift: verifying under a
+    # different bracket would check closures of a graph that was never built.
     raw.update(
         subdiv_init=depth,
         subdiv_min=depth,
-        subdiv_max=depth,
+        subdiv_max=SUBDIV_MAX,
         compute_roa=False,
     )
     config = CMGDBConfig.model_validate(raw)
@@ -162,7 +166,7 @@ def main(depth: int, output_root: Path) -> None:
             "forward-invariant cell blocks"
         ),
         "checkpoint": "author-provided leslie3d_example1 replay checkpoint",
-        "subdivision": [depth, depth, depth],
+        "subdivision": [depth, depth, config.subdiv_max],
         "padding": config.padding,
         "subdivision_limit": config.subdiv_limit,
         "cmgdb_module": str(Path(CMGDB.__file__).resolve()),

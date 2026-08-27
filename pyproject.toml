@@ -62,24 +62,14 @@ dependencies = [
     # (scripts/run_chafee_d3_ondemand_5x3_controller.py). Imported at module
     # scope, so test collection fails without it.
     "psutil>=5.9",
-    # The maintained CMGDB fork is not on PyPI. uv resolves the pin through
-    # the flat 'cmgdb-wheels' index below; with plain pip, install the
-    # prebuilt wheel first:
-    #   pip install cmgdb==1.3.3+fork.3 --find-links \
-    #     https://github.com/bernardorivas/CMGDB/releases/expanded_assets/v1.3.3%2Bfork.3
-    # The local version segment keeps the pin unambiguous even if a release
-    # with the same public version appears on PyPI.
-    "cmgdb==1.3.3+fork.3",
+    # Conley-Morse graph computations. 1.5.0 carries everything this project
+    # needs: the cache_map_graph kwarg (cached returned map_graph), automatic
+    # CSR edge reservation, the Morse-reduction Conley fiber preboundary, and
+    # the native reachability queries (MorseReachabilityMasks,
+    # MorseSingletonReachability, MorseDirectedPathCells,
+    # ComputeConleyIndexForCells).
+    "cmgdb>=1.5.0",
 ]
-
-[[tool.uv.index]]
-name = "cmgdb-wheels"
-url = "https://github.com/bernardorivas/CMGDB/releases/expanded_assets/v1.3.3%2Bfork.3"
-format = "flat"
-explicit = true
-
-[tool.uv.sources]
-cmgdb = { index = "cmgdb-wheels" }
 
 [project.optional-dependencies]
 dev = [

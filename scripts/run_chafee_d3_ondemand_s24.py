@@ -873,8 +873,8 @@ def build_plan(
             "bounds_device": "cpu",
             "neural_device_requested": device,
             "max_forward_points": max_forward_points,
-            "CMGDB_MAPGRAPH_RESERVE_EDGES": reserve_edges,
-            "CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES": EXPECTED_CELLS,
+            "reserve_edges": reserve_edges,
+            "cache_map_graph": True,
             "conley_indices": False,
         },
         "instrumentation": {
@@ -1035,12 +1035,10 @@ def run_exact_s24(
             padding=PADDING,
         )
 
-        # Match the established precomputed s24 run exactly: allocating the
-        # final capacities up front avoids realloc/copy growth and keeps both
-        # timing and peak-memory comparisons apples-to-apples. This is a
-        # sizing hint only -- exceeding it grows the buffer, it does not fail.
-        os.environ["CMGDB_MAPGRAPH_RESERVE_EDGES"] = str(reserve_edges)
-        os.environ["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] = str(EXPECTED_CELLS)
+        # The edge-buffer reservation is passed straight to CMGDB's
+        # reserve_edges option (a sizing hint only -- exceeding it grows the
+        # buffer, it does not fail), keeping timing and peak-memory
+        # comparisons apples-to-apples across runs.
         runtime = _runtime_provenance(device)
         provenance = {
             "schema_version": SCHEMA_VERSION,
@@ -1049,13 +1047,9 @@ def run_exact_s24(
             "bounds": bounds_record,
             "sources": inputs.source_records,
             "runtime": runtime,
-            "environment": {
-                "CMGDB_MAPGRAPH_RESERVE_EDGES": os.environ.get(
-                    "CMGDB_MAPGRAPH_RESERVE_EDGES"
-                ),
-                "CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES": os.environ.get(
-                    "CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"
-                ),
+            "cmgdb_options": {
+                "reserve_edges": reserve_edges,
+                "cache_map_graph": True,
             },
         }
         provenance_path = _write_json_exclusive(
@@ -1093,7 +1087,9 @@ def run_exact_s24(
         cmgdb_model.set_batch_map(box_map.batch)
         graph_cpu_before = _usage_snapshot()
         graph_started = time.perf_counter()
-        morse_graph, map_graph = CMGDB.ComputeMorseGraph(cmgdb_model)
+        morse_graph, map_graph = CMGDB.ComputeMorseGraph(
+            cmgdb_model, cache_map_graph=True, reserve_edges=reserve_edges
+        )
         graph_seconds = time.perf_counter() - graph_started
         graph_cpu = _usage_delta(graph_cpu_before, _usage_snapshot())
 

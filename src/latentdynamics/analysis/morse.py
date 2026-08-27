@@ -785,12 +785,12 @@ def compute_morse_graph(
 ):
     """Run CMGDB on the given latent map and return ``(morse_graph, map_graph)``.
 
-    ``need_map_graph=False`` returns ``(morse_graph, None)`` and skips building
-    the returned ``MapGraph`` entirely. That object costs a full extra pass of
-    the box map over the whole phase space -- roughly half of all box-map
-    evaluations -- and is only used for exact regions of attraction. Requires a
-    CMGDB build exposing ``ComputeConleyMorseGraphOnly``; older builds fall back
-    to the two-pass path transparently.
+    ``need_map_graph=False`` returns ``(morse_graph, None)``. With
+    ``need_map_graph=True`` the returned ``MapGraph`` is eagerly cached
+    (``cache_map_graph=True``): that costs a full extra pass of the box map
+    over the whole phase space -- roughly half of all box-map evaluations --
+    and is only needed for exact regions of attraction, whose Python-side
+    adjacency walks would otherwise re-evaluate the map per box.
     """
     box_map = _build_box_map(autoencoder.latent_map, bounds, cmgdb_cfg, device=device)
     model = CMGDB.Model(
@@ -806,7 +806,6 @@ def compute_morse_graph(
     if callable(batch_map) and hasattr(model, "set_batch_map"):
         model.set_batch_map(batch_map)
     if not need_map_graph:
-        compute_only = getattr(CMGDB, "ComputeConleyMorseGraphOnly", None)
-        if callable(compute_only):
-            return compute_only(model), None
-    return CMGDB.ComputeConleyMorseGraph(model)
+        morse_graph, _ = CMGDB.ComputeConleyMorseGraph(model)
+        return morse_graph, None
+    return CMGDB.ComputeConleyMorseGraph(model, cache_map_graph=True)

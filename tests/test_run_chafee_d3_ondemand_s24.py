@@ -60,8 +60,8 @@ def test_plan_is_exact_s24_on_demand_only(tmp_path: Path) -> None:
     ) == (24, 24, 24)
     assert graph["expected_cells"] == 2**24
     assert graph["cells_per_axis"] == 256
-    assert graph["CMGDB_MAPGRAPH_RESERVE_EDGES"] == 1_200_000_000
-    assert graph["CMGDB_MAPGRAPH_RESERVE_MIN_VERTICES"] == 2**24
+    assert graph["reserve_edges"] == 1_200_000_000
+    assert graph["cache_map_graph"] is True
     assert graph["backend"] == "batched_on_demand_neural"
     assert graph["precomputed"] is False
     assert plan["hard_postconditions"]["scalar_callback_calls_equal_zero"]

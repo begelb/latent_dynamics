@@ -44,8 +44,8 @@ round exactly to every published table entry.
 | 3D Leslie, fine | 0 | 5.68e5 / 1.07 / 4.25e-4 | No | 1.0681129693984985; 568,045; 4.2457133531570435e-4 | `leslie3d_example1/dense_sampling.json` |
 | 3D Leslie, fine | 1 | 3.78e6 / 6.97e-1 / 4.06e-4 | No | 0.6969771385192871; 3,777,740; 4.063080996274948e-4 | same |
 | 3D Leslie, fine | 4 | 2.84e4 / 2.31e-1 / 4.62e-4 | No | 0.2313537299633026; 28,363; 4.622591659426689e-4 | same |
-| 3D Leslie, coarse (22,22,22) | 0 | 9.04e5 / 1.07 / 8.01e-4 | No | 1.0681129693984985; 904,399; 8.005722775124013e-4 | uniform-22 `sampled_residual_tolerance.json` (see below) |
-| 3D Leslie, coarse (22,22,22) | 1 | 3.07e6 / 6.97e-1 / 7.92e-4 | No | 0.6969771385192871; 3,074,979; 7.924759411253035e-4 | same |
+| 3D Leslie, coarse (22,22,24) | 0 | 9.04e5 / 1.07 / 8.01e-4 | No | 1.0681129693984985; 904,399; 8.005722775124013e-4 | coarse `sampled_residual_tolerance.json` (see below) |
+| 3D Leslie, coarse (22,22,24) | 1 | 3.07e6 / 6.97e-1 / 7.92e-4 | No | 0.6969771385192871; 3,074,979; 7.924759411253035e-4 | same |
 | Extended Leslie (10D) | 0 | 2.24e6 / 6.80e-2 / 5.20e-5 | No | 0.06798265129327774; 2,240,516; 5.1976014219690114e-5 | `leslie_2gen_contraction/dense_sampling.json` |
 | Extended Leslie (10D) | 1 | 1.31e5 / 5.31e-2 / 5.41e-5 | No | 0.05311565101146698; 131,462; 5.4065500080469064e-5 | same |
 | Red coral | 0 | 1.94e6 / 5.40e-2 / 7.79e-3 | No | 0.053966641426086426; 1,940,312; 7.788083888590203e-3 | `coral_candidate_train500_seed16/dense_sampling.json` |
@@ -74,7 +74,7 @@ SHA-256 of the frozen `dense_sampling.json` files as shipped:
 - `chafee_latent_dimensions/`:
   `ce2b219749b5db5de1b317496ceb537095938b2516b8ec543a600fa27c382e7b`
 
-The coarse (22,22,22) rows belong to the fixed22_vs_merged45 workflow (see
+The coarse (22,22,24) rows belong to the fixed22_vs_merged45 workflow (see
 [`leslie3d_example1.md`](leslie3d_example1.md)); their frozen
 `sampled_residual_tolerance.json`, `tolerance_sampling.json`, and the exact
 forward-closure verification ship under
@@ -84,7 +84,7 @@ forward-closure verification ship under
 
 | Example block | model / blocks | stored pair data |
 |---|---|---|
-| 3D Leslie fine and coarse | `replay_sources/leslie3d_example1/spurious_attractor_ex/` (checkpoint, `MG/morse_sets`); scaler `replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers/scaler.gz`; coarse rows also need the uniform-22 blocks | `replay_sources/leslie3d_example1/data_pairs/{train,val}.csv` and the archived `2train`/`2test` CSVs |
+| 3D Leslie fine and coarse | `replay_sources/leslie3d_example1/spurious_attractor_ex/` (checkpoint, `MG/morse_sets`); scaler `replay_sources/leslie3d_example1/28.9_29.8_22.0/scalers/scaler.gz`; coarse rows also need the coarse (22,22,24) blocks | `replay_sources/leslie3d_example1/data_pairs/{train,val}.csv` and the archived `2train`/`2test` CSVs |
 | Extended Leslie (10D) | `replay_sources/leslie_2gen_contraction/` (model, `MG/morse_sets`, `scalers/train/scaler.gz`) | `replay_sources/leslie_2gen_contraction/data_pairs/{train,val}.csv` |
 | Red coral | `replay_sources/coral/train_500/seed_16/` (model triplet, `MG/morse_sets`); scaler `replay_sources/coral/data/scalers/train_500/scaler.gz` | `replay_sources/coral/data/coral/{train_500,test}.csv` (`test.csv`, 62 MB, supplies most residual candidates including the node-0 witness) |
 | Chafee d=2 | `replay_sources/chafee_infante/replay/` (converted author weights, blocks) | `replay_sources/chafee_infante/data/train.csv` (the mirrored `test.csv` is deliberately not double-counted) |
@@ -115,7 +115,7 @@ python scripts/compute_sampled_residual_tolerance.py chafee_latent_dimensions \
   --stage tolerance --dimension 1
 # ... then the stored/fresh/decoder stages and merge
 
-# 3D Leslie coarse rows (uniform-22 workflow):
+# 3D Leslie coarse rows (coarse (22,22,24) workflow):
 python scripts/leslie3d_example1_uniform_sampled_metrics.py --depth 22 --stage all
 python scripts/leslie3d_example1_verify_closures.py
 ```
@@ -130,7 +130,7 @@ Recorded wall-clock on the development machine (Apple M4 Pro, CPU):
   runs; expect minutes per example for the batched residual evaluation over
   millions of candidates. The Extended Leslie residual searches alone
   recorded ~1,308 s (node 0) and ~982 s (node 1) in the results summary.
-- **Leslie coarse (22,22,22)**: fixed-depth graph build 27 s; metric stage
+- **Leslie coarse (22,22,24)**: fixed-depth graph build 27 s; metric stage
   ~113 s recorded; total well under 5 minutes.
 - **Chafee d=2**: ~6,430 s (~1.8 h) total recorded elapsed across the timed
   phases; PDE trajectory generation dominates and the residual seed batches
@@ -155,7 +155,7 @@ entry at the published precision or any Yes/No verdict.
   rounding: no row is a computer-assisted proof, and a "Yes" row is not a
   verification of the localized semiconjugacy inequality.
 - The four 2026-07-25 single-block frozen JSONs do not embed script or
-  checkpoint checksums (the Chafee d=1/d=3 and uniform-22 artifacts do);
+  checkpoint checksums (the Chafee d=1/d=3 and coarse-grid artifacts do);
   their provenance is fixed by `run_plan.yaml`, the co-located
   `RESULTS.md`, and the value-exact match to the published table.
 - A quick per-run `metrics.json` tolerance diagnostic exists in some replay
