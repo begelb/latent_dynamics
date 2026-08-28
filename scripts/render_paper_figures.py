@@ -129,7 +129,7 @@ FAMILIES: dict[str, Family] = {
             # The paper's own d=2 computation: subdivisions (14, 16, 22) on
             # data-derived bounds with 10% per-axis padding, coarsened to the
             # three-node graph. Distinct from the replay block above, which
-            # reproduces the package reference computation (10, 14, 28).
+            # runs the production d=2 subdivisions (14, 16, 22).
             # Fine sets from the adaptive run; the merged fiber completed on the
             # uniform grid at subdiv_min, which is the grid the basins use.
             Step("coarsen (adaptive fine sets, uniform completion)",
@@ -428,7 +428,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--chafee-padding", choices=("true", "false"),
                         default=str(DEFAULT_CHAFEE_PADDING).lower(),
                         help="CMGDB padding for the Chafee d=2 run "
-                             "(default true; the shipped config records false)")
+                             "(default true, matching the production "
+                             "computation)")
     parser.add_argument("--with-baselines", action="store_true",
                         help="also run the direct 2-D and 3-D Leslie reference "
                              "computations, which are excluded by default "

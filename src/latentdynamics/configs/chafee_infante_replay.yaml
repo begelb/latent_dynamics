@@ -51,26 +51,24 @@ data:
   train_seed: 7206
   val_seed: 9999
   train_files: null
-# This block replays the saved package reference computation (10, 14, 28)
-# with fixed bounds. It is NOT the production d=2 computation of paper
-# tab:cmgdb, which used subdivisions (14, 16, 22) with data-derived bounds
-# plus 10 percent per-axis padding (see chafee_infante.yaml).
+# The production d=2 computation of paper tab:cmgdb: subdivisions
+# (14, 16, 22) with padded box images. The bounds below are the production
+# run's data-derived values -- min/max of the encoded reference training
+# states expanded by 10 percent per axis -- frozen numerically so the replay
+# tier reproduces the archived computation without the validation data.
+# (The earlier saved package reference used (10, 14, 28) on [-3,3]x[-2,2].)
 cmgdb:
-  subdiv_init: 10
-  subdiv_min: 14
-  subdiv_max: 28
+  subdiv_init: 14
+  subdiv_min: 16
+  subdiv_max: 22
   subdiv_limit: 10000
-  bounds_epsilon_frac: 0.01
+  bounds_epsilon_frac: 0.1
   lower_bounds:
-  - -3.0
-  - -2.0
+  - -4.6717304468154905
+  - -4.5805047988891605
   upper_bounds:
-  - 3.0
-  - 2.0
-  # Padded box images: a more conservative over-approximation than the
-  # published run, which used padding=false and produced 30-box Morse sets.
-  # With padding the same seven Morse sets appear with the same Conley index
-  # multiset, but each is larger (826 boxes) and one connecting edge drops out.
+  - 4.48487536907196
+  - 4.222627067565918
   padding: true
   box_map_backend: auto
   compute_roa: true

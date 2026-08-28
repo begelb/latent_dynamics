@@ -266,14 +266,33 @@ def _render_spec(
         palette=palette,
     )
     # Sets drawn by CMGDB's own plotting, straight from the saved file.
+    def _save_sets(fig):
+        outputs = []
+        for fmt in ("pdf", "png"):
+            out_path = output_dir / f"{spec.sets_basename}.{fmt}"
+            fig.savefig(out_path, dpi=300, bbox_inches="tight")
+            outputs.append(out_path)
+        plt.close(fig)
+        return outputs
+
     if spec.dimension == 1:
-        fig, ax = CMGDB.PlotMorseSets1D(
-            str(spec.source_dir / "morse_sets"),
-            clist=list(palette),
-            xlim=[spec.bounds_lower[0], spec.bounds_upper[0]],
-            xlabel="$z_1$",
-            show=False,
-        )
+        # Same fonts as the coral 1-D panel: STIX serif for the tick numbers
+        # and the axis label, at the same point size. The render AND the save
+        # stay inside the rc context, since mathtext resolves at draw time.
+        with plt.rc_context({"font.family": "serif",
+                             "mathtext.fontset": "stix",
+                             "font.serif": ["STIXGeneral"]}):
+            fig, ax = CMGDB.PlotMorseSets1D(
+                str(spec.source_dir / "morse_sets"),
+                clist=list(palette),
+                xlim=[spec.bounds_lower[0], spec.bounds_upper[0]],
+                xlabel="$z_1$",
+                fontsize=25,
+                show=False,
+            )
+            # The 1-D panel always keeps its annotated axis: the axis line,
+            # arrow, tick marks, and $z_1$ label are the phase space.
+            set_outputs = _save_sets(fig)
     else:
         fig, ax = CMGDB.PlotMorseSets(
             str(spec.source_dir / "morse_sets"),
@@ -284,19 +303,12 @@ def _render_spec(
             ylabel="$z_2$",
             show=False,
         )
-    # The 1-D panel always keeps its annotated axis: the axis line, arrow,
-    # tick marks, and $z_1$ label are the phase space, not decoration.
-    if not show_axis_annotations and spec.dimension != 1:
-        ax.set_xlabel("")
-        ax.set_ylabel("")
-        ax.set_xticks([])
-        ax.set_yticks([])
-    set_outputs = []
-    for fmt in ("pdf", "png"):
-        out_path = output_dir / f"{spec.sets_basename}.{fmt}"
-        fig.savefig(out_path, dpi=300, bbox_inches="tight")
-        set_outputs.append(out_path)
-    plt.close(fig)
+        if not show_axis_annotations:
+            ax.set_xlabel("")
+            ax.set_ylabel("")
+            ax.set_xticks([])
+            ax.set_yticks([])
+        set_outputs = _save_sets(fig)
 
     outputs = [*graph_outputs, *set_outputs]
     return {
