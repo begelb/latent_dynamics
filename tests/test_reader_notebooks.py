@@ -27,13 +27,24 @@ def test_expected_notebook_set():
     assert {path.name for path in NOTEBOOKS.glob("*.ipynb")} == ALL
 
 
-def test_every_notebook_installs_cmgdb_and_the_repo_for_colab():
-    for name in sorted(ALL):
+def test_driver_notebooks_install_cmgdb_and_the_repo_for_colab():
+    for name in sorted(DRIVERS):
         _, source = _load(name)
         assert "git clone" in source, name  # the repo tree ships the weights
         assert "pip install -q CMGDB" in source, name
         assert "pip install -q -e latent_dynamics" in source, name
         assert "%cd latent_dynamics" in source, name
+        # An editable install needs a kernel restart; the src-path insert
+        # makes the package importable in the same session.
+        assert 'sys.path.insert(0, str(Path("src").resolve()))' in source, name
+
+
+def test_pure_cmgdb_notebooks_need_no_repo_install():
+    for name in ("00_cmgdb_intro.ipynb", "01_leslie_baselines.ipynb"):
+        _, source = _load(name)
+        assert "pip install -q CMGDB" in source, name
+        assert "git clone" not in source, name
+        assert "from latentdynamics" not in source, name
 
 
 def test_notebooks_are_clean_of_outputs():
