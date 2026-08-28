@@ -67,6 +67,11 @@ def test_driver_notebooks_offer_quick_morse_retrain_and_not_replay():
         assert "recompute_morse" in source, name
         assert '"replay"' not in source, name
         assert "make_precomputed_box_map" not in source, name  # fork-era API
+        # Figures are drawn directly with CMGDB from the live objects.
+        assert "show_image" not in source, name
+        assert "CMGDB.PlotMorseGraph(run.cmgdb_morse_graph)" in source, name
+        assert ("PlotMorseSets1D(run.cmgdb_morse_graph" in source
+                or "PlotMorseSets(run.cmgdb_morse_graph" in source), name
 
 
 def test_baselines_notebook_computes_both_direct_references():

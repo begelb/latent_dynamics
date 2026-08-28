@@ -200,6 +200,11 @@ class ReplayExperiment:
     device: torch.device
     _rendered: RenderedMorseFigures | None = field(default=None, repr=False)
     _render_key: tuple[Any, ...] | None = field(default=None, repr=False)
+    #: Live CMGDB handles from the most recent :meth:`recompute_morse`, for
+    #: direct plotting with CMGDB.PlotMorseGraph / PlotMorseSets*. None on a
+    #: freshly loaded experiment.
+    cmgdb_morse_graph: Any = field(default=None, repr=False)
+    cmgdb_map_graph: Any = field(default=None, repr=False)
 
     # -- locations -------------------------------------------------------- #
     @property
@@ -358,6 +363,36 @@ class ReplayExperiment:
         show_image(path, width=width)
 
     # -- CMGDB recompute --------------------------------------------------- #
+    def _infer_bounds_from_data(
+        self, cmgdb_cfg: CMGDBConfig
+    ) -> tuple[list[float], list[float]] | None:
+        """Latent box from encoding this run's data, padded like the pipeline.
+
+        Used by :meth:`recompute_morse` for fresh retrains, which have neither
+        config bounds nor a saved ``mg_params_log.txt``: encode the current and
+        next states of the training (and, when present, validation) pairs and
+        expand the per-axis range by ``bounds_epsilon_frac``.
+        """
+        csvs = [self.data_csv]
+        try:
+            val = _abs(self.seed_cfg.paths.val_csv())
+            if val.is_file():
+                csvs.append(val)
+        except Exception:
+            pass
+        if not csvs[0].is_file():
+            return None
+        high = self.arch.high_dims
+        blocks = []
+        for path in csvs:
+            data = np.loadtxt(path, delimiter=",", skiprows=1, ndmin=2)
+            blocks.append(self.encode(data[:, :high]))
+            blocks.append(self.encode(data[:, high:2 * high]))
+        z = np.vstack(blocks)
+        z_min, z_max = z.min(axis=0), z.max(axis=0)
+        delta = cmgdb_cfg.bounds_epsilon_frac * (z_max - z_min)
+        return (z_min - delta).tolist(), (z_max + delta).tolist()
+
     def recompute_morse(
         self,
         *,
@@ -431,13 +466,19 @@ class ReplayExperiment:
             bounds_source = "config"
         else:
             lower, upper = self.morse_bounds()
-            if lower is None or upper is None:
-                raise FileNotFoundError(
-                    f"{self.name}: no saved latent bounds at "
-                    f"{self.seed_dir / 'mg_params_log.txt'}; pass explicit bounds via "
-                    f"cmgdb_overrides={{'lower_bounds': [...], 'upper_bounds': [...]}}"
-                )
-            bounds_source = "replayed_run"
+            if lower is not None and upper is not None:
+                bounds_source = "replayed_run"
+            else:
+                inferred = self._infer_bounds_from_data(cmgdb_cfg)
+                if inferred is None:
+                    raise FileNotFoundError(
+                        f"{self.name}: no saved latent bounds at "
+                        f"{self.seed_dir / 'mg_params_log.txt'} and no data to infer "
+                        f"them from; pass explicit bounds via "
+                        f"cmgdb_overrides={{'lower_bounds': [...], 'upper_bounds': [...]}}"
+                    )
+                lower, upper = inferred
+                bounds_source = "inferred_from_data"
         bounds = LatentBounds(
             lower=np.asarray(lower, dtype=np.float64),
             upper=np.asarray(upper, dtype=np.float64),
@@ -489,7 +530,15 @@ class ReplayExperiment:
         new_seed_cfg.paths.output_dir = out
         new_seed_cfg.paths.read_only = False
         new_seed_cfg.cmgdb = cmgdb_cfg
-        return replace(self, seed_cfg=new_seed_cfg, device=dev, _rendered=None, _render_key=None)
+        return replace(
+            self,
+            seed_cfg=new_seed_cfg,
+            device=dev,
+            _rendered=None,
+            _render_key=None,
+            cmgdb_morse_graph=morse_graph,
+            cmgdb_map_graph=map_graph,
+        )
 
     # -- provenance ------------------------------------------------------- #
     def diagnostics(self) -> dict[str, Any]:

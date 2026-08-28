@@ -9,11 +9,11 @@ released checkpoints and configs are available.
 | Notebook | Paper section | System | Colab |
 |---|---|---|---|
 | [00_cmgdb_intro.ipynb](00_cmgdb_intro.ipynb) | -- | CMGDB primer (planar Leslie, no autoencoder) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/00_cmgdb_intro.ipynb) |
-| [01_leslie_baselines.ipynb](01_leslie_baselines.ipynb) | 5.1, 5.2 | Direct 2-D and 3-D Leslie references | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/01_leslie_baselines.ipynb) |
-| [02_leslie_2d_contraction.ipynb](02_leslie_2d_contraction.ipynb) | 5.1 | 2-D Leslie + contraction (10-D embedding) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/02_leslie_2d_contraction.ipynb) |
-| [03_leslie3d_example1.ipynb](03_leslie3d_example1.ipynb) | 5.2 | 3-D Leslie -- spurious attractor | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/03_leslie3d_example1.ipynb) |
-| [04_chafee_infante.ipynb](04_chafee_infante.ipynb) | 5.3 | Chafee-Infante PDE (64-D) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/04_chafee_infante.ipynb) |
-| [05_coral.ipynb](05_coral.ipynb) | 5.4 | Red coral (13-D) population | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/05_coral.ipynb) |
+| [01_leslie_baselines.ipynb](01_leslie_baselines.ipynb) | 4.1, 4.2 | Direct 2-D and 3-D Leslie references | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/01_leslie_baselines.ipynb) |
+| [02_leslie_2d_contraction.ipynb](02_leslie_2d_contraction.ipynb) | 4.1 | 2-D Leslie + contraction (10-D embedding) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/02_leslie_2d_contraction.ipynb) |
+| [03_leslie3d_example1.ipynb](03_leslie3d_example1.ipynb) | 4.2 | 3-D Leslie -- spurious attractor | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/03_leslie3d_example1.ipynb) |
+| [04_chafee_infante.ipynb](04_chafee_infante.ipynb) | 4.4 | Chafee-Infante PDE (64-D) | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/04_chafee_infante.ipynb) |
+| [05_coral.ipynb](05_coral.ipynb) | 4.3 | Red coral (13-D) population | [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/begelb/latent_dynamics/blob/paper/notebooks/05_coral.ipynb) |
 
 ## The three modes
 
@@ -39,10 +39,10 @@ data pairs).
 - `QUICK_SUBDIV` / `SUBDIV` -- CMGDB subdivision triples `(init, min, max)`.
   **Coarse grids can merge nearby recurrent sets and change the Morse
   graph**, so `quick` runs are previews, not paper-quality results.
-- `BOX_SCALE` -- how much to inflate Morse-set boxes so tiny attractor sets
-  stay visible: `"auto"`, a float, or a `{label: factor}` dict. Drawing
-  only; it never changes what was computed.
 - `SEED`, and for coral `TRAIN_FILE`, select which run to load or train.
+- The Morse graph and Morse sets are drawn directly with CMGDB's own
+  plotting (`PlotMorseGraph`, `PlotMorseSets`, `PlotMorseSets1D`), one
+  figure per cell, from the live objects of the recompute.
 - Chafee-Infante adds `COMPUTE_ROA`: exact basins from the map graph, at the
   cost of a second pass over the phase space.
 
