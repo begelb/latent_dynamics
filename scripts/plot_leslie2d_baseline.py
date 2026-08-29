@@ -51,6 +51,10 @@ DEFAULT_SUBDIV = (24, 27, 28)      # init, min, max -- the paper's baseline run
 # label, so entry i scales node i.
 DEFAULT_BOX_SCALE = [20.0, 100.0, 20.0, 100.0, 100.0, 20.0]
 PAPER_SUBDIV = (24, 27, 28)
+#: Node -> color for the six Morse sets of the (24, 27, 28) baseline run:
+#: 0 period-6 attractor, 1/3 period-3 saddles, 2 invariant circle, 4 trivial
+#: index, 5 repeller.
+BASELINE_PALETTE = ["#DC267F", "#648FFF", "#FFB000", "#FE6100", "#008080", "#785EF0"]
 DEFAULT_OUTPUT = REPO_ROOT / "output" / "leslie2d_baseline"
 
 
@@ -147,11 +151,14 @@ def main(argv: list[str] | None = None) -> int:
                         help="on_demand matches the published reference and is the "
                              "only option at published subdivisions; see "
                              "_resolve_backend for why")
-    # No padding, matching the published reference. Padded box images are a
-    # more conservative over-approximation: recurrent sets inflate and marginal
-    # connections drop out, so the Morse graph is not the published one.
+    # No padding. (The historical (26,30,40) screen in
+    # compute_original_leslie.py padded its box images; this baseline
+    # deliberately runs unpadded and still resolves the same six-set
+    # structure. Padding is a more conservative over-approximation:
+    # recurrent sets inflate and marginal connections can drop out.)
     parser.add_argument("--padding", action="store_true", default=False,
-                        help="pad box images (the published reference did not)")
+                        help="pad box images (off by default; the historical "
+                             "screen padded)")
     parser.add_argument("--no-padding", dest="padding", action="store_false")
     parser.add_argument("--box-scale", type=float, nargs="*", default=DEFAULT_BOX_SCALE,
                         metavar="FACTOR",
@@ -199,10 +206,11 @@ def main(argv: list[str] | None = None) -> int:
     print(f"{morse_graph.num_vertices()} Morse sets in {seconds / 60:.2f} min")
 
     dot_path, csv_path = save_morse_graph_artifacts(morse_graph, args.output)
-    graph_paths = render_morse_graph(morse_graph, args.output)
+    graph_paths = render_morse_graph(morse_graph, args.output, palette=BASELINE_PALETTE)
     sets_pdf = plot_morse_sets_2d_cmgdb(
         csv_path,
         args.output / "morse_sets.pdf",
+        palette=BASELINE_PALETTE,
         scale_factor=args.box_scale or None,
         xlabel=args.xlabel,
         ylabel=args.ylabel,
