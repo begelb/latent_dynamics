@@ -5,7 +5,11 @@ __pycache__/
 .venv/
 *.egg-info/
 build/
-/dist/
+/dist/*
+!/dist/replay_*.tar.gz
+!/dist/*.sha256
+!/dist/BUNDLE_CONTENTS.md
+!/dist/SHA256SUMS.txt
 /output/
 /data/
 /replay/

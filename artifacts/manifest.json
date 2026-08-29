@@ -1,6 +1,6 @@
 {
  "version": 1,
- "release_url_base": "https://github.com/begelb/latent_dynamics/releases/download/v0.1.0",
+ "release_url_base": "https://github.com/begelb/latent_dynamics/raw/v0.1.0/dist",
  "default_redistribution_license": "MIT",
  "artifacts": {
   "leslie_2gen_contraction": {

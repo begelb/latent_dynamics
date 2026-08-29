@@ -37,14 +37,14 @@ CMGDB `>=1.5.0` is installed from PyPI (prebuilt wheels for macOS, Linux, and Wi
 
 ## Artifacts
 
-Trained models, datasets, and saved computations are distributed as checksummed bundles separate from this repository (see `artifacts/manifest.json`). When you fetch them, the system checks the SHA-256 of every bundle before extracting and treats extracted inputs as read-only:
+Trained models, datasets, and saved computations are stored as checksummed Git LFS bundles under `dist/` (see `artifacts/manifest.json`). When you fetch them, the system checks the SHA-256 of every bundle before extracting and treats extracted inputs as read-only:
 
 ```python
 from latentdynamics.replay import fetch_artifacts
 fetch_artifacts("coral")          # -> replay_sources/coral/
 ```
 
-The fetcher downloads each required bundle from the versioned GitHub release and verifies its size and SHA-256 before extraction. All outputs from calculations go into `output/` (or a directory you specify with `--output`), never into `replay_sources/`.
+The fetcher downloads each required bundle from the tagged Git LFS snapshot and verifies its size and SHA-256 before extraction. All outputs from calculations go into `output/` (or a directory you specify with `--output`), never into `replay_sources/`.
 
 **Artifact security model.** Bundle integrity depends on the SHA-256 manifest committed in this repository. Bundles are checked before extraction. Tar members are strictly filtered—no absolute paths, traversal, links, or unexpected empty files. Extracted inputs are made read-only. Some bundle members are Python pickles (scikit-learn scalers saved with joblib, one legacy plot-data `.pkl`). They are only loaded from the checksum-verified `replay_sources/` tree. Model checkpoints are plain `state_dict` tensors loaded with `torch.load(weights_only=True)`. Loading legacy pickled modules needs an explicit environment opt-in and is not used by any shipped workflow. If you place bundles manually or point tools at files outside the repository, you are responsible for trusting those files.
 
