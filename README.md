@@ -44,7 +44,7 @@ from latentdynamics.replay import fetch_artifacts
 fetch_artifacts("coral")          # -> replay_sources/coral/
 ```
 
-Until the release bundles are published, the fetcher tells you where to place bundles you obtain manually. All outputs from calculations go into `output/` (or a directory you specify with `--output`), never into `replay_sources/`.
+The fetcher downloads each required bundle from the versioned GitHub release and verifies its size and SHA-256 before extraction. All outputs from calculations go into `output/` (or a directory you specify with `--output`), never into `replay_sources/`.
 
 **Artifact security model.** Bundle integrity depends on the SHA-256 manifest committed in this repository. Bundles are checked before extraction. Tar members are strictly filtered—no absolute paths, traversal, links, or unexpected empty files. Extracted inputs are made read-only. Some bundle members are Python pickles (scikit-learn scalers saved with joblib, one legacy plot-data `.pkl`). They are only loaded from the checksum-verified `replay_sources/` tree. Model checkpoints are plain `state_dict` tensors loaded with `torch.load(weights_only=True)`. Loading legacy pickled modules needs an explicit environment opt-in and is not used by any shipped workflow. If you place bundles manually or point tools at files outside the repository, you are responsible for trusting those files.
 

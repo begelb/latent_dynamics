@@ -1,6 +1,6 @@
 {
  "version": 1,
- "release_url_base": "PENDING",
+ "release_url_base": "https://github.com/begelb/latent_dynamics/releases/download/v0.1.0",
  "default_redistribution_license": "MIT",
  "artifacts": {
   "leslie_2gen_contraction": {
@@ -67,7 +67,7 @@
       "decoder.pt": "25fb56dae18de6239bffefad463e0abed126535036f883be123f39ccfc4173e2"
      },
      "shipped_files_sha256": {
-      "autoencoder.pt": "867861e61219e5c7392cb97b7b88d1644024d7a52e32c3b236df2c97357645e4",
+      "autoencoder.pt": "d3d438567d0afd57eb060469c57ae53efb7d9bb73ea445723e00850ca86be426",
       "autoencoder.json": "dc0bc61564191ac41074f082cbe61e1ec7f51ef802bf831b90f8853d7b5fba62"
      },
      "equivalence": "weights copied bitwise from the legacy pickled modules; encoder/dynamics/decoder outputs bitwise-equal on the migration test batch; loads via the public load_checkpoint with weights_only=True (see artifacts/provenance/MIGRATION_RECORD.json)"
@@ -151,7 +151,7 @@
       "decoder.pt": "d971d8f0c8b5570c242a09dab21648a7b4ed493a3b414e749904aaf0c3985ed7"
      },
      "shipped_files_sha256": {
-      "autoencoder.pt": "03e43d3c58cbf5c3962730e9d74d131ecee809f93244f2bb736fe36efd92c854",
+      "autoencoder.pt": "2bd55cb925fce0bb6f245b50eeec40c73127ea9ec99ecd5ba2842a8d5b4ed731",
       "autoencoder.json": "176a2f7a5f367030ad6afa59289be5aa26237d82c0e93b3dd3aa047d2aed8d19"
      },
      "equivalence": "weights copied bitwise from the legacy pickled modules; encoder/dynamics/decoder outputs bitwise-equal on the migration test batch; loads via the public load_checkpoint with weights_only=True (see artifacts/provenance/MIGRATION_RECORD.json)"
