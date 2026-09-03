@@ -28,7 +28,6 @@ from pathlib import Path
 import CMGDB
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 
 from latentdynamics._paths import get_repo_root
 from latentdynamics.replay import load_experiment
@@ -141,11 +140,11 @@ def render(output_dir: Path) -> Path:
 
     sets_path = _morse_sets_path(repo_root)
     print("morse sets:", sets_path.relative_to(repo_root))
-    df = pd.read_csv(sets_path, names=["a", "b", "label"])
 
-    # CMGDB draws the interval bands; the paper labels each set as a fiber
-    # |pi^-1(k)| rather than by node number, so the built-in labels are off
-    # and the fiber labels and fixed-point markers are overlaid below.
+    # CMGDB draws the interval bands and labels each set by its Morse-graph
+    # node number (0, 1, 2), matching panel (a); the fixed-point markers are
+    # overlaid below. Each coral Morse set is one contiguous interval, so the
+    # built-in per-piece labelling puts exactly one number over each band.
     # Axis staged like the Chafee d=1 panel: arrow at the right end of the
     # axis line, coordinate label at the tip, tick marks kept.
     fig, ax = CMGDB.PlotMorseSets1D(
@@ -153,7 +152,7 @@ def render(output_dir: Path) -> Path:
         clist=COLOR_LIST,
         fig_w=12,
         fig_h=2,
-        label_sets=False,
+        label_sets=True,
         axis_labels=True,
         xlabel="$z_1$",
         fontsize=25,
@@ -164,21 +163,11 @@ def render(output_dir: Path) -> Path:
         ax.scatter(z_val, 0.0, marker=MARKERS[i], color="black", s=60,
                    edgecolor="black", clip_on=False, zorder=10)
 
-    for label in df["label"].unique():
-        subset = df[df["label"] == label]
-        group_min = subset[["a", "b"]].min().min()
-        group_max = subset[["a", "b"]].max().max()
-        midpoint = (group_min + group_max) / 2
-        offset = {0: 0.0, 1: 0.04, 2: -0.04}.get(int(label), 0.0)
-        ax.text(midpoint + offset, 0.27, f"$|\\pi^{{-1}}({int(label)})|$",
-                ha="center", va="bottom", fontsize=26, color="black")
-
     ax.locator_params(axis="x", nbins=4)
     ax.tick_params(axis="x", which="major", labelsize=25, pad=25)
 
     # Legend intentionally omitted; markers are identified in the caption.
-    # The right margin leaves room for the axis-tip coordinate label and the
-    # rightmost fiber label.
+    # The right margin leaves room for the axis-tip coordinate label.
     fig.subplots_adjust(left=0.04, right=0.92, bottom=0.25, top=0.7)
 
     output_dir.mkdir(parents=True, exist_ok=True)
