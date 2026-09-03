@@ -22,6 +22,7 @@ Usage:
     python scripts/render_paper_figures.py
     python scripts/render_paper_figures.py --only coral leslie3d_example1
     python scripts/render_paper_figures.py --skip-compute   # re-collect only
+    python scripts/render_paper_figures.py --only leslie3d_baseline_morse
 
 Scope: CMGDB computations and the figures that come out of them, nothing
 else. Sampled residual/tolerance metrics and the forward-closure check are
@@ -96,6 +97,11 @@ class Family:
     #: far more than the latent families and is rarely what a figure refresh
     #: needs, since nothing about them changes when a latent model does.
     optional: bool = False
+    #: Taken only when named with --only: never by a default run, and not by
+    #: --with-baselines either. For a family that writes a panel another family
+    #: also claims, so which computation supplies that panel stays an explicit
+    #: choice rather than a side effect of ordering.
+    by_name_only: bool = False
 
 
 FAMILIES: dict[str, Family] = {
@@ -281,6 +287,24 @@ FAMILIES: dict[str, Family] = {
                    "output/leslie3d_baseline/morse_sets_3d.pdf"),
         ],
     ),
+    "leslie3d_baseline_morse": Family(
+        by_name_only=True,
+        description="3-D Leslie baseline at the machine-sized screen 24/33/36, "
+                    "in the published node colors: supplies panel (b) alone "
+                    "(same Morse sets as 29/33/36, on a machine that has 16 GB "
+                    "rather than 100)",
+        steps=[Step("CMGDB + plots", ["scripts/plot_leslie3d_baseline_morse.py"])],
+        # Panel (b) only. A coarse initial grid leaves the transient region
+        # under-resolved, so this run's Morse-graph edges collapse the two
+        # attractors into a chain; its sets are the published ones, its graph is
+        # not, and the graph panel has to come from the published screen above.
+        figures=[
+            Figure("3D_Leslie_direct(b) reference Morse sets, 3-D cubical "
+                   "(24/33/36 screen, published node colors)",
+                   "fig_leslie3d_direct_b_morse_sets_3d.pdf",
+                   "output/leslie3d_baseline_morse/morse_sets_3d.pdf"),
+        ],
+    ),
     "leslie_2gen_contraction": Family(
         description="2-D overcompensatory Leslie model embedded in 10-D",
         steps=[
@@ -451,7 +475,12 @@ def main(argv: list[str] | None = None) -> int:
         for feature, present in capabilities.items():
             print(f"   {feature:32} {present}")
         for name, family in FAMILIES.items():
-            suffix = "   [optional: --with-baselines or --only]" if family.optional else ""
+            if family.by_name_only:
+                suffix = f"   [on request only: --only {name}]"
+            elif family.optional:
+                suffix = "   [optional: --with-baselines or --only]"
+            else:
+                suffix = ""
             print(f"\n{name}: {family.description}{suffix}")
             for figure in family.figures:
                 blocked = figure.needs and not capabilities.get(figure.needs, False)
@@ -467,7 +496,7 @@ def main(argv: list[str] | None = None) -> int:
     # --only names families explicitly, so it overrides the default exclusion.
     targets = args.only or [
         name for name, family in FAMILIES.items()
-        if args.with_baselines or not family.optional
+        if not family.by_name_only and (args.with_baselines or not family.optional)
     ]
     print(f"CMGDB {provenance['version']} at {provenance['module_path']}")
     print(f"figure groups: {groups}")

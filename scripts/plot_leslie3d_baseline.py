@@ -61,8 +61,6 @@ DEFAULT_SUBDIV = (29, 33, 36)      # init, min, max -- the published screen
 # small set is inflated about its own cells' centres; node 1 stays at 1.
 DEFAULT_BOX_SCALE: list[float] = [10.0, 1.0, 20.0, 20.0, 20.0, 50.0]
 
-# Clear of the z tick numbers, which run to three digits on this domain.
-DEFAULT_ZLABEL_POS = (1.06, 0.60)
 PAPER_SUBDIV = (29, 33, 36)
 DEFAULT_OUTPUT = REPO_ROOT / "output" / "leslie3d_baseline"
 
@@ -174,10 +172,13 @@ def main(argv: list[str] | None = None) -> int:
                              "through the library API")
     parser.add_argument("--legend", dest="legend", action="store_true", default=False,
                         help="draw the Morse-set legend below the axes (off by default)")
-    parser.add_argument("--zlabel-x", type=float, default=DEFAULT_ZLABEL_POS[0],
-                        help="axes-fraction x of the $z_3$ label; raise it to clear "
-                             "wider tick numbers")
-    parser.add_argument("--zlabel-y", type=float, default=DEFAULT_ZLABEL_POS[1])
+    parser.add_argument("--zlabel-x", type=float, default=None,
+                        help="pin the $z_3$ label to this axes fraction; by default "
+                             "CMGDB measures it beside the z tick numbers on every "
+                             "draw, which is what keeps it clear of them once the "
+                             "camera below widens the projection past the axes")
+    parser.add_argument("--zlabel-y", type=float, default=None,
+                        help="the other half of a pinned position; pass both or neither")
     parser.add_argument("--rasterized", dest="rasterized", action="store_true", default=None,
                         help="force a rasterized Morse-set collection (default: "
                              "vector below the face threshold, raster above)")
@@ -187,6 +188,9 @@ def main(argv: list[str] | None = None) -> int:
                         help="raster resolution when the collection is rasterized")
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     args = parser.parse_args(argv)
+    if (args.zlabel_x is None) != (args.zlabel_y is None):
+        parser.error("--zlabel-x and --zlabel-y pin the label together: both or neither")
+    zlabel_pos = None if args.zlabel_x is None else (args.zlabel_x, args.zlabel_y)
 
     lower, upper = args.lower_bounds, args.upper_bounds
     init, minimum, maximum = args.subdiv
@@ -220,8 +224,9 @@ def main(argv: list[str] | None = None) -> int:
     n_boxes = sum(len(morse_graph.morse_set_boxes(v)) for v in morse_graph.vertices())
     print(f"drawing {n_boxes:,} boxes as exposed cubical faces")
     box_scale = _box_scale_for(args.box_scale, morse_graph.num_vertices())
-    # Drawn straight from the live Morse graph by CMGDB's cubical renderer;
-    # the z label is placed as an unclipped 2-D annotation via zlabel_pos.
+    # Drawn straight from the live Morse graph by CMGDB's cubical renderer; the
+    # z label is an unclipped 2-D annotation, measured beside the tick numbers
+    # each time the figure is drawn -- the camera set below moves them.
     fig, ax = CMGDB.PlotMorseSets3D(
         morse_graph,
         clist=list(PALETTE),
@@ -232,8 +237,8 @@ def main(argv: list[str] | None = None) -> int:
         xlabel="$z_1$",
         ylabel="$z_2$",
         zlabel="$z_3$",
-        zlabel_pos=(args.zlabel_x, args.zlabel_y),
-        rasterize=bool(args.rasterized),
+        zlabel_pos=zlabel_pos,
+        rasterize=args.rasterized,
         show=False,
     )
     # The paper's camera: the domain at its true proportions under an
@@ -253,7 +258,11 @@ def main(argv: list[str] | None = None) -> int:
         ]
         ax.legend(handles=handles, loc="upper center", bbox_to_anchor=(0.5, -0.01),
                   ncol=6, frameon=False, handlelength=1.0, columnspacing=0.9)
-    sets_paths = save_figure(fig, args.output / "morse_sets_3d", dpi=args.dpi)
+    # Cropped like the published panel: the plot sits inside a 1:1.25 axes box,
+    # so the full page would carry a third of its width as white margin and
+    # shrink the figure by that much wherever it is placed at a set width.
+    sets_paths = save_figure(fig, args.output / "morse_sets_3d", dpi=args.dpi,
+                             bbox_inches="tight")
 
     summary = {
         "system": "3-class overcompensatory Leslie, theta=(28.9,29.8,22.0), s=0.7 "

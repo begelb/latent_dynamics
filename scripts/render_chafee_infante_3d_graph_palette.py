@@ -73,6 +73,11 @@ EXPECTED_HEIGHT_GROUPS = {
     4: frozenset({6}),
     5: frozenset({10}),
 }
+#: Nodes drawn in another node's color rather than their own height's. Node 9
+#: sits at height 3 with nodes 5 and 8, and is shown in node 6's color instead.
+#: The height groups above are unchanged, so the hierarchy check still runs
+#: against the audited structure and this stays a display choice alone.
+SHARED_COLORS = {9: 6}
 
 
 def _sha256(path: Path) -> str:
@@ -213,6 +218,8 @@ def chafee_level_palette_from_dot(
     for label, height in heights.items():
         if height > 0:
             colors[label] = COLOR_BY_POSITIVE_HEIGHT[height]
+    for label, source in SHARED_COLORS.items():
+        colors[label] = colors[source]
     return tuple(colors[label] for label in range(len(colors)))
 
 
@@ -319,7 +326,9 @@ def render_level_palette_variants(
             "morse_sets_sha256": _sha256(sets_path),
             "morse_sets_rows": set_rows,
         },
-        "palette_source": "height above the two minimal nodes in the persisted Morse DAG",
+        "palette_source": "height above the two minimal nodes in the persisted "
+                          "Morse DAG, then the SHARED_COLORS overrides",
+        "shared_colors": {str(label): source for label, source in SHARED_COLORS.items()},
         "palette_by_node": {
             str(label): color for label, color in enumerate(palette)
         },
