@@ -216,7 +216,7 @@ The paper's basins figure overlays the coarse Morse representation on the
 author's original uniform-grid regions of attraction. Regenerate it with:
 
 ```bash
-python scripts/plot_chafee_coarse_morse_roa_overlay.py
+python scripts/plot_chafee_coarse_morse_roa.py
 ```
 
 This reproduces the separate `16/16/16` uniform basin computation on the same

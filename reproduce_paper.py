@@ -245,7 +245,7 @@ EXPERIMENTS: dict[str, dict] = {
             {
                 "name": "roa_overlay",
                 "tier": "blocked",
-                "command": ["scripts/plot_chafee_coarse_morse_roa_overlay.py"],
+                "command": ["scripts/plot_chafee_coarse_morse_roa.py"],
                 "runtime": "BLOCKED: consumes the coarsen_d2 outputs above",
             },
             {

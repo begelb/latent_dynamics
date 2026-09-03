@@ -14,7 +14,7 @@ from matplotlib.colors import to_rgba
 
 SCRIPTS_DIR = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS_DIR))
-import plot_chafee_coarse_morse_roa_overlay as roa_plot  # noqa: E402
+import plot_chafee_coarse_morse_roa as roa_plot  # noqa: E402
 
 
 class _FakeMorseGraph:
@@ -53,32 +53,74 @@ def _fixture_data():
     return graph, bounds, basins
 
 
-def test_basin_image_uses_physical_colors_and_opaque_attractors():
-    graph, bounds, basins = _fixture_data()
+def test_basins_come_from_the_native_singleton_query(monkeypatch):
+    # CMGDB reports the one Morse node reachable from each cell and -2 when
+    # several are: only the cells with a single one belong to a basin.
+    queried = {}
 
-    image = roa_plot._basin_image(
-        graph,
-        basins,
-        [7, 9],
-        bounds,
-        resolution=2,
-    )
+    def fake_query(map_graph, morse_graph, cells):
+        queried["cells"] = np.asarray(cells)
+        return np.array([7, -2, 9, 7], dtype=np.int32)
 
-    negative = np.asarray(to_rgba(roa_plot.CHAFEE_NEGATIVE_COLOR))
-    positive = np.asarray(to_rgba(roa_plot.CHAFEE_POSITIVE_COLOR))
-    np.testing.assert_allclose(image[0, 0], negative)
-    np.testing.assert_allclose(image[1, 0], (*negative[:3], roa_plot.BASIN_ALPHA))
-    np.testing.assert_allclose(image[0, 1], positive)
-    np.testing.assert_allclose(image[1, 1], (*positive[:3], roa_plot.BASIN_ALPHA))
+    monkeypatch.setattr(roa_plot.CMGDB, "MorseSingletonReachability", fake_query)
+    basins = roa_plot.attractor_basins(_FakeMapGraph(), _FakeMorseGraph(), [7, 9])
+
+    assert basins == {7: [0, 3], 9: [2]}
+    np.testing.assert_array_equal(queried["cells"], np.arange(4))
+
+
+def test_layer_colors_composite_the_basin_alpha_and_keep_the_sets_opaque():
+    def composited(color):
+        alpha = roa_plot.BASIN_ALPHA
+        return tuple(alpha * channel + (1.0 - alpha) for channel in to_rgba(color)[:3])
+
+    colors = roa_plot.LAYER_COLORS
+    assert colors[roa_plot.LAYER_MERGED] == roa_plot.CHAFEE_CONNECTING_COLOR
+    for layer, color in (
+        (roa_plot.LAYER_BASIN_NEGATIVE, roa_plot.CHAFEE_NEGATIVE_COLOR),
+        (roa_plot.LAYER_BASIN_POSITIVE, roa_plot.CHAFEE_POSITIVE_COLOR),
+    ):
+        np.testing.assert_allclose(
+            to_rgba(colors[layer])[:3], composited(color), atol=1 / 255
+        )
+    for layer, color in (
+        (roa_plot.LAYER_UNIFORM_NEGATIVE, roa_plot.CHAFEE_NEGATIVE_COLOR),
+        (roa_plot.LAYER_COARSE_NEGATIVE, roa_plot.CHAFEE_NEGATIVE_COLOR),
+        (roa_plot.LAYER_UNIFORM_POSITIVE, roa_plot.CHAFEE_POSITIVE_COLOR),
+        (roa_plot.LAYER_COARSE_POSITIVE, roa_plot.CHAFEE_POSITIVE_COLOR),
+    ):
+        assert colors[layer] == color
+
+
+def test_basin_rows_carry_cmgdb_boxes_labelled_by_layer():
+    graph, _bounds, basins = _fixture_data()
+
+    rows = roa_plot._basin_rows(graph, basins, {"negative": 9, "positive": 7})
+
+    by_layer: dict[int, set[tuple[float, ...]]] = {}
+    for *box, layer in rows:
+        by_layer.setdefault(int(layer), set()).add(tuple(box))
+    # Attractor 9 is the negative state, so its basin cells 1 and 3, and its own
+    # cell 1, land on the negative layers -- each box the one CMGDB reports.
+    assert by_layer[roa_plot.LAYER_BASIN_NEGATIVE] == {
+        graph.phase_space_box(1),
+        graph.phase_space_box(3),
+    }
+    assert by_layer[roa_plot.LAYER_UNIFORM_NEGATIVE] == {graph.phase_space_box(1)}
+    assert by_layer[roa_plot.LAYER_BASIN_POSITIVE] == {
+        graph.phase_space_box(0),
+        graph.phase_space_box(2),
+    }
+    assert by_layer[roa_plot.LAYER_UNIFORM_POSITIVE] == {graph.phase_space_box(0)}
 
 
 def test_paper_axes_show_labeled_ticks_by_default_and_can_hide_them():
-    fig, ax = plt.subplots()
-    ax.grid(True)
+    graph, bounds, basins = _fixture_data()
+    rows = roa_plot._basin_rows(graph, basins, {"negative": 9, "positive": 7})
 
-    roa_plot._style_axes(ax)
+    fig = roa_plot._plot_layers(rows, bounds)
+    ax = fig.axes[0]
     fig.canvas.draw()
-
     assert ax.get_xlabel() == "$z_1$"
     assert ax.get_ylabel() == "$z_2$"
     assert ax.get_xticks().size > 0
@@ -86,12 +128,9 @@ def test_paper_axes_show_labeled_ticks_by_default_and_can_hide_them():
     assert not any(line.get_visible() for line in ax.get_ygridlines())
     plt.close(fig)
 
-    fig, ax = plt.subplots()
-    ax.grid(True)
-
-    roa_plot._style_axes(ax, show_ticks=False, show_axis_labels=False)
+    fig = roa_plot._plot_layers(rows, bounds, show_ticks=False, show_axis_labels=False)
+    ax = fig.axes[0]
     fig.canvas.draw()
-
     assert ax.get_xlabel() == ""
     assert ax.get_ylabel() == ""
     assert ax.get_xticks().size == 0
@@ -99,10 +138,7 @@ def test_paper_axes_show_labeled_ticks_by_default_and_can_hide_them():
     plt.close(fig)
 
 
-def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
-    tmp_path,
-    monkeypatch,
-):
+def test_main_writes_basin_and_overlay_without_running_cmgdb(tmp_path, monkeypatch):
     graph, bounds, basins = _fixture_data()
     coarse_sets = np.array(
         [
@@ -137,6 +173,7 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
         fig.canvas.draw()
         captured[Path(output).name] = {
             "images": len(ax.images),
+            "patches": len(ax.patches),
             "collections": len(ax.collections),
             "xlabel": ax.get_xlabel(),
             "ylabel": ax.get_ylabel(),
@@ -144,10 +181,7 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
             "yticks": ax.get_yticks().copy(),
             "xgrid": [line.get_visible() for line in ax.get_xgridlines()],
             "ygrid": [line.get_visible() for line in ax.get_ygridlines()],
-            "collection_colors": [
-                collection.get_facecolors()[0].copy()
-                for collection in ax.collections
-            ],
+            "face_colors": [patch.get_facecolor() for patch in ax.patches],
         }
         plt.close(fig)
         output = Path(output)
@@ -169,12 +203,11 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
     assert result == 0
     basin_render = captured["attractor_basins"]
     overlay_render = captured["morse_roa_overlay"]
-    # The basin layer is vector rectangles now: no raster image, and one
-    # PatchCollection per distinct basin colour (each physical state at the
-    # attractor alpha and at BASIN_ALPHA).
+    # CMGDB merges each layer into one outline: the two basins and the two
+    # attracting sets, plus the three coarse sets in the overlay. No raster.
     assert basin_render["images"] == overlay_render["images"] == 0
-    assert basin_render["collections"] == 4
-    assert overlay_render["collections"] == 7
+    assert basin_render["patches"] == 4 and basin_render["collections"] == 0
+    assert overlay_render["patches"] == 7 and overlay_render["collections"] == 0
     for render in (basin_render, overlay_render):
         assert render["xlabel"] == "$z_1$"
         assert render["ylabel"] == "$z_2$"
@@ -183,28 +216,16 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
         assert not any(render["xgrid"])
         assert not any(render["ygrid"])
 
-    def composited(color, alpha):
-        # Mirror _draw_basin_vector: 8-bit quantisation, then the alpha is
-        # composited against white into an opaque colour.
-        rgba = np.round(np.asarray(to_rgba((*to_rgba(color)[:3], alpha))) * 255.0) / 255.0
-        return tuple(np.round(rgba[3] * rgba[:3] + (1.0 - rgba[3]), 6)) + (1.0,)
-
-    expected_basin = {
-        composited(color, alpha)
-        for color in (roa_plot.CHAFEE_NEGATIVE_COLOR, roa_plot.CHAFEE_POSITIVE_COLOR)
-        for alpha in (1.0, roa_plot.BASIN_ALPHA)
-    }
-    for render in (basin_render, overlay_render):
-        actual = {
-            tuple(np.round(np.asarray(c, dtype=float), 6))
-            for c in render["collection_colors"][:4]
-        }
-        assert actual == expected_basin
-
-    connecting, positive, negative = overlay_render["collection_colors"][-3:]
-    np.testing.assert_allclose(connecting, to_rgba(roa_plot.CHAFEE_CONNECTING_COLOR))
-    np.testing.assert_allclose(positive, to_rgba(roa_plot.CHAFEE_POSITIVE_COLOR))
-    np.testing.assert_allclose(negative, to_rgba(roa_plot.CHAFEE_NEGATIVE_COLOR))
+    expected = [to_rgba(color) for color in roa_plot.LAYER_COLORS]
+    # Painted in PAINT_ORDER; the basin figure has no coarse layers to paint.
+    for render, layers in (
+        (basin_render, roa_plot.PAINT_ORDER[1:5]),
+        (overlay_render, roa_plot.PAINT_ORDER),
+    ):
+        for drawn, layer in zip(render["face_colors"], layers, strict=True):
+            np.testing.assert_allclose(
+                np.asarray(drawn).reshape(-1)[:4], expected[layer]
+            )
 
     metadata = json.loads(overlay_output.with_suffix(".json").read_text())
     assert metadata["uniform_attractors_left_to_right"] == [7, 9]
@@ -212,8 +233,11 @@ def test_main_writes_basin_and_overlay_from_rgba_without_running_cmgdb(
         "negative": 9,
         "positive": 7,
     }
+    assert metadata["basin_method"] == (
+        "CMGDB.MorseSingletonReachability on the cached cell graph"
+    )
     assert metadata["rendering"] == {
-        "basin_layer": "per-cell vector rectangles, edge in face colour",
+        "basin_layer": "CMGDB.PlotMorseSets, one merged outline per layer",
         "per_cell_scatter": False,
         "basin_alpha": 0.35,
         "attractor_set_alpha": 1.0,

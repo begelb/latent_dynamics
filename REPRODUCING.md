@@ -78,7 +78,7 @@ panels without recomputing them (~54 min / ~97 min). CMGDB
 | d=1/d=3 full study recompute (train + CMGDB; stochastic) | `python scripts/chafee_latent_dimension_study.py` | long |
 | d=2 fine panels (recolored author computation) | `python scripts/recolor_chafee_pdf.py <reference-pdf> <dest> --mapping reference_d2` | sec |
 | d=2 coarsened Morse graph + sets (panels c,d) | `python scripts/coarsen_chafee_infante.py` then `render_chafee_infante_standardized.py` | min |
-| Basins + Morse/RoA overlay (fig. panels) | `python scripts/plot_chafee_coarse_morse_roa_overlay.py` | min |
+| Basins + Morse/RoA overlay (fig. panels) | `python scripts/plot_chafee_coarse_morse_roa.py` | min |
 | Classification statistics tables (45 runs) | `python scripts/chafee_basin_table.py` (validated to reproduce every printed value from the shipped per-IC record) | sec |
 | Per-run 45-computation regeneration | d=2: `python scripts/analyze_chafee_d2_archive.py`; d=1: `python scripts/run_chafee_d1_matched_5x3.py`; d=3: `python scripts/run_chafee_d3_matched_5x3_training.py` + `run_chafee_d3_ondemand_5x3_controller.py` (training stochastic) | long |
 | Residual/tolerance rows d=2 | `python scripts/compute_sampled_residual_tolerance.py chafee_infante_current` (base seed; see note below) | ~30 min |

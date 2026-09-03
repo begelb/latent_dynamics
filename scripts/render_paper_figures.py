@@ -144,7 +144,7 @@ FAMILIES: dict[str, Family] = {
             # Basins on the archived uniform 256x256 grid, drawn as one RGBA
             # image, alone and under the coarsened Morse sets.
             Step("attractor basins + overlay",
-                 ["scripts/plot_chafee_coarse_morse_roa_overlay.py"]),
+                 ["scripts/plot_chafee_coarse_morse_roa.py"]),
             # d=1 and d=2 standardized panels, and the d=3 level-palette
             # graph + 3-D Morse sets, all drawn by CMGDB's own plotting from
             # the persisted latent-dimension-study artifacts.
