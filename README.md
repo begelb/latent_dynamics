@@ -6,7 +6,7 @@ Companion code for
 > Methods on a Latent Space**
 > P. Bailon, M. Gameiro, B. Gelb, W. Kalies, M. Kramar, K. Mischaikow,
 > B. Rivas, E. Vieira.
-> DOI / arXiv: *in preparation*.
+> [arXiv:2609.01509](https://arxiv.org/abs/2609.01509), 2026.
 
 ## Description
 
@@ -86,6 +86,7 @@ docs/                  figure contracts + the manuscript-to-code matrix
 > B. Rivas, E. Vieira.
 > *Characterizing High-dimensional Dynamics by Combinatorial-Topological
 > Methods on a Latent Space.*
+> [arXiv:2609.01509](https://arxiv.org/abs/2609.01509), 2026.
 
 Also cite CMGDB: https://github.com/marciogameiro/CMGDB.
 
